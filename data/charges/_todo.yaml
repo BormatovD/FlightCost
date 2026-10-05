@@ -1,0 +1,105 @@
+# Аэропорты сети Ryanair для калибровки M7: где искать тарифы.
+#
+# Заводится по одному, каждый в свой файл data/charges/<ICAO>-<год>.json
+# с обязательным полем source_url. Пока файла нет — расчёт идёт по
+# параметрике яруса 3 и честно об этом предупреждает.
+
+airports:
+  EIDW:
+    city: Дублин
+    publisher: daa plc
+    regulator: Irish Aviation Authority, ценовой потолок
+    url: https://images.ctfassets.net/czgd0092azr0/3tiZB0RX96FCFZadtOKBva/b98ed7c9114c22538e6817b72e2a5070/dublin-airport-charges-2026-terms-and-conditionsd544fcac09d84ff493e63c2a4952331e.pdf
+    note: "тариф на год с 29 марта; ставки и T&C в одном PDF. Сезонная
+           дифференциация лето/зима заведена по летней ставке — условия
+           season в словаре нет, по посадке разница вдвое"
+    status: заведён, EIDW-2026.json, 28 правил
+
+  LEPA:
+    city: Пальма
+    publisher: Aena
+    url: https://www.aena.es/sites/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1576874695617&ssbinary=true
+    note: "Guía de Tarifas охватывает 46 аэропортов; PMI в группе с Аликанте,
+           Гран-Канарией, Тенерифе-Юг и Малагой. Ставки отличаются от Барселоны.
+           Зимняя скидка 20% (ноябрь-март) не заведена"
+    status: заведён, LEPA-2026.json, 27 правил
+
+  EGKK:
+    city: Гатвик
+    publisher: Gatwick Airport Ltd
+    regulator: UK CAA, мониторинг обязательств вместо потолка
+    url: https://www.gatwickairport.com/on/demandware.static/-/Sites-Gatwick-Library/default/dw23cbaa68/images/Corporate-PDFs/Regulation/2026-27%20Conditions%20of%20Use.pdf
+    note: "тариф в фунтах, курс GBP из домена fx. Весового посадочного сбора
+           нет вовсе — вместо него Demand Charge за движение по сезону и
+           времени суток. Пиковая полоса и зимняя колонка не заведены"
+    status: заведён, EGKK-2026.json, 21 правило
+
+  LPPR:
+    city: Порту
+    publisher: ANA Aeroportos de Portugal
+    url: https://www.ana.pt/sites/default/files/2026-05/Regulated%20charges%20guide%202026_Valid%20from%201%20June%202026.pdf
+    note: "единый документ на сеть португальских аэропортов — один разбор
+           закроет Лиссабон, Фару, Азоры, Мадейру. ВНИМАНИЕ: январская
+           редакция 2026 уже недействительна, с 1 июня отменена шумовая
+           модуляция и переписаны базовые ставки. Полосы массы накопительные"
+    status: заведён, LPPR-2026.json, 20 правил
+
+  EPPO:
+    city: Познань
+    publisher: Port Lotniczy Poznań-Ławica
+    url: https://poznanairport.pl/wp-content/uploads/2026/04/Poznan-Airport-Charges-Price-List-1.04.2026.pdf
+    note: "тариф в злотых, курс PLN есть у ЕЦБ. Ставка посадки зависит от
+           буквы кода ИКАО, не от массы. ОСТОРОЖНО: скидки до 90% на посадку
+           и до 95% на пассажира для базового перевозчика с 15+ направлениями —
+           опубликованный тариф завышает для Ryanair кратно"
+    status: заведён, EPPO-2026.json, 7 правил
+
+  LATI:
+    city: Тирана
+    publisher: Tirana International Airport
+    url: https://www.tirana-airport.com/media/documents/17810116026a28149200aa6.xls
+    note: "тариф выложен файлом .xls: фетчер отдаёт бинарь, качает человек,
+           читается через xlrd. Плоские суммы по полосам массы, не за тонну.
+           Сбор за светосигнальное оборудование заведён на ночь — прочтение
+           не подтверждено, цена ошибки 455 EUR за оборот"
+    status: заведён, LATI-2026.json, 36 правил
+
+  LIME:
+    city: Бергамо
+    publisher: SACBO
+    url: https://www.milanbergamoairport.it/rfile/ORG9jc0RvY3VtZW50O2ZpbGVfaXQ7MzIyMztkZWZhdWx0___79c4e1d3.pdf
+    note: "страница-указатель https://www.milanbergamoairport.it/it/corrispettivi-regolamentati/,
+           адрес PDF меняется при переиздании. ОСТОРОЖНО: база Ryanair с
+           договорными условиями, опубликованный тариф выше фактического.
+           Не заведена скидка 5% для «зелёных» типов — а 737-8200 Ryanair
+           под неё подпадает. Порядок полос 71-100 и 101-150 не подтверждён"
+    status: заведён, LIME-2026.json, 17 правил
+
+  LICJ:
+    city: Палермо
+    publisher: GESAP
+    url: https://www.aeroportodipalermo.it/gesap/airlines/diritti-aeroportuali/
+    note: "страница найдена через AIP Italia GEN 4.1; сам PDF выложен на ней,
+           но фетчеру ссылка не отдаётся — качать вручную. Тариф 2026 вышел по
+           итогам консультации 2025/2027. Сезонная дифференциация посадки
+           (лето июнь-сентябрь дороже на 24%) заведена по летней ставке"
+    status: заведён, LICJ-2026.json, 11 правил
+
+  LIBR:
+    city: Бриндизи
+    publisher: Aeroporti di Puglia
+    url: https://corporate.aeroportidipuglia.it/tariffe/
+    note: "адрес из AIP Italia GEN 4.1, один документ на Бари, Бриндизи, Фоджу
+           и Гроттальи — ставки одинаковы, тот же файл закрывает LIBD, LIBF,
+           LIBG. Сайт отвергает фетчер защитой от ботов, качать вручную.
+           Ставка PRM живёт в отдельном документе и перебивает основной"
+    status: заведён, LIBR-2026.json, 12 правил
+
+# Общегосударственные статьи, не входящие в тарифы операторов
+# (AIP Italia GEN 4.1.3): муниципальная надбавка к сбору за посадку
+# пассажиров 6,50 EUR за вылетающего, плюс 0,50 для направлений вне ЕС
+# из Фьюмичино, Мальпенсы, БЕРГАМО, Каподикино, Фонтанароссы, Тессеры,
+# Борго-Паниголе и Линате. Отменена: Фриули с 2024, Калабрия с 2024,
+# Абруццо на 2025-2027, Сицилия с 2026 только в Комизо, Лампедузе,
+# Пантеллерии и Трапани, Эмилия-Романья с 2026 только в Римини, Форли
+# и Парме. Для ПАЛЕРМО отмена не действует.

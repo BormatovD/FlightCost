@@ -1,0 +1,181 @@
+{
+  "icao": "LEBL",
+  "valid_from": "2026-03-01",
+  "source": "Aena Price Guide 2026, ed. March, разд. 2.1-2.2",
+  "categories": {
+    "noise_cat": {
+     "source_note": "Aena, Guía de Tarifas 2026, п. 2.1.4 «Incremento por clasificación acústica»: категория по кумулятивному запасу к пределам главы 3 Приложения 16; при отсутствии сертификата эксплуатанта — по типу из базы EASA (её же читает домен aircraft). Надбавка к посадочному сбору: кат. 1 — 70%/140% (день/ночь), кат. 2 — 20%/40%, кат. 3–4 — 0%. Границы «entre 5 y 10», «entre 10 y 15» в документе включают оба конца; при запасе ровно 10 или 15 взята старшая категория (в пользу эксплуатанта)",
+     "certainty": "reading_unconfirmed",
+     "error_cost": 0.0,
+     "confirm_by": "Aena, Guía de Tarifas: граница категорий при запасе ровно 10 и 15 EPNdB",
+     "rules": [
+      {
+       "when": {
+        "noise_margin_cum": {
+         "gt": 15
+        }
+       },
+       "value": 4,
+       "note": "категория 4: запас больше 15 EPNdB — надбавки нет"
+      },
+      {
+       "when": {
+        "noise_margin_cum": {
+         "ge": 10
+        }
+       },
+       "value": 3,
+       "note": "категория 3: запас от 10 до 15 EPNdB — надбавки нет"
+      },
+      {
+       "when": {
+        "noise_margin_cum": {
+         "ge": 5
+        }
+       },
+       "value": 2,
+       "note": "категория 2: запас от 5 до 10 EPNdB — надбавка 20% днём, 40% ночью"
+      },
+      {
+       "when": {
+        "noise_margin_cum": {
+         "lt": 5
+        }
+       },
+       "value": 1,
+       "note": "категория 1: запас меньше 5 EPNdB — надбавка 70% днём, 140% ночью"
+      }
+     ]
+    }
+   },
+  "rules": [
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 8.581766,
+      "events": "landing",
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, столбец LANDING"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 155.53,
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "минимальный сбор"
+    },
+    {
+      "code": "aerodrome",
+      "base": "per_tonne_mtow",
+      "rate": 3.246254,
+      "events": "landing",
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, столбец AERODROME SERVICE"
+    },
+    {
+      "code": "aerodrome",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 66.28,
+      "when": {
+        "flight": "EEA"
+      }
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 13.09,
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.2.1"
+    },
+    {
+      "code": "prm",
+      "base": "per_departing_pax",
+      "rate": 0.87
+    },
+    {
+      "code": "security",
+      "base": "per_departing_pax",
+      "rate": 3.99
+    },
+    {
+      "code": "meteo",
+      "base": "per_tonne_mtow",
+      "rate": 0.202476,
+      "events": "landing",
+      "source_note": "разд. 2.7"
+    },
+    {
+      "code": "gh_infra",
+      "base": "per_departing_pax",
+      "rate": 0.0485,
+      "source_note": "разд. 2.6.2"
+    },
+    {
+      "code": "noise",
+      "base": "per_movement",
+      "rate": 0.7,
+      "pct_of": "landing",
+      "events": "landing",
+      "when": {
+        "noise_cat": 1,
+        "night": false
+      },
+      "source_note": "разд. 2.1.4, надбавка 70% днём"
+    },
+     {
+      "code": "noise",
+      "base": "per_movement",
+      "rate": 0.4,
+      "pct_of": "landing",
+      "events": "landing",
+      "when": {
+        "noise_cat": 2,
+        "night": true
+      },
+      "source_note": "разд. 2.1.4, надбавка 40% ночью (23:00–06:59)"
+    },
+    {
+      "code": "noise",
+      "base": "per_movement",
+      "rate": 1.4,
+      "pct_of": "landing",
+      "events": "landing",
+      "when": {
+        "noise_cat": 1,
+        "night": true
+      }
+    },
+    {
+      "code": "noise",
+      "base": "per_movement",
+      "rate": 0.2,
+      "pct_of": "landing",
+      "events": "landing",
+      "when": {
+        "noise_cat": 2,
+        "night": false
+      }
+    },
+    {
+      "code": "border",
+      "base": "per_movement",
+      "rate": 0.0012,
+      "pct_of": "*",
+      "source_note": "надбавка CNMC 0,12% на все аэронавигационные сборы"
+    }
+  ],
+  "source_url": "https://www.aena.es/sites/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1576874695617&ssbinary=true",
+  "source_url_note": "адрес взят у LEPA: это ОДИН документ Aena на всю сеть, аэропорты разнесены по группам и ставки не совпадают. Издание в поле source отличается (март против августа) — при следующем обновлении сверить, какое действует"
+}

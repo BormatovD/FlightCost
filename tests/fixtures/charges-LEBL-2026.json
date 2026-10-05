@@ -1,0 +1,32 @@
+{
+  "icao": "LEBL",
+  "valid_from": "2026-03-01",
+  "source": "Aena Price Guide 2026, ed. March, разд. 2.1-2.2",
+  "rules": [
+    {"code":"landing","base":"per_tonne_mtow","rate":8.581766,"events":"landing",
+     "when":{"flight":"EEA"},"source_note":"разд. 2.1.1, столбец LANDING"},
+    {"code":"landing","base":"per_movement","rate":0,"events":"landing",
+     "minimum":155.53,"when":{"flight":"EEA"},"source_note":"минимальный сбор"},
+    {"code":"aerodrome","base":"per_tonne_mtow","rate":3.246254,"events":"landing",
+     "when":{"flight":"EEA"},"source_note":"разд. 2.1.1, столбец AERODROME SERVICE"},
+    {"code":"aerodrome","base":"per_movement","rate":0,"events":"landing",
+     "minimum":66.28,"when":{"flight":"EEA"}},
+    {"code":"passenger","base":"per_departing_pax","rate":13.09,
+     "when":{"flight":"EEA"},"source_note":"разд. 2.2.1"},
+    {"code":"prm","base":"per_departing_pax","rate":0.87},
+    {"code":"security","base":"per_departing_pax","rate":3.99},
+    {"code":"meteo","base":"per_tonne_mtow","rate":0.202476,"events":"landing",
+     "source_note":"разд. 2.7"},
+    {"code":"gh_infra","base":"per_departing_pax","rate":0.0485,
+     "source_note":"разд. 2.6.2"},
+    {"code":"noise","base":"per_movement","rate":0.70,"pct_of":"landing",
+     "events":"landing","when":{"noise_cat":1,"night":false},
+     "source_note":"разд. 2.1.4, надбавка 70% днём"},
+    {"code":"noise","base":"per_movement","rate":1.40,"pct_of":"landing",
+     "events":"landing","when":{"noise_cat":1,"night":true}},
+    {"code":"noise","base":"per_movement","rate":0.20,"pct_of":"landing",
+     "events":"landing","when":{"noise_cat":2,"night":false}},
+    {"code":"border","base":"per_movement","rate":0.0012,"pct_of":"*",
+     "source_note":"надбавка CNMC 0,12% на все аэронавигационные сборы"}
+  ]
+}

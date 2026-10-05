@@ -1,0 +1,1772 @@
+{
+ "icao": "EDDF",
+ "valid_from": "2026-08-01",
+ "source": "Fraport Entgeltordnung nach §19b LuftVG, ред. 01.08.2026",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.5,
+   "events": "movement",
+   "round_mtow": "ceil_tonne",
+   "source_note": "§1.2.3, 2,50 EUR за каждые начатые 1000 кг, за посадку и за взлёт. Общая ставка: таблица ниже задаёт минимум, а не отдельный сбор — минимумы убывают с массой и осмысленны только как пол"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "movement",
+   "minimum": 297.83,
+   "when": {
+    "mtow_t": [
+     0,
+     15
+    ]
+   },
+   "source_note": "§1.2.3 a) минимум до 15 000 кг"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "movement",
+   "minimum": 180.04,
+   "when": {
+    "mtow_t": [
+     15,
+     35
+    ]
+   },
+   "source_note": "§1.2.3 b)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "movement",
+   "minimum": 44.68,
+   "when": {
+    "mtow_t": [
+     35,
+     66
+    ]
+   },
+   "source_note": "§1.2.3 c). Мёртвая строка: перестаёт связывать при 17,9 т, а полоса начинается с 35 т — ставка здесь всегда выше. Оставлена как в документе"
+  },
+  {
+   "code": "landing_pax",
+   "base": "per_departing_pax",
+   "rate": 1.79,
+   "source_note": "§1.2.4, за пассажира на борту при взлёте"
+  },
+  {
+   "code": "landing_cargo",
+   "base": "per_100kg",
+   "rate": 0.08,
+   "events": "movement",
+   "source_note": "§1.2.4, за начатые 100 кг, при посадке и при взлёте"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 24.56,
+   "when": {
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "§1.3.2, ЕС + IS/LI/NO/CH | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 24.56,
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "§1.3.2, ЕС + IS/LI/NO/CH | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 30.88,
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "§1.3.2"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 34.01,
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "§1.3.2"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 16.52,
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "§1.3.2, трансфер и транзит"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 16.52,
+   "when": {
+    "pax_type": "transit"
+   }
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.63,
+   "source_note": "§1.4"
+  },
+  {
+   "code": "security_cargo",
+   "base": "per_100kg",
+   "rate": 0.27,
+   "events": "movement",
+   "source_note": "§1.4"
+  },
+  {
+   "code": "gh_infra_dg",
+   "base": "per_departing_pax",
+   "rate": 0.07,
+   "source_note": "§2.2.2"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 1.82,
+   "source_note": "§2.3"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 6.27,
+   "when": {
+    "pax_per_mtow": [
+     1.0,
+     1.15
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 5.86,
+   "when": {
+    "pax_per_mtow": [
+     1.15,
+     1.3
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 5.17,
+   "when": {
+    "pax_per_mtow": [
+     1.3,
+     1.5
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 4.72,
+   "when": {
+    "pax_per_mtow": [
+     1.5,
+     1.7
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 4.44,
+   "when": {
+    "pax_per_mtow": [
+     1.7,
+     1.9
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 4.28,
+   "when": {
+    "pax_per_mtow": [
+     1.9,
+     2.1
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 4.16,
+   "when": {
+    "pax_per_mtow": [
+     2.1,
+     99
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 6.94,
+   "when": {
+    "pax_per_mtow": [
+     0.85,
+     1.0
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 7.54,
+   "when": {
+    "pax_per_mtow": [
+     0.7,
+     0.85
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 9.46,
+   "when": {
+    "pax_per_mtow": [
+     0.55,
+     0.7
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 11.77,
+   "when": {
+    "pax_per_mtow": [
+     0.4,
+     0.55
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 14.28,
+   "when": {
+    "pax_per_mtow": [
+     0.25,
+     0.4
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 18.5,
+   "when": {
+    "pax_per_mtow": [
+     0,
+     0.25
+    ]
+   },
+   "source_note": "§2.2.2, шкала пассажиров на тонну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 88.64,
+   "events": "landing",
+   "when": {
+    "noise_cat": 1
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 1 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 88.64,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 1
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 1 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 0.75,
+   "events": "landing",
+   "when": {
+    "noise_cat": 1
+   },
+   "source_note": "§1.6.4, кат. 1 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 0.75,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 1
+   },
+   "source_note": "§1.6.4, кат. 1 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 105.12,
+   "events": "landing",
+   "when": {
+    "noise_cat": 2
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 2 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 105.12,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 2
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 2 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.13,
+   "events": "landing",
+   "when": {
+    "noise_cat": 2
+   },
+   "source_note": "§1.6.4, кат. 2 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.13,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 2
+   },
+   "source_note": "§1.6.4, кат. 2 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 121.58,
+   "events": "landing",
+   "when": {
+    "noise_cat": 3
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 3 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 121.58,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 3
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 3 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.41,
+   "events": "landing",
+   "when": {
+    "noise_cat": 3
+   },
+   "source_note": "§1.6.4, кат. 3 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.41,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 3
+   },
+   "source_note": "§1.6.4, кат. 3 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 138.06,
+   "events": "landing",
+   "when": {
+    "noise_cat": 4
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 4 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 138.06,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 4
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 4 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.69,
+   "events": "landing",
+   "when": {
+    "noise_cat": 4
+   },
+   "source_note": "§1.6.4, кат. 4 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.69,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 4
+   },
+   "source_note": "§1.6.4, кат. 4 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 235.28,
+   "events": "landing",
+   "when": {
+    "noise_cat": 5
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 5 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 235.28,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 5
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 5 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.88,
+   "events": "landing",
+   "when": {
+    "noise_cat": 5
+   },
+   "source_note": "§1.6.4, кат. 5 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 1.88,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 5
+   },
+   "source_note": "§1.6.4, кат. 5 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 411.16,
+   "events": "landing",
+   "when": {
+    "noise_cat": 6
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 6 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 411.16,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 6
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 6 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 3.0,
+   "events": "landing",
+   "when": {
+    "noise_cat": 6
+   },
+   "source_note": "§1.6.4, кат. 6 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 3.0,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 6
+   },
+   "source_note": "§1.6.4, кат. 6 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 587.06,
+   "events": "landing",
+   "when": {
+    "noise_cat": 7
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 7 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 587.06,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 7
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 7 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 6.19,
+   "events": "landing",
+   "when": {
+    "noise_cat": 7
+   },
+   "source_note": "§1.6.4, кат. 7 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 6.19,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 7
+   },
+   "source_note": "§1.6.4, кат. 7 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 762.94,
+   "events": "landing",
+   "when": {
+    "noise_cat": 8
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 8 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 762.94,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 8
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 8 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 6.56,
+   "events": "landing",
+   "when": {
+    "noise_cat": 8
+   },
+   "source_note": "§1.6.4, кат. 8 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 6.56,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 8
+   },
+   "source_note": "§1.6.4, кат. 8 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 938.83,
+   "events": "landing",
+   "when": {
+    "noise_cat": 9
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 9 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 938.83,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 9
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 9 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 9.38,
+   "events": "landing",
+   "when": {
+    "noise_cat": 9
+   },
+   "source_note": "§1.6.4, кат. 9 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 9.38,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 9
+   },
+   "source_note": "§1.6.4, кат. 9 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1114.71,
+   "events": "landing",
+   "when": {
+    "noise_cat": 10
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 10 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1114.71,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 10
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 10 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 10.31,
+   "events": "landing",
+   "when": {
+    "noise_cat": 10
+   },
+   "source_note": "§1.6.4, кат. 10 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 10.31,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 10
+   },
+   "source_note": "§1.6.4, кат. 10 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1290.59,
+   "events": "landing",
+   "when": {
+    "noise_cat": 11
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 11 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1290.59,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 11
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 11 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 12.19,
+   "events": "landing",
+   "when": {
+    "noise_cat": 11
+   },
+   "source_note": "§1.6.4, кат. 11 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 12.19,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 11
+   },
+   "source_note": "§1.6.4, кат. 11 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1466.48,
+   "events": "landing",
+   "when": {
+    "noise_cat": 12
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 12 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1466.48,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 12
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 12 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 13.13,
+   "events": "landing",
+   "when": {
+    "noise_cat": 12
+   },
+   "source_note": "§1.6.4, кат. 12 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 13.13,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 12
+   },
+   "source_note": "§1.6.4, кат. 12 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1793.6,
+   "events": "landing",
+   "when": {
+    "noise_cat": 13
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 13 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1793.6,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 13
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 13 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 22.5,
+   "events": "landing",
+   "when": {
+    "noise_cat": 13
+   },
+   "source_note": "§1.6.4, кат. 13 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 22.5,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 13
+   },
+   "source_note": "§1.6.4, кат. 13 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 2120.72,
+   "events": "landing",
+   "when": {
+    "noise_cat": 14
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 14 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 2120.72,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 14
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 14 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 28.13,
+   "events": "landing",
+   "when": {
+    "noise_cat": 14
+   },
+   "source_note": "§1.6.4, кат. 14 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 28.13,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 14
+   },
+   "source_note": "§1.6.4, кат. 14 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 3751.12,
+   "events": "landing",
+   "when": {
+    "noise_cat": 15
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 15 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 3751.12,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 15
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 15 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 46.88,
+   "events": "landing",
+   "when": {
+    "noise_cat": 15
+   },
+   "source_note": "§1.6.4, кат. 15 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 46.88,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 15
+   },
+   "source_note": "§1.6.4, кат. 15 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 29976.12,
+   "events": "landing",
+   "when": {
+    "noise_cat": 16
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 16 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 29976.12,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 16
+   },
+   "source_note": "§1.2.8, ганztägig, кат. 16 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 375.0,
+   "events": "landing",
+   "when": {
+    "noise_cat": 16
+   },
+   "source_note": "§1.6.4, кат. 16 — при посадке, категория по §1.2.6"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 375.0,
+   "events": "takeoff",
+   "when": {
+    "noise_cat_dep": 16
+   },
+   "source_note": "§1.6.4, кат. 16 — при взлёте, категория по §1.2.7"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 13.54,
+   "when": {
+    "stand_group": 1
+   },
+   "source_note": "§1.5.2, группа 1 (зона авиации общего назначения), до 10 часов, круглосуточно"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 31.15,
+   "when": {
+    "stand_group": 2
+   },
+   "source_note": "§1.5.2, группа 2, базовый сбор до 2 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 48.73,
+   "threshold": 2.0,
+   "when": {
+    "stand_group": 2
+   },
+   "source_note": "§1.5.3, группа 2, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 33.84,
+   "when": {
+    "stand_group": 2,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 2, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 43.33,
+   "when": {
+    "stand_group": 3
+   },
+   "source_note": "§1.5.2, группа 3, базовый сбор до 3 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 63.63,
+   "threshold": 3.0,
+   "when": {
+    "stand_group": 3
+   },
+   "source_note": "§1.5.3, группа 3, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 60.92,
+   "when": {
+    "stand_group": 3,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 3, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 58.2,
+   "when": {
+    "stand_group": 4
+   },
+   "source_note": "§1.5.2, группа 4, базовый сбор до 4 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 79.2,
+   "threshold": 4.0,
+   "when": {
+    "stand_group": 4
+   },
+   "source_note": "§1.5.3, группа 4, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 94.78,
+   "when": {
+    "stand_group": 4,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 4, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 62.28,
+   "when": {
+    "stand_group": 5
+   },
+   "source_note": "§1.5.2, группа 5, базовый сбор до 5 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 88.0,
+   "threshold": 5.0,
+   "when": {
+    "stand_group": 5
+   },
+   "source_note": "§1.5.3, группа 5, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 121.82,
+   "when": {
+    "stand_group": 5,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 5, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 67.69,
+   "when": {
+    "stand_group": 6
+   },
+   "source_note": "§1.5.2, группа 6, базовый сбор до 5 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 92.07,
+   "threshold": 5.0,
+   "when": {
+    "stand_group": 6
+   },
+   "source_note": "§1.5.3, группа 6, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 125.22,
+   "when": {
+    "stand_group": 6,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 6, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 71.74,
+   "when": {
+    "stand_group": 7
+   },
+   "source_note": "§1.5.2, группа 7, базовый сбор до 5 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 96.11,
+   "threshold": 5.0,
+   "when": {
+    "stand_group": 7
+   },
+   "source_note": "§1.5.3, группа 7, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 128.62,
+   "when": {
+    "stand_group": 7,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 7, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 77.18,
+   "when": {
+    "stand_group": 8
+   },
+   "source_note": "§1.5.2, группа 8, базовый сбор до 5 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 100.88,
+   "threshold": 5.0,
+   "when": {
+    "stand_group": 8
+   },
+   "source_note": "§1.5.3, группа 8, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 135.37,
+   "when": {
+    "stand_group": 8,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 8, надбавка за постановку к зданию"
+  },
+  {
+   "code": "parking",
+   "base": "per_turnaround",
+   "rate": 81.24,
+   "when": {
+    "stand_group": 9
+   },
+   "source_note": "§1.5.2, группа 9, базовый сбор до 5 ч, 06:00-21:59"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 104.93,
+   "threshold": 5.0,
+   "when": {
+    "stand_group": 9
+   },
+   "source_note": "§1.5.3, группа 9, за час сверх базового"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 169.22,
+   "when": {
+    "stand_group": 9,
+    "stand": "pier"
+   },
+   "source_note": "§1.5.4, группа 9, надбавка за постановку к зданию"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 122.0,
+   "when": {
+    "ac_class": 0,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 0, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 122.0,
+   "when": {
+    "ac_class": 0,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 0, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 214.0,
+   "when": {
+    "ac_class": 1,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 1, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 244.0,
+   "when": {
+    "ac_class": 1,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 1, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 434.0,
+   "when": {
+    "ac_class": 2,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 2, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 473.0,
+   "when": {
+    "ac_class": 2,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 2, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 1414.0,
+   "when": {
+    "ac_class": 3,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 3, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 1471.0,
+   "when": {
+    "ac_class": 3,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 3, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 2348.0,
+   "when": {
+    "ac_class": 4,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 4, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 2665.0,
+   "when": {
+    "ac_class": 4,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 4, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 3298.0,
+   "when": {
+    "ac_class": 5,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 5, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 3756.0,
+   "when": {
+    "ac_class": 5,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 5, здание"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 4820.0,
+   "when": {
+    "ac_class": 6,
+    "stand": "apron"
+   },
+   "source_note": "§2.2.1, класс 6, перрон"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_turnaround",
+   "rate": 5826.0,
+   "when": {
+    "ac_class": 6,
+    "stand": "pier"
+   },
+   "source_note": "§2.2.1, класс 6, здание"
+  }
+ ],
+ "source_url": "https://www.fraport.com/de/geschaeftsfelder/betrieb/flughafenentgelte.html",
+ "publisher": "Fraport AG, утверждается министерством Гессена",
+ "checked_at": "2026-09-02",
+ "categories": {
+  "stand_group": {
+   "source_note": "Anhang 3, Positionsgruppen für Abstellentgelte: группы 2–9 по размаху и длине, с поимённым списком. Группа 1 — не размер, а позиции зоны авиации общего назначения (V701–V708, V711–V719, V721.*): задаётся --set charge_context.EDDF.stand_group=1. Прежнее правило «группа 1 до 24 × 28 м» из парсера типов было выдумкой и снято",
+   "named": {
+    "AN148": 2,
+    "AN26": 2,
+    "AN30": 2,
+    "AN32": 2,
+    "ATP": 2,
+    "AT43": 2,
+    "AT44": 2,
+    "AT45": 2,
+    "AT72": 2,
+    "A748": 2,
+    "B461": 2,
+    "B462": 2,
+    "B463": 2,
+    "B732": 2,
+    "B735": 2,
+    "CRJ1": 2,
+    "CRJ2": 2,
+    "CRJ7": 2,
+    "DHC5": 2,
+    "DHC7": 2,
+    "DH8A": 2,
+    "DH8B": 2,
+    "DH8C": 2,
+    "DH8D": 2,
+    "E170": 2,
+    "E75L": 2,
+    "E75S": 2,
+    "F27": 2,
+    "F50": 2,
+    "F60": 2,
+    "F70": 2,
+    "RJ1H": 2,
+    "RJ70": 2,
+    "RJ85": 2,
+    "SB20": 2,
+    "SF34": 2,
+    "SH33": 2,
+    "SH36": 2,
+    "SU95": 2,
+    "YK40": 2,
+    "AN12": 3,
+    "AN28": 3,
+    "AN72": 3,
+    "A318": 3,
+    "A319": 3,
+    "A320": 3,
+    "A20N": 3,
+    "A321": 3,
+    "A21N": 3,
+    "BA11": 3,
+    "B712": 3,
+    "B721": 3,
+    "B733": 3,
+    "B734": 3,
+    "B736": 3,
+    "B737": 3,
+    "B738": 3,
+    "B739": 3,
+    "B38M": 3,
+    "B39M": 3,
+    "CRJ9": 3,
+    "BCS1": 3,
+    "BCS3": 3,
+    "CRJX": 3,
+    "E190": 3,
+    "E195": 3,
+    "E290": 3,
+    "E295": 3,
+    "F100": 3,
+    "L188": 3,
+    "MD81": 3,
+    "MD82": 3,
+    "MD83": 3,
+    "MD87": 3,
+    "MD88": 3,
+    "T134": 3,
+    "YK42": 3,
+    "AN22": 4,
+    "A30B": 4,
+    "A306": 4,
+    "A310": 4,
+    "B701": 4,
+    "B703": 4,
+    "B752": 4,
+    "B753": 4,
+    "B762": 4,
+    "B763": 4,
+    "C130": 4,
+    "C160": 4,
+    "IL18": 4,
+    "T154": 4,
+    "B764": 5,
+    "IL86": 5,
+    "MD11": 5,
+    "A332": 6,
+    "A333": 6,
+    "A342": 6,
+    "A343": 6,
+    "B772": 6,
+    "B788": 6,
+    "B789": 6,
+    "IL96": 6,
+    "A338": 7,
+    "A339": 7,
+    "A345": 7,
+    "A359": 7,
+    "B741": 7,
+    "B742": 7,
+    "B743": 7,
+    "B744": 7,
+    "B77L": 7,
+    "B78X": 7,
+    "A35K": 8,
+    "A346": 8,
+    "B773": 8,
+    "B77W": 8,
+    "A388": 9,
+    "B748": 9,
+    "B779": 9
+   },
+   "rules": [
+    {
+     "when": {
+      "span_m": {
+       "le": 30
+      },
+      "length_m": {
+       "le": 32
+      }
+     },
+     "value": 2,
+     "note": "Anhang 3, Positionsgruppe 2: размах до 30 м, длина до 32 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 38
+      },
+      "length_m": {
+       "le": 47
+      }
+     },
+     "value": 3,
+     "note": "Anhang 3, Positionsgruppe 3: размах до 38 м, длина до 47 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 48
+      },
+      "length_m": {
+       "le": 58
+      }
+     },
+     "value": 4,
+     "note": "Anhang 3, Positionsgruppe 4: размах до 48 м, длина до 58 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 52
+      },
+      "length_m": {
+       "le": 62
+      }
+     },
+     "value": 5,
+     "note": "Anhang 3, Positionsgruppe 5: размах до 52 м, длина до 62 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 61
+      },
+      "length_m": {
+       "le": 64
+      }
+     },
+     "value": 6,
+     "note": "Anhang 3, Positionsgruppe 6: размах до 61 м, длина до 64 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 65
+      },
+      "length_m": {
+       "le": 71
+      }
+     },
+     "value": 7,
+     "note": "Anhang 3, Positionsgruppe 7: размах до 65 м, длина до 71 м"
+    },
+    {
+     "when": {
+      "span_m": {
+       "le": 65
+      },
+      "length_m": {
+       "le": 76
+      }
+     },
+     "value": 8,
+     "note": "Anhang 3, Positionsgruppe 8: размах до 65 м, длина до 76 м"
+    },
+    {
+     "default": 9,
+     "exact": true,
+     "note": "Anhang 3, Positionsgruppe 9, Code F: размах > 65 м или длина > 76 м"
+    }
+   ]
+  },
+  "ac_class": {
+   "source_note": "§2.2.1, MTOM-variables Entgelt für zentrale Bodenverkehrsdienst-Infrastruktureinrichtungen: классы 1–6 перечислены поимённо по обозначениям ИКАО. Класс 0 — не тип, а вид рейса (перегон, грузовой): задаётся --set charge_context.EDDF.ac_class=0. Типы, которых нет в таблице (A318, B739, B39M, E170, A19N и свои), класса не получают: правила отнесения неперечисленных в выдержке не видно, сноска у класса 6* не прочитана",
+   "named": {
+    "CRJ9": 1,
+    "CRJX": 1,
+    "E190": 1,
+    "E195": 1,
+    "E75L": 1,
+    "A20N": 2,
+    "A21N": 2,
+    "A319": 2,
+    "A320": 2,
+    "A321": 2,
+    "A32A": 2,
+    "A32B": 2,
+    "B38M": 2,
+    "B737": 2,
+    "B738": 2,
+    "BCS1": 2,
+    "BCS3": 2,
+    "B752": 3,
+    "B763": 3,
+    "A332": 4,
+    "A333": 4,
+    "A343": 4,
+    "A359": 4,
+    "B772": 4,
+    "B77L": 4,
+    "B77W": 4,
+    "B788": 4,
+    "B789": 4,
+    "B78X": 4,
+    "B744": 5,
+    "B748": 5,
+    "A388": 6
+   }
+  },
+  "noise_cat": {
+   "source_note": "§1.2.6 Zuordnung … bei Landung: категории по среднему SEL при посадке, измеренному Fraport (DIN 45643), поимённо. Неперечисленный тип ≥ 34 т Fraport относит по шумовому сертификату по своему усмотрению — здесь не угадывается. A320_V на посадке — категория 2. A319_V/A320_V/A321_V — борта с вихрегенераторами (модификация FOPP), подтверждается эксплуатантом; по умолчанию берётся категория немодифицированного типа, модифицированный — --set charge_context.EDDF.noise_cat=<категория>",
+   "named": {
+    "CL35": 1,
+    "CRJ7": 1,
+    "E145": 1,
+    "E35L": 1,
+    "E75L": 1,
+    "E75S": 1,
+    "GLEX": 1,
+    "GL5T": 1,
+    "GLF4": 1,
+    "GLF5": 1,
+    "GLF6": 1,
+    "F2TH": 1,
+    "A20N": 2,
+    "A21N": 2,
+    "B38M": 2,
+    "B39M": 2,
+    "B461": 2,
+    "B462": 2,
+    "B463": 2,
+    "B712": 2,
+    "B736": 2,
+    "B739": 2,
+    "CRJ9": 2,
+    "CRJX": 2,
+    "E170": 2,
+    "E190": 2,
+    "E195": 2,
+    "F100": 2,
+    "RJ85": 2,
+    "A319": 3,
+    "A321": 3,
+    "B737": 3,
+    "B738": 3,
+    "B752": 3,
+    "B753": 3,
+    "BCS1": 3,
+    "BCS3": 3,
+    "E295": 3,
+    "A318": 4,
+    "A320": 4,
+    "B733": 4,
+    "B734": 4,
+    "B735": 4,
+    "B762": 4,
+    "B763": 4,
+    "E290": 4,
+    "MD87": 4,
+    "A342": 5,
+    "A343": 5,
+    "B788": 5,
+    "B789": 5,
+    "A339": 6,
+    "A359": 6,
+    "B764": 6,
+    "B773": 6,
+    "B779": 6,
+    "B78X": 6,
+    "MD82": 6,
+    "A306": 7,
+    "A338": 7,
+    "A345": 7,
+    "A346": 7,
+    "A35K": 7,
+    "B772": 7,
+    "B77L": 7,
+    "B77W": 7,
+    "A310": 8,
+    "A332": 8,
+    "A333": 8,
+    "B744": 8,
+    "A388": 9,
+    "B748": 9,
+    "AN12": 10,
+    "IL62": 10,
+    "IL76": 10,
+    "B742": 11,
+    "AN124": 16
+   },
+   "rules": [
+    {
+     "when": {
+      "mtow_t": {
+       "lt": 34
+      }
+     },
+     "value": 1,
+     "note": "категория 1: реактивные с MTOM < 34 т, винтовые до 34 т, вертолёты — если не отнесены поимённо"
+    }
+   ]
+  },
+  "noise_cat_dep": {
+   "source_note": "§1.2.7 Zuordnung … bei Start: категории по среднему SEL при взлёте, поимённо. A319_V/A320_V/A321_V на взлёте в тех же категориях, что без модификации. Неперечисленный тип ≥ 34 т — не угадывается.",
+   "named": {
+    "BCS1": 1,
+    "BCS3": 1,
+    "CL35": 1,
+    "CRJ7": 1,
+    "CRJ9": 1,
+    "E145": 1,
+    "E290": 1,
+    "E295": 1,
+    "E35L": 1,
+    "GLEX": 1,
+    "GL5T": 1,
+    "GLF4": 1,
+    "GLF5": 1,
+    "GLF6": 1,
+    "A20N": 2,
+    "B38M": 2,
+    "B39M": 2,
+    "B461": 2,
+    "B712": 2,
+    "B752": 2,
+    "CRJX": 2,
+    "F2TH": 2,
+    "RJ85": 2,
+    "A21N": 3,
+    "A318": 3,
+    "B462": 3,
+    "B463": 3,
+    "B736": 3,
+    "E170": 3,
+    "E190": 3,
+    "E75L": 3,
+    "A319": 4,
+    "A320": 4,
+    "B734": 4,
+    "B737": 4,
+    "B788": 4,
+    "E195": 4,
+    "E75S": 4,
+    "F100": 4,
+    "A338": 5,
+    "A359": 5,
+    "B733": 5,
+    "B735": 5,
+    "B753": 5,
+    "B789": 5,
+    "A310": 6,
+    "A321": 6,
+    "A35K": 6,
+    "B738": 6,
+    "B739": 6,
+    "B78X": 6,
+    "A339": 7,
+    "B779": 7,
+    "A306": 8,
+    "B77L": 8,
+    "B772": 9,
+    "B773": 9,
+    "B77W": 9,
+    "A332": 10,
+    "B762": 10,
+    "B763": 10,
+    "B764": 10,
+    "A333": 11,
+    "A345": 11,
+    "A346": 11,
+    "A388": 11,
+    "A342": 12,
+    "A343": 12,
+    "AN12": 12,
+    "B748": 12,
+    "MD87": 13,
+    "B744": 14,
+    "MD82": 14,
+    "B742": 15,
+    "IL62": 15,
+    "IL76": 15,
+    "AN124": 16
+   },
+   "rules": [
+    {
+     "when": {
+      "mtow_t": {
+       "lt": 34
+      }
+     },
+     "value": 1,
+     "note": "категория 1: реактивные с MTOM < 34 т, винтовые до 34 т, вертолёты — если не отнесены поимённо"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,291 @@
+{
+  "icao": "LEPA",
+  "valid_from": "2026-08-01",
+  "source": "Aena SME S.A., Guía de Tarifas 2026, издание август. Пальма-де-Мальорка входит в группу «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca»",
+  "source_url": "https://www.aena.es/sites/Satellite?blobcol=urldata&blobkey=id&blobtable=MungoBlobs&blobwhere=1576874695617&ssbinary=true",
+  "publisher": "Aena SME S.A., надзор за тарифами — CNMC, рамка DORA",
+  "checked_at": "2026-09-03",
+  "rules": [
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 8.140706,
+      "events": "landing",
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, столбец ATERRIZAJE, строка группы PMI. Та же ставка для международных рейсов вне ЕЭП — по этой статье документ разделения не делает"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 110.66,
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, минимум за операцию. Отдельной строкой: движок применяет minimum только к базе per_movement"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_tonne_mtow",
+      "rate": 3.185764,
+      "events": "landing",
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, столбец SERVICIO TRANSITO AERÓDROMO. Это аэродромное ОВД оператора аэропорта, не терминальный сбор EUROCONTROL — отдельная статья"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 47.47,
+      "when": {
+        "flight": "EEA"
+      },
+      "source_note": "разд. 2.1.1, минимум 47,47 EUR"
+    },
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 6.9196,
+      "events": "landing",
+      "when": {
+        "flight": "domestic"
+      },
+      "source_note": "разд. 2.1.2, рейсы Балеар с полуостровом"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 94.06,
+      "when": {
+        "flight": "domestic"
+      },
+      "source_note": "разд. 2.1.2, минимум"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_tonne_mtow",
+      "rate": 3.185764,
+      "events": "landing",
+      "when": {
+        "flight": "domestic"
+      },
+      "source_note": "разд. 2.1.2"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 47.47,
+      "when": {
+        "flight": "domestic"
+      },
+      "source_note": "разд. 2.1.2, минимум"
+    },
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 8.140706,
+      "events": "landing",
+      "when": {
+        "flight": "INTL"
+      },
+      "source_note": "разд. 2.1.1: ставка вне ЕЭП совпадает с ЕЭП. НЕ ЗАВЕДЕНО: разд. 2.1.3, межостровные Балеары 2,442212 при минимуме 33,20 — значения interisland в словаре flight нет. Для маршрутов Ryanair это не нужно"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 110.66,
+      "when": {
+        "flight": "INTL"
+      },
+      "source_note": "разд. 2.1.1, минимум"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_tonne_mtow",
+      "rate": 3.185764,
+      "events": "landing",
+      "when": {
+        "flight": "INTL"
+      },
+      "source_note": "разд. 2.1.1"
+    },
+    {
+      "code": "aerodrome_ats",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 47.47,
+      "when": {
+        "flight": "INTL"
+      },
+      "source_note": "разд. 2.1.1, минимум"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 5.85,
+      "when": {
+        "dest": "schengen",
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.1, столбец E.E.E. ЛЕТНЯЯ ставка: с ноября по март в Пальме, Менорке, Ибице и Сон-Бонете действует скидка 20% (4,68), условия season в словаре нет | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 5.85,
+      "when": {
+        "dest": "eu_non_schengen",
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.1, столбец E.E.E. ЛЕТНЯЯ ставка: с ноября по март в Пальме, Менорке, Ибице и Сон-Бонете действует скидка 20% (4,68), условия season в словаре нет | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 8.79,
+      "when": {
+        "dest": "europe_non_eu",
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.1, столбец Internacional. У Aena всё вне ЕЭП — «Internacional», включая Британию: для PMI-Британия применяется эта ставка. Зимой 7,032"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 8.79,
+      "when": {
+        "dest": "intercontinental",
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.1, Internacional — единая ставка для всего вне ЕЭП. Зимой 7,032"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 4.97,
+      "when": {
+        "flight": "domestic",
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.2, рейсы с полуостровом"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 3.51,
+      "when": {
+        "dest": "schengen",
+        "pax_type": "transfer"
+      },
+      "source_note": "разд. 2.2, пассажир в стыковке: пассажирская и по безопасности снижаются на 40%. 5,85 × 0,6. Стыковка — обратная посадка тем же билетом в течение 12 часов | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 3.51,
+      "when": {
+        "dest": "eu_non_schengen",
+        "pax_type": "transfer"
+      },
+      "source_note": "разд. 2.2, пассажир в стыковке: пассажирская и по безопасности снижаются на 40%. 5,85 × 0,6. Стыковка — обратная посадка тем же билетом в течение 12 часов | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 5.274,
+      "when": {
+        "dest": "europe_non_eu",
+        "pax_type": "transfer"
+      },
+      "source_note": "разд. 2.2, стыковка, 8,79 × 0,6"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 5.274,
+      "when": {
+        "dest": "intercontinental",
+        "pax_type": "transfer"
+      },
+      "source_note": "разд. 2.2, стыковка, 8,79 × 0,6"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 0.0,
+      "when": {
+        "pax_type": "transit"
+      },
+      "source_note": "разд. 2.2, прямой транзит не облагается"
+    },
+    {
+      "code": "security",
+      "base": "per_departing_pax",
+      "rate": 3.99,
+      "when": {
+        "pax_type": "local"
+      },
+      "source_note": "разд. 2.2.1, столбец Seguridad. Едина по сети Aena, от группы аэропорта не зависит. Зимой в Пальме 3,192"
+    },
+    {
+      "code": "security",
+      "base": "per_departing_pax",
+      "rate": 2.394,
+      "when": {
+        "pax_type": "transfer"
+      },
+      "source_note": "разд. 2.2, стыковка минус 40%. 3,99 × 0,6"
+    },
+    {
+      "code": "security",
+      "base": "per_departing_pax",
+      "rate": 0.0,
+      "when": {
+        "pax_type": "transit"
+      },
+      "source_note": "разд. 2.2, транзит не облагается"
+    },
+    {
+      "code": "prm",
+      "base": "per_departing_pax",
+      "rate": 0.87,
+      "source_note": "разд. 2.2.1, столбец PMR. Едина по сети; скидка за стыковку на неё не распространяется"
+    },
+    {
+      "code": "parking_pier",
+      "base": "per_hour_above",
+      "rate": 85.405072,
+      "threshold": 0.0,
+      "when": {
+        "stand": "pier"
+      },
+      "source_note": "разд. 2.4, телетрап: P = (p1 + p2×Tm)×Ft, для группы PMI p1 = 21,351268 EUR за 15 мин, p2 = 0 — от массы не зависит. Переведено в часовую ×4. С 00:00 до 06:00 счёт прерывается, в схеме не выражается"
+    },
+    {
+      "code": "meteo",
+      "base": "per_tonne_mtow",
+      "rate": 0.202476,
+      "events": "landing",
+      "source_note": "разд. 2.7, метеообеспечение, за тонну MTOW при посадке. Едино по сети"
+    },
+    {
+      "code": "gh_infra_pax",
+      "base": "per_departing_pax",
+      "rate": 0.0485,
+      "source_note": "разд. 2.6.2, за пользование аэропортом при наземном обслуживании пассажиров (группа услуг 2), за вылетающего пассажира"
+    }
+  ]
+}

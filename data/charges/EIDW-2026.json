@@ -1,0 +1,481 @@
+{
+ "icao": "EIDW",
+ "valid_from": "2026-03-29",
+ "source": "daa plc, Dublin Airport Charges 2026 including Terms & Conditions, действует 29.03.2026-27.03.2027; сезонные ставки заведены месяцами по сезонам ИАТА",
+ "source_url": "https://images.ctfassets.net/czgd0092azr0/3tiZB0RX96FCFZadtOKBva/b98ed7c9114c22538e6817b72e2a5070/dublin-airport-charges-2026-terms-and-conditionsd544fcac09d84ff493e63c2a4952331e.pdf",
+ "publisher": "daa plc, ценовой потолок утверждает Irish Aviation Authority",
+ "checked_at": "2026-09-03",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.55,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "source_note": "§3.1 Runway Landing and Take-off Charges, за тонну MTOW или её часть, высокий сезон. Один сбор на оборот: заголовок объединяет посадку и взлёт, §2.7 подтверждает выставление оборота целиком",
+   "when": {
+    "month": [
+     3,
+     10
+    ]
+   }
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.78,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "source_note": "§3.1, низкий сезон, 2,78 за тонну. Ровно вдвое ниже летней",
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   }
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.78,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "source_note": "§3.1, низкий сезон, 2,78 за тонну. Ровно вдвое ниже летней",
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   }
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 14.2,
+   "when": {
+    "stand": "pier",
+    "pax_type": "local",
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "§3.4, вылет с контактной стоянки, летняя ставка (зимой 10,20). Пассажирский сбор и авиабезопасность объединены в одну статью"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 10.2,
+   "when": {
+    "stand": "pier",
+    "pax_type": "local",
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 10,20 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 10.2,
+   "when": {
+    "stand": "pier",
+    "pax_type": "local",
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 10,20 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 6.9,
+   "when": {
+    "stand": "apron",
+    "pax_type": "local",
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "§3.4, удалённая стоянка с подвозом, лето (зимой 3,65)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.65,
+   "when": {
+    "stand": "apron",
+    "pax_type": "local",
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 3,65 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.65,
+   "when": {
+    "stand": "apron",
+    "pax_type": "local",
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 3,65 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 4.25,
+   "when": {
+    "stand": "pier",
+    "pax_type": "transfer",
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "§3.5, трансфер с контактной стоянки, лето (зимой 3,05). Стыковка засчитывается при вылете не позже 12 ч после прилёта"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.05,
+   "when": {
+    "stand": "pier",
+    "pax_type": "transfer",
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 3,05 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.05,
+   "when": {
+    "stand": "pier",
+    "pax_type": "transfer",
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 3,05 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 2.05,
+   "when": {
+    "stand": "apron",
+    "pax_type": "transfer",
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "§3.5, трансфер, удалённая стоянка, лето (зимой 1,10)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1.1,
+   "when": {
+    "stand": "apron",
+    "pax_type": "transfer",
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 1,10 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1.1,
+   "when": {
+    "stand": "apron",
+    "pax_type": "transfer",
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "§3,4-3,5, низкий сезон, 1,10 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "§3.4, транзитный пассажир сбор не оплачивает. Ноль опубликован явно, не пропуск"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 1.05,
+   "source_note": "§3.6, единая ставка. Ярусная шкала по доле предуведомления, действовавшая в 2025, решением от 11.12.2025 отменена. Транзит не облагается"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 160.4,
+   "threshold": 0.5,
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     100
+    ]
+   },
+   "source_note": "§3.2, зона EAP, Narrow Contact 40,10 EUR за 15 мин, переведено в часовую ×4. Порог 0,5 ч — документарный вычет 30 минут из интервала «посадка-отрыв». Граница narrow/wide по 100 т наша, в документе типы кузова не определены"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 199.0,
+   "threshold": 0.5,
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     100,
+     650
+    ]
+   },
+   "source_note": "§3.2, EAP, Wide Contact 49,75 за 15 мин ×4"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 44.0,
+   "threshold": 0.5,
+   "when": {
+    "stand": "apron",
+    "mtow_t": [
+     0,
+     100
+    ]
+   },
+   "source_note": "§3.2, EAP, Narrow Remote 11,00 за 15 мин ×4. В зоне WAP та же строка 8,60 — зона в схеме не выражается, взята EAP как полная"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 55.2,
+   "threshold": 0.5,
+   "when": {
+    "stand": "apron",
+    "mtow_t": [
+     100,
+     650
+    ]
+   },
+   "source_note": "§3.2, EAP, Wide Remote 13,80 за 15 мин ×4"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 41.6,
+   "threshold": 0.5,
+   "when": {
+    "stand": "pier"
+   },
+   "source_note": "§3.3 Airbridge Charge, 10,40 EUR за 15 мин ×4. Начисляется всем совместимым с телетрапом бортам на обслуживаемой трапом стоянке независимо от факта использования. Ночью не начисляется — в схеме не выражается"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -75.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 1,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 0.125. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -75.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 1,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 0.125"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -50.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 2,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 0.25. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -50.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 2,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 0.25"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 3,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 0.5. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 165.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 3,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 0.5"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 400.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 4,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 1. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 800.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 4,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 1"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 500.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 5,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 2. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1000.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 5,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 2"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 600.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 6,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 4. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1200.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 6,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 4"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 700.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 7,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 8. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1400.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 7,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 8"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 800.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 8,
+    "night": false
+   },
+   "source_note": "§3.8, день, QC 16. ШКАЛА ЛОКАЛЬНАЯ: QC переведён в порядковый номер 1-8, потому что noise_cat в словаре — целое 1..16. Отрицательная ставка — возврат. QC считается отдельно для прилёта (Approach минус 9 дБ) и вылета (среднее Lateral и Flyover), поэтому за оборот применяются две разные категории; контекст расчёта несёт одну"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1600.0,
+   "events": "movement",
+   "when": {
+    "noise_cat": 8,
+    "night": true
+   },
+   "source_note": "§3.8, ночь, QC 16"
+  }
+ ],
+ "scales": {
+  "noise_cat": 8
+ },
+ "map_node": "src_airport_tariff"
+}

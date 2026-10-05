@@ -1,0 +1,138 @@
+{
+ "icao": "VOBL",
+ "valid_from": "2026-09-01",
+ "source": "AERA, Order No. 14/2026-27 от 20.08.2026 «Determination of aeronautical tariff for Kempegowda International Airport, Bengaluru, fourth control period 01.04.2026–31.03.2031», Annexure I Tariff Rate Card (стр. 618–620 из 639)",
+ "source_url": "https://aera.gov.in/tariff-orders — ПОДСТАВИТЬ адрес файла (скачан как 17872763073873.pdf)",
+ "publisher": "Airports Economic Regulatory Authority of India; оператор BIAL",
+ "checked_at": "2026-09-19",
+ "icao_note": "Ставки едины с 01.09.2026 по 30.04.2030; с 01.05.2030 снижение (посадка 295/374, UDF 160/65 и 854/366) — следующая редакция 2030-05-01. Стоянка растёт по годам: 18/19/20/21/22 за тонну-час (с 01.04.2027 — редакция). Без GST. ASF по приказу MoCA — отдельный источник, не заведён. Льгота <80 кресел не закодирована. Тарифы под incremental ARR (таблицы 290–292) вступят отдельным дополнением к ордеру. Скан",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 442,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure I A, Landing Charges, Domestic 442 INR за тонну МВМ, до ближайшей тонны (note 3)",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 652,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure I A, Landing Charges, International 652 INR за тонну",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 18,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "park_h": [
+     0,
+     6
+    ]
+   },
+   "source_note": "Annexure I B, Parking: 18 INR за тонну за час первые 2 ч после льготных 2 ч, все стоянки. Порог 2 ч на стоянке (плюс 15+15 мин руления — прочтение как у Дели). Строка «2–4 ч после льготы» стоит на разрыве страниц 618/619 и не видна — первая ступень принята до 4 ч",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 702.0,
+   "confirm_by": "BIAL",
+   "round_mtow": "nearest_tonne"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 29,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "park_h": [
+     6,
+     999
+    ]
+   },
+   "source_note": "Annexure I B, Parking: свыше 4 ч после льготы 29 INR за тонну-час; верхняя оценка — со всего сверх порога",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ступенчатая стоянка",
+   "round_mtow": "nearest_tonne"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 425,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure I C, UDF домашние: вылетающий 300 + прибывающий 125; заведено суммой на вылетающего (прибывших столько же)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1423,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure I C, UDF международные: 997 + 426; суммой на вылетающего",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 75,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure I D, CUTE/CUSS/BRS 75 INR с вылетающего, домашние",
+   "certainty": "exact"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 1,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure I D, CUTE/CUSS/BRS 1 USD с вылетающего, международные; в долларах, курс RBI",
+   "certainty": "exact"
+  }
+ ]
+}

@@ -1,0 +1,451 @@
+{
+ "icao": "EGKK",
+ "valid_from": "2026-04-01",
+ "source": "Gatwick Airport Limited, Conditions of Use 2026/27, Schedule 1 Appendix I, действует 01.04.2026-31.03.2027",
+ "source_url": "https://www.gatwickairport.com/on/demandware.static/-/Sites-Gatwick-Library/default/dw23cbaa68/images/Corporate-PDFs/Regulation/2026-27%20Conditions%20of%20Use.pdf",
+ "publisher": "Gatwick Airport Limited, надзор UK CAA через обязательства вместо потолка",
+ "checked_at": "2026-09-03",
+ "rules": [
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 20.91,
+   "currency": "GBP",
+   "source_note": "Appendix I, Departing Passenger Charge. Круглогодично, без разделения по направлениям. Отдельного сбора за авиабезопасность нет"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": -4.86,
+   "currency": "GBP",
+   "when": {
+    "stand": "apron"
+   },
+   "source_note": "Appendix I, Remote Stand Rebate. Возврат за пассажира, вылетающего ИЛИ прилетающего через выделенную удалённую стоянку. В схеме одна строка на вылет — прилётная половина теряется, оценка занижает возврат вдвое. Не применяется, если удалённую стоянку запросил сам перевозчик, и не может опустить сбор ниже минимума за вылет"
+  },
+  {
+   "code": "passenger",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "landing",
+   "minimum": 389.95,
+   "currency": "GBP",
+   "source_note": "Appendix I, Minimum Departure Charge, за вылет. Это ПОЛ пассажирского сбора рейса, а не отдельная статья: заведён кодом passenger, чтобы движок применил max(сумма, минимум). Признак: отдельного значения «за вылет» в словаре нет, поставлено landing (один раз за оборот)"
+  },
+  {
+   "code": "demand",
+   "base": "per_movement",
+   "rate": 1015.11,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "night": false
+   },
+   "source_note": "§3.1.2 и Appendix I, Demand Charges, коммерческие пассажирские рейсы, ЛЕТО, база (июль-август 09:00-18:59, прочие месяцы лета 05:00-18:59). ГЛАВНОЕ ОТЛИЧИЕ ГАТВИКА: весового посадочного сбора нет, вместо него плоский сбор за движение. НЕ ЗАВЕДЕН ПИК 1522,65 (июль-август, вылет 05:00-08:59): трёхуровневой шкалы времени словарь не выражает, есть только night. ЗИМНЯЯ КОЛОНКА в извлечении пуста у коммерческих пассажирских рейсов, тогда как у АОН и вертолётов там 338,37 — ноль это или дефект извлечения, по тексту не определить",
+   "certainty": "exact",
+   "error_cost": 1574.0,
+   "confirm_by": "Gatwick Airport Ltd; зимняя колонка Demand Charges в Appendix I"
+  },
+  {
+   "code": "demand",
+   "base": "per_movement",
+   "rate": 338.37,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "night": true
+   },
+   "source_note": "Appendix I, вне пика 19:00-04:59 — единственная полоса, ложащаяся на признак night",
+   "certainty": "exact",
+   "error_cost": 1574.0,
+   "confirm_by": "Gatwick Airport Ltd; зимняя колонка Demand Charges в Appendix I"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 37.44,
+   "threshold": 0.0,
+   "currency": "GBP",
+   "when": {
+    "mtow_t": [
+     0,
+     50
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Parking, 3,12 GBP за 5 минут или их часть, до 50 т, переведено в часовую ×12. Бесплатно 22:30-04:59 круглый год. Летом на стоянке у здания 05:00-22:29 каждая минута считается за три — множитель 3 в схеме не выражается"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 74.88,
+   "threshold": 0.0,
+   "currency": "GBP",
+   "when": {
+    "mtow_t": [
+     50,
+     200
+    ]
+   },
+   "source_note": "Appendix I, 6,24 GBP за 5 мин ×12. Сюда попадает весь узкофюзеляжный парк от 50 т"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 149.76,
+   "threshold": 0.0,
+   "currency": "GBP",
+   "when": {
+    "mtow_t": [
+     200,
+     650
+    ]
+   },
+   "source_note": "Appendix I, 12,48 GBP за 5 мин ×12"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 0.09,
+   "currency": "GBP",
+   "source_note": "Appendix V, Check-in and Baggage, плоская строка за вылетающего пассажира. Остальные строки приложения множатся на коэффициенты конкретного перевозчика и по шагу 4 не заводятся"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 108.39,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 1,
+    "night": false,
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Noise Charges, ЛЕТО, день (05:00-22:29 UTC). Chapter 3 и ниже. ШКАЛА ЛОКАЛЬНАЯ: категории документа переведены в порядковые 1-5. Зимняя ставка заведена отдельными строками"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 1,
+    "night": false,
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 1,
+    "night": false,
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 2812.25,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 1,
+    "night": true
+   },
+   "source_note": "Appendix I, ночь (лето 22:30-04:59, зима 23:30-05:59 UTC), круглый год. Chapter 3 и ниже"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 54.21,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 2,
+    "night": false,
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Noise Charges, ЛЕТО, день (05:00-22:29 UTC). Chapter 4: запас в каждой точке >0, сумма любых двух не менее 2, накопленный не менее 10. ШКАЛА ЛОКАЛЬНАЯ: категории документа переведены в порядковые 1-5. Зимняя ставка заведена отдельными строками"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 2,
+    "night": false,
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 2,
+    "night": false,
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1406.12,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 2,
+    "night": true
+   },
+   "source_note": "Appendix I, ночь (лето 22:30-04:59, зима 23:30-05:59 UTC), круглый год. Chapter 4: запас в каждой точке >0, сумма любых двух не менее 2, накопленный не менее 10"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 32.52,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 3,
+    "night": false,
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Noise Charges, ЛЕТО, день (05:00-22:29 UTC). Chapter 14, накопленный запас 17-20. ШКАЛА ЛОКАЛЬНАЯ: категории документа переведены в порядковые 1-5. Зимняя ставка заведена отдельными строками"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 3,
+    "night": false,
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 3,
+    "night": false,
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 843.67,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 3,
+    "night": true
+   },
+   "source_note": "Appendix I, ночь (лето 22:30-04:59, зима 23:30-05:59 UTC), круглый год. Chapter 14, накопленный запас 17-20"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 27.1,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 4,
+    "night": false,
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Noise Charges, ЛЕТО, день (05:00-22:29 UTC). Chapter 14, накопленный запас 20-23. ШКАЛА ЛОКАЛЬНАЯ: категории документа переведены в порядковые 1-5. Зимняя ставка заведена отдельными строками"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 4,
+    "night": false,
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 4,
+    "night": false,
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 703.05,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 4,
+    "night": true
+   },
+   "source_note": "Appendix I, ночь (лето 22:30-04:59, зима 23:30-05:59 UTC), круглый год. Chapter 14, накопленный запас 20-23"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 21.67,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 5,
+    "night": false,
+    "month": [
+     3,
+     10
+    ]
+   },
+   "source_note": "Appendix I, Aircraft Noise Charges, ЛЕТО, день (05:00-22:29 UTC). Chapter 14, накопленный запас от 23; сюда попадают A320neo и B737 MAX. ШКАЛА ЛОКАЛЬНАЯ: категории документа переведены в порядковые 1-5. Зимняя ставка заведена отдельными строками"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 5,
+    "night": false,
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 5,
+    "night": false,
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Appendix I, зимой дневная ставка шума обнулена для всех категорий, кроме немодифицированного A320. Ноль опубликован, а не пропущен"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 562.45,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 5,
+    "night": true
+   },
+   "source_note": "Appendix I, ночь (лето 22:30-04:59, зима 23:30-05:59 UTC), круглый год. Chapter 14, накопленный запас от 23; сюда попадают A320neo и B737 MAX"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1083.97,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 6,
+    "night": false
+   },
+   "source_note": "Appendix I, отдельная штрафная категория для семейства A320 без модификации топливного клапана FOPP (источник тонального свиста на заходе). Действует круглый год, днём и зимой, в отличие от остальных дневных категорий. Ставка на порядок выше — при сравнении A320ceo это заметная статья, если модификация не заявлена. Ночная ставка принята равной Chapter 3, из текста прямо не следует",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 1574.0,
+   "confirm_by": "Gatwick Airport Ltd; зимняя колонка Demand Charges в Appendix I"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 2812.25,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 6,
+    "night": true
+   },
+   "source_note": "Appendix I, отдельная штрафная категория для семейства A320 без модификации топливного клапана FOPP (источник тонального свиста на заходе). Действует круглый год, днём и зимой, в отличие от остальных дневных категорий. Ставка на порядок выше — при сравнении A320ceo это заметная статья, если модификация не заявлена. Ночная ставка принята равной Chapter 3, из текста прямо не следует",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 1574.0,
+   "confirm_by": "Gatwick Airport Ltd; зимняя колонка Demand Charges в Appendix I"
+  }
+ ],
+ "scales": {
+  "noise_cat": 6
+ },
+ "map_node": "src_airport_tariff",
+ "next_edition": "2027-04-01",
+ "not_applicable": {
+  "landing": "Весового посадочного сбора у Гатвика нет вовсе: §3.1.2 заменяет его Demand Charge — плоской суммой за движение, не зависящей от массы. Пустая строка landing здесь не пропуск данных, а устройство тарифа"
+ }
+}

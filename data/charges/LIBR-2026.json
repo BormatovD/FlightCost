@@ -1,0 +1,103 @@
+{
+ "icao": "LIBR",
+ "valid_from": "2026-01-01",
+ "source": "Aeroporti di Puglia, Aviazione Commerciale - diritti e tasse, действует с 01.01.2026; ставка PRM из отдельного документа Tariffa PRM, действует с 18.02.2026. Единый тариф на Бари, Бриндизи, Фоджу и Гроттальи; полосы массы разложены послойно; муниципальная надбавка вынесена в _state/LI-2026.json — её устанавливает закон, оператор только перепечатывает",
+ "source_url": "https://corporate.aeroportidipuglia.it/tariffe/",
+ "publisher": "Aeroporti di Puglia S.p.A., модель ART, надзор ENAC",
+ "checked_at": "2026-09-03",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 0.91,
+   "events": "movement",
+   "source_note": "Approdo/Decollo per le prime 25 tons — базовый слой на весь MTOW. Две статьи документа с одинаковой ставкой сведены в одну строку за движение"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 0.71,
+   "threshold": 25.0,
+   "events": "movement",
+   "source_note": "Прирост ставки сверх 25 т: 1,62 − 0,91. Полосы документа НАКОПИТЕЛЬНЫЕ. Проверка на A320 78 т: 0,91×78 + 0,71×53 = 108,61 за движение, что равно 25×0,91 + 53×1,62 по документу"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 4.55,
+   "when": {
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "Imbarco passeggeri adulti - voli UE. Детская ставка 2-12 лет 2,27 не заведена, возраста в контексте нет. Младенцы освобождены. Ступень: итальянское «voli UE» покрывает schengen и eu_non_schengen"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 4.55,
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "Imbarco passeggeri adulti - voli UE. Детская ставка 2-12 лет 2,27 не заведена, возраста в контексте нет. Младенцы освобождены. Ступень: итальянское «voli UE» покрывает schengen и eu_non_schengen"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.24,
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "Imbarco passeggeri adulti Extra UE. Детская 3,62. Ступень: «Extra UE» покрывает europe_non_eu и intercontinental"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.24,
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "Imbarco passeggeri adulti Extra UE. Детская 3,62. Ступень: «Extra UE» покрывает europe_non_eu и intercontinental"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "AIP Italia GEN 4.1.6: прямой транзит освобождён по закону 324/1976 ст. 5"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.33,
+   "source_note": "Sicurezza passeggeri e bagaglio a mano, за пассажира"
+  },
+  {
+   "code": "security_bag",
+   "base": "per_departing_pax",
+   "rate": 0.83,
+   "source_note": "Sicurezza 100% bagaglio da stiva, за пассажира"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.79,
+   "source_note": "Отдельный документ Tariffa PRM, действует с 18.02.2026. В основном тарифе стоит 0,60 с пометкой «действует до 17.02.2026» — взято позднее из двух"
+  },
+  {
+   "code": "waste",
+   "base": "per_movement",
+   "rate": 25.0,
+   "events": "landing",
+   "when": {
+    "flight": "INTL"
+   },
+   "source_note": "Tassa per smaltimento rifiuti, Д.М. 22.05.2001, ТОЛЬКО для прилетающих рейсов вне ЕС. Заведено на посадку"
+  }
+ ],
+ "state_charges": "LI"
+}

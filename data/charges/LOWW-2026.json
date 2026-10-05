@@ -1,0 +1,206 @@
+{
+ "icao": "LOWW",
+ "valid_from": "2026-01-01",
+ "source": "Vienna Airport Charges Regulations 2026",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 269.57,
+   "events": "landing",
+   "when": {
+    "cargo": false
+   },
+   "source_note": "§2.1 a) постоянная часть, пассажирские"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 344.16,
+   "events": "landing",
+   "when": {
+    "cargo": true
+   },
+   "source_note": "§2.1 a) грузовые"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 7.36,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "cargo": false,
+    "mtow_t": [
+     45,
+     999
+    ]
+   },
+   "source_note": "§2.1 b) переменная часть, только свыше 45 т, на полный MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 7.75,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "cargo": true,
+    "mtow_t": [
+     45,
+     999
+    ]
+   }
+  },
+  {
+   "code": "ramp_infra",
+   "base": "per_movement",
+   "rate": 176.17,
+   "events": "movement",
+   "when": {
+    "ac_group": 3,
+    "stand": "pier"
+   },
+   "source_note": "§2.3, группа 3, телетрап, за движение"
+  },
+  {
+   "code": "ramp_infra",
+   "base": "per_movement",
+   "rate": 122.71,
+   "events": "movement",
+   "when": {
+    "ac_group": 3,
+    "stand": "apron"
+   },
+   "source_note": "§2.3, группа 3, перрон"
+  },
+  {
+   "code": "ramp_infra",
+   "base": "per_movement",
+   "rate": 266.81,
+   "events": "movement",
+   "when": {
+    "ac_group": 1,
+    "stand": "pier"
+   },
+   "source_note": "§2.3, группа 1"
+  },
+  {
+   "code": "ramp_infra",
+   "base": "per_movement",
+   "rate": 184.4,
+   "events": "movement",
+   "when": {
+    "ac_group": 1,
+    "stand": "apron"
+   }
+  },
+  {
+   "code": "ramp_infra",
+   "base": "per_movement",
+   "rate": 42.32,
+   "events": "movement",
+   "when": {
+    "ac_group": 6,
+    "stand": "apron"
+   },
+   "source_note": "§2.3, группа 6, только перрон"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 20.51,
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "§2.5"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 6.7,
+   "when": {
+    "pax_type": "transfer",
+    "dest": "intercontinental"
+   },
+   "source_note": "§2.5, трансфер на дальнем плече"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.1,
+   "when": {
+    "pax_type": "transfer",
+    "dest": "schengen"
+   },
+   "source_note": "§2.5, трансфер ближнего и среднего плеча. Вена режет шкалу по дальности плеча, а не по клубу: всё, кроме межконтинентального, идёт по этой ставке"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.1,
+   "when": {
+    "pax_type": "transfer",
+    "dest": "eu_non_schengen"
+   },
+   "source_note": "§2.5, трансфер ближнего и среднего плеча. Вена режет шкалу по дальности плеча, а не по клубу: всё, кроме межконтинентального, идёт по этой ставке"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.1,
+   "when": {
+    "pax_type": "transfer",
+    "dest": "europe_non_eu"
+   },
+   "source_note": "§2.5, трансфер ближнего и среднего плеча"
+  },
+  {
+   "code": "pax_infra",
+   "base": "per_departing_pax",
+   "rate": 1.08,
+   "source_note": "§2.6"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.86,
+   "source_note": "§2.7"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 10.52,
+   "source_note": "§2.8"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -37.5,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     45,
+     999
+    ]
+   },
+   "source_note": "§2.4 шаг 6, компенсация ради нейтральности по выручке, с 16.08.2026"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": -33.34,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     1,
+     45
+    ]
+   },
+   "source_note": "§2.4 шаг 6"
+  }
+ ],
+ "source_url": "https://viennaairport.com/jart/prj3/va/uploads/data-uploads/Entgelte/Vienna_Airport_Charges_Regulations_2026.pdf",
+ "publisher": "Flughafen Wien AG; утверждена федеральным министерством, указ GZ 2025-0.967.754, по FEG BGBl. 41/2012",
+ "map_node": "src_airport_tariff"
+}

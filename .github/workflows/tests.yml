@@ -1,0 +1,33 @@
+# Уровень «без базы» — на каждый push и pull request.
+#
+# Тесты, которым нужна база (`test_charge_reference.py` и другие эталоны),
+# в CI сами себя пропускают: базы в репозитории нет и не будет (решение 1).
+# Они остаются ритуалом возвращения на машине владельца.
+name: tests
+on: [push, pull_request]
+
+jobs:
+  no-db:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Установка
+        run: pip install -e .
+      - name: Тесты без базы
+        run: |
+          set -e
+          for t in \
+              tests/test_invariants.py \
+              tests/test_easa_noise.py \
+              tests/test_pipeline.py \
+              tests/test_ui.py \
+              tests/test_deps.py \
+              tests/test_charge_reference.py
+          do
+            echo "== $t"
+            python3 "$t"
+          done

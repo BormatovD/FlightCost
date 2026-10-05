@@ -1,0 +1,209 @@
+{
+ "icao": "UUEE",
+ "valid_from": "2025-03-01",
+ "source": "АО «МАШ», Прейскуранты аэропортовых сборов № 01/25 (российские пользователи, RUB) и № 01/25-И (иностранные пользователи, USD), утверждены Советом директоров, протокол № 369 от 29.01.2025, введены с 01.03.2025",
+ "source_url": "https://www.svo.aero/ru/partners/for-air-companies/airport-services/airport-services-jsc-sia",
+ "publisher": "АО «Международный аэропорт Шереметьево» (АО «МАШ»); тариф утверждает Совет директоров общества, регулятор не участвует",
+ "checked_at": "2026-09-16",
+ "icao_note": "Два прейскуранта на один аэропорт: по признаку пользователя (российский / иностранный), а не по рейсу. Условие operator — вход пользователя. Оба документа в одном файле, чтобы стоянка и посадочный одного прейскуранта не смешались с другим",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 394.7,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.1.1 «базовый» 768,50 руб./т МВМ за вычетом п.1.1.1 инвестиционной составляющей 373,80. РАЗДЕЛЕНО ЗАВОДЯЩИМ: стоянка (п.4) считается процентом от сбора БЕЗ инвестиционной составляющей, поэтому составляющая заведена отдельной статьёй landing_invest; сумма двух статей равна опубликованным 768,50. Вариант п.1.2 (без предоставления экипажу аэронавигационной информации) 763,90 не заведён: разница 4,60 руб./т",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing_invest",
+   "base": "per_tonne_mtow",
+   "rate": 373.8,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.1.1.1 инвестиционная составляющая сбора за взлёт-посадку, руб./т МВМ; по примечанию 2 неотъемлемая часть сбора. Отдельной статьёй ради п.4 (см. landing)",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 38.36,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.2 сбор за обеспечение транспортной безопасности (без досмотра и пропускного режима), руб./т МВМ. Вариант п.2.1 без выдачи личных пропусков 38,18 не заведён: разница 0,18 руб./т",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 296.76,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "terminal": [
+     "B",
+     "D"
+    ]
+   },
+   "source_note": "п.3.1.1–3.1.2 аэровокзал на внутренних линиях, терминалы B и D, руб./пасс. Примечание 3: с прибывающих, убывающих и транзитных от 12 лет; дети 2–12 лет 50%, до 2 лет бесплатно. ПРОЧТЕНИЕ: все пассажиры считаются полноплатными, доля детей в контексте не моделируется",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 810.16,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": [
+     "B",
+     "C",
+     "D"
+    ]
+   },
+   "source_note": "п.3.2.1–3.2.3 аэровокзал на международных линиях, терминалы B, C, D, руб./пасс.; прибывающие, убывающие, транзитные от 12 лет",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 239.56,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": [
+     "E",
+     "F"
+    ]
+   },
+   "source_note": "п.3.2.4–3.2.5 аэровокзал на международных линиях, терминалы E и F, руб./пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.4 стоянка: 5,0% от сбора за взлёт-посадку без инвестиционной составляющей за каждый час. В прейскуранте для российских пользователей льготный период НЕ НАЗВАН; в парном прейскуранте 01/25-И (примечание 5) стоянка взимается при стоянке свыше 3 часов после посадки. ПРОЧТЕНИЕ: три часа приняты и здесь, как в парном документе того же издателя",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 3077.0,
+   "confirm_by": "АО «МАШ», условия применения прейскуранта 01/25"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 11.01,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.1 сбор за взлёт-посадку 16,96 долл. США/т МВМ за вычетом п.1.1 инвестиционной составляющей 5,95. РАЗДЕЛЕНО ЗАВОДЯЩИМ ради п.4 (стоянка от сбора без составляющей); сумма статей landing + landing_invest равна опубликованным 16,96. Оплата в рублях по курсу ЦБ РФ на день платежа (примечание 2) — валюта ставки USD",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing_invest",
+   "base": "per_tonne_mtow",
+   "rate": 5.95,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.1.1 инвестиционная составляющая, долл. США/т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 1.4,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.2 транспортная безопасность, долл. США/т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 20.32,
+   "currency": "USD",
+   "events": "movement",
+   "when": {
+    "operator": "foreign",
+    "terminal": [
+     "B",
+     "C",
+     "D"
+    ]
+   },
+   "source_note": "п.3.1–3.3 аэровокзал, терминалы B, C, D, долл. США/пасс.; прибывающие, убывающие, транзитные от 2 лет (примечание 4). Деления на внутренние/международные нет: иностранный пользователь внутренних рейсов не выполняет",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 12.18,
+   "currency": "USD",
+   "events": "movement",
+   "when": {
+    "operator": "foreign",
+    "terminal": [
+     "E",
+     "F"
+    ]
+   },
+   "source_note": "п.3.4–3.5 аэровокзал, терминалы E и F, долл. США/пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "park_h": [
+     3,
+     999
+    ]
+   },
+   "source_note": "п.4 стоянка: 5,0% от сбора за взлёт-посадку без инвестиционной составляющей за 1 СУТКИ (у российских пользователей — за 1 час); примечание 5: взимается при стоянке свыше 3 часов после посадки. Начатые сутки считаются целиком — ПРОЧТЕНИЕ, документ единицу округления не называет",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "АО «МАШ», условия применения прейскуранта 01/25-И"
+  }
+ ]
+}

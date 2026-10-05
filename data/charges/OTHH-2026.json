@@ -1,0 +1,145 @@
+{
+ "icao": "OTHH",
+ "valid_from": "2020-10-08",
+ "source": "AIP Qatar GEN 4.1, QCAA, редакция AIRAC 08.10.2020. Ставки посадки и стоянки совпадают с прежней записью 2015 года — не менялись. НЕДОСТАВАЛО: пассажирских сборов вовсе, это 75 QAR с вылетающего",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 85.0,
+   "currency": "QAR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     0,
+     7
+    ]
+   },
+   "source_note": "§1.1, плоская ставка до 7000 кг"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 150.0,
+   "currency": "QAR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     7,
+     136
+    ]
+   },
+   "source_note": "§1.1, фиксированная часть 7001-136000 кг"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 13.0,
+   "currency": "QAR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "mtow_t": [
+     7,
+     136
+    ]
+   },
+   "source_note": "§1.1, 13 QAR за начатую тонну"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 300.0,
+   "currency": "QAR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     136,
+     999
+    ]
+   },
+   "source_note": "§1.1, свыше 136000 кг"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 14.0,
+   "currency": "QAR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "mtow_t": [
+     136,
+     999
+    ]
+   }
+  },
+  {
+   "code": "parking",
+   "base": "per_movement",
+   "rate": 0.1,
+   "pct_of": "landing",
+   "events": "landing",
+   "when": {
+    "park_h_over_free": true
+   },
+   "source_note": "§2.1, 10% от посадочного, с 3-го часа"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 40.0,
+   "currency": "QAR",
+   "source_note": "§3.1.1 Airport Development Fee, за вылетающего. Освобождены младенцы, транзит и трансфер, экипаж на службе"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 35.0,
+   "currency": "QAR",
+   "variant": "PFC",
+   "source_note": "§3.1.2 Passenger Facility Charge, за вылетающего И трансферного до 24 ч. Освобождены младенцы без места, сквозной транзит, экипаж"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "QAR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "variant": "exempt",
+   "source_note": "§10.1.2 и §10.1.3: транзит освобождён от обоих пассажирских сборов"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 530.0,
+   "currency": "QAR",
+   "when": {
+    "stand": "pier",
+    "ac_class": 3
+   },
+   "source_note": "§5.1 Passenger Loading Bridge, узкофюзеляжный (код ИКАО A, B, C), блок 2 часа, первые 10 минут бесплатно. Блок или его часть оплачивается целиком"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 610.0,
+   "currency": "QAR",
+   "when": {
+    "stand": "pier",
+    "ac_class": 5
+   },
+   "variant": "wide",
+   "source_note": "§5.1, широкофюзеляжный (код ИКАО D, E, F)"
+  }
+ ],
+ "source_url": "https://www.aim.gov.qa/eaip/2020-09-10-AIRAC/html/eAIP/GEN-4.1-en-GB.html",
+ "map_node": "src_aip",
+ "certainty": "stale_edition",
+ "publisher": "Qatar Civil Aviation Authority; Хамад эксплуатирует MATAR",
+ "error_cost": 3515.0,
+ "confirm_by": "действующая редакция eAIP Катара GEN 4.1 на aim.gov.qa",
+ "next_edition": null
+}

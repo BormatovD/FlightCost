@@ -1,0 +1,13 @@
+# Аэропорты, по которым сборы курируются вручную (агент читает AIP GEN 4.1).
+# Начинай с тех, что реально встречаются в твоих маршрутах: 30-40 штук
+# закрывают 80% сети. Остальное — параметрика яруса 3.
+airports:
+  - icao: EDDF
+    aip: https://aip.dfs.de/BasicVFR/    # ссылка на раздел сборов
+    currency: EUR
+  - icao: LEBL
+    aip: null
+    currency: EUR
+  - icao: EGLL
+    aip: null
+    currency: GBP

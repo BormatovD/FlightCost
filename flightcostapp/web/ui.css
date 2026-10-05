@@ -1,0 +1,165 @@
+/* ui.css — единственное место, где живёт оформление.
+
+   Правило одно: цвет и шрифт объявляются ЗДЕСЬ и только здесь. Страницы
+   (serve.html, explain, heatmap, graph, inventory) читают их через
+   var(--…) и не содержат ни одного hex-литерала. До этого файла палитра
+   была объявлена пять раз в пяти файлах, и три из пяти уже разошлись:
+   «справочник» в разборе был зелёным, в витрине — голубым. Тот же класс
+   отказа, что два отпечатка состава (решение 87).
+
+   Доставка двумя способами из одного источника: `fca serve` отдаёт файл
+   как есть (шрифты — отдельными файлами из web/fonts/), статические
+   страницы вшивают его целиком, шрифты — как data:-URI (ui.css(inline_fonts)).
+
+   Цвет несёт смысл, а не украшает. Пять якорей палитры и один акцент:
+
+     небесный   #00A9ED   число из документа или справочника
+     синий      #005FED   задано пользователем
+     бирюзовый  #00EDE5   заменено вручную (--set)
+     зелёный    #00ED94   выведено формулой; на карте — есть наблюдения
+     ультрамарин #0014ED  только заливки: выбранное, маршрут — никогда текст
+     оранжевый  #F0872A   ВЫДУМАНО, параметрика, нет данных, «нельзя»,
+                          предупреждение — и НИЧЕГО больше. Кнопок и
+                          акцентов интерфейса оранжевым нет, иначе он
+                          перестаёт быть сигналом.
+
+   Тон для текста у каждого якоря чуть темнее (у синих — чуть светлее:
+   #005FED на чёрном даёт контраст 3,6, #0014ED — 2,1, для текста мало),
+   тон для заливок — тот же якорь с прозрачностью над чёрным. Это и есть
+   «темнее и прозрачнее» одним механизмом: заливка с альфой над чёрным
+   автоматически темнее, а палитра остаётся узнаваемой.
+
+   Фон нейтральный, без синего подмеса: на синеватом фоне синяя палитра
+   сливается с ним. */
+
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;
+  font-display:swap;src:url(fonts/IBMPlexSans-Regular.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:600;
+  font-display:swap;src:url(fonts/IBMPlexSans-SemiBold.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:400;
+  font-display:swap;src:url(fonts/IBMPlexMono-Regular.woff2) format("woff2")}
+
+:root{
+  /* шрифт: одна семья на всё. Sans — текст и таблицы (цифры у Plex одной
+     ширины по умолчанию, табличный столбец держится без tnum), Mono —
+     только формулы и коды. Подмножество: латиница, кириллица, цифры,
+     знаки; 74 КБ на три начертания. */
+  --sans:"IBM Plex Sans","Liberation Sans",Arial,sans-serif;
+  --mono:"IBM Plex Mono","Liberation Mono",Menlo,monospace;
+
+  /* монохромный чёрный */
+  --bg:#0e0e0e;  --panel:#161616;  --raise:#1e1e1e;  --line:#262626;
+  --line2:#1a1a1a;                         /* тонкие линейки внутри таблиц */
+  --ink:#e6e6e6; --ink2:#ffffff; --dim:#8c8c8c; --faint:#5c5c5c;
+
+  /* якоря — как в Adobe, не трогать */
+  --sky:#00A9ED; --aqua:#00EDE5; --blue:#005FED; --green:#00ED94;
+  --ultra:#0014ED; --orange:#F0872A;
+
+  /* тон для текста */
+  --sky-t:#1E9EDB; --aqua-t:#17CFC8; --blue-t:#3D80F5; --green-t:#22C980;
+  --orange-t:#F0872A;
+
+  /* тон для заливок */
+  --sky-f:rgba(0,169,237,.20);  --aqua-f:rgba(0,237,229,.16);
+  --blue-f:rgba(0,95,237,.28);  --green-f:rgba(0,237,148,.18);
+  --ultra-f:rgba(0,20,237,.38); --orange-f:rgba(240,135,42,.22);
+
+  /* ПРОИСХОЖДЕНИЕ ЧИСЛА — единственный смысл цвета в продукте.
+     Ключи английские (решение 27); Python и JS ссылаются на эти имена,
+     а не на hex. */
+  --doc:var(--sky-t);        --doc-f:var(--sky-f);        /* store: документ, справочник */
+  --src:#157fb0;             --src-f:rgba(21,127,176,.22); /* source: внешний источник, до разбора */
+  --user:var(--blue-t);      --user-f:var(--blue-f);      /* input: задано пользователем */
+  --override:var(--aqua-t);  --override-f:var(--aqua-f);  /* override: заменено вручную */
+  --calc:var(--green-t);     --calc-f:var(--green-f);     /* derived: выведено формулой */
+  --guess:var(--orange-t);   --guess-f:var(--orange-f);   /* default, fleet, estimated: выдумано, параметрика */
+  --warn:var(--orange-t);                                 /* предупреждение, «нельзя» — тот же цвет намеренно */
+  --param:var(--guess);      --param-f:var(--guess-f);    /* старое имя, оставлено ради страниц */
+
+  /* выделение — вариант B: небесный на 9%. Ультрамарин как заливка строки
+     отвергнут: читался как цвет, а не как свет. */
+  --select:rgba(0,169,237,.09);
+  --select-line:var(--sky-t);
+  --accent:var(--sky-t);                     /* активная вкладка, фокус поля, рамка подсказки */
+
+  /* карта: суша и океан — нейтральные, зоны — небесный, маршрут — белый.
+     Маршрут раньше был оранжевым — это спорило с «оранжевый = выдумано». */
+  --ocean:#0a0a0a; --ocean-line:#2a2a2a;
+  --land:#242424;  --land-line:#333333;
+  --zone-f:rgba(0,169,237,.05); --zone-line:rgba(0,169,237,.28);
+  --zone-hit-f:rgba(0,169,237,.22); --zone-hit-line:#5fc0ea;
+  --route:#ffffff; --route-halo:rgba(0,0,0,.65); --route-sub:#bdbdbd;
+  --obs:var(--green-t);                      /* есть наблюдения ADS-B */
+
+  /* шкала величины на карте сборов: ярче = дороже. На чёрном фоне яркость
+     и есть величина; «глубже = дороже» на чёрном уводит дорогое в фон
+     (проверено предпросмотром 2026-09-15). Семь ступеней, лог-шкала
+     (решение 86). Зелёный намеренно не участвует: «дорого» не значит
+     «хорошо». Нет ставки — оранжевый, как всякое «нет данных». */
+  --ramp-0:rgba(0,20,237,.40); --ramp-1:#0b2fd6; --ramp-2:#0a4fe8;
+  --ramp-3:#1276e6; --ramp-4:#1e9edb; --ramp-5:#22c4e0; --ramp-6:#00EDE5;
+  --nodata-f:rgba(240,135,42,.22); --nodata-line:var(--orange-t);
+}
+
+/* ---- общие примитивы: то, что повторялось на всех страницах ---- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.55 var(--sans)}
+a{color:var(--doc)}
+code,kbd,.mono{font-family:var(--mono)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+::selection{background:var(--sky-f)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* чипы происхождения: одна разметка на все страницы */
+.chip{display:inline-block;font:12px var(--sans);padding:1px 8px;border-radius:3px;
+  border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.chip.doc{color:var(--doc);background:var(--doc-f);border-color:transparent}
+.chip.src{color:var(--src);background:var(--src-f);border-color:transparent}
+.chip.user{color:var(--user);background:var(--user-f);border-color:transparent}
+.chip.override{color:var(--override);background:var(--override-f);border-color:transparent}
+.chip.calc{color:var(--calc);background:var(--calc-f);border-color:transparent}
+.chip.param,.chip.guess{color:var(--guess);background:var(--guess-f);border-color:var(--guess)}
+.chip.warn{color:var(--warn);background:var(--guess-f);border-color:var(--guess)}
+
+/* оговорка / предупреждение */
+.note{border-left:2px solid var(--warn);background:var(--guess-f);padding:9px 12px;
+  border-radius:0 5px 5px 0;font-size:12.5px;color:var(--ink);margin-bottom:7px}
+.note b{color:var(--warn);font-weight:600}
+.note.quiet{border-left-color:var(--line);background:var(--panel);color:var(--dim)}
+.note.quiet b{color:var(--dim)}
+
+/* штриховка заготовки поверх любой заливки */
+.hatch{background-image:repeating-linear-gradient(135deg,rgba(14,14,14,.55) 0 3px,transparent 3px 6px)}
+
+/* Полосы прокрутки. По умолчанию браузер рисует их системными — на
+   чёрном это светло-серые бруски шириной с палец. Тонкая полоса цвета
+   линий, дорожка прозрачная; при наведении ярче, чтобы её можно было
+   найти. Одно правило на все панели: левая, правая, шторка, выпадающий
+   список. */
+*{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+*::-webkit-scrollbar{width:7px;height:7px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;
+  border:1px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background:var(--faint);background-clip:padding-box}
+*::-webkit-scrollbar-corner{background:transparent}
+
+/* Ползунок. `accent-color` красит его в Chrome и не красит в Safari:
+   там дорожка остаётся системной, чёрной на чёрном. Оформление явное,
+   для обоих движков; пройденная часть дорожки — переменная --p (0…100),
+   её выставляет страница на каждый ввод. */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:22px;
+  background:transparent;margin:0;--p:50}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;
+  background:linear-gradient(90deg,var(--doc) calc(var(--p)*1%),var(--line) calc(var(--p)*1%))}
+input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--doc)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;background:var(--doc);
+  border:2px solid var(--bg);margin-top:-6px;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;
+  background:var(--doc);border:2px solid var(--bg);cursor:pointer}
+input[type=range]:focus{outline:0}
+input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)}

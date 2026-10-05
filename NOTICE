@@ -1,0 +1,69 @@
+FlightCostApp
+Copyright 2026 Danilo и участники проекта FlightCostApp
+
+Код — Apache License 2.0 (LICENSE). Данные проекта — CC BY 4.0 (DATA-LICENSE).
+
+---------------------------------------------------------------------------
+ДАННЫЕ И БИБЛИОТЕКИ ТРЕТЬИХ ЛИЦ
+---------------------------------------------------------------------------
+
+Проект хранит в репозитории рецепты, а не чужие данные (решение 1):
+источники ниже забираются командой `fca refresh` с адресов из
+flightcostapp/registry.yaml. Исключения названы явно.
+
+IATA/ICAO List — IP2Location
+  Указатель кодов ИАТА ↔ ИКАО (источник airport_codes).
+  Лицензия: Creative Commons Attribution-ShareAlike 4.0 International.
+  В репозитории не хранится: share-alike несовместим с перелицензированием
+  под CC BY. Обязательная строка атрибуции:
+    This site or product includes IATA/ICAO List data available from
+    https://github.com/ip2location/ip2location-iata-icao.
+
+OurAirports
+  Координаты аэропортов и полосы (источники ourairports, ourairports_runways).
+  Public domain. https://ourairports.com/data/
+
+EUROCONTROL Network Manager — границы тарифных зон FIR/UIR
+  Источник eurocontrol_fir. Лицензия MIT, правообладатель EUROCONTROL.
+
+EUROCONTROL CRCO — ставки маршрутных и терминальных сборов
+  Источники crco_enroute_rates, crco_terminal_rates. Опубликованные ставки;
+  в разборе указан источник каждой.
+
+EASA — Jet aeroplanes noise database
+  Сертифицированные уровни шума типов ВС (источник easa_noise).
+  European Union Aviation Safety Agency, https://www.easa.europa.eu —
+  повторное использование с указанием источника.
+  ИСКЛЮЧЕНИЕ: tests/fixtures/easa_noise_excerpt.xlsx — выдержка из 22 строк
+  выпуска 53 (26.06.2026) без изменений, только для теста разбора;
+  источник указан на листе SOURCE файла.
+
+Европейский центральный банк — референсные курсы валют
+  Источник fx_rates. https://www.ecb.europa.eu — с указанием источника.
+
+Национальный банк Республики Казахстан — официальный курс тенге
+  data/fx/KZT.yaml, котировки с датой и источником.
+
+Документы операторов аэропортов и регуляторов
+  Тарифы в data/charges/ разобраны из опубликованных документов
+  (Fraport, Aena, AERA, ФАС России и др.). Числа — факты из
+  публичных документов; каждая запись хранит документ и адрес публикации.
+
+The OpenSky Network
+  Наблюдения ADS-B (источник adsb_flights). Используются на условиях
+  OpenSky для некоммерческого использования; в репозитории не хранятся.
+  Публикуемые агрегаты сопровождаются ссылкой на OpenSky Network и
+  рекомендованной ими публикацией:
+    Schäfer, M., Strohmeier, M., Lenders, V., Martinovic, I., Wilhelm, M.
+    "Bringing up OpenSky: A large-scale ADS-B sensor network for research".
+    IPSN 2014.
+
+Aviasales / Travelpayouts — наблюдения рыночных цен
+  Источник market_fare, сбор tools/collect_prices.py по ключу владельца.
+  Сырые выгрузки в репозитории не хранятся. Публичный показ медиан —
+  только после сверки с условиями Travelpayouts (открытый вопрос M9).
+
+OpenAP — Open Aircraft Performance Model (Junzi Sun, TU Delft)
+  Физика и расход типов ВС (источник aircraft_openap, библиотека openap).
+  Лицензия GNU LGPL v3. Используется как зависимость, не встраивается и
+  не модифицируется. https://github.com/junzis/openap

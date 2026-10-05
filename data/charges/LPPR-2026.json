@@ -1,0 +1,246 @@
+{
+  "icao": "LPPR",
+  "valid_from": "2026-06-01",
+  "source": "ANA Aeroportos de Portugal, Regulated Charges Guide 2026, действует с 01.06.2026. Единый документ на сеть; взяты строки аэропорта Порту",
+  "source_url": "https://www.ana.pt/sites/default/files/2026-05/Regulated%20charges%20guide%202026_Valid%20from%201%20June%202026.pdf",
+  "publisher": "ANA Aeroportos de Portugal (Vinci), тарифы утверждает ANAC",
+  "checked_at": "2026-09-03",
+  "rules": [
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 6.21,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          0,
+          25
+        ]
+      },
+      "source_note": "Porto, LANDING/TAKE-OFF, полоса 0-25 т, ставка апрель-октябрь (зимой ниже: 5,86 / 7,14 / 8,42 / 5,92 — условия season в словаре нет). Полосы НАКОПИТЕЛЬНЫЕ: платится за тонны сверх нижней границы. База «за тонну сверх порога» в схеме отсутствует, поэтому строка разложена на ставку за тонну и постоянный член (следующая строка того же кода)"
+    },
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 7.57,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          25,
+          75
+        ]
+      },
+      "source_note": "Porto, LANDING/TAKE-OFF, полоса 25-75 т, ставка апрель-октябрь (зимой ниже: 5,86 / 7,14 / 8,42 / 5,92 — условия season в словаре нет). Полосы НАКОПИТЕЛЬНЫЕ: платится за тонны сверх нижней границы. База «за тонну сверх порога» в схеме отсутствует, поэтому строка разложена на ставку за тонну и постоянный член (следующая строка того же кода)"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": -34.0,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          25,
+          75
+        ]
+      },
+      "source_note": "Постоянный член разложения накопительных полос для 25-75 т. Проверка: A320 78 т = 8,93×78 − 136,00 = 560,54, что равно 25×6,21 + 50×7,57 + 3×8,93 по документу"
+    },
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 8.93,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          75,
+          150
+        ]
+      },
+      "source_note": "Porto, LANDING/TAKE-OFF, полоса 75-150 т, ставка апрель-октябрь (зимой ниже: 5,86 / 7,14 / 8,42 / 5,92 — условия season в словаре нет). Полосы НАКОПИТЕЛЬНЫЕ: платится за тонны сверх нижней границы. База «за тонну сверх порога» в схеме отсутствует, поэтому строка разложена на ставку за тонну и постоянный член (следующая строка того же кода)"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": -136.0,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          75,
+          150
+        ]
+      },
+      "source_note": "Постоянный член разложения накопительных полос для 75-150 т. Проверка: A320 78 т = 8,93×78 − 136,00 = 560,54, что равно 25×6,21 + 50×7,57 + 3×8,93 по документу"
+    },
+    {
+      "code": "landing",
+      "base": "per_tonne_mtow",
+      "rate": 6.27,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          150,
+          650
+        ]
+      },
+      "source_note": "Porto, LANDING/TAKE-OFF, полоса 150-650 т, ставка апрель-октябрь (зимой ниже: 5,86 / 7,14 / 8,42 / 5,92 — условия season в словаре нет). Полосы НАКОПИТЕЛЬНЫЕ: платится за тонны сверх нижней границы. База «за тонну сверх порога» в схеме отсутствует, поэтому строка разложена на ставку за тонну и постоянный член (следующая строка того же кода)"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 263.0,
+      "events": "landing",
+      "when": {
+        "mtow_t": [
+          150,
+          650
+        ]
+      },
+      "source_note": "Постоянный член разложения накопительных полос для 150-650 т. Проверка: A320 78 т = 8,93×78 − 136,00 = 560,54, что равно 25×6,21 + 50×7,57 + 3×8,93 по документу"
+    },
+    {
+      "code": "landing",
+      "base": "per_movement",
+      "rate": 0,
+      "events": "landing",
+      "minimum": 155.61,
+      "source_note": "Porto, Minimum per landing, апрель-октябрь (зимой 146,70). Пол посадочного сбора"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 9.26,
+      "when": {
+        "dest": "schengen",
+        "pax_type": "local"
+      },
+      "source_note": "Porto, PASSENGER SERVICE, местный пассажир, поездка внутри Шенгена. ОГОВОРКА: документ делит по Шенгену, словарь по ЕС. Ирландия и Кипр — ЕС, но не Шенген, и по документу платят 17,52; в схеме они попадут сюда. Для OPO-Дублин это занижение на 8,26 EUR с пассажира | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 9.26,
+      "when": {
+        "dest": "eu_non_schengen",
+        "pax_type": "local"
+      },
+      "source_note": "Porto, PASSENGER SERVICE, местный пассажир, поездка внутри Шенгена. ОГОВОРКА: документ делит по Шенгену, словарь по ЕС. Ирландия и Кипр — ЕС, но не Шенген, и по документу платят 17,52; в схеме они попадут сюда. Для OPO-Дублин это занижение на 8,26 EUR с пассажира | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 17.52,
+      "when": {
+        "dest": "europe_non_eu",
+        "pax_type": "local"
+      },
+      "source_note": "Porto, вне Шенгена. Сюда Британия и Марокко"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 17.52,
+      "when": {
+        "dest": "intercontinental",
+        "pax_type": "local"
+      },
+      "source_note": "Porto, вне Шенгена — единая ставка"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 6.92,
+      "when": {
+        "dest": "schengen",
+        "pax_type": "transfer"
+      },
+      "source_note": "Porto, пассажир в стыковке, внутри Шенгена | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 6.92,
+      "when": {
+        "dest": "eu_non_schengen",
+        "pax_type": "transfer"
+      },
+      "source_note": "Porto, пассажир в стыковке, внутри Шенгена | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 13.55,
+      "when": {
+        "dest": "europe_non_eu",
+        "pax_type": "transfer"
+      },
+      "source_note": "Porto, стыковка, вне Шенгена"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 13.55,
+      "when": {
+        "dest": "intercontinental",
+        "pax_type": "transfer"
+      },
+      "source_note": "Porto, стыковка, вне Шенгена"
+    },
+    {
+      "code": "passenger",
+      "base": "per_departing_pax",
+      "rate": 0.0,
+      "when": {
+        "pax_type": "transit"
+      },
+      "source_note": "Раздел Passenger Service, освобождения: прямой транзит не облагается. Дети до 2 лет тоже, в схеме не выражается"
+    },
+    {
+      "code": "security",
+      "base": "per_departing_pax",
+      "rate": 1.8,
+      "source_note": "Porto, AUTONOMOUS REGULATION, Security, сбор оператора аэропорта, Portaria 268-A/2023"
+    },
+    {
+      "code": "security_state",
+      "base": "per_departing_pax",
+      "rate": 1.76,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Porto, OTHER ENTITIES, сбор ANAC и сил безопасности, рейсы внутри Шенгена. Выставляет ANAC, но платит перевозчик. НЕ ЗАВЕДЕНА полоса «внутри ЕС вне Шенгена» 3,67 — третьего значения между EU и Europe_non_EU словарь не даёт | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "security_state",
+      "base": "per_departing_pax",
+      "rate": 1.76,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Porto, OTHER ENTITIES, сбор ANAC и сил безопасности, рейсы внутри Шенгена. Выставляет ANAC, но платит перевозчик. НЕ ЗАВЕДЕНА полоса «внутри ЕС вне Шенгена» 3,67 — третьего значения между EU и Europe_non_EU словарь не даёт | расщеплено из dest=EU: строка «ЕС» в тарифе покрывает и шенгенские государства, и Ирландию с Кипром: они в ЕС и вне Шенгена. В четырёхступенчатой шкале это два значения с одной ставкой"
+    },
+    {
+      "code": "security_state",
+      "base": "per_departing_pax",
+      "rate": 7.13,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Porto, OTHER ENTITIES, международные рейсы"
+    },
+    {
+      "code": "security_state",
+      "base": "per_departing_pax",
+      "rate": 7.13,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Porto, OTHER ENTITIES, международные рейсы"
+    },
+    {
+      "code": "prm",
+      "base": "per_departing_pax",
+      "rate": 0.86,
+      "source_note": "Porto, PRM Service. Освобождения те же, что у пассажирского сбора"
+    }
+  ]
+}

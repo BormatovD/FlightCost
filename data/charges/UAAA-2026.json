@@ -1,0 +1,59 @@
+{
+ "icao": "UAAA",
+ "valid_from": "2026-06-11",
+ "source": "AIP Kazakhstan GEN 4.1, AIRAC 11 JUN 2026, Таблица 1, строка Almaty; Ставка посадки 2 619,70 KZT/т расходится с публикациями о решении регулятора (1 212,85 KZT/т с 01.07.2025, 1 244,94 с 01.07.2026) в 2,2 раза. Возможно, в AIP сведены несколько статей. Требует сверки. Ступень тарифа у Алматы 1 июля, а не 1 января — годовой SLA её пропустит",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2619.7,
+   "currency": "KZT",
+   "events": "landing",
+   "source_note": "TKOF/LDG charge, KZT за тонну MTOW"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 461.73,
+   "currency": "KZT",
+   "events": "landing",
+   "source_note": "Aviation security charge"
+  },
+  {
+   "code": "marshalling",
+   "base": "per_tonne_mtow",
+   "rate": 308.2,
+   "currency": "KZT",
+   "events": "landing",
+   "source_note": "Marshalling charge"
+  },
+  {
+   "code": "line_maint",
+   "base": "per_tonne_mtow",
+   "rate": 570.17,
+   "currency": "KZT",
+   "events": "landing",
+   "source_note": "ACFT line maintenance charge"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 2801.0,
+   "currency": "KZT",
+   "source_note": "Passenger service charge, KZT за вылетающего пассажира"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 261.97,
+   "currency": "KZT",
+   "events": "landing",
+   "when": {
+    "park_h_over_free": true
+   },
+   "source_note": "Parking charge; первые 3 часа бесплатно"
+  }
+ ],
+ "source_url": "https://www.ead.eurocontrol.int/ (UA_GEN_4_1, AIRAC 11 JUN 2026)",
+ "map_node": "src_airport_tariff"
+}

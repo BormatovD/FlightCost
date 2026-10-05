@@ -1,0 +1,545 @@
+{
+  "state": "LI",
+  "domain": "airport_charge",
+  "source": "AIP Italia GEN 4.1.3 ADDIZIONALI COMUNALI, AIRAC 16 APR 2026 (A04/26)",
+  "source_url": "https://www.ead.eurocontrol.int/  (LI_GEN_4_1_en_2026-04-16.pdf)",
+  "publisher": "ENAV Roma; величину устанавливает закон, аэропорт только собирает",
+  "registry_source": "aip_gen41",
+  "map_node": "src_aip",
+  "valid_from": "2026-04-16",
+  "valid_from_note": "редакция AIRAC 16 APR 2026 (A04/26), названа в поле source; без valid_from парсер отвергал документ целиком, и муниципальная надбавка не начислялась ни на одном итальянском аэродроме",
+  "checked_at": "2026-09-03",
+  "note": "Общегосударственная статья: в тарифах операторов её либо нет, либо она перепечатана. Источник здесь — закон через AIP, перепечатка оператора служит сверкой. Ритм обновления другой: тариф переиздаётся раз в год, надбавка меняется бюджетным законом в декабре.",
+  "scope": {
+    "include": "аэропорты государства LI, открытые для гражданского движения",
+    "exclude": [
+      {
+        "icao": [
+          "LIPQ"
+        ],
+        "since": "2024-01-01",
+        "why": "Фриули-Венеция-Джулия, закон 213 от 30.12.2023, ст. 1 п. 529"
+      },
+      {
+        "icao": [
+          "LICA",
+          "LICR",
+          "LIBC"
+        ],
+        "since": "2024-08-01",
+        "why": "Калабрия, декрет-закон 60 от 07.05.2024, ст. 15 п. 3-bis"
+      },
+      {
+        "icao": [
+          "LIBP"
+        ],
+        "since": "2025-01-01",
+        "until": "2027-12-31",
+        "why": "Абруццо, закон 207 от 30.12.2024, ст. 1 п. 737; отмена на 2025-2027"
+      },
+      {
+        "icao": [
+          "LICB",
+          "LICD",
+          "LICG",
+          "LICT"
+        ],
+        "since": "2026-01-01",
+        "why": "Сицилия, закон 118 от 08.08.2025, ст. 1 п. 19-ter; ТОЛЬКО эти четыре, Палермо и Катания платят"
+      },
+      {
+        "icao": [
+          "LIPR",
+          "LIPK",
+          "LIMP"
+        ],
+        "since": "2026-01-01",
+        "why": "Эмилия-Романья, закон 199 от 30.12.2025, ст. 1 п. 481; ТОЛЬКО эти три, Болонья платит"
+      }
+    ]
+  },
+  "icao_note": "Коды ИКАО разрешены по названиям из документа и подлежат проверке по домену аэропортов при разборе: в GEN 4.1 стоят только названия городов.",
+  "rules": [
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Закон 350 от 24.12.2003",
+      "variant": "L350/2003"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Закон 350 от 24.12.2003",
+      "variant": "L350/2003"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Закон 350 от 24.12.2003",
+      "variant": "L350/2003"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Закон 350 от 24.12.2003",
+      "variant": "L350/2003"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Закон 43 от 31.03.2005",
+      "variant": "L43/2005"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Закон 43 от 31.03.2005",
+      "variant": "L43/2005"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Закон 43 от 31.03.2005",
+      "variant": "L43/2005"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 1.0,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Закон 43 от 31.03.2005",
+      "variant": "L43/2005"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 0.5,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Закон 296 от 27.12.2006",
+      "variant": "L296/2006"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 0.5,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Закон 296 от 27.12.2006",
+      "variant": "L296/2006"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 0.5,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Закон 296 от 27.12.2006",
+      "variant": "L296/2006"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 0.5,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Закон 296 от 27.12.2006",
+      "variant": "L296/2006"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Закон 166 от 27.10.2008",
+      "variant": "L166/2008"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Закон 166 от 27.10.2008",
+      "variant": "L166/2008"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Закон 166 от 27.10.2008",
+      "variant": "L166/2008"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Закон 166 от 27.10.2008",
+      "variant": "L166/2008"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "schengen"
+      },
+      "source_note": "Закон 92 от 28.06.2012, реформа Форнеро",
+      "variant": "L92/2012"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "eu_non_schengen"
+      },
+      "source_note": "Закон 92 от 28.06.2012, реформа Форнеро",
+      "variant": "L92/2012"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "europe_non_eu"
+      },
+      "source_note": "Закон 92 от 28.06.2012, реформа Форнеро",
+      "variant": "L92/2012"
+    },
+    {
+      "code": "municipal_tax",
+      "base": "per_departing_pax",
+      "rate": 2.0,
+      "when": {
+        "dest": "intercontinental"
+      },
+      "source_note": "Закон 92 от 28.06.2012, реформа Форнеро",
+      "variant": "L92/2012"
+    }
+  ],
+  "rules_note": "Пять законов отдельными строками, а не суммой 6,50: отменяются и изменяются они порознь, и сумма скрыла бы, какой именно слой отпал.",
+  "airport_extra": {
+    "LIRF": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "schengen"
+        },
+        "source_note": "Закон 122 от 30.07.2010"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "eu_non_schengen"
+        },
+        "source_note": "Закон 122 от 30.07.2010"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 122 от 30.07.2010",
+        "variant": "L122/2010"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 122 от 30.07.2010",
+        "variant": "L122/2010"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС",
+        "variant": "L207/2024"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС",
+        "variant": "L207/2024"
+      }
+    ],
+    "LIRA": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "schengen"
+        },
+        "source_note": "Закон 122 от 30.07.2010, только Фьюмичино и Чампино"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "eu_non_schengen"
+        },
+        "source_note": "Закон 122 от 30.07.2010, только Фьюмичино и Чампино"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 122 от 30.07.2010, только Фьюмичино и Чампино"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 1.0,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 122 от 30.07.2010, только Фьюмичино и Чампино"
+      }
+    ],
+    "LIRN": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 2.0,
+        "when": {
+          "dest": "schengen"
+        },
+        "source_note": "Закон 234 от 30.12.2021"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 2.0,
+        "when": {
+          "dest": "eu_non_schengen"
+        },
+        "source_note": "Закон 234 от 30.12.2021"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 2.0,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 234 от 30.12.2021",
+        "variant": "L234/2021"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 2.0,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 234 от 30.12.2021",
+        "variant": "L234/2021"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС",
+        "variant": "L207/2024"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС",
+        "variant": "L207/2024"
+      }
+    ],
+    "LIMC": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ],
+    "LIME": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ],
+    "LICC": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ],
+    "LIPZ": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ],
+    "LIPE": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ],
+    "LIML": [
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "europe_non_eu"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      },
+      {
+        "code": "municipal_tax",
+        "base": "per_departing_pax",
+        "rate": 0.5,
+        "when": {
+          "dest": "intercontinental"
+        },
+        "source_note": "Закон 207 от 30.12.2024, ст. 1 п. 745: рейсы вне ЕС из восьми названных аэропортов"
+      }
+    ]
+  }
+}

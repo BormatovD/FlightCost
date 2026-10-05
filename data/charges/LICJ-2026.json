@@ -1,0 +1,189 @@
+{
+ "icao": "LICJ",
+ "valid_from": "2026-01-01",
+ "source": "GESAP, Diritti Aeroportuali Palermo - Anno 2026, тарифы в силе с 01.01.2026 по итогам консультации 2025/2027 по действующей модели ART; сезон заведён месяцами; муниципальная надбавка вынесена в _state/LI-2026.json — её устанавливает закон, оператор только перепечатывает",
+ "source_url": "https://www.aeroportodipalermo.it/gesap/airlines/diritti-aeroportuali/",
+ "publisher": "GESAP S.p.A., модель ART, надзор ENAC",
+ "checked_at": "2026-09-03",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.84,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     0,
+     25
+    ],
+    "month": [
+     5,
+     9
+    ]
+   },
+   "source_note": "разд. 1, коммерческая авиация, до 25 т, лето июнь-сентябрь. Начисляется за каждое движение: AIP Italia GEN 4.1.1.1 определяет approdo и partenza как два отдельных сбора за каждую операцию"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.49,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     0,
+     25
+    ],
+    "month": [
+     0,
+     5
+    ]
+   },
+   "source_note": "разд. 1, WINTER (январь-май и октябрь-декабрь), коммерческая авиация. Начисляется за каждое движение: AIP Italia GEN 4.1.1.1 определяет approdo и partenza как два отдельных сбора"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.49,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     0,
+     25
+    ],
+    "month": [
+     9,
+     12
+    ]
+   },
+   "source_note": "разд. 1, WINTER (январь-май и октябрь-декабрь), коммерческая авиация. Начисляется за каждое движение: AIP Italia GEN 4.1.1.1 определяет approdo и partenza как два отдельных сбора"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.76,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     25,
+     650
+    ],
+    "month": [
+     5,
+     9
+    ]
+   },
+   "source_note": "разд. 1, свыше 25 т, лето июнь-сентябрь. Полоса НЕ накопительная: документ говорит «AA/MM oltre 25 TONS, per tonnellata o frazione», то есть ставка применяется к полному MTOW, в отличие от Апулии, где прямо сказано «per ogni tons successiva»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.23,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     25,
+     650
+    ],
+    "month": [
+     0,
+     5
+    ]
+   },
+   "source_note": "разд. 1, WINTER (январь-май и октябрь-декабрь), коммерческая авиация. Начисляется за каждое движение: AIP Italia GEN 4.1.1.1 определяет approdo и partenza как два отдельных сбора"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.23,
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     25,
+     650
+    ],
+    "month": [
+     9,
+     12
+    ]
+   },
+   "source_note": "разд. 1, WINTER (январь-май и октябрь-декабрь), коммерческая авиация. Начисляется за каждое движение: AIP Italia GEN 4.1.1.1 определяет approdo и partenza как два отдельных сбора"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.12,
+   "when": {
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 3, взрослый INTRA UE. Детская 2-12 лет 3,56 не заведена. Младенцы освобождены. Сбор включает обработку багажа BHS, информирование, CUTE и приём стоков. Ступень: итальянское «voli UE» покрывает schengen и eu_non_schengen"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.12,
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 3, взрослый INTRA UE. Детская 2-12 лет 3,56 не заведена. Младенцы освобождены. Сбор включает обработку багажа BHS, информирование, CUTE и приём стоков. Ступень: итальянское «voli UE» покрывает schengen и eu_non_schengen"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.47,
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 3, взрослый EXTRA UE. Детская 4,74. Ступень: «Extra UE» покрывает europe_non_eu и intercontinental"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.47,
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 3, взрослый EXTRA UE. Детская 4,74. Ступень: «Extra UE» покрывает europe_non_eu и intercontinental"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "AIP Italia GEN 4.1.6: прямой транзит освобождён по закону 324/1976 ст. 5"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.83,
+   "source_note": "разд. 5, контроль пассажиров и ручной клади, за вылетающего"
+  },
+  {
+   "code": "security_bag",
+   "base": "per_departing_pax",
+   "rate": 1.78,
+   "source_note": "разд. 5, контроль 100% багажа из багажного отделения, за вылетающего"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.94,
+   "source_note": "разд. 7, с 22.02.2026, за вылетающего"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_turnaround",
+   "rate": 44.44,
+   "when": {
+    "stand": "pier"
+   },
+   "source_note": "разд. 6, телетрап, тариф за первые 45 минут. Дальше шкала прибавок (15 мин 13,88, 30 мин 27,76 и так далее) — ступени в схеме не выражаются, взята базовая ступень. Для оборота лоукостера в 25-30 минут этого достаточно"
+  }
+ ],
+ "state_charges": "LI"
+}

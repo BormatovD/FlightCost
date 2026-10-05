@@ -1,0 +1,150 @@
+{
+ "icao": "UIUU",
+ "valid_from": "2025-11-01",
+ "source": "ООО «Аэропорт Байкал», «Аэропортовые сборы и тарифы за наземное обслуживание воздушных судов в ООО «Аэропорт Байкал» с 1 ноября 2025 г.»; раздел «Регулируемые тарифы» со ставками, введёнными 13.09.2022 (ночная надбавка — 01.11.2021)",
+ "source_url": "https://uud.aero/",
+ "publisher": "ООО «Аэропорт Байкал»; сборы помечены в самом документе как регулируемые (введены 13.09.2022) — реквизиты приказа ФАС в выписке не видны, проверить",
+ "checked_at": "2026-09-17",
+ "icao_note": "Один документ на российских и иностранных эксплуатантов, оба в рублях. Скан. Ставки без НДС; 20% на внутренних, 0% на международных — заведено без НДС. Льготный период стоянки в документе не назван",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 560.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.1.1 сбор за взлёт-посадку, российские эксплуатанты, 560,00 руб./т МВМ, с 13.09.2022",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 750.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.1.2 сбор за взлёт-посадку, иностранные эксплуатанты, 750,00 руб./т МВМ — в рублях, не в долларах",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing_night",
+   "base": "per_movement",
+   "rate": 0.2,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "night": true
+   },
+   "source_note": "п.1.2 (строка ниже): дополнительно за каждую посадку/вылет в период 22:00–06:00 местного времени 20%, с 01.11.2021. ПРОЧТЕНИЕ: строка стоит под иностранными эксплуатантами, но сформулирована без адресата — принята для всех; в модели признак ночи один на оборот",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 8736.0,
+   "confirm_by": "ООО «Аэропорт Байкал», порядок применения сборов"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 340.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.2.1 транспортная безопасность, российские, 340,00 руб./т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 510.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.2.2 транспортная безопасность, иностранные, 510,00 руб./т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "source_note": "п.3.1 стоянка, российские, 5% от сбора за взлёт-посадку за 1 час. Льготный период НЕ НАЗВАН — приняты 3 часа по методике Минтранса",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 4368.0,
+   "confirm_by": "ООО «Аэропорт Байкал», порядок применения сборов"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 0.1,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "park_h": [
+     3,
+     999
+    ]
+   },
+   "source_note": "п.3.2 стоянка, иностранные, 10% от сбора за взлёт-посадку за 1 сутки; 3 часа приняты по методике, начатые сутки целиком — прочтение",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "ООО «Аэропорт Байкал», порядок применения сборов"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 60.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": "domestic"
+   },
+   "source_note": "п.4.1.1 аэровокзал, российские, внутренние линии, 60,00 руб./пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 460.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "п.4.1.2 аэровокзал, российские, международные линии, 460,00 руб./пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 533.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "п.4.2 аэровокзал, иностранные эксплуатанты, 533,00 руб./пасс.",
+   "certainty": "exact"
+  }
+ ]
+}

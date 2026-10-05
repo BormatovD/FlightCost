@@ -1,0 +1,558 @@
+# Реестр источников справочных данных.
+#
+# Это единственное место, где описано "откуда берутся числа". Репозиторий
+# хранит РЕЦЕПТЫ, а не сами данные: каждый пользователь строит свой снапшот
+# сам. Это решает и лицензионный вопрос (нельзя перераспространять чужие
+# датасеты), и вопрос свежести (снапшот всегда собран локально и датирован).
+#
+# Поля:
+#   kind          csv | pdf | html | api        — определяет способ загрузки
+#   contour       deterministic | agent          — кто извлекает значения
+#   cadence_days  как часто проверять
+#   sla_days      после скольких дней без успешной проверки значение
+#                 считается протухшим и модель помечает результат degraded
+#   tier          1 = ручная курация + агент, 2 = авто, 3 = параметрика
+#   gate          auto | review — можно ли коммитить без человека
+
+sources:
+
+  ourairports:
+    title: OurAirports — справочник аэропортов (координаты, ИКАО/ИАТА)
+    kind: csv
+    contour: deterministic
+    url: https://davidmegginson.github.io/ourairports-data/airports.csv
+    license: public-domain
+    parser: ourairports
+    domain: airport
+    cadence_days: 30
+    sla_days: 180
+    tier: 2
+    gate: auto
+    validators:
+      row_count_min: 20000        # санитарный пол: ловит обрыв закачки, не точный порог
+      row_count_drop_max_pct: 5
+
+  ourairports_runways:
+    title: "OurAirports — полосы: длина, ширина, покрытие"
+    kind: csv
+    contour: deterministic
+    url: https://davidmegginson.github.io/ourairports-data/runways.csv
+    license: public-domain
+    parser: ourairports_runways
+    domain: airport_limits
+    cadence_days: 30
+    sla_days: 400
+    tier: 2
+    gate: auto
+    validators:
+      row_count_min: 1000
+      row_count_drop_max_pct: 5
+
+  fleet_reference:
+    title: Компоновки салонов и масса пассажира
+    kind: directory          # курируемые данные, живут в data/
+    contour: agent
+    path: data/fleet
+    glob: "*.yaml"
+    license: own
+    parser: fleet_reference
+    domain: aircraft_layout
+    cadence_days: 180
+    sla_days: 730
+    tier: 1
+    gate: review             # компоновки присылает сообщество: смотреть глазами
+    validators:
+      value_min: 1.0
+      value_max: 900.0       # кресел; масса пассажира проверяется отдельно
+    validators_extra:
+      pax_mass:
+        unit: kg_per_pax
+        value_min: 60.0
+        value_max: 130.0
+
+  crco_enroute_rates:
+    title: EUROCONTROL CRCO — ставки en-route по тарифным зонам
+    kind: tsv
+    contour: deterministic   # был agent: нашёлся машиночитаемый txt, PDF не нужен
+    url_template: "https://www.eurocontrol.int/sites/default/files/{Y}-{m}/ur-{Y}-{m}.txt"
+    url_fallback_months: 2   # файл публикуется в первых числах; в начале месяца
+                             # его по новому адресу ещё нет — откатываемся назад
+    license: check-terms     # не перераспространять, только локальный снапшот
+    parser: crco_enroute
+    domain: enroute_rate
+    cadence_days: 30         # ставки не-евро государств пересчитываются ежемесячно
+    sla_days: 62
+    tier: 1
+    gate: auto               # масштаб сверен с ur2608.pdf вручную: txt даёт ту же
+                             # ставку в евро, лишняя колонка PDF — до корректировки.
+                             # Предупреждение валидатора всё равно поднимет до review.
+    validators:
+      # Откалибровано по фактическому файлу за июль 2026: разброс в 24 раза.
+      # Молдова 196.24 и Швейцария 171.17 сверху, Портулагия Санта-Мария 8.16
+      # снизу. Молдова дорогая не по ошибке: ставка это база затрат, делённая
+      # на трафик, а трафик там схлопнулся. Потолок 300 оставляет запас на
+      # дальнейший рост таких выбросов, но ловит сдвиг десятичной точки.
+      unit: EUR_per_service_unit
+      value_min: 3.0
+      value_max: 300.0
+      yoy_delta_max_pct: 35
+      row_count_min: 30      # в файле 41 зона; меньше 30 — файл битый
+    validators_extra:
+      # Тот же парсер попутно достаёт курсы валют, применённые CRCO для
+      # пересчёта ставок не-евро государств. Другой домен — другие правила.
+      fx:
+        unit: per_EUR
+        value_min: 0.0001
+        value_max: 100000
+
+  eurocontrol_fir:
+    title: Границы тарифных зон FIR/UIR, Network Manager EUROCONTROL
+    kind: zip
+    contour: deterministic
+    url: https://raw.githubusercontent.com/euctrl-pru/eurocontrol-atlas/master/zip/FirUir_NM.zip
+    license: MIT                 # правообладатель — сама EUROCONTROL
+    parser: eurocontrol_fir
+    domain: airspace
+    # Где живут данные домена, если не в фактах. Читает `inventory.collect`:
+    # без этого «0 фактов» у геометрии выглядело как поломка (решение 85).
+    # Отсутствие поля означает «факты» — это умолчание, а не флаг.
+    holds:
+      kind: file
+      at: data/geo/zones.json
+      what: полигоны тарифных зон FIR/UIR
+      facts: не создаёт — геометрия ложится файлом
+      how: fca refresh --only eurocontrol_fir
+    cadence_days: 180
+    sla_days: 1100               # границы меняются редко; данные 2015 года
+    tier: 2
+    gate: auto
+    validators: {}               # проверка внутри парсера: не менее 80 зон
+
+  tkp_charges:
+    title: Реестр аэропортовых сборов — выгрузка любительской работы по РФ
+    # Выгрузка лежит в репозитории: решено публиковать как собранные сообществом.
+    # Без этого чистая копия проекта не видела ни одного из 23 российских аэропортов.
+    kind: directory
+    contour: agent
+    path: data/tkp
+    # Упаковка `fca tkp-pack`, а не сырая выгрузка: в репозитории только
+    # аэронавигационные услуги аэропортов с кодом ИКАО. Сырой xlsx парсер
+    # тоже понимает — для работы владельца в data/raw/tkp.
+    glob: "*.json"
+    license: CC BY 4.0 вместе с данными проекта (DATA-LICENSE)
+    parser: tkp_charges
+    domain: airport_charge   # плюс terminal_rate (АНО АД)
+    node: src_airport_tariff
+    cadence_days: 30
+    sla_days: 120
+    tier: 2                  # реестр, а не первоисточник: аэропорт с файлом в data/charges сверяется, не заводится
+    gate: review
+
+  fas_ans_rates:
+    title: ФАС России — ставки аэронавигации (маршрутные по полосам МВМ и терминальные по аэродромам)
+    kind: directory          # выписка человеком из скана приказа, живёт в data/
+    contour: agent
+    path: data/ans
+    glob: "*.yaml"
+    license: own             # приказ — нормативный акт, выписка наша
+    parser: fas_ans
+    domain: enroute_rate     # плюс terminal_rate, как у CRCO плюс fx
+    cadence_days: 120
+    sla_days: 500
+    tier: 1
+    gate: review
+
+  crco_terminal_rates:
+    title: EUROCONTROL — терминальные ставки аэронавигации по зонам TCZ
+    kind: pdf
+    contour: deterministic   # был agent: текст PDF извлекается чисто, строк 26
+    url: https://www.eurocontrol.int/ServiceUnits/Dashboard/Downloads/Terminal%202026%20Unit%20Rates.pdf
+    license: check-terms
+    parser: crco_terminal
+    domain: terminal_rate
+    cadence_days: 90         # ставки годовые, но публикация может уточняться
+    sla_days: 400
+    tier: 1
+    gate: review             # адрес содержит год: при смене года его надо править
+    validators:
+      # Ставки в национальной валюте, поэтому единый потолок в евро тут не
+      # работает: Венгрия 147 859 HUF против Испании 25.78 EUR — разница в
+      # шесть порядков и обе верны. Проверяем только явную бессмыслицу.
+      unit: per_service_unit
+      value_min: 1.0
+      value_max: 1000000.0
+      yoy_delta_max_pct: 40
+      row_count_min: 20      # зон 26; меньше 20 — разбор поехал
+
+  airport_charges_tier1:
+    title: Аэропортовые сборы Tier-1 (AIP GEN 4.1, ~40 аэропортов вручную)
+    kind: directory          # файлы правил лежат локально, в репозиторий не идут
+    contour: agent
+    path: data/charges
+    glob: "*.json"
+    license: check-terms
+    parser: airport_charges
+    domain: airport_charge
+    # Узел карты по умолчанию: у операторского тарифа он один на все
+    # документы, и повторять его в каждом файле значило бы пятнадцать
+    # копий одного утверждения. Документ может объявить свой `map_node` и
+    # перебить это — так делает общегосударственная статья, у которой
+    # издатель другой (`src_aip`).
+    node: src_airport_tariff
+    cadence_days: 180        # аэропорты в Европе обновляют тарифы раз в год
+    sla_days: 400
+    tier: 1
+    gate: review
+    validators:
+      # Ставка тарифа проверяется как число, само правило едет в value_text.
+      # Пол и потолок широкие намеренно: в одном домене лежат и посадочный
+      # сбор в тысячах тенге, и доля вроде 0.0012 для пограничной надбавки.
+      # Отрицательные значения законны: венская компенсация за шум и
+      # франкфуртские скидки — это вычеты. Порог по знаку тут не работает,
+      # проверяется только явная бессмыслица по модулю. Ошибку знака ловит
+      # не валидатор, а контрольный оборот эталонного A320.
+      value_min: -1000000.0
+      value_max: 5000000.0
+      yoy_delta_max_pct: 25
+
+  aircraft_openap:
+    title: Справочник ВС — физика и сертификат, из пакета openap
+    kind: package                # источник поставляется через pip, не по URL
+    package: openap
+    contour: deterministic
+    url: null                    # версия пакета фиксируется в артефакте
+    license: open
+    parser: openap_aircraft
+    domain: aircraft
+    cadence_days: 180            # обновляется вместе с релизами openap
+    sla_days: 730
+    tier: 2
+    gate: auto
+    validators:
+      # В домене лежат разнородные величины — тонны, метры, число кресел,
+      # число Маха. Единый диапазон тут бессмыслен, поэтому проверяется
+      # только явная бессмыслица и полнота набора.
+      value_min: 0.0
+      value_max: 100000.0
+      row_count_min: 300         # 37 типов по 13 полей
+
+  easa_noise:
+    title: EASA — сертифицированные уровни шума реактивных самолётов
+    kind: url
+    contour: deterministic
+    # Адрес загрузки меняется с каждой редакцией (выпуск 53 от 26.06.2026 —
+    # id 16974). Старая ссылка продолжает отдавать старый файл, поэтому
+    # устаревание видно по дате выпуска, а не по ошибке загрузки.
+    url: https://www.easa.europa.eu/en/downloads/16974/en
+    page: https://www.easa.europa.eu/en/domains/environment/easa-certification-noise-levels
+    license: public           # публикация агентства ЕС, с указанием источника
+    parser: easa_noise
+    domain: aircraft
+    node: src_easa_noise
+    cadence_days: 180         # два выпуска в год
+    sla_days: 400
+    tier: 1
+    gate: review
+    validators:
+      value_min: 0.0
+      # Потолок общий на домен, а в домене и децибелы, и масса: 130 было
+      # потолком для EPNdB и отвергло сертифицированную массу A388 (560 т).
+      # Ниже 700 т нет ни одного транспортного самолёта; уровни шума выше
+      # 130 EPNdB физически невозможны и так.
+      value_max: 700.0
+    note: >
+      Уровни EPNdB в трёх точках, сертифицированная масса и глава на каждый тип
+      openap; по одной строке на тип, выбор строки назван в примечании факта.
+      Для аэропортов, считающих по собственным измерениям (Франкфурт, Мюнхен),
+      это сверка, а не вход.
+
+  aircraft_user:
+    title: Свои типы ВС — паспортные величины и аналог с якорем для расхода
+    kind: directory          # data/aircraft/user/*.json, в репозиторий не идут
+    contour: agent           # заводит человек; приёмка через review
+    path: data/aircraft/user
+    glob: "*.json"
+    license: check-terms     # паспортные величины публикуются, якорь — по источнику в файле
+    parser: aircraft_user
+    domain: aircraft         # тот же домен, что у openap: одни ключи, один читатель
+    node: src_aircraft_user
+    cadence_days: 365
+    sla_days: 1500
+    tier: 1
+    gate: review
+    validators:
+      value_min: 0.0
+      value_max: 1000000
+    note: >
+      Расход числом не заводится: либо тип есть в openap, либо назван аналог
+      по поколению двигателя и якорь — опубликованный крейсерский расход при
+      названной массе (решения 94, 105, 106). Без якоря тип считается, но
+      отвечает «нельзя».
+
+  jet_fuel_price:
+    title: Спотовая котировка авиакеросина, EIA (доллар за галлон)
+    kind: url
+    contour: deterministic
+    url: https://www.eia.gov/dnav/pet/hist/eer_epjk_pf4_rgc_dpgD.htm
+    license: данные правительства США, ограничений на использование нет
+    parser: jet_fuel_price
+    domain: jet_fuel_price
+    cadence_days: 7
+    sla_days: 21
+    tier: 1
+    gate: review
+    node: src_eia
+    note: >
+      Ряд EER_EPJK_PF4_RGC_DPG, ежедневно с 1990, доллар за галлон,
+      FOB Мексиканский залив. Ключ и регистрация не нужны.
+      ВНИМАНИЕ: это НЕ европейская цена и НЕ цена в крыло. Разница к
+      Северо-Западной Европе публикуется по подписке, стоимость заправки —
+      договор перевозчика. Оба слагаемых остаются default, долг записан.
+      Разбирается HTML страницы, а не её markdown-представление: прошлая
+      редакция парсера искала строки с вертикальными чертами и падала на
+      «не найдено ни одной котировки».
+    validators:
+      unit: USD_per_gallon
+      value_min: 0.2
+      value_max: 12.0        # исторический размах 0,282 (1998) и 5,066 (2022)
+      yoy_delta_max_pct: 60
+      row_count_min: 5000    # ряд с 1990 года; сотни строк = поломка разбора
+    validators_extra:
+      # Плотность приезжает тем же парсером, но в СВОЙ домен: у гейта одна
+      # ожидаемая единица на домен, и рядом с долларом за галлон килограммы
+      # на литр были отвергнуты — справедливо. Тот же приём, что у парсера
+      # CRCO, который попутно достаёт курсы валют.
+      fuel_spec:
+        unit: kg/l
+        value_min: 0.7
+        value_max: 0.9
+
+  fx_rates:
+    title: Курсы валют (ECB daily reference rates)
+    kind: csv
+    contour: deterministic
+    # Курсы CRCO приходят попутно со ставками en-route и имеют приоритет:
+    # это ровно тот курс, по которому выставляется счёт. ЕЦБ нужен для
+    # аэропортовых сборов в валютах, которых у CRCO нет. Порядок разрешения
+    # и валюты с привязкой к доллару — в flightcostapp/fx.py.
+    url: https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
+    license: open
+    parser: ecb_fx
+    domain: fx
+    cadence_days: 1
+    sla_days: 10
+    tier: 2
+    gate: auto
+    validators:
+      value_min: 0.000001
+      value_max: 1000000
+
+  adsb_flights:
+    title: Рейсы ADS-B, накопление наблюдений эксплуатации
+    kind: custom             # наполняется своим контуром, не загрузкой
+    contour: deterministic
+    domain: observed
+    parser: null
+    holds:
+      kind: table
+      at: observations
+      what: сырые наблюдения ADS-B, по строке на рейс и величину
+      facts: только агрегаты после свёртки, когда по паре накопилось достаточно дат
+      how: контур наблюдений, затем fca observe --aggregate
+    cadence_days: 1
+    sla_days: 3
+    tier: 2
+    gate: auto
+    license: OpenSky Network, некоммерческое и исследовательское использование
+    note: >
+      Копится ТОЛЬКО ВПЕРЁД. Исторический массив выдаётся исследователям при
+      университетах, государственным организациям и авиавластям; частным
+      лицам — по заявке. Пропущенные сутки не восстанавливаются, поэтому SLA
+      втрое короче периода: это единственный источник, где просрочка означает
+      безвозвратную потерю, а не устаревшее число.
+      Свежесть считает сам контур: `observe.collect` зовёт `mark_source`
+      после каждого забора. Без этого источник навсегда показывал `never`
+      и тревога, задуманная громче остальных, была нема.
+    validators:
+      row_count_min: 50      # сутки по пятнадцати аэропортам дают сотни
+
+  aircraft_registry:
+    title: Реестр бортов OpenSky — адрес транспондера и тип ВС
+    kind: url
+    contour: deterministic
+    url:
+      - https://opensky-network.org/datasets/metadata/aircraftDatabase.csv
+      - https://s3.opensky-network.org/data-samples/metadata/aircraftDatabase.csv
+    license: OpenSky Network, некоммерческое и исследовательское использование
+    parser: aircraft_registry
+    domain: aircraft_registry
+    cadence_days: 30
+    sla_days: 120            # снимок обновляется нерегулярно, и это заявлено
+    tier: 2
+    gate: auto
+    node: src_ac_registry
+    note: >
+      Борт вещает адрес транспондера, а не тип. Без реестра наблюдения
+      привязываются только к паре аэропортов, и блок-время ПО ТИПУ — то, ради
+      чего всё делается, — не собирается вовсе. Зависимость односторонняя.
+      Два адреса — зеркала, а не даты: снимок лежит и на основном узле, и в
+      хранилище образцов. Берём первый отдавшийся, он попадает в отчёт.
+    validators:
+      row_count_min: 10000   # снимок это сотни тысяч бортов
+      row_count_drop_max_pct: 20
+
+  carrier_benchmark:
+    title: Полоса бенчмарка из отчётности перевозчиков
+    kind: directory
+    contour: agent
+    path: data/benchmarks
+    glob: "*.yaml"
+    license: own
+    parser: carrier_benchmark
+    domain: carrier_benchmark
+    cadence_days: 180        # годовые отчёты, проверять дважды в год
+    sla_days: 500
+    tier: 1
+    gate: review
+    node: src_carrier_report
+    note: >
+      Выписки из годовой отчётности, введённые человеком. Парсера у отчёта
+      нет и не будет: у каждого перевозчика своя разбивка и свои границы
+      сегментов, и ошибиться здесь легче, чем в извлечении — строка ТОиР
+      у Ryanair была верной и означала не то, что мы думали.
+      Каждая величина принимается ТОЛЬКО с указанной границей учёта.
+    validators:
+      # В одном домене лежат разнородные величины: выручка в миллиардах,
+      # загрузка долей, выбросы в граммах. Единый коридор тут бессмыслен,
+      # как и в домене `aircraft` — проверяется только явная бессмыслица.
+      # Настоящая проверка здесь не диапазон, а обязательная граница
+      # учёта: величина без `basis` отвергается парсером.
+      value_min: 0.0
+      # Число записано полностью, а не как 1.0e12: разрешитель YAML 1.1
+      # требует знак у экспоненты, и `1.0e12` прочитался бы СТРОКОЙ —
+      # валидатор сравнил бы float со строкой и упал бы уже в гейте.
+      value_max: 1000000000000.0
+
+  market_fare:
+    title: Наблюдения рыночной цены из агрегатора
+    kind: custom             # сеть вне контура, свой ключ, свой скрипт
+    contour: deterministic
+    domain: market_fare
+    parser: null             # сворачивается модулем market_fare
+    cadence_days: 30
+    sla_days: 120
+    tier: 2
+    gate: auto
+    license: >
+      условия использования агрегатора; сбор запускает у себя тот, кто им
+      пользуется, своим ключом. В репозиторий не попадает ни строки
+      наблюдений (решение 1)
+    note: >
+      Интерфейс отдаёт САМОЕ ДЕШЁВОЕ найденное на дату вылета, а не
+      распределение предложений. Поэтому вид наблюдения назван по
+      измеренному — минимум на дату, — и медиана по нему есть медиана
+      дневных минимумов, а не медиана цен. Глубина бронирования в ключе:
+      цена за шестьдесят дней и за семь — разные величины.
+      Выгрузки лежат в data/raw/market_fare/, в репозиторий не идут.
+
+  airport_codes:
+    title: Указатель кодов аэропорта — ИАТА к ИКАО
+    # По адресу издателя, а не файлом в data/codes: данные под CC BY-SA и
+    # в репозиторий не идут, а чистая копия проекта должна собрать их сама.
+    kind: url
+    url: https://raw.githubusercontent.com/ip2location/ip2location-iata-icao/master/iata-icao.csv
+    contour: deterministic
+    license: >
+      CC BY-SA 4.0, IP2Location. В репозиторий не идёт, строка атрибуции —
+      в NOTICE и на публичной витрине
+    parser: airport_code
+    domain: airport_code
+    cadence_days: 180
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_codes
+    note: >
+      Отдельный домен, а не поле записи (решение 104): у кода своя история
+      действия, кодов бывает несколько на аэропорт, а городской код вроде
+      MOW обязан отвечать вопросом, а не одним из четырёх аэродромов.
+      Городских кодов здесь нет и не должно быть.
+    validators:
+      row_count_min: 5000
+      row_count_drop_max_pct: 10
+
+  airport_watch:
+    title: Перечень аэропортов, которые ведём
+    kind: directory
+    contour: agent          # ведёт человек, разбирает парсер
+    path: data/codes
+    glob: "airports_list.xlsx"
+    license: own
+    parser: airport_watch
+    domain: airport_watch
+    cadence_days: 30        # список пополняется, проверять часто
+    sla_days: 400
+    tier: 1
+    gate: review
+    node: src_watchlist
+    note: >
+      Файл владельца в его формате: первая колонка с кодами, остальные
+      необязательны. Коды принимаются и в ИАТА, и в ИКАО — перевод делает
+      указатель. Городские коды вроде MOW не заводятся и уходят вопросом
+      к человеку: за ними несколько аэродромов (решение 104).
+      Список — источник, а не файл рядом: у него есть история и дата, и
+      инструменты берут его из хранилища.
+    validators:
+      row_count_min: 1
+
+  fx_declared:
+    title: Курсы валют вне котировок ЕЦБ — объявленные, с источником
+    kind: directory
+    contour: agent
+    path: data/fx
+    glob: "*.yaml"
+    license: own
+    parser: fx_declared
+    domain: fx
+    cadence_days: 90
+    sla_days: 400
+    tier: 1
+    gate: review
+    node: src_fx_declared
+    note: >
+      Рубль, тенге, найра, египетский фунт — ЕЦБ их не котирует, и это
+      открытый вопрос карты с самого начала. Курс объявляется с издателем
+      и датой; без поля `source` строка отвергается: курс без издателя —
+      та самая выдуманная константа, против которой построен контур.
+      Средний за период помечается `period_average` и получает метку
+      достоверности: для годовых величин отчётности он верен, для цены
+      билета — нет.
+    validators:
+      unit: per_EUR
+      value_min: 0.0001
+      value_max: 100000
+
+  airport_names:
+    title: Названия аэропортов на разных языках
+    kind: url
+    contour: deterministic
+    url: https://api.travelpayouts.com/data/en/airports.json
+    license: >
+      Travelpayouts / Aviasales, справочные файлы; проверить условия перед
+      публикацией — данные партнёрские, а не открытые
+    parser: airport_name
+    domain: airport_name
+    cadence_days: 90
+    sla_days: 400
+    tier: 2
+    gate: auto
+    node: src_names
+    note: >
+      Адрес на `/en/` — не опечатка: локаль в пути задаёт язык поля `name`,
+      а словарь `name_translations` приходит целиком независимо от неё.
+      Файл содержит также вокзалы и автобусные станции — их различает поле
+      `iata_type`, и всё, что не `airport`, отбрасывается: ложный аэропорт
+      хуже отсутствующего, по нему посчитается маршрут.
+    validators:
+      row_count_min: 3000
+      row_count_drop_max_pct: 20

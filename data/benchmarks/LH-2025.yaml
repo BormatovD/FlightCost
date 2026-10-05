@@ -1,0 +1,47 @@
+# Выписка из годовой отчётности. Заводятся ТОЛЬКО названные в документе
+# величины; CASK, доход с пассажира и среднее плечо выводит расчёт — там
+# видно формулу и подстановку, и выбор границы учёта можно оспорить.
+#
+# Два контура в одном файле, и это не дублирование: у них разные границы,
+# и полоса, собранная не на том, будет несравнима.
+---
+carrier: LH
+name: Lufthansa Airlines
+year: 2025
+source: "Annual Report 2025, Lufthansa Group, T031 Key figures Lufthansa Airlines"
+source_url: https://report.lufthansagroup.com/2025/annual-report/en/
+scope: >
+  Lufthansa Airlines, ВКЛЮЧАЯ региональных партнёров и Discover Airlines
+  (сноска 1 к таблице T031). Это авиакомпания, а не группа: сюда не входят
+  SWISS, Austrian, Brussels, Eurowings, грузовые перевозки и техническое
+  обслуживание. Для полосы CASK контур подходит — он однородный.
+values:
+  revenue_eur:  {value: 17106000000, currency: EUR, basis: "выручка Lufthansa Airlines", page: T031}
+  opex_eur:     {value: 17643000000, currency: EUR, basis: "operating expenses, все операционные расходы включая топливо", page: T031}
+  pax:          {value: 65706000,  basis: "перевезено пассажиров", page: T031}
+  ask_km:       {value: 187671000000, basis: "available seat-kilometres", page: T031}
+  rpk_km:       {value: 156528000000, basis: "revenue seat-kilometres", page: T031}
+  load_factor:  {value: 0.834, basis: "passenger load factor", page: T031}
+  flights:      {value: 476842, basis: "number of flights", page: T031}
+---
+carrier: LHG
+name: Lufthansa Group
+year: 2025
+source: "Annual Report 2025, Lufthansa Group, T223 Ten-year overview и T002"
+source_url: https://report.lufthansagroup.com/2025/annual-report/en/
+scope: >
+  Lufthansa Group целиком по трафику (T223) и сегмент Passenger Airlines
+  по выручке (T002). ВНИМАНИЕ: трафик группы и выручка сегмента — разные
+  контуры; совпадают они потому, что весь пассажирский трафик группы и
+  лежит в этом сегменте, но операционные расходы сегмента в T002 не
+  раскрыты, поэтому CASK по этому контуру не считается.
+values:
+  pax:          {value: 135000000, basis: "пассажиры группы", page: T223}
+  ask_km:       {value: 338552000000, basis: "available seat-kilometres группы", page: T223}
+  rpk_km:       {value: 281765000000, basis: "revenue seat-kilometres группы", page: T223}
+  load_factor:  {value: 0.832, basis: "passenger load factor группы", page: T223}
+  flights:      {value: 1014831, basis: "number of flights группы", page: T223}
+  revenue_eur:  {value: 30576000000, currency: EUR, basis: "выручка сегмента Passenger Airlines", page: T002}
+  traffic_revenue_eur: {value: 28623000000, currency: EUR, basis: "of which traffic revenue — только перевозки, без прочих доходов", page: T002}
+  employees:    {value: 103101, basis: "среднесписочная численность группы", page: T223}
+  co2_g_pkm:    {value: 85.4, basis: "удельные выбросы, группа", page: "Key figures 2025"}

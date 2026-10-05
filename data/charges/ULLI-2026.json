@@ -1,0 +1,342 @@
+{
+ "icao": "ULLI",
+ "valid_from": "2026-01-01",
+ "source": "ООО «Воздушные Ворота Северной Столицы», прейскуранты: № 1045-2026 (российские потребители, международные линии, с 01.01.2026), № 1044-2026 (российские, внутренние линии Санкт-Петербург–Москва и обратно, с 01.01.2026), № 1059-2026 (российские, прочие внутренние линии, с 02.08.2026, заменил 1043-2026), № 1032-2026 (иностранные эксплуатанты, EUR, с 01.01.2026, заменил 950-2025); каждый с Приложением 1 «Порядок применения» по приказу Минтранса № 149 от 27.04.2024 (иностранные — № 157 от 02.05.2024)",
+ "source_url": "https://pulkovoairport.ru/partners/airlines/rates/",
+ "publisher": "ООО «Воздушные Ворота Северной Столицы» (оператор аэропорта по концессии); утверждает директор по авиационной коммерции. Регулятор в ставках не участвует",
+ "checked_at": "2026-09-17",
+ "icao_note": "ЧЕТЫРЕ прейскуранта на один аэропорт: российские потребители делятся не только на внутренние/международные линии, но и внутри внутренних — по направлению на Москву (условие other ∈ {UUEE, UUDD, UUWW}) и на всё остальное. Иностранные — в ЕВРО, не в долларах. Коэффициенты по группам МВМ (до 5,7 т — 0,25; 5,7–12 т — 0,5; свыше 12 т — 1,0) не заведены: все типы модели тяжелее 12 т. Варианты посадочного «без аэронавигационной информации» и «без перрона» не заведены. Тарифы наземного обслуживания (п.2 тех же прейскурантов и отдельные 1054-2026 / 1056-2026) — статья ground_handling, здесь не заводятся",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 686.5,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     12,
+     999
+    ]
+   },
+   "source_note": "1045-2026, п.1.1.1: взлёт-посадка, включая стоянку 3 часа после посадки (пассажирские ВС), 686,50 руб./т МВМ, коэффициент 1,0 для самолётов свыше 12 т (прил. 1, п.1.1)",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "1045-2026, п.1.2.1: сверхнормативная стоянка пассажирского ВС свыше 3 часов, 5% от сбора за взлёт-посадку за час",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 335.9,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "1045-2026, п.1.3: аэровокзал «Пулково-1», международные перевозки, 335,90 руб./пасс.; прил. 1 п.3.1: прибывающие, убывающие и транзитные 12+, дети 2–12 лет 50%. Прочтение «международная» ПОДТВЕРЖДЕНО прейскурантами внутренних линий: там 255,30 (на Москву) и 115,00 (прочие) — три разные ставки, английская подпись «for domestic flights» в 1045-2026 ошибочна",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 656.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     12,
+     999
+    ]
+   },
+   "source_note": "1045-2026, п.1.4: транспортная безопасность, 656,00 руб./т МВМ, коэффициент 1,0 свыше 12 т",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 686.5,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": [
+     "UUEE",
+     "UUDD",
+     "UUWW"
+    ],
+    "mtow_t": [
+     12,
+     999
+    ]
+   },
+   "source_note": "1044-2026 (Санкт-Петербург–Москва и обратно), п.1.1.1: взлёт-посадка, 686,50 руб./т МВМ — та же ставка, что на международных",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": [
+     "UUEE",
+     "UUDD",
+     "UUWW"
+    ]
+   },
+   "source_note": "1044-2026, п.1.2.1: сверхнормативная стоянка свыше 3 часов, 5% за час",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 255.3,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": [
+     "UUEE",
+     "UUDD",
+     "UUWW"
+    ]
+   },
+   "source_note": "1044-2026, п.1.3: аэровокзал, внутренние перевозки на Москву, 255,30 руб./пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 656.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": [
+     "UUEE",
+     "UUDD",
+     "UUWW"
+    ],
+    "mtow_t": [
+     12,
+     999
+    ]
+   },
+   "source_note": "1044-2026, п.1.4: транспортная безопасность, 656,00 руб./т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 482.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "mtow_t": [
+     12,
+     999
+    ],
+    "other": {
+     "not": [
+      "UUEE",
+      "UUDD",
+      "UUWW"
+     ]
+    }
+   },
+   "valid_from": "2026-08-02",
+   "source_note": "1059-2026 (внутренние линии, кроме направления на Москву), п.1.1.1: взлёт-посадка, 482,00 руб./т МВМ, с 02.08.2026",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": {
+     "not": [
+      "UUEE",
+      "UUDD",
+      "UUWW"
+     ]
+    }
+   },
+   "valid_from": "2026-08-02",
+   "source_note": "1059-2026, п.1.2.1: сверхнормативная стоянка свыше 3 часов, 5% за час",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 115.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "other": {
+     "not": [
+      "UUEE",
+      "UUDD",
+      "UUWW"
+     ]
+    }
+   },
+   "valid_from": "2026-08-02",
+   "source_note": "1059-2026, п.1.3: аэровокзал, внутренние перевозки кроме Москвы, 115,00 руб./пасс.",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 498.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national",
+    "flight": "domestic",
+    "mtow_t": [
+     12,
+     999
+    ],
+    "other": {
+     "not": [
+      "UUEE",
+      "UUDD",
+      "UUWW"
+     ]
+    }
+   },
+   "valid_from": "2026-08-02",
+   "source_note": "1059-2026, п.1.4: транспортная безопасность, 498,00 руб./т МВМ",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.75,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "1032-2026, п.1.1.1: взлёт-посадка, включая стоянку 3 часа после посадки, 10,75 EUR/т МВМ в период 06:00–22:00; вариант 1.1.2 без перрона 10,25 не заведён",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing_night",
+   "base": "per_movement",
+   "rate": 0.2,
+   "pct_of": "landing",
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "operator": "foreign",
+    "night": true
+   },
+   "source_note": "1032-2026, п.1.1.3: с 22:00 до 06:00 дополнительно 20% за каждый вылет и/или посадку. МОДЕЛЬ: признак night один на оборот, надбавка начисляется один раз; если ночью оба движения — занижение на 20% посадочного",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 0.15,
+   "pct_of": "landing",
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "park_h": [
+     3,
+     999
+    ]
+   },
+   "source_note": "1032-2026, п.1.2: стоянка более 3 часов после посадки, 15% от дневного сбора за взлёт-посадку за 1 сутки; примечание 4: неполная единица оплачивается как полная",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 14.5,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "operator": "foreign"
+   },
+   "source_note": "1032-2026, п.1.3: аэровокзал «Пулково-1», 14,50 EUR за каждого прибывающего и убывающего пассажира; дети до 2 лет бесплатно",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 8.24,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "operator": "foreign",
+    "cargo": false
+   },
+   "source_note": "1032-2026, п.1.4.1: транспортная безопасность, пассажирские ВС, 8,24 EUR за убывающего пассажира",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 9.86,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "cargo": true
+   },
+   "source_note": "1032-2026, п.1.4.2: грузовые ВС и пассажирские без изменения коммерческой загрузки, 9,86 EUR/т МВМ",
+   "certainty": "exact"
+  }
+ ]
+}

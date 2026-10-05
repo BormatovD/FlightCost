@@ -1,0 +1,456 @@
+{
+ "icao": "RJAA",
+ "valid_from": "2026-01-01",
+ "source": "Narita International Airport Corporation (NAA), «Charges for Airport Facilities» (landing/parking international, BHS, PBB) и «Passenger Service Facility Charge (PSFC) and Passenger Security Service Charge (PSSC)», страницы корпоративного сайта на 18.09.2026; PDF-версии по ссылкам с тех же страниц",
+ "source_url": "https://www.narita-airport.jp/en/company/business/passenger-cargo-flights/flights-charge/",
+ "publisher": "NAA — частная компания-оператор (Narita International Airport Corporation); международные сборы устанавливает сама с уведомлением MLIT. ДАТА РЕДАКЦИИ на странице не названа — valid_from поставлен по году просмотра, это прочтение",
+ "checked_at": "2026-09-18",
+ "icao_note": "Заведены МЕЖДУНАРОДНЫЕ сборы: посадочный по индексу шума A–F (условие noise_cat, значение — данные аэропорта: A320 в примере NAA — B, B737 — C, B787 — A, но NAA прямо пишет, что примеры не классификация), стоянка, телетрап, багажная система по креслам, PSFC/PSSC по терминалам. Внутренние посадочные ставки устанавливает государство (MLIT), на странице их нет — внутренний рейс получит только PSFC. Условие operator не используется: Япония не делит по эксплуатанту",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1550.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "A"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории A индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1650.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "B"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории B индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1750.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "C"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории C индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1850.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "D"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории D индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1950.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "E"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории E индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2000.0,
+   "currency": "JPY",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "noise_cat": "F"
+   },
+   "minimum": 50000.0,
+   "source_note": "International landing charge: ставка категории F индекса шума × MTOW; тонны округляются вверх (remark 1); минимум 50 000 JPY (remark 2). Категория — по сертифицированному шуму относительно главы 3 Приложения 16, у каждого экземпляра своя",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 200.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "International parking charge (a): при стоянке менее 6 часов — 200 JPY × MTOW, за каждую стоянку",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 6.0,
+   "rate": 1.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "park_h": [
+     6,
+     999
+    ]
+   },
+   "source_note": "International parking charge (b): при стоянке 6 часов и более — дополнительно сумма, равная (a), за каждые 24 часа сверх первых 6, неполные 24 часа как полные. Заведено долей 100% от статьи (a) за сутки сверх порога",
+   "certainty": "exact",
+   "pct_of": "parking"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 6500.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "stand": "pier"
+   },
+   "source_note": "PBB charge (кроме A380): 6 500 JPY за вылет и 6 500 за прилёт, только международные, без налога на потребление; у телетрапа — только при стоянке у пирса",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 81225.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     300,
+     999
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 300+..999: 81,225 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 76,380 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 76950.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     200,
+     300
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 200+..300: 76,950 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 72,360 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 68400.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     100,
+     200
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 100+..200: 68,400 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 64,320 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 42750.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     75,
+     100
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 75+..100: 42,750 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 40,200 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 29925.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     50,
+     75
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 50+..75: 29,925 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 28,140 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 17100.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     19,
+     50
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 19+..50: 17,100 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 16,080 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "bhs",
+   "base": "per_movement",
+   "rate": 8550.0,
+   "currency": "JPY",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "seats": [
+     0,
+     19
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "International BHS charge, кресел 0+..19: 8,550 JPY за прибывающий борт при одной багажной карусели, терминал 1 (North Wing) и терминал 2; South Wing терминала 1 — 8,040 (не заведён отдельно: витрина не различает крылья). Без налога на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 2460.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ],
+    "pax_type": "local"
+   },
+   "source_note": "PSFC, международные, вылет из T1/T2: взрослый 2 460 JPY (ребёнок 1 240 — не моделируется); с прибывающих не взимается; включает налог на потребление",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1370.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": "3",
+    "pax_type": "local"
+   },
+   "source_note": "PSFC, международные, вылет из T3: взрослый 1 370 JPY",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1230.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": [
+     "1",
+     "2"
+    ],
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "PSFC, стыковка между международными в тот же день, вылет из T1/T2: 1 230 JPY",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 690.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "terminal": "3",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "PSFC, стыковка, вылет из T3: 690 JPY",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 700.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "PSSC, международные, вылетающий пассажир: 700 JPY, одинаково для всех терминалов и стыковок; включает налог",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 450.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": "domestic",
+    "terminal": [
+     "1",
+     "2"
+    ]
+   },
+   "source_note": "Domestic PSFC, T1/T2: 450 JPY и на вылете, и на прилёте (ребёнок 220)",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 390.0,
+   "currency": "JPY",
+   "events": "movement",
+   "when": {
+    "flight": "domestic",
+    "terminal": "3"
+   },
+   "source_note": "Domestic PSFC, T3: 390 JPY на вылете и на прилёте",
+   "certainty": "exact"
+  }
+ ]
+}

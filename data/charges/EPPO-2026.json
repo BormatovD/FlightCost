@@ -1,0 +1,89 @@
+{
+ "icao": "EPPO",
+ "valid_from": "2026-04-01",
+ "source": "Port Lotniczy Poznań-Ławica, Poznan Airport Charges Price List, действует с 01.04.2026 (Ogłoszenie nr 3 Prezesa ULC от 31.03.2026)",
+ "source_url": "https://poznanairport.pl/wp-content/uploads/2026/04/Poznan-Airport-Charges-Price-List-1.04.2026.pdf",
+ "publisher": "Port Lotniczy Poznań-Ławica Sp. z o.o., тариф утверждает Urząd Lotnictwa Cywilnego",
+ "checked_at": "2026-09-03",
+ "rules": [
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 55.0,
+   "currency": "PLN",
+   "source_note": "разд. 3.3, за платного вылетающего пассажира старше двух лет. Без разделения по направлениям"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 80.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 1
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО A. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 80.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 2
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО B. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 80.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 3
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО C — сюда A320 и B737. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 107.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 4
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО D. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 160.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 5
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО E. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 160.0,
+   "currency": "PLN",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "ac_class": 6
+   },
+   "source_note": "разд. 3.1, за каждую начатую тонну MTOM, код ИКАО F. Сбор покрывает и взлёт (разд. 3.1), поэтому один раз за обслуживание. ШКАЛА ЛОКАЛЬНАЯ: буква кода ИКАО переведена в ac_class 1-6 по её порядковому номеру. НЕ ЗАВЕДЕНО: плоские 100,00 PLN для ВС до 2 т включительно"
+  }
+ ]
+}

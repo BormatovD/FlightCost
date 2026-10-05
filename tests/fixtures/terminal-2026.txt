@@ -1,0 +1,37 @@
+Terminal Charging Zone (TCZ)1 Airports
+in 2026
+National
+Currency
+(NC)
+2026
+TNC Unit Rate
+in NC2
+Austria 6 EUR 358.42
+Belgium Brussels3, 4 1 EUR 302.32
+Czech Republic 1 CZK 6 800.00
+Denmark 1 DKK 1 639.25
+Finland 1 EUR 263.11
+France zone 1 2 EUR 203.40
+France zone 2 52 EUR 298.52
+Germany 15 EUR 365.18
+Greece 1 EUR 132.26
+Hungary 1 HUF 147 859.04
+Ireland 3 EUR 167.75
+Italy zone 1 5 EUR 177.19
+Italy zone 2 44 EUR 331.96
+Luxembourg3
+1 EUR 309.81
+Malta 1 EUR 150.67
+Netherlands 4 EUR 298.71
+Norway 4 NOK 2 996.42
+Poland zone 1 1 PLN 821.98
+Poland zone 2 14 PLN 1 264.02
+Portugal 10 EUR 171.57
+Romania zone 1 3 RON 2 094.75
+Romania zone 2 3 RON 2 635.40
+Romania zone 3 5 RON 3 026.75
+Spain 7 EUR 25.78
+Sweden 1 SEK 2 164.07
+Switzerland 2 CHF 530.41
+1 TCZs/Airports that are subject to SES Performance and Charging Regulation in RP4
+Terminal ANS unit rates applicable from 1 JANUARY 2026

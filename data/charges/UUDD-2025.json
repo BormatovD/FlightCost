@@ -1,0 +1,159 @@
+{
+ "icao": "UUDD",
+ "valid_from": "2025-03-01",
+ "source": "Московский аэропорт Домодедово, «Ставки аэропортовых сборов» (российские эксплуатанты, RUB; иностранные, USD) и «Регулируемые ставки сборов за обеспечение транспортной безопасности» (ООО «ДМА Безопасность»), редакции с датами ввода по строкам: 01.01.2025, 01.03.2025, 01.07.2025",
+ "source_url": "https://business.dme.ru/partners/airlines/tariff/",
+ "publisher": "Аэропорт Домодедово — дерегулированные сборы устанавливает сам аэропорт; сбор за транспортную безопасность помечен как регулируемый, издатель ООО «ДМА Безопасность»",
+ "checked_at": "2026-09-17",
+ "icao_note": "Четыре документа на одной странице: сборы и безопасность, каждый в двух версиях (российские / иностранные). У каждой строки своя дата ввода — заведена по строкам. Стоянка датирована 17.07.2012 (RUB) и 15.05.2000 (USD): ставка не менялась с момента введения методики",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 560.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "valid_from": "2025-01-01",
+   "source_note": "Ставки аэропортовых сборов, п.1 взлёт-посадка (российские эксплуатанты), 560,00 руб. за тонну МВМ, с 01.01.2025",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 3.0,
+   "rate": 0.05,
+   "pct_of": "landing",
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "valid_from": "2025-01-01",
+   "source_note": "п.2 стоянка (российские эксплуатанты), «тонна-час», 5% от сбора за взлёт-посадку за один час, с 17.07.2012. Льготный период в документе НЕ НАЗВАН; дата ввода совпадает с приказом Минтранса № 241 от 17.07.2012 (методика сборов), по которой стоянка в течение 3 часов после посадки пассажирского ВС включена в сбор за взлёт-посадку. ПРОЧТЕНИЕ: 3 часа приняты",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 4368.0,
+   "confirm_by": "текст приказа Минтранса № 149 от 27.04.2024 (действующая методика) либо условия применения на business.dme.ru"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 335.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": "domestic"
+   },
+   "valid_from": "2025-03-01",
+   "source_note": "п.3 аэровокзал, внутренние линии, 335,00 руб. на прибывающего/убывающего пассажира 12 лет и старше, с 01.03.2025; дети 2–12 лет 50%, до 2 лет бесплатно — не моделируется",
+   "certainty": "exact"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 895.0,
+   "currency": "RUB",
+   "events": "movement",
+   "when": {
+    "operator": "national",
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "valid_from": "2025-03-01",
+   "source_note": "п.4 аэровокзал, международные линии, 895,00 руб. на прибывающего/убывающего пассажира 12+, с 01.03.2025",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 440.0,
+   "currency": "RUB",
+   "events": "landing",
+   "when": {
+    "operator": "national"
+   },
+   "valid_from": "2025-07-01",
+   "source_note": "Регулируемая ставка сбора за обеспечение транспортной безопасности (российские эксплуатанты), 440,00 руб. за тонну МВМ, с 01.07.2025; НДС сверх цены — налог, не заводится",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 13.8,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign"
+   },
+   "valid_from": "2025-01-01",
+   "source_note": "Airport charges, п.1 landing charge (иностранные эксплуатанты), 13,80 USD за тонну МВМ, с 01.01.2025",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 0.1,
+   "pct_of": "landing",
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "park_h": [
+     3,
+     999
+    ]
+   },
+   "valid_from": "2025-01-01",
+   "source_note": "п.2 parking charge, 10% от сбора за взлёт-посадку за сутки стоянки, с 15.05.2000. Льготный период не назван — приняты 3 часа по методике Минтранса, как у российских; начатые сутки целиком — прочтение",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "условия применения на business.dme.ru"
+  },
+  {
+   "code": "passenger",
+   "base": "per_pax_per_movement",
+   "rate": 22.5,
+   "currency": "USD",
+   "events": "movement",
+   "when": {
+    "operator": "foreign"
+   },
+   "valid_from": "2025-03-01",
+   "source_note": "п.3 passenger charge, международные линии, иностранные эксплуатанты, 22,50 USD на прибывающего, убывающего и транзитного пассажира, с 01.03.2025",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 10.1,
+   "currency": "USD",
+   "events": "movement",
+   "when": {
+    "operator": "foreign",
+    "cargo": false
+   },
+   "valid_from": "2025-03-01",
+   "source_note": "Regulated airport security charge, п.1 security charge (passenger), иностранные эксплуатанты, 10,10 USD за УБЫВАЮЩЕГО пассажира, с 01.03.2025. База отличается от российской (там за тонну МВМ)",
+   "certainty": "exact"
+  },
+  {
+   "code": "security",
+   "base": "per_tonne_mtow",
+   "rate": 9.35,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "operator": "foreign",
+    "cargo": true
+   },
+   "valid_from": "2025-03-01",
+   "source_note": "п.2 security charge (cargo), грузовое ВС, 9,35 USD за тонну МВМ, включая рейсы без коммерческой загрузки, с 01.03.2025",
+   "certainty": "exact"
+  }
+ ]
+}

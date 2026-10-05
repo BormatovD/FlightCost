@@ -1,0 +1,111 @@
+{
+ "icao": "VANM",
+ "valid_from": "2026-06-01",
+ "source": "AERA, Order No. 07/2026-27 от 20.05.2026 «Determination of aeronautical tariff for Navi Mumbai International Airport, first control period 01.04.2025–31.03.2030», Annexure IA Tariff Rate Card (стр. 357–358 из 392)",
+ "source_url": "https://aera.gov.in/tariff-orders — ПОДСТАВИТЬ адрес файла (скачан как 17791920774942.pdf)",
+ "publisher": "Airports Economic Regulatory Authority of India; оператор NMIAL (Adani)",
+ "checked_at": "2026-09-19",
+ "icao_note": "Ставки первого года (01.06.2026–31.03.2027). Ежегодная индексация ~6%: посадка 1 484/1 961 с 01.04.2027, 1 573/2 079 с 2028, 1 667/2 203 с 2029; стоянка 20/24, 21/26, 23/27; UDF 657/286 и 1 299/557 с 2027, 697/303 и 1 376/590 с 2028, 738/322 и 1 459/625 с 2029 — редакция каждый апрель. Стояночное время по on-blocks/off-blocks AOCC — порог 2 ч без оговорок о рулении. Без GST. ASF не заведён. Код ИКАО VANM — ПРОВЕРИТЬ по AIP India, аэропорт новый. Скан",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1400,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure IA a), Landing Charges, Domestic 1 400 INR за начатую тонну МВМ (note 2)",
+   "certainty": "exact"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1850,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure IA a), Landing Charges, International 1 850 INR за тонну",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 19,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "park_h": [
+     0,
+     6
+    ]
+   },
+   "source_note": "Annexure IA b), Parking: 19 INR за тонну за час первые 2 ч после льготных 2 ч, все стоянки, время on/off-blocks. Ступень 2–4 ч после льготы в таблице не показана, первая ставка принята до 4 ч",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "NMIAL — ступень 2–4 ч",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 23,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "park_h": [
+     6,
+     999
+    ]
+   },
+   "source_note": "Annexure IA b), Parking: свыше 4 ч после льготы 23 INR за тонну-час; верхняя оценка со всего сверх порога",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ступенчатая стоянка",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 890,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure IA c), UDF домашние с 01.06.2026: вылетающий 620 + прибывающий 270; суммой на вылетающего",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1750,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure IA c), UDF международные: 1 225 + 525; суммой на вылетающего",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  }
+ ]
+}

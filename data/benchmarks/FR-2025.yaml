@@ -1,0 +1,36 @@
+# Ryanair Group, финансовый год к 31 марта 2025 (FY25). Тот же документ,
+# на котором делалась калибровка M7. Пассажирооборот Ryanair публикует в
+# МИЛЯХ (ASM/RPM, глоссарий Appendix A), а не в километрах: перевод в
+# ask_km / rpk_km сделан заводящим коэффициентом 1,609344 (статутная миля)
+# и назван в basis — единственная арифметика в файле.
+---
+carrier: FR
+name: Ryanair Group
+year: 2025
+source: >
+  Ryanair Holdings plc, FY25 Results (19.05.2025): Condensed Consolidated
+  Preliminary Income Statement for the year ended March 31, 2025; MD&A;
+  Annual Report 2025, Financial Summary (стр. 4) и Group CEO Report
+source_url: https://investor.ryanair.com/wp-content/uploads/2025/05/FY25-Ryanair-Results.pdf
+scope: >
+  Ryanair Group целиком: Ryanair DAC, Buzz, Lauda Europe, Malta Air,
+  Ryanair UK. Финансовый год апрель 2024 — март 2025. Парк в собственности
+  (586 B737 без обременений): в операционных расходах нет лизинга, есть
+  амортизация; тяжёлые формы ТОиР капитализируются в стоимость борта
+  (Note 3, critical judgements) — строка «Maintenance, materials and
+  repairs» это линейное обслуживание и расходники, не полный ТОиР.
+values:
+  revenue_eur:  {value: 13948500000, currency: EUR, basis: "total operating revenues: scheduled 9 229,8 + ancillary 4 718,7 млн", page: "Income Statement, стр. 3"}
+  opex_eur:     {value: 12390500000, currency: EUR, basis: "total operating expenses, все операционные расходы включая топливо и амортизацию", page: "Income Statement, стр. 3"}
+  pax:          {value: 200200000, basis: "passengers 200.2m, FY25", page: "стр. 1"}
+  load_factor:  {value: 0.94, basis: "load factor 94%, как опубликовано (целое число процентов)", page: "стр. 1"}
+  flights:      {value: 1109332, basis: "sectors flown FY25 — глоссарий Appendix A, таблица Seats available", page: "Appendix A; стр. 163"}
+  ask_km:       {value: 267151000000, basis: "166 млрд ASM (available seat miles: 211,9 млн кресел × 783 миль) × 1,609344. ПРОЧТЕНИЕ: глоссарий говорит «miles» без уточнения; статутные — потому что 783 mi = 1 260 км соответствует известному плечу Ryanair, а морские дали бы 1 450 км", page: "Appendix A, Glossary — ASM"}
+  rpk_km:       {value: 252667000000, basis: "157 млрд RPM (200 млн пассажиров × 783 миль) × 1,609344, статутные мили — см. ask_km", page: "Appendix A, Glossary — RPM"}
+  employees:    {value: 26000, basis: "approximately 26,000 highly skilled aviation professionals at March 31, 2025 — округлено в документе", page: "Directors' Report, стр. 11"}
+  fuel_cost_eur:        {value: 5220200000, currency: EUR, basis: "fuel and oil, с учётом хеджирования", page: "Income Statement"}
+  staff_cost_eur:       {value: 1751100000, currency: EUR, basis: "staff costs", page: "Income Statement"}
+  airport_handling_cost_eur: {value: 1683500000, currency: EUR, basis: "airport and handling charges", page: "Income Statement"}
+  route_charges_eur:    {value: 1166700000, currency: EUR, basis: "route charges — аэронавигация EUROCONTROL", page: "Income Statement"}
+  maintenance_cost_eur: {value: 476200000, currency: EUR, basis: "maintenance, materials and repairs; тяжёлые формы КАПИТАЛИЗИРОВАНЫ и сидят в амортизации — с нашей полной ставкой ТОиР несравнимо напрямую", page: "Income Statement, Note 3"}
+  depreciation_eur:     {value: 1214400000, currency: EUR, basis: "depreciation, включая амортизацию капитализированного обслуживания", page: "Income Statement"}

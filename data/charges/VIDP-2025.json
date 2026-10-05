@@ -1,0 +1,353 @@
+{
+ "icao": "VIDP",
+ "valid_from": "2025-04-16",
+ "source": "AERA, Order No. 20/2024-25 от 28.03.2025 «Determination of aeronautical tariff for IGI Airport, Delhi, fourth control period 01.04.2024–31.03.2029», Annexure 1A Tariff Rate Card (стр. 419–422 из 423)",
+ "source_url": "https://aera.gov.in/tariff-orders — ПОДСТАВИТЬ адрес файла (скачан как 17431676123962.pdf)",
+ "publisher": "Airports Economic Regulatory Authority of India; оператор DIAL (GMR)",
+ "checked_at": "2026-09-19",
+ "icao_note": "Ставки одинаковы на все четыре года периода (до 31.03.2029, следующая редакция — ордер CP5). Без GST (взимается сверх). Национальный сбор авиабезопасности ASF (MoCA) в ордер не входит — отдельный источник, не заведён. Льгота: домашние регулярные рейсы на типах менее 80 кресел посадку не платят — не закодировано, ключа кресел нет. Скан, разобран по изображению страниц",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 347,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     0,
+     105
+    ]
+   },
+   "source_note": "Annexure 1A, Landing Charges, домашние, Narrow Body, 347 INR за начатую тонну МВМ. ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 564,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     105,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, Landing Charges, домашние, Wide Body, 564 INR за тонну. ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 570,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     0,
+     105
+    ]
+   },
+   "source_note": "Annexure 1A, Landing Charges, международные, Narrow Body, 570 INR за начатую тонну МВМ. ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 785,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     105,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, Landing Charges, международные, Wide Body, 785 INR за тонну. ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "INR",
+   "events": "landing",
+   "minimum": 8000,
+   "source_note": "Annexure 1A, Landing Charges, note 6: минимум 8 000 INR за посадку",
+   "certainty": "exact"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 18,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "stand": "apron",
+    "park_h": [
+     0,
+     6
+    ]
+   },
+   "source_note": "Annexure 1A, Parking Charges: Remote Stands 18 INR за тонну МВМ за час, первые 2 ч бесплатно, часы округляются вверх. Ступени: 4–12 ч после льготы ×2, 12–24 ×4, свыше ×5 — закодирована только первая ступень (park_h до 6 ч), дальше верхняя оценка ×2 со всего сверх порога",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 702.0,
+   "confirm_by": "DIAL, порядок расчёта стояночного времени",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 36,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "stand": "apron",
+    "park_h": [
+     6,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, Parking Charges note 5 ii: Remote Stands, свыше 4 ч после льготы ставка ×2. Верхняя оценка: удваивает и первые 4 ч, занижает свыше 12 ч",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ступенчатая стоянка",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 36,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "stand": "pier",
+    "park_h": [
+     0,
+     6
+    ]
+   },
+   "source_note": "Annexure 1A, Parking Charges: Contact Stands 36 INR за тонну МВМ за час, первые 2 ч бесплатно, часы округляются вверх. Ступени: 4–12 ч после льготы ×2, 12–24 ×4, свыше ×5 — закодирована только первая ступень (park_h до 6 ч), дальше верхняя оценка ×2 со всего сверх порога",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 1404.0,
+   "confirm_by": "DIAL, порядок расчёта стояночного времени",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 72,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "stand": "pier",
+    "park_h": [
+     6,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, Parking Charges note 5 ii: Contact Stands, свыше 4 ч после льготы ставка ×2. Верхняя оценка: удваивает и первые 4 ч, занижает свыше 12 ч",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ступенчатая стоянка",
+   "round_mtow": "ceil_tonne"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 220,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, домашние, за рейс (registered baggage), полоса «<=25 кресел» — ПРОКСИ полосой массы, ключа кресел в словаре нет; на A320 (101–200 кресел) попадание верное",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия seats"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 440,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     10,
+     20
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, домашние, за рейс (registered baggage), полоса «26–50 кресел» — ПРОКСИ полосой массы, ключа кресел в словаре нет; на A320 (101–200 кресел) попадание верное",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия seats"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 990,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     20,
+     45
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, домашние, за рейс (registered baggage), полоса «51–100 кресел» — ПРОКСИ полосой массы, ключа кресел в словаре нет; на A320 (101–200 кресел) попадание верное",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия seats"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 1540,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     45,
+     105
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, домашние, за рейс (registered baggage), полоса «101–200 кресел» — ПРОКСИ полосой массы, ключа кресел в словаре нет; на A320 (101–200 кресел) попадание верное",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия seats"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 2720,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     105,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, домашние, за рейс (registered baggage), полоса «>=201 кресел» — ПРОКСИ полосой массы, ключа кресел в словаре нет; на A320 (101–200 кресел) попадание верное",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия seats"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 260,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     0,
+     105
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, международные, narrow body (Code C) и транзит, 260 USD за рейс; В ДОЛЛАРАХ внутри рупиевого тарифа, курс RBI на конец прошлого месяца / 15-е число (решение 22: как опубликовано). ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "security",
+   "base": "per_turnaround",
+   "rate": 390,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     105,
+     999
+    ]
+   },
+   "source_note": "Annexure 1A, X-Ray Baggage Charges, международные, wide body (Code D/E/F), 390 USD за оборот. ПРОКСИ: документ делит типы по букве кода ИКАО (D/E/F широкофюзеляжные, A/B/C узкофюзеляжные), а ключа code_letter в словаре условий нет; взята полоса массы с границей 105 т — все линейные типы кода C легче (A321XLR 101 т), все кода D тяжелее (B757-200 116 т). На эталоне A320 цена ошибки 0. Долг движку: ключ code_letter из размаха (решение 68)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ключ условия code_letter"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 185,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Annexure 1A, UDF, домашние: вылетающий 129 + прибывающий 56 INR. Взимается с билета, перечисляется оператору; заведено суммой на вылетающего — в модели прибывших столько же, сколько вылетающих, цена ошибки на эталоне 0. Транзит до 24 ч освобождён (pax_type transfer/transit не закодирован)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 925,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Annexure 1A, UDF, международные, эконом: вылетающий 650 + прибывающий 275 INR. Взимается с билета, перечисляется оператору; заведено суммой на вылетающего — в модели прибывших столько же, сколько вылетающих, цена ошибки на эталоне 0. Транзит до 24 ч освобождён (pax_type transfer/transit не закодирован). Бизнес 810 + 345 — класс в модели не различается, взят эконом",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: база на прибывающего пассажира"
+  }
+ ]
+}

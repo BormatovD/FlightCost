@@ -1,0 +1,75 @@
+# Аэродром -> терминальная тарифная зона (TCZ).
+#
+# Приложение к годовой публикации EUROCONTROL распределяет 189 аэродромов
+# по 26 зонам, но при извлечении PDF порядок строк разъезжается: метки
+# «France Zone 1» и «Zone 2» оказываются после списков, к которым
+# относятся. Автоматически связать аэродром с зоной надёжно нельзя, а
+# ошибка здесь тихая — рейс получит чужую ставку, отличающуюся в разы.
+#
+# Поэтому ярус 1: связь ведётся руками для нужных аэропортов. Ровно та же
+# логика, что и для аэропортовых сборов. Для аэродрома вне списка
+# терминальный сбор не начисляется и расчёт об этом предупреждает.
+#
+# Источник: Terminal 2026 Unit Rates.pdf, Annex A.
+
+tcz:
+  # Германия — одна зона на 15 аэродромов
+  EDDF: Germany
+  EDDM: Germany
+  EDDB: Germany
+  EDDL: Germany
+  EDDH: Germany
+  EDDK: Germany
+  EDDS: Germany
+
+  # Испания — одна зона на 7, включая Канары
+  LEBL: Spain
+  LEMD: Spain
+  LEMG: Spain
+  LEPA: Spain
+  LEAL: Spain
+  LEIB: Spain
+  GCLP: Spain
+
+  # Франция — две зоны, и разница существенная: 203.40 против 298.52
+  LFPG: France Zone 1
+  LFPO: France Zone 1
+  LFMN: France Zone 2
+  LFLL: France Zone 2
+  LFML: France Zone 2
+  LFBO: France Zone 2
+  LFSB: France Zone 2
+
+  # Италия — две зоны: крупные хабы дешевле региональных
+  LIRF: Italy Zone 1
+  LIML: Italy Zone 1
+  LIMC: Italy Zone 1
+  LIME: Italy Zone 1
+  LIPZ: Italy Zone 1
+  LIRN: Italy Zone 2
+  LIPE: Italy Zone 2
+
+  # Прочие однозонные государства
+  EHAM: Netherlands
+  EBBR: Belgium Brussels
+  LOWW: Austria
+  LSZH: Switzerland
+  LSGG: Switzerland
+  EKCH: Denmark
+  ESSA: Sweden
+  EFHK: Finland
+  ENGM: Norway
+  EPWA: Poland Zone 1
+  EPKK: Poland Zone 2
+  LKPR: Czech Republic
+  LHBP: Hungary
+  LPPT: Portugal
+  LPFR: Portugal
+  LGAV: Greece
+  EIDW: Ireland
+  LMML: Malta
+  ELLX: Luxembourg
+  LROP: Romania Zone 1
+
+# Не входят в схему SES вовсе (нет терминального сбора EUROCONTROL):
+# Великобритания, Турция, Украина и прочие государства за пределами RP4.
