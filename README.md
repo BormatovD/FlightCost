@@ -15,7 +15,7 @@
 Нужен Python 3.11 или новее.
 
 ```bash
-git clone https://github.com/<ваш-аккаунт>/FlightCostApp.git
+git clone https://github.com/BormatovD/FlightCost.git
 cd FlightCostApp
 python3 -m venv .venv
 source .venv/bin/activate
