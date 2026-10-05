@@ -24,12 +24,17 @@ import re
 import subprocess
 import sys
 
+# Без учёта регистра: переменная OpenSky называется OPENSKY_CLIENT_SECRET,
+# заголовок пишут то X-Access-Token, то x-access-token, а лог может
+# напечатать «client_secret=…» без кавычек. Первая версия искала с учётом
+# регистра и только в кавычках — и пропустила лог наблюдений в logs/.
 SECRET = [
-    (r"TP_TOKEN\s*[=:]\s*['\"]?[0-9a-f]{20,}", "ключ Travelpayouts"),
-    (r"X-Access-Token['\"]?\s*[:=]\s*['\"][0-9a-f]{20,}", "ключ Travelpayouts в заголовке"),
-    (r"OPENSKY_CLIENT_SECRET\s*[=:]\s*['\"]?[^\s'\"$]{8,}", "секрет OpenSky"),
-    (r"client_secret['\"]?\s*[:=]\s*['\"][^'\"$]{8,}['\"]", "client_secret"),
-    (r"(?i)(api[_-]?key|token|secret)['\"]?\s*[:=]\s*['\"][A-Za-z0-9_\-]{24,}['\"]",
+    (r"tp_token\s*[=:]\s*['\"]?[0-9a-f]{20,}", "ключ Travelpayouts"),
+    (r"x-access-token['\"]?\s*[:=]\s*['\"]?[0-9a-f]{20,}", "ключ Travelpayouts в заголовке"),
+    (r"client_secret['\"]?\s*[=:]\s*['\"]?[^\s'\"$,}]{8,}", "секрет OAuth (OpenSky)"),
+    (r"bearer\s+[a-z0-9_.\-]{20,}", "токен доступа в заголовке"),
+    (r"(access|refresh)_token['\"]?\s*[=:]\s*['\"]?[a-z0-9_.\-]{20,}", "токен доступа"),
+    (r"(api[_-]?key|token|secret|password)['\"]?\s*[:=]\s*['\"][a-z0-9_\-]{24,}['\"]",
      "похоже на ключ в коде"),
 ]
 TRACKED_BAD = [
@@ -38,9 +43,11 @@ TRACKED_BAD = [
     (r"^data/codes/(?!(airports_list\.xlsx|tkp_codes\.yaml)$)",
      "указатель кодов: CC BY-SA, только рецептом"),
     (r"^data/aircraft/user/", "свои типы владельца"),
-    (r"^data/tkp/.*\.xlsx$", "сырая выгрузка сообщества — в репозиторий только упаковка: fca tkp-pack"),
+    (r"^data/tkp/.*\.xlsx$", "сырая выгрузка ЦРТ — в репозиторий только упаковка: fca tkp-pack"),
     (r"^flight_data/|(^|/)routes\.xlsx$", "сбор цен"),
     (r"\.bak$|(^|/)\.env$", "резервная копия или окружение"),
+    (r"^logs/|\.log$", "логи запусков: локальные пути, иногда токены"),
+    (r"^\.idea/|^\.vscode/", "настройки IDE"),
     (r"^docs/(?!example-).*\.html$", "порождаемый разбор"),
 ]
 BIG = 1_000_000
@@ -107,8 +114,11 @@ def main() -> int:
         if not line.startswith(("+", "-")) or line.startswith(("+++", "---")):
             continue
         for rx, why in SECRET:
-            if re.search(rx, line):
-                found.append((commit, why, line[:110]))
+            if re.search(rx, line, re.IGNORECASE):
+                # Значение прячется: вывод проверки копируют в чат и в
+                # issue, и секрет не должен утечь второй раз через неё же.
+                shown = re.sub(r"([A-Za-z0-9_.\-]{4})[A-Za-z0-9_.\-]{8,}", r"\1…", line)
+                found.append((commit, why, shown[:110]))
     for commit, why, line in found[:15]:
         print(f"   {commit}  {why}:  {line}")
     if found:

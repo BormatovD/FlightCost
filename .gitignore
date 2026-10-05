@@ -46,3 +46,11 @@ docs/*.html
 .env
 *.env
 secrets/
+
+# IDE и логи
+.idea/
+logs/
+
+# IDE и логи
+.idea/
+logs/
