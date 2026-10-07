@@ -18,6 +18,11 @@ ROOT=/srv/fca
 
 say() { printf '\n== %s\n' "$*"; }
 [ "$(id -u)" = 0 ] || { echo "запускать от root"; exit 1; }
+# Рабочий каталог — корень, а не /root. Иначе `sudo -u deploy pip` при
+# повторном запуске падает: editable-установка кладёт в sys.path
+# относительный «путь» __editable__…__path_hook__, pip делает ему stat
+# относительно текущего каталога, а /root пользователю deploy закрыт.
+cd /
 
 if command -v dnf >/dev/null; then FAMILY=el
 elif command -v apt-get >/dev/null; then FAMILY=deb

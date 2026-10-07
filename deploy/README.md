@@ -67,7 +67,7 @@ fca publish --host deploy@АДРЕС
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/fca_actions -N "" -C "github-actions-deploy"
 PUB=$(cat ~/.ssh/fca_actions.pub)
-ssh deploy@АДРЕС "echo 'command=\"/srv/fca/app/deploy/deploy.sh\",restrict $PUB' >> ~/.ssh/authorized_keys"
+ssh deploy@АДРЕС "echo 'command=\"/bin/bash /srv/fca/app/deploy/deploy.sh\",restrict $PUB' >> ~/.ssh/authorized_keys"
 ```
 
 `command=` и `restrict` значат: этим ключом можно только запустить
