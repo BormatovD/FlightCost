@@ -3,9 +3,10 @@
 # Понимает два семейства: AlmaLinux / Rocky / RHEL 9–10 (dnf, firewalld,
 # SELinux) и Ubuntu / Debian (apt, ufw).
 #
-# Запускается с вашего компьютера, от root на сервере:
-#     ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh              # без домена
-#     ssh root@АДРЕС "bash -s -- flightcost.app" < deploy/bootstrap.sh
+# Запускается с вашего компьютера — от root или от пользователя с sudo:
+#     ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh
+#     ssh ПОЛЬЗОВАТЕЛЬ@АДРЕС "sudo bash -s" < deploy/bootstrap.sh
+#     ...и с доменом:  "sudo bash -s -- flightcost.app"
 #
 # Повторный запуск безопасен: ничего не ломает, только доводит до нужного
 # состояния — так же подключается домен, когда он появится.
@@ -78,12 +79,26 @@ id fca >/dev/null 2>&1 || useradd --system --user-group --no-create-home \
 	--home-dir /nonexistent --shell "$NOLOGIN" fca
 id deploy >/dev/null 2>&1 || useradd --create-home --shell /bin/bash deploy
 usermod -aG fca deploy
-# Ваш ключ, с которым вы заходите как root, — и для deploy.
+# Ваш ключ — и для deploy. Берётся у root и у того, кто запустил скрипт
+# через sudo: облачные образы AlmaLinux часто не пускают root вовсе, и
+# тогда ключ лежит у обычного пользователя, а у root его нет.
 install -d -m 700 -o deploy -g deploy /home/deploy/.ssh
 touch /home/deploy/.ssh/authorized_keys
-while read -r k; do
-	[ -n "$k" ] && ! grep -qxF "$k" /home/deploy/.ssh/authorized_keys && echo "$k" >> /home/deploy/.ssh/authorized_keys
-done < /root/.ssh/authorized_keys
+KEYSRC=(/root/.ssh/authorized_keys)
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != root ]; then
+	KEYSRC+=("$(getent passwd "$SUDO_USER" | cut -d: -f6)/.ssh/authorized_keys")
+fi
+for src in "${KEYSRC[@]}"; do
+	[ -f "$src" ] || continue
+	while read -r k; do
+		[ -n "$k" ] && ! grep -qxF "$k" /home/deploy/.ssh/authorized_keys && echo "$k" >> /home/deploy/.ssh/authorized_keys
+	done < "$src"
+done
+if [ ! -s /home/deploy/.ssh/authorized_keys ]; then
+	echo "не нашёл ни одного ключа SSH ни у root, ни у ${SUDO_USER:-запустившего} —"
+	echo "без ключа fca publish не войдёт на сервер. Сначала: ssh-copy-id"
+	exit 1
+fi
 chown deploy:deploy /home/deploy/.ssh/authorized_keys && chmod 600 /home/deploy/.ssh/authorized_keys
 command -v restorecon >/dev/null && restorecon -R /home/deploy/.ssh || true
 
@@ -151,10 +166,14 @@ else
 fi
 
 say "ssh: только по ключу"
-cat > /etc/ssh/sshd_config.d/10-fca.conf <<'SSH'
+# Если скрипт запущен через sudo обычным пользователем, вход root по SSH
+# закрывается совсем: администрировать есть кем. Если от root — root
+# остаётся, но только по ключу, иначе вы бы заперли себя снаружи.
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != root ]; then ROOTLOGIN=no; else ROOTLOGIN=prohibit-password; fi
+cat > /etc/ssh/sshd_config.d/10-fca.conf <<SSH
 PasswordAuthentication no
 KbdInteractiveAuthentication no
-PermitRootLogin prohibit-password
+PermitRootLogin $ROOTLOGIN
 SSH
 sshd -t
 systemctl reload sshd 2>/dev/null || systemctl reload ssh
