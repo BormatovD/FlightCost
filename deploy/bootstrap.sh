@@ -156,6 +156,11 @@ sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/cadd
 install -d -o caddy -g caddy /var/log/caddy
 command -v restorecon >/dev/null && restorecon -R /etc/caddy /var/log/caddy || true
 caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null
+# validate от root сам создаёт файл журнала — с владельцем root и правами
+# 600. Служба Caddy работает от пользователя caddy, открыть его не может и
+# падает при старте. Возвращаем каталог журнала его хозяину.
+chown -R caddy:caddy /var/log/caddy
+command -v restorecon >/dev/null && restorecon -R /var/log/caddy || true
 systemctl enable --quiet caddy
 systemctl reload caddy 2>/dev/null || systemctl restart caddy
 
