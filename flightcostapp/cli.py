@@ -389,12 +389,12 @@ def main(argv=None) -> int:
     pb.add_argument("--dry-run", action="store_true",
                     help="только собрать снимок и показать, что в нём; на сервер не слать")
     tp = sub.add_parser("tkp-pack",
-                        help="упаковать выгрузку ЦРТ в JSON для репозитория")
+                        help="упаковать выгрузку сообщества в JSON для репозитория")
     tp.add_argument("--src", default="data/raw/tkp",
                     help="где лежит сырая выгрузка *.xlsx (берётся самая новая)")
     tp.add_argument("--out", default="data/tkp/tkp_charges.json")
     tp.add_argument("--codes", default="data/codes/tkp_codes.yaml",
-                    help="таблица соответствия кодов ЦРТ → ИКАО")
+                    help="таблица соответствия кодов сообщества → ИКАО")
     s = sub.add_parser("status", help="свежесть источников")
     s.add_argument("--json", action="store_true")
 
@@ -630,7 +630,7 @@ def main(argv=None) -> int:
         print(f"{files[-1].name} → {out}: {packed['airports']} аэропортов, "
               f"{len(packed['records'])} записей, {out.stat().st_size // 1024} КБ")
         if packed["unmapped_codes"]:
-            print(f"  без кода ЦРТ→ИКАО и потому не упаковано: {packed['unmapped_codes']} "
+            print(f"  без кода сообщества→ИКАО и потому не упаковано: {packed['unmapped_codes']} "
                   f"аэропортов — дополнить {a.codes}, если нужны")
         print("  дальше: fca refresh --only tkp_charges")
         return 0
@@ -1148,7 +1148,7 @@ PUBLISH_EXCLUDE_SOURCES = {
 PUBLISH_CLEAR_TABLES = {
     "observations": "сырые наблюдения ADS-B и цен — в справочнике только агрегаты",
     "proposals": "очередь приёмки владельца",
-    "artifacts": "ссылки на скачанные документы, включая подписную выгрузку ЦРТ",
+    "artifacts": "ссылки на скачанные документы, включая подписную выгрузку сообщества",
     "review_ack": "отметки приёмки владельца",
 }
 SERVER_ROOT = "/srv/fca"

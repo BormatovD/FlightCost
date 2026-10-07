@@ -18,6 +18,8 @@ header b{font:600 16px/1 var(--sans);margin-right:6px}
 header .hp{position:relative}
 /* Переключатель языка: три кнопки, нажатая — цветом акцента. */
 #langs{display:inline-flex;gap:2px;margin-left:10px}
+header a.legal{font:11px var(--sans);color:var(--faint);margin-left:10px;text-decoration:none}
+header a.legal:hover{color:var(--ink);text-decoration:underline}
 #langs button{font:12px var(--sans);padding:3px 6px;background:none;color:var(--dim);
  border:1px solid var(--line);border-radius:4px;cursor:pointer}
 #langs button[aria-pressed="true"]{color:var(--ink);border-color:var(--accent)}
@@ -309,7 +311,8 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span id="hdr">—</span>
   <span class="sp" id="stat"></span>
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
-    data-lang="en">EN</button><button data-lang="de">DE</button></span></header>
+    data-lang="en">EN</button><button data-lang="de">DE</button></span>
+  <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a></header>
 <div class="cols" id="cols">
   <aside class="pane left">
     <div class="grp2">Рейс</div>

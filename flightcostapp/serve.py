@@ -191,6 +191,9 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json({"error": "слишком часто: тяжёлые расчёты — не чаще "
                                             f"{self.server.ctx.HEAVY_PER_MIN} в минуту с адреса"},
                                   429)
+            if u.path in ("/impressum", "/datenschutz"):
+                return self._send(200, _legal_page(u.path.lstrip("/")),
+                                  "text/html; charset=utf-8")
             if u.path in ("/", "/index.html"):
                 return self._send(200, _page(), "text/html; charset=utf-8")
             if u.path == "/api/airports":
@@ -296,10 +299,19 @@ class Context:
             if len(q) >= self.HEAVY_PER_MIN:
                 return False
             q.append(now)
-            if len(self._rl) > 5000:            # не копить адреса вечно
-                for k in [k for k, v in self._rl.items() if not v][:1000]:
-                    del self._rl[k]
+            # Адрес нужен ровно на окно в минуту. Раз в минуту выметаем
+            # всех, чьё последнее обращение старше окна: политика
+            # конфиденциальности обещает, что полный адрес живёт в памяти
+            # не дольше двух минут, и это обещание держит этот код.
+            if now - self._rl_swept > 60:
+                self._rl_sweep(now)
             return True
+
+    def _rl_sweep(self, now: float) -> None:
+        """Забыть адреса, чьё последнее обращение старше окна. Под `_rl_lock`."""
+        for k in [k for k, v in self._rl.items() if not v or now - v[-1] > 60]:
+            del self._rl[k]
+        self._rl_swept = now
 
     def health(self) -> dict:
         import os
@@ -318,6 +330,11 @@ class Context:
                 self._facts_n = db.execute(
                     "SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
         out["facts"] = self._facts_n
+        missing = [k for k in LEGAL_FIELDS if not _legal_values().get(k)]
+        if missing:
+            # Не роняет `ok`: выкладка кода не должна ждать юридического
+            # текста. Но видно и вам, и тестовому прогону.
+            out["legal_missing"] = missing
         return out
 
     def __init__(self, store, registry, public: bool = False):
@@ -328,8 +345,19 @@ class Context:
         # гостей — слой сценария (решение 33), ему нужна своя область
         # видимости по автору; пока её нет, сохранение честно отказывает.
         self.public = public
-        self._rl, self._rl_lock = {}, threading.Lock()
+        self._rl, self._rl_lock, self._rl_swept = {}, threading.Lock(), 0.0
         self._facts_n = None
+        if public:
+            # Метла по часам, а не только по запросам: на тихом сайте
+            # следующего тяжёлого запроса можно ждать часами, а политика
+            # обещает «не дольше двух минут» (окно 60 с + шаг 30 с).
+            def _sweeper():
+                import time
+                while True:
+                    time.sleep(30)
+                    with self._rl_lock:
+                        self._rl_sweep(time.monotonic())
+            threading.Thread(target=_sweeper, daemon=True, name="rl-sweep").start()
 
     def airports(self) -> list[dict]:
         if self._apts is None:
@@ -1214,6 +1242,42 @@ class Context:
         with self.lock:
             self.store.registry = self.registry
             return inventory.collect(self.store)
+
+
+LEGAL_FIELDS = ("name", "street", "city", "email", "hoster", "server_location")
+
+
+def _legal_values() -> dict:
+    """Реквизиты для Impressum и политики — из `web/legal.json`.
+
+    Один файл, а не текст страниц: правите реквизиты, не трогая
+    юридических формулировок, и наоборот. Файл в репозитории — Impressum
+    публичен по определению, секретов в нём нет.
+    """
+    p = WEB / "legal.json"
+    if not p.exists():
+        return {}
+    return {k: str(v).strip() for k, v in
+            json.loads(p.read_text(encoding="utf-8")).items()
+            if v is not None and not k.startswith("_")}
+
+
+def _legal_page(kind: str, values: dict | None = None) -> bytes:
+    """Impressum или Datenschutz с подставленными реквизитами.
+
+    Незаполненное поле видно на странице красной пометкой, а не пустым
+    местом: пустой Impressum выглядит готовым и потому опаснее
+    отсутствующего.
+    """
+    import html as _html
+    vals = _legal_values() if values is None else values
+    page = (WEB / f"{kind}.html").read_text(encoding="utf-8")
+
+    def sub(m):
+        v = (vals.get(m.group(1)) or "").strip()
+        return (_html.escape(v) if v else
+                f'<mark class="todo">[{m.group(1)}: не заполнено]</mark>')
+    return re.sub(r"\{\{(\w+)\}\}", sub, page).encode("utf-8")
 
 
 def _page() -> bytes:

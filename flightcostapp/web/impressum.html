@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressum · FlightCost</title>
+<link rel="stylesheet" href="/ui.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:28px 16px 60px;line-height:1.55;
+  color:var(--ink,#1d1d1f);background:var(--bg,#fff);font-family:var(--sans,system-ui,sans-serif)}
+nav{font-size:13px;margin-bottom:24px}nav a{margin-right:14px}
+a{color:var(--accent,#2856c9)}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:16px;margin:26px 0 6px}
+section+section{border-top:1px solid var(--line,#ddd);margin-top:40px;padding-top:28px}
+.note{color:var(--dim,#666);font-size:13px}
+mark.todo{background:#ffe1e1;color:#a00000;padding:0 4px}
+address{font-style:normal}
+</style>
+</head>
+<body>
+<nav><a href="/">← FlightCost</a><a href="/datenschutz">Datenschutz · Privacy · Конфиденциальность</a></nav>
+
+<main id="legal">
+<section lang="de" id="de">
+<h1>Impressum</h1>
+<p class="note"><a href="#en">English</a> · <a href="#ru">Русский</a></p>
+
+<h2>Angaben gemäß § 5 DDG</h2>
+<address>
+{{name}}<br>
+{{street}}<br>
+{{city}}<br>
+Deutschland
+</address>
+
+<h2>Kontakt</h2>
+<p>E-Mail: <a href="mailto:{{email}}">{{email}}</a></p>
+
+<h2>Hinweis zu den Inhalten</h2>
+<p>FlightCost ist ein nicht-kommerzielles Open-Source-Projekt. Die angezeigten
+Werte sind Modellrechnungen auf Grundlage öffentlich zugänglicher Quellen und
+teilweise parametrischer Annahmen. Jede Zahl ist mit ihrer Quelle und ihrem
+Stand gekennzeichnet. Die Berechnungen ersetzen keine betriebswirtschaftliche,
+finanzielle oder rechtliche Beratung; eine Gewähr für Richtigkeit,
+Vollständigkeit und Aktualität wird nicht übernommen.</p>
+
+<h2>Lizenzen</h2>
+<p>Quellcode: Apache License 2.0. Eigene Daten des Projekts: CC BY 4.0.
+Daten Dritter unterliegen den Bedingungen ihrer Herausgeber; die Nachweise
+stehen in der Datei <code>NOTICE</code> im
+<a href="https://github.com/BormatovD/FlightCost">Repository</a>.</p>
+</section>
+
+<section lang="en" id="en">
+<h1>Legal notice</h1>
+<p class="note">Translation for convenience; the <a href="#de">German version</a> is authoritative · <a href="#ru">Русский</a></p>
+
+<h2>Information pursuant to § 5 DDG (German Digital Services Act)</h2>
+<address>
+{{name}}<br>
+{{street}}<br>
+{{city}}<br>
+Germany
+</address>
+
+<h2>Contact</h2>
+<p>Email: <a href="mailto:{{email}}">{{email}}</a></p>
+
+<h2>About the content</h2>
+<p>FlightCost is a non-commercial open-source project. The figures shown are
+model calculations based on publicly available sources and, in part, on
+parametric assumptions. Every figure is labelled with its source and date.
+The calculations are not business, financial or legal advice; no guarantee is
+given for accuracy, completeness or timeliness.</p>
+
+<h2>Licences</h2>
+<p>Source code: Apache License 2.0. The project's own data: CC BY 4.0.
+Third-party data is subject to its publishers' terms; attributions are listed
+in the <code>NOTICE</code> file in the
+<a href="https://github.com/BormatovD/FlightCost">repository</a>.</p>
+</section>
+
+<section lang="ru" id="ru">
+<h1>Выходные данные</h1>
+<p class="note">Перевод для удобства; юридическую силу имеет <a href="#de">немецкая версия</a> · <a href="#en">English</a></p>
+
+<h2>Сведения согласно § 5 DDG (Закон Германии о цифровых услугах)</h2>
+<address>
+{{name}}<br>
+{{street}}<br>
+{{city}}<br>
+Германия
+</address>
+
+<h2>Контакты</h2>
+<p>Электронная почта: <a href="mailto:{{email}}">{{email}}</a></p>
+
+<h2>О содержании</h2>
+<p>FlightCost — некоммерческий проект с открытым исходным кодом. Показанные
+значения — модельные расчёты на основе общедоступных источников и отчасти
+параметрических допущений. У каждого числа указаны источник и дата. Расчёты
+не являются экономической, финансовой или юридической консультацией;
+точность, полнота и актуальность не гарантируются.</p>
+
+<h2>Лицензии</h2>
+<p>Исходный код: Apache License 2.0. Собственные данные проекта: CC BY 4.0.
+Данные третьих лиц используются на условиях их издателей; перечень — в файле
+<code>NOTICE</code> в <a href="https://github.com/BormatovD/FlightCost">репозитории</a>.</p>
+</section>
+</main>
+
+<script>
+// Сверху — версия на языке посетителя (тот же ключ fca.lang, что у
+// витрины), остальные следом. Без выбора — английская.
+(() => {
+  const all = ["de", "en", "ru"];
+  let lang = new URLSearchParams(location.search).get("lang");
+  try { lang = lang || localStorage.getItem("fca.lang"); } catch (e) {}
+  lang = lang || String(navigator.language || "").slice(0, 2).toLowerCase();
+  if (!all.includes(lang)) lang = "en";
+  const m = document.getElementById("legal");
+  for (const id of [lang, ...all.filter(x => x !== lang)])
+    m.appendChild(document.getElementById(id));
+  document.documentElement.lang = lang;
+})();
+</script>
+</body>
+</html>

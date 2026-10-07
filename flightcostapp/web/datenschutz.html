@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datenschutz · FlightCost</title>
+<link rel="stylesheet" href="/ui.css">
+<style>
+body{max-width:720px;margin:0 auto;padding:28px 16px 60px;line-height:1.55;
+  color:var(--ink,#1d1d1f);background:var(--bg,#fff);font-family:var(--sans,system-ui,sans-serif)}
+nav{font-size:13px;margin-bottom:24px}nav a{margin-right:14px}
+a{color:var(--accent,#2856c9)}
+h1{font-size:24px;margin:0 0 4px}h2{font-size:16px;margin:26px 0 6px}
+section+section{border-top:1px solid var(--line,#ddd);margin-top:40px;padding-top:28px}
+.note{color:var(--dim,#666);font-size:13px}
+mark.todo{background:#ffe1e1;color:#a00000;padding:0 4px}
+address{font-style:normal}
+</style>
+</head>
+<body>
+<!--
+  Политика описывает факты, а не шаблон. Каждое утверждение здесь держит
+  конкретная строка кода или конфигурации; меняете её — меняйте текст:
+    без внешних ресурсов           tests/test_legal.py (страница и ui.css)
+    усечённый IP, без заголовков    deploy/Caddyfile, блок log
+    7 дней для ротированных логов   deploy/Caddyfile, roll_keep_for
+    IP в памяти ≤ 2 минут           serve.py, Context.allow
+    только fca.lang в браузере      tests/test_legal.py
+  Гостевое рабочее место (cookie, сохранённые типы) сюда впишется вместе
+  с ним, не раньше.
+-->
+<nav><a href="/">← FlightCost</a><a href="/impressum">Impressum · Legal notice · Выходные данные</a></nav>
+
+<main id="legal">
+<section lang="de" id="de">
+<h1>Datenschutzerklärung</h1>
+<p class="note">Stand: Oktober 2026 · <a href="#en">English</a> · <a href="#ru">Русский</a></p>
+
+<h2>1. Verantwortlicher</h2>
+<address>
+{{name}}<br>
+{{street}}, {{city}}<br>
+E-Mail: <a href="mailto:{{email}}">{{email}}</a>
+</address>
+
+<h2>2. Das Wichtigste in Kürze</h2>
+<p>Diese Website setzt keine Cookies, verwendet keine Analyse-, Tracking- oder
+Werbedienste und verlangt keine Registrierung. Alle Bestandteile der Seite
+(Schriften, Skripte, Karten- und Flughafendaten) werden von unserem eigenen
+Server ausgeliefert; beim Aufruf werden keine Daten an Dritte übertragen.</p>
+
+<h2>3. Hosting</h2>
+<p>Die Website wird auf einem Server von {{hoster}} betrieben
+(Serverstandort: {{server_location}}). Mit dem Anbieter besteht ein Vertrag
+über die Auftragsverarbeitung nach Art. 28 DSGVO.</p>
+
+<h2>4. Server-Protokolle</h2>
+<p>Beim Aufruf der Website verarbeitet der Webserver technisch zwingend Ihre
+IP-Adresse. In der Protokolldatei gespeichert werden: Datum und Uhrzeit, die
+aufgerufene Adresse einschließlich der darin enthaltenen Eingaben (z. B.
+Flughäfen, Flugzeugtyp, Auslastung), HTTP-Statuscode, übertragene Datenmenge,
+Antwortzeit sowie die <strong>gekürzte</strong> IP-Adresse (bei IPv4 ohne die
+letzten 8 Bit, bei IPv6 nur die ersten 48 Bit). Browserkennung
+(User-Agent), Referrer und andere Kopfzeilen der Anfrage werden nicht
+gespeichert. Die Protokolldateien werden nach Größe rotiert; rotierte Dateien
+werden nach 7 Tagen gelöscht.</p>
+<p>Zweck ist der sichere Betrieb der Website, die Fehlersuche und die Abwehr
+von Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser
+berechtigtes Interesse liegt in diesen Zwecken.</p>
+
+<h2>5. Begrenzung rechenintensiver Anfragen</h2>
+<p>Damit einzelne Nutzer den Server nicht überlasten, ist die Zahl
+rechenintensiver Anfragen (Sensitivitäts- und Typenvergleich) pro Minute und
+IP-Adresse begrenzt. Dafür wird die vollständige IP-Adresse ausschließlich im
+Arbeitsspeicher gehalten und spätestens nach zwei Minuten verworfen; sie wird
+nicht auf einen Datenträger geschrieben. Rechtsgrundlage: Art. 6 Abs. 1 lit. f
+DSGVO (Schutz des Dienstes vor Überlastung).</p>
+
+<h2>6. Speicherung im Browser</h2>
+<p>Wählen Sie eine Sprache, wird diese Wahl unter dem Schlüssel
+<code>fca.lang</code> im lokalen Speicher (<code>localStorage</code>) Ihres
+Browsers abgelegt, damit die Seite beim nächsten Besuch in derselben Sprache
+erscheint. Der Wert verlässt Ihren Browser nicht. Die Speicherung ist für den
+von Ihnen ausdrücklich gewünschten Dienst unbedingt erforderlich
+(§ 25 Abs. 2 Nr. 2 TDDDG). Sie können den Eintrag jederzeit über die
+Einstellungen Ihres Browsers löschen.</p>
+
+<h2>7. Kontakt per E-Mail</h2>
+<p>Wenn Sie uns per E-Mail schreiben, verarbeiten wir Ihre Adresse und den
+Inhalt der Nachricht, um Ihre Anfrage zu beantworten
+(Art. 6 Abs. 1 lit. f DSGVO, bei vertragsbezogenen Anfragen lit. b). Die
+Nachricht wird gelöscht, sobald sie erledigt ist und keine gesetzlichen
+Aufbewahrungspflichten entgegenstehen.</p>
+
+<h2>8. Links auf andere Websites</h2>
+<p>Die Seite enthält Links, etwa zum Quellcode auf GitHub. Daten werden an
+den jeweiligen Anbieter erst übertragen, wenn Sie einem Link folgen; dort
+gelten dessen Datenschutzbestimmungen.</p>
+
+<h2>9. Ihre Rechte</h2>
+<p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16),
+Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18),
+Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf
+Grundlage von Art. 6 Abs. 1 lit. f (Art. 21). Wenden Sie sich dazu an die
+oben genannte E-Mail-Adresse. Da wir IP-Adressen nur gekürzt speichern,
+können wir Protokolleinträge in der Regel keiner Person zuordnen
+(Art. 11 DSGVO).</p>
+<p>Sie können sich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren
+(Art. 77 DSGVO), zum Beispiel bei der für uns zuständigen Behörde: Der
+Hessische Beauftragte für Datenschutz und Informationsfreiheit,
+Gustav-Stresemann-Ring 1, 65189 Wiesbaden.</p>
+
+<h2>10. Nutzer im Vereinigten Königreich</h2>
+<p>Für Besucher aus dem Vereinigten Königreich gelten die vorstehenden Angaben
+entsprechend nach UK GDPR und Data Protection Act 2018; Rechtsgrundlagen und
+Rechte entsprechen den genannten Artikeln. Die Spracheinstellung (Nr. 6) wird
+ausschließlich gespeichert, um die von Ihnen gewählte Darstellung der Website
+beizubehalten (Privacy and Electronic Communications Regulations,
+Regulation 6). Beschwerden können Sie auch an das Information Commissioner's
+Office richten: ICO, Wycliffe House, Water Lane, Wilmslow, Cheshire SK9 5AF,
+<a href="https://ico.org.uk">ico.org.uk</a>.</p>
+
+<h2>11. Sonstiges</h2>
+<p>Sie sind weder gesetzlich noch vertraglich verpflichtet, uns
+personenbezogene Daten bereitzustellen. Eine automatisierte
+Entscheidungsfindung einschließlich Profiling findet nicht statt. Ändert sich
+die Funktionsweise der Website, passen wir diese Erklärung an.</p>
+</section>
+
+<section lang="en" id="en">
+<h1>Privacy policy</h1>
+<p class="note">Last updated: October 2026 · Translation for convenience; the
+<a href="#de">German version</a> is authoritative · <a href="#ru">Русский</a></p>
+
+<h2>1. Controller</h2>
+<address>
+{{name}}<br>
+{{street}}, {{city}}, Germany<br>
+Email: <a href="mailto:{{email}}">{{email}}</a>
+</address>
+
+<h2>2. In short</h2>
+<p>This website sets no cookies, uses no analytics, tracking or advertising
+services and requires no registration. Every part of the page (fonts,
+scripts, map and airport data) is served from our own server; no data is
+transferred to third parties when you visit.</p>
+
+<h2>3. Hosting</h2>
+<p>The website runs on a server provided by {{hoster}} (server location:
+{{server_location}}). A data processing agreement under Art. 28 GDPR is in
+place with the provider.</p>
+
+<h2>4. Server logs</h2>
+<p>When you visit the website, the web server necessarily processes your IP
+address. The log file stores: date and time, the requested address including
+any inputs it contains (e.g. airports, aircraft type, load factor), HTTP
+status code, amount of data transferred, response time, and the
+<strong>truncated</strong> IP address (IPv4 without the last 8 bits, IPv6
+only the first 48 bits). Browser identification (user agent), referrer and
+other request headers are not stored. Log files are rotated by size; rotated
+files are deleted after 7 days.</p>
+<p>The purpose is secure operation of the website, troubleshooting and
+prevention of abuse. The legal basis is Art. 6(1)(f) GDPR; our legitimate
+interest lies in these purposes.</p>
+
+<h2>5. Limiting compute-heavy requests</h2>
+<p>To keep individual users from overloading the server, the number of
+compute-heavy requests (sensitivity and aircraft-type comparison) per minute
+and IP address is limited. For this, the full IP address is held in memory
+only and discarded after two minutes at the latest; it is never written to
+disk. Legal basis: Art. 6(1)(f) GDPR (protecting the service from
+overload).</p>
+
+<h2>6. Storage in your browser</h2>
+<p>If you choose a language, that choice is stored under the key
+<code>fca.lang</code> in your browser's local storage
+(<code>localStorage</code>) so the page appears in the same language next
+time. The value never leaves your browser. Storing it is strictly necessary
+for the service you explicitly requested (§ 25(2) no. 2 TDDDG). You can
+delete it at any time in your browser settings.</p>
+
+<h2>7. Contact by email</h2>
+<p>If you email us, we process your address and the content of your message
+to answer your request (Art. 6(1)(f) GDPR; for contract-related requests,
+point (b)). The message is deleted once it has been dealt with, unless
+statutory retention obligations apply.</p>
+
+<h2>8. Links to other websites</h2>
+<p>The page contains links, for example to the source code on GitHub. Data
+is transferred to the respective provider only when you follow a link; that
+provider's privacy policy then applies.</p>
+
+<h2>9. Your rights</h2>
+<p>You have the right of access (Art. 15 GDPR), rectification (Art. 16),
+erasure (Art. 17), restriction of processing (Art. 18), data portability
+(Art. 20) and to object to processing based on Art. 6(1)(f) (Art. 21). To
+exercise them, write to the email address above. Because we store IP
+addresses only in truncated form, we generally cannot link log entries to a
+person (Art. 11 GDPR).</p>
+<p>You may also lodge a complaint with a data protection supervisory
+authority (Art. 77 GDPR), for example the authority responsible for us: Der
+Hessische Beauftragte für Datenschutz und Informationsfreiheit,
+Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Germany.</p>
+
+<h2>10. Users in the United Kingdom</h2>
+<p>For visitors from the United Kingdom, the above applies correspondingly
+under the UK GDPR and the Data Protection Act 2018; legal bases and rights
+correspond to the articles cited. The language setting (section 6) is stored
+solely to keep the appearance of the website you chose (Privacy and
+Electronic Communications Regulations, regulation 6). You may also complain
+to the Information Commissioner's Office: ICO, Wycliffe House, Water Lane,
+Wilmslow, Cheshire SK9 5AF, <a href="https://ico.org.uk">ico.org.uk</a>.</p>
+
+<h2>11. Other</h2>
+<p>You are under no statutory or contractual obligation to provide personal
+data. No automated decision-making, including profiling, takes place. If the
+way the website works changes, we will update this policy.</p>
+</section>
+
+<section lang="ru" id="ru">
+<h1>Политика конфиденциальности</h1>
+<p class="note">Редакция: октябрь 2026 · Перевод для удобства; юридическую силу
+имеет <a href="#de">немецкая версия</a> · <a href="#en">English</a></p>
+
+<h2>1. Ответственное лицо</h2>
+<address>
+{{name}}<br>
+{{street}}, {{city}}, Германия<br>
+Электронная почта: <a href="mailto:{{email}}">{{email}}</a>
+</address>
+
+<h2>2. Коротко</h2>
+<p>Сайт не устанавливает cookie, не использует сервисы аналитики, отслеживания
+и рекламы и не требует регистрации. Все части страницы (шрифты, скрипты,
+картографические данные и данные аэропортов) отдаются с нашего собственного
+сервера; при посещении никакие данные третьим лицам не передаются.</p>
+
+<h2>3. Хостинг</h2>
+<p>Сайт работает на сервере компании {{hoster}} (расположение сервера:
+{{server_location}}). С провайдером заключён договор об обработке данных по
+поручению согласно ст. 28 GDPR.</p>
+
+<h2>4. Журналы сервера</h2>
+<p>При обращении к сайту веб-сервер по техническим причинам обрабатывает ваш
+IP-адрес. В журнал записываются: дата и время, запрошенный адрес вместе с
+содержащимися в нём вводными (например, аэропорты, тип самолёта, загрузка),
+код ответа HTTP, объём переданных данных, время ответа и
+<strong>усечённый</strong> IP-адрес (у IPv4 без последних 8 бит, у IPv6 —
+только первые 48 бит). Сведения о браузере (User-Agent), referrer и прочие
+заголовки запроса не сохраняются. Журналы ротируются по размеру; ротированные
+файлы удаляются через 7 дней.</p>
+<p>Цель — безопасная работа сайта, поиск ошибок и защита от злоупотреблений.
+Правовое основание — ст. 6 ч. 1 п. f GDPR; наш законный интерес состоит в
+этих целях.</p>
+
+<h2>5. Ограничение ресурсоёмких запросов</h2>
+<p>Чтобы отдельные пользователи не перегружали сервер, число ресурсоёмких
+запросов (анализ чувствительности и сравнение типов ВС) в минуту с одного
+IP-адреса ограничено. Для этого полный IP-адрес хранится только в оперативной
+памяти и удаляется не позднее чем через две минуты; на диск он не
+записывается. Правовое основание: ст. 6 ч. 1 п. f GDPR (защита сервиса от
+перегрузки).</p>
+
+<h2>6. Хранение в браузере</h2>
+<p>Если вы выбираете язык, выбор сохраняется под ключом <code>fca.lang</code>
+в локальном хранилище (<code>localStorage</code>) вашего браузера, чтобы при
+следующем посещении страница открылась на том же языке. Значение не покидает
+ваш браузер. Хранение строго необходимо для услуги, которую вы явно запросили
+(§ 25 абз. 2 п. 2 TDDDG). Запись можно в любой момент удалить в настройках
+браузера.</p>
+
+<h2>7. Обращения по электронной почте</h2>
+<p>Если вы пишете нам, мы обрабатываем ваш адрес и содержание письма, чтобы
+ответить (ст. 6 ч. 1 п. f GDPR, для обращений, связанных с договором, —
+п. b). Письмо удаляется после того, как вопрос решён, если этому не
+препятствуют установленные законом сроки хранения.</p>
+
+<h2>8. Ссылки на другие сайты</h2>
+<p>На странице есть ссылки, например на исходный код на GitHub. Данные
+передаются соответствующему сервису, только когда вы переходите по ссылке;
+там действуют его правила конфиденциальности.</p>
+
+<h2>9. Ваши права</h2>
+<p>Вы вправе получить сведения о своих данных (ст. 15 GDPR), потребовать их
+исправления (ст. 16), удаления (ст. 17), ограничения обработки (ст. 18),
+переноса (ст. 20) и возразить против обработки на основании ст. 6 ч. 1 п. f
+(ст. 21). Для этого напишите на указанный выше адрес. Поскольку IP-адреса
+хранятся только в усечённом виде, как правило, мы не можем соотнести записи
+журнала с конкретным человеком (ст. 11 GDPR).</p>
+<p>Вы также можете подать жалобу в надзорный орган по защите данных
+(ст. 77 GDPR), например в орган, к ведению которого мы относимся: Der
+Hessische Beauftragte für Datenschutz und Informationsfreiheit,
+Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Германия.</p>
+
+<h2>10. Пользователям в Великобритании</h2>
+<p>Для посетителей из Великобритании изложенное применяется соответственно по
+UK GDPR и Data Protection Act 2018; правовые основания и права соответствуют
+указанным статьям. Настройка языка (п. 6) хранится исключительно для того,
+чтобы сохранить выбранный вами вид сайта (Privacy and Electronic
+Communications Regulations, regulation 6). Жалобу можно направить также в
+Information Commissioner's Office: ICO, Wycliffe House, Water Lane, Wilmslow,
+Cheshire SK9 5AF, <a href="https://ico.org.uk">ico.org.uk</a>.</p>
+
+<h2>11. Прочее</h2>
+<p>Вы не обязаны ни по закону, ни по договору предоставлять нам персональные
+данные. Автоматизированное принятие решений, включая профилирование, не
+осуществляется. Если работа сайта изменится, мы обновим эту политику.</p>
+</section>
+</main>
+
+<script>
+// Сверху — версия на языке посетителя (тот же ключ fca.lang, что у
+// витрины), остальные следом. Без выбора — английская.
+(() => {
+  const all = ["de", "en", "ru"];
+  let lang = new URLSearchParams(location.search).get("lang");
+  try { lang = lang || localStorage.getItem("fca.lang"); } catch (e) {}
+  lang = lang || String(navigator.language || "").slice(0, 2).toLowerCase();
+  if (!all.includes(lang)) lang = "en";
+  const m = document.getElementById("legal");
+  for (const id of [lang, ...all.filter(x => x !== lang)])
+    m.appendChild(document.getElementById(id));
+  document.documentElement.lang = lang;
+})();
+</script>
+</body>
+</html>

@@ -24,6 +24,7 @@ jobs:
               tests/test_invariants.py \
               tests/test_easa_noise.py \
               tests/test_i18n.py \
+              tests/test_legal.py \
               tests/test_pipeline.py \
               tests/test_ui.py \
               tests/test_deps.py \

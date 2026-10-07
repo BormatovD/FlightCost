@@ -1,0 +1,9 @@
+{
+  "_": "Реквизиты для /impressum и /datenschutz. Пустое поле видно на странице красной пометкой и в /healthz как legal_missing.",
+  "name": "Dan Bor",
+  "street": "Münchener Straße 8",
+  "city": "60329 Frankfurt am Main",
+  "email": "kontakt@flightcost.app",
+  "hoster": "reg.ru",
+  "server_location": ""
+}

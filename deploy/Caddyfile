@@ -19,9 +19,30 @@
 		max_size 1MB
 	}
 
+	# Журнал — то, что обещает /datenschutz, пункт 4: адрес усечён до
+	# сети (/24, /48) ещё до записи, заголовки (браузер, referrer) не
+	# пишутся вовсе, ротированные файлы живут 7 дней. Меняете здесь —
+	# меняйте текст политики.
 	log {
 		output file /var/log/caddy/fca.log {
-			roll_keep 7
+			roll_size 10MiB
+			roll_keep 10
+			roll_keep_for 7d
+		}
+		format filter {
+			wrap json
+			fields {
+				request>remote_ip ip_mask {
+					ipv4 24
+					ipv6 48
+				}
+				request>client_ip ip_mask {
+					ipv4 24
+					ipv6 48
+				}
+				request>headers delete
+				resp_headers delete
+			}
 		}
 	}
 }
