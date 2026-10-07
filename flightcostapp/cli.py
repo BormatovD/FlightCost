@@ -383,13 +383,18 @@ def main(argv=None) -> int:
     r.add_argument("--dry-run", action="store_true")
     r.add_argument("--json", action="store_true")
 
+    pb = sub.add_parser("publish", help="снимок справочника на сервер витрины")
+    pb.add_argument("--host", default=None, metavar="deploy@адрес",
+                    help="сервер; по умолчанию из переменной FCA_DEPLOY_HOST")
+    pb.add_argument("--dry-run", action="store_true",
+                    help="только собрать снимок и показать, что в нём; на сервер не слать")
     tp = sub.add_parser("tkp-pack",
-                        help="упаковать выгрузку сообщества в JSON для репозитория")
+                        help="упаковать выгрузку ЦРТ в JSON для репозитория")
     tp.add_argument("--src", default="data/raw/tkp",
                     help="где лежит сырая выгрузка *.xlsx (берётся самая новая)")
     tp.add_argument("--out", default="data/tkp/tkp_charges.json")
     tp.add_argument("--codes", default="data/codes/tkp_codes.yaml",
-                    help="таблица соответствия кодов сообщества → ИКАО")
+                    help="таблица соответствия кодов ЦРТ → ИКАО")
     s = sub.add_parser("status", help="свежесть источников")
     s.add_argument("--json", action="store_true")
 
@@ -601,8 +606,11 @@ def main(argv=None) -> int:
             print(f"\n{pend} предложений ждут ревью: fca review")
         return 0
 
+    if a.cmd == "publish":
+        return _publish(store, a)
+
     if a.cmd == "tkp-pack":
-        # Сырая выгрузка сообщества остаётся у владельца; в репозиторий идёт её
+        # Сырая выгрузка ЦРТ остаётся у владельца; в репозиторий идёт её
         # упаковка: шесть аэронавигационных услуг, аэропорты с кодом ИКАО.
         import hashlib
         import json as _json
@@ -622,7 +630,7 @@ def main(argv=None) -> int:
         print(f"{files[-1].name} → {out}: {packed['airports']} аэропортов, "
               f"{len(packed['records'])} записей, {out.stat().st_size // 1024} КБ")
         if packed["unmapped_codes"]:
-            print(f"  без кода сообщества→ИКАО и потому не упаковано: {packed['unmapped_codes']} "
+            print(f"  без кода ЦРТ→ИКАО и потому не упаковано: {packed['unmapped_codes']} "
                   f"аэропортов — дополнить {a.codes}, если нужны")
         print("  дальше: fca refresh --only tkp_charges")
         return 0
@@ -1124,3 +1132,114 @@ def _write_explain(res, want: str, margins=None) -> Path:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+# ── публикация справочника ────────────────────────────────────────────────
+# Что из базы НЕ уходит на сервер (решения 147, 148).
+PUBLISH_EXCLUDE_SOURCES = {
+    "aircraft_user": "свои типы владельца — его сценарий, а не справочник",
+    "aircraft_registry": "реестр бортов — нужен только свёртке наблюдений у владельца; "
+                         "витрина его не читает, а это бо́льшая часть веса снимка",
+}
+# Медианы цен агрегатора (`market_fare`) публикуются: Data API Travelpayouts
+# предназначен для информирования пользователей на сайте партнёра. Уходят
+# только агрегаты; сырые предложения вычищаются вместе с таблицей
+# observations ниже.
+PUBLISH_CLEAR_TABLES = {
+    "observations": "сырые наблюдения ADS-B и цен — в справочнике только агрегаты",
+    "proposals": "очередь приёмки владельца",
+    "artifacts": "ссылки на скачанные документы, включая подписную выгрузку ЦРТ",
+    "review_ack": "отметки приёмки владельца",
+}
+SERVER_ROOT = "/srv/fca"
+
+
+def _publish(store, a) -> int:
+    """Снимок справочника -> сервер витрины, подмена целиком.
+
+    Снимок — резервной копией SQLite, а не копированием файла: копия файла
+    во время `refresh` бывает рваной, резервная копия согласована всегда.
+    Из снимка вычищается то, чему наружу нельзя, и это печатается — молча
+    вырезанное выглядело бы как пропавшие данные. На сервере файл кладётся
+    рядом и подменяется переименованием: гость не увидит половину базы.
+    """
+    import datetime as _dt
+    import json as _json
+    import os
+    import shlex
+    import sqlite3
+    import subprocess
+    import tempfile
+    from pathlib import Path as _P
+
+    tmp = _P(tempfile.mkdtemp(prefix="fca-publish-")) / "flightcost.db"
+    dst = sqlite3.connect(tmp)
+    store.db.backup(dst)
+    cur = dst.cursor()
+    tables = {r[0] for r in cur.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    gone = {}
+    for sid, why in PUBLISH_EXCLUDE_SOURCES.items():
+        n = cur.execute("SELECT COUNT(*) FROM facts WHERE source_id = ?", (sid,)).fetchone()[0]
+        cur.execute("DELETE FROM facts WHERE source_id = ?", (sid,))
+        gone[f"источник {sid}"] = (n, why)
+    for tbl, why in PUBLISH_CLEAR_TABLES.items():
+        if tbl in tables:
+            n = cur.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
+            cur.execute(f"DELETE FROM {tbl}")
+            gone[f"таблица {tbl}"] = (n, why)
+    try:
+        commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True,
+                                text=True, check=True).stdout.strip()
+    except Exception:                                        # noqa: BLE001
+        commit = "?"
+    facts = cur.execute("SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
+    meta = {"published_at": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+            "code_commit": commit, "facts": str(facts),
+            "excluded": _json.dumps({k: v[0] for k, v in gone.items()}, ensure_ascii=False)}
+    cur.execute("CREATE TABLE IF NOT EXISTS publish_meta (key TEXT PRIMARY KEY, value TEXT)")
+    cur.execute("DELETE FROM publish_meta")
+    cur.executemany("INSERT INTO publish_meta VALUES (?, ?)", meta.items())
+    dst.commit()
+    cur.execute("VACUUM")
+    ok = cur.execute("PRAGMA integrity_check").fetchone()[0]
+    dst.close()
+    if ok != "ok":
+        print(f"снимок повреждён: {ok}")
+        return 2
+
+    print(f"снимок: {tmp} — {tmp.stat().st_size / 1e6:.1f} МБ, действующих фактов {facts}")
+    for k, (n, why) in gone.items():
+        if n:
+            print(f"  убрано {k}: {n} — {why}")
+    if a.dry_run:
+        print("  --dry-run: на сервер не отправлено")
+        return 0
+
+    host = a.host or os.environ.get("FCA_DEPLOY_HOST")
+    if not host:
+        print("не задан сервер: --host deploy@адрес или переменная FCA_DEPLOY_HOST")
+        return 2
+
+    def run(cmd):
+        print("  $", " ".join(shlex.quote(c) for c in cmd))
+        return subprocess.run(cmd).returncode
+
+    root = SERVER_ROOT
+    if run(["rsync", "-az", "--partial", str(tmp), f"{host}:{root}/incoming/flightcost.db.new"]):
+        print("не отправилось: проверьте ssh до сервера")
+        return 2
+    geo = _P("data/geo")
+    if geo.is_dir():
+        # Геометрия зон и суши — тоже данные витрины: без неё нет глобуса.
+        run(["rsync", "-az", "--delete", f"{geo}/", f"{host}:{root}/site/data/geo/"])
+    remote = (f"set -e; mv -f {root}/incoming/flightcost.db.new {root}/site/data/flightcost.db; "
+              f"chgrp fca {root}/site/data/flightcost.db; chmod 664 {root}/site/data/flightcost.db; "
+              f"sudo /usr/bin/systemctl restart fca; "
+              f"for i in $(seq 1 20); do sleep 1; "
+              f"curl -fsS http://127.0.0.1:8000/healthz && exit 0; done; "
+              f"echo 'витрина не ответила'; exit 1")
+    if run(["ssh", host, remote]):
+        print("подмена прошла, но витрина не ответила: ssh на сервер и journalctl -u fca -n 50")
+        return 2
+    print("\nопубликовано")
+    return 0

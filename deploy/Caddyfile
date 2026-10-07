@@ -1,0 +1,27 @@
+# Обратный прокси перед витриной. bootstrap.sh кладёт его в /etc/caddy/Caddyfile,
+# подставив домен вместо ДОМЕН. Пока домена нет — `:80`, витрина по адресу
+# сервера без HTTPS (только чтобы потренироваться).
+#
+# С доменом Caddy сам получает сертификат Let's Encrypt и продлевает его.
+
+ДОМЕН {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8000
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	request_body {
+		max_size 1MB
+	}
+
+	log {
+		output file /var/log/caddy/fca.log {
+			roll_keep 7
+		}
+	}
+}

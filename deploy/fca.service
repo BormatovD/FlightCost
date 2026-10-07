@@ -1,0 +1,29 @@
+# Витрина FlightCostApp на сервере. Ставится bootstrap.sh в
+# /etc/systemd/system/fca.service.
+#
+# Слушает только петлю: наружу её выставляет Caddy с HTTPS. Работает от
+# отдельного пользователя `fca`, который может читать код и писать только
+# в каталог данных сайта — даже взломанная витрина не перепишет код.
+[Unit]
+Description=FlightCostApp — витрина
+After=network.target
+
+[Service]
+User=fca
+Group=fca
+WorkingDirectory=/srv/fca/site
+ExecStart=/srv/fca/venv/bin/fca --db data/flightcost.db serve --public --host 127.0.0.1 --port 8000
+Environment=FCA_VERSION_FILE=/srv/fca/VERSION
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+RestartSec=3
+
+# Ограничения: только каталог данных на запись, домашних каталогов не видно.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/site/data
+
+[Install]
+WantedBy=multi-user.target

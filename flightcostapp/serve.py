@@ -143,6 +143,13 @@ class _Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _client_ip(self) -> str:
+        # За обратным прокси адрес клиента — в X-Forwarded-For; доверяем
+        # ему, потому что витрина слушает только петлю, и заголовок ставит
+        # наш же Caddy.
+        fwd = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
+        return fwd or self.client_address[0]
+
     def _json(self, obj, code: int = 200) -> None:
         self._send(code, json.dumps(obj, ensure_ascii=False,
                                     default=str).encode("utf-8"),
@@ -174,6 +181,16 @@ class _Handler(BaseHTTPRequestHandler):
         u = urllib.parse.urlparse(self.path)
         q = {k: v[0] for k, v in urllib.parse.parse_qs(u.query).items()}
         try:
+            if u.path == "/healthz":
+                # Что сейчас на сервере: версия кода и дата снимка
+                # справочника. По ней проверяет себя выкладка и ей
+                # проверяете вы — «на домене то, что я думаю».
+                return self._json(self.server.ctx.health())
+            if u.path in ("/api/solve", "/api/compare") and not self.server.ctx.allow(
+                    self._client_ip()):
+                return self._json({"error": "слишком часто: тяжёлые расчёты — не чаще "
+                                            f"{self.server.ctx.HEAVY_PER_MIN} в минуту с адреса"},
+                                  429)
             if u.path in ("/", "/index.html"):
                 return self._send(200, _page(), "text/html; charset=utf-8")
             if u.path == "/api/airports":
@@ -262,6 +279,47 @@ class Context:
     14 мс, так что очередь под замком незаметна, а гонка — заметна.
     """
 
+    # Порог и пересчёт `solve` и `compare` — секунды процессора; в публичном
+    # режиме цикл в браузере положил бы сервер. Локально ограничения нет.
+    HEAVY_PER_MIN = 6
+
+    def allow(self, ip: str) -> bool:
+        if not self.public:
+            return True
+        import collections
+        import time
+        now = time.monotonic()
+        with self._rl_lock:
+            q = self._rl.setdefault(ip, collections.deque())
+            while q and now - q[0] > 60:
+                q.popleft()
+            if len(q) >= self.HEAVY_PER_MIN:
+                return False
+            q.append(now)
+            if len(self._rl) > 5000:            # не копить адреса вечно
+                for k in [k for k, v in self._rl.items() if not v][:1000]:
+                    del self._rl[k]
+            return True
+
+    def health(self) -> dict:
+        import os
+        out = {"ok": True, "public": self.public}
+        vf = os.environ.get("FCA_VERSION_FILE")
+        if vf and os.path.exists(vf):
+            out["version"] = open(vf, encoding="utf-8").read().strip()
+        with self.lock:
+            db = self.store.db
+            has = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' "
+                             "AND name='publish_meta'").fetchone()
+            if has:
+                out["snapshot"] = {k: v for k, v in db.execute(
+                    "SELECT key, value FROM publish_meta")}
+            if self._facts_n is None:
+                self._facts_n = db.execute(
+                    "SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
+        out["facts"] = self._facts_n
+        return out
+
     def __init__(self, store, registry, public: bool = False):
         self.store, self.registry = store, registry
         self.lock = threading.Lock()
@@ -270,6 +328,8 @@ class Context:
         # гостей — слой сценария (решение 33), ему нужна своя область
         # видимости по автору; пока её нет, сохранение честно отказывает.
         self.public = public
+        self._rl, self._rl_lock = {}, threading.Lock()
+        self._facts_n = None
 
     def airports(self) -> list[dict]:
         if self._apts is None:
@@ -1157,7 +1217,21 @@ class Context:
 
 
 def _page() -> bytes:
-    return (WEB / "serve.html").read_bytes()
+    """Страница витрины с вшитым каталогом переводов.
+
+    Каталог вшивается, а не грузится отдельным запросом: страница остаётся
+    одним самодостаточным файлом, и подписи готовы до первой отрисовки —
+    без мелькания русского текста перед английским.
+    """
+    html = (WEB / "serve.html").read_text(encoding="utf-8")
+    cat_path = WEB / "i18n.json"
+    if cat_path.exists():
+        cat = json.dumps(json.loads(cat_path.read_text(encoding="utf-8")),
+                         ensure_ascii=False, separators=(",", ":"))
+        # «</» внутри <script> закрыл бы его раньше времени
+        cat = cat.replace("</", "<\\/")
+        html = html.replace("/*I18N*/{}/*/I18N*/", "/*I18N*/" + cat + "/*/I18N*/", 1)
+    return html.encode("utf-8")
 
 
 def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,

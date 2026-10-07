@@ -23,6 +23,7 @@ jobs:
           for t in \
               tests/test_invariants.py \
               tests/test_easa_noise.py \
+              tests/test_i18n.py \
               tests/test_pipeline.py \
               tests/test_ui.py \
               tests/test_deps.py \
@@ -31,3 +32,45 @@ jobs:
             echo "== $t"
             python3 "$t"
           done
+
+  # Выкладка на сервер — только после зелёных тестов, только из main.
+  #
+  # Пока секрет DEPLOY_HOST не задан (сервера ещё нет), шаг пропускается с
+  # пометкой, а не падает: красный CI из-за отсутствующего сервера через
+  # неделю перестали бы читать.
+  #
+  # Секреты репозитория (Settings → Secrets and variables → Actions):
+  #   DEPLOY_HOST         адрес сервера
+  #   DEPLOY_SSH_KEY      закрытый ключ, которым GitHub заходит как deploy
+  #   DEPLOY_KNOWN_HOSTS  отпечаток сервера: ssh-keyscan -t ed25519 АДРЕС
+  deploy:
+    needs: no-db
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    concurrency: deploy            # две выкладки одновременно не идут
+    steps:
+      - name: Есть ли сервер
+        id: chk
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          if [ -z "$HOST" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Секрет DEPLOY_HOST не задан — выкладка пропущена"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Выкладка
+        if: steps.chk.outputs.skip == 'false'
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # Отпечаток сервера заранее, а не «принять любой»: иначе выкладку
+          # можно увести на чужой сервер подменой адреса.
+          printf '%s\n' "$KNOWN" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes deploy@"$HOST"

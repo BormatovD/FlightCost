@@ -16,11 +16,6 @@ header{border-bottom:1px solid var(--line);padding:8px 20px;display:flex;
  gap:12px;align-items:center;flex:none;flex-wrap:wrap}
 header b{font:600 16px/1 var(--sans);margin-right:6px}
 header .hp{position:relative}
-/* Переключатель языка: три кнопки, нажатая — цветом акцента. */
-#langs{display:inline-flex;gap:2px;margin-left:10px}
-#langs button{font:12px var(--sans);padding:3px 6px;background:none;color:var(--dim);
- border:1px solid var(--line);border-radius:4px;cursor:pointer}
-#langs button[aria-pressed="true"]{color:var(--ink);border-color:var(--accent)}
 header .hp input,header select,header .hp input:focus{width:210px;font:14px var(--sans);
  padding:6px 9px;background:var(--raise);color:var(--dim);border:1px solid var(--line);
  border-radius:5px;outline:0}
@@ -41,14 +36,9 @@ header .sp{margin-left:auto;color:var(--faint);font-size:12px}
  min-height:0}
 .right{border-left:1px solid var(--line);background:var(--panel);
  display:flex;flex-direction:column;min-height:0;overflow:hidden}
-/* Вкладки переносятся во второй ряд, а не уезжают за край: прокрутка
-   полосы вкладок на Mac не видна, и шестая вкладка в немецкой витрине
-   оказалась недоступной вовсе. Подписи разной длины на трёх языках —
-   переменная величина, перенос выдерживает любую. */
-.tabs{flex:none;display:flex;flex-wrap:wrap;column-gap:2px;padding:0 14px;
- border-bottom:1px solid var(--line)}
-.tabs button{background:none;border:0;border-bottom:2px solid transparent;white-space:nowrap;
- color:var(--dim);padding:11px 8px 9px;font:14px var(--sans);cursor:pointer}
+.tabs{flex:none;display:flex;gap:2px;padding:0 14px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;
+ color:var(--dim);padding:11px 10px 9px;font:14px var(--sans);cursor:pointer}
 .tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
 .tabs button:hover{color:var(--ink)}
 /* Горизонтальной прокрутки в ответе нет: она пряталась под шторкой
@@ -307,9 +297,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <input id="seatsv" type="number" min="1" step="1" placeholder="кресел"
     title="своя компоновка: число кресел" style="width:86px;display:none">
   <span id="hdr">—</span>
-  <span class="sp" id="stat"></span>
-  <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
-    data-lang="en">EN</button><button data-lang="de">DE</button></span></header>
+  <span class="sp" id="stat"></span></header>
 <div class="cols" id="cols">
   <aside class="pane left">
     <div class="grp2">Рейс</div>
@@ -383,7 +371,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
       <button data-tab="trace">Разбор</button>
       <button data-tab="solve">Порог</button>
       <button data-tab="types">Типы</button>
-      <button data-tab="type" title="Лётно-технические характеристики">ЛТХ</button>
+      <button data-tab="type">Характеристики</button>
       <button data-tab="data">Данные</button>
     </nav>
     <div class="tabbody" id="main"><p class="lede">считаю…</p></div>
@@ -394,94 +382,20 @@ import { orthographic, gcd, gcPoint, crossing, fitZoom }
   from "./geo.js";
 import { createGlobe } from "./globe.js";
 
-// ── языки ───────────────────────────────────────────────────────────────
-// Каталог вшивается сервером (`_page`): ключ — русская фраза, значение —
-// перевод. Нет перевода — показывается русский оригинал, а не пустота и
-// не технический ключ: так перевод можно вводить частями.
-//
-// Язык: ?lang= → сохранённый выбор → язык браузера → английский. Смена
-// языка перезагружает страницу: подписи, собранные при загрузке модуля
-// (словари статусов, ярусов, статей), строятся заново на новом языке.
-//
-// Шаги разбора и предупреждения порождает ядро на Python — они пока
-// по-русски; во вкладке «Разбор» об этом сказано.
-//
-// Имя `_t`, а не `t`: в витрине `t` — частое имя локальной переменной
-// (тип самолёта, строка таблицы), и внутри таких функций вызов перевода
-// обращался к объекту и падал. Первая версия так и сломала запуск.
-const I18N = /*I18N*/{}/*/I18N*/;
-const LANGS = ["ru", "en", "de"];
-const LANG = (() => {
-  const q = new URLSearchParams(location.search).get("lang");
-  if (LANGS.includes(q)) { try { localStorage.setItem("fca.lang", q); } catch (e) {} return q; }
-  let saved = null;
-  try { saved = localStorage.getItem("fca.lang"); } catch (e) {}
-  if (LANGS.includes(saved)) return saved;
-  for (const l of (navigator.languages || [navigator.language || ""])) {
-    const p = String(l).slice(0, 2).toLowerCase();
-    if (LANGS.includes(p)) return p;
-  }
-  return "en";
-})();
-const LOCALE = {ru: "ru-RU", en: "en-GB", de: "de-DE"}[LANG];
-const I18N_MISS = new Set();
-function _t(s) {
-  if (LANG === "ru") return s;
-  const key = String(s).replace(/\s+/g, " ").trim();
-  const v = (I18N[LANG] || {})[key];
-  if (v == null) {
-    if (!I18N_MISS.has(key)) { I18N_MISS.add(key); console.debug("i18n: нет перевода", LANG, key); }
-    return s;
-  }
-  return v;
-}
-// Статическая разметка: подписи, кнопки, подсказки. Переводится один раз
-// при загрузке — то, что рисует скрипт, уже прошло через t().
-function translateStatic(root) {
-  if (LANG === "ru") return;
-  document.documentElement.lang = LANG;
-  document.title = _t(document.title);
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  for (const n of nodes) {
-    const raw = n.nodeValue, key = raw.replace(/\s+/g, " ").trim();
-    if (!key || !/[А-Яа-яЁё]/.test(key)) continue;
-    const v = _t(key);
-    if (v !== key) n.nodeValue = raw.replace(raw.trim(), v);
-  }
-  for (const el of root.querySelectorAll("[placeholder],[title],[aria-label]")) {
-    for (const at of ["placeholder", "title", "aria-label"]) {
-      const val = el.getAttribute(at);
-      if (val && /[А-Яа-яЁё]/.test(val)) el.setAttribute(at, _t(val));
-    }
-  }
-}
-translateStatic(document.body);
-for (const b of document.querySelectorAll("#langs button")) {
-  b.setAttribute("aria-pressed", String(b.dataset.lang === LANG));
-  b.onclick = () => {
-    try { localStorage.setItem("fca.lang", b.dataset.lang); } catch (e) {}
-    const u = new URL(location.href);
-    u.searchParams.delete("lang");
-    location.replace(u.toString());
-  };
-}
-
 const $ = s => document.querySelector(s);
 // Цвета происхождения — только имена переменных из ui.css, hex здесь нет.
 const PROV = {store:"var(--doc)", derived:"var(--calc)", input:"var(--user)",
   override:"var(--override)", "default":"var(--guess)", fleet:"var(--guess)",
   estimated:"var(--guess)"};
-const RU = {store:_t("из документа"), derived:_t("вычислено"), input:_t("задано вами"),
-  override:_t("задано вами"), "default":_t("заготовка"), fleet:_t("заготовка"),
-  estimated:_t("параметрика")};
+const RU = {store:"из документа", derived:"вычислено", input:"задано вами",
+  override:"задано вами", "default":"заготовка", fleet:"заготовка",
+  estimated:"параметрика"};
 // Округление ДО ЦЕЛОГО годится для сумм и врёт на всём остальном:
 // цена топлива 0,78 EUR/кг показывалась как «1», блок-время 2,12 ч как
 // «2», доля 0,07 как «0». Разряд выбирается по величине, а не один на
 // всё: у денег он не тот, что у коэффициента.
 // Два знака в той же локали, что f0: «4,74», а не «4.74» рядом с «1 503».
-const f2 = n => Number(n).toLocaleString(LOCALE, {minimumFractionDigits: 2,
+const f2 = n => Number(n).toLocaleString("ru-RU", {minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2});
 const f0 = n => {
   if (n == null) return "—";
@@ -490,7 +404,7 @@ const f0 = n => {
   // Минимум НУЛЕВОЙ: «95,0 EUR» и «589,9 nm» читаются хуже, чем «95» и
   // «590», а «0,78» и «2,12» — лучше, чем «1» и «2». Разряд нужен там,
   // где он несёт смысл, и мешает там, где не несёт.
-  return n.toLocaleString(LOCALE, {minimumFractionDigits: 0,
+  return n.toLocaleString("ru-RU", {minimumFractionDigits: 0,
                                     maximumFractionDigits: d})
           .replace(/\u00a0/g, " ");
 };
@@ -513,7 +427,7 @@ function addClears(root = document) {
     box.appendChild(inp);
     const x = document.createElement("button");
     x.type = "button"; x.className = "clx"; x.textContent = "×";
-    x.title = _t("очистить"); x.tabIndex = -1;
+    x.title = "очистить"; x.tabIndex = -1;
     // mousedown, а не click: у полей выбора blur по click закрыл бы список
     // раньше, чем он нужен, и вернул бы прежнее значение.
     x.addEventListener("mousedown", e => {
@@ -577,7 +491,7 @@ function hitRow(a) {
   return `<div class="hit" data-icao="${esc(a.icao)}" data-key="${esc(a.key)}">
     <b>${esc(code(a))}</b>${esc(a.tr && a.tr.ru || a.name)}
     <i>${esc(a.icao)} · ${esc(a.iso)}${a.tier === 1 ? "" :
-      (' · ' + '<' + 'span class=' + '"' + 't3' + '"' + '>' + _t("тарифа нет, ярус 3") + '<' + '/span' + '>')}</i></div>`;
+      ' · <span class="t3">тарифа нет, ярус 3</span>'}</i></div>`;
 }
 
 function bindPick(id, hid) {
@@ -586,7 +500,7 @@ function bindPick(id, hid) {
   const show = () => {
     const list = search(inp.value);
     box.innerHTML = list.map(hitRow).join("") ||
-      `<div class="hit" style="color:var(--dim)">${_t("ничего не нашлось")}</div>`;
+      `<div class="hit" style="color:var(--dim)">ничего не нашлось</div>`;
     box.classList.add("on"); cur = -1;
     box.querySelectorAll(".hit[data-key]").forEach(el =>
       el.addEventListener("mousedown", e => { e.preventDefault(); pick(el); }));
@@ -639,8 +553,8 @@ function acLabel(t) {
 }
 function acTier(t) {
   // Три состояния, не два: физика есть / нет / не проверялось.
-  if (t.physics === null) return _t("физика не проверялась");
-  return t.physics ? _t("ярус 1, физика") : _t("без физики: ярус 3/4, параметрика");
+  if (t.physics === null) return "физика не проверялась";
+  return t.physics ? "ярус 1, физика" : "без физики: ярус 3/4, параметрика";
 }
 // Поиск по СЛОВАМ, а не по подстроке целиком: «airbus 320» — два слова,
 // и оба должны найтись в строке типа («a320 airbus a320 airbusa320»).
@@ -668,16 +582,16 @@ function acSearch(q, n = 14) {
 function acRow(t) {
   return `<div class="hit${t.usable ? "" : " dead"}" data-ac="${esc(t.icao)}">
     <b>${esc(t.icao)}</b>${esc(t.name || "")}
-    <i>${t.usable ? esc(acTier(t)) : (_t("нельзя:") + " ") + esc(t.why_not)}${
-      t.layouts.length ? ` · ${_t("компоновок")} ${t.layouts.length}` : (" " + _t("· компоновки нет, типовые кресла"))}${
-      t.physics === false ? (' · ' + '<' + 'span class=' + '"' + 't3' + '"' + '>' + _t("параметрика") + '<' + '/span' + '>') : ""}</i></div>`;
+    <i>${t.usable ? esc(acTier(t)) : "нельзя: " + esc(t.why_not)}${
+      t.layouts.length ? ` · компоновок ${t.layouts.length}` : " · компоновки нет, типовые кресла"}${
+      t.physics === false ? ' · <span class="t3">параметрика</span>' : ""}</i></div>`;
 }
 function bindAcPick() {
   const inp = $("#ac"), box = $("#achits");
   let cur = -1;
   const show = () => {
     box.innerHTML = acSearch(inp.value).map(acRow).join("") ||
-      `<div class="hit" style="color:var(--dim)">${_t("такого типа в хранилище нет")}</div>`;
+      `<div class="hit" style="color:var(--dim)">такого типа в хранилище нет</div>`;
     box.classList.add("on"); cur = -1;
     box.querySelectorAll(".hit[data-ac]").forEach(el =>
       el.addEventListener("mousedown", e => { e.preventDefault(); pick(el); }));
@@ -722,21 +636,21 @@ function drawLayouts(t) {
   const ops = t.layouts.filter(l => l.operator !== "*");
   const def = t.layout_default;
   const opts = [];
-  opts.push(`<option value="*">${def ? `${_t("типовая")} · ${def.seats}` :
-    `${_t("типовая из справочника")}${t.seats_typical ? " · " + t.seats_typical : ""}`}</option>`);
+  opts.push(`<option value="*">${def ? `типовая · ${def.seats}` :
+    `типовая из справочника${t.seats_typical ? " · " + t.seats_typical : ""}`}</option>`);
   for (const l of ops) opts.push(`<option value="${esc(l.operator)}">${esc(l.operator)} · ${l.seats}</option>`);
   opts.push(t.seats_max
-    ? `<option value="max">${_t("по сертификату")} · ${t.seats_max}</option>`
-    : `<option disabled title="${_t("в домене aircraft нет seats_max для этого типа")}">${_t("по сертификату — нет seats_max")}</option>`);
-  opts.push(`<option value="own">${_t("своя")}</option>`);
+    ? `<option value="max">по сертификату · ${t.seats_max}</option>`
+    : `<option disabled title="в домене aircraft нет seats_max для этого типа">по сертификату — нет seats_max</option>`);
+  opts.push(`<option value="own">своя</option>`);
   const sel = $("#layout");
   sel.innerHTML = opts.join("");
   const keep = CHOSEN.op === "own" || (CHOSEN.op === "max" && t.seats_max)
             || ops.some(l => l.operator === CHOSEN.op);
   sel.value = keep ? CHOSEN.op : "*";
   CHOSEN.op = sel.value;
-  sel.title = ops.length ? _t("компоновка: типовая, перевозчика, по сертификату или своя")
-                         : _t("компоновок перевозчиков по этому типу в хранилище нет");
+  sel.title = ops.length ? "компоновка: типовая, перевозчика, по сертификату или своя"
+                         : "компоновок перевозчиков по этому типу в хранилище нет";
   $("#seatsv").style.display = CHOSEN.op === "own" ? "" : "none";
 }
 // Кресла, которые уйдут в запрос: число только у двух положений.
@@ -792,7 +706,7 @@ async function bootGlobe(){
     } else if (e.kind === "zone") {
       const z = GEO.zones[e.id];
       const nm = (z && z.n || "").trim();
-      txt = `${_t("зона")} ${e.id}${nm ? " · " + nm : (" " + _t("· название не указано в источнике"))}`;
+      txt = `зона ${e.id}${nm ? " · " + nm : " · название не указано в источнике"}`;
     }
     if (!txt && !html) { el.style.display = "none"; return; }
     el.style.display = "block";
@@ -816,7 +730,7 @@ async function bootGlobe(){
       markNext(); drawCtx(); draw();
    });
   $("#gnote").textContent = GEO.missing.length
-    ? (_t("подложки нет:") + " ") + GEO.missing.join("; ")
+    ? "подложки нет: " + GEO.missing.join("; ")
     : "";
   markNext();
   updateNote();
@@ -827,11 +741,11 @@ async function bootGlobe(){
     const shown = Object.keys(G.shown()).length;
     const all = Object.keys(GEO.airports).length;
     $("#gnote").textContent = GEO.missing.length
-      ? (_t("подложки нет:") + " ") + GEO.missing.join("; ")
-      : `${_t("щелчок по точке")} — ${NEXT === "o" ? _t("откуда") : _t("куда")} · `
-        + `${_t("показано")} ${shown} ${_t("из")} ${all} ${_t("аэропортов — приблизьте, чтобы увидеть")} `
-        + `${_t("остальные · порядок по наблюдённым рейсам, не по пассажиропотоку")} `
-        + `${_t("(его ещё нет)")}`;
+      ? "подложки нет: " + GEO.missing.join("; ")
+      : `щелчок по точке — ${NEXT === "o" ? "откуда" : "куда"} · `
+        + `показано ${shown} из ${all} аэропортов — приблизьте, чтобы увидеть `
+        + `остальные · порядок по наблюдённым рейсам, не по пассажиропотоку `
+        + `(его ещё нет)`;
   }
   window.__note = updateNote;
   $("#gall").onclick = () => { G.whole(); drawGlobe(); };
@@ -911,36 +825,36 @@ function airportCard(icao){
         `<tr><td>${esc(CODE_RU[r[0]] || r[0])}</td>
          <td class="v">${f0(r[1])}</td></tr>`).join("")
         + (lost.length ? `<tr><td class="ac-bad">${esc(
-             lost.length > 3 ? lost.slice(0, 3).join(", ") + ` ${_t("и ещё")} ${
+             lost.length > 3 ? lost.slice(0, 3).join(", ") + ` и ещё ${
                lost.length - 3}` : lost.join(", "))}</td>
-             <td class="v ac-bad">${_t("не начислено")}</td></tr>` : "")
-        + `<tr class="ac-sum"><td>${_t("всего")}</td><td class="v">${f0(sum)} EUR</td></tr>
+             <td class="v ac-bad">не начислено</td></tr>` : "")
+        + `<tr class="ac-sum"><td>всего</td><td class="v">${f0(sum)} EUR</td></tr>
         </tbody></table>`;
     }
   }
   // Не конец маршрута либо тарифа нет: показываем состояние сбора.
   return head + `<table class="ac-t"><tbody>
-    <tr><td>${_t("тариф")}</td><td class="v">${a.tier === 1
-      ? _t("разобран") : ('<' + 'span class=' + '"' + 'ac-bad' + '"' + '>' + _t("нет, ярус 3") + '<' + '/span' + '>')}</td></tr>
-    <tr><td>${_t("наблюдений")}</td><td class="v">${a.flights
-      ? a.flights + (" " + _t("рейсов")) : _t("нет")}</td></tr>
-    <tr><td>${_t("в перечне")}</td><td class="v">${a.watch ? _t("да") : _t("нет")}</td></tr>
+    <tr><td>тариф</td><td class="v">${a.tier === 1
+      ? "разобран" : '<span class="ac-bad">нет, ярус 3</span>'}</td></tr>
+    <tr><td>наблюдений</td><td class="v">${a.flights
+      ? a.flights + " рейсов" : "нет"}</td></tr>
+    <tr><td>в перечне</td><td class="v">${a.watch ? "да" : "нет"}</td></tr>
     </tbody></table>${mine ? "" :
-    `<div class="ac-f">${_t("щёлкните, чтобы посчитать маршрут сюда")}</div>`}`;
+    `<div class="ac-f">щёлкните, чтобы посчитать маршрут сюда</div>`}`;
 }
 
 // Подписи кодов сборов — те же, что в разборе. Держать здесь второй
 // словарь значило бы завести расхождение: перевод один, мест два.
 const CODE_RU = {
-  landing: _t("посадка"), landing_pax: _t("посадка, пасс."), landing_invest: _t("посадка, инвест. часть"),
-  landing_night: _t("посадка, ночная надбавка"), pbb: _t("телетрап"), bhs: _t("багажная система"),
-  passenger: _t("пассажирский"),
-  security: _t("безопасность"), prm: _t("маломобильные"), noise: _t("шум"),
-  noise_program: _t("программа шума"), parking: _t("стоянка"),
-  parking_pier: _t("стоянка у трапа"), gh_infra: _t("наземная инфраструктура"),
-  gh_infra_pax: _t("инфраструктура, пасс."), gh_infra_dg: _t("инфраструктура, опасные"),
-  aerodrome: _t("аэродромное"), meteo: _t("метео"), border: _t("пограничный"),
-  demand: _t("сбор за спрос"), municipal_tax: _t("муниципальная надбавка"),
+  landing: "посадка", landing_pax: "посадка, пасс.", landing_invest: "посадка, инвест. часть",
+  landing_night: "посадка, ночная надбавка", pbb: "телетрап", bhs: "багажная система",
+  passenger: "пассажирский",
+  security: "безопасность", prm: "маломобильные", noise: "шум",
+  noise_program: "программа шума", parking: "стоянка",
+  parking_pier: "стоянка у трапа", gh_infra: "наземная инфраструктура",
+  gh_infra_pax: "инфраструктура, пасс.", gh_infra_dg: "инфраструктура, опасные",
+  aerodrome: "аэродромное", meteo: "метео", border: "пограничный",
+  demand: "сбор за спрос", municipal_tax: "муниципальная надбавка",
 };
 
 const CHOSEN_ICAO = id => (APTS.find(x => x.key === CHOSEN[id]) || {}).icao;
@@ -993,15 +907,15 @@ function drawGlobe(){
                         ? `${f0(LAST.answer.max_pax != null
                               ? Math.min(LAST.inputs.pax ?? 1e9,
                                          LAST.answer.max_pax)
-                              : (LAST.inputs.pax ?? 0))} ${_t("пассажиров на")} ${
+                              : (LAST.inputs.pax ?? 0))} пассажиров на ${
                            esc(LAST.route.aircraft)}`
-                        : (_t("нельзя:") + " ") + esc((LAST.answer.feasibility||{}).why
-                                           || _t("предел")))
+                        : "нельзя: " + esc((LAST.answer.feasibility||{}).why
+                                           || "предел"))
                     : `${Math.round(gcd(pts[0], pts[1]))} nm`,
                   sub: LAST
                     ? `${Math.round(gcd(pts[0], pts[1]))} nm · ${
-                        Object.keys(hit).length} ${_t("зон")}`
-                    : `${Object.keys(hit).length} ${_t("зон")}`,
+                        Object.keys(hit).length} зон`
+                    : `${Object.keys(hit).length} зон`,
                   bad: LAST ? !LAST.answer.feasible : false} : null});
 }
 
@@ -1039,14 +953,14 @@ async function boot(){
 // В справочнике их нет, поэтому задаёт человек — и по каждому концу
 // отдельно: одно значение на весь маршрут неверно, как только концов два.
 const CTX = [
-  {k:"noise_cat",   n:_t("Категория шума"),        t:"number", hint:"1-16"},
-  {k:"ac_class",    n:_t("Класс наземного обсл."), t:"number", hint:"0-6"},
-  {k:"stand_group", n:_t("Группа стоянки"),        t:"number", hint:"1-9"},
-  {k:"stand",       n:_t("Место"),                 t:"select", opts:["", "pier", "apron"]},
-  {k:"operator",    n:_t("Эксплуатант"),           t:"select", opts:["", "national", "foreign"],
-                    lbl:{national:_t("свой (национальный)"), foreign:_t("иностранный")}},
-  {k:"terminal",    n:_t("Терминал"),              t:"text",   hint:_t("буква или цифра")},
-  {k:"park_h",      n:_t("Стоянка, ч"),            t:"number", hint:_t("часы")},
+  {k:"noise_cat",   n:"Категория шума",        t:"number", hint:"1-16"},
+  {k:"ac_class",    n:"Класс наземного обсл.", t:"number", hint:"0-6"},
+  {k:"stand_group", n:"Группа стоянки",        t:"number", hint:"1-9"},
+  {k:"stand",       n:"Место",                 t:"select", opts:["", "pier", "apron"]},
+  {k:"operator",    n:"Эксплуатант",           t:"select", opts:["", "national", "foreign"],
+                    lbl:{national:"свой (национальный)", foreign:"иностранный"}},
+  {k:"terminal",    n:"Терминал",              t:"text",   hint:"буква или цифра"},
+  {k:"park_h",      n:"Стоянка, ч",            t:"number", hint:"часы"},
 ];
 const ctxVal = {};
 let ctxAt = null;
@@ -1066,7 +980,7 @@ function drawCtx(){
     ? `<div class="field"><label>${esc(f.n)}</label>
         <select data-ctx="${f.k}">${f.opts.map(o =>
           `<option value="${o}" ${cur[f.k] === o ? "selected" : ""}>${
-            (f.lbl && f.lbl[o]) || o || _t("не задано")}</option>`).join("")}</select></div>`
+            (f.lbl && f.lbl[o]) || o || "не задано"}</option>`).join("")}</select></div>`
     : `<div class="field"><label>${esc(f.n)}</label>
         <input data-ctx="${f.k}" type="${f.t === "text" ? "text" : "number"}"
           placeholder="${esc(f.hint || "")}" maxlength="${f.t === "text" ? 1 : 6}"
@@ -1080,7 +994,7 @@ function drawCtx(){
     }));
   addClears($("#ctxfields"));
   const n = aps.reduce((s, a) => s + Object.keys(ctxVal[a] || {}).length, 0);
-  $("#ctxwho").textContent = n ? ` · ${_t("задано")} ${n}` : "";
+  $("#ctxwho").textContent = n ? ` · задано ${n}` : "";
 }
 
 function params(){
@@ -1120,10 +1034,10 @@ function draw(){
     const t0 = performance.now();
     const r = await (await fetch("/api/route?" + params())).json();
     if (my !== seq) return;                 // ответ обогнал более свежий
-    $("#stat").textContent = `${Math.round(performance.now()-t0)} ${_t("мс")}`;
+    $("#stat").textContent = `${Math.round(performance.now()-t0)} мс`;
     drawGlobe();
     if (r.error) { $("#main").innerHTML =
-      `<div class="note"><b>${_t("Отказ расчёта.")}</b> ${esc(r.error)}</div>`; return; }
+      `<div class="note"><b>Отказ расчёта.</b> ${esc(r.error)}</div>`; return; }
     render(r);
   }, 120);
 }
@@ -1135,14 +1049,14 @@ let LAST = null;
 // показывала общее «рейс невыполним».
 function whyNot(a){
   const lim = (a.feasibility && a.feasibility.limits) || [];
-  return lim.map(l => l.text).filter(Boolean).join("; ") || _t("рейс невыполним");
+  return lim.map(l => l.text).filter(Boolean).join("; ") || "рейс невыполним";
 }
 
 function render(r){
   LAST = r;
   // Коды и тип уже стоят в полях слева от этой подписи — не повторяем.
-  $("#hdr").textContent = `${f0(r.route.distance_nm)} ${_t("nm · блок")} ${
-    f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}`;
+  $("#hdr").textContent = `${f0(r.route.distance_nm)} nm · блок ${
+    f2(r.route.block_h)} ч · ${r.route.pax} из ${r.route.seats} кресел`;
   drawKpi(r);
   const tab = document.querySelector("#tabs [aria-selected=true]").dataset.tab;
   $("#main").innerHTML = ({route: tabRoute, trace: tabTrace,
@@ -1160,11 +1074,11 @@ function render(r){
 // на той поверхности, где показываем, а не в ядре: иначе CLI потеряет
 // свою подсказку.
 const FLAG_RU = [
-  [/\s*\(--month\)/g, (" " + _t("(поле «Месяц» слева)"))],
-  [/\s*\(--alternate-nm\)/g, (" " + _t("(поле «До запасного аэродрома»)"))],
-  [/подставь свои через --set/g, _t("подставьте свои в блоке «Флот» слева")],
-  [/через --set charge_context\.[^\s]+/g, _t("в блоке «Условия начисления» слева")],
-  [/--set\s+charge_context\.[^\s]+/g, _t("поля блока «Условия начисления»")],
+  [/\s*\(--month\)/g, " (поле «Месяц» слева)"],
+  [/\s*\(--alternate-nm\)/g, " (поле «До запасного аэродрома»)"],
+  [/подставь свои через --set/g, "подставьте свои в блоке «Флот» слева"],
+  [/через --set charge_context\.[^\s]+/g, "в блоке «Условия начисления» слева"],
+  [/--set\s+charge_context\.[^\s]+/g, "поля блока «Условия начисления»"],
 ];
 const human = w => FLAG_RU.reduce((s, [re, to]) => s.replace(re, to), w);
 
@@ -1175,39 +1089,40 @@ function tabRoute(r){
   const dead = !a.feasible;
   const km = r.route.distance_nm * 1.852;
   let h = `<div class="hero">
-    <div><div class="cap">${_t("Безубыточный чек")}</div>
+    <div><div class="cap">Безубыточный чек</div>
       <div class="big num">${dead
-        ? `<span style="font-size:26px;color:var(--warn)">${_t("нельзя")}</span>`
+        ? `<span style="font-size:26px;color:var(--warn)">нельзя</span>`
         : f0(a.breakeven_fare_eur) + "<small>EUR</small>"}</div></div>
-    <div><div class="cap">${_t("Задан")}</div><div class="big num" style="color:var(--dim)">${
+    <div><div class="cap">Задан</div><div class="big num" style="color:var(--dim)">${
       f0(fare)}<small>EUR</small></div></div>
     <div><span class="verdict${dead||gap>0.5?" bad":""}">${
       dead ? esc(whyNot(a))
-           : gap>0.5 ? `${_t("не хватает")} ${f0(gap)} ${_t("с пассажира")}`
-                     : `${_t("запас")} ${f0(-gap)} ${_t("с пассажира")}`}</span></div>
+           : gap>0.5 ? `не хватает ${f0(gap)} с пассажира`
+                     : `запас ${f0(-gap)} с пассажира`}</span></div>
   </div>`;
-  h += `<h3>${_t("Из чего складывается рейс")}</h3>
-    <p class="lede">${_t("Штриховка — параметрическая заготовка, а не документ. Сейчас")} ${Math.round(r.default_share*100)}% ${_t("суммы.")}</p>
+  h += `<h3>Из чего складывается рейс</h3>
+    <p class="lede">Штриховка — параметрическая заготовка, а не документ.
+      Сейчас ${Math.round(r.default_share*100)}% суммы.</p>
     <div class="stack">` + r.cost.map(c =>
       `<i style="width:${c.eur/tot*100}%;background:${PROV[c.prov]||"var(--param)"}"
         class="${["default","fleet","estimated"].includes(c.prov)?"hatch":""}"
         title="${esc(c.label||c.item)}: ${f0(c.eur)}"></i>`).join("") + `</div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--doc)"></i>${_t("из документа")}</span>
-      <span><i class="sw" style="background:var(--calc)"></i>${_t("вычислено моделью")}</span>
-      <span><i class="sw hatch" style="background:var(--param)"></i>${_t("заготовка")}</span>
-      <span><i class="sw" style="background:var(--user)"></i>${_t("задано вами")}</span>
+      <span><i class="sw" style="background:var(--doc)"></i>из документа</span>
+      <span><i class="sw" style="background:var(--calc)"></i>вычислено моделью</span>
+      <span><i class="sw hatch" style="background:var(--param)"></i>заготовка</span>
+      <span><i class="sw" style="background:var(--user)"></i>задано вами</span>
     </div>
     <table style="margin-top:10px"><tbody>` + r.cost.map(c =>
       `<tr><td><i class="dot" style="background:${PROV[c.prov]||"var(--param)"}"></i>${
         esc(c.label || c.item)}</td><td class="v">${f0(c.eur)}</td>
        <td class="v" style="color:var(--dim)">${(c.eur/tot*100).toFixed(1)}%</td></tr>`)
-      .join("") + `<tr><td><b>${_t("Итого")}</b></td><td class="v"><b>${f0(tot)}</b></td>
+      .join("") + `<tr><td><b>Итого</b></td><td class="v"><b>${f0(tot)}</b></td>
         <td class="v" style="color:var(--dim)">${
-          f2(tot/(r.route.seats*km)*100)} ${_t("ц / кресло-км")}</td></tr></tbody></table>`;
-  if (r.warnings.length) h += `<h3>${_t("Внимание")}</h3>` + r.warnings.map(w =>
+          f2(tot/(r.route.seats*km)*100)} ц / кресло-км</td></tr></tbody></table>`;
+  if (r.warnings.length) h += `<h3>Внимание</h3>` + r.warnings.map(w =>
     `<div class="note quiet"><b>·</b> ${esc(human(w))}</div>`).join("");
-  h += `<h3>${_t("С чем сравнить")}</h3><div id="benchbox"><p class="lede">${_t("считаю…")}</p></div>`;
+  h += `<h3>С чем сравнить</h3><div id="benchbox"><p class="lede">считаю…</p></div>`;
   return h;
 }
 
@@ -1215,9 +1130,8 @@ function tabTrace(r){
   // Пояснения из строк УБРАНЫ: они дублировали шторку и растягивали
   // каждую строку на три. Строка теперь одна, а «почему» открывается
   // щелчком — внизу, там, куда человек и смотрит на карту.
-  let h = `<p class="lede">${_t("Щёлкните по шагу — внизу откроется, из чего он получен и на каком факте стоит.")}</p>`;
-  if (LANG !== "ru")
-    h += `<div class="note quiet">${_t("Шаги разбора и предупреждения пока на русском: их порождает расчётное ядро, перевод — следующий этап.")}</div>`;
+  let h = `<p class="lede">Щёлкните по шагу — внизу откроется, из чего он
+    получен и на каком факте стоит.</p>`;
   let grp = "";
   for (const s of r.trace) {
     if (s.group !== grp) { grp = s.group; h += `<div class="grp">${esc(grp)}</div>`; }
@@ -1236,8 +1150,11 @@ function tabSolve(r){
   // Разметка без чисел: пороги считаются отдельным запросом секунды,
   // а не миллисекунды, и грузятся ПОСЛЕ отрисовки вкладки — как полоса
   // перевозчиков на «Маршруте».
-  return `<p class="lede">${_t("Порог: при каком значении параметра рейс выходит в ноль при заданном чеке. Считается обращением модели численно — минимумы, полосы по массе и ступени стоянки дают изломы, поэтому кривой здесь нет и гладкость не обещается.")}</p>
-    <div id="solvebox"><p class="lede">${_t("считаю пороги…")}</p></div>`;
+  return `<p class="lede">Порог: при каком значении параметра рейс выходит
+    в ноль при заданном чеке. Считается обращением модели численно —
+    минимумы, полосы по массе и ступени стоянки дают изломы, поэтому
+    кривой здесь нет и гладкость не обещается.</p>
+    <div id="solvebox"><p class="lede">считаю пороги…</p></div>`;
 }
 
 // Пороги грузятся один раз на набор входов и переиспользуются, пока
@@ -1268,21 +1185,21 @@ async function drawSolve(r){
   const my = ++SOLVE_SEQ;
   const s = await loadSolve(my);
   if (!s || my !== SOLVE_SEQ || !$("#solvebox")) return;   // устарело или вкладку сменили
-  if (s.error) { box.innerHTML = `<div class="note"><b>${_t("Отказ.")}</b> ${esc(s.error)}</div>`; return; }
-  if (!s.rows.length) { box.innerHTML = `<div class="note"><b>${_t("Порогов нет.")}</b> ${esc(s.why || "")}</div>`; return; }
+  if (s.error) { box.innerHTML = `<div class="note"><b>Отказ.</b> ${esc(s.error)}</div>`; return; }
+  if (!s.rows.length) { box.innerHTML = `<div class="note"><b>Порогов нет.</b> ${esc(s.why || "")}</div>`; return; }
   const a = r.answer, fare = +$("#fare").value || 0;
   const deficit = a.breakeven_fare_eur - fare > 0.5;
   const STATUS = {
-    ok:          deficit ? _t("до нуля") : _t("запас"),
-    unreachable: _t("недостижимо"),
-    failed:      _t("не сошлось"),
+    ok:          deficit ? "до нуля" : "запас",
+    unreachable: "недостижимо",
+    failed:      "не сошлось",
   };
   let h = `<div class="note quiet"><b>${deficit
-      ? _t("Маршрут убыточен при заданном чеке.") : _t("Маршрут прибылен при заданном чеке.")}</b>
-    ${deficit ? _t("Порог — насколько надо улучшить параметр, чтобы выйти в ноль.")
-              : _t("Порог — насколько параметр может ухудшиться, прежде чем рейс уйдёт в ноль.")}
-    ${_t("Считалось")} ${s.ms} ${_t("мс")}${s.inputs && s.inputs.month ? `, ${_t("месяц")} ${s.inputs.month}` : ""}.</div>
-    <div class="mhead"><span>${_t("параметр")}</span><span>${_t("сейчас")}</span><span>${_t("порог")}</span><span>${_t("запас")}</span></div>`;
+      ? "Маршрут убыточен при заданном чеке." : "Маршрут прибылен при заданном чеке."}</b>
+    ${deficit ? "Порог — насколько надо улучшить параметр, чтобы выйти в ноль."
+              : "Порог — насколько параметр может ухудшиться, прежде чем рейс уйдёт в ноль."}
+    Считалось ${s.ms} мс${s.inputs && s.inputs.month ? `, месяц ${s.inputs.month}` : ""}.</div>
+    <div class="mhead"><span>параметр</span><span>сейчас</span><span>порог</span><span>запас</span></div>`;
   for (const m of s.rows) {
     const unr = m.status === "unreachable", bad = m.status === "failed";
     // Порог показывается ТОЛЬКО у `ok`. У недостижимого на его месте
@@ -1290,21 +1207,21 @@ async function drawSolve(r){
     // это другая величина, и ставить её в колонку порога значило бы
     // выдать границу за порог.
     const edge = m.status === "ok" ? f0(m.edge)
-      : `<span style="color:var(--warn)">${unr ? (m.inert ? _t("не влияет") : _t("нет")) : "—"}</span>`;
+      : `<span style="color:var(--warn)">${unr ? (m.inert ? "не влияет" : "нет") : "—"}</span>`;
     const margin = m.status === "ok"
       ? `${m.margin_pct > 0 ? "+" : ""}${f0(m.margin_pct)}%` : "—";
     let tail = "", tailBad = false;
-    if (m.status === "ok") tail = m.hint_edge ? `${_t("на пороге")}: ${esc(m.hint_edge)}` : "";
+    if (m.status === "ok") tail = m.hint_edge ? `на пороге: ${esc(m.hint_edge)}` : "";
     else if (unr && m.inert) tail = esc(m.note);
     else if (unr) {
       tailBad = true;
       // Граница — осязаемым, если оно есть: «170 из 170 кресел» читается,
       // «1 доля» — нет.
-      tail = `${_t("даже на границе")} — ${esc(m.limit_about)}${m.hint_limit ? `, ${esc(m.hint_limit)}`
+      tail = `даже на границе — ${esc(m.limit_about)}${m.hint_limit ? `, ${esc(m.hint_limit)}`
           : m.limit != null ? `, ${f0(m.limit)} ${esc(m.unit)}` : ""} — ${
-          m.gap_at_limit == null ? _t("недобор не посчитан")
-          : (m.gap_at_limit < 0 ? (_t("не хватает") + " ") : (_t("остаётся") + " ")) + f0(Math.abs(m.gap_at_limit)) + (" " + _t("EUR за рейс"))}`;
-    } else { tailBad = true; tail = esc(m.note || _t("расчёт не сошёлся")); }
+          m.gap_at_limit == null ? "недобор не посчитан"
+          : (m.gap_at_limit < 0 ? "не хватает " : "остаётся ") + f0(Math.abs(m.gap_at_limit)) + " EUR за рейс"}`;
+    } else { tailBad = true; tail = esc(m.note || "расчёт не сошёлся"); }
     h += `<div class="mrow" title="${esc([m.about, m.split].filter(Boolean).join(" · "))}">
       <div class="ml"><b>${esc(m.label)}</b><span>${esc(m.unit)} · ${STATUS[m.status]}</span></div>
       <div class="mv">${m.now == null ? "—" : f0(m.now)}${m.hint_now
@@ -1314,12 +1231,17 @@ async function drawSolve(r){
       ${tail ? `<div class="mt${tailBad ? " bad" : ""}">${tail}</div>` : ""}</div>`;
   }
   const lt = s.lease_terms || {};
-  h += `<p class="lede" style="margin-top:12px">${_t("Стоимость борта у ставки лизинга — прикидка по допущениям договора")}: ${lt.months} ${_t("мес.")}, ${
-    (lt.annual_rate * 100).toFixed(1)}% ${_t("годовых, остаток")} ${
-    Math.round(lt.balloon_share * 100)}% ${_t("стоимости, платёж")} ${
-    lt.in_advance ? _t("авансом") : _t("в конце периода")}. ${_t("Меняются через")}
+  h += `<p class="lede" style="margin-top:12px">Стоимость борта у ставки лизинга —
+    прикидка по допущениям договора: ${lt.months} мес., ${
+    (lt.annual_rate * 100).toFixed(1)}% годовых, остаток ${
+    Math.round(lt.balloon_share * 100)}% стоимости, платёж ${
+    lt.in_advance ? "авансом" : "в конце периода"}. Меняются через
     <span class="num">--set lease_terms.*</span>.</p>
-    <p class="lede">${_t("Ставка ТОиР и экипажа решаются по почасовой части, а показана полная ставка при этом плече: при нулевой почасовой части остаётся цикловая — шасси, ВСУ, линейное обслуживание, — и это пол, ниже которого ставка не опускается. Порог по цене топлива — за килограмм в крыло; сейчас в модели спот без дифференциала и заправки.")}</p>`;
+    <p class="lede">Ставка ТОиР и экипажа решаются по почасовой части, а
+    показана полная ставка при этом плече: при нулевой почасовой части
+    остаётся цикловая — шасси, ВСУ, линейное обслуживание, — и это пол,
+    ниже которого ставка не опускается. Порог по цене топлива — за
+    килограмм в крыло; сейчас в модели спот без дифференциала и заправки.</p>`;
   box.innerHTML = h;
 }
 
@@ -1327,14 +1249,16 @@ async function drawSolve(r){
 let PAX_CMP = null;                  // пассажиров на рейс; null — из текущего расчёта
 function tabTypes(r){
   const pax = PAX_CMP ?? r.route.pax;
-  return `<p class="lede">${_t("Сравнение при заданном числе пассажиров на рейс, а не при одинаковой загрузке: у каждого типа своя загрузка, кому кресел не хватает — «нельзя». Ставки лизинга и налёта из блока «Флот» относятся к")} ${esc(CHOSEN.ac)};
-    ${_t("у остальных — справочник.")}</p>
+  return `<p class="lede">Сравнение при заданном числе пассажиров на рейс, а не при
+    одинаковой загрузке: у каждого типа своя загрузка, кому кресел не хватает —
+    «нельзя». Ставки лизинга и налёта из блока «Флот» относятся к ${esc(CHOSEN.ac)};
+    у остальных — справочник.</p>
     <div class="field pair" style="margin:6px 0 10px">
-      <div><label for="paxcmp">${_t("Пассажиров на рейс")}</label>
+      <div><label for="paxcmp">Пассажиров на рейс</label>
         <input id="paxcmp" type="number" min="1" step="1" value="${pax}"></div>
-      <div><label>&nbsp;</label><button id="paxgo" class="btn">${_t("Пересчитать")}</button></div>
+      <div><label>&nbsp;</label><button id="paxgo" class="btn">Пересчитать</button></div>
     </div>
-    <div id="typesbox"><p class="lede">${_t("считаю типы…")}</p></div>`;
+    <div id="typesbox"><p class="lede">считаю типы…</p></div>`;
 }
 
 let TYPES = null, TYPES_KEY = "", TYPES_SEQ = 0, TYPES_BUSY = null;
@@ -1368,34 +1292,36 @@ async function drawTypes(r){
   const my = ++TYPES_SEQ;
   const s = await loadTypes(my);
   if (!s || my !== TYPES_SEQ || !$("#typesbox")) return;
-  if (s.error) { box.innerHTML = `<div class="note"><b>${_t("Отказ.")}</b> ${esc(s.error)}</div>`; return; }
-  const STATUS = {ok: "", infeasible: _t("нельзя"), too_small: _t("мало кресел"), failed: _t("сбой")};
-  const TIER = {0: _t("параметрика"), 1: _t("физика"), 2: _t("точки"), 3: "CO₂", 4: _t("аналог")};
-  let h = `<div class="note quiet"><b>${s.rows.filter(x => x.status === "ok").length} ${_t("из")} ${
-      s.rows.length} ${_t("типов выполнимы при")} ${f0(s.pax)} ${_t("пассажирах.")}</b> ${esc(s.note)} ${_t("Считалось")} ${s.ms} ${_t("мс.")}</div>
+  if (s.error) { box.innerHTML = `<div class="note"><b>Отказ.</b> ${esc(s.error)}</div>`; return; }
+  const STATUS = {ok: "", infeasible: "нельзя", too_small: "мало кресел", failed: "сбой"};
+  const TIER = {0: "параметрика", 1: "физика", 2: "точки", 3: "CO₂", 4: "аналог"};
+  let h = `<div class="note quiet"><b>${s.rows.filter(x => x.status === "ok").length} из ${
+      s.rows.length} типов выполнимы при ${f0(s.pax)} пассажирах.</b> ${esc(s.note)} Считалось ${s.ms} мс.</div>
     <div class="mhead" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr">
-      <span>${_t("тип")}</span><span>${_t("кресел")}</span><span>${_t("загрузка")}</span><span>${_t("рейс, EUR")}</span>
-      <span>${_t("на пасс.")}</span><span>${_t("чек в ноль")}</span></div>`;
+      <span>тип</span><span>кресел</span><span>загрузка</span><span>рейс, EUR</span>
+      <span>на пасс.</span><span>чек в ноль</span></div>`;
   for (const t of s.rows) {
     const ok = t.status === "ok", cur = t.icao === CHOSEN.ac;
     const bad = t.status !== "ok";
     h += `<div class="mrow" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr"
         title="${esc(t.tier_note || "")}">
       <div class="ml"><b${cur ? ' style="color:var(--accent)"' : ""}>${esc(t.icao)}</b>
-        <span>${esc(t.name || "")}${t.tier != null ? ` · ${TIER[t.tier] || (_t("ярус") + " ") + t.tier}` : ""}${
-          t.tier === 0 || t.tier === 4 ? ` <span class="t3">${t.tier === 4 ? _t("с якорем") : _t("заготовка")}</span>` : ""}</span></div>
+        <span>${esc(t.name || "")}${t.tier != null ? ` · ${TIER[t.tier] || "ярус " + t.tier}` : ""}${
+          t.tier === 0 || t.tier === 4 ? ` <span class="t3">${t.tier === 4 ? "с якорем" : "заготовка"}</span>` : ""}</span></div>
       <div class="mv">${t.seats ?? "—"}</div>
       <div class="mv">${ok ? Math.round(t.lf * 100) + "%" : `<span style="color:var(--warn)">${STATUS[t.status]}</span>`}</div>
       <div class="mv">${ok ? f0(t.cost_total) : "—"}</div>
       <div class="mv">${ok ? f0(t.cost_per_pax) : "—"}</div>
       <div class="mv">${ok ? f0(t.breakeven_fare_eur) : "—"}</div>
       ${bad ? `<div class="mt bad">${esc(t.why || "")}</div>`
-            : `<div class="mt">CASK ${f2(t.cask)} ${_t("ц/кресло-км · топливо")} ${f0(t.fuel_per_pax)} ${_t("кг/пасс · блок")} ${
-                f2(t.block_h)} ${_t("ч · на заготовке")} ${Math.round(t.default_share * 100)}%${
-                t.unused && t.unused.length ? ` · <span style="color:var(--warn)">${_t("переопределения флота не применены")}</span>` : ""}</div>`}
+            : `<div class="mt">CASK ${f2(t.cask)} ц/кресло-км · топливо ${f0(t.fuel_per_pax)} кг/пасс · блок ${
+                f2(t.block_h)} ч · на заготовке ${Math.round(t.default_share * 100)}%${
+                t.unused && t.unused.length ? ` · <span style="color:var(--warn)">переопределения флота не применены</span>` : ""}</div>`}
     </div>`;
   }
-  h += `<p class="lede" style="margin-top:12px">${_t("Ярус расхода: физика — openap; аналог — вычислитель аналога на своём планере с якорем; заготовка — плоская ставка. Типы без модели расхода отвечают «нельзя» (решение 106), а не числом.")}</p>`;
+  h += `<p class="lede" style="margin-top:12px">Ярус расхода: физика — openap; аналог —
+    вычислитель аналога на своём планере с якорем; заготовка — плоская ставка.
+    Типы без модели расхода отвечают «нельзя» (решение 106), а не числом.</p>`;
   box.innerHTML = h;
 }
 
@@ -1405,15 +1331,15 @@ async function drawTypes(r){
 // идёт через тот же парсер и гейт, что у файла каталога, и файл каталога
 // пишет сервер: база остаётся производной от каталога (решение 1).
 function tabType(r){
-  return `<div id="typebox"><p class="lede">${_t("читаю")} ${esc(CHOSEN.ac)}…</p></div>`;
+  return `<div id="typebox"><p class="lede">читаю ${esc(CHOSEN.ac)}…</p></div>`;
 }
-const FIELD_RU = {mtow_t: _t("взлётная масса, т"), oew_t: _t("масса пустого снаряжённого, т"),
-  mlw_t: _t("посадочная масса, т"), fuel_capacity_t: _t("ёмкость баков, т"), seats_max: _t("кресел по сертификату"),
-  seats_typical: _t("кресел, типовая компоновка"), span_m: _t("размах, м"), length_m: _t("длина, м"),
-  cruise_mach: _t("крейсерское число M"), cruise_alt_m: _t("крейсерский эшелон, м"), engine_count: _t("двигателей"),
-  noise_lateral_epndb: _t("шум: боковая точка, EPNdB"), noise_approach_epndb: _t("шум: заход, EPNdB"),
-  noise_flyover_epndb: _t("шум: пролёт, EPNdB"), noise_mtom_t: _t("шум: при массе, т"),
-  noise_chapter: _t("глава Приложения 16")};
+const FIELD_RU = {mtow_t: "взлётная масса, т", oew_t: "масса пустого снаряжённого, т",
+  mlw_t: "посадочная масса, т", fuel_capacity_t: "ёмкость баков, т", seats_max: "кресел по сертификату",
+  seats_typical: "кресел, типовая компоновка", span_m: "размах, м", length_m: "длина, м",
+  cruise_mach: "крейсерское число M", cruise_alt_m: "крейсерский эшелон, м", engine_count: "двигателей",
+  noise_lateral_epndb: "шум: боковая точка, EPNdB", noise_approach_epndb: "шум: заход, EPNdB",
+  noise_flyover_epndb: "шум: пролёт, EPNdB", noise_mtom_t: "шум: при массе, т",
+  noise_chapter: "глава Приложения 16"};
 const FIELD_ORDER = ["mtow_t","oew_t","mlw_t","fuel_capacity_t","seats_max","seats_typical",
   "span_m","length_m","cruise_mach","cruise_alt_m","engine_count",
   "noise_lateral_epndb","noise_approach_epndb","noise_flyover_epndb","noise_mtom_t","noise_chapter"];
@@ -1428,7 +1354,7 @@ async function drawType(r){
   const base = TYPE_NEW ? TYPE_NEW.base : CHOSEN.ac;
   const t = await (await fetch("/api/aircraft/type?icao=" + encodeURIComponent(base))).json();
   if (!$("#typebox")) return;
-  if (t.error && !TYPE_NEW) { box.innerHTML = `<div class="note"><b>${_t("Нет.")}</b> ${esc(t.error)}</div>`; return; }
+  if (t.error && !TYPE_NEW) { box.innerHTML = `<div class="note"><b>Нет.</b> ${esc(t.error)}</div>`; return; }
   const by = {}; for (const f of (t.fields || [])) by[f.field] = f;
   const editing = !!TYPE_NEW || t.editable;
   const ro = editing ? "" : "readonly";
@@ -1438,19 +1364,21 @@ async function drawType(r){
   const sameEngine = !!by.burn_same_engine || (TYPE_NEW && !!t.physics);
   const provLine = t.fields && t.fields.length
     ? `${esc([...new Set(t.fields.map(f => f.source))].join(", "))} · ${t.physics === null
-        ? _t("физика не проверялась") : t.physics ? _t("физика openap") : _t("расход по аналогу")}` : _t("новый тип");
+        ? "физика не проверялась" : t.physics ? "физика openap" : "расход по аналогу"}` : "новый тип";
   let h = `<p class="lede"><b>${esc(key)}</b>${t.name && !TYPE_NEW ? " — " + esc(t.name) : ""} · ${provLine}${
-      t.public ? (" " + _t("· публичная витрина, запись закрыта")) : ""}</p>`;
+      t.public ? " · публичная витрина, запись закрыта" : ""}</p>`;
   if (!editing && !t.public)
     h += `<div class="field pair" style="margin:6px 0 12px">
-      <div><label for="newkey">${_t("Создать свой тип на основе")} ${esc(t.icao)} — ${_t("ключ")}</label>
+      <div><label for="newkey">Создать свой тип на основе ${esc(t.icao)} — ключ</label>
         <input id="newkey" type="text" value="USER:${esc(t.icao)}-MY"></div>
-      <div><label>&nbsp;</label><button id="newgo" class="btn">${_t("Создать свой тип")}</button></div></div>
-      <p class="lede">${_t("Библиотечный тип не редактируется: он приходит из openap и обновляется вместе с ним. Свой тип наследует его паспорт и вычислитель расхода (тот же двигатель, множитель 1), а дальше правится — массы, кресла, двигатель, аналог, якорь.")}</p>`;
+      <div><label>&nbsp;</label><button id="newgo" class="btn">Создать свой тип</button></div></div>
+      <p class="lede">Библиотечный тип не редактируется: он приходит из openap и обновляется вместе
+      с ним. Свой тип наследует его паспорт и вычислитель расхода (тот же двигатель, множитель 1),
+      а дальше правится — массы, кресла, двигатель, аналог, якорь.</p>`;
   h += `<form id="tform" onsubmit="return false">
-    <div class="grp">${_t("паспорт")}</div>
-    <div class="field pair">${fld("t_name", _t("название"), TYPE_NEW ? (t.name ? t.name + (" " + _t("(свой)")) : "") : (t.name || ""), ro)}
-      ${fld("t_engine", _t("двигатель"), src("engine").text, ro)}</div>
+    <div class="grp">паспорт</div>
+    <div class="field pair">${fld("t_name", "название", TYPE_NEW ? (t.name ? t.name + " (свой)" : "") : (t.name || ""), ro)}
+      ${fld("t_engine", "двигатель", src("engine").text, ro)}</div>
     <div class="field pair">`;
   // Две группы полей парами: паспорт и сертифицированный шум. Шум нужен
   // категориям аэропортов, считающих по сертификату; у типов из базы EASA
@@ -1458,51 +1386,51 @@ async function drawType(r){
   const groups = [FIELD_ORDER.filter(k => !k.startsWith("noise_")),
                   FIELD_ORDER.filter(k => k.startsWith("noise_"))];
   groups.forEach((ks, gi) => {
-    if (gi === 1) h += `</div><div class="grp">${_t("сертифицированный шум — из базы EASA или карты данных сертификата")}</div><div class="field pair">`;
+    if (gi === 1) h += `</div><div class="grp">сертифицированный шум — из базы EASA или карты данных сертификата</div><div class="field pair">`;
     ks.forEach((k, i) => {
       h += fld("f_" + k, FIELD_RU[k], src(k).value, `type="number" step="any" ${ro}`);
       if (i % 2 === 1 && i < ks.length - 1) h += `</div><div class="field pair">`;
     });
   });
   h += `</div>
-    <div class="grp">${_t("расход — ярус 4, если нет своей физики")}</div>
+    <div class="grp">расход — ярус 4, если нет своей физики</div>
     <div class="field pair">
-      <div><label for="b_analog">${_t("аналог (вычислитель openap)")}</label>
-        <select id="b_analog" ${editing ? "" : "disabled"}><option value="">— ${_t("нет: тип отвечает «нельзя»")} —</option>${
+      <div><label for="b_analog">аналог (вычислитель openap)</label>
+        <select id="b_analog" ${editing ? "" : "disabled"}><option value="">— нет: тип отвечает «нельзя» —</option>${
           (t.analogs || []).map(a => `<option value="${a}"${a === burnAnalog ? " selected" : ""}>${a}</option>`).join("")}</select></div>
-      <div><label for="b_same">${_t("тот же двигатель, что у аналога")}</label>
+      <div><label for="b_same">тот же двигатель, что у аналога</label>
         <select id="b_same" ${editing ? "" : "disabled"}>
-          <option value="1"${sameEngine ? " selected" : ""}>${_t("да — множитель 1, якорь не нужен")}</option>
-          <option value="0"${sameEngine ? "" : " selected"}>${_t("нет — нужен якорь")}</option></select></div></div>
-    <div class="field pair">${fld("b_anchor", _t("якорь: крейсерский расход, кг/ч"), src("burn_anchor_kg_per_h").value, `type="number" step="any" ${ro}`)}
-      ${fld("b_mass", _t("якорь: масса, т"), src("burn_anchor_mass_t").value, `type="number" step="any" ${ro}`)}</div>
-    <div class="field">${fld("b_src", _t("якорь: источник (без него якорь не заводится)"), sameEngine ? "" : src("burn_anchor_note").text, ro)}</div>
-    <div class="field">${fld("b_note", _t("почему этот аналог"), "", ro)}</div>
-    <div class="grp">${_t("источник паспортных величин")}</div>
-    <div class="field">${fld("s_source", _t("документ"), TYPE_NEW ? `${_t("копия")} ${esc(t.icao)} ${_t("из хранилища с изменениями — описать, что и почему")}` : (src("mtow_t").source_note || "").split(" | ")[0], ro)}</div>
-    <div class="field pair">${fld("s_url", _t("адрес"), TYPE_NEW ? "" : ((src("mtow_t").source_note || "").split(" | ")[2] || ""), ro)}
-      ${fld("s_pub", _t("издатель"), TYPE_NEW ? "" : ((src("mtow_t").source_note || "").split(" | ")[1] || ""), ro)}</div>
+          <option value="1"${sameEngine ? " selected" : ""}>да — множитель 1, якорь не нужен</option>
+          <option value="0"${sameEngine ? "" : " selected"}>нет — нужен якорь</option></select></div></div>
+    <div class="field pair">${fld("b_anchor", "якорь: крейсерский расход, кг/ч", src("burn_anchor_kg_per_h").value, `type="number" step="any" ${ro}`)}
+      ${fld("b_mass", "якорь: масса, т", src("burn_anchor_mass_t").value, `type="number" step="any" ${ro}`)}</div>
+    <div class="field">${fld("b_src", "якорь: источник (без него якорь не заводится)", sameEngine ? "" : src("burn_anchor_note").text, ro)}</div>
+    <div class="field">${fld("b_note", "почему этот аналог", "", ro)}</div>
+    <div class="grp">источник паспортных величин</div>
+    <div class="field">${fld("s_source", "документ", TYPE_NEW ? `копия ${esc(t.icao)} из хранилища с изменениями — описать, что и почему` : (src("mtow_t").source_note || "").split(" | ")[0], ro)}</div>
+    <div class="field pair">${fld("s_url", "адрес", TYPE_NEW ? "" : ((src("mtow_t").source_note || "").split(" | ")[2] || ""), ro)}
+      ${fld("s_pub", "издатель", TYPE_NEW ? "" : ((src("mtow_t").source_note || "").split(" | ")[1] || ""), ro)}</div>
     <div class="field pair">
-      <div><label for="s_cert">${_t("достоверность")}</label><select id="s_cert" ${editing ? "" : "disabled"}>
-        <option value="exact"${(src("mtow_t").certainty || "exact") === "exact" ? " selected" : ""}>${_t("exact — числа как в источнике или моё допущение")}</option>
-        <option value="reading_unconfirmed"${src("mtow_t").certainty === "reading_unconfirmed" ? " selected" : ""}>${_t("reading_unconfirmed — прочтение не подтверждено")}</option></select></div>
-      ${fld("s_cost", _t("цена ошибки, EUR (для неточности)"), "", `type="number" step="any" ${ro}`)}</div>
-    <div class="field">${fld("s_confirm", _t("кто подтвердит (для неточности)"), src("mtow_t").confirm_by || "", ro)}</div>
+      <div><label for="s_cert">достоверность</label><select id="s_cert" ${editing ? "" : "disabled"}>
+        <option value="exact"${(src("mtow_t").certainty || "exact") === "exact" ? " selected" : ""}>exact — числа как в источнике или моё допущение</option>
+        <option value="reading_unconfirmed"${src("mtow_t").certainty === "reading_unconfirmed" ? " selected" : ""}>reading_unconfirmed — прочтение не подтверждено</option></select></div>
+      ${fld("s_cost", "цена ошибки, EUR (для неточности)", "", `type="number" step="any" ${ro}`)}</div>
+    <div class="field">${fld("s_confirm", "кто подтвердит (для неточности)", src("mtow_t").confirm_by || "", ro)}</div>
     ${editing ? `<div class="field pair" style="margin-top:10px">
-      <div><button id="tsave" class="btn">${_t("Сохранить")} ${TYPE_NEW ? _t("новый тип") : _t("изменения")}</button></div>
-      <div>${TYPE_NEW ? `<button id="tcancel" class="btn">${_t("Отмена")}</button>`
-                      : `<button id="tdel" class="btn" style="color:var(--warn)">${_t("Снять с учёта")}</button>`}</div></div>` : ""}
+      <div><button id="tsave" class="btn">Сохранить ${TYPE_NEW ? "новый тип" : "изменения"}</button></div>
+      <div>${TYPE_NEW ? `<button id="tcancel" class="btn">Отмена</button>`
+                      : `<button id="tdel" class="btn" style="color:var(--warn)">Снять с учёта</button>`}</div></div>` : ""}
     <div id="tmsg" class="note quiet" style="display:none"></div>
   </form>`;
   if (!TYPE_NEW && t.layouts && t.layouts.length)
-    h += `<div class="grp">${_t("компоновки")}</div>` + t.layouts.map(l =>
+    h += `<div class="grp">компоновки</div>` + t.layouts.map(l =>
       `<div class="mrow" style="grid-template-columns:1.4fr .9fr 2fr"><div class="ml"><b>${
-        esc(l.operator === "*" ? _t("типовая") : l.operator)}</b></div><div class="mv">${l.seats} ${_t("кр.")}</div>
+        esc(l.operator === "*" ? "типовая" : l.operator)}</b></div><div class="mv">${l.seats} кр.</div>
         <div class="mv" style="text-align:left">${esc(l.source)}</div></div>`).join("");
   box.innerHTML = h;
   addClears(box);
   const msg = (text, bad) => { const m = $("#tmsg"); m.style.display = ""; m.className = "note" + (bad ? "" : " quiet");
-    m.innerHTML = bad ? `<b>${_t("Не сохранено.")}</b> ${esc(text)}` : esc(text); };
+    m.innerHTML = bad ? `<b>Не сохранено.</b> ${esc(text)}` : esc(text); };
   if ($("#newgo")) $("#newgo").onclick = () => {
     TYPE_NEW = {base: t.icao, icao: ($("#newkey").value.trim() || `USER:${t.icao}-MY`).toUpperCase()};
     drawType(LAST);
@@ -1531,11 +1459,11 @@ async function drawType(r){
     ACS = await (await fetch("/api/aircraft")).json();
     TYPE_NEW = null;
     setAc(res.icao);
-    msg(`${_t("сохранено")}: ${res.icao} → ${res.file}${res.retired && res.retired.length ? `; ${_t("снято ключей")}: ${res.retired.length}` : ""}`);
+    msg(`сохранено: ${res.icao} → ${res.file}${res.retired && res.retired.length ? `; снято ключей: ${res.retired.length}` : ""}`);
     draw();
   };
   if ($("#tdel")) $("#tdel").onclick = async () => {
-    if (!confirm(`${_t("Снять")} ${key} ${_t("с учёта? Факты закроются сегодняшним днём, файл каталога будет удалён.")}`)) return;
+    if (!confirm(`Снять ${key} с учёта? Факты закроются сегодняшним днём, файл каталога будет удалён.`)) return;
     const res = await (await fetch("/api/aircraft/delete", {method: "POST",
       headers: {"Content-Type": "application/json"}, body: JSON.stringify({icao: key})})).json();
     if (res.error) { msg(res.error, true); return; }
@@ -1545,22 +1473,24 @@ async function drawType(r){
 }
 
 function tabData(r){
-  let h = `<p class="lede">${_t("Что стоит на документе, а что на параметрике — по этому маршруту.")}</p><table><tbody>` + r.cost.map(c =>
+  let h = `<p class="lede">Что стоит на документе, а что на параметрике —
+    по этому маршруту.</p><table><tbody>` + r.cost.map(c =>
     `<tr><td>${esc(c.label||c.item)}</td>
      <td style="color:var(--faint);font-size:11.5px">${RU[c.prov]||c.prov}</td>
      <td class="v">${f0(c.eur)}</td></tr>`).join("") + `</tbody></table>`;
   for (const [ap, d] of Object.entries(r.charge_gaps || {})) {
     h += `<h3>${esc(ap)}</h3><table><tbody>
-      <tr><td>${_t("начислено статей")}</td><td class="v">${(d.priced_codes||[]).length}</td></tr>
-      <tr><td>${_t("пропущено без значения")}</td><td class="v" style="${
+      <tr><td>начислено статей</td><td class="v">${(d.priced_codes||[]).length}</td></tr>
+      <tr><td>пропущено без значения</td><td class="v" style="${
         (d.lost_codes||[]).length ? "color:var(--warn)" : ""}">${
         (d.lost_codes||[]).join(", ") || "—"}</td></tr>
-      <tr><td>${_t("нет справочного значения")}</td><td class="v">${
+      <tr><td>нет справочного значения</td><td class="v">${
         (d.missing_data||[]).join(", ") || "—"}</td></tr>
-      <tr><td>${_t("не задан вход")}</td><td class="v">${
+      <tr><td>не задан вход</td><td class="v">${
         (d.missing_input||[]).join(", ") || "—"}</td></tr></tbody></table>`;
   }
-  return h + `<p class="lede" style="margin-top:14px">${_t("Полная витрина хранилища")} — <span class="num">fca data</span>.</p>`;
+  return h + `<p class="lede" style="margin-top:14px">Полная витрина
+    хранилища — <span class="num">fca data</span>.</p>`;
 }
 
 
@@ -1604,26 +1534,26 @@ function drawKpi(r){
   const cells = [];
   // «Нельзя» — ответ, а не отсутствие ответа (решение 93): стоит там же,
   // где стояло бы число.
-  cells.push(kpiCell(_t("Стоимость рейса"),
-    a.feasible ? f0(a.cost_total) + `<small>EUR</small>` : _t("нельзя"),
+  cells.push(kpiCell("Стоимость рейса",
+    a.feasible ? f0(a.cost_total) + `<small>EUR</small>` : "нельзя",
     !a.feasible ? why
-      : seatsOk ? `${f0(a.cost_total / Math.max(1, r.route.pax))} ${_t("EUR на пассажира")}`
-      : _t("в ответе нет кресел — перезапусти fca serve"),
+      : seatsOk ? `${f0(a.cost_total / Math.max(1, r.route.pax))} EUR на пассажира`
+      : "в ответе нет кресел — перезапусти fca serve",
     !a.feasible || !seatsOk));
-  cells.push(kpiCell(_t("Безубыточный чек"),
+  cells.push(kpiCell("Безубыточный чек",
     a.feasible ? f0(be) + `<small>EUR</small>` : "—",
-    !a.feasible ? "" : !fare ? _t("чек не задан")
-      : be <= fare ? `${_t("задан")} ${f0(fare)} — ${_t("запас")} ${f0(fare - be)} ${_t("EUR с пассажира")}`
-      : `${_t("задан")} ${f0(fare)} — ${_t("не хватает")} ${f0(be - fare)} ${_t("EUR с пассажира")}`,
+    !a.feasible ? "" : !fare ? "чек не задан"
+      : be <= fare ? `задан ${f0(fare)} — запас ${f0(fare - be)} EUR с пассажира`
+      : `задан ${f0(fare)} — не хватает ${f0(be - fare)} EUR с пассажира`,
     a.feasible && fare > 0 && be > fare, "kpi-yield"));
   cells.push(kpiCell("CASK",
-    !a.feasible ? "—" : seatsOk ? f2(cask(r)) + `<small>${_t("ц / кресло-км")}</small>`
-      : _t("нет кресел"),
-    seatsOk ? `${r.route.seats} ${_t("кресел · плечо")} ${f0(r.route.distance_nm)} nm`
-            : _t("в ответе нет поля seats"),
+    !a.feasible ? "—" : seatsOk ? f2(cask(r)) + `<small>ц / кресло-км</small>`
+      : "нет кресел",
+    seatsOk ? `${r.route.seats} кресел · плечо ${f0(r.route.distance_nm)} nm`
+            : "в ответе нет поля seats",
     a.feasible && !seatsOk, "kpi-cask"));
-  $("#kpi").innerHTML = cells.join("") + `<div><div class="k">${_t("Сравнить с")}</div>
-    <div id="kpichips"><span class="s">${_t("считаю…")}</span></div>
+  $("#kpi").innerHTML = cells.join("") + `<div><div class="k">Сравнить с</div>
+    <div id="kpichips"><span class="s">считаю…</span></div>
     <div class="s" id="kpisub"></div></div>`;
   loadBench().then(b => { if (LAST === r) drawChips(b); });
 }
@@ -1633,7 +1563,7 @@ function drawChips(b){
   if (!box) return;
   const cs = (b.carriers || []).filter(c => c.cask_cents || c.yield_eur_pax);
   if (!cs.length) {
-    box.innerHTML = `<span class="s">${_t("полосы нет — отчётность не заведена")}</span>`;
+    box.innerHTML = `<span class="s">полосы нет — отчётность не заведена</span>`;
     sub.textContent = ""; $("#kpi-yield").textContent = ""; $("#kpi-cask").textContent = "";
     return;
   }
@@ -1643,9 +1573,9 @@ function drawChips(b){
   const cur = cs.find(c => c.carrier === KPI_CARRIER);
   const years = cs.filter(c => c.code === cur.code).map(c => c.year);
   box.className = "cpick";
-  box.innerHTML = `<input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
+  box.innerHTML = `<input id="cq" autocomplete="off" value="${esc(cur.name)}" title="перевозчик">
     <div class="hits" id="cqh"></div>
-    <select id="cy" title="${_t("год отчётности")}">${[...new Set(years)].map(y =>
+    <select id="cy" title="год отчётности">${[...new Set(years)].map(y =>
       `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>`;
   const inp = $("#cq"), hits = $("#cqh");
   const rows = q => {
@@ -1658,7 +1588,7 @@ function drawChips(b){
   const show = () => {
     hits.innerHTML = rows(inp.value).map(c => `<div class="hit" data-c="${esc(c.carrier)}">
       <b>${esc(c.code)}</b>${esc(c.name)}<i>${esc(c.scope.slice(0, 70))}</i></div>`).join("")
-      || `<div class="hit" style="color:var(--dim)">${_t("ничего не нашлось")}</div>`;
+      || `<div class="hit" style="color:var(--dim)">ничего не нашлось</div>`;
     hits.classList.add("on");
     hits.querySelectorAll(".hit[data-c]").forEach(el =>
       el.addEventListener("mousedown", e => { e.preventDefault();
@@ -1676,20 +1606,20 @@ function drawChips(b){
   // Без названия перевозчика: оно стоит в поле выбора справа, а строка
   // сравнения — про число и плечо, на котором оно получено.
   // Белым и жирным — только число; слово «бенчмарк» и единицы серым.
-  const bm = (num, unit, sub) => `${_t("бенчмарк")}: ${num ? `<b>${esc(num)}</b> ` : ""}${
+  const bm = (num, unit, sub) => `бенчмарк: ${num ? `<b>${esc(num)}</b> ` : ""}${
     esc(unit)}<br>${esc(sub)}`;
   // Рублёвый CASK, пересчитанный по курсу, — сравнение уровня цен, а не
   // эффективности: валюта отчёта называется рядом с плечом.
   const zone = cur.fx && cur.fx.currency && cur.fx.currency !== "EUR"
-    ? ` · ${_t("отчёт в")} ${cur.fx.currency}, ${_t("другая валютная зона")}` : "";
+    ? ` · отчёт в ${cur.fx.currency}, другая валютная зона` : "";
   $("#kpi-cask").innerHTML = cur.cask_cents
-    ? bm(f2(cur.cask_cents), _t("ц"), `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}`)
-    : bm("", _t("не считается"), cur.fx && !cur.fx.rate ? (_t("нет курса") + " ") + cur.fx.currency : "");
+    ? bm(f2(cur.cask_cents), "ц", `на плече ${f0(cur.sector_nm)} nm${zone}`)
+    : bm("", "не считается", cur.fx && !cur.fx.rate ? "нет курса " + cur.fx.currency : "");
   $("#kpi-yield").innerHTML = (cur.yield_eur_pax
-    ? bm(f0(cur.yield_eur_pax), _t("EUR с пассажира"), cur.yield_basis || "")
-    : bm("", _t("не публикует"), _t("доход с пассажира в отчёте не назван")))
+    ? bm(f0(cur.yield_eur_pax), "EUR с пассажира", cur.yield_basis || "")
+    : bm("", "не публикует", "доход с пассажира в отчёте не назван"))
     + marketLine(b);
-  sub.textContent = _t("другое плечо и сеть — прямо сравнивать нельзя");
+  sub.textContent = "другое плечо и сеть — прямо сравнивать нельзя";
 }
 
 // Видимая цена на линии — медиана МИНИМУМОВ по датам вылета из выгрузок
@@ -1699,35 +1629,35 @@ function drawChips(b){
 function marketLine(b){
   const fares = b.fare || [];
   if (!fares.length) {
-    return `<br><span class="s">${_t("рынок")}: ${b.fare_elsewhere
-      ? `${_t("по этой линии наблюдений нет (есть по")} ${b.fare_elsewhere} ${_t("другим)")}`
-      : _t("наблюдений цены нет")}</span>`;
+    return `<br><span class="s">рынок: ${b.fare_elsewhere
+      ? `по этой линии наблюдений нет (есть по ${b.fare_elsewhere} другим)`
+      : "наблюдений цены нет"}</span>`;
   }
   const vals = b.fare_eur || fares.map(x => x.value);
   const unit = b.fare_eur ? "EUR" : (fares[0].unit || "?");
   const lo = Math.min(...vals), hi = Math.max(...vals);
   const band = fares.length === 1 ? esc(fares[0].key.split("/")[1] || "")
-    : `${fares.length} ${_t("полос глубины")}`;
-  return `<br>${_t("рынок")}: <b>${f0(lo)}${hi > lo ? "–" + f0(hi) : ""}</b> ${esc(unit)} · ${band}`
-    + `<br><span class="s">${_t("минимум дешёвого класса, налоги внутри — не средний чек · по данным Aviasales")}</span>`;
+    : `${fares.length} полос глубины`;
+  return `<br>рынок: <b>${f0(lo)}${hi > lo ? "–" + f0(hi) : ""}</b> ${esc(unit)} · ${band}`
+    + `<br><span class="s">минимум дешёвого класса, налоги внутри — не средний чек · по данным Aviasales</span>`;
 }
 
 function carrierCard(c){
-  const cask = c.cask_cents ? f2(c.cask_cents) + (" " + _t("ц"))
+  const cask = c.cask_cents ? f2(c.cask_cents) + " ц"
     : c.fx && !c.fx.rate
-      ? `<span style="color:var(--warn)">${_t("нет курса")} ${esc(c.fx.currency)}</span>` : "—";
+      ? `<span style="color:var(--warn)">нет курса ${esc(c.fx.currency)}</span>` : "—";
   return `<div class="carrier"><div class="ch">${esc(c.name)} · ${esc(c.year)}
       <span style="color:var(--faint);font-weight:400">${esc(c.code)}</span></div>
     <div class="cs">${esc((c.scope||"").trim())}</div>
     <div class="kv">
       <span>CASK</span><b>${cask}</b>
-      <span>${_t("доход с пассажира")}</span><b>${c.yield_eur_pax ? f0(c.yield_eur_pax) + " EUR" : "—"}
+      <span>доход с пассажира</span><b>${c.yield_eur_pax ? f0(c.yield_eur_pax) + " EUR" : "—"}
         ${c.yield_basis ? `<i>${esc(c.yield_basis)}</i>` : ""}</b>
-      <span>${_t("среднее плечо")}</span><b>${c.sector_nm ? f0(c.sector_nm) + " nm" : "—"}</b>
-      <span>${_t("стоимость блок-часа")}</span><b>${c.cost_per_block_h
-        ? f0(c.cost_per_block_h) + (" " + _t("EUR/ч"))
-        : `<span style="color:var(--faint)">${_t("не публикует")}</span>`}</b>
-      <span>${_t("затраты на пассажира")}</span><b>${c.cost_per_pax ? f0(c.cost_per_pax) + " EUR" : "—"}</b>
+      <span>среднее плечо</span><b>${c.sector_nm ? f0(c.sector_nm) + " nm" : "—"}</b>
+      <span>стоимость блок-часа</span><b>${c.cost_per_block_h
+        ? f0(c.cost_per_block_h) + " EUR/ч"
+        : `<span style="color:var(--faint)">не публикует</span>`}</b>
+      <span>затраты на пассажира</span><b>${c.cost_per_pax ? f0(c.cost_per_pax) + " EUR" : "—"}</b>
     </div></div>`;
 }
 
@@ -1745,43 +1675,50 @@ async function drawBench(r){
     // кресло-километров, и CASK выше при той же эффективности. Сравнивать
     // напрямую нельзя, а показывать оба числа с названным плечом — можно.
     const noFx = b.carriers.filter(c => c.fx && !c.fx.rate);
-    if (noFx.length) box.push(`<div class="note"><b>${_t("Пересчёт невозможен.")}</b>
+    if (noFx.length) box.push(`<div class="note"><b>Пересчёт невозможен.</b>
       ${noFx.map(c => esc(c.carrier) + " — " + esc(c.fx.currency)).join(", ")}:
-      ${_t("курса в справочнике нет, и подставлять правдоподобный нельзя — получилась бы полоса, собранная из чисел в разных деньгах. Это открытый вопрос карты: источники курса вне котировок ЕЦБ.")}</div>`);
+      курса в справочнике нет, и подставлять правдоподобный нельзя —
+      получилась бы полоса, собранная из чисел в разных деньгах. Это
+      открытый вопрос карты: источники курса вне котировок ЕЦБ.</div>`);
     const c0 = b.carriers.find(c => c.cask_cents);
-    if (c0) box.push(`<div class="note"><b>${_t("Прямо сравнивать нельзя.")}</b>
-      ${_t("Наш маршрут")} — ${f0(our.sector)} ${_t("nm, полоса собрана на среднем плече")}
-      ${f0(c0.sector_nm)} ${_t("nm. На коротком секторе постоянные статьи рейса делятся на меньшее число кресло-километров, и CASK выше при той же эффективности. Наши")} ${f2(our.cask)} ${_t("ц против")}
-      ${f2(c0.cask_cents)} ${_t("ц — разница, в которой доля плеча пока не отделена от доли параметрики.")}</div>`);
+    if (c0) box.push(`<div class="note"><b>Прямо сравнивать нельзя.</b>
+      Наш маршрут — ${f0(our.sector)} nm, полоса собрана на среднем плече
+      ${f0(c0.sector_nm)} nm. На коротком секторе постоянные статьи рейса
+      делятся на меньшее число кресло-километров, и CASK выше при той же
+      эффективности. Наши ${f2(our.cask)} ц против
+      ${f2(c0.cask_cents)} ц — разница, в которой доля плеча пока
+      не отделена от доли параметрики.</div>`);
   } else {
-    box.push(`<div class="note"><b>${_t("Полосы нет.")}</b> ${_t("Отчётность перевозчиков не заведена: сравнивать себестоимость не с чем.")}</div>`);
+    box.push(`<div class="note"><b>Полосы нет.</b> Отчётность перевозчиков
+      не заведена: сравнивать себестоимость не с чем.</div>`);
   }
 
   box.push(`<table class="wrap" style="margin-top:12px"><tbody>`);
   box.push(b.yield
-    ? `<tr><td>${_t("Доход с пассажира")}<div style="color:var(--faint);font-size:11px">
-         ${_t("сходится ли экономика линии")}</div></td>
+    ? `<tr><td>Доход с пассажира<div style="color:var(--faint);font-size:11px">
+         сходится ли экономика линии</div></td>
        <td class="v">${f0(b.yield.lo)} – ${f0(b.yield.hi)} EUR</td>
-       <td style="color:var(--faint);font-size:11px">${b.yield.n} ${b.yield.n > 1 ? _t("контура") : _t("контур")}</td></tr>`
-    : `<tr><td>${_t("Доход с пассажира")}</td><td class="v" style="color:var(--warn)">${_t("нет данных")}</td><td></td></tr>`);
+       <td style="color:var(--faint);font-size:11px">${b.yield.n} контур${
+         b.yield.n > 1 ? "а" : ""}</td></tr>`
+    : `<tr><td>Доход с пассажира</td><td class="v" style="color:var(--warn)">нет данных</td><td></td></tr>`);
   box.push((b.fare || []).length
-    ? `<tr><td>${_t("Видимая цена на линии")}<div style="color:var(--faint);font-size:11px">
-         ${_t("можно ли войти ценой · медиана МИНИМУМОВ по датам")}</div></td>
+    ? `<tr><td>Видимая цена на линии<div style="color:var(--faint);font-size:11px">
+         можно ли войти ценой · медиана МИНИМУМОВ по датам</div></td>
        <td class="v">${b.fare_eur
          ? b.fare_eur.map(f0).join(" / ") + ' <span style="color:var(--dim);font-size:11px">EUR</span>'
          : b.fare.map(x => f0(x.value)).join(" / ")
            + ` <span style="color:var(--warn);font-size:11px">${
                esc([...new Set(b.fare.map(x => x.unit))].join("/") || "?")
              }</span>`}</td>
-       <td style="color:var(--faint);font-size:11px">${b.fare.length} ${_t("полос глубины · по данным Aviasales")}${b.fare_eur
-         ? `<br>${esc(b.fare_src_cur)} ${_t("по курсу")} ${esc(b.fare_fx)}`
-         : `<br><span style="color:var(--warn)">${_t("курса нет, показано как есть")}</span>`}</td></tr>`
-    : `<tr><td>${_t("Видимая цена на линии")}<div style="color:var(--faint);font-size:11px">
-         ${_t("можно ли войти ценой")}</div></td>
-       <td class="v" style="color:var(--warn)">${_t("нет данных")}</td>
+       <td style="color:var(--faint);font-size:11px">${b.fare.length} полос глубины · по данным Aviasales${b.fare_eur
+         ? `<br>${esc(b.fare_src_cur)} по курсу ${esc(b.fare_fx)}`
+         : `<br><span style="color:var(--warn)">курса нет, показано как есть</span>`}</td></tr>`
+    : `<tr><td>Видимая цена на линии<div style="color:var(--faint);font-size:11px">
+         можно ли войти ценой</div></td>
+       <td class="v" style="color:var(--warn)">нет данных</td>
        <td style="color:var(--faint);font-size:11px">${b.fare_elsewhere
-         ? `${_t("по этому маршруту нет; полосы есть по")} ${b.fare_elsewhere} ${_t("другим")}`
-         : _t("наблюдений нет вовсе")}</td></tr>`);
+         ? `по этому маршруту нет; полосы есть по ${b.fare_elsewhere} другим`
+         : "наблюдений нет вовсе"}</td></tr>`);
   box.push(`</tbody></table>`);
   $("#benchbox").innerHTML = box.join("");
 }
@@ -1809,63 +1746,66 @@ async function side(d){
     // непонятная. Величина расчётная, и продолжать трассировку надо не
     // объяснением, чего нет, а перечнем того, из чего она получена.
     // Карта данных это знает: у узла перечислены входы.
-    h += `<p class="lede">${_t("Расчётное значение: получено из других величин, а не взято из справочника.")}</p>
+    h += `<p class="lede">Расчётное значение: получено из других величин,
+      а не взято из справочника.</p>
       <dl class="kv">
-        <dt>${_t("формула")}</dt><dd style="font-family:var(--mono)">${
+        <dt>формула</dt><dd style="font-family:var(--mono)">${
           esc(d.formula || "—")}</dd>
-        <dt>${_t("подстановка")}</dt><dd style="font-family:var(--mono)">${
+        <dt>подстановка</dt><dd style="font-family:var(--mono)">${
           esc(d.subst || "—")}</dd>
-        ${d.src ? `<dt>${_t("пояснение")}</dt><dd style="font-family:inherit">${
+        ${d.src ? `<dt>пояснение</dt><dd style="font-family:inherit">${
           esc(d.src)}</dd>` : ""}
       </dl><div id="nodebox"></div>`;
     $("#side").innerHTML = h;
     if (d.node) {
       const nd = await (await fetch(`/api/node?id=${encodeURIComponent(d.node)}`)).json();
       $("#nodebox").innerHTML = nd.found
-        ? `<h3>${_t("Откуда берутся входы")}</h3>` + (nd.inputs.length
+        ? `<h3>Откуда берутся входы</h3>` + (nd.inputs.length
             ? `<table class="wrap"><tbody>` + nd.inputs.map(i => `<tr>
                  <td>${esc(i.label)}<div style="color:var(--faint);font-size:11px">${
                    esc(i.take)}</div>${(i.sources || []).map(s => `
                    <div style="font-size:11.5px;margin-top:3px">${esc(s.title || s.id)}${
                      s.url ? s.templated
-                       ? ` · <span style="color:var(--faint)">${_t("шаблон адреса")}: ${esc(s.url)}</span>`
-                       : ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">${_t("источник")}</a>`
+                       ? ` · <span style="color:var(--faint)">шаблон адреса: ${esc(s.url)}</span>`
+                       : ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">источник</a>`
                      : ""}</div>`).join("")}</td>
                  <td style="color:var(--dim);font-size:12px">${esc(i.unit)}</td>
                  <td><span class="chip">${esc(i.role)}</span></td></tr>`).join("")
               + `</tbody></table>`
-            : `<div class="note quiet"><b>${_t("Входов на карте нет.")}</b> ${_t("Узел")}
-                <span class="num">${esc(d.node)}</span> — ${_t("начало цепочки: вход пользователя или внешний источник.")}</div>`)
+            : `<div class="note quiet"><b>Входов на карте нет.</b> Узел
+                <span class="num">${esc(d.node)}</span> — начало цепочки:
+                вход пользователя или внешний источник.</div>`)
           + (nd.note ? `<p class="lede" style="margin-top:10px">${esc(nd.note)}</p>` : "")
           // Справочники за цепочкой входов — с адресом, который можно
           // открыть. Шаблонный адрес (помесячные файлы CRCO) показывается
           // как шаблон: подставлять месяц за пользователя — выдумывать.
-          + ((nd.sources || []).length ? `<h3>${_t("Источники")}</h3><dl class="kv">` +
+          + ((nd.sources || []).length ? `<h3>Источники</h3><dl class="kv">` +
               nd.sources.map(s => `<dt>${esc(s.domain)}</dt><dd style="font-family:inherit">${
                 esc(s.title || s.id)}${s.url ? s.templated
-                  ? `<div style="color:var(--faint);font-size:11.5px">${_t("шаблон адреса")}: ${esc(s.url)}</div>`
+                  ? `<div style="color:var(--faint);font-size:11.5px">шаблон адреса: ${esc(s.url)}</div>`
                   : `<div><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>`
-                : ""}${s.license ? `<div style="color:var(--faint);font-size:11.5px">${_t("лицензия")} ${
+                : ""}${s.license ? `<div style="color:var(--faint);font-size:11.5px">лицензия ${
                   esc(s.license)}</div>` : ""}</dd>`).join("") + `</dl>` : "")
-        : `<div class="note"><b>${_t("Узла нет на карте.")}</b> ${esc(nd.why || "")}</div>`;
+        : `<div class="note"><b>Узла нет на карте.</b> ${esc(nd.why || "")}</div>`;
     }
     return;
   }
   const r = await (await fetch(`/api/fact?domain=${encodeURIComponent(domain)
     }&key=${encodeURIComponent(key)}`)).json();
-  if (!r.found) { h += `<div class="note"><b>${_t("Ключа нет.")}</b> ${esc(r.why)}</div>`;
+  if (!r.found) { h += `<div class="note"><b>Ключа нет.</b> ${esc(r.why)}</div>`;
     $("#side").innerHTML = h; return; }
   if (r.kind === "prefix") {
     // Статья складывается из нескольких правил: у Франкфурта
     // пассажирский сбор — четыре строки по направлениям. Показываем все,
     // потому что спорят обычно не с одной строкой, а с трактовкой статьи.
-    h += `<p class="lede">${_t("Статья складывается из")} ${r.count} ${_t("правил. Каждое — отдельный факт со своим происхождением.")}</p>
+    h += `<p class="lede">Статья складывается из ${r.count} правил.
+      Каждое — отдельный факт со своим происхождением.</p>
       <table><tbody>` + r.rules.map(x => {
         let w = "";
         try { const j = JSON.parse(x.value_text || "{}");
               w = Object.entries(j.when || {}).map(([k,v])=>`${k}=${v}`).join(" "); }
         catch (e) {}
-        return `<tr><td>${esc(w || _t("без условий"))}<div style="color:var(--faint);
+        return `<tr><td>${esc(w || "без условий")}<div style="color:var(--faint);
             font-size:11px">${esc(x.clause || x.source_note || "")}</div></td>
           <td class="v">${x.value ?? "—"}</td>
           <td style="font-size:11px;color:${x.certainty && x.certainty!=="exact"
@@ -1875,50 +1815,52 @@ async function side(d){
     // называет папку, а не тариф, и без документа правило выглядело
     // взявшимся ниоткуда.
     const doc = r.document || {};
-    h += `<h3>${_t("Документ")}</h3><dl class="kv">
-      ${doc.url ? `<dt>${_t("тариф")}</dt><dd style="font-family:inherit">${
-          esc(doc.title || _t("название не сохранено в факте — нужен --reparse"))}</dd>
-        <dt>${_t("адрес")}</dt><dd><a href="${esc(doc.url)}" target="_blank" rel="noopener">${
+    h += `<h3>Документ</h3><dl class="kv">
+      ${doc.url ? `<dt>тариф</dt><dd style="font-family:inherit">${
+          esc(doc.title || "название не сохранено в факте — нужен --reparse")}</dd>
+        <dt>адрес</dt><dd><a href="${esc(doc.url)}" target="_blank" rel="noopener">${
           esc(doc.url)}</a></dd>`
-        : `<dt>${_t("тариф")}</dt><dd style="color:var(--warn);font-family:inherit">${_t("адрес публикации в факте не сохранён")}</dd>`}
+        : `<dt>тариф</dt><dd style="color:var(--warn);font-family:inherit">адрес
+          публикации в факте не сохранён</dd>`}
     </dl>
-    <h3>${_t("Источник в реестре")}</h3><dl class="kv">
-      <dt>${_t("реестр")}</dt><dd>${esc(r.source.id)}</dd>
-      <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
-      ${r.source.url?`<dt>${_t("адрес")}</dt><dd><a href="${esc(r.source.url)}"
+    <h3>Источник в реестре</h3><dl class="kv">
+      <dt>реестр</dt><dd>${esc(r.source.id)}</dd>
+      <dt>название</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
+      ${r.source.url?`<dt>адрес</dt><dd><a href="${esc(r.source.url)}"
         target="_blank" rel="noopener">${esc(String(r.source.url).slice(0,60))}…</a></dd>`:""}
-      <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
+      <dt>лицензия</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
     </dl>`;
     $("#side").innerHTML = h; return;
   }
   const c = r.current;
   h += `<dl class="kv">
-    <dt>${_t("домен")}</dt><dd>${esc(r.domain)}</dd>
-    <dt>${_t("ключ")}</dt><dd>${esc(r.key)}</dd>
-    <dt>${_t("значение")}</dt><dd>${c.value ?? "—"} ${esc(c.unit||"")} ${esc(c.currency||"")}</dd>
-    <dt>${_t("действует с")}</dt><dd>${esc(c.valid_from)}${c.valid_to?` ${_t("по")} ${esc(c.valid_to)}`:""}</dd>
-    <dt>${_t("происхождение")}</dt><dd>${esc(c.confidence)}</dd>
-    <dt>${_t("прочтение")}</dt><dd>${esc(c.certainty)}</dd>
-    ${c.error_cost?`<dt>${_t("цена ошибки")}</dt><dd>${c.error_cost}</dd>`:""}
-    ${c.confirm_by?`<dt>${_t("закроет вопрос")}</dt><dd>${esc(c.confirm_by)}</dd>`:""}
+    <dt>домен</dt><dd>${esc(r.domain)}</dd>
+    <dt>ключ</dt><dd>${esc(r.key)}</dd>
+    <dt>значение</dt><dd>${c.value ?? "—"} ${esc(c.unit||"")} ${esc(c.currency||"")}</dd>
+    <dt>действует с</dt><dd>${esc(c.valid_from)}${c.valid_to?` по ${esc(c.valid_to)}`:""}</dd>
+    <dt>происхождение</dt><dd>${esc(c.confidence)}</dd>
+    <dt>прочтение</dt><dd>${esc(c.certainty)}</dd>
+    ${c.error_cost?`<dt>цена ошибки</dt><dd>${c.error_cost}</dd>`:""}
+    ${c.confirm_by?`<dt>закроет вопрос</dt><dd>${esc(c.confirm_by)}</dd>`:""}
   </dl>`;
   if (c.source_note) h += `<div class="note quiet">${esc(c.source_note)}</div>`;
-  h += `<h3>${_t("Источник")}</h3><dl class="kv">
-    <dt>${_t("реестр")}</dt><dd>${esc(r.source.id)}</dd>
-    <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
-    ${r.source.url?`<dt>${_t("адрес")}</dt><dd><a href="${esc(r.source.url)}"
+  h += `<h3>Источник</h3><dl class="kv">
+    <dt>реестр</dt><dd>${esc(r.source.id)}</dd>
+    <dt>название</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
+    ${r.source.url?`<dt>адрес</dt><dd><a href="${esc(r.source.url)}"
       target="_blank" rel="noopener">${esc(String(r.source.url).slice(0,60))}…</a></dd>`:""}
-    <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
-    <dt>${_t("ритм")}</dt><dd>${_t("каждые")} ${r.source.cadence_days} ${_t("дн., SLA")} ${r.source.sla_days}</dd>
+    <dt>лицензия</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
+    <dt>ритм</dt><dd>каждые ${r.source.cadence_days} дн., SLA ${r.source.sla_days}</dd>
   </dl>`;
   if (r.history.length) {
-    h += `<h3>${_t("История редакций")} — ${r.history.length}</h3><table><tbody>` +
+    h += `<h3>История редакций — ${r.history.length}</h3><table><tbody>` +
       r.history.slice(0,20).map(x => `<tr><td class="num">${esc(x.valid_from)}</td>
         <td class="v">${x.value ?? "—"}</td>
         <td style="color:var(--faint);font-size:11.5px">${esc(x.certainty)}</td></tr>`)
       .join("") + `</tbody></table>`;
   } else {
-    h += `<div class="note quiet"><b>${_t("Прежних редакций нет.")}</b> ${_t("Значение заведено один раз и с тех пор не менялось.")}</div>`;
+    h += `<div class="note quiet"><b>Прежних редакций нет.</b> Значение
+      заведено один раз и с тех пор не менялось.</div>`;
   }
   $("#side").innerHTML = h;
 }
