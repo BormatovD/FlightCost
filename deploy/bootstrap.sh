@@ -110,8 +110,10 @@ command -v restorecon >/dev/null && restorecon -R /home/deploy/.ssh || true
 # ── каталоги, код, окружение ─────────────────────────────────────────────
 say "каталоги"
 install -d -o deploy -g fca -m 755 "$ROOT"
-install -d -o deploy -g fca -m 2775 "$ROOT/site" "$ROOT/site/data" "$ROOT/site/data/geo"
+install -d -o deploy -g fca -m 2775 "$ROOT/site" "$ROOT/site/data" "$ROOT/site/data/geo" "$ROOT/site/data/airspace"
 install -d -o deploy -g deploy -m 700 "$ROOT/incoming"
+# Копии базы рабочих мест гостей: пишет только fca, читает только root.
+install -d -o fca -g fca -m 700 "$ROOT/backup"
 
 say "код и окружение"
 [ -d "$ROOT/app/.git" ] || sudo -u deploy git clone --quiet "$REPO" "$ROOT/app"
@@ -150,6 +152,12 @@ systemctl daemon-reload
 systemctl enable --quiet fca
 # Запускается первой публикацией справочника: без снимка показывать нечего.
 [ -f "$ROOT/site/data/flightcost.db" ] && systemctl restart fca || true
+
+say "ночная копия базы рабочих мест гостей"
+install -m 644 "$ROOT/app/deploy/fca-backup.service" "$ROOT/app/deploy/fca-backup.timer" /etc/systemd/system/
+command -v restorecon >/dev/null && restorecon /etc/systemd/system/fca-backup.* || true
+systemctl daemon-reload
+systemctl enable --now --quiet fca-backup.timer
 
 say "Caddy: ${DOMAIN:-без домена, только :80}"
 sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/Caddyfile

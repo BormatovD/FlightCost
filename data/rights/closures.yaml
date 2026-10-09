@@ -1,0 +1,114 @@
+# Закрытия посадки и пролёта по национальности перевозчика (решение 156).
+#
+# Данные, а не код: закрытия вводят и снимают государства, и у каждого
+# есть дата и документ. Запись живёт интервалом `valid_from … valid_to`;
+# снятие — это `valid_to`, а не удаление строки, иначе расчёт «на дату в
+# прошлом» молча забудет, что было закрыто.
+#
+#   carriers   национальности перевозчиков, на которых действует (ISO-2),
+#              «*» — на всех
+#   countries  куда нельзя садиться (ISO-2)
+#   zones      над какими зонами нельзя лететь — двухбуквенные префиксы
+#              ИКАО (те же, что у полигонов FIR, `AV_ICAO_ST`) или код
+#              FIR целиком, где префикс делят две страны (UMKK)
+#   certainty  exact | reading_unconfirmed — как у тарифов; второе значит
+#              «записано по памяти о документе, сверить с ним»
+#   confirm_by кто подтверждает (решение 76)
+#
+# Перечни государств вынесены в `groups`, чтобы двадцать семь кодов ЕС не
+# переписывались в каждой записи и не разошлись между записями.
+
+groups:
+  EU27: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV,
+         LT, LU, MT, NL, PL, PT, RO, SK, SI, ES, SE]
+  EU27_ZONES: [LO, EB, LB, LD, LC, LK, EK, EE, EF, LF, ED, ET, LG, LH, EI,
+               LI, EV, EY, EL, LM, EH, EP, LP, LR, LZ, LJ, LE, GC, ES]
+  # UMKK — Калининград: ИКАО относит его к префиксу UM вместе с Беларусью
+  RU_ZONES: [UE, UH, UI, UL, UN, UO, UR, US, UU, UW, UMKK]
+  IN_ZONES: [VA, VE, VI, VO]
+
+closures:
+  - id: ua-airspace
+    title: Воздушное пространство Украины закрыто для гражданской авиации
+    carriers: ["*"]
+    countries: [UA]
+    zones: [UK]
+    valid_from: 2022-02-24
+    source: UkSATSE NOTAM; EASA Conflict Zone Information Bulletin 2022-01
+    url: https://www.easa.europa.eu/en/domains/air-operations/czibs
+    certainty: exact
+
+  - id: eu-ban-ru-carriers
+    title: ЕС закрыл посадку и пролёт для российских перевозчиков
+    carriers: [RU]
+    countries: ["@EU27"]
+    zones: ["@EU27_ZONES"]
+    valid_from: 2022-02-28
+    source: Council Regulation (EU) 2022/334, ст. 3d Регламента 833/2014
+    url: https://eur-lex.europa.eu/eli/reg/2022/334/oj
+    certainty: exact
+
+  - id: ru-ban-eu-carriers
+    title: Россия закрыла посадку и пролёт для перевозчиков ЕС и ряда других государств
+    carriers: ["@EU27", GB, NO, IS, CH, LI, CA, US, AL, ME, MK]
+    countries: [RU]
+    zones: ["@RU_ZONES"]
+    valid_from: 2022-02-28
+    source: Росавиация, сообщения 24.02–15.03.2022
+    url: https://favt.gov.ru
+    certainty: reading_unconfirmed
+    confirm_by: действующий перечень государств в сообщениях Росавиации
+
+  - id: gb-ban-ru-carriers
+    title: Великобритания закрыла посадку и пролёт для российских перевозчиков
+    carriers: [RU]
+    countries: [GB]
+    zones: [EG]
+    valid_from: 2022-02-25
+    source: The Russia (Sanctions) (EU Exit) (Amendment) Regulations 2022
+    url: https://www.legislation.gov.uk
+    certainty: reading_unconfirmed
+    confirm_by: текст поправки 2022 к Russia (Sanctions) Regulations 2019
+
+  - id: us-ban-ru-carriers
+    title: США закрыли посадку и пролёт для российских перевозчиков
+    carriers: [RU]
+    countries: [US]
+    zones: [K]
+    valid_from: 2022-03-02
+    source: US DOT Order 2022-3-2; FAA NOTAM KICZ A0004/22
+    url: https://www.transportation.gov
+    certainty: reading_unconfirmed
+    confirm_by: приказ DOT и NOTAM FAA
+
+  - id: eu-ban-by-carriers
+    title: ЕС закрыл посадку и пролёт для белорусских перевозчиков
+    carriers: [BY]
+    countries: ["@EU27"]
+    zones: ["@EU27_ZONES"]
+    valid_from: 2021-06-05
+    source: Council Regulation (EU) 2021/907
+    url: https://eur-lex.europa.eu/eli/reg/2021/907/oj
+    certainty: exact
+
+  - id: pk-ban-in-carriers
+    title: Пакистан закрыл пролёт и посадку для индийских перевозчиков
+    carriers: [IN]
+    countries: [PK]
+    zones: [OP]
+    valid_from: 2025-04-24
+    source: Pakistan Airports Authority NOTAM
+    url: https://paa.gov.pk
+    certainty: reading_unconfirmed
+    confirm_by: действующий NOTAM PAA — закрытие продлевалось помесячно
+
+  - id: in-ban-pk-carriers
+    title: Индия закрыла пролёт и посадку для пакистанских перевозчиков
+    carriers: [PK]
+    countries: [IN]
+    zones: ["@IN_ZONES"]
+    valid_from: 2025-04-30
+    source: Airports Authority of India NOTAM
+    url: https://aai.aero
+    certainty: reading_unconfirmed
+    confirm_by: действующий NOTAM AAI — закрытие продлевалось помесячно

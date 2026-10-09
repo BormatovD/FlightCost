@@ -503,8 +503,10 @@ def main(argv=None) -> int:
     sv.add_argument("--no-warm", action="store_true",
                     help="не прогревать ядро при запуске")
     sv.add_argument("--public", action="store_true",
-                    help="публичный режим: запись в хранилище закрыта (свои типы "
-                         "гостей — слой сценария, ещё не сделан)")
+                    help="публичный режим: запись в справочник закрыта, гости "
+                         "работают в своих местах по секретной ссылке")
+    sv.add_argument("--guests", action="store_true",
+                    help="включить рабочие места гостей и локально (data/user.db)")
 
     inv = sub.add_parser("data", help="витрина хранилища: что в нём лежит")
     inv.add_argument("--out", default="docs/data.html")
@@ -534,6 +536,41 @@ def main(argv=None) -> int:
                    help="не открывать в браузере")
     x.add_argument("--no-margins", action="store_true",
                    help="не считать запас прочности (быстрее)")
+
+    nw = sub.add_parser("network",
+                        help="симулятор авиакомпании: сеть из аэропортов, "
+                             "N бортов одного типа, нужная доля рынка")
+    nw.add_argument("airports", nargs="+", metavar="АЭРОПОРТ",
+                    help="коды аэропортов; пары сложатся сами")
+    nw.add_argument("--base", required=True,
+                    help="база — её страна задаёт национальность перевозчика")
+    nw.add_argument("--ac", default="A320", help="тип ВС")
+    nw.add_argument("--fleet", type=int, required=True, metavar="N", help="бортов")
+    nw.add_argument("--freq", action="append", metavar="ПАРА=N",
+                    help="рейсов в неделю туда-обратно, напр. ALA-FRA=4; "
+                         "без ключа частоты раскладываются поровну")
+    nw.add_argument("--fare", action="append", metavar="ПАРА=EUR",
+                    help="цена вместо рыночной медианы; ALA-FRA — оба "
+                         "направления, если обратное не задано отдельно")
+    nw.add_argument("--market-pax", action="append", metavar="ПАРА=ПАСС",
+                    help="поток на паре в месяц, оба направления")
+    nw.add_argument("--fare-mult", type=float, default=1.0,
+                    help="наша цена к рыночной медиане, 0.9 = на 10%% ниже")
+    nw.add_argument("--fare-conv", type=float, default=1.0,
+                    help="переход от медианы дневных минимумов к среднему чеку")
+    nw.add_argument("--lf", type=float, default=0.80,
+                    help="загрузка, при которой считаются пороги")
+    nw.add_argument("--alpha", type=float, default=None,
+                    help="показатель S-кривой (допущение, по умолчанию 1.3)")
+    nw.add_argument("--util", type=float, default=None, metavar="Ч/МЕС",
+                    help="налёт борта; по умолчанию — типовой из справочника")
+    nw.add_argument("--lease", type=float, default=None, metavar="EUR/МЕС",
+                    help="ставка лизинга борта")
+    nw.add_argument("--month", type=int, default=None, metavar="1-12")
+    nw.add_argument("--as-of", default=None)
+    nw.add_argument("--operator", default="*")
+    nw.add_argument("--set", dest="overrides", action="append", metavar="КЛЮЧ=ЧИСЛО")
+    nw.add_argument("--json", action="store_true")
 
     a = p.parse_args(argv)
     # У `serve` поток на запрос, поэтому соединение открывается снятым с
@@ -610,7 +647,7 @@ def main(argv=None) -> int:
         return _publish(store, a)
 
     if a.cmd == "tkp-pack":
-        # Сырая выгрузка ЦРТ остаётся у владельца; в репозиторий идёт её
+        # Сырая выгрузка сообщества остаётся у владельца; в репозиторий идёт её
         # упаковка: шесть аэронавигационных услуг, аэропорты с кодом ИКАО.
         import hashlib
         import json as _json
@@ -911,7 +948,8 @@ def main(argv=None) -> int:
     if a.cmd == "serve":
         from . import serve as _serve
         _serve.serve(store, registry, host=a.host, port=a.port,
-                     warm=not a.no_warm, public=a.public)
+                     warm=not a.no_warm, public=a.public,
+                     guests=True if a.guests else None)
         return 0
 
     if a.cmd == "data":
@@ -1082,6 +1120,9 @@ def main(argv=None) -> int:
         print(f"\n  итераций: {sol.iterations}")
         return 0
 
+    if a.cmd == "network":
+        return _cmd_network(a, store)
+
     if a.cmd in ("econ", "explain"):
         res = route_economics(store, a.origin, a.destination, aircraft=a.ac,
                               load_factor=a.lf, fare_eur=a.fare, as_of=a.as_of,
@@ -1114,6 +1155,57 @@ def main(argv=None) -> int:
         return 2 if res.degraded else 0
 
     return 1
+
+
+def _pairs_arg(items, cast=float) -> dict:
+    """`ALA-FRA=4` → {"ALA-FRA": 4}. Ошибка формата — отказ, а не пропуск:
+    молча потерянная частота дала бы сеть без пары и правдоподобный итог."""
+    out = {}
+    for it in items or []:
+        k, sep, v = it.partition("=")
+        if not sep or "-" not in k:
+            raise SystemExit(f"не понял «{it}»: нужно ПАРА=ЗНАЧЕНИЕ, напр. ALA-FRA=4")
+        out[k.strip().upper()] = cast(v)
+    return out
+
+
+def _cmd_network(a, store) -> int:
+    from dataclasses import asdict
+    from .network import ALPHA, fleet_from_core, form_network, report, simulate
+
+    ov = parse_set(a.overrides)
+    pairs = form_network(store, a.airports, base=a.base, aircraft=a.ac,
+                         as_of=a.as_of, month=a.month, overrides=ov,
+                         operator=a.operator, user_fares=_pairs_arg(a.fare),
+                         user_market=_pairs_arg(a.market_pax))
+    ok = [p for p in pairs if p.status == "ok"]
+    if not ok:
+        print("сеть пуста — ни одной пары не осталось:")
+        for p in pairs:
+            print(f"  {p.key:<10}" + "; ".join(r["text"] for r in p.reasons))
+        return 1
+    fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
+                            aircraft=a.ac, as_of=a.as_of, month=a.month,
+                            overrides=ov, operator=a.operator)
+    try:
+        net = simulate(pairs, fleet=fleet, fleet_n=a.fleet,
+                       freq=_pairs_arg(a.freq, int) or None,
+                       util_h_month=a.util, lease_eur_month=a.lease,
+                       fare_mult=a.fare_mult, fare_conv=a.fare_conv,
+                       lf_ref=a.lf, alpha=a.alpha if a.alpha is not None else ALPHA)
+    except ValueError as exc:
+        print(f"не посчитать: {exc}")
+        for p in pairs:
+            if p.status != "ok" or not p.priced:
+                print(f"  {p.key:<10}" + "; ".join(r["text"] for r in p.reasons))
+        return 1
+    if a.json:
+        print(json.dumps({"network": asdict(net),
+                          "pairs": [asdict(p) for p in pairs]},
+                         ensure_ascii=False, indent=2, default=str))
+    else:
+        print(report(net, pairs, base=a.base.upper()))
+    return 0
 
 
 def _write_explain(res, want: str, margins=None) -> Path:
@@ -1228,10 +1320,16 @@ def _publish(store, a) -> int:
     if run(["rsync", "-az", "--partial", str(tmp), f"{host}:{root}/incoming/flightcost.db.new"]):
         print("не отправилось: проверьте ssh до сервера")
         return 2
-    geo = _P("data/geo")
-    if geo.is_dir():
-        # Геометрия зон и суши — тоже данные витрины: без неё нет глобуса.
-        run(["rsync", "-az", "--delete", f"{geo}/", f"{host}:{root}/site/data/geo/"])
+    # Геометрия — тоже данные витрины: без data/geo нет глобуса, без
+    # data/airspace нет зон аэронавигации, и расчёт на сервере молча
+    # уходил в «по вылету и прилёту пополам». Второй каталог уезжал бы
+    # не раньше, чем кто-то заметил бы предупреждение на домене.
+    for sub in ("data/geo", "data/airspace"):
+        d = _P(sub)
+        if d.is_dir():
+            run(["rsync", "-az", "--delete", f"{d}/", f"{host}:{root}/site/{sub}/"])
+        else:
+            print(f"  нет каталога {sub} — на сервер не уедет")
     remote = (f"set -e; mv -f {root}/incoming/flightcost.db.new {root}/site/data/flightcost.db; "
               f"chgrp fca {root}/site/data/flightcost.db; chmod 664 {root}/site/data/flightcost.db; "
               f"sudo /usr/bin/systemctl restart fca; "

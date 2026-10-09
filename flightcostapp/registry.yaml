@@ -118,7 +118,7 @@ sources:
     # Отсутствие поля означает «факты» — это умолчание, а не флаг.
     holds:
       kind: file
-      at: data/geo/zones.json
+      at: data/airspace/fir_zones.json   # куда пишет парсер; прежде стояло data/geo/zones.json
       what: полигоны тарифных зон FIR/UIR
       facts: не создаёт — геометрия ложится файлом
       how: fca refresh --only eurocontrol_fir
@@ -128,17 +128,37 @@ sources:
     gate: auto
     validators: {}               # проверка внутри парсера: не менее 80 зон
 
+  fir_world:
+    title: Границы FIR мира — проект VATSpy сообщества VATSIM
+    # Второй источник границ: EUROCONTROL точен в Европе и груб вне её, а
+    # на тех же полигонах стоит проверка закрытого неба (решение 162).
+    kind: url
+    url: https://raw.githubusercontent.com/vatsimnetwork/vatspy-data-project/master/Boundaries.geojson
+    contour: deterministic
+    license: >
+      CC BY-SA 4.0, VATSIM (VATSpy data project). Данные сообщества, не
+      официальные. В репозиторий не идёт, производный файл наследует
+      лицензию; строка атрибуции — в NOTICE
+    parser: fir_world
+    domain: airspace
+    holds:
+      kind: file
+      at: data/geo/zones_world.json
+      what: полигоны FIR всего мира, упрощённые до 2 км
+      facts: не создаёт — геометрия ложится файлом
+      how: fca refresh --only fir_world
+    cadence_days: 28               # цикл AIRAC
+    sla_days: 120
+    tier: 2
+    gate: auto
+    validators: {}                 # проверка внутри парсера: ≥ 300 зон и опорные FIR
+
   tkp_charges:
-    title: Реестр аэропортовых сборов — выгрузка любительской работы по РФ
-    # Выгрузка лежит в репозитории: решено публиковать как собранные сообществом.
-    # Без этого чистая копия проекта не видела ни одного из 23 российских аэропортов.
+    title: Реестр аэропортовых сборов собранный сообществом, все аэропорты России
     kind: directory
     contour: agent
     path: data/tkp
-    # Упаковка `fca tkp-pack`, а не сырая выгрузка: в репозитории только
-    # аэронавигационные услуги аэропортов с кодом ИКАО. Сырой xlsx парсер
-    # тоже понимает — для работы владельца в data/raw/tkp.
-    glob: "*.json"
+    glob: "*.xlsx"
     license: CC BY 4.0 вместе с данными проекта (DATA-LICENSE)
     parser: tkp_charges
     domain: airport_charge   # плюс terminal_rate (АНО АД)

@@ -27,7 +27,25 @@ from dateutil.relativedelta import relativedelta
 
 RUN = datetime.now().strftime("%Y%m%dT%H%M")
 API_URL = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates"
-TOKEN = os.environ.get("TP_TOKEN", "")
+
+
+def _token() -> str:
+    """Ключ из окружения, очищенный от того, что к нему липнет при копировании.
+
+    В переменной оказывался «token=…» — хвост адреса из документации,
+    скопированный целиком, — и ключ на шесть символов длиннее настоящего.
+    В заголовке такой ключ давал 401 на каждом запросе, а по ссылке в
+    браузере тот же человек видел ответ: там он вводил ключ без префикса.
+    Очищаются пробелы, кавычки и префиксы «token=», «X-Access-Token:».
+    """
+    t = os.environ.get("TP_TOKEN", "").strip().strip("\"'").strip()
+    for pref in ("token=", "x-access-token:", "x-access-token"):
+        if t.lower().startswith(pref):
+            t = t[len(pref):].strip(" =:")
+    return t
+
+
+TOKEN = _token()
 OUT = "flight_data"
 LOG = os.path.join(OUT, "processed.log")   # route,month,status,rows
 PAGE_LIMIT = 1000                          # максимум записей на страницу v3
@@ -38,8 +56,11 @@ PAGE_LIMIT = 1000                          # максимум записей н�
 # минимумов легли в хранилище как «99 RUB».
 CURRENCY = "eur"
 SESSION = requests.Session()
+# Ключ едет параметром `token` в адресе, как в примере документации к
+# prices_for_dates, — ровно так, как работает ссылка в браузере. Заголовок
+# X-Access-Token документация тоже допускает, но при отказе по нему
+# причина не видна; один путь проверяется одной командой curl.
 SESSION.headers.update({
-    "X-Access-Token": TOKEN,
     "Accept-Encoding": "gzip, deflate",    # рекомендация API — экономит время ответа
 })
 
@@ -52,6 +73,19 @@ def ensure_env():
             f.write("timestamp,origin,destination,month,status,rows\n")
     if not TOKEN:
         sys.exit("Не задан токен: export TP_TOKEN=...")
+    # Проба ключа до сбора: один дешёвый запрос. Отказ здесь — одна
+    # строка с причиной, а не шестьдесят строк http_401 в журнале.
+    probe = SESSION.get(API_URL, params={"origin": "MOW", "destination": "LED",
+                                         "currency": CURRENCY, "limit": 1,
+                                         "token": TOKEN}, timeout=30)
+    if probe.status_code in (401, 403):
+        sys.exit(f"агрегатор не принял ключ (http {probe.status_code}): в TP_TOKEN "
+                 f"{len(TOKEN)} символов. Проверьте той же ссылкой в браузере: "
+                 f"{API_URL}?origin=MOW&destination=LED&limit=1&token=<ключ>")
+    if probe.status_code != 200:
+        sys.exit(f"агрегатор ответил http {probe.status_code} на пробный запрос — "
+                 f"сбор не начат")
+    print(f"ключ принят ({len(TOKEN)} символов), валюта {CURRENCY.upper()}")
 
 
 def read_routes(path):
@@ -128,6 +162,7 @@ def fetch_month(origin, destination, month):
             "one_way": "true", "unique": "false", "direct": "false",
             "currency": CURRENCY, "sorting": "price",
             "limit": PAGE_LIMIT, "page": page,
+            "token": TOKEN,
         }
         for attempt in range(4):
             try:
@@ -166,6 +201,8 @@ def cmd_collect(args):
     months = months_ahead(args.months)
     done = done_set()
     buffer, chunk_no, req = [], 1, 0
+    statuses: dict[str, int] = {}
+    rows_total = 0
 
     for r in routes:
         o, d = r["origin"], r["destination"]
@@ -180,6 +217,16 @@ def cmd_collect(args):
                 x["collected_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
             buffer.extend(offers)
             log_row(o, d, m, status, len(offers))
+            statuses[status] = statuses.get(status, 0) + 1
+            rows_total += len(offers)
+            if status in ("http_401", "http_403"):
+                # Ключ не принят: дальше каждый запрос даст тот же отказ.
+                # Шестьдесят строк «http_401» в журнале и «Сбор завершён»
+                # на экране — тот самый тихий отказ (решение 37).
+                sys.exit(f"агрегатор не принял ключ ({status}) на первом же "
+                         f"запросе — сбор остановлен. Проверьте TP_TOKEN: "
+                         f"длина {len(TOKEN)} символов (ключ Travelpayouts — 32), "
+                         f"кавычки внутри: {'да' if any(c in TOKEN for c in chr(34) + chr(39)) else 'нет'}")
             time.sleep(0.3)                 # базовый темп; остальное решают заголовки
             if len(buffer) >= 20000:
                 pd.DataFrame(buffer).to_csv(
@@ -192,7 +239,13 @@ def cmd_collect(args):
         # предыдущий. Накопление не происходило вовсе.
         pd.DataFrame(buffer).to_csv(
             os.path.join(OUT, f"raw_{RUN}_{chunk_no:03d}.csv"), index=False)
-    print(f"Сбор завершён: файлы flight_data/raw_{RUN}_*.csv. "
+    print("Запросы: " + ", ".join(f"{k} {v}" for k, v in sorted(statuses.items())))
+    if not rows_total:
+        # Файл пишется только при непустом буфере. Без этой строки «Сбор
+        # завершён» с указанием файлов звучал как успех, а файлов не было.
+        sys.exit("ни одной строки — файл выгрузки не записан. Причины по "
+                 "запросам — в flight_data/processed.log")
+    print(f"Сбор завершён: {rows_total} строк в flight_data/raw_{RUN}_*.csv. "
           f"Дальше: скопировать их в data/raw/market_fare/ и fca fare, "
           f"затем fca fare --aggregate")
 

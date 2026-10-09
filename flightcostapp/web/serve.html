@@ -19,6 +19,37 @@ header .hp{position:relative}
 /* Переключатель языка: три кнопки, нажатая — цветом акцента. */
 #langs{display:inline-flex;gap:2px;margin-left:10px}
 header a.legal{font:11px var(--sans);color:var(--faint);margin-left:10px;text-decoration:none}
+header button.ws{display:inline-flex;align-items:center;gap:7px;margin-left:10px;background:none;
+ border:1px solid var(--line);border-radius:5px;padding:4px 9px;font:12px var(--sans);color:var(--dim);cursor:pointer}
+header button.ws:hover{color:var(--ink);border-color:var(--accent)}
+header button.ws .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+header button.ws.on .dot{background:var(--doc)}
+#wspanel[hidden],header button.ws[hidden]{display:none}
+#wspanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
+ align-items:flex-start;justify-content:center;padding:60px 16px;overflow:auto}
+.wsbox{width:min(640px,100%);background:var(--panel);border:1px solid var(--line);border-radius:8px;
+ padding:16px 20px 20px;font-size:13.5px}
+.wshead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.wshead b{font:600 16px var(--sans)}
+.wsbox .card{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:10px}
+.wsbox .card h4{margin:0 0 6px;font:600 13px var(--sans)}
+.wsbox .card p{margin:4px 0;color:var(--dim);font-size:12.5px}.wsbox .card a{color:var(--accent)}
+.wsbox .link{font:12px var(--mono);background:var(--raise);border:1px solid var(--line);border-radius:4px;
+ padding:6px 9px;color:var(--ink);word-break:break-all;user-select:all}
+.wsbox .btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.wsbox .btns button,.wsbox .btns a{border:1px solid var(--line);border-radius:4px;padding:4px 10px;font:12.5px var(--sans);
+ background:none;color:var(--dim);cursor:pointer;text-decoration:none;display:inline-block}
+.wsbox .btns button:hover,.wsbox .btns a:hover{color:var(--ink);border-color:var(--accent)}
+.wsbox .btns button.pri{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+.wsbox .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px;margin-top:6px}
+.wsbox .kv span{color:var(--dim)}
+.wsbox .rate{display:grid;grid-template-columns:1fr 110px 110px 110px;gap:6px;align-items:center;font-size:12.5px;margin-top:4px}
+.wsbox .rate input{width:100%;font:12px var(--mono);background:var(--raise);color:var(--ink);
+ border:1px solid var(--line);border-radius:4px;padding:4px 6px;text-align:right}
+.wsbox .rate .h{color:var(--faint);font-size:11px;text-align:right}
+.wsbox .warn{color:var(--warn)}
+.wsbox .card.warn{border-color:var(--warn)}.wsbox .card.warn p{color:var(--warn)}
+.wsbox .ok{color:var(--doc)}
 header a.legal:hover{color:var(--ink);text-decoration:underline}
 #langs button{font:12px var(--sans);padding:3px 6px;background:none;color:var(--dim);
  border:1px solid var(--line);border-radius:4px;cursor:pointer}
@@ -312,7 +343,12 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span class="sp" id="stat"></span>
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
+  <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a></header>
+<div id="wspanel" hidden><div class="wsbox" role="dialog" aria-labelledby="wsh">
+  <div class="wshead"><b id="wsh">Рабочее место</b><button id="wsclose" class="chipb">закрыть</button></div>
+  <div id="wsbody"></div>
+</div></div>
 <div class="cols" id="cols">
   <aside class="pane left">
     <div class="grp2">Рейс</div>
@@ -1442,9 +1478,13 @@ async function drawType(r){
   const provLine = t.fields && t.fields.length
     ? `${esc([...new Set(t.fields.map(f => f.source))].join(", "))} · ${t.physics === null
         ? _t("физика не проверялась") : t.physics ? _t("физика openap") : _t("расход по аналогу")}` : _t("новый тип");
+  // Публичная витрина без рабочего места — запись закрыта; с местом —
+  // свои типы ложатся в слой гостя (решение 148).
+  const locked = t.public && !t.has_workspace;
   let h = `<p class="lede"><b>${esc(key)}</b>${t.name && !TYPE_NEW ? " — " + esc(t.name) : ""} · ${provLine}${
-      t.public ? (" " + _t("· публичная витрина, запись закрыта")) : ""}</p>`;
-  if (!editing && !t.public)
+      locked ? (" " + _t("· чтобы завести свой тип, создайте") + ` <a href="#" id="wsopen">${_t("рабочее место")}</a>`)
+             : t.workspace ? (" " + _t("· ваш тип, хранится в рабочем месте")) : ""}</p>`;
+  if (!editing && !locked)
     h += `<div class="field pair" style="margin:6px 0 12px">
       <div><label for="newkey">${_t("Создать свой тип на основе")} ${esc(t.icao)} — ${_t("ключ")}</label>
         <input id="newkey" type="text" value="USER:${esc(t.icao)}-MY"></div>
@@ -1529,16 +1569,21 @@ async function drawType(r){
     };
     const res = await (await fetch("/api/aircraft/save", {method: "POST",
       headers: {"Content-Type": "application/json"}, body: JSON.stringify(doc)})).json();
+    if (res.need_workspace) { msg(res.error, true); wsOpen(); return; }
     if (res.error) { msg(res.error, true); return; }
     // Список типов пересобирается: новый тип должен появиться в шапке.
     ACS = await (await fetch("/api/aircraft")).json();
     TYPE_NEW = null;
     setAc(res.icao);
-    msg(`${_t("сохранено")}: ${res.icao} → ${res.file}${res.retired && res.retired.length ? `; ${_t("снято ключей")}: ${res.retired.length}` : ""}`);
+    msg(res.workspace
+      ? `${_t("сохранено в рабочее место")}: ${res.icao}`
+      : `${_t("сохранено")}: ${res.icao} → ${res.file}${res.retired && res.retired.length ? `; ${_t("снято ключей")}: ${res.retired.length}` : ""}`);
+    wsRefresh();
     draw();
   };
   if ($("#tdel")) $("#tdel").onclick = async () => {
     if (!confirm(`${_t("Снять")} ${key} ${_t("с учёта? Факты закроются сегодняшним днём, файл каталога будет удалён.")}`)) return;
+    // (у гостя файла нет — закрывается запись в его месте)
     const res = await (await fetch("/api/aircraft/delete", {method: "POST",
       headers: {"Content-Type": "application/json"}, body: JSON.stringify({icao: key})})).json();
     if (res.error) { msg(res.error, true); return; }
@@ -1935,5 +1980,155 @@ document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
 });
 ["lf","fare","month","alt","lease","hours","seatsv"].forEach(id =>
   document.getElementById(id).addEventListener("input", draw));
-boot();
+// `boot()` — внизу, после входа по ссылке на рабочее место: иначе список
+// типов пришёл бы без своих.
+
+// ── рабочее место гостя (решение 148) ──────────────────────────────────
+// Ключ живёт в cookie `fca_ws` и в ссылке /w#<ключ>; сервер хранит только
+// хеш, поэтому показать ссылку может лишь страница — из cookie. Ключ в
+// ссылке стоит после «#»: эту часть браузер серверу не посылает, и в
+// журналах запросов её нет.
+const WS = {enabled: false, info: null, msg: null};
+const wsKey = () => { const m = document.cookie.match(/(?:^|;\s*)fca_ws=([0-9a-f]{32})/); return m ? m[1] : null; };
+const wsLink = () => `${location.origin}/w#${wsKey()}`;
+async function wsEnter() {
+  const m = location.pathname.replace(/\/+$/, "") === "/w" && location.hash.match(/^#([0-9a-f]{32})$/i);
+  if (!m) return;
+  history.replaceState(null, "", "/");            // ключ — не в адресной строке и не в истории
+  try {
+    const r = await wsApi("/api/ws/open", {key: m[1].toLowerCase()});
+    if (r.error) WS.msg = r.code === "missing"
+      ? _t("Эта ссылка не открывает место: его удалили, не открывали год, выпустили новую ссылку — или в ссылке опечатка. Данные по старой ссылке восстановить нельзя; если есть файл экспорта, создайте новое место и импортируйте его.")
+      : r.error;
+  } catch (e) { WS.msg = _t("Сервер не ответил"); }
+}
+async function wsApi(path, body) {
+  const r = await fetch(path, body === undefined ? {} : {method: "POST",
+    headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  return r.json();
+}
+async function wsRefresh() {
+  try { WS.info = await wsApi("/api/ws"); } catch (e) { WS.info = {enabled: false}; }
+  WS.enabled = !!WS.info.enabled;
+  const b = $("#wsbtn");
+  if (!b) return;
+  b.hidden = !WS.enabled;
+  const on = WS.enabled && WS.info.exists && wsKey();
+  b.classList.toggle("on", !!on);
+  b.querySelector("span").textContent = on
+    ? `${_t("рабочее место")} · ${wsKey().slice(0, 6)}…`
+    : _t("рабочее место");
+  if (!$("#wspanel").hidden) wsDraw();
+}
+function wsOpen() { $("#wspanel").hidden = false; wsDraw(); }
+function wsClose() { $("#wspanel").hidden = true; }
+function wsDraw() {
+  const i = WS.info || {};
+  const box = $("#wsbody");
+  const limits = i.limits || {};
+  if (!WS.enabled) { box.innerHTML = `<p>${_t("На этой витрине рабочие места выключены.")}</p>`; return; }
+  if (!(i.exists && wsKey())) {
+    box.innerHTML = `
+      ${WS.msg ? `<div class="card warn"><p>${esc(WS.msg)}</p></div>` : ""}
+      <div class="card"><h4>${_t("Ваши данные — только по секретной ссылке")}</h4>
+        <p>${_t("Рабочее место — это свои типы ВС, ставки флота, сети и сценарии. Сервер не знает, кто вы: ни почты, ни имени. Ключ живёт в ссылке и в cookie этого браузера.")}</p>
+        <p>${_t("Потеря ссылки и браузера — потеря данных. Поэтому есть экспорт в файл и импорт из него.")}</p>
+        <div class="btns"><button class="pri" id="wsnew">${_t("Создать рабочее место")}</button>
+          <button id="wsimp0">${_t("Импорт из файла")}</button><input id="wsfile0" type="file" accept=".json" hidden></div>
+        <p>${_t("Создавая место, вы соглашаетесь на cookie с ключом — она нужна только для того, о чём вы попросили.")} <a href="/datenschutz">${_t("Что хранится")}</a></p></div>`;
+    $("#wsnew").onclick = async () => {
+      const r = await wsApi("/api/ws/new", {});
+      if (r.error) { alert(r.error); return; }
+      await wsRefresh(); wsDraw();
+      ACS = await (await fetch("/api/aircraft")).json();
+    };
+    $("#wsimp0").onclick = () => $("#wsfile0").click();
+    $("#wsfile0").onchange = async (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      const data = JSON.parse(await f.text());
+      let r = await wsApi("/api/ws/new", {});
+      if (r.error) { alert(r.error); return; }
+      r = await wsApi("/api/ws/import", {data, merge: true});
+      if (r.error) alert(r.error);
+      await wsRefresh(); wsDraw();
+      ACS = await (await fetch("/api/aircraft")).json();
+    };
+    return;
+  }
+  const docs = i.docs || {};
+  const settings = WS.settings || {overrides: {}};
+  const types = ["A320", "A321", "B738", ...(i.aircraft || [])];
+  const ov = settings.overrides || {};
+  const rateRows = types.map(t => `<div class="rate"><span>${esc(t)}</span>
+      <input data-k="fleet_economics.${esc(t)}.lease_eur_month" value="${ov[`fleet_economics.${t}.lease_eur_month`] ?? ""}" placeholder="—">
+      <input data-k="fleet_economics.${esc(t)}.maint_eur_per_fh" value="${ov[`fleet_economics.${t}.maint_eur_per_fh`] ?? ""}" placeholder="—">
+      <input data-k="fleet_economics.${esc(t)}.crew_eur_per_fh" value="${ov[`fleet_economics.${t}.crew_eur_per_fh`] ?? ""}" placeholder="—"></div>`).join("");
+  box.innerHTML = `
+    <div class="card"><h4>${_t("Ваша ссылка")}</h4>
+      <div class="link" id="wslink">${esc(wsLink())}</div>
+      <p>${_t("Это единственный вход. Сохраните ссылку: сервер её не хранит и восстановить не сможет.")}</p>
+      <div class="btns"><button class="pri" id="wscopy">${_t("Скопировать ссылку")}</button>
+        <a href="/api/ws/export" download>${_t("Экспорт в файл")}</a>
+        <button id="wsimp">${_t("Импорт из файла")}</button><input id="wsfile" type="file" accept=".json" hidden>
+        <button id="wsrot">${_t("Новая ссылка")}</button>
+        <button id="wsforget">${_t("Выйти на этом устройстве")}</button>
+        <button id="wsdel" class="warn">${_t("Удалить место")}</button></div></div>
+    <div class="card"><h4>${_t("Что здесь хранится")} <span style="font-weight:400;color:var(--faint)">· ${Math.round((i.bytes || 0) / 1024)} ${_t("КБ из")} ${Math.round((limits.bytes || 0) / 1024)}</span></h4>
+      <div class="kv">
+        <span>${_t("свои типы")}</span><b>${(i.aircraft || []).length ? esc((i.aircraft || []).join(", ")) : "—"}</b>
+        <span>${_t("ставки флота")}</span><b>${Object.keys(ov).length || "—"}</b>
+        <span>${_t("сети")}</span><b>${docs.network || "—"}</b>
+        <span>${_t("сценарии")}</span><b>${docs.scenario || "—"}</b></div>
+      <p>${_t("Открыто")}: ${esc(String(i.last_seen || "").slice(0, 10))} · ${_t("место, не открытое")} ${limits.idle_days} ${_t("дней, удаляется")}</p></div>
+    <div class="card"><h4>${_t("Ставки флота")} <span style="font-weight:400;color:var(--faint)">· ${_t("только у вас, применяются к каждому расчёту")}</span></h4>
+      <div class="rate"><span></span><span class="h">${_t("лизинг, EUR/мес")}</span><span class="h">${_t("ПЛГ, EUR/ч")}</span><span class="h">${_t("экипаж, EUR/ч")}</span></div>
+      ${rateRows}
+      <div class="btns"><button class="pri" id="wsrates">${_t("Сохранить ставки")}</button><span id="wsratemsg" style="font-size:12px;color:var(--dim)"></span></div>
+      <p>${_t("Пусто — значит заготовка справочника. Заданное в запросе (--set) главнее сохранённого.")}</p></div>`;
+  $("#wscopy").onclick = async () => {
+    try { await navigator.clipboard.writeText(wsLink()); $("#wscopy").textContent = _t("скопировано"); }
+    catch (e) { $("#wslink").focus(); }
+  };
+  $("#wsimp").onclick = () => $("#wsfile").click();
+  $("#wsfile").onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = await wsApi("/api/ws/import", {data: JSON.parse(await f.text()), merge: true});
+    if (r.error) { alert(r.error); return; }
+    await wsRefresh(); await wsLoadSettings(); wsDraw();
+    ACS = await (await fetch("/api/aircraft")).json();
+  };
+  $("#wsrot").onclick = async () => {
+    if (!confirm(_t("Выпустить новую ссылку? Старая перестанет открывать место."))) return;
+    const r = await wsApi("/api/ws/rotate", {});
+    if (r.error) { alert(r.error); return; }
+    await wsRefresh(); wsDraw();
+  };
+  $("#wsforget").onclick = async () => {
+    await wsApi("/api/ws/forget", {}); await wsRefresh(); wsDraw();
+    ACS = await (await fetch("/api/aircraft")).json();
+  };
+  $("#wsdel").onclick = async () => {
+    if (!confirm(_t("Удалить место со всеми данными? Это нельзя отменить."))) return;
+    await wsApi("/api/ws/delete", {}); await wsRefresh(); wsDraw();
+    ACS = await (await fetch("/api/aircraft")).json();
+  };
+  $("#wsrates").onclick = async () => {
+    const o = {};
+    for (const inp of box.querySelectorAll(".rate input")) { const v = inp.value.trim(); if (v !== "" && isFinite(+v)) o[inp.dataset.k] = +v; }
+    const r = await wsApi("/api/ws/doc", {kind: "settings", name: "default", body: {overrides: o}});
+    $("#wsratemsg").textContent = r.error ? r.error : _t("сохранено — расчёт учитывает их с этого момента");
+    WS.settings = {overrides: o};
+  };
+}
+async function wsLoadSettings() {
+  if (!(WS.info && WS.info.exists && wsKey())) { WS.settings = null; return; }
+  const r = await wsApi("/api/ws/doc?kind=settings&name=default");
+  WS.settings = r.body || {overrides: {}};
+}
+$("#wsbtn").onclick = async () => { await wsRefresh(); await wsLoadSettings(); wsOpen(); };
+$("#wsclose").onclick = wsClose;
+$("#wspanel").addEventListener("click", e => { if (e.target === $("#wspanel")) wsClose(); });
+document.addEventListener("click", e => { if (e.target && e.target.id === "wsopen") { e.preventDefault(); $("#wsbtn").onclick(); } });
+// Сначала вход по ссылке (ставит cookie), потом витрина — уже со своими типами.
+wsEnter().then(() => { boot(); return wsRefresh(); }).then(() => { if (WS.msg) wsOpen(); });
 </script></body></html>

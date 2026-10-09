@@ -11,6 +11,15 @@ Copyright 2026 Danilo и участники проекта FlightCostApp
 источники ниже забираются командой `fca refresh` с адресов из
 flightcostapp/registry.yaml. Исключения названы явно.
 
+VATSpy data project — VATSIM
+  Границы FIR всего мира (источник fir_world), для обхода закрытого неба
+  и зон вне Европы. Данные сообщества сети авиасимуляции, не официальные.
+  Лицензия: Creative Commons Attribution-ShareAlike 4.0 International.
+  В репозитории не хранится; производный файл data/geo/zones_world.json
+  распространяется на тех же условиях. Атрибуция:
+    FIR boundaries from the VATSpy data project (VATSIM),
+    https://github.com/vatsimnetwork/vatspy-data-project, CC BY-SA 4.0.
+
 IATA/ICAO List — IP2Location
   Указатель кодов ИАТА ↔ ИКАО (источник airport_codes).
   Лицензия: Creative Commons Attribution-ShareAlike 4.0 International.
@@ -46,7 +55,7 @@ EASA — Jet aeroplanes noise database
 
 Документы операторов аэропортов и регуляторов
   Тарифы в data/charges/ разобраны из опубликованных документов
-  (Fraport, Aena, AERA, ФАС России, сообщества и др.). Числа — факты из
+  (Fraport, Aena, AERA, ФАС России и др.). Числа — факты из
   публичных документов; каждая запись хранит документ и адрес публикации.
 
 The OpenSky Network

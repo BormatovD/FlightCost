@@ -49,6 +49,7 @@ WEB = Path(__file__).resolve().parent / "web"
 # того же файла, который отдаёт глобус; второе объявление разошлось бы с
 # первым молча (решение 87).
 from .inventory import GEO
+from .guest import DOC_KINDS, GuestDB, GuestStore, valid_key
 
 try:
     from .econ import COST_RU as _COST_RU
@@ -159,28 +160,155 @@ class _Handler(BaseHTTPRequestHandler):
         if "200" not in (fmt % args):
             super().log_message(fmt, *args)
 
+    # ── рабочее место гостя (решение 148) ──────────────────────────────
+    COOKIE = "fca_ws"
+
+    def _ws_key(self) -> str | None:
+        """Ключ места из cookie. Валидность — по форме; существование
+        проверяет `GuestDB.touch`."""
+        raw = self.headers.get("Cookie") or ""
+        for part in raw.split(";"):
+            k, _, v = part.strip().partition("=")
+            if k == self.COOKIE and valid_key(v):
+                return v.strip().lower()
+        return None
+
+    def _cookie(self, key: str | None) -> str:
+        """Set-Cookie: год жизни, только свой сайт. Скрипту страницы cookie
+        видна нарочно: ссылку на место надо показывать и после создания,
+        а сервер её не хранит — только хеш. `Secure` — на домене;
+        локальная витрина ходит по http. Политика конфиденциальности
+        называет эти же сроки и флаги — меняете здесь, меняйте там."""
+        base = f"{self.COOKIE}={key or ''}; Path=/; SameSite=Lax"
+        if key is None:
+            base += "; Max-Age=0"
+        else:
+            base += "; Max-Age=31536000"
+        if self.server.ctx.public:
+            base += "; Secure"
+        return base
+
+    def _ctx(self):
+        """Контекст запроса: общий — или с наложенным слоем гостя."""
+        return self.server.ctx.for_request(self._ws_key())
+
+    def _json_cookie(self, obj, cookie: str, code: int = 200) -> None:
+        body = json.dumps(obj, ensure_ascii=False, default=str).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Set-Cookie", cookie)
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_POST(self):                                    # noqa: N802
         """Запись — только своих типов ВС, и только через тот же парсер и
-        гейт, что у файла в каталоге. Сервер пишет файл сам: каталог
-        остаётся источником (решение 1), база — производной от него.
+        гейт, что у файла в каталоге. У владельца сервер пишет файл сам:
+        каталог остаётся источником (решение 1), база — производной от
+        него. У гостя то же разбор ложится в его слой (решение 148).
         """
         u = urllib.parse.urlparse(self.path)
         try:
             n = int(self.headers.get("Content-Length") or 0)
+            if n > 1_000_000:
+                return self._json({"error": "тело запроса больше 1 МБ"}, 413)
             body = json.loads(self.rfile.read(n) or b"{}")
+            ctx = self._ctx()
             if u.path == "/api/aircraft/save":
-                return self._json(self.server.ctx.aircraft_save(body))
+                return self._json(ctx.aircraft_save(body))
             if u.path == "/api/aircraft/delete":
-                return self._json(self.server.ctx.aircraft_delete(body))
+                return self._json(ctx.aircraft_delete(body))
+            if u.path.startswith("/api/ws"):
+                return self._ws_post(u.path, body, ctx)
             return self._send(404, b"not found", "text/plain")
         except Exception as exc:                          # noqa: BLE001
             return self._json({"error": f"{type(exc).__name__}: {exc}",
                                "trace": traceback.format_exc()}, 400)
 
+    def _ws_post(self, path: str, body: dict, ctx):
+        gdb = self.server.ctx.gdb
+        if gdb is None:
+            return self._json({"error": "рабочие места на этой витрине выключены"}, 404)
+        if path == "/api/ws/new":
+            try:
+                key = gdb.create(self._client_ip())
+            except PermissionError as exc:
+                return self._json({"error": str(exc)}, 429)
+            w = gdb.touch(key)
+            return self._json_cookie({"ok": True, "key": key, **gdb.info(w)},
+                                     self._cookie(key))
+        if path == "/api/ws/open":
+            # Вход по ссылке /w#<ключ>: ключ приходит телом POST, а не
+            # адресом — в журналах запросов (Caddy, витрина) его нет.
+            key = str(body.get("key") or "").strip().lower()
+            w = gdb.touch(key) if valid_key(key) else None
+            if w is None:
+                return self._json({"error": "такого места нет: ссылка устарела, место "
+                                            "удалено или не открывалось больше года",
+                                   "code": "missing"}, 404)
+            return self._json_cookie({"ok": True, **gdb.info(w)}, self._cookie(key))
+        if path == "/api/ws/forget":
+            return self._json_cookie({"ok": True}, self._cookie(None))
+        if not ctx.ws:
+            return self._json({"error": "нет рабочего места: откройте ссылку или "
+                                        "создайте место"}, 404)
+        if path == "/api/ws/rotate":
+            key = gdb.rotate(ctx.ws)
+            return self._json_cookie({"ok": True, "key": key}, self._cookie(key))
+        if path == "/api/ws/delete":
+            gdb.delete(ctx.ws)
+            return self._json_cookie({"ok": True}, self._cookie(None))
+        if path == "/api/ws/import":
+            st = gdb.import_(ctx.ws, body.get("data") or body,
+                             merge=bool(body.get("merge", True)))
+            return self._json({"ok": True, **st, **gdb.info(ctx.ws)})
+        if path == "/api/ws/doc":
+            gdb.put_doc(ctx.ws, body.get("kind", ""), body.get("name", ""), body.get("body"))
+            return self._json({"ok": True, "docs": gdb.list_docs(ctx.ws)})
+        if path == "/api/ws/doc/delete":
+            ok = gdb.delete_doc(ctx.ws, body.get("kind", ""), body.get("name", ""))
+            return self._json({"ok": ok, "docs": gdb.list_docs(ctx.ws)})
+        return self._json({"error": "нет такого адреса", "path": path}, 404)
+
+    def _ws_get(self, u, q: dict, ctx):
+        gdb = self.server.ctx.gdb
+        if u.path == "/w" or u.path.startswith("/w/"):
+            # Ссылка на место — /w#<ключ>. Часть после «#» до сервера не
+            # доходит, поэтому здесь просто витрина: ключ прочитает её
+            # скрипт и отдаст телом POST /api/ws/open.
+            return self._send(200, _page(), "text/html; charset=utf-8")
+        if gdb is None:
+            return self._json({"enabled": False})
+        if u.path == "/api/ws":
+            info = gdb.info(ctx.ws) if ctx.ws else {"exists": False}
+            return self._json({"enabled": True, **info})
+        if not ctx.ws:
+            return self._json({"error": "нет рабочего места"}, 404)
+        if u.path == "/api/ws/export":
+            body = json.dumps(gdb.export(ctx.ws), ensure_ascii=False, indent=1).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Disposition",
+                             f'attachment; filename="fca-workspace-{date.today()}.json"')
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if u.path == "/api/ws/docs":
+            return self._json({"docs": gdb.list_docs(ctx.ws, q.get("kind") or None)})
+        if u.path == "/api/ws/doc":
+            doc = gdb.get_doc(ctx.ws, q.get("kind", ""), q.get("name", ""))
+            return self._json({"body": doc} if doc is not None else {"error": "нет такого документа"})
+        return self._json({"error": "нет такого адреса", "path": u.path}, 404)
+
     def do_GET(self):                                     # noqa: N802
         u = urllib.parse.urlparse(self.path)
         q = {k: v[0] for k, v in urllib.parse.parse_qs(u.query).items()}
         try:
+            if u.path == "/w" or u.path.startswith("/w/") or u.path.startswith("/api/ws"):
+                return self._ws_get(u, q, self._ctx())
+            ctx = self._ctx()
             if u.path == "/healthz":
                 # Что сейчас на сервере: версия кода и дата снимка
                 # справочника. По ней проверяет себя выкладка и ей
@@ -197,11 +325,11 @@ class _Handler(BaseHTTPRequestHandler):
             if u.path in ("/", "/index.html"):
                 return self._send(200, _page(), "text/html; charset=utf-8")
             if u.path == "/api/airports":
-                return self._json(self.server.ctx.airports())
+                return self._json(ctx.airports())
             if u.path == "/api/route":
-                return self._json(self.server.ctx.route(q))
+                return self._json(ctx.route(q))
             if u.path == "/api/fact":
-                return self._json(self.server.ctx.fact(q))
+                return self._json(ctx.fact(q))
             if u.path == "/ui.css" or u.path.startswith("/fonts/"):
                 # Оформление и шрифты — файлами из web/: один источник с
                 # статическими страницами, которые вшивают то же самое.
@@ -227,26 +355,26 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._send(200, f.read_bytes(),
                                   "text/javascript; charset=utf-8")
             if u.path == "/api/geo":
-                return self._json(self.server.ctx.geo())
+                return self._json(ctx.geo())
             if u.path == "/api/bench":
-                return self._json(self.server.ctx.bench(q))
+                return self._json(ctx.bench(q))
             if u.path == "/api/node":
-                return self._json(self.server.ctx.node(q))
+                return self._json(ctx.node(q))
             if u.path == "/api/data":
-                return self._json(self.server.ctx.data())
+                return self._json(ctx.data())
             if u.path == "/api/aircraft":
-                return self._json(self.server.ctx.aircraft())
+                return self._json(ctx.aircraft())
             if u.path == "/api/solve":
-                return self._json(self.server.ctx.solve(q))
+                return self._json(ctx.solve(q))
             if u.path == "/api/compare":
-                return self._json(self.server.ctx.compare(q))
+                return self._json(ctx.compare(q))
             if u.path == "/api/aircraft/type":
-                return self._json(self.server.ctx.aircraft_type(q))
+                return self._json(ctx.aircraft_type(q))
             if u.path == "/api/aircraft/draft":
                 # Заготовка JSON для каталога своих типов: сервер НЕ пишет
                 # в хранилище, файл кладёт человек, заводит refresh, принимает
                 # review — тот же путь, что у тарифов (решение 4).
-                body = json.dumps(self.server.ctx.aircraft_draft(q),
+                body = json.dumps(ctx.aircraft_draft(q),
                                   ensure_ascii=False, indent=1).encode()
                 name = (q.get("as") or "user_type").replace(":", "_") + ".json"
                 self.send_response(200)
@@ -330,6 +458,10 @@ class Context:
                 self._facts_n = db.execute(
                     "SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
         out["facts"] = self._facts_n
+        if self.gdb is not None:
+            with self.gdb.lock:
+                out["workspaces"] = self.gdb.db.execute(
+                    "SELECT COUNT(*) FROM workspaces").fetchone()[0]
         missing = [k for k in LEGAL_FIELDS if not _legal_values().get(k)]
         if missing:
             # Не роняет `ok`: выкладка кода не должна ждать юридического
@@ -337,15 +469,19 @@ class Context:
             out["legal_missing"] = missing
         return out
 
-    def __init__(self, store, registry, public: bool = False):
+    def __init__(self, store, registry, public: bool = False, gdb: GuestDB | None = None):
         self.store, self.registry = store, registry
         self.lock = threading.Lock()
         self._apts = None
+        # Слой гостя (решение 148): база мест и — у копии контекста на
+        # запрос — ключ места. У общего контекста `ws` пуст.
+        self.gdb, self.ws = gdb, None
         # Публичная витрина: запись в общее хранилище закрыта. Свои типы
         # гостей — слой сценария (решение 33), ему нужна своя область
         # видимости по автору; пока её нет, сохранение честно отказывает.
         self.public = public
         self._rl, self._rl_lock, self._rl_swept = {}, threading.Lock(), 0.0
+        self._pruned = 0.0
         self._facts_n = None
         if public:
             # Метла по часам, а не только по запросам: на тихом сайте
@@ -357,7 +493,40 @@ class Context:
                     time.sleep(30)
                     with self._rl_lock:
                         self._rl_sweep(time.monotonic())
+                    # Места, не открытые год, — раз в сутки (решение 148)
+                    if self.gdb is not None and time.monotonic() - self._pruned > 86400:
+                        try:
+                            n = self.gdb.prune()
+                            self._pruned = time.monotonic()
+                            if n:
+                                print(f"рабочие места: удалено {n}, не открывали год")
+                        except Exception as exc:                 # noqa: BLE001
+                            print(f"чистка мест не удалась: {exc}")
             threading.Thread(target=_sweeper, daemon=True, name="rl-sweep").start()
+
+    def for_request(self, key: str | None):
+        """Контекст запроса. С ключом существующего места — мелкая копия
+        с наложенным хранилищем: замок, кэши и ограничитель общие, своё
+        только `store` и `ws`. Без места — сам общий контекст."""
+        if self.gdb is None or not key:
+            return self
+        ws = self.gdb.touch(key)
+        if ws is None:
+            return self
+        import copy
+        c = copy.copy(self)
+        c.store, c.ws = GuestStore(self.store, self.gdb, ws), ws
+        return c
+
+    def _settings_overrides(self) -> list[str]:
+        """Ставки флота и прочие переопределения из документа `settings`
+        места — строками вида `fleet_economics.A321.lease_eur_month=380000`,
+        тем же слоем сценария, что `--set` (решение 10)."""
+        if not self.ws:
+            return []
+        doc = self.gdb.get_doc(self.ws, "settings", "default") or {}
+        ov = doc.get("overrides") or {}
+        return [f"{k}={v}" for k, v in ov.items() if v not in ("", None)]
 
     def airports(self) -> list[dict]:
         if self._apts is None:
@@ -484,8 +653,11 @@ class Context:
             seats=int(float(q["seats"])) if q.get("seats") else None,
         )
         sets = [x for x in q.get("set", "").split("~") if x]
-        if sets:
-            kw["overrides"] = parse_set(sets)
+        own = self._settings_overrides()
+        if sets or own:
+            # Своё из места — под явным `set`: заданное в запросе главнее
+            # сохранённого, как флаг главнее файла настроек.
+            kw["overrides"] = {**parse_set(own), **parse_set(sets)} if own else parse_set(sets)
         return kw
 
     def route(self, q: dict) -> dict:
@@ -629,10 +801,10 @@ class Context:
         источником, цена ошибки у неточности.
         """
         from .parsers.aircraft_user import _one
-        if self.public:
-            return {"error": "публичная витрина: свои типы в общее хранилище не "
-                             "пишутся; для гостей нужен слой сценария с автором — "
-                             "ещё не сделан"}
+        if self.public and not self.ws:
+            return {"error": "публичная витрина: чтобы сохранить свой тип, создайте "
+                             "рабочее место — оно ваше по секретной ссылке",
+                    "need_workspace": True}
         today = date.today().isoformat()
         doc = dict(doc)
         doc.setdefault("valid_from", today)
@@ -646,6 +818,22 @@ class Context:
                "extracted_by": "form:aircraft_user@1", "node": "src_aircraft_user"}
         facts = _one(doc, ctx)                      # отказ — ValueError словами
         key = facts[0].key.split("/")[0]
+        if self.ws:
+            # Гость: тот же разбор, но в свой слой; файла нет, каталог —
+            # экспорт места. Чужой код (A320) переопределить нельзя — только
+            # USER:… — иначе своё значение молча подменило бы справочник.
+            if not key.startswith("USER:"):
+                return {"error": f"{key} — код справочника; свой тип заводится под "
+                                 f"ключом USER:…"}
+            by_domain: dict[str, list] = {}
+            for f in facts:
+                by_domain.setdefault(f.domain, []).append(f)
+            st = {}
+            for dom, fs in by_domain.items():
+                st[dom] = self.gdb.replace_facts(self.ws, dom, key, fs, today)
+            doc["icao"] = key
+            self.gdb.put_doc(self.ws, "aircraft", key, doc)
+            return {"ok": True, "icao": key, "workspace": True, "stats": st}
         with self.lock:
             other = self.store.db.execute(
                 """SELECT DISTINCT source_id FROM facts WHERE domain='aircraft'
@@ -672,9 +860,17 @@ class Context:
     def aircraft_delete(self, body: dict) -> dict:
         """Снятие своего типа с учёта: факты закрываются сегодняшним днём,
         файл каталога убирается. История остаётся (append-only)."""
-        if self.public:
-            return {"error": "публичная витрина: удаление закрыто"}
         key = (body.get("icao") or "").upper()
+        if self.ws:
+            if not key.startswith("USER:"):
+                return {"error": "удалить можно только свой тип USER:…"}
+            n = sum(self.gdb.retire_facts(self.ws, d, key) for d in ("aircraft", "aircraft_layout"))
+            self.gdb.delete_doc(self.ws, "aircraft", key)
+            if not n:
+                return {"error": f"у {key} нет действующих фактов в вашем месте"}
+            return {"ok": True, "icao": key, "retired": n, "workspace": True}
+        if self.public:
+            return {"error": "публичная витрина: удаление закрыто без рабочего места"}
         if not key.startswith("USER:"):
             # Обозначатель ИКАО могут делить два источника; удалять
             # разрешено только то, что заведено с формы или из каталога.
@@ -718,6 +914,17 @@ class Context:
                 """SELECT key, value, unit, source_id, confidence FROM facts
                    WHERE domain = 'fleet_economics' AND valid_to IS NULL
                    AND key LIKE ?""", ("%/" + icao + "/%",)).fetchall()
+        own = False
+        if self.ws and icao.startswith("USER:"):
+            g = [r for r in self.gdb.facts(self.ws, "aircraft") if r["key"].startswith(icao + "/")]
+            if g:
+                own = True
+                rows = [(r["key"], r["value"], r["value_text"], r["unit"], r["source_id"],
+                         r["confidence"], r["certainty"], r["valid_from"], r["note"],
+                         r["source_note"], r["confirm_by"]) for r in g]
+                layouts = [(r["key"], r["value"], r["source_id"], r["confidence"])
+                           for r in self.gdb.facts(self.ws, "aircraft_layout")
+                           if r["key"].endswith("/" + icao)]
         if not rows:
             return {"icao": icao, "error": f"типа {icao} в домене aircraft нет"}
         fields = [{"field": k.split("/", 1)[1], "value": v, "text": t, "unit": u,
@@ -737,8 +944,8 @@ class Context:
         return {"icao": icao,
                 "name": next((f["note"] for f in fields if f["field"] == "mtow_t"), ""),
                 "fields": fields, "physics": physics, "analogs": analogs,
-                "editable": not self.public and all(f["source"] == self.USER_SRC for f in fields),
-                "public": self.public,
+                "editable": (own or not self.public) and all(f["source"] == self.USER_SRC for f in fields),
+                "public": self.public, "workspace": own, "has_workspace": bool(self.ws),
                 "user": any(f["source"] == "aircraft_user" for f in fields),
                 "layouts": [{"operator": k.split("/")[0], "seats": v, "source": s_, "prov": c}
                             for k, v, s_, c in layouts],
@@ -813,6 +1020,12 @@ class Context:
             lay = self.store.db.execute(
                 """SELECT key, value, source_id, confidence FROM facts
                    WHERE domain = 'aircraft_layout' AND valid_to IS NULL""").fetchall()
+        if self.ws:
+            # Свои типы гостя — поверх справочника, как при чтении.
+            rows = list(rows) + [(r["key"], r["value"], r["value_text"], r["source_id"])
+                                 for r in self.gdb.facts(self.ws, "aircraft")]
+            lay = list(lay) + [(r["key"], r["value"], r["source_id"], r["confidence"])
+                               for r in self.gdb.facts(self.ws, "aircraft_layout")]
         types: dict[str, dict] = {}
         for key, value, txt, src in rows:
             icao, _, field = (key or "").partition("/")
@@ -1299,11 +1512,19 @@ def _page() -> bytes:
 
 
 def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,
-          warm: bool = True, log=print, public: bool = False) -> None:
+          warm: bool = True, log=print, public: bool = False,
+          guests: bool | None = None) -> None:
     # Соединение приходит из CLI уже снятым с привязки к потоку
     # (`Store(..., shared=True)`). Безопасность держит замок в `Context`,
     # а не отключённая проверка — она только перестаёт мешать.
-    ctx = Context(store, registry, public=public)
+    # Слой гостя: на публичной витрине всегда, локально — по флагу.
+    # Файл лежит рядом со справочником и в снимок `fca publish` не входит.
+    gdb = None
+    if guests if guests is not None else public:
+        gdb = GuestDB(Path(store.path).parent / "user.db")
+        n = gdb.prune()                   # сразу, не дожидаясь метлы по часам
+        log(f"рабочие места гостей: {gdb.path}" + (f", удалено {n} забытых" if n else ""))
+    ctx = Context(store, registry, public=public, gdb=gdb)
     if warm:
         # Прогрев в явном виде: пять секунд холодных импортов иначе
         # заплатит первый же запрос, и человек решит, что тормозит всё.

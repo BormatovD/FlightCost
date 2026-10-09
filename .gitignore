@@ -54,3 +54,4 @@ logs/
 # IDE и логи
 .idea/
 logs/
+data/user.db

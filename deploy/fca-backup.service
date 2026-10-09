@@ -1,0 +1,17 @@
+# Ночная копия базы рабочих мест гостей. Запускает fca-backup.timer;
+# bootstrap.sh кладёт оба файла в /etc/systemd/system.
+[Unit]
+Description=FlightCostApp — копия базы рабочих мест
+After=fca.service
+
+[Service]
+Type=oneshot
+User=fca
+Group=fca
+ExecStart=/bin/bash /srv/fca/app/deploy/backup.sh
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/backup

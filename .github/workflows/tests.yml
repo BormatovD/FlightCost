@@ -25,6 +25,11 @@ jobs:
               tests/test_easa_noise.py \
               tests/test_i18n.py \
               tests/test_legal.py \
+              tests/test_network.py \
+              tests/test_detour.py \
+              tests/test_airspace.py \
+              tests/test_guest.py \
+              tests/test_serve_ws.py \
               tests/test_pipeline.py \
               tests/test_ui.py \
               tests/test_deps.py \

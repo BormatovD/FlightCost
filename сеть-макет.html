@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>fca — макет: сеть</title>
+<!-- МАКЕТ режима «Сеть» в витрине. Числа — из прогона 7 октября
+     (A321 × 4 из Алматы на условных ценах); помеченное «~» выдумано
+     ради картинки. В продукте токены берутся из ui.css — здесь их копия,
+     чтобы файл открывался без сервера. -->
+<style>
+:root{
+  --bg:#0E1013;--panel:#13161A;--raise:#1B1F25;--ocean:#0A0D11;--land:#1E242B;
+  --ink:#E8EAEC;--dim:#9AA3AC;--faint:#5E6872;--line:#262C34;--select:rgba(0,169,237,.09);
+  --accent:#00A9ED;--doc:#00ED94;--calc:#00EDE5;--user:#00A9ED;--override:#005FED;
+  --guess:#F28C28;--warn:#FF6B57;--route:#00A9ED;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.45 var(--sans)}
+body{padding:0 0 60px}
+.frame{width:1440px;margin:28px auto 0;border:1px solid var(--line);border-radius:8px;
+ overflow:hidden;background:var(--bg);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.cap{width:1440px;margin:0 auto;padding:10px 4px 0;color:var(--dim);font-size:13px}
+.cap b{color:var(--ink);font-weight:600}
+/* ── шапка ─────────────────────────────────────────── */
+header{border-bottom:1px solid var(--line);padding:8px 20px;display:flex;gap:12px;
+ align-items:center;flex-wrap:wrap}
+header b.brand{font:600 16px/1 var(--sans);margin-right:4px}
+.mode{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.mode span{padding:5px 11px;font-size:13px;color:var(--dim)}
+.mode span[aria-selected=true]{background:var(--raise);color:var(--ink)}
+.hp{display:inline-flex;align-items:center;gap:6px;background:var(--raise);
+ border:1px solid var(--line);border-radius:5px;padding:5px 9px;font-size:13.5px;color:var(--dim)}
+.hp b{color:var(--ink);font-weight:600}
+.hp i{font-style:normal;color:var(--faint);font-size:11px}
+header .sp{margin-left:auto;display:flex;gap:10px;align-items:center;color:var(--faint);font-size:12px}
+.ws{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:5px;
+ padding:4px 9px;font-size:12px;color:var(--dim)}
+.ws .dot{width:7px;height:7px;border-radius:50%;background:var(--doc)}
+.ws u{text-decoration:none;color:var(--accent)}
+#langs span{font:12px var(--sans);padding:3px 6px;color:var(--dim);border:1px solid var(--line);
+ border-radius:4px;margin-left:2px}
+#langs span[aria-pressed=true]{color:var(--ink);border-color:var(--accent)}
+a.legal{font:11px var(--sans);color:var(--faint);margin-left:6px;text-decoration:none}
+/* ── колонки ───────────────────────────────────────── */
+.cols{display:grid;grid-template-columns:250px minmax(320px,1fr) 440px;height:820px}
+.pane{overflow:hidden;padding:16px 18px 40px}
+.left{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column}
+.grp{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ margin:14px 0 8px}
+.grp:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:4px;
+ padding:3px 7px;font-size:12.5px;color:var(--ink)}
+.chip.base{border-color:var(--accent)}
+.chip i{font-style:normal;color:var(--faint);font-size:10.5px}
+.chip s{text-decoration:none;color:var(--faint);font-size:11px;margin-left:2px}
+.chip.add{border-style:dashed;color:var(--faint)}
+.field{margin:7px 0}
+.field label{display:block;font-size:11.5px;color:var(--dim);margin-bottom:3px}
+.field .v{display:flex;align-items:center;gap:8px}
+.inp{background:var(--raise);border:1px solid var(--line);border-radius:4px;padding:5px 8px;
+ font:13px var(--sans);color:var(--ink);min-width:0}
+.inp.n{width:88px;font-family:var(--mono);text-align:right}
+.inp.w{width:100%}
+.inp.sel::after{content:"▾";color:var(--faint);margin-left:8px}
+.prov{font-size:10.5px;padding:1px 5px;border-radius:3px;border:1px solid transparent;white-space:nowrap}
+.prov.doc{color:var(--doc);border-color:var(--doc)}
+.prov.calc{color:var(--calc);border-color:var(--calc)}
+.prov.user{color:var(--user);border-color:var(--user)}
+.prov.guess{color:var(--guess);border-color:var(--guess)}
+.prov.none{color:var(--faint);border-color:var(--faint)}
+.range{height:4px;background:var(--line);border-radius:2px;position:relative;flex:1}
+.range i{position:absolute;top:-5px;width:14px;height:14px;border-radius:50%;background:var(--accent)}
+.lock{color:var(--faint);font-size:11px}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;font-size:12px}
+.toggle span{padding:3px 8px;color:var(--dim)}
+.toggle span[aria-pressed=true]{background:var(--raise);color:var(--ink)}
+.btn{display:block;width:100%;margin-top:14px;padding:8px;border-radius:5px;text-align:center;
+ font:600 13.5px var(--sans);background:var(--accent);color:#06131A}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--dim);font-weight:500;margin-top:8px}
+/* ── сцена ─────────────────────────────────────────── */
+.stage{position:relative;background:var(--ocean);display:flex;flex-direction:column;min-width:0}
+.kpi{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line);background:var(--bg)}
+.kpi>div{padding:9px 12px 8px;border-right:1px solid var(--line);min-width:0}
+.kpi>div:last-child{border-right:0}
+.kpi .k{font-size:11.5px;color:var(--dim)}
+.kpi .n{font:600 19px/1.2 var(--sans);font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .n small{font:400 11px var(--sans);color:var(--dim);margin-left:3px}
+.kpi .s{font-size:11.5px;color:var(--faint);margin-top:2px;line-height:1.35}
+.kpi .neg{color:var(--warn)}
+.globe{flex:1;position:relative;overflow:hidden}
+.globe svg{position:absolute;inset:0;width:100%;height:100%}
+.gfoot{padding:8px 14px 10px;background:var(--bg);border-top:1px solid var(--line);
+ display:flex;gap:16px;align-items:center;font-size:11.5px;color:var(--dim);flex-wrap:wrap}
+.gfoot i{display:inline-block;width:18px;height:0;border-top:2px solid;vertical-align:middle;margin-right:5px}
+.gfoot .sw{display:inline-block;width:12px;height:12px;vertical-align:-2px;margin-right:5px;
+ background:repeating-linear-gradient(45deg,var(--warn) 0 2px,transparent 2px 5px);border:1px solid var(--warn)}
+.gfoot .r{margin-left:auto;color:var(--faint)}
+/* ── правая колонка ────────────────────────────────── */
+.tabs{display:flex;flex-wrap:wrap;column-gap:2px;padding:0 14px;border-bottom:1px solid var(--line)}
+.tabs span{border-bottom:2px solid transparent;color:var(--dim);padding:11px 8px 9px;font-size:14px;white-space:nowrap}
+.tabs span[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabbody{flex:1;overflow:hidden;padding:14px 18px 40px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th{font:500 11px var(--sans);color:var(--faint);text-align:right;padding:4px 3px;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td{padding:6px 3px;text-align:right;border-bottom:1px solid var(--line);font-size:12px;white-space:nowrap}
+td.v{font-family:var(--mono);font-size:11.5px}
+tr.sel td{background:var(--select)}
+td .m{color:var(--faint)}
+td .bar{display:inline-block;height:6px;border-radius:2px;background:var(--calc);vertical-align:middle;margin-right:6px}
+.hint{font-size:11.5px;color:var(--faint);margin:8px 0 14px;line-height:1.4}
+.sec{font:600 12px var(--sans);color:var(--dim);margin:16px 0 6px;display:flex;align-items:center;gap:8px}
+.sec .cnt{font-weight:400;color:var(--faint)}
+.sec .lnk{margin-left:auto;font-weight:400;color:var(--accent);font-size:12px}
+.row{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid var(--line);font-size:12.5px;align-items:baseline}
+.row .k{width:78px;flex:none;font-family:var(--mono);font-size:12px}
+.row .why{color:var(--dim);flex:1;white-space:normal}
+.row .tag{font-size:10.5px;color:var(--faint);border:1px solid var(--line);border-radius:3px;padding:0 5px;flex:none}
+.row .tag.warn{color:var(--warn);border-color:var(--warn)}
+.row .act{color:var(--accent);font-size:12px;flex:none}
+.cond{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:12.5px;margin-top:6px}
+.cond .k{color:var(--dim)}.cond .v{font-family:var(--mono);text-align:right}
+.cond .v.ok{color:var(--doc)}
+.note{font-size:11.5px;color:var(--dim);background:var(--raise);border-left:2px solid var(--guess);
+ padding:7px 10px;margin:12px 0 0;line-height:1.4}
+/* ── пометки ───────────────────────────────────────── */
+.mark{position:absolute;z-index:5;width:20px;height:20px;border-radius:50%;background:var(--guess);
+ color:#1A0E00;font:700 11px/20px var(--sans);text-align:center;box-shadow:0 0 0 3px rgba(242,140,40,.25)}
+body.nomarks .mark{display:none}
+.notes{width:1440px;margin:18px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 28px;
+ font-size:13px;color:var(--dim)}
+.notes>div{display:flex;gap:10px;align-items:flex-start}
+.notes .mark{position:static;flex:none;box-shadow:none;margin-top:2px}
+.notes b{color:var(--ink);font-weight:600}
+.tb{width:1440px;margin:28px auto 0;display:flex;gap:12px;align-items:center;color:var(--dim);font-size:13px}
+.tb button{background:var(--raise);border:1px solid var(--line);color:var(--ink);border-radius:4px;padding:4px 10px;font:12.5px var(--sans);cursor:pointer}
+/* ── нижние фрагменты ─────────────────────────────── */
+.two{width:1440px;margin:28px auto 0;display:grid;grid-template-columns:440px 1fr;gap:28px;align-items:start}
+.frag{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden;position:relative}
+.frag .tabbody{overflow:visible}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:10px}
+.card h4{margin:0 0 6px;font:600 13px var(--sans)}
+.card p{margin:4px 0;font-size:12.5px;color:var(--dim)}
+.link{font-family:var(--mono);font-size:12px;background:var(--raise);border:1px solid var(--line);
+ border-radius:4px;padding:6px 9px;color:var(--ink);word-break:break-all}
+.btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.btns span{border:1px solid var(--line);border-radius:4px;padding:3px 9px;font-size:12px;color:var(--dim)}
+.btns span.pri{background:var(--accent);color:#06131A;border-color:var(--accent);font-weight:600}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px;margin-top:6px}
+.kv span{color:var(--dim)}
+.mkt th:nth-child(n+2){text-align:left}.mkt td:nth-child(n+2){text-align:left;white-space:normal}
+.mkt td{vertical-align:top;font-size:12.5px}
+.mkt .inp.n{width:84px;padding:2px 6px;font-size:12px}
+</style></head>
+<body>
+
+<div class="tb"><button onclick="document.body.classList.toggle('nomarks')">скрыть / показать пометки</button>
+<span>Макет режима «Сеть». Числа — из прогона 7 октября (A321 × 4 из Алматы, условные цены); <b style="color:var(--ink)">~</b> — выдумано ради картинки.</span></div>
+
+<!-- ═══════════════ главный экран ═══════════════ -->
+<div class="frame" style="position:relative">
+<header>
+  <b class="brand">fca</b>
+  <span class="mode"><span>Маршрут</span><span aria-selected="true">Сеть</span></span>
+  <span class="mark" style="left:118px;top:38px">1</span>
+  <span class="hp">база <b>ALA</b> <i>Алматы · KZ</i></span>
+  <span class="hp"><b>A321</b> <i>A321-200</i> ▾</span>
+  <span class="hp">бортов <b>4</b></span>
+  
+  <span class="sp">
+    <span style="color:var(--faint)">снимок 2026-10-07</span>
+    <span class="ws"><span class="dot"></span>рабочее место <u>w/7f3a…</u> · 09:41</span>
+    <span class="mark" style="position:static;box-shadow:none">7</span>
+    <span id="langs"><span aria-pressed="true">RU</span><span>EN</span><span>DE</span></span>
+    <a class="legal">Impressum</a><a class="legal">Datenschutz</a>
+  </span>
+</header>
+
+<div class="cols">
+  <!-- ── левая колонка ── -->
+  <aside class="pane left">
+    <div class="grp">Аэропорты</div>
+    <div class="chips">
+      <span class="chip base">ALA <i>база</i></span>
+      <span class="chip">FRA <s>×</s></span><span class="chip">BCN <s>×</s></span>
+      <span class="chip">DME <s>×</s></span><span class="chip">OVB <s>×</s></span>
+      <span class="chip">DEL <s>×</s></span><span class="chip add">+ код или клик по глобусу</span>
+    </div>
+    <div class="hint">15 пар · в сети 4 · отсечено 11</div>
+    <span class="mark" style="left:228px;top:122px">2</span>
+
+    <div class="grp">Парк</div>
+    <div class="field"><label>Тип ВС</label><div class="v"><span class="inp w sel">A321 — A321-200</span></div></div>
+    <div class="field"><label>Бортов</label><div class="v"><span class="inp n">4</span><span class="hint" style="margin:0">= 300 ч/мес × 4</span></div></div>
+    <div class="field"><label>Налёт борта, ч/мес</label><div class="v"><span class="inp n">300</span><span class="prov guess">заготовка</span></div></div>
+    <div class="field"><label>Лизинг, EUR/мес на борт <span class="lock">🔒</span></label>
+      <div class="v"><span class="inp n">419 429</span><span class="prov guess">заготовка</span></div></div>
+    <div class="field"><label>ПЛГ, EUR/ч налёта <span class="lock">🔒 только у вас</span></label>
+      <div class="v"><span class="inp n">—</span><span class="prov none">бенчмарка нет</span></div></div>
+    <span class="mark" style="left:228px;top:372px">3</span>
+
+    <div class="grp">Цена</div>
+    <div class="field"><label>К рыночной медиане</label>
+      <div class="v"><span class="range"><i style="left:36%"></i></span><span class="inp n">× 0,90</span></div></div>
+    <div class="field"><label>Минимум → средний чек</label>
+      <div class="v"><span class="inp n">× 1,00</span><span class="prov guess">допущение</span></div></div>
+
+    <div class="grp">Частоты</div>
+    <div class="toggle"><span aria-pressed="true">поровну, сколько вывозит парк</span><span>свои</span></div>
+    <div class="field" style="margin-top:9px"><label>Расчётная загрузка</label>
+      <div class="v"><span class="range"><i style="left:66%"></i></span><span class="inp n">80 %</span></div></div>
+
+    <span class="btn">Считать сеть</span>
+    <span class="btn ghost">Сохранить сеть в рабочее место</span>
+  </aside>
+
+  <!-- ── сцена ── -->
+  <section class="stage">
+    <div class="kpi">
+      <div><div class="k">Безубыточная загрузка</div><div class="n">85,5<small>%</small></div><div class="s">сеть в нуле</div></div>
+      <div><div class="k">При 80 %</div><div class="n neg">−527<small>тыс. EUR/мес</small></div><div class="s">выручка 2,41 · затраты 2,94 млн</div></div>
+      <div><div class="k">Цена в ноль</div><div class="n">× 1,06<small>к медиане</small></div><div class="s">задано × 0,90</div></div>
+      <div><div class="k">Лизинг в ноль</div><div class="n">288<small>тыс./мес</small></div><div class="s">заготовка 419</div></div>
+      <div><div class="k">Топливо в ноль</div><div class="n">1,08<small>EUR/кг</small></div><div class="s">сейчас 1,27 · US Gulf 29.09</div></div>
+    </div>
+    <span class="mark" style="left:262px;top:6px">4</span>
+    <div class="globe"><svg id="g" viewBox="0 0 750 660" preserveAspectRatio="xMidYMid slice"></svg>
+      <span class="mark" style="left:120px;top:120px">5</span>
+    </div>
+    <div class="gfoot">
+      <span><i style="border-color:var(--route)"></i>в сети</span>
+      <span><i style="border-color:var(--warn);border-top-style:dashed"></i>закрытое небо</span>
+      <span><i style="border-color:var(--dim);border-top-style:dotted"></i>обход</span>
+      <span><span class="sw"></span>закрыто для перевозчика KZ</span>
+      <span style="color:var(--faint)">зоны: <u style="color:var(--accent);text-decoration:none">все</u> · закрытые · нет</span><span style="color:var(--faint)">отсечено правами: 10 пар — <u style="color:var(--accent);text-decoration:none">показать</u></span>
+      <span class="r">колесо — приближение · перетаскивание — вращение</span>
+    </div>
+  </section>
+
+  <!-- ── правая колонка ── -->
+  <aside class="right">
+    <div class="tabs"><span aria-selected="true">Сеть</span><span>Рынок</span><span>Парк</span><span>Разбор</span><span>Оговорки <span style="color:var(--guess)">12</span></span></div>
+    <span class="mark" style="left:1230px;top:38px">6</span>
+    <div class="tabbody">
+      <table>
+        <tr><th>пара</th><th>рейс/нед</th><th>рейсы в 0</th><th>вклад</th><th>нужно</th><th>частоты</th><th>S</th></tr>
+        <tr><td>ALA–DEL</td><td class="v">8</td><td class="v"><span class="bar" style="width:16px"></span>37%</td><td class="v">+412</td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td></tr>
+        <tr><td>ALA–OVB</td><td class="v">8</td><td class="v"><span class="bar" style="width:22px"></span>52%</td><td class="v">+265</td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td></tr>
+        <tr class="sel"><td>ALA–FRA</td><td class="v">8</td><td class="v"><span class="bar" style="width:25px"></span>58%</td><td class="v">+301</td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td></tr>
+        <tr><td>ALA–DME</td><td class="v">8</td><td class="v" style="color:var(--warn)"><span class="bar" style="width:34px;background:var(--warn)"></span>83%</td><td class="v" style="color:var(--warn)">−17</td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td><td class="v"><span class="m">—</span></td></tr>
+        <tr><td style="color:var(--dim)">сумма вкладов</td><td></td><td></td><td class="v">+961</td><td colspan="3" style="text-align:left;color:var(--dim)">лизинг 1 678 → −527</td></tr>
+      </table>
+      <div class="hint">рейсы в 0 — загрузка, при которой пара окупает собственные рейсы, без парка ·
+        вклад — тыс. EUR/мес в лизинг парка при 80 % (~ оценка для макета) ·
+        нужно — доля нынешнего потока при безубыточной загрузке сети · частоты — наша доля рейсов ·
+        S — по S-кривой (допущение). «—» значит <b style="color:var(--ink);font-weight:500">нет данных</b>: потока и рейсов конкурентов по этим парам нет — вкладка «Рынок»</div>
+
+      <div class="sec">Не в сети <span class="cnt">11</span><span class="lnk">раскрыть все</span></div>
+      <div class="row"><span class="k">ALA–BCN</span><span class="tag warn">небо</span><span class="why">путь через UK — закрыто для всех с 24.02.2022 · EASA CZIB</span><span class="act">обход +80 км</span></div>
+      <div class="row"><span class="k">DME–OVB</span><span class="tag">права</span><span class="why">каботаж в RU, ст. 7 Чикагской конвенции</span></div>
+      <div class="row"><span class="k">FRA–BCN</span><span class="tag">права</span><span class="why">чужие страны на обоих концах — седьмая свобода</span></div>
+      <div class="row"><span class="k">ещё 8</span><span class="tag">права</span><span class="why" style="color:var(--faint)">седьмая свобода: FRA–DME, FRA–OVB, FRA–DEL, BCN–DME, BCN–OVB, BCN–DEL, DME–DEL, OVB–DEL</span></div>
+
+      <div class="sec">Парк</div>
+      <div class="cond">
+        <span class="k">налёт на борт</span><span class="v">281 ч/мес из 300</span>
+        <span class="k">рейсов в неделю</span><span class="v">32 туда-обратно</span>
+        <span class="k">лизинг парка</span><span class="v">1,68 млн EUR/мес <span class="prov guess">заготовка</span></span>
+      </div>
+      <div class="note">Расписание проверено только суммой часов: развороты, ночёвки и окна аэропортов — ротация, следующий этап. Двусторонние соглашения не проверяются.</div>
+    </div>
+  </aside>
+</div>
+</div>
+
+<div class="notes">
+  <div><span class="mark">1</span><div><b>Переключатель «Маршрут / Сеть»</b> в шапке. Маршрут — как сейчас: пара и разбор. Сеть — база, тип, число бортов; пары складываются сами.</div></div>
+  <div><span class="mark">2</span><div><b>Аэропорты — чипы, не пары.</b> Добавить кодом или кликом по глобусу; база выделена. Строка под ними — сколько пар выжило после прав, неба и дальности.</div></div>
+  <div><span class="mark">3</span><div><b>Частные поля с замком</b> — лизинг, ПЛГ, свои цены и потоки. Хранятся только в рабочем месте гостя. Где бенчмарка нет (ПЛГ), экран так и говорит, а не рисует полосу.</div></div>
+  <div><span class="mark">4</span><div><b>Пять чисел над глобусом</b> — ответ обращением (решение 154): не «сколько заработаем», а при какой загрузке, цене, лизинге и топливе сеть в нуле. Красным — минус при расчётной загрузке.</div></div>
+  <div><span class="mark">5</span><div><b>Глобус</b>: пары в сети — сплошные, закрытое небо — штриховка по зоне и красный отрезок на дуге, обход — пунктир с длиной. Отсечённые правами скрыты, включаются в подвале. Клик по паре выделяет строку справа.</div></div>
+  <div><span class="mark">6</span><div><b>Вкладки</b>: Сеть (таблица пар, не в сети, парк) · Рынок (откуда цена, поток, рейсы конкурентов, S-кривая) · Парк · Разбор (трассировка по плечам) · Оговорки с числом.</div></div>
+  <div><span class="mark">7</span><div><b>Рабочее место</b> в шапке: точка «сохранено», короткий ключ, время. Клик — экран ниже слева.</div></div>
+</div>
+
+<!-- ═══════════════ фрагменты ═══════════════ -->
+<div class="two">
+  <div>
+    <div class="cap" style="width:auto;margin:0 0 8px"><b>Экран «Рабочее место»</b> — слой гостя (решение 148)</div>
+    <div class="frag"><div class="tabbody">
+      <div class="card">
+        <h4>Ваша ссылка</h4>
+        <div class="link">https://flightcost.app/w/7f3a9c…e21b</div>
+        <p>Это единственный вход. Сервер не знает, кто вы: потеря ссылки и браузера — потеря данных.</p>
+        <div class="btns"><span class="pri">Скопировать ссылку</span><span>Экспорт JSON</span><span>Импорт</span><span>Новая ссылка</span></div>
+      </div>
+      <div class="card">
+        <h4>Что здесь хранится <span style="font-weight:400;color:var(--faint)">· 14 КБ · открыто 3 дня назад</span></h4>
+        <div class="kv">
+          <span>свои типы</span><b>2</b><span style="color:var(--faint);grid-column:1/-1;font-size:11.5px">USER:A21N-MY, USER:T214-MY</span>
+          <span>ставки флота</span><b>лизинг A321 · ПЛГ A321</b>
+          <span>сети</span><b>1</b><span style="color:var(--faint);grid-column:1/-1;font-size:11.5px">ALA × A321 × 4 — 7 окт.</span>
+          <span>сценарии</span><b>3</b>
+        </div>
+      </div>
+      <div class="card" style="border-color:var(--doc)">
+        <h4>Вклад в общий справочник</h4>
+        <p>По умолчанию всё выше видите только вы. Передать запись в общее — отдельное действие с подтверждением, что вы вправе раскрыть, лицензия CC BY 4.0.</p>
+        <p>Коммерческие поля — лизинг, ПЛГ — в общем показываются только полосой, когда независимых вкладов не меньше трёх. Отдельные значения не показываются никогда.</p>
+        <div class="btns"><span>Передать тип USER:A21N-MY…</span><span>Передать ставку ПЛГ…</span></div>
+      </div>
+      <div class="note" style="margin-top:10px">Места, не открытые год, удаляются. Резервная копия слоя гостей — ночью, справочник восстанавливается рецептом.</div>
+    </div></div>
+  </div>
+
+  <div>
+    <div class="cap" style="width:auto;margin:0 0 8px"><b>Вкладка «Рынок»</b> — откуда взяты цена и поток по каждой паре, и что можно задать</div>
+    <div class="frag"><div class="tabbody">
+      <table class="mkt">
+        <tr><th>пара</th><th>цена, EUR</th><th>поток, пасс./мес</th><th>рейсы конкурентов</th></tr>
+        <tr><td>ALA–DEL</td>
+          <td><span class="prov user">задано</span> 170 <span class="m" style="color:var(--faint)">· рынок: наблюдений нет</span></td>
+          <td><span class="prov doc">DGCA ~</span> 41 200 <span class="m" style="color:var(--faint)">· 2025, пара городов</span></td>
+          <td><span class="prov none">нет покрытия</span> <span class="m" style="color:var(--faint)">OpenSky не видит ALA</span></td></tr>
+        <tr><td>ALA–OVB</td>
+          <td><span class="prov user">задано</span> 110 <span class="m" style="color:var(--faint)">· рынок: наблюдений нет</span></td>
+          <td><span class="inp n">—</span> <span class="prov none">нет источника</span></td>
+          <td><span class="prov none">нет покрытия</span></td></tr>
+        <tr><td>ALA–FRA</td>
+          <td><span class="prov user">задано</span> 300 <span class="m" style="color:var(--faint)">· рынок: наблюдений нет</span></td>
+          <td><span class="inp n">—</span> <span class="prov none">нет источника</span></td>
+          <td><span class="prov none">нет покрытия</span></td></tr>
+        <tr><td>FRA–BCN <span class="m" style="color:var(--faint)">для сравнения</span></td>
+          <td><span class="prov doc">медиана d15_30</span> 95 <span class="m" style="color:var(--faint)">· 40 дат, прямые, Aviasales</span></td>
+          <td><span class="prov doc">Eurostat</span> 118 400 <span class="m" style="color:var(--faint)">· 2025</span></td>
+          <td><span class="prov calc">наблюдения</span> 71/нед <span class="m" style="color:var(--faint)">· окно 28 сут</span></td></tr>
+      </table>
+      <div class="sec" style="margin-top:14px">S-кривая «доля частот → доля пассажиров»</div>
+      <div class="field"><div class="v"><span style="font-size:12px;color:var(--dim)">показатель α</span><span class="range" style="max-width:220px"><i style="left:40%"></i></span><span class="inp n">1,3</span><span class="prov guess">допущение</span></div></div>
+      <div class="hint">Отраслевое правило, не измерение: при 1,0 — пропорция частотам, выше — перевес у того, кто летает чаще. Конкуренты сложены в одного. Где рейсов конкурентов нет, колонки «частоты» и «S» пусты, а не нули.</div>
+      <div class="note">Цена — медиана дневных минимумов прямых рейсов, не средний чек. Переход к чеку — множитель слева, пока 1,00 с пометкой. Поток для RU и KZ в открытых источниках не публикуется (Росавиация — с апреля 2022): задаётся вами и хранится в рабочем месте.</div>
+    </div></div>
+  </div>
+</div>
+
+<script>
+// ── глобус: ортографическая проекция, приближение по плечу (решение 92) ──
+const AP = {FRA:[50.03,8.57],BCN:[41.30,2.08],DME:[55.41,37.91],OVB:[55.01,82.65],ALA:[43.35,77.04],DEL:[28.56,77.10]};
+const UA = [[52.3,23.6],[51.9,31.8],[52.4,33.4],[50.4,36.5],[49.9,40.1],[47.1,38.2],[45.3,36.6],[44.4,33.8],[46.1,30.2],[48.4,22.1],[49.6,22.6],[51.5,23.6]];
+const C = {lat:46, lon:42}, R = 560, CX = 375, CY = 380;
+const rad = d => d*Math.PI/180;
+function proj(lat, lon){
+  const φ=rad(lat), λ=rad(lon), φ0=rad(C.lat), λ0=rad(C.lon);
+  const cosc = Math.sin(φ0)*Math.sin(φ)+Math.cos(φ0)*Math.cos(φ)*Math.cos(λ-λ0);
+  const x = R*Math.cos(φ)*Math.sin(λ-λ0);
+  const y = R*(Math.cos(φ0)*Math.sin(φ)-Math.sin(φ0)*Math.cos(φ)*Math.cos(λ-λ0));
+  return [CX+x, CY-y, cosc>0];
+}
+function gc(a, b, n=64){
+  const [la1,lo1]=a.map(rad), [la2,lo2]=b.map(rad);
+  const d = Math.acos(Math.sin(la1)*Math.sin(la2)+Math.cos(la1)*Math.cos(la2)*Math.cos(lo2-lo1));
+  const out=[];
+  for(let i=0;i<=n;i++){const f=i/n, A=Math.sin((1-f)*d)/Math.sin(d), B=Math.sin(f*d)/Math.sin(d);
+    const x=A*Math.cos(la1)*Math.cos(lo1)+B*Math.cos(la2)*Math.cos(lo2), y=A*Math.cos(la1)*Math.sin(lo1)+B*Math.cos(la2)*Math.sin(lo2), z=A*Math.sin(la1)+B*Math.sin(la2);
+    out.push([Math.atan2(z,Math.hypot(x,y))/Math.PI*180, Math.atan2(y,x)/Math.PI*180]);}
+  return out;
+}
+const km = (a,b)=>{const [la1,lo1]=a.map(rad),[la2,lo2]=b.map(rad);return 6371*Math.acos(Math.sin(la1)*Math.sin(la2)+Math.cos(la1)*Math.cos(la2)*Math.cos(lo2-lo1));};
+function inUA([lat,lon]){let c=false;for(let i=0,j=UA.length-1;i<UA.length;j=i++){const [y1,x1]=UA[i],[y2,x2]=UA[j];
+  if((y1>lat)!==(y2>lat)&&lon<(x2-x1)*(lat-y1)/(y2-y1)+x1)c=!c;}return c;}
+const path = pts => pts.map((p,i)=>{const [x,y]=proj(...p);return (i?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);}).join(" ");
+const svg = document.getElementById("g"); let h = "";
+h += `<defs><pattern id="hz" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2" height="6" fill="var(--warn)" opacity=".55"/></pattern>
+<clipPath id="disc"><circle cx="${CX}" cy="${CY}" r="${R}"/></clipPath></defs>`;
+h += `<circle cx="${CX}" cy="${CY}" r="${R}" fill="var(--ocean)" stroke="var(--line)"/>`;
+// графическая сетка; суша в продукте — слой из data/geo, здесь её нет
+h += `<g clip-path="url(#disc)" stroke="var(--line)" fill="none" stroke-width=".8">`;
+for(let la=-60;la<=80;la+=10){const pts=[];for(let lo=-180;lo<=180;lo+=3)pts.push([la,lo]);
+  const vis=pts.filter(p=>proj(...p)[2]);if(vis.length>1)h+=`<path d="${path(vis)}"/>`;}
+for(let lo=-180;lo<180;lo+=10){const pts=[];for(let la=-85;la<=85;la+=3)pts.push([la,lo]);
+  const vis=pts.filter(p=>proj(...p)[2]);if(vis.length>1)h+=`<path d="${path(vis)}"/>`;}
+h += `</g>`;
+// закрытая зона
+h += `<path d="${path(UA)} Z" fill="url(#hz)" stroke="var(--warn)" stroke-width="1" stroke-opacity=".7"/>`;
+{const [x,y]=proj(43.2,33.5);h+=`<text x="${x}" y="${y}" fill="var(--warn)" font-size="10.5" text-anchor="middle" font-family="var(--sans)">UK · закрыто</text>`;}
+// пары в сети
+for(const d of ["FRA","DME","OVB","DEL"]){h+=`<path d="${path(gc(AP.ALA,AP[d]))}" fill="none" stroke="var(--route)" stroke-width="${d==="FRA"?2.6:1.8}" stroke-opacity="${d==="FRA"?1:.75}"/>`;}
+// BCN: дуга через закрытое небо
+{const pts=gc(AP.ALA,AP.BCN,96);let seg=[],segs=[];let cur=null;
+  for(const p of pts){const c=inUA(p);if(cur===null)cur=c;if(c!==cur){segs.push([cur,seg]);seg=[seg[seg.length-1]];cur=c;}seg.push(p);}segs.push([cur,seg]);
+  for(const [closed,s] of segs)h+=`<path d="${path(s)}" fill="none" stroke="${closed?"var(--warn)":"var(--dim)"}" stroke-width="${closed?2.4:1.4}" stroke-dasharray="${closed?"5 4":"2 5"}"/>`;
+  const det=[AP.ALA,[52.1,24.9],AP.BCN];let dp=[];for(let i=0;i<det.length-1;i++)dp=dp.concat(gc(det[i],det[i+1],32));
+  h+=`<path d="${path(dp)}" fill="none" stroke="var(--dim)" stroke-width="1.3" stroke-dasharray="1 4" stroke-linecap="round"/>`;
+  let L=0;for(let i=0;i<det.length-1;i++)L+=km(det[i],det[i+1]);const base=km(AP.ALA,AP.BCN);
+  const [x,y]=proj(53.2,22);h+=`<text x="${x}" y="${y-8}" fill="var(--dim)" font-size="10.5" text-anchor="middle" font-family="var(--sans)">обход +${Math.round(L-base)} км (+${((L/base-1)*100).toFixed(1)}%)</text>`;}
+// точки
+for(const [k,ll] of Object.entries(AP)){const [x,y]=proj(...ll);const base=k==="ALA";const off=k==="BCN"||k==="FRA"?-8:8;
+  h+=`<circle cx="${x}" cy="${y}" r="${base?5:3.5}" fill="${base?"var(--accent)":"var(--bg)"}" stroke="${k==="BCN"?"var(--dim)":"var(--accent)"}" stroke-width="1.6"/>
+  <text x="${x+(off>0?9:-9)}" y="${y+4}" fill="${k==="BCN"?"var(--dim)":"var(--ink)"}" font-size="12" font-weight="${base?600:400}" text-anchor="${off>0?"start":"end"}" font-family="var(--sans)">${k}${base?" · база":""}</text>`;}
+// подпись выбранной пары
+{const [x,y]=proj(57.2,62);h+=`<rect x="${x-54}" y="${y-28}" width="108" height="30" rx="4" fill="var(--raise)" stroke="var(--line)"/>
+<text x="${x}" y="${y-16}" fill="var(--ink)" font-size="11" text-anchor="middle" font-family="var(--sans)">ALA–FRA · 5 090 км</text>
+<text x="${x}" y="${y-5}" fill="var(--dim)" font-size="10.5" text-anchor="middle" font-family="var(--sans)">8 рейс/нед · своя 90%</text>`;}
+svg.innerHTML = h;
+</script>
+</body></html>

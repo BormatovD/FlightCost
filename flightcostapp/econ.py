@@ -20,7 +20,7 @@ from functools import lru_cache
 from datetime import date
 from pathlib import Path
 
-from .airspace import crossing
+from .airspace import billing_zones, crossing
 from .charges import (CODE_RU, evaluate, load_rules, rule_nodes, parse_context_sets,
                       charge_caveats)
 from .navcharge import FORMULA_RU, charge as nav_charge
@@ -395,6 +395,32 @@ def _nav_formulas() -> dict:
         return {}
 
 
+class _Cross:
+    """Пересечение зон по ломаной: суммы по плечам в той же форме, что
+    отдаёт `crossing` для прямой."""
+
+    def __init__(self, legs, prefer):
+        acc: dict[str, float] = {}
+        self.unassigned_nm = 0.0
+        self.by_layer: dict[str, float] = {}
+        for p, q in zip(legs, legs[1:]):
+            nm = great_circle_nm(*p, *q)
+            c = crossing(p[0], p[1], q[0], q[1], nm, prefer=prefer)
+            for z, v in dict(c.zones).items():
+                acc[z] = acc.get(z, 0.0) + v
+            for k, v in c.by_layer.items():
+                self.by_layer[k] = self.by_layer.get(k, 0.0) + v
+            self.unassigned_nm += c.unassigned_nm
+        self.zones = list(acc.items())
+
+
+def _crossing_along(legs, prefer):
+    if len(legs) == 2:
+        p, q = legs
+        return crossing(p[0], p[1], q[0], q[1], great_circle_nm(*p, *q), prefer=prefer)
+    return _Cross(legs, prefer)
+
+
 def _airport(store: Store, code: str, as_of):
     row = store.get("airport", code.upper(), as_of)
     if row is None:
@@ -569,6 +595,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
                     seats: int | None = None,
                     overrides: dict | None = None,
                     charge_ctx: dict | None = None,
+                    via: list | None = None,
                     _trade: bool = True,
                     freshness: list[dict] | None = None) -> Result:
     as_of = as_of or date.today().isoformat()
@@ -668,11 +695,25 @@ def route_economics(store: Store, origin: str, destination: str, *,
                         "аэропортов не сработают, будут названы в разборе")
 
     # ---------- география и время ----------
-    dist = great_circle_nm(a["lat"], a["lon"], b["lat"], b["lon"])
-    rec(G2, "Ортодромия", "2R·asin(√(sin²(Δφ/2)+cosφ₁cosφ₂sin²(Δλ/2)))",
-        f"{a['icao']} ({a['lat']:.3f}, {a['lon']:.3f}) → "
-        f"{b['icao']} ({b['lat']:.3f}, {b['lon']:.3f})",
-        dist, "nm", "store", "справочник airport, источник ourairports", node="v_dist")
+    # Путь — ортодромия либо ломаная через точки обхода закрытого неба
+    # (решение 158): тогда шаг называет лишние мили и то, что обойдено.
+    # Поправка ИКАО к ортодромии (решение 47) ниже прибавляется к сумме
+    # плеч так же, как к прямой: она про схемы и ожидание, не про обход.
+    legs = [(a["lat"], a["lon"])] + [tuple(map(float, w)) for w in (via or [])] \
+        + [(b["lat"], b["lon"])]
+    gc_direct = great_circle_nm(a["lat"], a["lon"], b["lat"], b["lon"])
+    dist = sum(great_circle_nm(*p, *q) for p, q in zip(legs, legs[1:]))
+    if via:
+        rec(G2, "Путь с обходом", "Σ ортодромий по точкам обхода",
+            f"{a['icao']} → {len(via)} т. → {b['icao']}; прямая {gc_direct:.0f} nm",
+            dist, "nm", "derived",
+            f"обход закрытого неба: +{dist - gc_direct:.0f} nm "
+            f"(+{(dist / gc_direct - 1) * 100:.1f}%)", node="v_dist")
+    else:
+        rec(G2, "Ортодромия", "2R·asin(√(sin²(Δφ/2)+cosφ₁cosφ₂sin²(Δλ/2)))",
+            f"{a['icao']} ({a['lat']:.3f}, {a['lon']:.3f}) → "
+            f"{b['icao']} ({b['lat']:.3f}, {b['lon']:.3f})",
+            dist, "nm", "store", "справочник airport, источник ourairports", node="v_dist")
 
     # ---------- топливо и блок-время ----------
     # Считаются вместе: и то и другое выпадает из одного профиля полёта.
@@ -825,8 +866,14 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # ставке и её доле маршрута. До этого считались только государства
     # вылета и прилёта, а транзитные не учитывались вовсе: на FRA-BCN
     # Франция составляет три четверти пути и в счёт не попадала.
-    cross = crossing(a["lat"], a["lon"], b["lat"], b["lon"], dist)
+    # Полигон EUROCONTROL главнее там, где EUROCONTROL и выставляет счёт;
+    # остальной мир — границы сообщества VATSIM (решение 162).
+    cross = _crossing_along(legs, billing_zones(store, as_of))
     zones = dict(cross.zones)
+    community_nm = (getattr(cross, "by_layer", None) or {}).get("community", 0.0)
+    if community_nm > dist * 0.02:
+        warnings.append(f"границы зон на {community_nm / dist * 100:.0f}% пути — данные "
+                        f"сообщества VATSIM, не официальные: сбор там оценка")
     zones_prov = "store"
     if not zones:
         zones = {a["icao"][:2]: dist / 2, b["icao"][:2]: dist / 2}
@@ -1424,7 +1471,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
                          "seats": seats, "as_of": as_of, "pax": pax,
                          "origin_name": a["name"], "dest_name": b["name"],
                          "origin_icao": a["icao"], "dest_icao": b["icao"],
-                         "month": month, "charge_ctx": cctx},
+                         "month": month, "charge_ctx": cctx,
+                         "via": [list(w) for w in (via or [])]},
                  charge_gaps=charge_gaps, charge_lines=apt_lines,
                  feasibility=feasibility, caveats=caveats,
                  currencies_seen=currencies_seen)
@@ -1452,7 +1500,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             load_factor=lf_ok, fare_eur=fare_eur, fuel_eur_per_kg=fuel_eur_per_kg,
             operator=operator, freq_week=freq_week, util_mode=util_mode,
             month=month, charge_ctx=cctx, overrides=overrides, seats=seats_given,
-            _trade=False)
+            via=via, _trade=False)
         if alt.feasible:
             lost = int(round(pax)) - fr.feasible.max_pax
             res.trade = {

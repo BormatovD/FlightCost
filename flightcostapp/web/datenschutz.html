@@ -25,9 +25,15 @@ address{font-style:normal}
     усечённый IP, без заголовков    deploy/Caddyfile, блок log
     7 дней для ротированных логов   deploy/Caddyfile, roll_keep_for
     IP в памяти ≤ 2 минут           serve.py, Context.allow
-    только fca.lang в браузере      tests/test_legal.py
-  Гостевое рабочее место (cookie, сохранённые типы) сюда впишется вместе
-  с ним, не раньше.
+    в браузере fca.lang и cookie    tests/test_legal.py
+      fca_ws, больше ничего
+    cookie: год, Lax, Secure        serve.py, _Handler._cookie
+    ключ только после «#»          serve.py, /api/ws/open; serve.html, wsLink
+    в базе хеш ключа, адрес без     guest.py: ws_id, mask_ip, COUNTER_DAYS
+      хвоста, счётчики ≤ 2 суток
+    365 дней без открытия           guest.py, IDLE_DAYS; serve.py, метла
+    пределы 512 КБ / 200 / 20       guest.py, MAX_*
+    копии 14 суток                  deploy/backup.sh, KEEP
 -->
 <nav><a href="/">← FlightCost</a><a href="/impressum">Impressum · Legal notice · Выходные данные</a></nav>
 
@@ -44,10 +50,13 @@ E-Mail: <a href="mailto:{{email}}">{{email}}</a>
 </address>
 
 <h2>2. Das Wichtigste in Kürze</h2>
-<p>Diese Website setzt keine Cookies, verwendet keine Analyse-, Tracking- oder
-Werbedienste und verlangt keine Registrierung. Alle Bestandteile der Seite
-(Schriften, Skripte, Karten- und Flughafendaten) werden von unserem eigenen
-Server ausgeliefert; beim Aufruf werden keine Daten an Dritte übertragen.</p>
+<p>Diese Website verwendet keine Analyse-, Tracking- oder Werbedienste und
+verlangt keine Registrierung. Ein einziges Cookie wird gesetzt, und nur dann,
+wenn Sie selbst einen Gast-Arbeitsbereich anlegen oder dessen Link öffnen
+(Nr. 6 und 7); ohne Arbeitsbereich gibt es kein Cookie. Alle Bestandteile der
+Seite (Schriften, Skripte, Karten- und Flughafendaten) werden von unserem
+eigenen Server ausgeliefert; beim Aufruf werden keine Daten an Dritte
+übertragen.</p>
 
 <h2>3. Hosting</h2>
 <p>Die Website wird auf einem Server von {{hoster}} betrieben
@@ -62,8 +71,10 @@ Flughäfen, Flugzeugtyp, Auslastung), HTTP-Statuscode, übertragene Datenmenge,
 Antwortzeit sowie die <strong>gekürzte</strong> IP-Adresse (bei IPv4 ohne die
 letzten 8 Bit, bei IPv6 nur die ersten 48 Bit). Browserkennung
 (User-Agent), Referrer und andere Kopfzeilen der Anfrage werden nicht
-gespeichert. Die Protokolldateien werden nach Größe rotiert; rotierte Dateien
-werden nach 7 Tagen gelöscht.</p>
+gespeichert. Der Schlüssel eines Gast-Arbeitsbereiches (Nr. 7) steht im Link
+hinter dem Zeichen „#“; diesen Teil überträgt der Browser nicht an den
+Server, er erscheint daher in keinem Protokoll. Die Protokolldateien werden
+nach Größe rotiert; rotierte Dateien werden nach 7 Tagen gelöscht.</p>
 <p>Zweck ist der sichere Betrieb der Website, die Fehlersuche und die Abwehr
 von Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser
 berechtigtes Interesse liegt in diesen Zwecken.</p>
@@ -80,24 +91,62 @@ DSGVO (Schutz des Dienstes vor Überlastung).</p>
 <p>Wählen Sie eine Sprache, wird diese Wahl unter dem Schlüssel
 <code>fca.lang</code> im lokalen Speicher (<code>localStorage</code>) Ihres
 Browsers abgelegt, damit die Seite beim nächsten Besuch in derselben Sprache
-erscheint. Der Wert verlässt Ihren Browser nicht. Die Speicherung ist für den
-von Ihnen ausdrücklich gewünschten Dienst unbedingt erforderlich
-(§ 25 Abs. 2 Nr. 2 TDDDG). Sie können den Eintrag jederzeit über die
-Einstellungen Ihres Browsers löschen.</p>
+erscheint. Der Wert verlässt Ihren Browser nicht.</p>
+<p>Legen Sie einen Gast-Arbeitsbereich an oder öffnen Sie dessen Link, setzt
+der Server das Cookie <code>fca_ws</code>. Es enthält nur den Schlüssel des
+Arbeitsbereiches, gilt ein Jahr, wird ausschließlich an unseren Server und nur
+über HTTPS gesendet (<code>SameSite=Lax; Secure</code>) und ist für das
+Skript der Seite lesbar, damit diese Ihnen Ihren Link anzeigen kann — der
+Server selbst kennt den Schlüssel nicht (Nr. 7). Mit „Auf diesem Gerät
+abmelden“ wird das Cookie gelöscht; der Arbeitsbereich bleibt bestehen.</p>
+<p>Beide Einträge sind für den von Ihnen ausdrücklich gewünschten Dienst
+unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist
+daher nicht erforderlich. Sie können beide jederzeit über die Einstellungen
+Ihres Browsers löschen.</p>
 
-<h2>7. Kontakt per E-Mail</h2>
+<h2>7. Gast-Arbeitsbereich</h2>
+<p>Ein Arbeitsbereich ist freiwillig und entsteht erst durch Ihren Klick auf
+„Arbeitsbereich anlegen“ oder den Import einer Exportdatei. Auf unserem Server
+werden dann gespeichert: was Sie selbst sichern — eigene Flugzeugtypen,
+Flottenkostensätze, Streckennetze und Szenarien —, der SHA-256-Hash des
+Schlüssels, Zeitpunkt der Anlage und des letzten Aufrufs sowie die
+<strong>gekürzte</strong> Netzadresse bei der Anlage (wie in Nr. 4). Die
+gekürzte Adresse dient der Begrenzung auf 20 neue Arbeitsplätze je Netz und
+Tag; die Tageszähler werden nach zwei Tagen gelöscht. Name, E-Mail-Adresse
+oder ein Konto gibt es nicht.</p>
+<p>Der Schlüssel im Link ist der einzige Zugang: Wer den Link kennt, kann den
+Arbeitsbereich öffnen. Da wir nur den Hash speichern, können wir einen
+verlorenen Link nicht wiederherstellen; sichern Sie ihn oder exportieren Sie
+die Daten. Über „Neuer Link“ wird der alte ungültig.</p>
+<p>Die Daten bleiben gespeichert, bis Sie den Arbeitsbereich löschen
+(„Arbeitsbereich löschen“), längstens jedoch 365 Tage nach dem letzten Aufruf;
+danach wird er automatisch gelöscht. Ein Arbeitsbereich ist auf 512 KB und
+200 Dokumente begrenzt. Vom Datenbestand wird nächtlich eine Sicherungskopie
+angelegt, die nach 14 Tagen überschrieben wird; gelöschte Daten können daher
+bis zu 14 Tage in einer Sicherungskopie verbleiben.</p>
+<p>Die gespeicherten Inhalte sind in der Regel keine personenbezogenen Daten
+(technische und wirtschaftliche Parameter). Soweit sie es im Einzelfall doch
+sind, ist Rechtsgrundlage Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung der von
+Ihnen angeforderten Funktion); für die gekürzte Adresse und die Begrenzung
+Art. 6 Abs. 1 lit. f DSGVO (Schutz des Dienstes vor Missbrauch). Sie können
+Ihre Daten jederzeit selbst als JSON-Datei exportieren (Art. 20 DSGVO) und
+löschen (Art. 17 DSGVO); einem Auskunfts- oder Löschersuchen per E-Mail
+können wir nur nachkommen, wenn Sie uns den Link mitteilen, da wir Sie sonst
+nicht identifizieren können (Art. 11 Abs. 2 DSGVO).</p>
+
+<h2>8. Kontakt per E-Mail</h2>
 <p>Wenn Sie uns per E-Mail schreiben, verarbeiten wir Ihre Adresse und den
 Inhalt der Nachricht, um Ihre Anfrage zu beantworten
 (Art. 6 Abs. 1 lit. f DSGVO, bei vertragsbezogenen Anfragen lit. b). Die
 Nachricht wird gelöscht, sobald sie erledigt ist und keine gesetzlichen
 Aufbewahrungspflichten entgegenstehen.</p>
 
-<h2>8. Links auf andere Websites</h2>
+<h2>9. Links auf andere Websites</h2>
 <p>Die Seite enthält Links, etwa zum Quellcode auf GitHub. Daten werden an
 den jeweiligen Anbieter erst übertragen, wenn Sie einem Link folgen; dort
 gelten dessen Datenschutzbestimmungen.</p>
 
-<h2>9. Ihre Rechte</h2>
+<h2>10. Ihre Rechte</h2>
 <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16),
 Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18),
 Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf
@@ -110,17 +159,18 @@ können wir Protokolleinträge in der Regel keiner Person zuordnen
 Hessische Beauftragte für Datenschutz und Informationsfreiheit,
 Gustav-Stresemann-Ring 1, 65189 Wiesbaden.</p>
 
-<h2>10. Nutzer im Vereinigten Königreich</h2>
+<h2>11. Nutzer im Vereinigten Königreich</h2>
 <p>Für Besucher aus dem Vereinigten Königreich gelten die vorstehenden Angaben
 entsprechend nach UK GDPR und Data Protection Act 2018; Rechtsgrundlagen und
 Rechte entsprechen den genannten Artikeln. Die Spracheinstellung (Nr. 6) wird
 ausschließlich gespeichert, um die von Ihnen gewählte Darstellung der Website
-beizubehalten (Privacy and Electronic Communications Regulations,
-Regulation 6). Beschwerden können Sie auch an das Information Commissioner's
+beizubehalten, das Cookie <code>fca_ws</code> ausschließlich, um den von
+Ihnen ausdrücklich angeforderten Arbeitsbereich bereitzustellen (Privacy and
+Electronic Communications Regulations, Regulation 6). Beschwerden können Sie auch an das Information Commissioner's
 Office richten: ICO, Wycliffe House, Water Lane, Wilmslow, Cheshire SK9 5AF,
 <a href="https://ico.org.uk">ico.org.uk</a>.</p>
 
-<h2>11. Sonstiges</h2>
+<h2>12. Sonstiges</h2>
 <p>Sie sind weder gesetzlich noch vertraglich verpflichtet, uns
 personenbezogene Daten bereitzustellen. Eine automatisierte
 Entscheidungsfindung einschließlich Profiling findet nicht statt. Ändert sich
@@ -140,10 +190,12 @@ Email: <a href="mailto:{{email}}">{{email}}</a>
 </address>
 
 <h2>2. In short</h2>
-<p>This website sets no cookies, uses no analytics, tracking or advertising
-services and requires no registration. Every part of the page (fonts,
-scripts, map and airport data) is served from our own server; no data is
-transferred to third parties when you visit.</p>
+<p>This website uses no analytics, tracking or advertising services and
+requires no registration. A single cookie is set, and only when you yourself
+create a guest workspace or open its link (sections 6 and 7); without a
+workspace there is no cookie. Every part of the page (fonts, scripts, map and
+airport data) is served from our own server; no data is transferred to third
+parties when you visit.</p>
 
 <h2>3. Hosting</h2>
 <p>The website runs on a server provided by {{hoster}} (server location:
@@ -157,8 +209,10 @@ any inputs it contains (e.g. airports, aircraft type, load factor), HTTP
 status code, amount of data transferred, response time, and the
 <strong>truncated</strong> IP address (IPv4 without the last 8 bits, IPv6
 only the first 48 bits). Browser identification (user agent), referrer and
-other request headers are not stored. Log files are rotated by size; rotated
-files are deleted after 7 days.</p>
+other request headers are not stored. The key of a guest workspace
+(section 7) sits in the link after the “#” character; the browser never
+sends that part to the server, so it appears in no log. Log files are
+rotated by size; rotated files are deleted after 7 days.</p>
 <p>The purpose is secure operation of the website, troubleshooting and
 prevention of abuse. The legal basis is Art. 6(1)(f) GDPR; our legitimate
 interest lies in these purposes.</p>
@@ -175,22 +229,57 @@ overload).</p>
 <p>If you choose a language, that choice is stored under the key
 <code>fca.lang</code> in your browser's local storage
 (<code>localStorage</code>) so the page appears in the same language next
-time. The value never leaves your browser. Storing it is strictly necessary
-for the service you explicitly requested (§ 25(2) no. 2 TDDDG). You can
-delete it at any time in your browser settings.</p>
+time. The value never leaves your browser.</p>
+<p>If you create a guest workspace or open its link, the server sets the
+cookie <code>fca_ws</code>. It holds only the workspace key, lasts one year,
+is sent solely to our server and only over HTTPS
+(<code>SameSite=Lax; Secure</code>), and is readable by the page's script so
+that it can show you your link — the server itself does not know the key
+(section 7). “Sign out on this device” deletes the cookie; the workspace
+remains.</p>
+<p>Both entries are strictly necessary for the service you explicitly
+requested (§ 25(2) no. 2 TDDDG), so no consent is required. You can delete
+both at any time in your browser settings.</p>
 
-<h2>7. Contact by email</h2>
+<h2>7. Guest workspace</h2>
+<p>A workspace is optional and comes into being only when you click “Create
+a workspace” or import an export file. Our server then stores: what you
+save yourself — your own aircraft types, fleet cost rates, route networks and
+scenarios —, the SHA-256 hash of the key, the time of creation and of the
+last visit, and the <strong>truncated</strong> network address at creation
+(as in section 4). The truncated address serves the limit of 20 new
+workspaces per network per day; the daily counters are deleted after two
+days. There is no name, email address or account.</p>
+<p>The key in the link is the only access: whoever knows the link can open
+the workspace. Because we store only the hash, we cannot restore a lost
+link; keep it safe or export your data. “New link” invalidates the old
+one.</p>
+<p>The data remain stored until you delete the workspace (“Delete
+workspace”), but at most 365 days after the last visit, after which it is
+deleted automatically. A workspace is limited to 512 KB and 200 documents. A
+backup of the data store is taken nightly and overwritten after 14 days, so
+deleted data may remain in a backup for up to 14 days.</p>
+<p>The stored contents are normally not personal data (technical and
+economic parameters). Where they are in a given case, the legal basis is
+Art. 6(1)(b) GDPR (provision of the function you requested); for the
+truncated address and the limit, Art. 6(1)(f) GDPR (protecting the service
+from abuse). You can export your data as a JSON file (Art. 20 GDPR) and
+delete them (Art. 17 GDPR) yourself at any time; we can act on an access or
+erasure request by email only if you tell us the link, since otherwise we
+cannot identify you (Art. 11(2) GDPR).</p>
+
+<h2>8. Contact by email</h2>
 <p>If you email us, we process your address and the content of your message
 to answer your request (Art. 6(1)(f) GDPR; for contract-related requests,
 point (b)). The message is deleted once it has been dealt with, unless
 statutory retention obligations apply.</p>
 
-<h2>8. Links to other websites</h2>
+<h2>9. Links to other websites</h2>
 <p>The page contains links, for example to the source code on GitHub. Data
 is transferred to the respective provider only when you follow a link; that
 provider's privacy policy then applies.</p>
 
-<h2>9. Your rights</h2>
+<h2>10. Your rights</h2>
 <p>You have the right of access (Art. 15 GDPR), rectification (Art. 16),
 erasure (Art. 17), restriction of processing (Art. 18), data portability
 (Art. 20) and to object to processing based on Art. 6(1)(f) (Art. 21). To
@@ -202,16 +291,17 @@ authority (Art. 77 GDPR), for example the authority responsible for us: Der
 Hessische Beauftragte für Datenschutz und Informationsfreiheit,
 Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Germany.</p>
 
-<h2>10. Users in the United Kingdom</h2>
+<h2>11. Users in the United Kingdom</h2>
 <p>For visitors from the United Kingdom, the above applies correspondingly
 under the UK GDPR and the Data Protection Act 2018; legal bases and rights
 correspond to the articles cited. The language setting (section 6) is stored
-solely to keep the appearance of the website you chose (Privacy and
-Electronic Communications Regulations, regulation 6). You may also complain
+solely to keep the appearance of the website you chose, and the cookie
+<code>fca_ws</code> solely to provide the workspace you explicitly requested
+(Privacy and Electronic Communications Regulations, regulation 6). You may also complain
 to the Information Commissioner's Office: ICO, Wycliffe House, Water Lane,
 Wilmslow, Cheshire SK9 5AF, <a href="https://ico.org.uk">ico.org.uk</a>.</p>
 
-<h2>11. Other</h2>
+<h2>12. Other</h2>
 <p>You are under no statutory or contractual obligation to provide personal
 data. No automated decision-making, including profiling, takes place. If the
 way the website works changes, we will update this policy.</p>
@@ -230,8 +320,10 @@ way the website works changes, we will update this policy.</p>
 </address>
 
 <h2>2. Коротко</h2>
-<p>Сайт не устанавливает cookie, не использует сервисы аналитики, отслеживания
-и рекламы и не требует регистрации. Все части страницы (шрифты, скрипты,
+<p>Сайт не использует сервисы аналитики, отслеживания и рекламы и не требует
+регистрации. Единственная cookie ставится только тогда, когда вы сами
+создаёте гостевое рабочее место или открываете его ссылку (п. 6 и 7); без
+рабочего места cookie нет. Все части страницы (шрифты, скрипты,
 картографические данные и данные аэропортов) отдаются с нашего собственного
 сервера; при посещении никакие данные третьим лицам не передаются.</p>
 
@@ -247,7 +339,9 @@ IP-адрес. В журнал записываются: дата и время,
 код ответа HTTP, объём переданных данных, время ответа и
 <strong>усечённый</strong> IP-адрес (у IPv4 без последних 8 бит, у IPv6 —
 только первые 48 бит). Сведения о браузере (User-Agent), referrer и прочие
-заголовки запроса не сохраняются. Журналы ротируются по размеру; ротированные
+заголовки запроса не сохраняются. Ключ гостевого рабочего места (п. 7) стоит
+в ссылке после знака «#»; эту часть браузер серверу не передаёт, поэтому ни
+в один журнал он не попадает. Журналы ротируются по размеру; ротированные
 файлы удаляются через 7 дней.</p>
 <p>Цель — безопасная работа сайта, поиск ошибок и защита от злоупотреблений.
 Правовое основание — ст. 6 ч. 1 п. f GDPR; наш законный интерес состоит в
@@ -265,22 +359,57 @@ IP-адреса ограничено. Для этого полный IP-адре
 <p>Если вы выбираете язык, выбор сохраняется под ключом <code>fca.lang</code>
 в локальном хранилище (<code>localStorage</code>) вашего браузера, чтобы при
 следующем посещении страница открылась на том же языке. Значение не покидает
-ваш браузер. Хранение строго необходимо для услуги, которую вы явно запросили
-(§ 25 абз. 2 п. 2 TDDDG). Запись можно в любой момент удалить в настройках
-браузера.</p>
+ваш браузер.</p>
+<p>Если вы создаёте гостевое рабочее место или открываете его ссылку, сервер
+ставит cookie <code>fca_ws</code>. В ней только ключ места; она действует
+год, отправляется только нашему серверу и только по HTTPS
+(<code>SameSite=Lax; Secure</code>) и доступна скрипту страницы, чтобы тот
+мог показать вам вашу ссылку, — сам сервер ключа не знает (п. 7). «Выйти на
+этом устройстве» удаляет cookie; место остаётся.</p>
+<p>Обе записи строго необходимы для услуги, которую вы явно запросили
+(§ 25 абз. 2 п. 2 TDDDG), поэтому согласие не требуется. Обе можно в любой
+момент удалить в настройках браузера.</p>
 
-<h2>7. Обращения по электронной почте</h2>
+<h2>7. Гостевое рабочее место</h2>
+<p>Рабочее место — по желанию: оно появляется только после вашего нажатия
+«Создать рабочее место» или импорта файла экспорта. На нашем сервере тогда
+хранятся: то, что вы сами сохраняете, — свои типы ВС, ставки флота,
+маршрутные сети и сценарии, — хеш ключа (SHA-256), время создания и
+последнего открытия и <strong>усечённый</strong> адрес сети при создании
+(как в п. 4). Усечённый адрес нужен для предела в 20 новых мест с одной сети
+в сутки; суточные счётчики удаляются через двое суток. Имени, электронной
+почты и учётной записи нет.</p>
+<p>Ключ в ссылке — единственный вход: кто знает ссылку, тот может открыть
+место. Поскольку мы храним только хеш, восстановить потерянную ссылку мы не
+можем; сохраните её или экспортируйте данные. «Новая ссылка» делает старую
+недействительной.</p>
+<p>Данные хранятся, пока вы не удалите место («Удалить место»), но не дольше
+365 дней после последнего открытия — затем оно удаляется автоматически.
+Место ограничено 512 КБ и 200 документами. С хранилища еженощно снимается
+резервная копия, которая перезаписывается через 14 дней, поэтому удалённые
+данные могут оставаться в копии до 14 дней.</p>
+<p>Сохранённое содержимое, как правило, не является персональными данными
+(технические и экономические параметры). Если в отдельном случае является,
+правовое основание — ст. 6 ч. 1 п. b GDPR (предоставление запрошенной вами
+функции); для усечённого адреса и предела — ст. 6 ч. 1 п. f GDPR (защита
+сервиса от злоупотреблений). Вы в любой момент можете сами экспортировать
+данные в файл JSON (ст. 20 GDPR) и удалить их (ст. 17 GDPR); выполнить
+запрос о доступе или удалении по электронной почте мы можем, только если вы
+сообщите нам ссылку, — иначе мы не сможем вас идентифицировать (ст. 11 ч. 2
+GDPR).</p>
+
+<h2>8. Обращения по электронной почте</h2>
 <p>Если вы пишете нам, мы обрабатываем ваш адрес и содержание письма, чтобы
 ответить (ст. 6 ч. 1 п. f GDPR, для обращений, связанных с договором, —
 п. b). Письмо удаляется после того, как вопрос решён, если этому не
 препятствуют установленные законом сроки хранения.</p>
 
-<h2>8. Ссылки на другие сайты</h2>
+<h2>9. Ссылки на другие сайты</h2>
 <p>На странице есть ссылки, например на исходный код на GitHub. Данные
 передаются соответствующему сервису, только когда вы переходите по ссылке;
 там действуют его правила конфиденциальности.</p>
 
-<h2>9. Ваши права</h2>
+<h2>10. Ваши права</h2>
 <p>Вы вправе получить сведения о своих данных (ст. 15 GDPR), потребовать их
 исправления (ст. 16), удаления (ст. 17), ограничения обработки (ст. 18),
 переноса (ст. 20) и возразить против обработки на основании ст. 6 ч. 1 п. f
@@ -292,16 +421,17 @@ IP-адреса ограничено. Для этого полный IP-адре
 Hessische Beauftragte für Datenschutz und Informationsfreiheit,
 Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Германия.</p>
 
-<h2>10. Пользователям в Великобритании</h2>
+<h2>11. Пользователям в Великобритании</h2>
 <p>Для посетителей из Великобритании изложенное применяется соответственно по
 UK GDPR и Data Protection Act 2018; правовые основания и права соответствуют
 указанным статьям. Настройка языка (п. 6) хранится исключительно для того,
-чтобы сохранить выбранный вами вид сайта (Privacy and Electronic
-Communications Regulations, regulation 6). Жалобу можно направить также в
+чтобы сохранить выбранный вами вид сайта, а cookie <code>fca_ws</code> —
+исключительно для предоставления явно запрошенного вами рабочего места
+(Privacy and Electronic Communications Regulations, regulation 6). Жалобу можно направить также в
 Information Commissioner's Office: ICO, Wycliffe House, Water Lane, Wilmslow,
 Cheshire SK9 5AF, <a href="https://ico.org.uk">ico.org.uk</a>.</p>
 
-<h2>11. Прочее</h2>
+<h2>12. Прочее</h2>
 <p>Вы не обязаны ни по закону, ни по договору предоставлять нам персональные
 данные. Автоматизированное принятие решений, включая профилирование, не
 осуществляется. Если работа сайта изменится, мы обновим эту политику.</p>

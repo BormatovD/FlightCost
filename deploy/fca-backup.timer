@@ -1,0 +1,12 @@
+# Каждую ночь в 03:40 UTC; пропущенный запуск (сервер спал) догоняется
+# при старте.
+[Unit]
+Description=FlightCostApp — ночная копия базы рабочих мест
+
+[Timer]
+OnCalendar=*-*-* 03:40:00 UTC
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target
