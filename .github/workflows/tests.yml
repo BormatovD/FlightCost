@@ -30,6 +30,7 @@ jobs:
               tests/test_airspace.py \
               tests/test_guest.py \
               tests/test_serve_ws.py \
+              tests/test_currency.py \
               tests/test_pipeline.py \
               tests/test_ui.py \
               tests/test_deps.py \

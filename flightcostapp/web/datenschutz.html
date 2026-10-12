@@ -25,8 +25,8 @@ address{font-style:normal}
     усечённый IP, без заголовков    deploy/Caddyfile, блок log
     7 дней для ротированных логов   deploy/Caddyfile, roll_keep_for
     IP в памяти ≤ 2 минут           serve.py, Context.allow
-    в браузере fca.lang и cookie    tests/test_legal.py
-      fca_ws, больше ничего
+    в браузере fca.lang, fca.cur    tests/test_legal.py
+      и cookie fca_ws, больше ничего
     cookie: год, Lax, Secure        serve.py, _Handler._cookie
     ключ только после «#»          serve.py, /api/ws/open; serve.html, wsLink
     в базе хеш ключа, адрес без     guest.py: ws_id, mask_ip, COUNTER_DAYS
@@ -88,10 +88,11 @@ nicht auf einen Datenträger geschrieben. Rechtsgrundlage: Art. 6 Abs. 1 lit. f
 DSGVO (Schutz des Dienstes vor Überlastung).</p>
 
 <h2>6. Speicherung im Browser</h2>
-<p>Wählen Sie eine Sprache, wird diese Wahl unter dem Schlüssel
-<code>fca.lang</code> im lokalen Speicher (<code>localStorage</code>) Ihres
-Browsers abgelegt, damit die Seite beim nächsten Besuch in derselben Sprache
-erscheint. Der Wert verlässt Ihren Browser nicht.</p>
+<p>Wählen Sie eine Sprache oder eine Anzeigewährung, wird diese Wahl unter
+den Schlüsseln <code>fca.lang</code> und <code>fca.cur</code> im lokalen
+Speicher (<code>localStorage</code>) Ihres Browsers abgelegt, damit die Seite
+beim nächsten Besuch in derselben Sprache und Währung erscheint. Die Werte
+verlassen Ihren Browser nicht.</p>
 <p>Legen Sie einen Gast-Arbeitsbereich an oder öffnen Sie dessen Link, setzt
 der Server das Cookie <code>fca_ws</code>. Es enthält nur den Schlüssel des
 Arbeitsbereiches, gilt ein Jahr, wird ausschließlich an unseren Server und nur
@@ -99,7 +100,7 @@ Arbeitsbereiches, gilt ein Jahr, wird ausschließlich an unseren Server und nur
 Skript der Seite lesbar, damit diese Ihnen Ihren Link anzeigen kann — der
 Server selbst kennt den Schlüssel nicht (Nr. 7). Mit „Auf diesem Gerät
 abmelden“ wird das Cookie gelöscht; der Arbeitsbereich bleibt bestehen.</p>
-<p>Beide Einträge sind für den von Ihnen ausdrücklich gewünschten Dienst
+<p>Alle drei Einträge sind für den von Ihnen ausdrücklich gewünschten Dienst
 unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist
 daher nicht erforderlich. Sie können beide jederzeit über die Einstellungen
 Ihres Browsers löschen.</p>
@@ -162,9 +163,9 @@ Gustav-Stresemann-Ring 1, 65189 Wiesbaden.</p>
 <h2>11. Nutzer im Vereinigten Königreich</h2>
 <p>Für Besucher aus dem Vereinigten Königreich gelten die vorstehenden Angaben
 entsprechend nach UK GDPR und Data Protection Act 2018; Rechtsgrundlagen und
-Rechte entsprechen den genannten Artikeln. Die Spracheinstellung (Nr. 6) wird
-ausschließlich gespeichert, um die von Ihnen gewählte Darstellung der Website
-beizubehalten, das Cookie <code>fca_ws</code> ausschließlich, um den von
+Rechte entsprechen den genannten Artikeln. Sprach- und Währungseinstellung (Nr. 6)
+werden ausschließlich gespeichert, um die von Ihnen gewählte Darstellung der
+Website beizubehalten, das Cookie <code>fca_ws</code> ausschließlich, um den von
 Ihnen ausdrücklich angeforderten Arbeitsbereich bereitzustellen (Privacy and
 Electronic Communications Regulations, Regulation 6). Beschwerden können Sie auch an das Information Commissioner's
 Office richten: ICO, Wycliffe House, Water Lane, Wilmslow, Cheshire SK9 5AF,
@@ -226,10 +227,11 @@ disk. Legal basis: Art. 6(1)(f) GDPR (protecting the service from
 overload).</p>
 
 <h2>6. Storage in your browser</h2>
-<p>If you choose a language, that choice is stored under the key
-<code>fca.lang</code> in your browser's local storage
-(<code>localStorage</code>) so the page appears in the same language next
-time. The value never leaves your browser.</p>
+<p>If you choose a language or a display currency, that choice is stored
+under the keys <code>fca.lang</code> and <code>fca.cur</code> in your
+browser's local storage (<code>localStorage</code>) so the page appears in
+the same language and currency next time. The values never leave your
+browser.</p>
 <p>If you create a guest workspace or open its link, the server sets the
 cookie <code>fca_ws</code>. It holds only the workspace key, lasts one year,
 is sent solely to our server and only over HTTPS
@@ -237,7 +239,7 @@ is sent solely to our server and only over HTTPS
 that it can show you your link — the server itself does not know the key
 (section 7). “Sign out on this device” deletes the cookie; the workspace
 remains.</p>
-<p>Both entries are strictly necessary for the service you explicitly
+<p>All three entries are strictly necessary for the service you explicitly
 requested (§ 25(2) no. 2 TDDDG), so no consent is required. You can delete
 both at any time in your browser settings.</p>
 
@@ -294,8 +296,9 @@ Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Germany.</p>
 <h2>11. Users in the United Kingdom</h2>
 <p>For visitors from the United Kingdom, the above applies correspondingly
 under the UK GDPR and the Data Protection Act 2018; legal bases and rights
-correspond to the articles cited. The language setting (section 6) is stored
-solely to keep the appearance of the website you chose, and the cookie
+correspond to the articles cited. The language and currency settings (section 6)
+are stored solely to keep the appearance of the website you chose, and the
+cookie
 <code>fca_ws</code> solely to provide the workspace you explicitly requested
 (Privacy and Electronic Communications Regulations, regulation 6). You may also complain
 to the Information Commissioner's Office: ICO, Wycliffe House, Water Lane,
@@ -356,9 +359,10 @@ IP-адреса ограничено. Для этого полный IP-адре
 перегрузки).</p>
 
 <h2>6. Хранение в браузере</h2>
-<p>Если вы выбираете язык, выбор сохраняется под ключом <code>fca.lang</code>
-в локальном хранилище (<code>localStorage</code>) вашего браузера, чтобы при
-следующем посещении страница открылась на том же языке. Значение не покидает
+<p>Если вы выбираете язык или валюту показа, выбор сохраняется под ключами
+<code>fca.lang</code> и <code>fca.cur</code> в локальном хранилище
+(<code>localStorage</code>) вашего браузера, чтобы при следующем посещении
+страница открылась на том же языке и в той же валюте. Значения не покидают
 ваш браузер.</p>
 <p>Если вы создаёте гостевое рабочее место или открываете его ссылку, сервер
 ставит cookie <code>fca_ws</code>. В ней только ключ места; она действует
@@ -366,7 +370,7 @@ IP-адреса ограничено. Для этого полный IP-адре
 (<code>SameSite=Lax; Secure</code>) и доступна скрипту страницы, чтобы тот
 мог показать вам вашу ссылку, — сам сервер ключа не знает (п. 7). «Выйти на
 этом устройстве» удаляет cookie; место остаётся.</p>
-<p>Обе записи строго необходимы для услуги, которую вы явно запросили
+<p>Все три записи строго необходимы для услуги, которую вы явно запросили
 (§ 25 абз. 2 п. 2 TDDDG), поэтому согласие не требуется. Обе можно в любой
 момент удалить в настройках браузера.</p>
 
@@ -424,8 +428,8 @@ Gustav-Stresemann-Ring 1, 65189 Wiesbaden, Германия.</p>
 <h2>11. Пользователям в Великобритании</h2>
 <p>Для посетителей из Великобритании изложенное применяется соответственно по
 UK GDPR и Data Protection Act 2018; правовые основания и права соответствуют
-указанным статьям. Настройка языка (п. 6) хранится исключительно для того,
-чтобы сохранить выбранный вами вид сайта, а cookie <code>fca_ws</code> —
+указанным статьям. Настройки языка и валюты (п. 6) хранятся исключительно для
+того, чтобы сохранить выбранный вами вид сайта, а cookie <code>fca_ws</code> —
 исключительно для предоставления явно запрошенного вами рабочего места
 (Privacy and Electronic Communications Regulations, regulation 6). Жалобу можно направить также в
 Information Commissioner's Office: ICO, Wycliffe House, Water Lane, Wilmslow,

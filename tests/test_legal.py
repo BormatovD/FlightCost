@@ -1,7 +1,7 @@
 """Impressum и политика конфиденциальности держатся на коде, а не на словах.
 
 Политика обещает конкретные вещи: страница не тянет ничего с чужих
-серверов, в браузере хранятся только выбор языка и cookie рабочего места,
+серверов, в браузере хранятся только язык, валюта показа и cookie рабочего места,
 журнал пишет усечённый адрес и без заголовков, полный адрес живёт в памяти
 не дольше двух минут, ключ места не попадает в адрес запроса, пределы и
 сроки места — те числа, что названы в тексте. Каждое обещание здесь
@@ -120,8 +120,8 @@ class PrivacyPromises(unittest.TestCase):
             self.assertNotIn("indexedDB", code, name)
             uses = re.findall(r"localStorage\b(.{0,40})", code)
             for tail in uses:
-                self.assertRegex(tail, r'^\.(?:get|set|remove)Item\(\s*"fca\.lang"',
-                                 f"{name}: localStorage сверх fca.lang — допишите политику")
+                self.assertRegex(tail, r'^\.(?:get|set|remove)Item\(\s*"fca\.(?:lang|cur)"',
+                                 f"{name}: localStorage сверх fca.lang и fca.cur — допишите политику")
             # cookie ставит и гасит сервер; страница её только читает, и
             # только одну — fca_ws, чтобы показать ссылку на место.
             for tail in re.findall(r"document\.cookie(.{0,50})", code):

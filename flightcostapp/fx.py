@@ -85,7 +85,11 @@ def resolve(store, currency: str, as_of) -> tuple[float | None, str]:
 # Приоритет источников. Курс, по которому выставлен счёт, всегда вернее
 # справочного, даже если справочный свежее. Без явного порядка побеждал бы
 # просто более поздний факт.
-PRIORITY = {"crco_enroute_rates": 0, "crco_terminal_rates": 0, "fx_rates": 1}
+# Банк России — после ЕЦБ: его курсы доллара, юаня, рупии — своя
+# котировка другого рынка, а кроссы через рубль несут две погрешности.
+# Объявленные файлы (fx_declared) — последними: это котировки на дату
+# отчётности, не ежедневные.
+PRIORITY = {"crco_enroute_rates": 0, "crco_terminal_rates": 0, "fx_rates": 1, "cbr_fx": 2}
 
 
 def _best(store, currency: str, as_of):
@@ -112,6 +116,9 @@ def _best(store, currency: str, as_of):
     src = best["source_id"] or ""
     prov = ("курс, применённый CRCO" if src.startswith("crco")
             else "справочный курс ЕЦБ" if src == "fx_rates"
+            else ("кросс через рубль по курсам Банка России"
+                  if "кросс" in (best["note"] or "") else "официальный курс Банка России")
+            if src == "cbr_fx"
             else f"источник {src}")
     try:
         age = (date.fromisoformat(str(as_of)[:10])
@@ -125,6 +132,29 @@ def _best(store, currency: str, as_of):
 
 def _ord(d: str) -> int:
     return int(str(d)[:10].replace("-", ""))
+
+
+def quote(store, currency: str, as_of) -> dict:
+    """Курс с датой котировки и провенансом — для витрины, где курс
+    показывается человеку рядом с числом, а не только применяется.
+
+    Ключи: rate (единиц за евро или None), provenance, date (дата
+    котировки или None), source. Евро — 1 без даты."""
+    if currency == "EUR":
+        return {"rate": 1.0, "provenance": "евро", "kind": "eur", "date": None, "source": None}
+    row, prov = _best(store, currency, as_of)
+    if row is not None:
+        src = row["source_id"] or ""
+        # `kind` — машинный род курса для витрины: она подписывает его на
+        # своём языке, не разбирая русскую прозу провенанса.
+        kind = ("crco" if src.startswith("crco") else "ecb" if src == "fx_rates"
+                else ("cbr_cross" if "кросс" in (row["note"] or "") else "cbr") if src == "cbr_fx"
+                else "declared" if src == "fx_declared" else "other")
+        return {"rate": row["value"], "provenance": prov, "kind": kind,
+                "date": str(row["valid_from"])[:10], "source": src}
+    rate, prov = resolve(store, currency, as_of)
+    return {"rate": rate, "provenance": prov, "kind": "peg" if rate else "none",
+            "date": None, "source": None}
 
 
 def make_fx(store, as_of, log: list | None = None):

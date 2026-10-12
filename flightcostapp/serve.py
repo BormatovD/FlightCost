@@ -326,6 +326,8 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._send(200, _page(), "text/html; charset=utf-8")
             if u.path == "/api/airports":
                 return self._json(ctx.airports())
+            if u.path == "/api/fx":
+                return self._json(ctx.fx(q))
             if u.path == "/api/route":
                 return self._json(ctx.route(q))
             if u.path == "/api/fact":
@@ -527,6 +529,19 @@ class Context:
         doc = self.gdb.get_doc(self.ws, "settings", "default") or {}
         ov = doc.get("overrides") or {}
         return [f"{k}={v}" for k, v in ov.items() if v not in ("", None)]
+
+    # Валюты, в которых витрина ПОКАЗЫВАЕТ деньги. Считается всё в евро;
+    # пересчёт — только на экране, курсом с датой и провенансом рядом.
+    # Нет курса — валюта остаётся в списке выключенной, а не исчезает:
+    # «нет курса» — состояние, а не поломка (решение 70).
+    DISPLAY_CURRENCIES = ("EUR", "USD", "RUB", "INR", "CNY")
+
+    def fx(self, q: dict) -> dict:
+        from .fx import quote
+        as_of = q.get("as_of") or date.today().isoformat()
+        with self.lock:
+            rates = {c: quote(self.store, c, as_of) for c in self.DISPLAY_CURRENCIES}
+        return {"base": "EUR", "as_of": as_of, "rates": rates}
 
     def airports(self) -> list[dict]:
         if self._apts is None:

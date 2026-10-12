@@ -53,6 +53,11 @@ header button.ws.on .dot{background:var(--doc)}
 header a.legal:hover{color:var(--ink);text-decoration:underline}
 #langs button{font:12px var(--sans);padding:3px 6px;background:none;color:var(--dim);
  border:1px solid var(--line);border-radius:4px;cursor:pointer}
+/* Валюта показа — рядом с языком, тем же кеглем. Опция без курса остаётся в
+   списке выключенной: «нет курса» — состояние, а не поломка. */
+header select#cur{width:auto;font:12px var(--sans);padding:3px 4px;margin-left:10px;
+ color:var(--dim);background:var(--raise);border:1px solid var(--line);border-radius:4px}
+header select#cur.on{color:var(--ink);border-color:var(--accent)}
 #langs button[aria-pressed="true"]{color:var(--ink);border-color:var(--accent)}
 header .hp input,header select,header .hp input:focus{width:210px;font:14px var(--sans);
  padding:6px 9px;background:var(--raise);color:var(--dim);border:1px solid var(--line);
@@ -340,6 +345,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   header button.ws span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   #langs{grid-row:1;grid-column:3;justify-self:end;margin:0}
   #langs button,header button.ws{padding:6px 8px;font-size:13px}
+  header select#cur{grid-row:1;grid-column:1;justify-self:end;margin:0;padding:6px 4px;font-size:13px}
   header .hp{min-width:0}
   /* «Откуда» и «куда» — каждое на всю ширину: в половине экрана от
      «FRA — Франкфурт-на-Майне» оставался бы «FRA — Фр». Стрелка между
@@ -421,6 +427,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     title="своя компоновка: число кресел" style="width:86px;display:none">
   <span id="hdr">—</span>
   <span class="sp" id="stat"></span>
+  <select id="cur" title="валюта показа — считается всё в евро, пересчёт по курсу с датой"></select>
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
@@ -610,6 +617,45 @@ const RU = {store:_t("из документа"), derived:_t("вычислено"
 // Два знака в той же локали, что f0: «4,74», а не «4.74» рядом с «1 503».
 const f2 = n => Number(n).toLocaleString(LOCALE, {minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2});
+// ── валюта показа ───────────────────────────────────────────────────────
+// Считается всё в евро. На экране — пересчёт по курсу из /api/fx, у которого
+// есть дата и провенанс (ЕЦБ, Банк России); нет курса — валюта выключена.
+// Поля ввода денег (чек, лизинг, ставки флота) принимают валюту показа и
+// уходят в ядро в евро. «Разбор» и шторка шага остаются в евро: это след
+// расчёта с формулами и подстановками ядра, пересчитывать его по частям
+// значило бы разойтись с формулой.
+const CURS = ["EUR", "USD", "RUB", "INR", "CNY"];
+const CUR = {code: "EUR", rate: 1, q: null, cents: true};
+let FXQ = null;
+const M = eur => eur == null ? eur : eur * CUR.rate;            // евро → валюта показа
+const toEur = v => v === "" || v == null ? v : +v / CUR.rate;   // ввод → евро
+const m0 = eur => f0(M(eur));
+const m2 = eur => f2(M(eur));
+const cu = t => String(t).replace(/\bEUR\b/g, CUR.code);       // «EUR с пассажира» → «USD с пассажира»
+const mu = (v, unit) => v == null ? "—" : f0(/^EUR\b/.test(unit || "") ? M(v) : v);
+// Подсказки порога приходят из ядра прозой с суммами в евро («выручка
+// рейса 13 205 EUR», «борт ≈ 23,1 млн EUR»): суммы пересчитываются по
+// месту, остальной текст не трогается.
+const cuText = t => CUR.code === "EUR" ? t : String(t).replace(
+  /(\d[\d ]*(?:[.,]\d+)?)\s*(млн\s+)?EUR\b/g, (_, n, mln) => {
+    const v = parseFloat(n.replace(/ /g, "").replace(",", ".")) * CUR.rate;
+    return (mln ? v.toLocaleString(LOCALE, {maximumFractionDigits: 1}) + " " + mln : f0(v) + " ") + CUR.code; });
+// CASK: в евро и долларах — центы за кресло-км, в рублях, рупиях и юанях —
+// единицы валюты: «0,07 RUB» центами не бывает.
+const caskVal = centsEur => CUR.cents ? f2(centsEur * CUR.rate) : f2(centsEur / 100 * CUR.rate);
+const caskUnit = () => CUR.cents ? _t("ц") : CUR.code;
+const caskFmt = centsEur => CUR.cents ? `${caskVal(centsEur)} ${_t("ц / кресло-км")}`
+                                      : `${caskVal(centsEur)} ${CUR.code} / ${_t("кресло-км")}`;
+// Род курса приходит машинным ключом (`kind`), подпись — на языке витрины.
+const PROV_T = {ecb: _t("справочный курс ЕЦБ"), cbr: _t("официальный курс Банка России"),
+  cbr_cross: _t("кросс через рубль по курсам Банка России"), crco: _t("курс, применённый CRCO"),
+  declared: _t("объявленный курс с источником"), peg: _t("выведен через привязку к доллару")};
+const provText = q => PROV_T[q.kind] || q.provenance || "";
+// Строка курса для шапки: «1 EUR = 1,16 USD (ЕЦБ, 2026-10-10)».
+function curLine(){
+  if (CUR.code === "EUR" || !CUR.q) return "";
+  return ` · 1 EUR = ${f2(CUR.rate)} ${CUR.code} (${provText(CUR.q)}${CUR.q.date ? ", " + CUR.q.date : ""})`;
+}
 const f0 = n => {
   if (n == null) return "—";
   const a = Math.abs(n);
@@ -1043,12 +1089,12 @@ function airportCard(icao){
       const lost = (gaps.lost_codes || []).concat(gaps.missing_data || []);
       return head + `<table class="ac-t"><tbody>` + rows.map(r =>
         `<tr><td>${esc(CODE_RU[r[0]] || r[0])}</td>
-         <td class="v">${f0(r[1])}</td></tr>`).join("")
+         <td class="v">${m0(r[1])}</td></tr>`).join("")
         + (lost.length ? `<tr><td class="ac-bad">${esc(
              lost.length > 3 ? lost.slice(0, 3).join(", ") + ` ${_t("и ещё")} ${
                lost.length - 3}` : lost.join(", "))}</td>
              <td class="v ac-bad">${_t("не начислено")}</td></tr>` : "")
-        + `<tr class="ac-sum"><td>${_t("всего")}</td><td class="v">${f0(sum)} EUR</td></tr>
+        + `<tr class="ac-sum"><td>${_t("всего")}</td><td class="v">${m0(sum)} ${CUR.code}</td></tr>
         </tbody></table>`;
     }
   }
@@ -1228,14 +1274,14 @@ function params(){
   const p = {origin:CHOSEN.o, destination:CHOSEN.d,
     ac:CHOSEN.ac, operator:carrier ? CHOSEN.op : "*", seats:seatsParam(),
     lf:(+$("#lf").value/100).toFixed(2),
-    fare:$("#fare").value||"", month:$("#month").value,
+    fare:$("#fare").value === "" ? "" : (toEur($("#fare").value)).toFixed(2), month:$("#month").value,
     alt:$("#alt").value||""};
   // Прямые значения вместо режима отнесения. Три режима были ответом на
   // вопрос «как распределить лизинг», а спрашивать надо две величины, из
   // которых распределение и получается. «Борт уже оплачен» выражается
   // нулевым лизингом, «выделенный борт» — своим числом часов.
   if ($("#lease").value !== "") sets.push(
-    `fleet_economics.${CHOSEN.ac}.lease_eur_month=${$("#lease").value}`);
+    `fleet_economics.${CHOSEN.ac}.lease_eur_month=${Math.round(toEur($("#lease").value))}`);
   if ($("#hours").value !== "") sets.push(
     `fleet_economics.${CHOSEN.ac}.monthly_hours=${$("#hours").value}`);
   if (sets.length) p.set = sets.join("~");
@@ -1277,7 +1323,7 @@ function render(r){
   LAST = r;
   // Коды и тип уже стоят в полях слева от этой подписи — не повторяем.
   $("#hdr").textContent = `${f0(r.route.distance_nm)} ${_t("nm · блок")} ${
-    f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}`;
+    f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}${curLine()}`;
   drawKpi(r);
   const tab = document.querySelector("#tabs [aria-selected=true]").dataset.tab;
   $("#main").innerHTML = ({route: tabRoute, trace: tabTrace,
@@ -1305,17 +1351,17 @@ const human = w => FLAG_RU.reduce((s, [re, to]) => s.replace(re, to), w);
 
 function tabRoute(r){
   const a = r.answer, tot = a.cost_total;
-  const fare = +$("#fare").value || 0;
-  const gap = a.breakeven_fare_eur - fare;
+  const fare = +$("#fare").value || 0;                 // в валюте показа
+  const gap = M(a.breakeven_fare_eur) - fare;
   const dead = !a.feasible;
   const km = r.route.distance_nm * 1.852;
   let h = `<div class="hero">
     <div><div class="cap">${_t("Безубыточный чек")}</div>
       <div class="big num">${dead
         ? `<span style="font-size:26px;color:var(--warn)">${_t("нельзя")}</span>`
-        : f0(a.breakeven_fare_eur) + "<small>EUR</small>"}</div></div>
+        : m0(a.breakeven_fare_eur) + `<small>${CUR.code}</small>`}</div></div>
     <div><div class="cap">${_t("Задан")}</div><div class="big num" style="color:var(--dim)">${
-      f0(fare)}<small>EUR</small></div></div>
+      f0(fare)}<small>${CUR.code}</small></div></div>
     <div><span class="verdict${dead||gap>0.5?" bad":""}">${
       dead ? esc(whyNot(a))
            : gap>0.5 ? `${_t("не хватает")} ${f0(gap)} ${_t("с пассажира")}`
@@ -1326,7 +1372,7 @@ function tabRoute(r){
     <div class="stack">` + r.cost.map(c =>
       `<i style="width:${c.eur/tot*100}%;background:${PROV[c.prov]||"var(--param)"}"
         class="${["default","fleet","estimated"].includes(c.prov)?"hatch":""}"
-        title="${esc(c.label||c.item)}: ${f0(c.eur)}"></i>`).join("") + `</div>
+        title="${esc(c.label||c.item)}: ${m0(c.eur)}"></i>`).join("") + `</div>
     <div class="legend">
       <span><i class="sw" style="background:var(--doc)"></i>${_t("из документа")}</span>
       <span><i class="sw" style="background:var(--calc)"></i>${_t("вычислено моделью")}</span>
@@ -1335,11 +1381,11 @@ function tabRoute(r){
     </div>
     <table style="margin-top:10px"><tbody>` + r.cost.map(c =>
       `<tr><td><i class="dot" style="background:${PROV[c.prov]||"var(--param)"}"></i>${
-        esc(c.label || c.item)}</td><td class="v">${f0(c.eur)}</td>
+        esc(c.label || c.item)}</td><td class="v">${m0(c.eur)}</td>
        <td class="v" style="color:var(--dim)">${(c.eur/tot*100).toFixed(1)}%</td></tr>`)
-      .join("") + `<tr><td><b>${_t("Итого")}</b></td><td class="v"><b>${f0(tot)}</b></td>
+      .join("") + `<tr><td><b>${_t("Итого")}, ${CUR.code}</b></td><td class="v"><b>${m0(tot)}</b></td>
         <td class="v" style="color:var(--dim)">${
-          f2(tot/(r.route.seats*km)*100)} ${_t("ц / кресло-км")}</td></tr></tbody></table>`;
+          caskFmt(tot/(r.route.seats*km)*100)}</td></tr></tbody></table>`;
   if (r.warnings.length) h += `<h3>${_t("Внимание")}</h3>` + r.warnings.map(w =>
     `<div class="note quiet"><b>·</b> ${esc(human(w))}</div>`).join("");
   h += `<h3>${_t("С чем сравнить")}</h3><div id="benchbox"><p class="lede">${_t("считаю…")}</p></div>`;
@@ -1351,6 +1397,8 @@ function tabTrace(r){
   // каждую строку на три. Строка теперь одна, а «почему» открывается
   // щелчком — внизу, там, куда человек и смотрит на карту.
   let h = `<p class="lede">${_t("Щёлкните по шагу — внизу откроется, из чего он получен и на каком факте стоит.")}</p>`;
+  if (CUR.code !== "EUR")
+    h += `<div class="note quiet">${_t("Разбор — в валюте расчёта, EUR: формулы и подстановки ядра пересчёту по частям не подлежат.")}</div>`;
   if (LANG !== "ru")
     h += `<div class="note quiet">${_t("Шаги разбора и предупреждения пока на русском: их порождает расчётное ядро, перевод — следующий этап.")}</div>`;
   let grp = "";
@@ -1406,7 +1454,7 @@ async function drawSolve(r){
   if (s.error) { box.innerHTML = `<div class="note"><b>${_t("Отказ.")}</b> ${esc(s.error)}</div>`; return; }
   if (!s.rows.length) { box.innerHTML = `<div class="note"><b>${_t("Порогов нет.")}</b> ${esc(s.why || "")}</div>`; return; }
   const a = r.answer, fare = +$("#fare").value || 0;
-  const deficit = a.breakeven_fare_eur - fare > 0.5;
+  const deficit = M(a.breakeven_fare_eur) - fare > 0.5;
   const STATUS = {
     ok:          deficit ? _t("до нуля") : _t("запас"),
     unreachable: _t("недостижимо"),
@@ -1424,26 +1472,26 @@ async function drawSolve(r){
     // «нет», а граница области и недобор на ней — в строке осязаемого:
     // это другая величина, и ставить её в колонку порога значило бы
     // выдать границу за порог.
-    const edge = m.status === "ok" ? f0(m.edge)
+    const edge = m.status === "ok" ? mu(m.edge, m.unit)
       : `<span style="color:var(--warn)">${unr ? (m.inert ? _t("не влияет") : _t("нет")) : "—"}</span>`;
     const margin = m.status === "ok"
       ? `${m.margin_pct > 0 ? "+" : ""}${f0(m.margin_pct)}%` : "—";
     let tail = "", tailBad = false;
-    if (m.status === "ok") tail = m.hint_edge ? `${_t("на пороге")}: ${esc(m.hint_edge)}` : "";
+    if (m.status === "ok") tail = m.hint_edge ? `${_t("на пороге")}: ${esc(cuText(m.hint_edge))}` : "";
     else if (unr && m.inert) tail = esc(m.note);
     else if (unr) {
       tailBad = true;
       // Граница — осязаемым, если оно есть: «170 из 170 кресел» читается,
       // «1 доля» — нет.
-      tail = `${_t("даже на границе")} — ${esc(m.limit_about)}${m.hint_limit ? `, ${esc(m.hint_limit)}`
-          : m.limit != null ? `, ${f0(m.limit)} ${esc(m.unit)}` : ""} — ${
+      tail = `${_t("даже на границе")} — ${esc(m.limit_about)}${m.hint_limit ? `, ${esc(cuText(m.hint_limit))}`
+          : m.limit != null ? `, ${mu(m.limit, m.unit)} ${esc(cu(m.unit))}` : ""} — ${
           m.gap_at_limit == null ? _t("недобор не посчитан")
-          : (m.gap_at_limit < 0 ? (_t("не хватает") + " ") : (_t("остаётся") + " ")) + f0(Math.abs(m.gap_at_limit)) + (" " + _t("EUR за рейс"))}`;
+          : (m.gap_at_limit < 0 ? (_t("не хватает") + " ") : (_t("остаётся") + " ")) + m0(Math.abs(m.gap_at_limit)) + (" " + cu(_t("EUR за рейс")))}`;
     } else { tailBad = true; tail = esc(m.note || _t("расчёт не сошёлся")); }
     h += `<div class="mrow" title="${esc([m.about, m.split].filter(Boolean).join(" · "))}">
-      <div class="ml"><b>${esc(m.label)}</b><span>${esc(m.unit)} · ${STATUS[m.status]}</span></div>
-      <div class="mv">${m.now == null ? "—" : f0(m.now)}${m.hint_now
-        ? `<span class="cap">${esc(m.hint_now)}</span>` : ""}</div>
+      <div class="ml"><b>${esc(m.label)}</b><span>${esc(cu(m.unit))} · ${STATUS[m.status]}</span></div>
+      <div class="mv">${mu(m.now, m.unit)}${m.hint_now
+        ? `<span class="cap">${esc(cuText(m.hint_now))}</span>` : ""}</div>
       <div class="mv"${bad ? ' style="color:var(--warn)"' : ""}>${edge}</div>
       <div class="mv">${margin}</div>
       ${tail ? `<div class="mt${tailBad ? " bad" : ""}">${tail}</div>` : ""}</div>`;
@@ -1509,7 +1557,7 @@ async function drawTypes(r){
   let h = `<div class="note quiet"><b>${s.rows.filter(x => x.status === "ok").length} ${_t("из")} ${
       s.rows.length} ${_t("типов выполнимы при")} ${f0(s.pax)} ${_t("пассажирах.")}</b> ${esc(s.note)} ${_t("Считалось")} ${s.ms} ${_t("мс.")}</div>
     <div class="mhead" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr">
-      <span>${_t("тип")}</span><span>${_t("кресел")}</span><span>${_t("загрузка")}</span><span>${_t("рейс, EUR")}</span>
+      <span>${_t("тип")}</span><span>${_t("кресел")}</span><span>${_t("загрузка")}</span><span>${cu(_t("рейс, EUR"))}</span>
       <span>${_t("на пасс.")}</span><span>${_t("чек в ноль")}</span></div>`;
   for (const t of s.rows) {
     const ok = t.status === "ok", cur = t.icao === CHOSEN.ac;
@@ -1521,11 +1569,11 @@ async function drawTypes(r){
           t.tier === 0 || t.tier === 4 ? ` <span class="t3">${t.tier === 4 ? _t("с якорем") : _t("заготовка")}</span>` : ""}</span></div>
       <div class="mv">${t.seats ?? "—"}</div>
       <div class="mv">${ok ? Math.round(t.lf * 100) + "%" : `<span style="color:var(--warn)">${STATUS[t.status]}</span>`}</div>
-      <div class="mv">${ok ? f0(t.cost_total) : "—"}</div>
-      <div class="mv">${ok ? f0(t.cost_per_pax) : "—"}</div>
-      <div class="mv">${ok ? f0(t.breakeven_fare_eur) : "—"}</div>
+      <div class="mv">${ok ? m0(t.cost_total) : "—"}</div>
+      <div class="mv">${ok ? m0(t.cost_per_pax) : "—"}</div>
+      <div class="mv">${ok ? m0(t.breakeven_fare_eur) : "—"}</div>
       ${bad ? `<div class="mt bad">${esc(t.why || "")}</div>`
-            : `<div class="mt">CASK ${f2(t.cask)} ${_t("ц/кресло-км · топливо")} ${f0(t.fuel_per_pax)} ${_t("кг/пасс · блок")} ${
+            : `<div class="mt">CASK ${caskFmt(t.cask)} · ${_t("топливо")} ${f0(t.fuel_per_pax)} ${_t("кг/пасс · блок")} ${
                 f2(t.block_h)} ${_t("ч · на заготовке")} ${Math.round(t.default_share * 100)}%${
                 t.unused && t.unused.length ? ` · <span style="color:var(--warn)">${_t("переопределения флота не применены")}</span>` : ""}</div>`}
     </div>`;
@@ -1692,7 +1740,7 @@ function tabData(r){
   let h = `<p class="lede">${_t("Что стоит на документе, а что на параметрике — по этому маршруту.")}</p><table><tbody>` + r.cost.map(c =>
     `<tr><td>${esc(c.label||c.item)}</td>
      <td style="color:var(--faint);font-size:11.5px">${RU[c.prov]||c.prov}</td>
-     <td class="v">${f0(c.eur)}</td></tr>`).join("") + `</tbody></table>`;
+     <td class="v">${m0(c.eur)} ${CUR.code}</td></tr>`).join("") + `</tbody></table>`;
   for (const [ap, d] of Object.entries(r.charge_gaps || {})) {
     h += `<h3>${esc(ap)}</h3><table><tbody>
       <tr><td>${_t("начислено статей")}</td><td class="v">${(d.priced_codes||[]).length}</td></tr>
@@ -1740,7 +1788,7 @@ function kpiCell(k, n, sub, bad, cmpId){
 }
 
 function drawKpi(r){
-  const a = r.answer, fare = +$("#fare").value || 0, be = a.breakeven_fare_eur;
+  const a = r.answer, fare = +$("#fare").value || 0, be = M(a.breakeven_fare_eur);
   const why = whyNot(a);
   // Нет поля — поломка, а не пустота (решение 77): показывается оранжевым,
   // а не пропадает в NaN.
@@ -1749,19 +1797,19 @@ function drawKpi(r){
   // «Нельзя» — ответ, а не отсутствие ответа (решение 93): стоит там же,
   // где стояло бы число.
   cells.push(kpiCell(_t("Стоимость рейса"),
-    a.feasible ? f0(a.cost_total) + `<small>EUR</small>` : _t("нельзя"),
+    a.feasible ? m0(a.cost_total) + `<small>${CUR.code}</small>` : _t("нельзя"),
     !a.feasible ? why
-      : seatsOk ? `${f0(a.cost_total / Math.max(1, r.route.pax))} ${_t("EUR на пассажира")}`
+      : seatsOk ? `${m0(a.cost_total / Math.max(1, r.route.pax))} ${cu(_t("EUR на пассажира"))}`
       : _t("в ответе нет кресел — перезапусти fca serve"),
     !a.feasible || !seatsOk));
   cells.push(kpiCell(_t("Безубыточный чек"),
-    a.feasible ? f0(be) + `<small>EUR</small>` : "—",
+    a.feasible ? f0(be) + `<small>${CUR.code}</small>` : "—",
     !a.feasible ? "" : !fare ? _t("чек не задан")
-      : be <= fare ? `${_t("задан")} ${f0(fare)} — ${_t("запас")} ${f0(fare - be)} ${_t("EUR с пассажира")}`
-      : `${_t("задан")} ${f0(fare)} — ${_t("не хватает")} ${f0(be - fare)} ${_t("EUR с пассажира")}`,
+      : be <= fare ? `${_t("задан")} ${f0(fare)} — ${_t("запас")} ${f0(fare - be)} ${cu(_t("EUR с пассажира"))}`
+      : `${_t("задан")} ${f0(fare)} — ${_t("не хватает")} ${f0(be - fare)} ${cu(_t("EUR с пассажира"))}`,
     a.feasible && fare > 0 && be > fare, "kpi-yield"));
   cells.push(kpiCell("CASK",
-    !a.feasible ? "—" : seatsOk ? f2(cask(r)) + `<small>${_t("ц / кресло-км")}</small>`
+    !a.feasible ? "—" : seatsOk ? caskVal(cask(r)) + `<small>${CUR.cents ? _t("ц / кресло-км") : CUR.code + " / " + _t("кресло-км")}</small>`
       : _t("нет кресел"),
     seatsOk ? `${r.route.seats} ${_t("кресел · плечо")} ${f0(r.route.distance_nm)} nm`
             : _t("в ответе нет поля seats"),
@@ -1827,10 +1875,10 @@ function drawChips(b){
   const zone = cur.fx && cur.fx.currency && cur.fx.currency !== "EUR"
     ? ` · ${_t("отчёт в")} ${cur.fx.currency}, ${_t("другая валютная зона")}` : "";
   $("#kpi-cask").innerHTML = cur.cask_cents
-    ? bm(f2(cur.cask_cents), _t("ц"), `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}`)
+    ? bm(caskVal(cur.cask_cents), caskUnit(), `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}`)
     : bm("", _t("не считается"), cur.fx && !cur.fx.rate ? (_t("нет курса") + " ") + cur.fx.currency : "");
   $("#kpi-yield").innerHTML = (cur.yield_eur_pax
-    ? bm(f0(cur.yield_eur_pax), _t("EUR с пассажира"), cur.yield_basis || "")
+    ? bm(m0(cur.yield_eur_pax), cu(_t("EUR с пассажира")), cur.yield_basis || "")
     : bm("", _t("не публикует"), _t("доход с пассажира в отчёте не назван")))
     + marketLine(b);
   sub.textContent = _t("другое плечо и сеть — прямо сравнивать нельзя");
@@ -1847,8 +1895,8 @@ function marketLine(b){
       ? `${_t("по этой линии наблюдений нет (есть по")} ${b.fare_elsewhere} ${_t("другим)")}`
       : _t("наблюдений цены нет")}</span>`;
   }
-  const vals = b.fare_eur || fares.map(x => x.value);
-  const unit = b.fare_eur ? "EUR" : (fares[0].unit || "?");
+  const vals = b.fare_eur ? b.fare_eur.map(M) : fares.map(x => x.value);
+  const unit = b.fare_eur ? CUR.code : (fares[0].unit || "?");
   const lo = Math.min(...vals), hi = Math.max(...vals);
   const band = fares.length === 1 ? esc(fares[0].key.split("/")[1] || "")
     : `${fares.length} ${_t("полос глубины")}`;
@@ -1857,7 +1905,7 @@ function marketLine(b){
 }
 
 function carrierCard(c){
-  const cask = c.cask_cents ? f2(c.cask_cents) + (" " + _t("ц"))
+  const cask = c.cask_cents ? caskVal(c.cask_cents) + " " + caskUnit()
     : c.fx && !c.fx.rate
       ? `<span style="color:var(--warn)">${_t("нет курса")} ${esc(c.fx.currency)}</span>` : "—";
   return `<div class="carrier"><div class="ch">${esc(c.name)} · ${esc(c.year)}
@@ -1865,13 +1913,13 @@ function carrierCard(c){
     <div class="cs">${esc((c.scope||"").trim())}</div>
     <div class="kv">
       <span>CASK</span><b>${cask}</b>
-      <span>${_t("доход с пассажира")}</span><b>${c.yield_eur_pax ? f0(c.yield_eur_pax) + " EUR" : "—"}
+      <span>${_t("доход с пассажира")}</span><b>${c.yield_eur_pax ? m0(c.yield_eur_pax) + " " + CUR.code : "—"}
         ${c.yield_basis ? `<i>${esc(c.yield_basis)}</i>` : ""}</b>
       <span>${_t("среднее плечо")}</span><b>${c.sector_nm ? f0(c.sector_nm) + " nm" : "—"}</b>
       <span>${_t("стоимость блок-часа")}</span><b>${c.cost_per_block_h
-        ? f0(c.cost_per_block_h) + (" " + _t("EUR/ч"))
+        ? m0(c.cost_per_block_h) + " " + cu(_t("EUR/ч"))
         : `<span style="color:var(--faint)">${_t("не публикует")}</span>`}</b>
-      <span>${_t("затраты на пассажира")}</span><b>${c.cost_per_pax ? f0(c.cost_per_pax) + " EUR" : "—"}</b>
+      <span>${_t("затраты на пассажира")}</span><b>${c.cost_per_pax ? m0(c.cost_per_pax) + " " + CUR.code : "—"}</b>
     </div></div>`;
 }
 
@@ -1895,8 +1943,8 @@ async function drawBench(r){
     const c0 = b.carriers.find(c => c.cask_cents);
     if (c0) box.push(`<div class="note"><b>${_t("Прямо сравнивать нельзя.")}</b>
       ${_t("Наш маршрут")} — ${f0(our.sector)} ${_t("nm, полоса собрана на среднем плече")}
-      ${f0(c0.sector_nm)} ${_t("nm. На коротком секторе постоянные статьи рейса делятся на меньшее число кресло-километров, и CASK выше при той же эффективности. Наши")} ${f2(our.cask)} ${_t("ц против")}
-      ${f2(c0.cask_cents)} ${_t("ц — разница, в которой доля плеча пока не отделена от доли параметрики.")}</div>`);
+      ${f0(c0.sector_nm)} ${_t("nm. На коротком секторе постоянные статьи рейса делятся на меньшее число кресло-километров, и CASK выше при той же эффективности. Наши")} ${caskVal(our.cask)} ${_t("против")}
+      ${caskVal(c0.cask_cents)} ${caskUnit()} ${_t("— разница, в которой доля плеча пока не отделена от доли параметрики.")}</div>`);
   } else {
     box.push(`<div class="note"><b>${_t("Полосы нет.")}</b> ${_t("Отчётность перевозчиков не заведена: сравнивать себестоимость не с чем.")}</div>`);
   }
@@ -1905,14 +1953,14 @@ async function drawBench(r){
   box.push(b.yield
     ? `<tr><td>${_t("Доход с пассажира")}<div style="color:var(--faint);font-size:11px">
          ${_t("сходится ли экономика линии")}</div></td>
-       <td class="v">${f0(b.yield.lo)} – ${f0(b.yield.hi)} EUR</td>
+       <td class="v">${m0(b.yield.lo)} – ${m0(b.yield.hi)} ${CUR.code}</td>
        <td style="color:var(--faint);font-size:11px">${b.yield.n} ${b.yield.n > 1 ? _t("контура") : _t("контур")}</td></tr>`
     : `<tr><td>${_t("Доход с пассажира")}</td><td class="v" style="color:var(--warn)">${_t("нет данных")}</td><td></td></tr>`);
   box.push((b.fare || []).length
     ? `<tr><td>${_t("Видимая цена на линии")}<div style="color:var(--faint);font-size:11px">
          ${_t("можно ли войти ценой · медиана МИНИМУМОВ по датам")}</div></td>
        <td class="v">${b.fare_eur
-         ? b.fare_eur.map(f0).join(" / ") + ' <span style="color:var(--dim);font-size:11px">EUR</span>'
+         ? b.fare_eur.map(m0).join(" / ") + ` <span style="color:var(--dim);font-size:11px">${CUR.code}</span>`
          : b.fare.map(x => f0(x.value)).join(" / ")
            + ` <span style="color:var(--warn);font-size:11px">${
                esc([...new Set(b.fare.map(x => x.unit))].join("/") || "?")
@@ -2079,13 +2127,60 @@ document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
 // `boot()` — внизу, после входа по ссылке на рабочее место: иначе список
 // типов пришёл бы без своих.
 
+// ── переключатель валюты ────────────────────────────────────────────────
+// Курсы — одним запросом при старте; выбор живёт в хранилище браузера под
+// ключом «fca.cur», как «fca.lang», о нём сказано в /datenschutz. Смена валюты пересчитывает
+// введённые деньги (чек, лизинг), чтобы экономика не менялась от смены
+// единиц, и перерисовывает ответ; запрос к ядру не повторяется.
+function curOptions(){
+  const sel = $("#cur");
+  sel.innerHTML = CURS.map(c => {
+    const q = FXQ && FXQ.rates[c];
+    const ok = c === "EUR" || (q && q.rate);
+    return `<option value="${c}"${ok ? "" : " disabled"}${c === CUR.code ? " selected" : ""}>${c}${ok ? "" : " — " + _t("нет курса")}</option>`;
+  }).join("");
+  sel.classList.toggle("on", CUR.code !== "EUR");
+  const q = CUR.q;
+  sel.title = CUR.code === "EUR" ? _t("валюта показа — считается всё в евро, пересчёт по курсу с датой")
+    : `1 EUR = ${f2(CUR.rate)} ${CUR.code} · ${provText(q)}${q.date ? ", " + q.date : ""}`;
+}
+function setCur(code, convertInputs = true){
+  const q = code === "EUR" ? {rate: 1, kind: "eur", date: null} : (FXQ && FXQ.rates[code]);
+  if (!q || !q.rate) return false;
+  const k = q.rate / CUR.rate;
+  if (convertInputs && k !== 1) {
+    for (const id of ["fare", "lease"]) {
+      const el = $("#" + id);
+      if (el.value !== "" && isFinite(+el.value)) { el.value = String(Math.round(+el.value * k)); markClear(el); }
+    }
+  }
+  CUR.code = code; CUR.rate = q.rate; CUR.q = q; CUR.cents = code === "EUR" || code === "USD";
+  try { localStorage.setItem("fca.cur", code); } catch (e) {}
+  $("label[for=fare]").textContent = cu(_t("Чек, EUR"));
+  $("label[for=lease]").textContent = cu(_t("Лизинг, EUR в месяц"));
+  curOptions(); psum();
+  if (LAST) render(LAST);
+  if (!$("#wspanel").hidden) wsDraw();
+  return true;
+}
+async function loadFx(){
+  try { FXQ = await (await fetch("/api/fx")).json(); } catch (e) { FXQ = null; }
+  let saved = null;
+  try { saved = localStorage.getItem("fca.cur"); } catch (e) {}
+  const q = new URLSearchParams(location.search).get("cur");
+  const want = (CURS.includes(q) && q) || (CURS.includes(saved) && saved) || "EUR";
+  curOptions();
+  if (want !== "EUR") setCur(want, true);          // поля по умолчанию — в евро
+}
+$("#cur").addEventListener("change", e => { if (!setCur(e.target.value)) curOptions(); });
+
 // ── телефон: параметры шторкой ──────────────────────────────────────────
 // На узком экране левая колонка свёрнута в строку «Параметры расчёта:
 // 82% · 95 EUR»; раскрывается нажатием. На десктопе кнопки нет (CSS).
 function psum(){
   const m = $("#month");
   const mo = m.value ? " · " + (m.selectedOptions[0] || {}).text : "";
-  $("#psum").textContent = `${$("#lf").value}% · ${$("#fare").value || "—"} EUR${mo}`;
+  $("#psum").textContent = `${$("#lf").value}% · ${$("#fare").value || "—"} ${CUR.code}${mo}`;
 }
 $("#ptoggle").onclick = () => {
   const open = $("#left").classList.toggle("open");
@@ -2170,10 +2265,12 @@ function wsDraw() {
   const settings = WS.settings || {overrides: {}};
   const types = ["A320", "A321", "B738", ...(i.aircraft || [])];
   const ov = settings.overrides || {};
+  // В полях — валюта показа; в документе — евро (ключи так и называются).
+  const shown = k => ov[k] == null ? "" : String(Math.round(M(ov[k]) * 100) / 100);
   const rateRows = types.map(t => `<div class="rate"><span>${esc(t)}</span>
-      <input data-k="fleet_economics.${esc(t)}.lease_eur_month" value="${ov[`fleet_economics.${t}.lease_eur_month`] ?? ""}" placeholder="—">
-      <input data-k="fleet_economics.${esc(t)}.maint_eur_per_fh" value="${ov[`fleet_economics.${t}.maint_eur_per_fh`] ?? ""}" placeholder="—">
-      <input data-k="fleet_economics.${esc(t)}.crew_eur_per_fh" value="${ov[`fleet_economics.${t}.crew_eur_per_fh`] ?? ""}" placeholder="—"></div>`).join("");
+      <input data-k="fleet_economics.${esc(t)}.lease_eur_month" value="${shown(`fleet_economics.${t}.lease_eur_month`)}" placeholder="—">
+      <input data-k="fleet_economics.${esc(t)}.maint_eur_per_fh" value="${shown(`fleet_economics.${t}.maint_eur_per_fh`)}" placeholder="—">
+      <input data-k="fleet_economics.${esc(t)}.crew_eur_per_fh" value="${shown(`fleet_economics.${t}.crew_eur_per_fh`)}" placeholder="—"></div>`).join("");
   box.innerHTML = `
     <div class="card"><h4>${_t("Ваша ссылка")}</h4>
       <div class="link" id="wslink">${esc(wsLink())}</div>
@@ -2192,7 +2289,7 @@ function wsDraw() {
         <span>${_t("сценарии")}</span><b>${docs.scenario || "—"}</b></div>
       <p>${_t("Открыто")}: ${esc(String(i.last_seen || "").slice(0, 10))} · ${_t("место, не открытое")} ${limits.idle_days} ${_t("дней, удаляется")}</p></div>
     <div class="card"><h4>${_t("Ставки флота")} <span style="font-weight:400;color:var(--faint)">· ${_t("только у вас, применяются к каждому расчёту")}</span></h4>
-      <div class="rate"><span></span><span class="h">${_t("лизинг, EUR/мес")}</span><span class="h">${_t("ПЛГ, EUR/ч")}</span><span class="h">${_t("экипаж, EUR/ч")}</span></div>
+      <div class="rate"><span></span><span class="h">${cu(_t("лизинг, EUR/мес"))}</span><span class="h">${cu(_t("ПЛГ, EUR/ч"))}</span><span class="h">${cu(_t("экипаж, EUR/ч"))}</span></div>
       ${rateRows}
       <div class="btns"><button class="pri" id="wsrates">${_t("Сохранить ставки")}</button><span id="wsratemsg" style="font-size:12px;color:var(--dim)"></span></div>
       <p>${_t("Пусто — значит заготовка справочника. Заданное в запросе (--set) главнее сохранённого.")}</p></div>`;
@@ -2225,7 +2322,7 @@ function wsDraw() {
   };
   $("#wsrates").onclick = async () => {
     const o = {};
-    for (const inp of box.querySelectorAll(".rate input")) { const v = inp.value.trim(); if (v !== "" && isFinite(+v)) o[inp.dataset.k] = +v; }
+    for (const inp of box.querySelectorAll(".rate input")) { const v = inp.value.trim(); if (v !== "" && isFinite(+v)) o[inp.dataset.k] = Math.round(toEur(v) * 100) / 100; }
     const r = await wsApi("/api/ws/doc", {kind: "settings", name: "default", body: {overrides: o}});
     $("#wsratemsg").textContent = r.error ? r.error : _t("сохранено — расчёт учитывает их с этого момента");
     WS.settings = {overrides: o};
@@ -2241,5 +2338,5 @@ $("#wsclose").onclick = wsClose;
 $("#wspanel").addEventListener("click", e => { if (e.target === $("#wspanel")) wsClose(); });
 document.addEventListener("click", e => { if (e.target && e.target.id === "wsopen") { e.preventDefault(); $("#wsbtn").onclick(); } });
 // Сначала вход по ссылке (ставит cookie), потом витрина — уже со своими типами.
-wsEnter().then(() => { boot(); return wsRefresh(); }).then(() => { if (WS.msg) wsOpen(); });
+wsEnter().then(() => loadFx()).then(() => { boot(); return wsRefresh(); }).then(() => { if (WS.msg) wsOpen(); });
 </script></body></html>
