@@ -146,7 +146,7 @@ header .sp{margin-left:auto;color:var(--faint);font-size:12px}
 }
 .grp2{font:600 11.5px/1 var(--sans);letter-spacing:.06em;color:var(--dim);
  margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-.grp2:first-child{margin-top:0}
+.grp2:first-child,.mtoggle+.grp2{margin-top:0}
 .tabs2{display:flex;gap:4px;margin-bottom:9px}
 .tabs2 button{flex:1;background:var(--panel);border:1px solid var(--line);
  color:var(--dim);border-radius:5px;padding:4px 6px;font:12px var(--sans);cursor:pointer}
@@ -212,8 +212,9 @@ header #seatsv:focus{border-color:var(--accent)}
 .sheet{position:absolute;left:0;right:0;bottom:0;max-height:72%;
  background:rgba(22,22,22,.985);border-top:1px solid var(--accent);
  box-shadow:0 -14px 34px rgba(0,0,0,.55);
- transform:translateY(101%);transition:transform .16s ease-out;z-index:30}
-.sheet.on{transform:translateY(0)}
+ transform:translateY(101%);transition:transform .16s ease-out,visibility 0s .16s;
+ visibility:hidden;z-index:30}
+.sheet.on{transform:translateY(0);visibility:visible;transition:transform .16s ease-out}
 .sheetbody{overflow-y:auto;max-height:72vh;padding:14px 18px 20px}
 .oc{fill:var(--ocean);stroke:var(--ocean-line);stroke-width:1.1}
 .land{fill:var(--land);stroke:var(--land-line);stroke-width:.55;pointer-events:none}
@@ -320,6 +321,85 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     переносится целиком, а рвётся только то, что иначе не влезает — путь
     или ключ без пробелов. */
  overflow-wrap:break-word;word-break:normal;hyphens:none}
+
+/* Телефон и планшет в портрете — один столбец: шапка, показатели, глобус,
+   параметры шторкой, вкладки. Страница прокручивается целиком, а не
+   тремя колонками по отдельности; глобус вращается горизонтальным
+   движением, вертикальное — прокрутка (touch-action: pan-y), иначе
+   страницу нельзя было бы пролистать, не попав пальцем в карту.
+   Порог 900 px: ниже него три колонки не помещаются даже в узкой
+   раскладке (230 + 280 + 360). Поля — 16 px: меньше iOS увеличивает
+   страницу при фокусе. */
+.mtoggle,.mfoot,.gzoom{display:none}
+@media (max-width:900px){
+  body{height:auto;min-height:100vh;overflow:visible;display:block}
+  header{display:grid;grid-template-columns:minmax(0,1.25fr) auto minmax(0,1fr);
+   gap:8px;padding:8px 12px 10px;align-items:center}
+  header b{grid-row:1;grid-column:1;margin:0}
+  header button.ws{grid-row:1;grid-column:2;margin:0;justify-self:center;max-width:100%;overflow:hidden}
+  header button.ws span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #langs{grid-row:1;grid-column:3;justify-self:end;margin:0}
+  #langs button,header button.ws{padding:6px 8px;font-size:13px}
+  header .hp{min-width:0}
+  /* «Откуда» и «куда» — каждое на всю ширину: в половине экрана от
+     «FRA — Франкфурт-на-Майне» оставался бы «FRA — Фр». Стрелка между
+     ними на двух строках не нужна. */
+  header .hp:nth-of-type(1){grid-row:2;grid-column:1/-1}
+  header .arrow{display:none}
+  header .hp:nth-of-type(2){grid-row:3;grid-column:1/-1}
+  header .hp:nth-of-type(3){grid-row:4;grid-column:1/3}
+  header select#layout{grid-row:4;grid-column:3;max-width:none;width:100%}
+  header #seatsv{grid-row:5;grid-column:3;width:100% !important}
+  header #hdr{grid-row:6;grid-column:1/-1;font-size:12px;color:var(--faint)}
+  header .sp,header a.legal{display:none}
+  header .hp input,header select,header .hp input:focus,header #seatsv{width:100%;font-size:16px}
+  header .hp input#ac{width:100% !important}
+  .hits,.hp .hits,#achits,.kpi .cpick .hits{min-width:0;width:min(100vw - 24px,420px);max-height:45vh}
+  .cols{display:flex;flex-direction:column;min-height:0}
+  .stage{order:1;flex:none;overflow:visible}
+  .left{order:2;border-right:0;border-top:1px solid var(--line);padding:0 12px 6px;overflow:visible}
+  .right{order:3;border-left:0;border-top:1px solid var(--line);overflow:visible;flex:none}
+  .mfoot{order:4;display:flex;gap:16px;padding:16px 12px 28px;border-top:1px solid var(--line);
+   font-size:12px;color:var(--faint);background:var(--panel)}
+  .mfoot a{color:var(--dim);text-decoration:none}
+  .kpi{grid-template-columns:1fr 1fr}
+  .kpi>div{border-bottom:1px solid var(--line);padding:8px 12px 7px}
+  .kpi>div:nth-child(2n){border-right:0}
+  .kpi .n{font-size:18px}
+  .gwrap{flex:none;height:min(72vw,400px,70vh)}
+  #globe{touch-action:pan-y}
+  .gtools{left:8px;right:8px;flex-wrap:wrap;justify-content:flex-end}
+  .gtools button{padding:6px 10px;white-space:nowrap}
+  .gzoom{display:flex;top:auto;bottom:8px;left:auto}
+  .gzoom button{min-width:36px;font-size:15px;line-height:1}
+  .gfoot{padding:8px 12px 10px}
+  .glegend{flex-wrap:wrap;gap:6px 14px}
+  .sheet{position:fixed;max-height:80vh;z-index:35}
+  .sheetbody{max-height:80vh;padding:14px 12px 24px}
+  /* Параметры — шторка, по умолчанию свёрнута: ответ и глобус важнее
+     полей. Строка-заголовок остаётся и показывает, с чем считается. */
+  .mtoggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;
+   background:none;border:0;border-bottom:1px solid var(--line);padding:13px 0;margin:0;
+   font:600 13px var(--sans);color:var(--ink);cursor:pointer;text-align:left}
+  .mtoggle span{font:400 12px var(--sans);color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mtoggle i{font-style:normal;color:var(--faint);transition:transform .15s}
+  .left.open .mtoggle i{transform:rotate(180deg)}
+  .left:not(.open)>:not(.mtoggle){display:none}
+  .left .mtoggle+.grp2{margin-top:14px}
+  .field input,.field select,.kpi .cpick input,.kpi .cpick select{font-size:16px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding:0 6px;position:sticky;top:0;z-index:5;
+   background:var(--panel);scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{padding:12px 10px 10px;font-size:14.5px}
+  .tabbody{overflow:visible;overflow-x:auto;padding:14px 12px 36px}
+  .big{font-size:34px}
+  .hero{gap:18px}
+  #wspanel{padding:10px 8px}
+  .wsbox{padding:12px 12px 16px}
+  .wsbox .rate{grid-template-columns:minmax(48px,auto) repeat(3,minmax(0,1fr))}
+  .wsbox .rate input{padding:5px 4px;font-size:13px}
+  .gpop{display:none !important}
+}
 </style></head><body>
 <header><b>fca</b>
   <div class="hp"><input id="o" class="pick" autocomplete="off" placeholder="откуда — код или название" title="Откуда">
@@ -350,7 +430,8 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <div id="wsbody"></div>
 </div></div>
 <div class="cols" id="cols">
-  <aside class="pane left">
+  <aside class="pane left" id="left">
+    <button class="mtoggle" id="ptoggle" aria-expanded="false">Параметры расчёта<span id="psum"></span><i>▾</i></button>
     <div class="grp2">Рейс</div>
     <div class="field"><label for="lf">Загрузка</label>
       <input id="lf" type="range" min="40" max="100" value="82">
@@ -396,6 +477,12 @@ tr.sel td,tr:hover td.v{background:var(--select)}
         <button id="gall" title="весь глобус">весь глобус</button>
         <button id="gzones" title="показать или скрыть зоны аэронавигации" aria-pressed="true">зоны</button>
       </div>
+      <!-- Колеса на телефоне нет: приближение кнопками, в своём углу,
+           чтобы не толкаться с кнопками вида на узком экране. -->
+      <div class="gtools gzoom mob">
+        <button id="gzin" title="приблизить">+</button>
+        <button id="gzout" title="отдалить">−</button>
+      </div>
       <div class="gpop" id="gpop" style="display:none"></div>
     </div>
     <div class="gfoot">
@@ -427,6 +514,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     </nav>
     <div class="tabbody" id="main"><p class="lede">считаю…</p></div>
   </aside>
+  <footer class="mfoot"><a href="/impressum">Impressum</a><a href="/datenschutz">Datenschutz</a></footer>
 </div>
 <script type="module">
 import { orthographic, gcd, gcPoint, crossing, fitZoom }
@@ -819,6 +907,13 @@ async function bootGlobe(){
   }, {passive: false});
   $("#globe").addEventListener("mouseleave",
     () => { $("#gpop").style.display = "none"; });
+  // Колеса на телефоне нет — кнопки «+» и «−» делают то же.
+  const zoomBy = k => {
+    PROJ.setZoom(Math.min(9, Math.max(1, (PROJ.state.zoom || 1) * k)));
+    drawGlobe();
+  };
+  $("#gzin").onclick = () => zoomBy(1.3);
+  $("#gzout").onclick = () => zoomBy(1 / 1.3);
   G.on("hover", e => {
     const el = $("#gpop");
     // Наведение приходит и на точку, и на зону. Раньше для зоны
@@ -1153,6 +1248,7 @@ function draw(){
   timer = setTimeout(async () => {
     const my = ++seq;
     $("#lfv").textContent = $("#lf").value + "%";
+    psum();
     // Пройденная часть дорожки — от минимума, не от нуля.
     const lf = $("#lf");
     lf.style.setProperty("--p", (lf.value - lf.min) / (lf.max - lf.min) * 100);
@@ -1982,6 +2078,21 @@ document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
   document.getElementById(id).addEventListener("input", draw));
 // `boot()` — внизу, после входа по ссылке на рабочее место: иначе список
 // типов пришёл бы без своих.
+
+// ── телефон: параметры шторкой ──────────────────────────────────────────
+// На узком экране левая колонка свёрнута в строку «Параметры расчёта:
+// 82% · 95 EUR»; раскрывается нажатием. На десктопе кнопки нет (CSS).
+function psum(){
+  const m = $("#month");
+  const mo = m.value ? " · " + (m.selectedOptions[0] || {}).text : "";
+  $("#psum").textContent = `${$("#lf").value}% · ${$("#fare").value || "—"} EUR${mo}`;
+}
+$("#ptoggle").onclick = () => {
+  const open = $("#left").classList.toggle("open");
+  $("#ptoggle").setAttribute("aria-expanded", String(open));
+};
+["fare", "month"].forEach(id => $("#" + id).addEventListener("change", psum));
+psum();
 
 // ── рабочее место гостя (решение 148) ──────────────────────────────────
 // Ключ живёт в cookie `fca_ws` и в ссылке /w#<ключ>; сервер хранит только

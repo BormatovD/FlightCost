@@ -1,10 +1,12 @@
 """Impressum и политика конфиденциальности держатся на коде, а не на словах.
 
 Политика обещает конкретные вещи: страница не тянет ничего с чужих
-серверов, в браузере хранится только выбор языка, журнал пишет усечённый
-адрес и без заголовков, полный адрес живёт в памяти не дольше двух минут.
-Каждое обещание здесь проверено. Если тест упал — либо чините код, либо
-меняйте текст /datenschutz, но не одно без другого.
+серверов, в браузере хранятся только выбор языка и cookie рабочего места,
+журнал пишет усечённый адрес и без заголовков, полный адрес живёт в памяти
+не дольше двух минут, ключ места не попадает в адрес запроса, пределы и
+сроки места — те числа, что названы в тексте. Каждое обещание здесь
+проверено. Если тест упал — либо чините код, либо меняйте текст
+/datenschutz, но не одно без другого.
 """
 
 from __future__ import annotations
@@ -15,7 +17,7 @@ import threading
 import unittest
 from unittest import mock
 
-from flightcostapp import serve
+from flightcostapp import guest, serve
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 WEB = ROOT / "flightcostapp" / "web"
@@ -101,7 +103,7 @@ class LegalPages(unittest.TestCase):
 
 
 class PrivacyPromises(unittest.TestCase):
-    """Пункты 2, 4, 5, 6 политики."""
+    """Пункты 2, 4, 5, 6, 7 политики."""
 
     def test_no_third_party_requests(self):
         for name, text in _front_sources().items():
@@ -111,16 +113,58 @@ class PrivacyPromises(unittest.TestCase):
                     m, f"{name}: загрузка с чужого сервера ({m and m.group(0)!r}) — "
                        f"политика обещает, что её нет")
 
-    def test_browser_keeps_only_language(self):
+    def test_browser_keeps_only_language_and_workspace_cookie(self):
         for name, text in _front_sources().items():
             code = _scripts(text) if name.endswith(".html") else text
-            self.assertNotIn("document.cookie", code, name)
             self.assertNotIn("sessionStorage", code, name)
             self.assertNotIn("indexedDB", code, name)
             uses = re.findall(r"localStorage\b(.{0,40})", code)
             for tail in uses:
                 self.assertRegex(tail, r'^\.(?:get|set|remove)Item\(\s*"fca\.lang"',
                                  f"{name}: localStorage сверх fca.lang — допишите политику")
+            # cookie ставит и гасит сервер; страница её только читает, и
+            # только одну — fca_ws, чтобы показать ссылку на место.
+            for tail in re.findall(r"document\.cookie(.{0,50})", code):
+                self.assertRegex(tail, r"^\.match\(/[^/]*fca_ws=",
+                                 f"{name}: document.cookie не ради fca_ws — допишите политику")
+
+    def test_workspace_cookie_flags_match_policy(self):
+        """Пункт 6: год, только свой сайт, на домене только по https,
+        скрипту видна (HttpOnly нет — нарочно)."""
+        class Fake:
+            COOKIE = serve._Handler.COOKIE
+            server = type("S", (), {"ctx": type("C", (), {"public": True})()})()
+        c = serve._Handler._cookie(Fake(), "ab" * 16)
+        self.assertEqual(Fake.COOKIE, "fca_ws")
+        for must in ("Max-Age=31536000", "SameSite=Lax", "Secure", "Path=/"):
+            self.assertIn(must, c)
+        self.assertNotIn("HttpOnly", c)
+        self.assertIn("Max-Age=0", serve._Handler._cookie(Fake(), None))
+
+    def test_workspace_key_stays_behind_the_hash(self):
+        """Пункты 4 и 7: ключ стоит после «#», в адрес запроса не попадает
+        и из адресной строки убирается."""
+        js = _scripts((WEB / "serve.html").read_text(encoding="utf-8"))
+        self.assertIn("/w#${wsKey()}", js)
+        self.assertNotIn("/w/${", js, "ключ в пути — попал бы в журналы")
+        self.assertIn("history.replaceState", js)
+        self.assertIn('wsApi("/api/ws/open", {key:', js, "ключ уходит телом POST")
+
+    def test_workspace_numbers_match_policy(self):
+        """Пункт 7 называет числа — те же, что в коде и в резервном копировании."""
+        self.assertEqual(guest.IDLE_DAYS, 365)
+        self.assertEqual(guest.MAX_BYTES, 512 * 1024)
+        self.assertEqual(guest.MAX_DOCS, 200)
+        self.assertEqual(guest.MAX_NEW_PER_DAY, 20)
+        self.assertEqual(guest.COUNTER_DAYS, 2)
+        self.assertEqual(guest.mask_ip("203.0.113.77"), "203.0.113.0", "та же маска, что в журнале")
+        backup = (ROOT / "deploy" / "backup.sh").read_text(encoding="utf-8")
+        self.assertRegex(backup, r"(?m)^KEEP=14\b", "копии 14 суток — так обещано")
+        page = (WEB / "datenschutz.html").read_text(encoding="utf-8")
+        secs = dict(re.findall(r'<section lang="(\w+)"[^>]*>(.*?)</section>', page, re.S))
+        for lang, body in secs.items():
+            for n in ("365", "512", "200", "20", "14", "fca_ws", "SHA-256"):
+                self.assertIn(n, body, f"{lang}: политика без «{n}»")
 
     def test_access_log_matches_policy(self):
         caddy = (ROOT / "deploy" / "Caddyfile").read_text(encoding="utf-8")
