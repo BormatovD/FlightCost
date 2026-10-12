@@ -35,6 +35,7 @@ CBR_XML = """<?xml version="1.0" encoding="windows-1251"?>
 <Valute ID="R01335"><NumCode>398</NumCode><CharCode>KZT</CharCode><Nominal>100</Nominal><Name>Тенге</Name><Value>15,8333</Value><VunitRate>0,158333</VunitRate></Valute>
 <Valute ID="R01270"><NumCode>356</NumCode><CharCode>INR</CharCode><Nominal>10</Nominal><Name>Индийских рупий</Name><Value>9,2000</Value><VunitRate>0,92</VunitRate></Valute>
 <Valute ID="R01375"><NumCode>156</NumCode><CharCode>CNY</CharCode><Nominal>1</Nominal><Name>Юань</Name><Value>11,4000</Value><VunitRate>11,4</VunitRate></Valute>
+<Valute ID="R01240"><NumCode>364</NumCode><CharCode>IRR</CharCode><Nominal>100000</Nominal><Name>Иранских риалов</Name><Value>4,8000</Value><VunitRate>0,000048</VunitRate></Valute>
 """ + "".join(
     f'<Valute ID="X{i}"><NumCode>{i}</NumCode><CharCode>{c}</CharCode><Nominal>1</Nominal>'
     f'<Name>x</Name><Value>{10 + i},0</Value></Valute>\n'
@@ -83,6 +84,9 @@ class Registry(unittest.TestCase):
                 store.resolve_proposal(r["proposal_id"], True, "тест")
             self.assertEqual(store.value("fx", "RUB", "2026-10-12"), 95.0)
             self.assertAlmostEqual(store.value("fx", "KZT", "2026-10-12"), 600.0, places=2)
+            # Риал — около двух миллионов за евро: гейт обязан это пропустить,
+            # граница ловит сдвиг точки, а не экзотику (2026-10-12 отверг всё).
+            self.assertAlmostEqual(store.value("fx", "IRR", "2026-10-12"), 95 / 0.000048, delta=1)
             q = FX.quote(store, "RUB", "2026-10-12")
             self.assertEqual((q["kind"], q["date"]), ("cbr", "2026-10-10"))
         finally:

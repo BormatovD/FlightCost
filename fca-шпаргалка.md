@@ -404,7 +404,7 @@ ssh deploy@АДРЕС bash /srv/fca/app/deploy/deploy.sh
 fca publish --dry-run            # что уедет и сколько весит
 fca publish                      # адрес из FCA_DEPLOY_HOST=deploy@АДРЕС
 
-# пакет ТКП из сырой выгрузки (сырая в репозиторий не идёт)
+# пакет сообщества из сырой выгрузки (сырая в репозиторий не идёт)
 fca tkp-pack                     # data/raw/tkp → data/tkp/tkp_charges.json
 
 # что сейчас на сервере: версия кода, дата снимка, незаполненные реквизиты
