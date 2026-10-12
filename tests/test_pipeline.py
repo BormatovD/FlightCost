@@ -232,7 +232,14 @@ import time as _time
 _t0 = _time.monotonic()
 netq = {"airports": "FRA,BCN,LPA", "base": "FRA", "ac": "A320", "fleet": "2",
         "fares": "FRA-BCN:260,FRA-LPA:320,BCN-LPA:200"}
+# Состав складывается в фоне: первый ответ — `pending` с ходом, витрина
+# жива (healthz отвечает, пока поток считает), дальше опрос до результата.
 n1 = ctx.network(netq)
+ok("первый ответ — pending с ходом, а не ожидание", n1.get("pending") is True and "progress" in n1)
+_h0 = _time.monotonic(); ctx.health(); _h = _time.monotonic() - _h0
+ok(f"витрина отвечает во время расчёта сети ({_h * 1000:.0f} мс)", _h < 1.0)
+while n1.get("pending"):
+    _time.sleep(0.1); n1 = ctx.network(netq)
 _first = _time.monotonic() - _t0
 by_key = {f"{p['a']}-{p['b']}": p for p in n1["pairs"]}
 ok(f"сеть: пар {len(n1['pairs'])}, каботаж в ЕС открыт перевозчику ЕС",
@@ -249,10 +256,19 @@ _second = _time.monotonic() - _t1
 ok(f"повтор с другими ценами — из кэша ({_second * 1000:.0f} мс против {_first * 1000:.0f})",
    n2["cached"] and _second < _first / 5
    and {f"{p['a']}-{p['b']}": p for p in n2["pairs"]}["FRA-BCN"]["legs"][0]["fare_eur"] == 120.0)
+_n3 = ctx.network({**netq, "fares": "FRA-BCN:95"})
 ok("без цены пара уходит с причиной, а не падает",
-   ctx.network({**netq, "fares": "FRA-BCN:95"})["network"] is not None
-   and any(r["kind"] == "no_fare" for p in ctx.network({**netq, "fares": "FRA-BCN:95"})["pairs"]
+   _n3["network"] is not None
+   and any(r["kind"] == "no_fare" for p in _n3["pairs"]
            for r in p["reasons"] if p["a"] == "FRA" and p["b"] == "LPA"))
+# Седьмой аэропорт к прежним — только его плечи: кэш плеч переживает смену состава.
+_t4 = _time.monotonic()
+n4 = ctx.network({**netq, "airports": "FRA,BCN"})
+while n4.get("pending"):
+    _time.sleep(0.05); n4 = ctx.network({**netq, "airports": "FRA,BCN"})
+_fourth = _time.monotonic() - _t4
+ok(f"подмножество состава — из кэша плеч ({_fourth * 1000:.0f} мс против {_first * 1000:.0f})",
+   n4["network"] is not None and len(n4["pairs"]) == 1 and _fourth < _first / 3)
 # Один разбор параметров на маршрут и порог: месяц и --set обязаны
 # доезжать до `base_kwargs` (ловушка `--month` из ROADMAP).
 kw = ctx._kwargs({"month": "7", "fare": "125", "lf": "0.82",

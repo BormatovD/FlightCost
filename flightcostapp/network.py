@@ -25,6 +25,7 @@
 
 from __future__ import annotations
 
+import copy
 import math
 from dataclasses import dataclass, field
 from datetime import date
@@ -255,8 +256,15 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                  month=None, overrides=None, operator="*",
                  user_fares=None, user_market=None, fare_bands=FARE_BANDS,
                  closures=None, econ=None, crossing_fn=None, airport_fn=None,
-                 gc_nm=None, world_zones=None, detour_fn=None) -> list[Pair]:
-    """Все пары выбранных аэропортов с причиной, почему пара в сети или нет."""
+                 gc_nm=None, world_zones=None, detour_fn=None,
+                 leg_cache: dict | None = None, detour_cache: dict | None = None,
+                 progress=None) -> list[Pair]:
+    """Все пары выбранных аэропортов с причиной, почему пара в сети или нет.
+
+    `leg_cache` и `detour_cache` — словари вызывающего: плечо и обход
+    зависят только от концов, типа, даты, месяца и переопределений, и
+    добавленный к сети седьмой аэропорт не должен пересчитывать шесть
+    прежних. `progress(done, total, key)` зовётся после каждой пары."""
     if econ is None or airport_fn is None or gc_nm is None:
         from . import econ as _e
         econ = econ or _e.route_economics
@@ -283,7 +291,11 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
     comp, _window = observed_frequency(store, as_of)
 
     pairs = []
-    for x, y in combinations(codes, 2):
+    todo = list(combinations(codes, 2))
+    ov_key = tuple(sorted((k, str(v)) for k, v in (overrides or {}).items()))
+    for n_done, (x, y) in enumerate(todo, 1):
+        if progress and n_done > 1:
+            progress(n_done - 1, len(todo), f"{todo[n_done - 2][0]}-{todo[n_done - 2][1]}")
         ax, ay = info[x], info[y]
         nm = gc_nm(ax["lat"], ax["lon"], ay["lat"], ay["lon"])
         p = Pair(x, y, ax["icao"], ay["icao"], ax["country"], ay["country"],
@@ -306,8 +318,13 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                                      "fca refresh --only fir_world"}]
                 pairs.append(p)
                 continue
-            dt = detour_fn((ax["lat"], ax["lon"]), (ay["lat"], ay["lon"]),
-                           closed_polygons(carrier, as_of, closures, world_zones))
+            dkey = (carrier, ax["icao"], ay["icao"], as_of)
+            dt = detour_cache.get(dkey) if detour_cache is not None else None
+            if dt is None:
+                dt = detour_fn((ax["lat"], ax["lon"]), (ay["lat"], ay["lon"]),
+                               closed_polygons(carrier, as_of, closures, world_zones))
+                if detour_cache is not None:
+                    detour_cache[dkey] = dt
             if not dt.found:
                 p.status = "airspace"
                 p.reasons = shut + [{"kind": "no_detour", "text": w} for w in dt.warnings]
@@ -322,9 +339,15 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
         try:
             for o, d in ((x, y), (y, x)):
                 via = p.via if (o, d) == (x, y) else list(reversed(p.via))
-                leg, _r = _leg(econ, store, o, d, aircraft=aircraft, as_of=as_of,
-                               month=month, overrides=overrides, operator=operator,
-                               via=via or None)
+                lkey = (o, d, tuple(via), aircraft, as_of, month, operator, ov_key)
+                leg = leg_cache.get(lkey) if leg_cache is not None else None
+                if leg is None:
+                    leg, _r = _leg(econ, store, o, d, aircraft=aircraft, as_of=as_of,
+                                   month=month, overrides=overrides, operator=operator,
+                                   via=via or None)
+                    if leg_cache is not None:
+                        leg_cache[lkey] = leg
+                leg = copy.deepcopy(leg)          # своё у каждой сети: цены накладываются
                 oi, di = info[o]["icao"], info[d]["icao"]
                 leg.market_fare_eur, leg.market_fare_src = market_fare(store, oi, di, as_of,
                                                                        fare_bands)
@@ -350,6 +373,8 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
             p.market_est_src = (f"оценка: наблюдённые рейсы × {MARKET_SEATS} кресел × "
                                 f"{MARKET_LF:.2f}")
         pairs.append(p)
+    if progress:
+        progress(len(todo), len(todo), "")
     apply_inputs(pairs, user_fares, user_market)
     return pairs
 

@@ -315,7 +315,7 @@ class _Handler(BaseHTTPRequestHandler):
                 # справочника. По ней проверяет себя выкладка и ей
                 # проверяете вы — «на домене то, что я думаю».
                 return self._json(self.server.ctx.health())
-            if u.path in ("/api/solve", "/api/compare", "/api/network") and not self.server.ctx.allow(
+            if u.path in ("/api/solve", "/api/compare") and not self.server.ctx.allow(
                     self._client_ip()):
                 return self._json({"error": "слишком часто: тяжёлые расчёты — не чаще "
                                             f"{self.server.ctx.HEAVY_PER_MIN} в минуту с адреса"},
@@ -330,7 +330,7 @@ class _Handler(BaseHTTPRequestHandler):
             if u.path == "/api/fx":
                 return self._json(ctx.fx(q))
             if u.path == "/api/network":
-                return self._json(ctx.network(q))
+                return self._json(ctx.network(q, ip=self._client_ip()))
             if u.path == "/api/route":
                 return self._json(ctx.route(q))
             if u.path == "/api/fact":
@@ -489,6 +489,10 @@ class Context:
         self._pruned = 0.0
         self._facts_n = None
         self._net_cache: dict = {}
+        self._net_jobs: dict = {}
+        # Плечи и обходы — по концам и типу, переживают смену состава.
+        self._leg_cache: dict = {}
+        self._detour_cache: dict = {}
         if public:
             # Метла по часам, а не только по запросам: на тихом сайте
             # следующего тяжёлого запроса можно ждать часами, а политика
@@ -738,14 +742,19 @@ class Context:
                     continue
         return out
 
-    def network(self, q: dict) -> dict:
+    def network(self, q: dict, ip: str = "") -> dict:
+        """Сеть: сложить (дорого, в фоне, с ходом) и просимулировать (дёшево).
+
+        Первый запрос с новым составом запускает поток и отвечает
+        `pending` с ходом «пар посчитано»; страница опрашивает тот же
+        адрес, пока не придёт ответ. Поток работает на СВОЁМ соединении с
+        базой, а не под общим замком: иначе минуту расчёта сети не
+        отвечала бы вся витрина, включая /healthz. Плечи и обходы
+        кэшируются по концам и типу, поэтому седьмой аэропорт к шести
+        прежним — это только его плечи.
+        """
         from copy import deepcopy
-        from .econ import route_economics
-        from .network import (ALPHA, apply_inputs, fleet_from_core, form_network,
-                              load_closures, simulate)
-        # Ключи сети не пересекаются с ключами маршрута: `fare`, `freq`,
-        # `util`, `lf` у `_kwargs` значат другое (чек, частота, режим
-        # налёта, загрузка) — сюда они не передаются.
+        from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease",
                     "fare_mult", "fare_conv", "alpha", "airports", "base")
         kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY})
@@ -754,46 +763,36 @@ class Context:
         if len(set(airports) | {base}) < 2:
             return {"error": "нужны хотя бы два аэропорта"}
         ov = kw.get("overrides") or {}
-        # Место гостя — в ключе: свой тип USER:X у двух гостей — два разных
-        # типа под одним кодом, и кэш одного не должен ответить другому.
+        as_of = str(kw.get("as_of") or date.today())
         form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
                     kw.get("month"), kw.get("operator"),
-                    tuple(sorted((k, str(v)) for k, v in ov.items())),
-                    str(kw.get("as_of") or date.today()))
-        t0 = time.monotonic()
+                    tuple(sorted((k, str(v)) for k, v in ov.items())), as_of)
         cached = self._net_cache.get(form_key)
         if cached is None:
-            with self.lock:
-                pairs = form_network(self.store, airports, base=base, aircraft=kw["aircraft"],
-                                     as_of=kw.get("as_of"), month=kw.get("month"),
-                                     overrides=ov or None, operator=kw.get("operator", "*"))
-                ok = [p for p in pairs if p.status == "ok"]
-                fleet = None
-                if ok:
-                    fleet = fleet_from_core(route_economics, self.store, ok[0].a, ok[0].b,
-                                            aircraft=kw["aircraft"], as_of=kw.get("as_of"),
-                                            month=kw.get("month"), overrides=ov or None,
-                                            operator=kw.get("operator", "*"))
-            cached = (pairs, fleet)
-            if len(self._net_cache) >= self.NET_CACHE:
-                self._net_cache.pop(next(iter(self._net_cache)))
-            self._net_cache[form_key] = cached
-        pairs, fleet = deepcopy(cached)
-        formed_ms = round((time.monotonic() - t0) * 1000)
+            job = self._net_jobs.get(form_key)
+            if job is None:
+                if ip and not self.allow(ip):
+                    return {"error": f"слишком часто: расчёт состава сети — не чаще "
+                                     f"{self.HEAVY_PER_MIN} в минуту с адреса"}
+                job = self._start_net_job(form_key, airports, base, kw, ov, as_of)
+            if job.get("error"):
+                self._net_jobs.pop(form_key, None)
+                return {"error": job["error"], "pairs": [], "network": None}
+            if not job.get("done"):
+                return {"pending": True, "progress": dict(job["progress"])}
+            cached = self._net_cache.get(form_key)
+            self._net_jobs.pop(form_key, None)
+            if cached is None:
+                return {"error": "расчёт состава не оставил результата", "pairs": [], "network": None}
+        pairs, fleet, formed_ms = deepcopy(cached[0]), deepcopy(cached[1]), cached[2]
 
         apply_inputs(pairs, self._pairs_q(q.get("fares", "")), self._pairs_q(q.get("market", "")))
-        as_of = str(kw.get("as_of") or date.today())
-        try:
-            carrier = next(p.ca for p in pairs if p.a == base) if pairs else ""
-            if not carrier:
-                carrier = next((p.cb for p in pairs if p.b == base), "")
-        except StopIteration:
-            carrier = ""
+        carrier = next((p.ca for p in pairs if p.a == base), "") or next((p.cb for p in pairs if p.b == base), "")
         closures = load_closures()
         closed = sorted({z for c in closures if c.active(as_of) and c.applies_to(carrier)
                          for z in c.zones})
         out = {"base": base, "carrier": carrier, "aircraft": kw["aircraft"], "as_of": as_of,
-               "closed_zones": closed, "formed_ms": formed_ms, "cached": formed_ms < 50,
+               "closed_zones": closed, "formed_ms": formed_ms, "cached": True,
                "pairs": [_jsonable(p) for p in pairs], "network": None, "error": None}
         if fleet is None:
             out["error"] = "ни одной пары с правом летать — сети нет"
@@ -817,6 +816,53 @@ class Context:
         out["pairs"] = [_jsonable(p) for p in pairs]
         out["fleet"] = _jsonable(fleet)
         return out
+
+    def _start_net_job(self, form_key, airports, base, kw, ov, as_of) -> dict:
+        """Поток формирования сети на отдельном соединении с базой."""
+        from .econ import route_economics
+        from .network import fleet_from_core, form_network
+        from .store import Store
+        job = {"done": False, "error": None, "progress": {"done": 0, "total": 0, "last": ""}}
+        self._net_jobs[form_key] = job
+
+        def progress(done, total, key):
+            job["progress"].update(done=done, total=total, last=key)
+
+        def run():
+            t0 = time.monotonic()
+            try:
+                base_store = Store(self.store.path if not isinstance(self.store, GuestStore)
+                                   else self.store.base.path, shared=True)
+                store = (GuestStore(base_store, self.gdb, self.ws)
+                         if isinstance(self.store, GuestStore) else base_store)
+                try:
+                    pairs = form_network(store, airports, base=base, aircraft=kw["aircraft"],
+                                         as_of=kw.get("as_of"), month=kw.get("month"),
+                                         overrides=ov or None, operator=kw.get("operator", "*"),
+                                         leg_cache=self._leg_cache.setdefault(self.ws, {}),
+                                         detour_cache=self._detour_cache,
+                                         progress=progress)
+                    ok = [p for p in pairs if p.status == "ok"]
+                    fleet = None
+                    if ok:
+                        fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
+                                                aircraft=kw["aircraft"], as_of=kw.get("as_of"),
+                                                month=kw.get("month"), overrides=ov or None,
+                                                operator=kw.get("operator", "*"))
+                finally:
+                    base_store.db.close()
+                if len(self._net_cache) >= self.NET_CACHE:
+                    self._net_cache.pop(next(iter(self._net_cache)))
+                if sum(len(v) for v in self._leg_cache.values()) > 4000:
+                    self._leg_cache.clear()
+                self._net_cache[form_key] = (pairs, fleet, round((time.monotonic() - t0) * 1000))
+            except Exception as exc:                           # noqa: BLE001
+                job["error"] = f"{type(exc).__name__}: {exc}"
+            finally:
+                job["done"] = True
+
+        threading.Thread(target=run, daemon=True, name="net-form").start()
+        return job
 
     # Условия начисления, которые определяет ТИП (решение 78). В сравнении
     # они сняты у всех: заданные пользователем для A320, они переехали бы

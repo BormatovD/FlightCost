@@ -146,14 +146,68 @@ def _segments_cross(p, q, rings: list) -> bool:
     return False
 
 
-def _arc_blocked(a, b, rings: list) -> bool:
+def _inside_many(pts: np.ndarray, ring: np.ndarray) -> np.ndarray:
+    """То же, что `_inside`, для многих точек сразу: (m,) булев."""
+    y, x = pts[:, 0:1], pts[:, 1:2]                  # (m,1)
+    y1, x1 = ring[:-1, 0][None, :], ring[:-1, 1][None, :]
+    y2, x2 = ring[1:, 0][None, :], ring[1:, 1][None, :]
+    cond = (y1 > y) != (y2 > y)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        xin = (x2 - x1) * (y - y1) / (y2 - y1) + x1
+    return (np.sum(cond & (x < xin), axis=1) % 2).astype(bool)
+
+
+def _cat(rings: list) -> list:
+    """Кольца с заранее посчитанными рамками и рёбрами: проверка дуги
+    сначала отсекает кольцо рамкой, а потом считает пересечения со всеми
+    его рёбрами одним произведением."""
+    out = []
+    for r in rings:
+        out.append((r[:, 0].min(), r[:, 0].max(), r[:, 1].min(), r[:, 1].max(),
+                    r[:-1, 0][None, :], r[:-1, 1][None, :], r[1:, 0][None, :], r[1:, 1][None, :], r))
+    return out
+
+
+def _gc_points_np(a, b, n: int) -> np.ndarray:
+    """То же, что `gc_points`, массивом (n+1, 2): в поиске обхода дуга
+    дробится десятки тысяч раз, и цикл на math.sin был половиной времени."""
+    la1, lo1, la2, lo2 = map(math.radians, (*a, *b))
+    d = math.acos(max(-1.0, min(1.0, math.sin(la1) * math.sin(la2)
+                                + math.cos(la1) * math.cos(la2) * math.cos(lo2 - lo1))))
+    if n <= 1 or d < 1e-9:
+        return np.asarray([a, b], dtype=float)
+    f = np.linspace(0.0, 1.0, n + 1)
+    A, B = np.sin((1 - f) * d) / math.sin(d), np.sin(f * d) / math.sin(d)
+    x = A * math.cos(la1) * math.cos(lo1) + B * math.cos(la2) * math.cos(lo2)
+    y = A * math.cos(la1) * math.sin(lo1) + B * math.cos(la2) * math.sin(lo2)
+    z = A * math.sin(la1) + B * math.sin(la2)
+    return np.column_stack((np.degrees(np.arctan2(z, np.hypot(x, y))), np.degrees(np.arctan2(y, x))))
+
+
+def _arc_blocked(a, b, rings: list, cat=None) -> bool:
+    """Задевает ли дуга большого круга a–b хоть одно кольцо: пересечением
+    ребра или серединой куска внутри. Кольцо отсекается рамкой, внутри
+    кольца — векторно по всем кускам дуги и всем рёбрам."""
     n = max(1, int(math.ceil(gc_km(a, b) / PIECE_KM)))
-    pts = gc_points(a, b, n)
-    for p, q in zip(pts, pts[1:]):
-        if _segments_cross(p, q, rings):
+    pts = _gc_points_np(a, b, n)
+    P, Q = pts[:-1], pts[1:]
+    lat0, lat1 = pts[:, 0].min(), pts[:, 0].max()
+    lon0, lon1 = pts[:, 1].min(), pts[:, 1].max()
+    py, px = P[:, 0:1], P[:, 1:2]
+    qy, qx = Q[:, 0:1], Q[:, 1:2]
+    mid = None
+    for ymin, ymax, xmin, xmax, ay, ax, by, bx, r in (cat if cat is not None else _cat(rings)):
+        if lon1 < xmin or lon0 > xmax or lat1 < ymin or lat0 > ymax:
+            continue
+        d1 = (qx - px) * (ay - py) - (qy - py) * (ax - px)
+        d2 = (qx - px) * (by - py) - (qy - py) * (bx - px)
+        d3 = (bx - ax) * (py - ay) - (by - ay) * (px - ax)
+        d4 = (bx - ax) * (qy - ay) - (by - ay) * (qx - ax)
+        if np.any((d1 * d2 < 0) & (d3 * d4 < 0)):
             return True
-        my, mx = (p[0] + q[0]) / 2, (p[1] + q[1]) / 2
-        if any(_inside(my, mx, r) for r in rings):
+        if mid is None:
+            mid = (P + Q) / 2
+        if np.any(_inside_many(mid, r)):
             return True
     return False
 
@@ -197,20 +251,29 @@ def detour(origin, destination, closed: dict, *, buffer_km: float = BUFFER_KM,
     o, d = tuple(map(float, origin)), tuple(map(float, destination))
     direct = gc_km(o, d)
     warnings = []
-    rings, owners = [], []
+
+    def build(tol):
+        rings, owners = [], []
+        for zid, rs in closed.items():
+            for ring in rs:
+                r = [tuple(map(float, p)) for p in ring]
+                if r[0] != r[-1]:
+                    r.append(r[0])
+                if max(p[1] for p in r) - min(p[1] for p in r) > 180:
+                    continue
+                rr = _simplify(r, tol)
+                if rr[0] != rr[-1]:
+                    rr.append(rr[0])
+                rings.append(np.asarray(rr, dtype=float))
+                owners.append(zid)
+        return rings, owners
+
     for zid, rs in closed.items():
         for ring in rs:
-            r = [tuple(map(float, p)) for p in ring]
-            if r[0] != r[-1]:
-                r.append(r[0])
-            if max(p[1] for p in r) - min(p[1] for p in r) > 180:
+            lons = [float(p[1]) for p in ring]
+            if max(lons) - min(lons) > 180:
                 warnings.append(f"зона {zid} пересекает антимеридиан — обход там не строится")
-                continue
-            rr = _simplify(r, simplify_deg)
-            if rr[0] != rr[-1]:
-                rr.append(rr[0])
-            rings.append(np.asarray(rr, dtype=float))
-            owners.append(zid)
+    rings, owners = build(simplify_deg)
     if not rings:
         return Detour(True, direct, direct, [o, d], [], warnings)
 
@@ -218,37 +281,62 @@ def detour(origin, destination, closed: dict, *, buffer_km: float = BUFFER_KM,
     hit = [owners[i] for i, r in enumerate(rings) if _arc_blocked(o, d, [r])]
     if not hit:
         return Detour(True, direct, direct, [o, d], [], warnings)
+    # Конец внутри закрытой зоны — обхода нет по определению; искать его
+    # десять секунд, чтобы сказать то же самое, незачем.
+    for end, name in ((o, "вылета"), (d, "назначения")):
+        inside = [owners[i] for i, r in enumerate(rings) if _inside(end[0], end[1], r)]
+        if inside:
+            warnings.append(f"аэропорт {name} внутри закрытой зоны {', '.join(sorted(set(inside)))} "
+                            f"— обхода нет")
+            return Detour(False, direct, math.inf, [], sorted(set(hit)), warnings)
 
-    cands = []
-    for r in rings:
-        cands += _offset_vertices(r, buffer_km)
-    cands = [c for c in cands
-             if gc_km(o, c) + gc_km(c, d) <= MAX_STRETCH * direct
-             and not any(_inside(c[0], c[1], r) for r in rings)]
-    if len(cands) > MAX_VERTICES:
-        # Реже, но равномерно: каждая k-я вершина, а не первые N
-        step = len(cands) / MAX_VERTICES
-        cands = [cands[int(i * step)] for i in range(MAX_VERTICES)]
+    # Кандидаты — вершины закрытых полигонов, отодвинутые на зазор. Их
+    # число держится огрублением контура, а не прореживанием: равномерное
+    # «каждая k-я» выбрасывало угол, через который и шёл обход, и путь
+    # «не находился». Дуглас–Пойкер с большим допуском оставляет углы.
+    tol = simplify_deg
+    while True:
+        cands = []
+        for r in rings:
+            cands += _offset_vertices(r, buffer_km)
+        cands = [c for c in cands
+                 if gc_km(o, c) + gc_km(c, d) <= MAX_STRETCH * direct
+                 and not any(_inside(c[0], c[1], r) for r in rings)]
+        if len(cands) <= MAX_VERTICES or tol > 2.0:
+            break
+        tol *= 1.5
+        rings, owners = build(tol)
+    cat = _cat(rings)
     nodes = [o, d] + cands
     n = len(nodes)
-    adj: list[list] = [[] for _ in range(n)]
-    for i in range(n):
-        for j in range(i + 1, n):
-            if not _arc_blocked(nodes[i], nodes[j], rings):
-                w = gc_km(nodes[i], nodes[j])
-                adj[i].append((j, w)); adj[j].append((i, w))
+    # A* по неявному полному графу с ленивой проверкой рёбер. Полный граф
+    # видимости строился заранее: ~400 вершин → 80 тысяч проверок дуги
+    # против полигонов, по полминуты на пару при закрытой России. Теперь
+    # ребро проверяется только когда вершина снята с кучи и ребро способно
+    # улучшить путь; эвристика — ортодромия до цели, она согласована, и
+    # ответ тот же, что у Дейкстры по полному графу.
+    h = [gc_km(v, d) for v in nodes]
     dist = [math.inf] * n; prev = [-1] * n; dist[0] = 0.0
-    pq = [(0.0, 0)]
+    done = [False] * n
+    pq = [(h[0], 0)]
     while pq:
-        du, u = heapq.heappop(pq)
-        if du > dist[u]:
+        _f, u = heapq.heappop(pq)
+        if done[u]:
             continue
+        done[u] = True
         if u == 1:
             break
-        for v, w in adj[u]:
-            if du + w < dist[v]:
-                dist[v], prev[v] = du + w, u
-                heapq.heappush(pq, (dist[v], v))
+        nu, du = nodes[u], dist[u]
+        for v in range(n):
+            if v == u or done[v]:
+                continue
+            w = gc_km(nu, nodes[v])
+            if du + w >= dist[v]:
+                continue                       # не улучшит — дорогую проверку не делаем
+            if _arc_blocked(nu, nodes[v], rings, cat):
+                continue
+            dist[v], prev[v] = du + w, u
+            heapq.heappush(pq, (dist[v] + h[v], v))
     if dist[1] == math.inf:
         warnings.append("обход не найден: закрытые зоны отрезают пункт назначения")
         return Detour(False, direct, math.inf, [], sorted(set(hit)), warnings)

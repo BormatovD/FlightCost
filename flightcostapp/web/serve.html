@@ -2441,16 +2441,25 @@ let NET_SEQ = 0, NET_TIMER = null;
 async function netRun(){
   if (NET.airports.length < 2 || !NET.base) { NET.msg = _t("нужны хотя бы два аэропорта и база"); netRender(); return; }
   const my = ++NET_SEQ;
-  NET.busy = true; NET.msg = ""; netRender();
+  NET.busy = true; NET.msg = ""; NET.progress = null; netRender();
   const t0 = performance.now();
   let r;
-  try {
-    const resp = await fetch("/api/network?" + netParams());
-    r = await resp.json();
-    if (resp.status === 429) r = {error: r.error};
-  } catch (e) { r = {error: _t("Сервер не ответил")}; }
-  if (my !== NET_SEQ) return;
-  NET.busy = false;
+  // Состав сервер складывает в фоне и отвечает `pending` с ходом; страница
+  // опрашивает тот же адрес, пока не придёт сеть. Запрос, который успели
+  // обогнать (my !== NET_SEQ), просто бросается.
+  for (;;) {
+    try {
+      const resp = await fetch("/api/network?" + netParams());
+      r = await resp.json();
+      if (resp.status === 429) r = {error: r.error};
+    } catch (e) { r = {error: _t("Сервер не ответил")}; }
+    if (my !== NET_SEQ) return;
+    if (!(r && r.pending)) break;
+    NET.progress = r.progress; netRender();
+    await new Promise(res => setTimeout(res, 1500));
+    if (my !== NET_SEQ) return;
+  }
+  NET.busy = false; NET.progress = null;
   if (r && r.pairs) { NET.res = r; NET.dirty = false; }
   NET.msg = r && r.error ? r.error : "";
   NET.ms = Math.round(performance.now() - t0);
@@ -2489,8 +2498,10 @@ function netRender(){
   // Пять чисел над глобусом — ответ обращением (решение 154).
   const k = $("#kpi"); k.classList.add("net");
   if (!n) {
-    k.innerHTML = kpiCell(_t("Сеть"), NET.busy ? _t("считаю…") : "—",
-      NET.msg || (NET.dirty ? _t("нажмите «Считать сеть»") : ""), !!NET.msg)
+    const pr = NET.progress;
+    k.innerHTML = kpiCell(_t("Сеть"), NET.busy ? (pr && pr.total ? `${pr.done} / ${pr.total}` : _t("считаю…")) : "—",
+      NET.busy ? (pr && pr.total ? `${_t("пар посчитано")}${pr.last ? " · " + pr.last : ""}` : _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"))
+               : (NET.msg || (NET.dirty ? _t("нажмите «Считать сеть»") : "")), !!NET.msg)
       + kpiCell(_t("Парк"), `${$("#nfleet").value} × ${esc(CHOSEN.ac)}`, "", false)
       + kpiCell(_t("Цена"), `× ${f2(+$("#nmult").value / 100)}`, _t("к рыночной медиане"), false)
       + kpiCell(_t("Загрузка"), $("#nlf").value + "%", _t("расчётная"), false)
@@ -2528,7 +2539,8 @@ function netRender(){
 
 function tabNet(){
   const r = NET.res, n = r && r.network;
-  if (NET.busy) return `<p class="lede">${_t("считаю сеть…")} ${_t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно")}</p>`;
+  if (NET.busy) return `<p class="lede">${_t("считаю сеть…")} ${NET.progress && NET.progress.total
+      ? `${NET.progress.done} / ${NET.progress.total} ${_t("пар посчитано")}` : _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно")}</p>`;
   if (!r) return `<p class="lede">${_t("Соберите аэропорты слева, выберите базу и тип, нажмите «Считать сеть».")}</p>
     <div class="note quiet">${_t("Сеть складывается из всех пар выбранных аэропортов: сначала права перевозчика страны базы (каботаж, седьмая свобода, закрытое небо), потом дальность типа, потом цена — медиана дневных минимумов агрегатора или ваша. Ответ — обращением: при какой загрузке, цене, лизинге и топливе сеть в нуле и какая доля нынешнего потока для этого нужна.")}</div>`;
   let h = "";

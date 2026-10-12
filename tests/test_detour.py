@@ -63,7 +63,8 @@ class Geometry(unittest.TestCase):
         inside = (47.5, 25.0)
         r = D.detour(W, inside, BOX)
         self.assertFalse(r.found)
-        self.assertTrue(any("не найден" in w for w in r.warnings))
+        self.assertTrue(any("не найден" in w or "обхода нет" in w for w in r.warnings),
+                        "отказ должен быть назван: не найден или конец внутри зоны")
 
     def test_two_zones_on_one_line(self):
         two = {"A": [[(45, 15), (50, 15), (50, 22), (45, 22)]],
