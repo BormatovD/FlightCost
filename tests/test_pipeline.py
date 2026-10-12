@@ -174,7 +174,26 @@ res = route_economics(store, "FRA", "BCN", load_factor=0.82, fare_eur=95,
 ok("ставка найдена по зоне ИКАО, а не по коду страны",
    not any("нет ставок" in w for w in res.warnings))
 ok("карта данных покрывает трассировку", not check_against_trace(res))
-ok("протухшие источники помечены", res.degraded)
+# Три состояния свежести (econ.py, блок freshness): только что собранная
+# копия НЕ деградирована — протухших нет, а то, что ни разу не собиралось,
+# названо отдельной строкой. Прежде проверка ждала `degraded` на свежей
+# копии и была верна лишь пока «не подключён» считался «протух».
+ok("свежая копия не деградирована, неподключённые названы",
+   not res.degraded and any(w.startswith("не подключены") for w in res.warnings))
+# А протухание — отметка источника старше его SLA — деградирует ответ и
+# называет источник. Отметку сдвигаем прямо в таблице и возвращаем назад.
+_st = store.source_state("crco_enroute_rates")
+_old = (datetime.date.today() - datetime.timedelta(days=100)).isoformat() + "T00:00:00"
+store.db.execute("UPDATE source_state SET last_ok=? WHERE source_id='crco_enroute_rates'", (_old,))
+store.db.commit()
+res_stale = route_economics(store, "FRA", "BCN", load_factor=0.82, fare_eur=95,
+                            as_of=DAY.isoformat(), freshness=freshness_report(store, reg))
+ok("протухший источник делает ответ деградированным и назван",
+   res_stale.degraded and any("протухшие источники" in w and "crco_enroute_rates" in w
+                              for w in res_stale.warnings))
+store.db.execute("UPDATE source_state SET last_ok=? WHERE source_id='crco_enroute_rates'",
+                 (_st["last_ok"],))
+store.db.commit()
 
 print("\n== обращение расчёта ==")
 from flightcostapp.solve import solve
