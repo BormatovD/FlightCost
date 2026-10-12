@@ -224,6 +224,35 @@ print("\n== витрина: сервер ==")
 from flightcostapp.serve import Context
 from flightcostapp.solve import margins
 ctx = Context(store, reg)
+# Сеть через витрину: три аэропорта, перевозчик DE. BCN–LPA — внутренняя
+# испанская пара, но для перевозчика ЕС это общий рынок (решение 156):
+# каботаж открыт, все три пары летают. Второй вызов с другими ценами
+# берёт сложенную сеть из кэша и не зовёт ядро.
+import time as _time
+_t0 = _time.monotonic()
+netq = {"airports": "FRA,BCN,LPA", "base": "FRA", "ac": "A320", "fleet": "2",
+        "fares": "FRA-BCN:260,FRA-LPA:320,BCN-LPA:200"}
+n1 = ctx.network(netq)
+_first = _time.monotonic() - _t0
+by_key = {f"{p['a']}-{p['b']}": p for p in n1["pairs"]}
+ok(f"сеть: пар {len(n1['pairs'])}, каботаж в ЕС открыт перевозчику ЕС",
+   len(n1["pairs"]) == 3 and all(p["status"] == "ok" for p in n1["pairs"]))
+ok("сеть посчитана: безубыточная загрузка и вклад пар есть",
+   n1["network"] is not None and n1["network"]["breakeven_lf"] is not None
+   and len(n1["network"]["pairs"]) == 3
+   and all(r["lf_own"] is not None and r["contribution_month"] > 0 for r in n1["network"]["pairs"]))
+ok("цена, заданная человеком, применена к плечу",
+   by_key["FRA-BCN"]["legs"][0]["fare_eur"] == 260.0 and by_key["FRA-BCN"]["legs"][0]["fare_src"] == "задано")
+_t1 = _time.monotonic()
+n2 = ctx.network({**netq, "fares": "FRA-BCN:120,FRA-LPA:120,BCN-LPA:200", "fleet": "3"})
+_second = _time.monotonic() - _t1
+ok(f"повтор с другими ценами — из кэша ({_second * 1000:.0f} мс против {_first * 1000:.0f})",
+   n2["cached"] and _second < _first / 5
+   and {f"{p['a']}-{p['b']}": p for p in n2["pairs"]}["FRA-BCN"]["legs"][0]["fare_eur"] == 120.0)
+ok("без цены пара уходит с причиной, а не падает",
+   ctx.network({**netq, "fares": "FRA-BCN:95"})["network"] is not None
+   and any(r["kind"] == "no_fare" for p in ctx.network({**netq, "fares": "FRA-BCN:95"})["pairs"]
+           for r in p["reasons"] if p["a"] == "FRA" and p["b"] == "LPA"))
 # Один разбор параметров на маршрут и порог: месяц и --set обязаны
 # доезжать до `base_kwargs` (ловушка `--month` из ROADMAP).
 kw = ctx._kwargs({"month": "7", "fare": "125", "lf": "0.82",

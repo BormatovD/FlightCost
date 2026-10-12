@@ -36,6 +36,7 @@ from __future__ import annotations
 import json
 import re
 import threading
+import time
 import traceback
 import urllib.parse
 from datetime import date
@@ -314,7 +315,7 @@ class _Handler(BaseHTTPRequestHandler):
                 # справочника. По ней проверяет себя выкладка и ей
                 # проверяете вы — «на домене то, что я думаю».
                 return self._json(self.server.ctx.health())
-            if u.path in ("/api/solve", "/api/compare") and not self.server.ctx.allow(
+            if u.path in ("/api/solve", "/api/compare", "/api/network") and not self.server.ctx.allow(
                     self._client_ip()):
                 return self._json({"error": "слишком часто: тяжёлые расчёты — не чаще "
                                             f"{self.server.ctx.HEAVY_PER_MIN} в минуту с адреса"},
@@ -328,6 +329,8 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json(ctx.airports())
             if u.path == "/api/fx":
                 return self._json(ctx.fx(q))
+            if u.path == "/api/network":
+                return self._json(ctx.network(q))
             if u.path == "/api/route":
                 return self._json(ctx.route(q))
             if u.path == "/api/fact":
@@ -485,6 +488,7 @@ class Context:
         self._rl, self._rl_lock, self._rl_swept = {}, threading.Lock(), 0.0
         self._pruned = 0.0
         self._facts_n = None
+        self._net_cache: dict = {}
         if public:
             # Метла по часам, а не только по запросам: на тихом сайте
             # следующего тяжёлого запроса можно ждать часами, а политика
@@ -713,6 +717,106 @@ class Context:
                 # Что именно передано в ядро — чтобы расхождение с вкладкой
                 # «Маршрут» (месяц, --set) было видно, а не угадывалось.
                 "inputs": {k: _jsonable(v) for k, v in kw.items()}}
+
+    # ── сеть (решения 154–159) ───────────────────────────────────────────
+    # Сложить сеть — вызовы ядра на каждое плечо, секунды; переиграть её с
+    # другими ценами, частотами и парком — миллисекунды. Поэтому сложенные
+    # пары кэшируются по тому, что их определяет (аэропорты, база, тип,
+    # месяц, переопределения), а ввод человека накладывается заново.
+    NET_CACHE = 6
+
+    @staticmethod
+    def _pairs_q(raw: str, cast=float) -> dict:
+        """«ALA-FRA:300,ALA-DME:160» → {"ALA-FRA": 300.0, …}."""
+        out = {}
+        for part in (raw or "").replace("~", ",").split(","):
+            k, _, v = part.strip().partition(":")
+            if k and v:
+                try:
+                    out[k.strip().upper()] = cast(v)
+                except ValueError:
+                    continue
+        return out
+
+    def network(self, q: dict) -> dict:
+        from copy import deepcopy
+        from .econ import route_economics
+        from .network import (ALPHA, apply_inputs, fleet_from_core, form_network,
+                              load_closures, simulate)
+        # Ключи сети не пересекаются с ключами маршрута: `fare`, `freq`,
+        # `util`, `lf` у `_kwargs` значат другое (чек, частота, режим
+        # налёта, загрузка) — сюда они не передаются.
+        NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease",
+                    "fare_mult", "fare_conv", "alpha", "airports", "base")
+        kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY})
+        airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
+        base = self.resolve(q.get("base") or (airports[0] if airports else "FRA"))
+        if len(set(airports) | {base}) < 2:
+            return {"error": "нужны хотя бы два аэропорта"}
+        ov = kw.get("overrides") or {}
+        # Место гостя — в ключе: свой тип USER:X у двух гостей — два разных
+        # типа под одним кодом, и кэш одного не должен ответить другому.
+        form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
+                    kw.get("month"), kw.get("operator"),
+                    tuple(sorted((k, str(v)) for k, v in ov.items())),
+                    str(kw.get("as_of") or date.today()))
+        t0 = time.monotonic()
+        cached = self._net_cache.get(form_key)
+        if cached is None:
+            with self.lock:
+                pairs = form_network(self.store, airports, base=base, aircraft=kw["aircraft"],
+                                     as_of=kw.get("as_of"), month=kw.get("month"),
+                                     overrides=ov or None, operator=kw.get("operator", "*"))
+                ok = [p for p in pairs if p.status == "ok"]
+                fleet = None
+                if ok:
+                    fleet = fleet_from_core(route_economics, self.store, ok[0].a, ok[0].b,
+                                            aircraft=kw["aircraft"], as_of=kw.get("as_of"),
+                                            month=kw.get("month"), overrides=ov or None,
+                                            operator=kw.get("operator", "*"))
+            cached = (pairs, fleet)
+            if len(self._net_cache) >= self.NET_CACHE:
+                self._net_cache.pop(next(iter(self._net_cache)))
+            self._net_cache[form_key] = cached
+        pairs, fleet = deepcopy(cached)
+        formed_ms = round((time.monotonic() - t0) * 1000)
+
+        apply_inputs(pairs, self._pairs_q(q.get("fares", "")), self._pairs_q(q.get("market", "")))
+        as_of = str(kw.get("as_of") or date.today())
+        try:
+            carrier = next(p.ca for p in pairs if p.a == base) if pairs else ""
+            if not carrier:
+                carrier = next((p.cb for p in pairs if p.b == base), "")
+        except StopIteration:
+            carrier = ""
+        closures = load_closures()
+        closed = sorted({z for c in closures if c.active(as_of) and c.applies_to(carrier)
+                         for z in c.zones})
+        out = {"base": base, "carrier": carrier, "aircraft": kw["aircraft"], "as_of": as_of,
+               "closed_zones": closed, "formed_ms": formed_ms, "cached": formed_ms < 50,
+               "pairs": [_jsonable(p) for p in pairs], "network": None, "error": None}
+        if fleet is None:
+            out["error"] = "ни одной пары с правом летать — сети нет"
+            return out
+        freq = self._pairs_q(q.get("freqs", ""), int) or None
+        try:
+            net = simulate(pairs, fleet=fleet, fleet_n=int(float(q.get("fleet") or 1)),
+                           freq=freq,
+                           util_h_month=float(q["util_h"]) if q.get("util_h") else None,
+                           lease_eur_month=float(q["lease"]) if q.get("lease") else None,
+                           fare_mult=float(q.get("fare_mult") or 1.0),
+                           fare_conv=float(q.get("fare_conv") or 1.0),
+                           lf_ref=float(q.get("lf") or 0.8),
+                           alpha=float(q["alpha"]) if q.get("alpha") else ALPHA)
+        except ValueError as exc:
+            out["error"] = str(exc)
+            out["pairs"] = [_jsonable(p) for p in pairs]     # с причинами «нет цены»
+            out["fleet"] = _jsonable(fleet)
+            return out
+        out["network"] = _jsonable(net)
+        out["pairs"] = [_jsonable(p) for p in pairs]
+        out["fleet"] = _jsonable(fleet)
+        return out
 
     # Условия начисления, которые определяет ТИП (решение 78). В сравнении
     # они сняты у всех: заданные пользователем для A320, они переехали бы
@@ -1258,6 +1362,19 @@ class Context:
                 """SELECT key, value, unit, value_text FROM facts
                    WHERE domain = 'market_fare' AND valid_to IS NULL
                      AND key LIKE ?""", (route + "/%",)).fetchall()
+            # Цена направленная: туда и обратно различаются (сборы страны
+            # вылета, точка продажи, спрос). Но список сбора часто односторонний,
+            # и пустота на FRA–BCN при собранном BCN–FRA — хуже, чем обратная
+            # цена с пометкой. Пометка обязательна: без неё число выглядит
+            # ценой этого направления.
+            if not fares:
+                back = "-".join(reversed(route.split("-")))
+                fares = self.store.db.execute(
+                    """SELECT key, value, unit, value_text FROM facts
+                       WHERE domain = 'market_fare' AND valid_to IS NULL
+                         AND key LIKE ?""", (back + "/%",)).fetchall()
+                if fares:
+                    out["fare_reverse"] = back
         # Величины перевозчика собираются по контурам, и ВЫВОДИМЫЕ
         # считаются здесь — там же, где видно слагаемые. Хранить CASK
         # фактом значило бы хранить чей-то выбор границы учёта: считать от

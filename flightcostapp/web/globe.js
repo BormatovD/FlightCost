@@ -21,7 +21,7 @@ const esc = s => String(s).replace(/[&<>"]/g,
   c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 export function createGlobe({ svg, proj, data, landStep = 4, zoneStep = 3,
-                             aptClass = null }) {
+                             aptClass = null, zoneClass = null }) {
   // `aptClass(icao)` — дополнительный класс точки. Модуль НЕ знает, что
   // такое ярус данных, и знать не должен: он рисует геометрию. Но и
   // раскрашивать точки снаружи, дописывая классы в готовый SVG, нельзя —
@@ -35,7 +35,10 @@ export function createGlobe({ svg, proj, data, landStep = 4, zoneStep = 3,
      споткнулся владелец. Материки и океан идут ПОД зонами. */
   function draw(view = {}) {
     last = view;
-    const { highlight = {}, route = null, selected = [] } = view;
+    // `routes` — несколько дуг сразу (сеть): у каждой класс, точки обхода
+    // `via` и `id`, по которому дугу можно выбрать щелчком. `zoneClass`
+    // — тот же крючок, что `aptClass`, но для зон: сеть красит закрытые.
+    const { highlight = {}, route = null, routes = [], selected = [] } = view;
     const st = proj.state || {};
     const parts = [];
 
@@ -65,9 +68,10 @@ export function createGlobe({ svg, proj, data, landStep = 4, zoneStep = 3,
         .filter(Boolean).join(" ");
       if (!d) continue;
       const on = code in highlight;
+      const extra = zoneClass ? zoneClass(code) : "";
       const tip = esc(`${code} — ${z.n || ""}`) +
         (on ? esc(`\nпересечение ${Math.round(highlight[code])} nm`) : "");
-      const el = `<path class="zone${on ? " hit" : ""}" d="${d}" ` +
+      const el = `<path class="zone${on ? " hit" : ""}${extra ? " " + extra : ""}" d="${d}" ` +
                  `data-zone="${esc(code)}"><title>${tip}</title></path>`;
       (on ? zoneTop : parts).push(el);
     }
@@ -78,6 +82,18 @@ export function createGlobe({ svg, proj, data, landStep = 4, zoneStep = 3,
       if (d) routeParts.push(`<path class="arc halo" d="${d}"/>` +
                              `<path class="arc" d="${d}"/>`);
       routeParts.push(...arcLabel(route));
+    }
+    for (const r of routes) {
+      // Обход — ломаная из дуг большого круга через точки `via`.
+      const pts = [r.a, ...(r.via || []), r.b];
+      let d = "";
+      for (let i = 0; i + 1 < pts.length; i++) d += arcPath(pts[i], pts[i + 1], proj, r.steps || 60);
+      if (!d) continue;
+      const cls = r.cls ? " " + r.cls : "";
+      routeParts.push(`<path class="arc halo${cls}" d="${d}"/>` +
+        `<path class="arc net${cls}" d="${d}" data-pair="${esc(r.id || "")}">` +
+        `<title>${esc(r.title || r.id || "")}</title></path>`);
+      if (r.label) routeParts.push(...arcLabel(r));
     }
 
     // Рамка кадра, чтобы не рисовать точки за её пределами. `visible`
@@ -137,9 +153,9 @@ export function createGlobe({ svg, proj, data, landStep = 4, zoneStep = 3,
       for (const f of cb[name]) f({ kind, id, x: ev.clientX - b.left,
                                     y: ev.clientY - b.top, event: ev });
     };
-    for (const el of svg.querySelectorAll("[data-apt],[data-zone]")) {
-      const kind = el.dataset.apt ? "airport" : "zone";
-      const id = el.dataset.apt || el.dataset.zone;
+    for (const el of svg.querySelectorAll("[data-apt],[data-zone],[data-pair]")) {
+      const kind = el.dataset.apt ? "airport" : el.dataset.pair ? "pair" : "zone";
+      const id = el.dataset.apt || el.dataset.pair || el.dataset.zone;
       el.addEventListener("mousemove", e => emit("hover", kind, id, e));
       el.addEventListener("mouseleave", e => emit("leave", kind, id, e));
       el.addEventListener("click", e => emit("pick", kind, id, e));

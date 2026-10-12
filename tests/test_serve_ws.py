@@ -137,6 +137,23 @@ class WsHttp(unittest.TestCase):
         st, d, _, _ = self.call("GET", "/api/ws", cookie=new)
         self.assertFalse(d["exists"])
 
+    def test_bench_falls_back_to_reverse_direction_with_a_mark(self):
+        """Цена собрана на BCN–FRA, спрошено FRA–BCN: показывается обратная,
+        и ответ говорит, что она обратная. Без указателя кодов маршрут
+        остаётся в ИАТА — ключи фактов здесь такие же."""
+        self.store.commit_facts([
+            Fact(domain="market_fare", key="BCN-FRA/0-7", valid_from="2026-10-01", value=61.0,
+                 unit="EUR", source_id="market_fare", extracted_by="t"),
+            Fact(domain="market_fare", key="BCN-FRA/8-30", valid_from="2026-10-01", value=48.0,
+                 unit="EUR", source_id="market_fare", extracted_by="t")])
+        st, d, _, _ = self.call("GET", "/api/bench?origin=BCN&destination=FRA")
+        self.assertEqual(len(d["fare"]), 2); self.assertNotIn("fare_reverse", d)
+        st, d, _, _ = self.call("GET", "/api/bench?origin=FRA&destination=BCN")
+        self.assertEqual(len(d["fare"]), 2)
+        self.assertEqual(d["fare_reverse"], "BCN-FRA")
+        st, d, _, _ = self.call("GET", "/api/bench?origin=FRA&destination=DEL")
+        self.assertIsNone(d["fare"])
+
     def test_health_counts_workspaces(self):
         st, d, _, _ = self.call("GET", "/healthz")
         self.assertIn("workspaces", d)

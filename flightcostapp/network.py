@@ -74,6 +74,11 @@ class Leg:
     fuel_price: float | None     # EUR/кг, взята ядром
     fare_eur: float | None = None
     fare_src: str = ""
+    # Рыночная цена отдельно от применённой: применённая — либо заданная
+    # человеком, либо рыночная. Так сложенную сеть можно переиграть с
+    # другими ценами, не считая ядро заново (витрина, кэш).
+    market_fare_eur: float | None = None
+    market_fare_src: str = ""
     comp_week: float | None = None   # наблюдённых рейсов конкурентов в неделю
     warnings: list = field(default_factory=list)
 
@@ -94,6 +99,10 @@ class Pair:
     detour_km: float = 0.0                       # лишние километры обхода
     market_pax_month: float | None = None
     market_src: str = ""
+    # Оценка потока по наблюдённым рейсам — отдельно от применённой, по
+    # той же причине, что рыночная цена у плеча.
+    market_est_pax: float | None = None
+    market_est_src: str = ""
 
     @property
     def key(self) -> str:
@@ -317,13 +326,8 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                                month=month, overrides=overrides, operator=operator,
                                via=via or None)
                 oi, di = info[o]["icao"], info[d]["icao"]
-                given = _lookup(user_fares, o, d, directional=True)
-                if given is None:
-                    given = _lookup(user_fares, o, d, directional=False)
-                if given is not None:
-                    leg.fare_eur, leg.fare_src = float(given), "задано"
-                else:
-                    leg.fare_eur, leg.fare_src = market_fare(store, oi, di, as_of, fare_bands)
+                leg.market_fare_eur, leg.market_fare_src = market_fare(store, oi, di, as_of,
+                                                                       fare_bands)
                 leg.comp_week = comp.get(f"{oi}-{di}") if comp else None
                 p.legs.append(leg)
         except (KeyError, ValueError, RuntimeError) as exc:
@@ -340,17 +344,41 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
             p.reasons = p.reasons + [{"kind": "range_partial", "text":
                           f"{worst.origin}→{worst.destination}: не больше "
                           f"{worst.max_pax} пассажиров из {worst.seats}"}]
-        given = _lookup(user_market, x, y, directional=False)
+        if comp:
+            c = sum((l.comp_week or 0.0) for l in p.legs)
+            p.market_est_pax = c * WEEKS_PER_MONTH * MARKET_SEATS * MARKET_LF
+            p.market_est_src = (f"оценка: наблюдённые рейсы × {MARKET_SEATS} кресел × "
+                                f"{MARKET_LF:.2f}")
+        pairs.append(p)
+    apply_inputs(pairs, user_fares, user_market)
+    return pairs
+
+
+def apply_inputs(pairs: list[Pair], user_fares=None, user_market=None) -> list[Pair]:
+    """Наложить заданные человеком цены и потоки на сложенную сеть.
+
+    Отделено от `form_network`, потому что складывать сеть — это вызовы
+    ядра на каждое плечо (секунды), а цены и потоки — ввод, который
+    человек меняет чаще, чем состав аэропортов. Повторный вызов с другими
+    вводами переписывает прежние: функция идемпотентна."""
+    for p in pairs:
+        for leg in p.legs:
+            o, d = leg.origin, leg.destination
+            given = _lookup(user_fares, o, d, directional=True)
+            if given is None:
+                given = _lookup(user_fares, o, d, directional=False)
+            if given is not None:
+                leg.fare_eur, leg.fare_src = float(given), "задано"
+            else:
+                leg.fare_eur, leg.fare_src = leg.market_fare_eur, leg.market_fare_src
+        given = _lookup(user_market, p.a, p.b, directional=False)
         if given is not None:
             p.market_pax_month, p.market_src = float(given), "задано"
-        elif comp:
-            c = sum((l.comp_week or 0.0) for l in p.legs)
-            p.market_pax_month = c * WEEKS_PER_MONTH * MARKET_SEATS * MARKET_LF
-            p.market_src = (f"оценка: наблюдённые рейсы × {MARKET_SEATS} кресел × "
-                            f"{MARKET_LF:.2f}")
+        elif p.market_est_pax is not None:
+            p.market_pax_month, p.market_src = p.market_est_pax, p.market_est_src
         else:
+            p.market_pax_month = None
             p.market_src = "нет: ни наблюдений рейсов, ни заданного потока"
-        pairs.append(p)
     return pairs
 
 
@@ -448,6 +476,7 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
     for p in ok:
         if not p.priced:
             excluded.append(p)
+            p.reasons = [r for r in p.reasons if r.get("kind") != "no_fare"]
             p.reasons = p.reasons + [{"kind": "no_fare", "text": "нет цены: " + "; ".join(
                 f"{l.origin}→{l.destination} — {l.fare_src}" for l in p.legs if not l.fare_eur)
                 + " — задайте --fare"}]
