@@ -1,0 +1,13 @@
+# Забор наблюдений раз в сутки. 05:20 UTC — вчерашние сутки у OpenSky к
+# этому времени обработаны пакетно; раньше рейсы за интервал приходят
+# неполными. Пропущенный запуск догоняется при старте сервера.
+[Unit]
+Description=FlightCostApp — ежесуточный забор ADS-B
+
+[Timer]
+OnCalendar=*-*-* 05:20:00 UTC
+Persistent=true
+RandomizedDelaySec=15min
+
+[Install]
+WantedBy=timers.target

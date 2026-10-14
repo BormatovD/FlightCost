@@ -1,0 +1,24 @@
+# easyJet FY25 (год к 30.09.2025). ЕДИНСТВЕННЫЙ найденный отчёт с отдельной
+# строкой экипажа. Блок-часов числом нет: налёт 10,2 ч в сутки и парк —
+# блок-часы выводятся расчётом и подписываются оценкой.
+---
+carrier: U2
+name: easyJet plc
+year: 2025
+source: "easyJet plc, FY25 Investor Presentation: Headline cost per seat (слайд 38), KPIs (слайд 6), fleet (слайд 36)"
+source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+scope: >
+  Авиакомпания easyJet (сегмент airline), без easyJet holidays. Год
+  октябрь 2024 — сентябрь 2025. Валюта — фунт; пересчёт — курсом хранилища.
+  Парк — A319/A320/A321 (ceo и neo).
+values:
+  crew_cost_eur:        {value: 1198000000, currency: GBP, basis: "crew costs — лётный и кабинный экипаж вместе", page: "слайд 38"}
+  maintenance_cost_eur: {value: 451000000, currency: GBP, basis: "maintenance", page: "слайд 38"}
+  depreciation_eur:     {value: 679000000, currency: GBP, basis: "airline depreciation (без амортизации нематериальных 51)", page: "слайд 38"}
+  fuel_cost_eur:        {value: 2253000000, currency: GBP, basis: "fuel", page: "слайд 38"}
+  airport_handling_cost_eur: {value: 2161000000, currency: GBP, basis: "airports & ground handling", page: "слайд 38"}
+  route_charges_eur:    {value: 533000000, currency: GBP, basis: "navigation", page: "слайд 38"}
+  ask_km:               {value: 134451000000, basis: "ASK 134 451 млн", page: "слайд 6"}
+  utilisation_bh_day:   {value: 10.2, basis: "aircraft utilisation, hours per day; на какой парк — не сказано, принят весь", page: "слайд 6"}
+  fleet_year_end:       {value: 356, basis: "fleet at 30.09.2025", page: "слайд 6"}
+  fleet_year_end_prev:  {value: 347, basis: "fleet at 30.09.2024", page: "слайд 6"}

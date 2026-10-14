@@ -1,0 +1,28 @@
+# Norwegian Air Shuttle ASA, 2025. ГРУППА: Norwegian + Widerøe (с 2024 года).
+# Блок-часов числом нет — только налёт в сутки, и чей он, отчёт не говорит.
+---
+carrier: "NO"            # в кавычках: YAML 1.1 читает голое NO как false
+name: Norwegian Air Shuttle (группа)
+year: 2025
+source: "Norwegian Annual Report 2025: Consolidated income statement (стр. 121), Analytical information (стр. 196)"
+source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+scope: >
+  Группа: Norwegian (737-800 и MAX 8) и Widerøe (Dash 8, E2). Парк на конец
+  года 146 включает Widerøe. Налёт 10,9 ч в сутки стоит в той же таблице, но
+  ряд с 2015 года — до покупки Widerøe — то есть, вероятнее всего, это
+  Norwegian без Widerøe. Тогда блок-часы «налёт × весь парк» завышены, а
+  ставка на блок-час занижена. Оговорка в basis, вывод — оценка.
+values:
+  staff_cost_eur:       {value: 8645000000, currency: NOK, basis: "personnel expenses, группа с Widerøe", page: "стр. 121"}
+  maintenance_cost_eur: {value: 1316000000, currency: NOK, basis: "technical maintenance expenses; периодический ТОиР арендованных — через резерв (стр. 25 баланса, 4 077) и строку lease/depreciation", page: "стр. 121"}
+  aircraft_ownership_eur: {value: 4155000000, currency: NOK, basis: "aircraft lease, depreciation and amortisation — одной строкой", page: "стр. 121"}
+  fuel_cost_eur:        {value: 9573000000, currency: NOK, basis: "aviation fuel", page: "стр. 121"}
+  route_charges_eur:    {value: 4204000000, currency: NOK, basis: "airport and ATC charges — аэропорты ВМЕСТЕ с аэронавигацией", page: "стр. 121"}
+  revenue_eur:          {value: 37646000000, currency: NOK, basis: "total operating revenue, группа", page: "стр. 121"}
+  ask_km:               {value: 39786000000, basis: "ASK 39 786 млн, группа", page: "стр. 196"}
+  pax:                  {value: 27300000, basis: "passengers 27,3 млн", page: "стр. 196"}
+  load_factor:          {value: 0.85, basis: "load factor 85%, целые проценты", page: "стр. 196"}
+  utilisation_bh_day:   {value: 10.9, basis: "строка «Block hours» 10.9 — блок-часов на борт в сутки; ВЕРОЯТНО Norwegian без Widerøe (ряд с 2015)", page: "стр. 196"}
+  fleet_year_end:       {value: 146, basis: "number of aircraft at year-end, группа", page: "стр. 196"}
+  fleet_year_end_prev:  {value: 135, basis: "то же на конец 2024", page: "стр. 196"}
+  fuel_tonnes:          {value: 786000, basis: "fuel consumption 786 тыс. т", page: "стр. 196"}

@@ -40,6 +40,7 @@ DIST_TO_MODULE = {
     "pyyaml": "yaml",
     "pyshp": "shapefile",
     "python-dateutil": "dateutil",
+    "pillow": "PIL",
 }
 
 

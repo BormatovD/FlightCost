@@ -25,6 +25,9 @@ Boeing NMA, региональные. Паспортные величины та
                 "length_m": 46.1, "cruise_mach": 0.80, "cruise_alt_m": 11000,
                 "engine_count": 2, "mlw_t": 93.0},
      "engine": "PS-90A",
+     "engine_mount": "wing",          # необязательно: wing | rear, для силуэта
+     "fleet": {"lease_eur_month": 250000, "maint_eur_per_fh": 900},  # необязательно
+     "fleet_source": "предложение лизингодателя от …, или «моё допущение»",
      "burn": {"analog": "B752",
               "anchor_kg_per_h": 3200, "anchor_mass_t": 95,
               "anchor_source": "...", "note": "..."},
@@ -49,7 +52,18 @@ FIELDS = {
     # определяются и честно остаются пустыми.
     "noise_lateral_epndb": "EPNdB", "noise_approach_epndb": "EPNdB",
     "noise_flyover_epndb": "EPNdB", "noise_mtom_t": "т", "noise_chapter": "глава",
+    # Только для силуэта в выборе типа (решение 188); в расчёт не входят.
+    # Без них силуэт оценивает стреловидность по крейсерскому числу M.
+    "sweep_deg": "°", "fuselage_width_m": "м",
 }
+MOUNTS = ("wing", "rear")
+# Ставки эксплуатации, названные автором типа (решение 190). Не паспорт,
+# а допущение автора — поэтому отдельным блоком `fleet`, в факт
+# `<тип>/fleet_<поле>` домена `aircraft`: так они живут и снимаются вместе
+# с типом. Любое поле можно не задавать — останется заготовка от массы.
+FLEET = {"lease_eur_month": "EUR/мес", "monthly_hours": "ч/мес",
+         "maint_eur_per_fh": "EUR/ч", "maint_eur_per_fc": "EUR/цикл",
+         "crew_eur_per_fh": "EUR/ч", "crew_eur_per_fc": "EUR/цикл"}
 REQUIRED = ("mtow_t", "oew_t", "fuel_capacity_t", "seats_max", "span_m",
             "cruise_mach", "cruise_alt_m")
 
@@ -155,6 +169,26 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
                 source_note=f"{d['source']} | {d['publisher']} | {d['source_url']}")
     facts = [Fact(key=f"{key_ac}/{k}", value=float(v), unit=FIELDS[k],
                   confidence="exact", **base) for k, v in fields.items()]
+    fleet = {k: v for k, v in (d.get("fleet") or {}).items() if v not in ("", None)}
+    bad = sorted(set(fleet) - set(FLEET))
+    if bad:
+        raise ValueError(f"{icao}: в fleet неизвестные поля {', '.join(bad)}; "
+                         f"допустимы {', '.join(FLEET)}")
+    if fleet and not d.get("fleet_source"):
+        raise ValueError(f"{icao}: ставки флота без fleet_source — откуда числа "
+                         f"(договор, предложение лизингодателя, «моё допущение»)")
+    for k, v in fleet.items():
+        if float(v) < 0 or (k == "monthly_hours" and not 0 < float(v) <= 744):
+            raise ValueError(f"{icao}: fleet.{k} = {v} вне разумного")
+        facts.append(Fact(key=f"{key_ac}/fleet_{k}", value=float(v), unit=FLEET[k],
+                          currency="EUR" if "eur" in k else None, confidence="exact",
+                          **dict(base, note=f"ставка автора типа: {d['fleet_source']}")))
+    if d.get("engine_mount"):
+        m = str(d["engine_mount"]).strip().lower()
+        if m not in MOUNTS:
+            raise ValueError(f"{icao}: engine_mount {m!r} — допустимо {', '.join(MOUNTS)}")
+        facts.append(Fact(key=f"{key_ac}/engine_mount", value_text=m, unit="место",
+                          confidence="exact", **base))
     if d.get("engine"):
         facts.append(Fact(key=f"{key_ac}/engine", value_text=str(d["engine"]),
                           unit="designator", confidence="exact", **base))

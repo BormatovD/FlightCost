@@ -1,0 +1,18 @@
+# Pegasus Airlines 2025. A320/A321neo. Блок-часов числом нет — налёт 13,2 ч
+# в сутки «take-off to landing including taxi», то есть блок, и средний парк.
+# Числа выписаны поиском; сверить с Annual Activity Report.
+---
+carrier: PC
+name: Pegasus Airlines
+year: 2025
+source: "Pegasus Hava Taşımacılığı A.Ş., 2025 Annual Activity Report; Q4 2025 investor presentation"
+source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+scope: >
+  Pegasus без дочерних. Отчётность в евро; 34% расходов — в лирах.
+values:
+  staff_cost_eur:       {value: 618000000, currency: EUR, basis: "personnel costs — весь персонал", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
+  maintenance_cost_eur: {value: 121000000, currency: EUR, basis: "maintenance", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
+  depreciation_eur:     {value: 425000000, currency: EUR, basis: "depreciation", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
+  utilisation_bh_day:   {value: 13.2, basis: "aircraft utilisation, take-off to landing including taxi — по смыслу блок", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: сноска к утилизации"}
+  fleet_avg:            {value: 124, basis: "average fleet", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
+  flights:              {value: 234270, basis: "cycles; термин в отчёте не определён", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}

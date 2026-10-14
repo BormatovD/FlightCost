@@ -20,6 +20,7 @@
                       там же user.db — рабочие места гостей, в снимок не входит
 /srv/fca/incoming     сюда приходит новый снимок перед подменой
 /srv/fca/backup       ночные копии user.db, 14 суток (fca-backup.timer, только root читает)
+/srv/fca/observe      своя база забора ADS-B и ключи OpenSky (fca-observe.timer)
 /srv/fca/VERSION      какой коммит сейчас выложен
 ```
 
@@ -129,12 +130,82 @@ fca publish
 **Рабочие места гостей.** Единственное на сервере, что не восстановить
 ни из git, ни из `fca publish`. `fca-backup.timer` снимает копию каждую
 ночь в `/srv/fca/backup/user-ДАТА.db` и держит 14 суток — ровно столько
-обещает политика конфиденциальности (пункт 7). Проверить:
-`systemctl list-timers fca-backup.timer`; снять руками:
-`sudo -u fca bash /srv/fca/app/deploy/backup.sh`. Вернуть из копии —
+обещает политика конфиденциальности (пункт 7). Вернуть из копии —
 остановить витрину, положить файл на место `site/data/user.db`
 (владелец `fca`), запустить. При переезде на другой сервер этот файл
 забрать вместе с кодом.
+
+Копия, которую ни разу не открывали, — не копия. Проверка, от root:
+
+```bash
+systemctl list-timers fca-backup.timer      # «0 timers listed» — юнита нет: повторить bootstrap
+systemctl start fca-backup.service          # снять копию сейчас, не дожидаясь ночи
+journalctl -u fca-backup -n 5 --no-pager    # «копия: …user-ДАТА.db (…); хранится N из 14»
+ls -la /srv/fca/backup/
+# копия открывается и в ней то же, что в живой базе:
+sqlite3 /srv/fca/backup/user-$(date -u +%F).db "PRAGMA integrity_check; SELECT COUNT(*) FROM workspaces"
+sqlite3 /srv/fca/site/data/user.db "SELECT COUNT(*) FROM workspaces"
+```
+
+Нет `user.db` вовсе — гостей ещё не было, сервис честно пишет «копировать
+нечего» и завершается без ошибки.
+
+---
+
+## Наблюдения ADS-B на сервере
+
+Забор с OpenSky — единственный источник, где просрочка означает потерю:
+`fca observe` догоняет неделю назад, дальше пропуск невосстановим. Ноутбук
+неделю не включался — дыра навсегда, поэтому забор живёт на сервере.
+
+Пишет он в **свою** базу `/srv/fca/observe/flightcost.db`, не в снимок
+витрины: `fca publish` подменяет снимок целиком и вычищает из него
+наблюдения. Тип борта определяется в момент забора по реестру бортов, а
+реестра в снимке нет (`fca publish` его не возит) — поэтому своя база
+засевается один раз копией вашей.
+
+**Один раз** — с вашего компьютера, из корня проекта. Юниты забора едут
+с кодом, поэтому сначала `git push` (сервер подтянет их сам), потом:
+
+```bash
+# 1. каталог и юниты: bootstrap повторно — безопасно. Таймер он пока НЕ
+#    включит и скажет, чего не хватает: базы и ключей
+ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh -- flightcost.app
+
+# 2. засеять базу копией своей (в ней реестр бортов) и положить ключи OpenSky
+sqlite3 data/flightcost.db ".backup /tmp/observe-seed.db"
+scp /tmp/observe-seed.db root@АДРЕС:/srv/fca/observe/flightcost.db
+scp ~/ПУТЬ/credentials.json root@АДРЕС:/srv/fca/observe/opensky.json
+ssh root@АДРЕС "chown fca:fca /srv/fca/observe/*; chmod 640 /srv/fca/observe/flightcost.db; chmod 600 /srv/fca/observe/opensky.json; restorecon -R /srv/fca/observe 2>/dev/null || true"
+
+# 3. проверить, что OpenSky отвечает именно с этого сервера
+ssh root@АДРЕС "cd /srv/fca/observe && sudo -u fca OPENSKY_CREDENTIALS=/srv/fca/observe/opensky.json \
+    /srv/fca/venv/bin/fca --db /srv/fca/observe/flightcost.db observe --check"
+
+# 4. включить таймер и снять первые сутки, не дожидаясь утра
+ssh root@АДРЕС "systemctl enable --now fca-observe.timer && systemctl start fca-observe.service; \
+    journalctl -u fca-observe -n 20 --no-pager"
+```
+
+Если шаг 3 отвечает отказом при правильных ключах, а с вашего компьютера
+те же ключи работают — OpenSky не пускает адрес сервера. Тогда забор
+остаётся дома (cron/launchd с `fca observe`), а таймер на сервере не
+включать.
+
+На одной учётной записи OpenSky — один забор: если дома стоит cron с
+`fca observe`, снять его, иначе два прогона делят суточный бюджет.
+
+**Каждый раз** — забрать накопленное домой и свернуть:
+
+```bash
+bash deploy/pull-observations.sh     # слияние без дублей, повтор безопасен
+fca observe --aggregate              # факты домена observed
+ssh deploy@АДРЕС sudo journalctl -u fca-observe -n 20   # как прошли последние заборы
+```
+
+Реестр бортов в серверной базе — снимок на день засева. Раз в полгода
+засеять заново (сначала `bash deploy/pull-observations.sh` — чтобы не потерять
+накопленное с прошлого забора, — затем шаг 2).
 
 ---
 

@@ -1,0 +1,38 @@
+# Ежесуточный забор наблюдений ADS-B (OpenSky) на сервере. Запускает
+# fca-observe.timer; bootstrap.sh кладёт оба файла в /etc/systemd/system.
+#
+# Пишет в СВОЮ базу /srv/fca/observe/flightcost.db, а не в снимок витрины:
+# `fca publish` подменяет site/data/flightcost.db целиком и вычищает из
+# снимка таблицу observations — забор в базу витрины стирался бы каждой
+# публикацией. Своя база засевается один раз копией базы владельца (в ней
+# реестр бортов: тип определяется в момент забора) и забирается домой
+# скриптом deploy/pull-observations.sh.
+#
+# Без аргументов `fca observe` догоняет незабранные сутки за неделю назад,
+# поэтому пропущенный запуск (перезагрузка, отказ OpenSky) лечится
+# следующим. Код выхода 2 — нет ключей; тогда юнит виден в
+# `systemctl --failed`, а не молчит.
+[Unit]
+Description=FlightCostApp — забор наблюдений ADS-B
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/srv/fca/observe/flightcost.db
+
+[Service]
+Type=oneshot
+User=fca
+Group=fca
+WorkingDirectory=/srv/fca/observe
+Environment=OPENSKY_CREDENTIALS=/srv/fca/observe/opensky.json
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/srv/fca/venv/bin/fca --db /srv/fca/observe/flightcost.db observe
+# База читается группой fca — в ней пользователь deploy, который снимает
+# копию для владельца. Ключи OpenSky остаются 600 (кладутся руками).
+UMask=0027
+TimeoutStartSec=2h
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/observe

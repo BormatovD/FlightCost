@@ -27,7 +27,7 @@ from flightcostapp.parsers import airport_charges  # noqa: E402
 def rules():
     doc = ROOT / "data" / "charges" / "RJAA-2026.json"
     facts = airport_charges.parse(doc.read_bytes(), {
-        "source_id": "test", "sha": "test", "extracted_by": "test",
+        "source_id": "test", "sha": "test", "extracted_by": "test", "node": "src_airport_tariff",
         "as_of": "2026-09-18", "corpus": {}, "icao_seen": []})
     return [Rule.from_fact(asdict(f)) for f in facts
             if f.domain == "airport_charge" and f.value_text
@@ -38,7 +38,7 @@ def ctx(**kw):
     c = {"mtow_t": 78.0, "pax": 148.0, "cargo_kg": 0.0, "movements": 2,
          "landings": 1, "turnarounds": 1, "departures": 1, "flight": "INTL",
          "pax_type": "local", "dest": "intercontinental", "month": 7,
-         "night": False, "noise_cat": "B", "cargo": False, "stand": "pier",
+         "night": False, "noise_cat": "B", "noise_cat_dep": None, "cargo": False, "stand": "pier",
          "stand_group": None, "ac_group": None, "ac_class": None,
          "pax_per_mtow": 148 / 78, "park_h": 2.0, "park_h_over_free": True,
          "return_technical": False, "operator": "national", "terminal": "2",

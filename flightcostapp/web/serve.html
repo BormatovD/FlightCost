@@ -32,8 +32,9 @@ header button.ws{display:inline-flex;align-items:center;gap:7px;margin-left:10px
 header button.ws:hover{color:var(--ink);border-color:var(--accent)}
 header button.ws .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
 header button.ws.on .dot{background:var(--doc)}
-#wspanel[hidden],header button.ws[hidden]{display:none}
-#wspanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
+#wspanel[hidden],#acpanel[hidden],header button.ws[hidden]{display:none}
+#acpanel .wsbox{width:min(980px,100%)}
+#wspanel,#acpanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
  align-items:flex-start;justify-content:center;padding:60px 16px;overflow:auto}
 .wsbox{width:min(640px,100%);background:var(--panel);border:1px solid var(--line);border-radius:8px;
  padding:16px 20px 20px;font-size:13.5px}
@@ -210,7 +211,6 @@ body.net #netleft{display:block}
 .mkt input{width:90px;font:12.5px var(--mono);background:var(--raise);color:var(--ink);
  border:1px solid var(--line);border-radius:4px;padding:2px 6px;text-align:right}
 .mkt .src{color:var(--faint);font-size:11.5px}
-#nnote{margin-top:6px}
 .btn.hot{border-color:var(--accent);color:var(--ink)}
 .grp2{font:600 11.5px/1 var(--sans);letter-spacing:.06em;color:var(--dim);
  margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
@@ -246,6 +246,40 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .hit b{font:600 12.5px var(--sans);color:var(--doc);margin-right:7px}
 .hit i{font-style:normal;color:var(--faint);font-size:11.5px;display:block}
 .hit .t3{color:var(--param)}
+/* Силуэты (решение 188): рисуются из размеров, картинок нет. */
+.sil{color:var(--dim);display:block}
+.hit.ac{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center}
+.hit.ac .sil{grid-row:span 2;justify-self:center}
+header #acgal{margin-left:4px;padding:3px 7px}
+.galq{width:100%;margin:0 0 6px;padding:6px 9px;border:1px solid var(--line);border-radius:4px;
+ background:var(--bg);color:var(--ink);font:13px var(--sans)}
+.galg{font:600 12px var(--sans);color:var(--dim);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.galg span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
+.gcard{border:1px solid var(--line);border-radius:6px;padding:8px 6px 6px;cursor:pointer;background:var(--bg);
+ display:flex;flex-direction:column;align-items:center;text-align:center}
+.gcard:hover{border-color:var(--accent)}.gcard:hover .sil{color:var(--ink)}
+.gcard.cur{border-color:var(--accent)}.gcard.cur .sil{color:var(--accent)}
+.gcard.dead{opacity:.45;cursor:not-allowed}
+.gcard .gs{display:flex;align-items:flex-end;justify-content:center;width:100%}
+.gcard b{font:600 12.5px var(--sans);margin-top:5px}
+.gcard i{font-style:normal;color:var(--faint);font-size:11px;line-height:1.3}
+.recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:4px 0 14px}
+.rec{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--bg)}
+.rec .rk{font:600 11px var(--sans);color:var(--doc);text-transform:uppercase;letter-spacing:.04em}
+.rec .gs{display:flex;align-items:flex-end;justify-content:center;margin:6px 0}
+.rec h5{margin:2px 0 4px;font:600 14px var(--sans)}.rec h5 span{font-weight:400;color:var(--dim);font-size:12px}
+.rec .rcost{font-size:12.5px;color:var(--dim)}.rec .rcost b{color:var(--ink);font-size:14px}
+.flow{font-size:13px;color:var(--dim);line-height:1.5}.flow b.num{font-size:18px;color:var(--ink)}
+.flow .src{font-size:11.5px;color:var(--faint);margin:2px 0 6px}
+.rec ul{margin:4px 0 8px;padding-left:16px;font-size:12.5px;color:var(--dim)}.rec li{margin:2px 0}
+.rec li.w{color:var(--warn)}
+.legsbox textarea{width:100%;min-height:62px;font:12.5px var(--mono);background:var(--bg);color:var(--ink);
+ border:1px solid var(--line);border-radius:4px;padding:6px 8px}
+.mrow .msil{float:left;margin:3px 8px 0 0}
+.mrow .ml b{overflow-wrap:anywhere}
+.kpi small{display:inline-block;white-space:nowrap}
+.mkt .in{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .hit.dead{color:var(--faint);cursor:not-allowed}
 .hit.dead b{color:var(--faint)}
 #achits{min-width:300px}
@@ -475,6 +509,22 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   .wsbox .rate input{padding:5px 4px;font-size:13px}
   .gpop{display:none !important}
 }
+  /* Оговорки свёрнутыми заголовками, карточки по заполненности (решение 185) */
+  details.warns>summary{list-style:none;cursor:pointer}
+  details.warns>summary::-webkit-details-marker{display:none}
+  details.warns>summary h3{display:flex;align-items:center;gap:8px}
+  details.warns>summary h3::after{content:"▸";color:var(--faint);font-weight:400}
+  details.warns[open]>summary h3::after{content:"▾"}
+  details.warns .cnt{font-weight:400;color:var(--warn);font-size:12px;border:1px solid var(--guess);border-radius:9px;padding:0 7px}
+  .warn1{border-left:2px solid var(--line);padding:5px 0 5px 10px;margin:4px 0;color:var(--dim);font-size:13px}
+  .warn1>summary{cursor:pointer;color:var(--ink);list-style:none}
+  .warn1>summary::-webkit-details-marker{display:none}
+  .warn1>summary::before{content:"▸ ";color:var(--faint)}
+  .warn1[open]>summary::before{content:"▾ "}
+  .warn1>div{margin-top:4px;line-height:1.45}
+  .warn1.solo{color:var(--ink)}
+  details.more{margin-top:8px}
+  details.more>summary{cursor:pointer;color:var(--dim);font-size:12.5px;padding:6px 0}
 </style></head><body>
 <header><b>fca</b>
   <span class="mode" id="mode" role="tablist"><button data-mode="route" aria-selected="true">Маршрут</button><button data-mode="net" aria-selected="false">Сеть</button></span>
@@ -488,6 +538,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
        аэропортов; ярус расхода виден до расчёта. -->
   <div class="hp"><input id="ac" class="pick" autocomplete="off" placeholder="тип ВС — код или название" title="Тип ВС" style="width:200px">
     <div class="hits" id="achits"></div></div>
+  <button id="acgal" class="chipb" title="Выбрать тип по силуэту">✈</button>
   <!-- Компоновка — отдельное положение: типовая · перевозчика · по
        сертификату · своя (решено 2026-09-16). Первые два — компоновка из
        `aircraft_layout` через `operator`, вторые два — число кресел
@@ -502,6 +553,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a></header>
+<div id="acpanel" hidden><div class="wsbox" role="dialog" aria-labelledby="ach">
+  <div class="wshead"><b id="ach">Выбор типа по силуэту</b><button id="acclose" class="chipb">закрыть</button></div>
+  <div id="acbody"></div>
+</div></div>
 <div id="wspanel" hidden><div class="wsbox" role="dialog" aria-labelledby="wsh">
   <div class="wshead"><b id="wsh">Рабочее место</b><button id="wsclose" class="chipb">закрыть</button></div>
   <div id="wsbody"></div>
@@ -519,23 +574,28 @@ tr.sel td,tr:hover td.v{background:var(--select)}
       <div><label for="month">Месяц</label>
         <select id="month"><option value="">не задан</option></select></div>
     </div>
-    <div class="field"><label for="alt">До запасного аэродрома, nm</label>
+    <div class="field"><label for="alt">До запасного аэродрома, nm<button type="button" class="hint" data-hk="alt" aria-label="пояснение">i</button></label>
       <input id="alt" type="number" placeholder="не задан" min="0" step="10">
-      <div class="rv"><span>без него запас неполон, предельная нагрузка завышена</span></div>
     </div>
 
-    <div class="grp2">Флот</div>
-    <div class="field"><label for="lease">Лизинг, EUR в месяц</label>
-      <input id="lease" type="number" placeholder="из справочника" step="1000"></div>
-    <div class="field"><label for="hours">Налёт борта, часов в месяц</label>
-      <input id="hours" type="number" placeholder="из справочника" step="10"></div>
-    <div class="rv" style="margin-top:-10px"><span>ноль в лизинге — борт уже
-      оплачен, владение не начисляется</span></div>
+    <div class="grp2">Флот<button type="button" class="hint" data-hk="fleet" aria-label="пояснение">i</button></div>
+    <div class="field"><label for="lease"><span id="leasel">Лизинг, EUR в месяц</span><button type="button" class="hint" data-hk="lease" aria-label="пояснение">i</button></label>
+      <input id="lease" type="number" placeholder="—" step="1000"></div>
+    <div class="field"><label for="hours">Налёт борта, часов в месяц<button type="button" class="hint" data-hk="hours" aria-label="пояснение">i</button></label>
+      <input id="hours" type="number" placeholder="—" step="10"></div>
+    <!-- ТОиР двумя числами, как в модели (решение 193): за час налёта и за
+         цикл. Пустое поле — число, с которым считали; под полями — как
+         из них складывается ставка на этом плече. -->
+    <div class="field pair">
+      <div><label for="mfh"><span id="mfhl">ТОиР, EUR/ч</span><button type="button" class="hint" data-hk="maint" aria-label="пояснение">i</button></label>
+        <input id="mfh" type="number" placeholder="—" min="0" step="10"></div>
+      <div><label for="mfc"><span id="mfcl">ТОиР, EUR/цикл</span></label>
+        <input id="mfc" type="number" placeholder="—" min="0" step="10"></div>
+    </div>
+    <div class="rv" style="margin-top:-4px"><span id="maintf"></span></div>
 
-    <div class="grp2">Условия начисления
+    <div class="grp2">Условия начисления<button type="button" class="hint" data-hk="ctx" aria-label="пояснение">i</button>
       <span id="ctxwho" style="font-weight:400;color:var(--faint)"></span></div>
-    <div class="rv" style="margin:-4px 0 8px"><span>их нет в справочнике: у
-      каждого аэропорта своя нумерация</span></div>
     <div class="tabs2" id="ctxtabs"></div>
     <div id="ctxfields"></div>
 
@@ -555,27 +615,36 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     <div class="grp2">Парк</div>
     <div class="field pair">
       <div><label for="nfleet">Бортов</label><input id="nfleet" type="number" min="1" step="1" value="4"></div>
-      <div><label for="nutil">Налёт, ч/мес</label><input id="nutil" type="number" placeholder="из справочника" step="10"></div>
+      <div><label for="nutil">Налёт, ч/мес<button type="button" class="hint" data-hk="nutil" aria-label="пояснение">i</button></label><input id="nutil" type="number" placeholder="—" step="10"></div>
     </div>
-    <div class="field"><label for="nlease">Лизинг, EUR в месяц на борт</label>
-      <input id="nlease" type="number" placeholder="из справочника" step="1000"></div>
+    <div class="field"><label for="nlease"><span id="nleasel">Лизинг, EUR в месяц на борт</span><button type="button" class="hint" data-hk="nlease" aria-label="пояснение">i</button></label>
+      <input id="nlease" type="number" placeholder="—" step="1000"></div>
+    <div class="field pair">
+      <div><label for="nmfh"><span id="nmfhl">ТОиР, EUR/ч</span><button type="button" class="hint" data-hk="nmaint" aria-label="пояснение">i</button></label>
+        <input id="nmfh" type="number" placeholder="—" min="0" step="10"></div>
+      <div><label for="nmfc"><span id="nmfcl">ТОиР, EUR/цикл</span></label>
+        <input id="nmfc" type="number" placeholder="—" min="0" step="10"></div>
+    </div>
+    <div class="rv" style="margin-top:-4px"><span id="nmaintf"></span></div>
 
     <div class="grp2">Цена</div>
-    <div class="field"><label for="nmult">К рыночной медиане</label>
+    <!-- Две величины разного рода (решение 191): что рынок платит сверх
+         минимума — допущение о рынке; дешевле или дороже рынка мы — решение.
+         Перемножаются, и итог стоит под полями числом. -->
+    <div class="field"><label for="nconv">Средний чек к минимальному<button type="button" class="hint" data-hk="nconv" aria-label="пояснение">i</button></label>
+      <input id="nconv" type="number" step="0.05" min="0.5" max="3" value="1.00"></div>
+    <div class="field"><label for="nmult">Наша цена к рынку<button type="button" class="hint" data-hk="nmult" aria-label="пояснение">i</button></label>
       <input id="nmult" type="range" min="50" max="150" value="100">
-      <div class="rv"><span id="nmultv">× 1,00</span><span>медиана дневных минимумов</span></div></div>
-    <div class="field"><label for="nconv">Минимум → средний чек</label>
-      <input id="nconv" type="number" step="0.05" min="0.5" max="3" value="1.00">
-      <div class="rv"><span>допущение: 1,00 — минимум принят за чек</span></div></div>
+      <div class="rv"><span id="nmultv">× 1,00</span></div></div>
+    <div class="rv" style="margin-top:-2px"><span id="nfarev"></span></div>
 
     <div class="grp2">Частоты и загрузка</div>
     <div class="tabs2" id="nfreqmode"><button data-v="auto" aria-selected="true">поровну, сколько вывозит парк</button><button data-v="own" aria-selected="false">свои</button></div>
-    <div class="field" style="margin-top:9px"><label for="nlf">Расчётная загрузка</label>
+    <div class="field" style="margin-top:9px"><label for="nlf">Расчётная загрузка<button type="button" class="hint" data-hk="nlf" aria-label="пояснение">i</button></label>
       <input id="nlf" type="range" min="40" max="100" value="80">
-      <div class="rv"><span id="nlfv">80%</span><span>вклад и «нужно» — при ней</span></div></div>
+      <div class="rv"><span id="nlfv">80%</span></div></div>
 
-    <button class="btn hot" id="ngo">Считать сеть</button>
-    <div class="rv" id="nnote"><span>ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно</span></div>
+    <div style="display:flex;align-items:center;gap:4px"><button class="btn hot" id="ngo" style="flex:1">Считать сеть</button><button type="button" class="hint" data-hk="ngo" aria-label="пояснение">i</button></div>
 
     <div class="grp2">Рабочее место</div>
     <div class="field pair">
@@ -584,6 +653,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     </div>
   </aside>
 
+  <div id="hintpop" role="dialog" hidden></div>
   <main class="stage" id="stage">
     <div class="kpi" id="kpi"></div>
     <!-- Кнопки и плашка наведения позиционируются от глобуса, а не от
@@ -715,6 +785,55 @@ for (const b of document.querySelectorAll("#langs button")) {
 }
 
 const $ = s => document.querySelector(s);
+
+// ── пояснения ⓘ ─────────────────────────────────────────────────────────
+// Одна форма вместо десятка сносок разного вида: обведённое «i» у
+// подписи, текст — по нажатию во всплывающем окне. Серое — справка
+// (откуда число, что значит поле), оранжевое — оговорка, которая меняет
+// вывод. Оранжевое никогда не прячется целиком: короткое слово остаётся
+// рядом с числом, в окно уходит только объяснение (решение 184).
+const escA = s => esc(s).replace(/"/g, "&quot;");
+function hint(html, level = "g") {
+  return `<button type="button" class="hint${level === "o" ? " o" : ""}" data-hint="${escA(html)}" aria-label="${escA(_t("пояснение"))}">i</button>`;
+}
+function setHint(key, html, level = "g") {
+  const b = document.querySelector(`.hint[data-hk="${key}"]`);
+  if (!b) return;
+  b.dataset.hint = html || "";
+  b.hidden = !html;
+  b.classList.toggle("o", level === "o");
+}
+(function hintPop(){
+  const pop = document.getElementById("hintpop");
+  let owner = null, opened = 0;
+  const close = () => { pop.hidden = true; if (owner) owner.setAttribute("aria-expanded", "false"); owner = null; };
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".hint");
+    if (b) {
+      e.preventDefault(); e.stopPropagation();
+      if (owner === b) { close(); return; }
+      close();
+      owner = b; b.setAttribute("aria-expanded", "true");
+      pop.innerHTML = b.dataset.hint || "";
+      pop.hidden = false; opened = Date.now();
+      const r = b.getBoundingClientRect(), w = Math.min(320, innerWidth - 32);
+      pop.style.width = w + "px";
+      pop.style.left = Math.max(16, Math.min(r.left - 12, innerWidth - w - 16)) + "px";
+      const below = r.bottom + 8, h = pop.offsetHeight;
+      pop.style.top = (below + h > innerHeight - 8 && r.top - h - 8 > 8 ? r.top - h - 8 : below) + "px";
+      return;
+    }
+    if (!pop.hidden && !pop.contains(e.target)) close();
+  }, true);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  // Прокрутка уводит кнопку из-под окна — окно закрывается. Но не сразу:
+  // браузер докручивает поле к нажатой кнопке уже после нажатия, и окно
+  // закрывалось бы, не успев открыться.
+  addEventListener("scroll", e => {
+    if (!pop.hidden && !pop.contains(e.target) && Date.now() - opened > 300) close();
+  }, true);
+  addEventListener("resize", close);
+})();
 // Цвета происхождения — только имена переменных из ui.css, hex здесь нет.
 const PROV = {store:"var(--doc)", derived:"var(--calc)", input:"var(--user)",
   override:"var(--override)", "default":"var(--guess)", fleet:"var(--guess)",
@@ -743,6 +862,14 @@ const M = eur => eur == null ? eur : eur * CUR.rate;            // евро → 
 const toEur = v => v === "" || v == null ? v : +v / CUR.rate;   // ввод → евро
 const m0 = eur => f0(M(eur));
 const m2 = eur => f2(M(eur));
+// Крупные суммы: в рублях «1 142 881 тыс.» не помещается в ячейку и
+// переносится; от десяти миллионов — миллионами.
+const kBig = eur => Math.abs(M(eur)) >= 1e7;
+const kNum = eur => kBig(eur) ? f0(M(eur) / 1e6) : f0(M(eur) / 1e3);
+const kUnit = eur => kBig(eur) ? _t("млн") : _t("тыс.");
+const kMoney = eur => `${kNum(eur)} ${kUnit(eur)}`;
+// Свой тип в узкой колонке: «USER:» — служебный префикс ключа, не имя.
+const acShort = icao => String(icao || "").replace(/^USER:/, "");
 const cu = t => String(t).replace(/\bEUR\b/g, CUR.code);       // «EUR с пассажира» → «USD с пассажира»
 const mu = (v, unit) => v == null ? "—" : f0(/^EUR\b/.test(unit || "") ? M(v) : v);
 // Подсказки порога приходят из ядра прозой с суммами в евро («выручка
@@ -927,6 +1054,140 @@ function acTier(t) {
   if (t.physics === null) return _t("физика не проверялась");
   return t.physics ? _t("ярус 1, физика") : _t("без физики: ярус 3/4, параметрика");
 }
+
+// ── силуэт ──────────────────────────────────────────────────────────
+// Вид сверху, нос вверх, из чисел типа (решение 188): размах, длина,
+// ширина фюзеляжа, стреловидность, число и место двигателей, взлётная
+// масса. Картинок на сервере нет — ни места, ни лицензий, и свой тип
+// получает рисунок, как только у него есть размах и длина. Это узнаваемая
+// схема, а не чертёж: хорды, оперение и мотогондолы оценены по долям
+// размаха и длины, поэтому размеров с рисунка не снимать.
+// k — пикселей на метр: общий у карточек, которые сравнивают размер.
+function silhouette(g, k, cls = "sil") {
+  if (!g || !g.span || !g.length) return "";
+  const b = g.span, L = g.length, s = b / 2;
+  const prop = g.mach != null && g.mach < 0.65 && g.mount !== "rear";
+  const rear = g.mount === "rear";
+  const w = g.width || (b < 22 ? 2.3 : b < 31 ? 2.95 : b < 45 ? 3.9 : b < 62 ? 5.7 : 6.6);
+  const sw = (g.sweep != null ? g.sweep
+              : prop ? 2 : Math.max(15, Math.min(37, 25 + ((g.mach || 0.78) - 0.78) * 80))) * Math.PI / 180;
+  const AR = prop ? 12 : b > 50 ? 8.8 : 9.4, lam = prop ? 0.5 : 0.27;
+  const S = b * b / AR, cr = 2 * S / (b * (1 + lam)), ct = lam * cr;
+  const yq = L * (rear ? 0.53 : prop ? 0.42 : 0.44);           // четверть хорды у корня
+  const y0 = yq - 0.25 * cr;
+  const tle = Math.tan(sw) + 0.25 * (cr - ct) / s;              // стреловидность передней кромки
+  const kx = 0.34 * s;                                          // излом задней кромки
+  const yk = y0 + tle * kx + (cr - (cr - ct) * kx / s) * (prop ? 1 : 0.95);
+  const P = pts => pts.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
+  const half = sgn => prop
+    ? [[0, y0], [sgn * s, y0 + tle * s], [sgn * s, y0 + tle * s + ct], [0, y0 + cr]]
+    : [[0, y0], [sgn * s, y0 + tle * s], [sgn * s, y0 + tle * s + ct], [sgn * kx, yk],
+       [sgn * w * 0.5, yk + 0.02 * cr], [0, yk + 0.02 * cr]];
+  // Оперение: размах ~0,35 размаха крыла, у Т-образного — на киле в хвосте.
+  const bh = (rear ? 0.37 : prop ? 0.3 : 0.35) * b, sh = bh / 2;
+  const crh = (rear ? 0.11 : 0.1) * L * (prop ? 0.8 : 1), cth = 0.4 * crh;
+  const th = Math.tan(sw + (prop ? 0.1 : 0.09));
+  const yh = L * (rear ? 0.995 : 0.975) - crh;
+  const tail = sgn => [[0, yh], [sgn * sh, yh + th * sh], [sgn * sh, yh + th * sh + cth], [0, yh + crh]];
+  // Фюзеляж: оживальный нос, цилиндр, хвостовой конус.
+  const ln = Math.min(1.7 * w, 0.14 * L), lt = Math.min((b > 50 ? 2.9 : 2.5) * w, 0.3 * L);
+  const fus = `M0,0 C${(w * .3).toFixed(2)},0 ${(w / 2).toFixed(2)},${(ln * .4).toFixed(2)} ${(w / 2).toFixed(2)},${ln.toFixed(2)}
+    L${(w / 2).toFixed(2)},${(L - lt).toFixed(2)} C${(w / 2).toFixed(2)},${(L - lt * .4).toFixed(2)} ${(w * .14).toFixed(2)},${(L - lt * .06).toFixed(2)} ${(w * .1).toFixed(2)},${L.toFixed(2)}
+    L${(-w * .1).toFixed(2)},${L.toFixed(2)} C${(-w * .14).toFixed(2)},${(L - lt * .06).toFixed(2)} ${(-w / 2).toFixed(2)},${(L - lt * .4).toFixed(2)} ${(-w / 2).toFixed(2)},${(L - lt).toFixed(2)}
+    L${(-w / 2).toFixed(2)},${ln.toFixed(2)} C${(-w / 2).toFixed(2)},${(ln * .4).toFixed(2)} ${(-w * .3).toFixed(2)},0 0,0Z`;
+  // Двигатели: диаметр гондолы — от тяги, тяга — от массы на двигатель.
+  const n = Math.max(1, g.engines || 2);
+  const dn = prop ? Math.max(0.9, 0.04 * b)
+           : g.mtow ? Math.max(0.9, 0.32 * Math.sqrt(g.mtow / n)) : 0.055 * b;
+  const lnac = prop ? 1.25 * cr : 2.0 * dn;
+  let eng = "", props = "";
+  const leAt = x => y0 + tle * Math.abs(x);
+  const pod = (x, y) => { eng += `<rect x="${(x - dn / 2).toFixed(2)}" y="${y.toFixed(2)}" width="${dn.toFixed(2)}" height="${lnac.toFixed(2)}" rx="${(dn / 2.2).toFixed(2)}"/>`; };
+  if (rear) {
+    const yr = L * 0.74;
+    for (let i = 0; i < n; i++) {
+      const sgn = i % 2 ? 1 : -1, col = Math.floor(i / 2);
+      pod(sgn * (w / 2 + dn * (0.62 + col * 1.1)), yr);
+    }
+  } else {
+    const st = n >= 4 ? [0.38, 0.66] : n === 3 ? [0.34] : [prop ? 0.3 : 0.34];
+    for (const f of st) for (const sgn of [-1, 1]) {
+      const x = sgn * f * s, y = leAt(x) - (prop ? 0.45 : 0.62) * lnac;
+      pod(x, y);
+      if (prop) {
+        const dp = 0.145 * b;
+        props += `<line x1="${(x - dp / 2).toFixed(2)}" y1="${(y - .15).toFixed(2)}" x2="${(x + dp / 2).toFixed(2)}" y2="${(y - .15).toFixed(2)}"/>`;
+      }
+    }
+    if (n === 3) pod(0, L * 0.72);                    // трёхдвигательный: третий в хвосте
+  }
+  const pad = 0.6, top = Math.min(0, ...[...eng.matchAll(/y="([-\d.]+)"/g)].map(m => +m[1])) - pad;
+  const W = b + 2 * pad, H = L - top + pad;
+  return `<svg class="${cls}" width="${Math.max(6, W * k).toFixed(1)}" height="${Math.max(6, H * k).toFixed(1)}"
+    viewBox="${(-s - pad).toFixed(2)} ${top.toFixed(2)} ${W.toFixed(2)} ${H.toFixed(2)}" aria-hidden="true">
+    <g fill="currentColor" stroke="none">
+      <polygon points="${P(half(-1))}"/><polygon points="${P(half(1))}"/>
+      <polygon points="${P(tail(-1))}"/><polygon points="${P(tail(1))}"/>
+      <path d="${fus}"/></g>
+    <g fill="currentColor" stroke="var(--bg)" stroke-width="${(0.009 * b + 0.12).toFixed(2)}">${eng}</g>${props ? `<g stroke="currentColor" stroke-width="${(0.012 * b).toFixed(2)}" opacity=".6">${props}</g>` : ""}</svg>`;
+}
+// Для списков без сравнения размера: площадь растёт с корнем размаха,
+// чтобы региональный не превращался в точку рядом с A380.
+const silK = (g, px = 40, ref = 80) => g && g.span ? px * Math.sqrt(g.span / ref) / g.span : 1;
+
+// Класс типа для галереи — по креслам и ширине, как его назовёт человек.
+function acClass(t) {
+  const g = t.geom || {}, seats = t.seats_typical || t.seats_max || 0;
+  if (seats && seats < 30) return "biz";
+  if ((g.width || 0) > 4.5 || (g.span || 0) > 45) return "wide";
+  if (seats ? seats <= 120 && (g.span || 0) < 30 : (g.span || 99) < 30) return "regional";
+  return "narrow";
+}
+const AC_CLASS = [["regional", _t("Региональные")], ["narrow", _t("Узкофюзеляжные")],
+                  ["wide", _t("Широкофюзеляжные")], ["biz", _t("Деловые")]];
+
+// onPick — выбор не в шапку, а в список сравнения сети: тот же
+// рисунок, другой адресат.
+let GAL_PICK = null;
+function galleryOpen(onPick) { GAL_PICK = typeof onPick === "function" ? onPick : null;
+  $("#acpanel").hidden = false; galleryDraw(""); setTimeout(() => { const q = $("#galq"); q && q.focus(); }, 30); }
+function galleryClose() { $("#acpanel").hidden = true; }
+function galleryDraw(q) {
+  const box = $("#acbody");
+  const list = q.trim() ? acSearch(q, 200) : ACS.slice();
+  let h = `<input id="galq" class="galq" autocomplete="off" placeholder="${_t("фильтр: код или название")}" value="${esc(q)}">
+    <p class="lede" style="margin:0">${_t("Внутри группы — один масштаб: видно, какой борт больше. Рисунок построен из размаха, длины и двигателей типа, это схема, а не чертёж.")}</p>`;
+  for (const [cls, title] of AC_CLASS) {
+    const grp = list.filter(t => acClass(t) === cls)
+      .sort((a, b) => ((a.geom || {}).span || 0) - ((b.geom || {}).span || 0));
+    if (!grp.length) continue;
+    const maxB = Math.max(...grp.map(t => (t.geom || {}).span || 0), 1);
+    const maxL = Math.max(...grp.map(t => (t.geom || {}).length || 0), 1);
+    const k = Math.min(112 / maxB, 96 / maxL);
+    h += `<div class="galg">${title} <span>· ${grp.length}</span></div><div class="gal">`;
+    for (const t of grp) {
+      const g = t.geom;
+      const seats = t.layout_default ? t.layout_default.seats : t.seats_typical;
+      h += `<div class="gcard${t.usable ? "" : " dead"}${t.icao === CHOSEN.ac ? " cur" : ""}" data-ac="${esc(t.icao)}"
+          title="${esc(t.usable ? acTier(t) : t.why_not)}">
+        <div class="gs" style="height:${Math.ceil(maxL * k + 6)}px">${silhouette(g, k) || `<i>${_t("нет размеров")}</i>`}</div>
+        <b>${esc(t.icao)}</b><i>${esc(t.name || "")}</i>
+        <i>${seats ? f0(seats) + " " + _t("кресел") : ""}${g ? ` · ${f0(g.span)}×${f0(g.length)} ${_t("м")}` : ""}</i></div>`;
+    }
+    h += `</div>`;
+  }
+  if (!list.length) h += `<p class="lede">${_t("такого типа в хранилище нет")}</p>`;
+  box.innerHTML = h;
+  const inp = $("#galq");
+  inp.addEventListener("input", () => { const v = inp.value, pos = inp.selectionStart; galleryDraw(v);
+    const n = $("#galq"); n.focus(); n.setSelectionRange(pos, pos); });
+  box.querySelectorAll(".gcard[data-ac]").forEach(el => el.addEventListener("click", () => {
+    const t = ACS.find(x => x.icao === el.dataset.ac);
+    if (!t || !t.usable) return;
+    if (GAL_PICK) { GAL_PICK(t.icao); galleryClose(); return; }
+    setAc(t.icao); galleryClose(); draw();
+  }));
+}
 // Поиск по СЛОВАМ, а не по подстроке целиком: «airbus 320» — два слова,
 // и оба должны найтись в строке типа («a320 airbus a320 airbusa320»).
 // Дефисы и пробелы в запросе не считаются: «737-800», «737 800» и
@@ -951,8 +1212,9 @@ function acSearch(q, n = 14) {
                            || a.icao.localeCompare(b.icao)).slice(0, n);
 }
 function acRow(t) {
-  return `<div class="hit${t.usable ? "" : " dead"}" data-ac="${esc(t.icao)}">
-    <b>${esc(t.icao)}</b>${esc(t.name || "")}
+  return `<div class="hit ac${t.usable ? "" : " dead"}" data-ac="${esc(t.icao)}">
+    ${silhouette(t.geom, silK(t.geom, 34)) || "<span></span>"}
+    <span><b>${esc(t.icao)}</b>${esc(t.name || "")}</span>
     <i>${t.usable ? esc(acTier(t)) : (_t("нельзя:") + " ") + esc(t.why_not)}${
       t.layouts.length ? ` · ${_t("компоновок")} ${t.layouts.length}` : (" " + _t("· компоновки нет, типовые кресла"))}${
       t.physics === false ? (' · ' + '<' + 'span class=' + '"' + 't3' + '"' + '>' + _t("параметрика") + '<' + '/span' + '>') : ""}</i></div>`;
@@ -961,7 +1223,11 @@ function bindAcPick() {
   const inp = $("#ac"), box = $("#achits");
   let cur = -1;
   const show = () => {
-    box.innerHTML = acSearch(inp.value).map(acRow).join("") ||
+    // В поле стоит подпись выбранного типа — «A320 — Airbus A320»; как
+    // запрос она ничего не находит (тире), поэтому при ней — весь список.
+    const now = ACS.find(x => x.icao === CHOSEN.ac);
+    const q = now && inp.value === acLabel(now) ? "" : inp.value;
+    box.innerHTML = acSearch(q).map(acRow).join("") ||
       `<div class="hit" style="color:var(--dim)">${_t("такого типа в хранилище нет")}</div>`;
     box.classList.add("on"); cur = -1;
     box.querySelectorAll(".hit[data-ac]").forEach(el =>
@@ -999,6 +1265,79 @@ function setAc(icao) {
   markClear($("#ac"));
   $("#ac").title = `${t.icao}${t.name ? " — " + t.name : ""} · ${acTier(t)}`;
   if (changed || !$("#layout").options.length) drawLayouts(t);
+  if (changed || !FBENCH || FBENCH.icao !== t.icao) benchLoad();
+}
+// Полоса перевозчиков США рядом с полями «Флот» (M11): чем заготовка
+// отличается от измеренного. Не подставляется в расчёт — только стоит
+// рядом; подробности и разложение «час + цикл» — `fca bench <тип>`.
+let FBENCH = null;
+async function benchLoad(){
+  FBENCH = null; benchDraw();
+  try {
+    const r = await (await fetch(`/api/fleetbench?ac=${encodeURIComponent(CHOSEN.ac)}`)).json();
+    if (r.icao === CHOSEN.ac) { FBENCH = r; benchDraw(); }
+  } catch (e) {}
+}
+function benchDraw(){ fleetHints(); }
+
+// Статичные пояснения: тексты — те же фразы, что стояли сносками, поэтому
+// переводы каталога остаются в силе.
+setHint("alt", _t("без него запас неполон, предельная нагрузка завышена"));
+setHint("ctx", _t("их нет в справочнике: у каждого аэропорта своя нумерация"));
+setHint("nconv", _t("Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. 1,00 — все летят по минимуму (нижняя граница выручки). Публичных данных о соотношении по парам нет; это ваше допущение."));
+setHint("nmult", _t("Ваше решение: насколько дешевле или дороже рынка продаёте. 1,00 — как рынок. «Цена в ноль» над глобусом — в этих же единицах."));
+setHint("nlf", _t("вклад и «нужно» — при ней"));
+setHint("ngo", _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"));
+
+// Значение, которое ушло в расчёт, — прямо в поле вместо «из справочника»,
+// бледным: поле пустое, число не задано вами, но видно, с чем считали.
+const FLEET_PROV = () => ({default: _t("параметрическая заготовка от массы и кресел"),
+  store: _t("ставка из справочника"), override: _t("ваша ставка из рабочего места"),
+  input: _t("задано вами")});
+const ROLE_RU = () => ({derived: _t("вычислено"), store: _t("справочник"), input: _t("ввод"),
+  default: _t("заготовка"), source: _t("источник"), fleet: _t("тип ВС")});
+function stepOf(r, node) { return r && (r.trace || []).find(x => x.node === node); }
+function fleetHints(){
+  const r = LAST, b = FBENCH && FBENCH.available ? FBENCH.bands : null;
+  const lease = stepOf(r, "d_fleet"), util = stepOf(r, "v_util");
+  if (lease && $("#lease").value === "") $("#lease").placeholder = m0(lease.value);
+  if (util && $("#hours").value === "") $("#hours").placeholder = f0(util.value);
+  const fl = r && r.inputs && r.inputs.fleet;
+  if (fl) {
+    if ($("#mfh").value === "") $("#mfh").placeholder = m0(fl.maint_eur_per_fh);
+    if ($("#mfc").value === "") $("#mfc").placeholder = m0(fl.maint_eur_per_fc);
+    const bh = fl.block_h, trip = fl.maint_eur_per_fh * bh + fl.maint_eur_per_fc;
+    $("#maintf").innerHTML = `${m0(fl.maint_eur_per_fh)} × ${f2(bh)} ${_t("ч")} + ${m0(fl.maint_eur_per_fc)} = <b>${m0(trip)}</b> ${
+      _t("за рейс")} · ${m0(trip / bh)} ${CUR.code}/${_t("блок-ч")}`;
+    const pv = fl.prov || {}, P = FLEET_PROV();
+    const one = k => esc(P[pv[k]] || pv[k] || "");
+    setHint("maint", `${_t("В расчёте")}: <b>${m0(fl.maint_eur_per_fh)}</b> ${CUR.code} ${_t("за час налёта")} — ${one("maint_eur_per_fh")}; <b>${
+        m0(fl.maint_eur_per_fc)}</b> ${CUR.code} ${_t("за цикл")} — ${one("maint_eur_per_fc")}.<br>${
+        _t("Часовая часть — двигатели, тяжёлые формы, пул компонентов; цикловая — шасси, ВСУ, ресурсные детали, линейное обслуживание. Цикловая от длительности рейса не зависит, поэтому ставка на час падает с ростом плеча.")}${
+        b && b.maint_per_bh ? `<br>${_t("Перевозчики США, Form 41")} ${FBENCH.year}: ${_t("медиана")} <b>${m0(b.maint_per_bh.p50)}</b> ${CUR.code}/${_t("ч")} (p25–p75 ${m0(b.maint_per_bh.p25)}–${m0(b.maint_per_bh.p75)})` : ""}
+      <br><a href="#" data-step="v_maint_rate">${_t("разбор ставки и источники")}</a>`);
+  } else { $("#maintf").textContent = ""; }
+  const us = (x, f, unit) => x ? `<br>${_t("Перевозчики США, Form 41")} ${FBENCH.year}: ${_t("медиана")}
+    <b>${f(x.p50)}</b> ${unit} (p25–p75 ${f(x.p25)}–${f(x.p75)})` : "";
+  const k = x => m0(x / 1000) + " " + _t("тыс.");
+  setHint("lease", (lease ? `${_t("В расчёте")}: <b>${m0(lease.value)} ${CUR.code}</b> — ${
+      esc(FLEET_PROV()[lease.prov] || lease.prov)}.<br>` : "")
+    + _t("ноль в лизинге — борт уже оплачен, владение не начисляется")
+    + (b ? us(b.own_per_ac_month, k, CUR.code + "/" + _t("мес")) + " — "
+         + _t("владение — аренда и амортизация, для нового борта нижняя оценка") : ""));
+  setHint("hours", (util ? `${_t("В расчёте")}: <b>${f0(util.value)} ${_t("ч/мес")}</b> — ${
+      esc(FLEET_PROV()[util.prov] || util.prov)}.` : "")
+    + (b ? us(b.util_h_month, x => f0(Math.round(x)), _t("ч/мес")) : ""));
+  if (!b) { setHint("fleet", ""); return; }
+  const row = (label, x, f) => x ? `<span>${label}</span><b>${f(x.p50)}</b><span class="r">${f(x.p25)}–${f(x.p75)}</span>` : "";
+  setHint("fleet", `<b>${_t("Перевозчики США")}, Form 41 ${FBENCH.year}</b>: ${FBENCH.carriers} ${_t("перев.")},
+      ${_t("плечо")} ${f0(b.block_per_dep ? b.block_per_dep.p50 : null)} ${_t("ч")}
+    <div class="hgrid"><span></span><span class="r">${_t("медиана")}</span><span class="r">p25–p75</span>
+    ${row(_t("налёт") + ", " + _t("ч/мес"), b.util_h_month, x => f0(Math.round(x)))}
+    ${row(_t("владение по балансу") + ", " + CUR.code + "/" + _t("мес"), b.own_per_ac_month, k)}
+    ${row(_t("ПЛГ") + ", " + CUR.code + "/" + _t("ч"), b.maint_per_bh, m0)}
+    ${row(_t("лётный экипаж") + ", " + CUR.code + "/" + _t("ч"), b.cockpit_per_bh, m0)}</div>
+    <span class="faint">${_t("владение — аренда и амортизация, для нового борта нижняя оценка")}. fca bench ${esc(FBENCH.icao)}</span>`);
 }
 // Компоновка: типовая (`*`) и перевозчика — из хранилища через
 // `operator`; по сертификату и своя — числом кресел через вход `seats`
@@ -1413,6 +1752,10 @@ function params(){
     `fleet_economics.${CHOSEN.ac}.lease_eur_month=${Math.round(toEur($("#lease").value))}`);
   if ($("#hours").value !== "") sets.push(
     `fleet_economics.${CHOSEN.ac}.monthly_hours=${$("#hours").value}`);
+  if ($("#mfh").value !== "") sets.push(
+    `fleet_economics.${CHOSEN.ac}.maint_eur_per_fh=${Math.round(toEur($("#mfh").value))}`);
+  if ($("#mfc").value !== "") sets.push(
+    `fleet_economics.${CHOSEN.ac}.maint_eur_per_fc=${Math.round(toEur($("#mfc").value))}`);
   if (sets.length) p.set = sets.join("~");
   return new URLSearchParams(p);
 }
@@ -1455,6 +1798,7 @@ function render(r){
   $("#hdr").textContent = `${f0(r.route.distance_nm)} ${_t("nm · блок")} ${
     f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}${curLine()}`;
   drawKpi(r);
+  fleetHints();
   const tab = document.querySelector("#tabs [aria-selected=true]").dataset.tab;
   $("#main").innerHTML = ({route: tabRoute, trace: tabTrace,
                            solve: tabSolve, types: tabTypes, type: tabType,
@@ -1479,6 +1823,51 @@ const FLAG_RU = [
 ];
 const human = w => FLAG_RU.reduce((s, [re, to]) => s.replace(re, to), w);
 
+// Оговорки — заголовком, а не абзацем: видно ЧТО не так (оно меняет
+// вывод и не прячется), а ПОЧЕМУ и что делать — по нажатию. Ядро пишет
+// оговорку как «что: почему», по первому двоеточию она и делится.
+function warnBlock(title, list, open = false){
+  const items = list.map(w => {
+    const t = human(w), i = t.indexOf(": ");
+    let head = i > 0 ? t.slice(0, i) : t, body = i > 0 ? t.slice(i + 2) : "";
+    // Двоеточие годится в разделитель, только если до него — фраза, а не
+    // код («EDDF: …») и не середина скобки («(нет данных: …»). Иначе —
+    // первые слова заголовком, весь текст — по нажатию.
+    const open = (head.match(/\(/g) || []).length !== (head.match(/\)/g) || []).length;
+    if (i > 0 && (head.length < 14 || open)) { head = t; body = ""; }
+    if (!body && t.length > 90) {
+      const cut = t.lastIndexOf(" ", 80);
+      head = t.slice(0, cut > 40 ? cut : 80) + "…"; body = t;
+    }
+    return body
+      ? `<details class="warn1"><summary>${esc(head)}</summary><div>${esc(body)}</div></details>`
+      : `<div class="warn1 solo">${esc(head)}</div>`;
+  }).join("");
+  return `<details class="warns"${open ? " open" : ""}><summary><h3>${esc(title)}
+    <span class="cnt">${list.length}</span></h3></summary>${items}</details>`;
+}
+
+// Поток пары (M10, решение 195) — рядом с ответом, в расчёт не входит.
+// Обращение, а не прогноз доли (решение 154): сколько потока забирает
+// ежедневный рейс туда-обратно с этой загрузкой.
+const DAYS_PER_MONTH = 30.44;
+function flowBlock(r){
+  const tf = r.traffic;
+  if (!tf) return "";
+  let h = `<h3>${_t("Поток по паре")}</h3>`;
+  if (tf.pax_month == null)
+    return h + `<p class="lede">${esc(tf.src)}. ${_t("Задать поток можно в режиме «Сеть», вкладка «Рынок».")}</p>`;
+  const pax = r.route.pax || 0, daily = 2 * pax * DAYS_PER_MONTH;
+  h += `<div class="flow"><div><b class="num">${f0(tf.pax_month)}</b> ${_t("пасс./мес в обе стороны")}${
+      tf.estimate ? ` <span class="t3">${_t("оценка")}</span>` : ""}</div>
+    <div class="src">${esc(tf.src)}</div>
+    ${tf.market && tf.market.flights_month ? `<div>${_t("Рынок пары")}: ${f0(tf.market.flights_month)} ${_t("рейсов/мес")} · ${
+      f0(tf.market.pax_per_flight)} ${_t("пасс. на рейс")}${tf.market.seats_per_flight ? ` ${_t("из")} ${f0(tf.market.seats_per_flight)} ${_t("кресел")}` : ""}${
+      tf.market.lf ? ` · ${_t("загрузка")} <b>${Math.round(tf.market.lf * 100)}%</b>` : ""}</div>` : ""}
+    <div>${_t("Ежедневный рейс туда-обратно с")} ${f0(pax)} ${_t("пасс. — это")} ${f0(daily)} ${_t("пасс./мес, или")} <b>${
+      Math.round(daily / tf.pax_month * 1000) / 10}%</b> ${_t("потока.")}</div></div>`;
+  return h;
+}
 function tabRoute(r){
   const a = r.answer, tot = a.cost_total;
   const fare = +$("#fare").value || 0;                 // в валюте показа
@@ -1516,8 +1905,8 @@ function tabRoute(r){
       .join("") + `<tr><td><b>${_t("Итого")}, ${CUR.code}</b></td><td class="v"><b>${m0(tot)}</b></td>
         <td class="v" style="color:var(--dim)">${
           caskFmt(tot/(r.route.seats*km)*100)}</td></tr></tbody></table>`;
-  if (r.warnings.length) h += `<h3>${_t("Внимание")}</h3>` + r.warnings.map(w =>
-    `<div class="note quiet"><b>·</b> ${esc(human(w))}</div>`).join("");
+  if (r.warnings.length) h += warnBlock(_t("Внимание"), r.warnings);
+  h += flowBlock(r);
   h += `<h3>${_t("С чем сравнить")}</h3><div id="benchbox"><p class="lede">${_t("считаю…")}</p></div>`;
   return h;
 }
@@ -1534,7 +1923,7 @@ function tabTrace(r){
   let grp = "";
   for (const s of r.trace) {
     if (s.group !== grp) { grp = s.group; h += `<div class="grp">${esc(grp)}</div>`; }
-    h += `<div class="step" data-node="${esc(s.node)}" data-src="${esc(s.src)}"
+    h += `<div class="step" data-node="${esc(s.node)}" data-src="${esc(s.src)}" data-prov="${esc(s.prov || "")}"
         data-ref="${esc(s.ref || "")}" data-label="${esc(s.label)}"
         data-formula="${esc(s.formula||"")}" data-subst="${esc(s.subst||"")}">
       <span class="n">${s.n}</span><div>${esc(s.label)}</div>
@@ -1640,21 +2029,36 @@ async function drawSolve(r){
 let PAX_CMP = null;                  // пассажиров на рейс; null — из текущего расчёта
 function tabTypes(r){
   const pax = PAX_CMP ?? r.route.pax;
-  return `<p class="lede">${_t("Сравнение при заданном числе пассажиров на рейс, а не при одинаковой загрузке: у каждого типа своя загрузка, кому кресел не хватает — «нельзя». Ставки лизинга и налёта из блока «Флот» относятся к")} ${esc(CHOSEN.ac)};
+  return `<p class="lede">${_t("Подбор типа под спрос: сколько пассажиров на рейс и какие участки. У каждого типа своя загрузка при них; кому кресел или дальности не хватает — «нельзя». Ставки лизинга и налёта из блока «Флот» относятся к")} ${esc(CHOSEN.ac)};
     ${_t("у остальных — справочник.")}</p>
-    <div class="field pair" style="margin:6px 0 10px">
+    <div class="field pair" style="margin:6px 0 6px">
       <div><label for="paxcmp">${_t("Пассажиров на рейс")}</label>
         <input id="paxcmp" type="number" min="1" step="1" value="${pax}"></div>
       <div><label>&nbsp;</label><button id="paxgo" class="btn">${_t("Пересчитать")}</button></div>
     </div>
+    ${r.traffic && r.traffic.pax_month != null ? `<p class="lede" style="margin:0 0 6px">${_t("Поток по паре")}: <b>${f0(r.traffic.pax_month)}</b> ${_t("пасс./мес")} ≈ ${
+      f0(r.traffic.pax_month / 2 / DAYS_PER_MONTH)} ${_t("в день в каждую сторону")}${r.traffic.estimate ? " (" + _t("оценка") + ")" : ""}. ${
+      _t("Сколько из них ваши — решаете вы: модели доли рынка нет.")}</p>` : ""}
+    <details class="legsbox" id="legsd"${LEGS_CMP ? " open" : ""}><summary>${_t("Несколько участков")}</summary>
+      <p class="lede" style="margin:4px 0">${_t("По строке на участок: «FRA BCN 150». Без числа — пассажиры из поля выше. Тип подходит, только если выполним на каждом; до восьми участков.")}</p>
+      <textarea id="legscmp" spellcheck="false" placeholder="FRA BCN 150">${esc(LEGS_CMP || `${CHOSEN.o} ${CHOSEN.d}`)}</textarea>
+    </details>
     <div id="typesbox"><p class="lede">${_t("считаю типы…")}</p></div>`;
 }
 
-let TYPES = null, TYPES_KEY = "", TYPES_SEQ = 0, TYPES_BUSY = null;
+let TYPES = null, TYPES_KEY = "", TYPES_SEQ = 0, TYPES_BUSY = null, LEGS_CMP = "", TYPES_VIEW = "rec";
+// Участки из поля: «FRA BCN 150», «FRA-BCN:150», «FRA → BCN» — в строку API.
+function legsParam(txt) {
+  return txt.split(/\n+/).map(x => x.trim()).filter(Boolean).map(x => {
+    const m = x.match(/^([A-Za-z0-9]{3,4})[\s\-–—>→:]+([A-Za-z0-9]{3,4})(?:[\s:]+(\d+))?\s*$/);
+    return m ? `${m[1].toUpperCase()}-${m[2].toUpperCase()}${m[3] ? ":" + m[3] : ""}` : `?${x}`;
+  }).join("~");
+}
 async function loadTypes(my){
   if (TYPES_BUSY) await TYPES_BUSY;
   if (my !== TYPES_SEQ) return null;
   const p = params(); p.set("pax", String(PAX_CMP ?? (LAST && LAST.route.pax) ?? ""));
+  if (LEGS_CMP) p.set("legs", legsParam(LEGS_CMP));
   const key = p.toString();
   if (TYPES && TYPES_KEY === key) return TYPES;
   const t0 = performance.now();
@@ -1667,13 +2071,65 @@ async function loadTypes(my){
   } finally { TYPES_BUSY = null; }
 }
 
+// Рекомендация (Ф1, решение 188) — три вопроса, которые задаёт человек,
+// выбирающий борт, и ответ на каждый из чисел сравнения, а не из
+// «экспертного мнения»: что дешевле на пассажира; что ровно по спросу,
+// с наименьшим числом пустых кресел; что выдержит рост спроса на
+// четверть без смены типа. Один тип может ответить на несколько.
+function recommend(s) {
+  const ok = s.rows.filter(t => t.status === "ok");
+  if (!ok.length) return [];
+  const need = Math.max(...s.legs.map(l => l.pax));
+  const best = ok[0];
+  const fit = ok.slice().sort((a, b) => (a.seats - b.seats) || (a.cost_per_pax - b.cost_per_pax))[0];
+  const grow = ok.filter(t => t.seats >= need * 1.25 && (t.headroom == null || t.headroom >= need * 0.25))
+                 .sort((a, b) => a.cost_per_pax - b.cost_per_pax)[0];
+  const out = new Map();
+  const add = (t, why) => { if (!t) return; if (!out.has(t.icao)) out.set(t.icao, {t, why: []}); out.get(t.icao).why.push(why); };
+  add(best, "best"); add(fit, "fit"); add(grow, "grow");
+  return [...out.values()].map(x => ({...x, reasons: recReasons(x.t, x.why, ok, need)}));
+}
+function recReasons(t, why, ok, need) {
+  const best = ok[0], next = ok.find(x => x.icao !== t.icao);
+  const R = [];
+  const pct = (a, b) => Math.round((a / b - 1) * 100);
+  if (why.includes("best") && next)
+    R.push([`${_t("дешевле всех на пассажира; следующий,")} ${next.icao}, ${_t("дороже на")} ${pct(next.cost_per_pax, t.cost_per_pax)}%`]);
+  else if (t !== best)
+    R.push([`${_t("на пассажира дороже лучшего")} (${best.icao}) ${_t("на")} ${pct(t.cost_per_pax, best.cost_per_pax)}%`]);
+  const empty = Math.round(t.seats - need);
+  if (why.includes("fit")) R.push([`${_t("меньше всех пустых кресел:")} ${empty} ${_t("из")} ${t.seats}`]);
+  else R.push([`${_t("загрузка")} ${Math.round(t.lf * 100)}%, ${_t("пустых кресел")} ${empty}`]);
+  if (why.includes("grow")) R.push([`${_t("спрос может вырасти на четверть без смены типа")}`]);
+  if (t.headroom != null) {
+    const where = t.headroom_leg ? ` (${t.headroom_leg})` : "";
+    if (t.headroom < Math.max(3, need * 0.05))
+      R.push([`${_t("впритык: по массе и креслам ещё")} ${Math.max(0, Math.round(t.headroom))} ${_t("пасс.")}${where}`, "w"]);
+    else if (!why.includes("grow"))
+      R.push([`${_t("запас ещё")} ${Math.round(t.headroom)} ${_t("пасс. по массе и креслам")}${where}`]);
+  }
+  if (t.tier === 0) R.push([_t("расход — плоская заготовка, не модель: сравнение грубое"), "w"]);
+  else if (t.tier === 4) R.push([_t("расход по аналогу с якорем"), "w"]);
+  if (t.default_share > 0.5) R.push([`${_t("на справочных ставках")} ${Math.round(t.default_share * 100)}% ${_t("затрат")}`, "w"]);
+  return R;
+}
+const REC_TITLE = {best: _t("Дешевле на пассажира"), fit: _t("Ровно по спросу"), grow: _t("С запасом роста")};
+
 async function drawTypes(r){
   const inp = $("#paxcmp");
   if (inp && !inp.dataset.bound) {
     inp.dataset.bound = "1";
-    const go = () => { PAX_CMP = +inp.value || null; drawTypes(LAST); };
+    const go = () => {
+      PAX_CMP = +inp.value || null;
+      const lg = $("#legscmp"), open = $("#legsd").open;
+      const one = `${CHOSEN.o} ${CHOSEN.d}`;
+      LEGS_CMP = open && lg && lg.value.trim() && lg.value.trim() !== one ? lg.value.trim() : "";
+      drawTypes(LAST);
+    };
     inp.addEventListener("change", go);
     $("#paxgo").addEventListener("click", go);
+    $("#legscmp").addEventListener("change", go);
+    $("#legsd").addEventListener("toggle", () => { if (!$("#legsd").open && LEGS_CMP) go(); });
     addClears($("#main"));
   }
   const box = $("#typesbox");
@@ -1684,17 +2140,41 @@ async function drawTypes(r){
   if (s.error) { box.innerHTML = `<div class="note"><b>${_t("Отказ.")}</b> ${esc(s.error)}</div>`; return; }
   const STATUS = {ok: "", infeasible: _t("нельзя"), too_small: _t("мало кресел"), failed: _t("сбой")};
   const TIER = {0: _t("параметрика"), 1: _t("физика"), 2: _t("точки"), 3: "CO₂", 4: _t("аналог")};
+  const geo = icao => (ACS.find(x => x.icao === icao) || {}).geom;
+  const multi = (s.legs || []).length > 1;
+  const legsTxt = multi ? s.legs.map(l => `${l.origin}–${l.destination} ${f0(l.pax)}`).join(", ") : "";
   let h = `<div class="note quiet"><b>${s.rows.filter(x => x.status === "ok").length} ${_t("из")} ${
-      s.rows.length} ${_t("типов выполнимы при")} ${f0(s.pax)} ${_t("пассажирах.")}</b> ${esc(s.note)} ${_t("Считалось")} ${s.ms} ${_t("мс.")}</div>
-    <div class="mhead" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr">
-      <span>${_t("тип")}</span><span>${_t("кресел")}</span><span>${_t("загрузка")}</span><span>${cu(_t("рейс, EUR"))}</span>
+      s.rows.length} ${_t("типов выполнимы")} ${multi ? `${_t("на всех участках:")} ${esc(legsTxt)}.` : `${_t("при")} ${f0(s.pax)} ${_t("пассажирах.")}`}</b> ${esc(s.note)} ${_t("Считалось")} ${s.ms} ${_t("мс.")}</div>`;
+  // Рекомендация: карточки с силуэтами в ОДНОМ масштабе — разница в
+  // размере борта видна глазом, а не только числом кресел.
+  const recs = recommend(s);
+  if (recs.length) {
+    const gs = recs.map(x => geo(x.t.icao)).filter(Boolean);
+    const k = gs.length ? Math.min(130 / Math.max(...gs.map(g => g.span)), 80 / Math.max(...gs.map(g => g.length))) : 1;
+    const hgt = gs.length ? Math.ceil(Math.max(...gs.map(g => g.length)) * k + 6) : 0;
+    h += `<div class="recs">` + recs.map(x => {
+      const t = x.t, cur = t.icao === CHOSEN.ac;
+      return `<div class="rec"><div class="rk">${x.why.map(w => REC_TITLE[w]).join(" · ")}</div>
+        <div class="gs" style="height:${hgt}px">${silhouette(geo(t.icao), k)}</div>
+        <h5>${esc(acShort(t.icao))} <span>${esc(t.name || "")} · ${t.seats} ${_t("кресел")}</span></h5>
+        <div class="rcost"><b>${m0(t.cost_per_pax)}</b> ${cu(_t("EUR на пассажира"))} · ${_t("рейс")} ${m0(multi ? t.cost_total / s.legs.length : t.cost_total)}${multi ? " " + _t("в среднем") : ""}</div>
+        <ul>${x.reasons.map(([txt, lv]) => `<li${lv ? ` class="${lv}"` : ""}>${esc(txt)}</li>`).join("")}</ul>
+        ${cur ? `<span class="t3">${_t("сейчас в расчёте")}</span>`
+              : `<button class="btn" data-pick="${esc(t.icao)}">${_t("Считать маршрут на нём")}</button>`}</div>`;
+    }).join("") + `</div>`;
+  } else {
+    h += `<div class="note"><b>${_t("Ни один тип не выполним.")}</b> ${_t("Уменьшите число пассажиров или проверьте участки: причины — у каждого типа ниже.")}</div>`;
+  }
+  h += `<div class="mhead" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr">
+      <span>${_t("тип")}</span><span>${_t("кресел")}</span><span>${_t("загрузка")}</span><span>${cu(multi ? _t("все рейсы, EUR") : _t("рейс, EUR"))}</span>
       <span>${_t("на пасс.")}</span><span>${_t("чек в ноль")}</span></div>`;
   for (const t of s.rows) {
     const ok = t.status === "ok", cur = t.icao === CHOSEN.ac;
     const bad = t.status !== "ok";
+    const g = geo(t.icao);
     h += `<div class="mrow" style="grid-template-columns:1.3fr .7fr .8fr .8fr .8fr .8fr"
         title="${esc(t.tier_note || "")}">
-      <div class="ml"><b${cur ? ' style="color:var(--accent)"' : ""}>${esc(t.icao)}</b>
+      <div class="ml">${g ? `<span class="msil">${silhouette(g, silK(g, 26))}</span>` : ""}<b${cur ? ' style="color:var(--accent)"' : ""} title="${esc(t.icao)}">${esc(acShort(t.icao))}</b>
         <span>${esc(t.name || "")}${t.tier != null ? ` · ${TIER[t.tier] || (_t("ярус") + " ") + t.tier}` : ""}${
           t.tier === 0 || t.tier === 4 ? ` <span class="t3">${t.tier === 4 ? _t("с якорем") : _t("заготовка")}</span>` : ""}</span></div>
       <div class="mv">${t.seats ?? "—"}</div>
@@ -1705,11 +2185,15 @@ async function drawTypes(r){
       ${bad ? `<div class="mt bad">${esc(t.why || "")}</div>`
             : `<div class="mt">CASK ${caskFmt(t.cask)} · ${_t("топливо")} ${f0(t.fuel_per_pax)} ${_t("кг/пасс · блок")} ${
                 f2(t.block_h)} ${_t("ч · на заготовке")} ${Math.round(t.default_share * 100)}%${
+                t.headroom != null ? ` · ${_t("запас")} ${f0(Math.max(0, t.headroom))} ${_t("пасс.")}` : ""}${
                 t.unused && t.unused.length ? ` · <span style="color:var(--warn)">${_t("переопределения флота не применены")}</span>` : ""}</div>`}
     </div>`;
   }
   h += `<p class="lede" style="margin-top:12px">${_t("Ярус расхода: физика — openap; аналог — вычислитель аналога на своём планере с якорем; заготовка — плоская ставка. Типы без модели расхода отвечают «нельзя» (решение 106), а не числом.")}</p>`;
   box.innerHTML = h;
+  box.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+    setAc(b.dataset.pick); draw();
+  }));
 }
 
 // ── тип ─────────────────────────────────────────────────────────────
@@ -1724,12 +2208,19 @@ const FIELD_RU = {mtow_t: _t("взлётная масса, т"), oew_t: _t("ма
   mlw_t: _t("посадочная масса, т"), fuel_capacity_t: _t("ёмкость баков, т"), seats_max: _t("кресел по сертификату"),
   seats_typical: _t("кресел, типовая компоновка"), span_m: _t("размах, м"), length_m: _t("длина, м"),
   cruise_mach: _t("крейсерское число M"), cruise_alt_m: _t("крейсерский эшелон, м"), engine_count: _t("двигателей"),
+  sweep_deg: _t("стреловидность крыла, °"), fuselage_width_m: _t("ширина фюзеляжа, м"),
   noise_lateral_epndb: _t("шум: боковая точка, EPNdB"), noise_approach_epndb: _t("шум: заход, EPNdB"),
   noise_flyover_epndb: _t("шум: пролёт, EPNdB"), noise_mtom_t: _t("шум: при массе, т"),
   noise_chapter: _t("глава Приложения 16")};
 const FIELD_ORDER = ["mtow_t","oew_t","mlw_t","fuel_capacity_t","seats_max","seats_typical",
-  "span_m","length_m","cruise_mach","cruise_alt_m","engine_count",
+  "span_m","length_m","cruise_mach","cruise_alt_m","engine_count","sweep_deg","fuselage_width_m",
   "noise_lateral_epndb","noise_approach_epndb","noise_flyover_epndb","noise_mtom_t","noise_chapter"];
+// Ставки эксплуатации своего типа (решение 190). ТОиР — двумя числами,
+// как в модели: за час налёта и за цикл; полная ставка на блок-час
+// получается из них на каждом плече своя.
+const FLEET_RU = {lease_eur_month: _t("лизинг, EUR в месяц"), monthly_hours: _t("налёт, ч в месяц"),
+  maint_eur_per_fh: _t("ТОиР, EUR за час налёта"), maint_eur_per_fc: _t("ТОиР, EUR за цикл"),
+  crew_eur_per_fh: _t("экипаж, EUR за час"), crew_eur_per_fc: _t("экипаж, EUR за вылет")};
 let TYPE_NEW = null;   // черновик нового типа, пока не сохранён: {base, icao}
 
 function fld(id, label, val, extra = "") {
@@ -1768,6 +2259,10 @@ async function drawType(r){
     <div class="grp">${_t("паспорт")}</div>
     <div class="field pair">${fld("t_name", _t("название"), TYPE_NEW ? (t.name ? t.name + (" " + _t("(свой)")) : "") : (t.name || ""), ro)}
       ${fld("t_engine", _t("двигатель"), src("engine").text, ro)}</div>
+    <div class="field pair"><div><label for="t_mount">${_t("двигатели установлены")}</label>
+        <select id="t_mount" ${editing ? "" : "disabled"}>${[["", _t("не указано")], ["wing", _t("под крылом")], ["rear", _t("на хвостовой части")]]
+          .map(([v, l]) => `<option value="${v}"${(src("engine_mount").text || "") === v ? " selected" : ""}>${l}</option>`).join("")}</select></div>
+      <div><label>${_t("силуэт — из чисел ниже")}</label><div id="tsil" class="gs"></div></div></div>
     <div class="field pair">`;
   // Две группы полей парами: паспорт и сертифицированный шум. Шум нужен
   // категориям аэропортов, считающих по сертификату; у типов из базы EASA
@@ -1795,6 +2290,13 @@ async function drawType(r){
       ${fld("b_mass", _t("якорь: масса, т"), src("burn_anchor_mass_t").value, `type="number" step="any" ${ro}`)}</div>
     <div class="field">${fld("b_src", _t("якорь: источник (без него якорь не заводится)"), sameEngine ? "" : src("burn_anchor_note").text, ro)}</div>
     <div class="field">${fld("b_note", _t("почему этот аналог"), "", ro)}</div>
+    <div class="grp">${_t("ставки эксплуатации — ваше допущение; пустое поле — заготовка от массы, её число стоит в поле")}</div>
+    ${[["lease_eur_month", "monthly_hours"], ["maint_eur_per_fh", "maint_eur_per_fc"], ["crew_eur_per_fh", "crew_eur_per_fc"]].map(pr =>
+      `<div class="field pair">${pr.map(k => fld("e_" + k, FLEET_RU[k], src("fleet_" + k).value,
+        `type="number" step="any" min="0" placeholder="${t.fleet_default && t.fleet_default[k] != null ? Math.round(t.fleet_default[k]) : ""}" ${ro}`)).join("")}</div>`).join("")}
+    <div class="field">${fld("e_src", _t("откуда ставки (договор, предложение лизингодателя или «моё допущение»)"),
+      ((src("fleet_lease_eur_month").note || src("fleet_maint_eur_per_fh").note || "") + "").replace(/^ставка автора типа: /, ""), ro)}</div>
+    ${editing ? "" : `<p class="lede">${_t("Ставки библиотечного типа не правятся здесь: создайте свой тип на его основе или задайте лизинг и налёт в блоке «Флот».")}</p>`}
     <div class="grp">${_t("источник паспортных величин")}</div>
     <div class="field">${fld("s_source", _t("документ"), TYPE_NEW ? `${_t("копия")} ${esc(t.icao)} ${_t("из хранилища с изменениями — описать, что и почему")}` : (src("mtow_t").source_note || "").split(" | ")[0], ro)}</div>
     <div class="field pair">${fld("s_url", _t("адрес"), TYPE_NEW ? "" : ((src("mtow_t").source_note || "").split(" | ")[2] || ""), ro)}
@@ -1818,6 +2320,18 @@ async function drawType(r){
         <div class="mv" style="text-align:left">${esc(l.source)}</div></div>`).join("");
   box.innerHTML = h;
   addClears(box);
+  // Силуэт своего типа меняется вместе с полями — так видно, что
+  // размах и длина введены в тех единицах.
+  const silNow = () => {
+    const v = k => { const e = $("#f_" + k); return e && e.value !== "" ? +e.value : null; };
+    const g = {span: v("span_m"), length: v("length_m"), width: v("fuselage_width_m"), sweep: v("sweep_deg"),
+               engines: v("engine_count") || 2, mount: $("#t_mount").value || null,
+               mach: v("cruise_mach"), mtow: v("mtow_t")};
+    const el = $("#tsil");
+    if (el) el.innerHTML = g.span && g.length ? silhouette(g, Math.min(150 / g.span, 90 / g.length)) : "";
+  };
+  silNow();
+  box.querySelectorAll("#tform input, #t_mount").forEach(e => e.addEventListener("input", silNow));
   const msg = (text, bad) => { const m = $("#tmsg"); m.style.display = ""; m.className = "note" + (bad ? "" : " quiet");
     m.innerHTML = bad ? `<b>${_t("Не сохранено.")}</b> ${esc(text)}` : esc(text); };
   if ($("#newgo")) $("#newgo").onclick = () => {
@@ -1831,6 +2345,10 @@ async function drawType(r){
     const same = $("#b_same").value === "1";
     const doc = {
       icao: key, name: $("#t_name").value, engine: $("#t_engine").value,
+      ...($("#t_mount").value ? {engine_mount: $("#t_mount").value} : {}),
+      fleet: Object.fromEntries(Object.keys(FLEET_RU).map(k => [k, $("#e_" + k).value === "" ? null : +$("#e_" + k).value])
+        .filter(([, v]) => v != null)),
+      fleet_source: $("#e_src").value,
       source: $("#s_source").value, source_url: $("#s_url").value, publisher: $("#s_pub").value,
       certainty: $("#s_cert").value,
       error_cost: $("#s_cost").value === "" ? null : +$("#s_cost").value,
@@ -1999,20 +2517,24 @@ function drawChips(b){
   // Без названия перевозчика: оно стоит в поле выбора справа, а строка
   // сравнения — про число и плечо, на котором оно получено.
   // Белым и жирным — только число; слово «бенчмарк» и единицы серым.
-  const bm = (num, unit, sub) => `${_t("бенчмарк")}: ${num ? `<b>${esc(num)}</b> ` : ""}${
-    esc(unit)}<br>${esc(sub)}`;
-  // Рублёвый CASK, пересчитанный по курсу, — сравнение уровня цен, а не
-  // эффективности: валюта отчёта называется рядом с плечом.
+  // Строка сравнения — одна: число и единица; всё остальное — в пояснении.
+  // Обратное направление цены — оговорка, меняющая вывод: оранжевое «i» и
+  // короткая метка остаются видны (решение 184).
   const zone = cur.fx && cur.fx.currency && cur.fx.currency !== "EUR"
-    ? ` · ${_t("отчёт в")} ${cur.fx.currency}, ${_t("другая валютная зона")}` : "";
+    ? `<br>${_t("отчёт в")} ${esc(cur.fx.currency)}, ${_t("другая валютная зона")}` : "";
+  const caveat = `<br><span class="faint">${_t("другое плечо и сеть — прямо сравнивать нельзя")}</span>`;
   $("#kpi-cask").innerHTML = cur.cask_cents
-    ? bm(caskVal(cur.cask_cents), caskUnit(), `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}`)
-    : bm("", _t("не считается"), cur.fx && !cur.fx.rate ? (_t("нет курса") + " ") + cur.fx.currency : "");
-  $("#kpi-yield").innerHTML = (cur.yield_eur_pax
-    ? bm(m0(cur.yield_eur_pax), cu(_t("EUR с пассажира")), cur.yield_basis || "")
-    : bm("", _t("не публикует"), _t("доход с пассажира в отчёте не назван")))
-    + marketLine(b);
-  sub.textContent = _t("другое плечо и сеть — прямо сравнивать нельзя");
+    ? `${_t("бенчмарк")}: <b>${caskVal(cur.cask_cents)}</b> ${esc(caskUnit())}${hint(
+        `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}${caveat}`)}`
+    : `${_t("бенчмарк")}: ${_t("не считается")}${cur.fx && !cur.fx.rate ? hint(_t("нет курса") + " " + esc(cur.fx.currency), "o") : ""}`;
+  const mk = marketParts(b);
+  const yieldPart = cur.yield_eur_pax
+    ? `${_t("бенчмарк")}: <b>${m0(cur.yield_eur_pax)}</b>`
+    : `${_t("бенчмарк")}: ${_t("не публикует")}`;
+  const yieldWhy = cur.yield_eur_pax ? esc(cur.yield_basis || "") : _t("доход с пассажира в отчёте не назван");
+  $("#kpi-yield").innerHTML = `${yieldPart} · ${mk.short}${mk.flag}${hint(
+      `<b>${_t("бенчмарк")}</b>: ${yieldWhy}${caveat}<br><br><b>${_t("рынок")}</b>: ${mk.detail}`, mk.warn ? "o" : "g")}`;
+  sub.textContent = "";
 }
 
 // Цены агрегатора в евро: либо сервер уже пересчитал чужую валюту
@@ -2030,12 +2552,13 @@ function fareEur(b){
 // агрегатора, по полосам глубины бронирования. Это не средний чек
 // (решение 8): минимум дешёвого класса с налогами внутри. Показывается
 // рядом с безубыточным чеком как «можно ли войти ценой», без вердикта.
-function marketLine(b){
+function marketParts(b){
   const fares = b.fare || [];
   if (!fares.length) {
-    return `<br><span class="s">${_t("рынок")}: ${b.fare_elsewhere
+    const why = b.fare_elsewhere
       ? `${_t("по этой линии наблюдений нет (есть по")} ${b.fare_elsewhere} ${_t("другим)")}`
-      : _t("наблюдений цены нет")}</span>`;
+      : _t("наблюдений цены нет");
+    return {short: `${_t("рынок")}: —`, flag: "", detail: why, warn: false};
   }
   const eur = fareEur(b);
   const vals = eur ? eur.map(M) : fares.map(x => x.value);
@@ -2043,28 +2566,52 @@ function marketLine(b){
   const lo = Math.min(...vals), hi = Math.max(...vals);
   const band = fares.length === 1 ? esc(fares[0].key.split("/")[1] || "")
     : `${fares.length} ${_t("полос глубины")}`;
-  return `<br>${_t("рынок")}: <b>${f0(lo)}${hi > lo ? "–" + f0(hi) : ""}</b> ${esc(unit)} · ${band}${
-      b.fare_reverse ? ` · <span style="color:var(--warn)">${_t("обратное направление")} ${esc(b.fare_reverse)}</span>` : ""}`
-    + `<br><span class="s">${_t("минимум дешёвого класса, налоги внутри — не средний чек · по данным Aviasales")}</span>`;
+  const rev = b.fare_reverse;
+  return {
+    short: `${_t("рынок")}: <b>${f0(lo)}${hi > lo ? "–" + f0(hi) : ""}</b> ${esc(unit)}`,
+    flag: rev ? ` <span class="warnw">${_t("обратное направление")}</span>` : "",
+    detail: `${band}${rev ? `<br><span class="warnw">${_t("обратное направление")} ${esc(rev)}</span>` : ""}
+      <br>${_t("минимум дешёвого класса, налоги внутри — не средний чек · по данным Aviasales")}`,
+    warn: !!rev};
 }
 
+// Карточка показывает только то, что у контура есть; чего нет — одной
+// бледной строкой внизу, а не столбиком прочерков. Ставки на блок-час —
+// из отчётности (решение 183): оценка блок-часов и непроверенное чтение
+// помечены оранжевым «i», а не спрятаны.
 function carrierCard(c){
+  const rows = [], miss = [];
+  // В «не публикует» — только величины основного набора. Ставки на
+  // блок-час из отчётности есть у немногих, и их отсутствие у каждого
+  // второго перевозчика — не новость, а шум.
+  const add = (label, val, extra = "", quiet = false) => val == null || val === ""
+    ? (quiet ? 0 : miss.push(label)) : rows.push(`<span>${label}${extra}</span><b>${val}</b>`);
   const cask = c.cask_cents ? caskVal(c.cask_cents) + " " + caskUnit()
-    : c.fx && !c.fx.rate
-      ? `<span style="color:var(--warn)">${_t("нет курса")} ${esc(c.fx.currency)}</span>` : "—";
+    : c.fx && !c.fx.rate ? `<span class="warnw">${_t("нет курса")} ${esc(c.fx.currency)}</span>` : null;
+  add("CASK", cask);
+  add(_t("доход с пассажира"), c.yield_eur_pax ? m0(c.yield_eur_pax) + " " + CUR.code : null,
+      c.yield_basis ? hint(esc(c.yield_basis)) : "");
+  add(_t("среднее плечо"), c.sector_nm ? f0(c.sector_nm) + " nm" : null);
+  add(_t("стоимость блок-часа"), c.cost_per_block_h ? m0(c.cost_per_block_h) + " " + cu(_t("EUR/ч")) : null);
+  add(_t("затраты на пассажира"), c.cost_per_pax ? m0(c.cost_per_pax) + " " + CUR.code : null);
+  const est = c.bh_estimated || (c.unconfirmed || []).length;
+  const why = [c.bh_estimated ? _t("блок-часы — оценка: налёт в сутки × средний парк × 365") : "",
+               (c.unconfirmed || []).length ? _t("часть величин не сверена с отчётом") + ": " + esc(c.unconfirmed.join(", ")) : ""]
+    .filter(Boolean).join("<br>");
+  const perbh = (v, basis) => v ? m0(v) + " " + cu(_t("EUR/ч")) : null;
+  add(_t("экипаж на блок-час"), perbh(c.crew_per_bh), c.crew_per_bh
+      ? hint(esc(!(c.crew_basis || "").includes("ASK") ? _t("лётный и кабинный экипаж, строка отчёта") : _t("пилоты и бортпроводники, ц/ASK × ASK"))
+             + (why ? "<br>" + why : ""), est ? "o" : "g") : "", true);
+  add(_t("персонал на блок-час"), perbh(c.staff_per_bh), c.staff_per_bh
+      ? hint(_t("весь персонал, а не только экипаж — верхняя граница") + (why ? "<br>" + why : ""), est ? "o" : "g") : "", true);
+  add(_t("ТОиР + владение на блок-час"), perbh(c.maint_own_per_bh), c.maint_own_per_bh
+      ? hint(_t("по МСФО тяжёлые формы капитализируются и уходят в амортизацию — строка ТОиР без них неполна, поэтому сравнивается сумма")
+             + (why ? "<br>" + why : ""), est ? "o" : "g") : "", true);
   return `<div class="carrier"><div class="ch">${esc(c.name)} · ${esc(c.year)}
-      <span style="color:var(--faint);font-weight:400">${esc(c.code)}</span></div>
-    <div class="cs">${esc((c.scope||"").trim())}</div>
-    <div class="kv">
-      <span>CASK</span><b>${cask}</b>
-      <span>${_t("доход с пассажира")}</span><b>${c.yield_eur_pax ? m0(c.yield_eur_pax) + " " + CUR.code : "—"}
-        ${c.yield_basis ? `<i>${esc(c.yield_basis)}</i>` : ""}</b>
-      <span>${_t("среднее плечо")}</span><b>${c.sector_nm ? f0(c.sector_nm) + " nm" : "—"}</b>
-      <span>${_t("стоимость блок-часа")}</span><b>${c.cost_per_block_h
-        ? m0(c.cost_per_block_h) + " " + cu(_t("EUR/ч"))
-        : `<span style="color:var(--faint)">${_t("не публикует")}</span>`}</b>
-      <span>${_t("затраты на пассажира")}</span><b>${c.cost_per_pax ? m0(c.cost_per_pax) + " " + CUR.code : "—"}</b>
-    </div></div>`;
+      <span style="color:var(--faint);font-weight:400">${esc(c.code)}</span>${
+      c.scope ? hint(esc((c.scope || "").trim())) : ""}</div>
+    <div class="kv">${rows.join("")}</div>${
+    miss.length ? `<div class="cs">${_t("не публикует")}: ${miss.join(", ")}</div>` : ""}</div>`;
 }
 
 async function drawBench(r){
@@ -2075,7 +2622,12 @@ async function drawBench(r){
   const box = [];
 
   if ((b.carriers || []).length) {
-    box.push(b.carriers.map(carrierCard).join(""));
+    // Список уже отсортирован сервером по заполненности. Полные карточки
+    // открыты, остальные свёрнуты — их меньше читают и больше листают.
+    const full = b.carriers.filter(c => c.filled >= 3), rest = b.carriers.filter(c => c.filled < 3);
+    box.push(full.map(carrierCard).join(""));
+    if (rest.length) box.push(`<details class="more"><summary>${_t("ещё перевозчиков с неполными данными")}: ${
+      rest.length} · ${rest.map(c => esc(c.code)).join(", ")}</summary>${rest.map(carrierCard).join("")}</details>`);
     // ВЕРДИКТА НЕТ, и это решение 95: полоса собрана на другом плече.
     // На коротком секторе постоянные статьи делятся на меньшее число
     // кресло-километров, и CASK выше при той же эффективности. Сравнивать
@@ -2085,10 +2637,10 @@ async function drawBench(r){
       ${noFx.map(c => esc(c.carrier) + " — " + esc(c.fx.currency)).join(", ")}:
       ${_t("курса в справочнике нет, и подставлять правдоподобный нельзя — получилась бы полоса, собранная из чисел в разных деньгах. Это открытый вопрос карты: источники курса вне котировок ЕЦБ.")}</div>`);
     const c0 = b.carriers.find(c => c.cask_cents);
-    if (c0) box.push(`<div class="note"><b>${_t("Прямо сравнивать нельзя.")}</b>
+    if (c0) box.unshift(`<div class="note quiet"><b>${_t("Прямо сравнивать нельзя.")}</b>${hint(`
       ${_t("Наш маршрут")} — ${f0(our.sector)} ${_t("nm, полоса собрана на среднем плече")}
       ${f0(c0.sector_nm)} ${_t("nm. На коротком секторе постоянные статьи рейса делятся на меньшее число кресло-километров, и CASK выше при той же эффективности. Наши")} ${caskVal(our.cask)} ${_t("против")}
-      ${caskVal(c0.cask_cents)} ${caskUnit()} ${_t("— разница, в которой доля плеча пока не отделена от доли параметрики.")}</div>`);
+      ${caskVal(c0.cask_cents)} ${caskUnit()} ${_t("— разница, в которой доля плеча пока не отделена от доли параметрики.")}`, "o")}</div>`);
   } else {
     box.push(`<div class="note"><b>${_t("Полосы нет.")}</b> ${_t("Отчётность перевозчиков не заведена: сравнивать себестоимость не с чем.")}</div>`);
   }
@@ -2147,7 +2699,13 @@ async function side(d){
     // непонятная. Величина расчётная, и продолжать трассировку надо не
     // объяснением, чего нет, а перечнем того, из чего она получена.
     // Карта данных это знает: у узла перечислены входы.
-    h += `<p class="lede">${_t("Расчётное значение: получено из других величин, а не взято из справочника.")}</p>
+    // Что за величина — по происхождению шага, а не одной фразой на всё:
+    // у ТОиР стояло «расчётное значение», и не было видно, что ставки в
+    // нём — заготовка, а не данные.
+    const LEDE = {default: _t("Заготовка: величина посчитана, но ставки в ней — связная оценка, а не данные. Своё число — в блоке «Флот» или в рабочем месте."),
+      override: _t("Задано вами: в расчёт ушло ваше значение вместо справочного."),
+      input: _t("Задано вами: в расчёт ушло ваше значение вместо справочного.")};
+    h += `<p class="lede">${LEDE[d.prov] || _t("Расчётное значение: получено из других величин, а не взято из справочника.")}</p>
       <dl class="kv">
         <dt>${_t("формула")}</dt><dd style="font-family:var(--mono)">${
           esc(d.formula || "—")}</dd>
@@ -2168,23 +2726,24 @@ async function side(d){
                      s.url ? s.templated
                        ? ` · <span style="color:var(--faint)">${_t("шаблон адреса")}: ${esc(s.url)}</span>`
                        : ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">${_t("источник")}</a>`
-                     : ""}</div>`).join("")}</td>
+                     : ""}</div>`).join("")}${(i.unsourced || []).map(u => `
+                   <div style="font-size:11.5px;margin-top:3px;color:var(--guess)">${esc(u)} — ${
+                     _t("в справочнике пусто, работает параметрическая заготовка")}</div>`).join("")}</td>
                  <td style="color:var(--dim);font-size:12px">${esc(i.unit)}</td>
-                 <td><span class="chip">${esc(i.role)}</span></td></tr>`).join("")
+                 <td><span class="chip">${esc(ROLE_RU()[i.role] || i.role)}</span></td></tr>`).join("")
               + `</tbody></table>`
             : `<div class="note quiet"><b>${_t("Входов на карте нет.")}</b> ${_t("Узел")}
                 <span class="num">${esc(d.node)}</span> — ${_t("начало цепочки: вход пользователя или внешний источник.")}</div>`)
           + (nd.note ? `<p class="lede" style="margin-top:10px">${esc(nd.note)}</p>` : "")
-          // Справочники за цепочкой входов — с адресом, который можно
-          // открыть. Шаблонный адрес (помесячные файлы CRCO) показывается
-          // как шаблон: подставлять месяц за пользователя — выдумывать.
-          + ((nd.sources || []).length ? `<h3>${_t("Источники")}</h3><dl class="kv">` +
-              nd.sources.map(s => `<dt>${esc(s.domain)}</dt><dd style="font-family:inherit">${
-                esc(s.title || s.id)}${s.url ? s.templated
-                  ? `<div style="color:var(--faint);font-size:11.5px">${_t("шаблон адреса")}: ${esc(s.url)}</div>`
-                  : `<div><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>`
-                : ""}${s.license ? `<div style="color:var(--faint);font-size:11.5px">${_t("лицензия")} ${
-                  esc(s.license)}</div>` : ""}</dd>`).join("") + `</dl>` : "")
+          // Источники стоят у входов (выше), общей кучей их больше нет: у
+          // ТОиР в ней был OurAirports — достижимый через блок-время, но
+          // читавшийся как источник ставки. Здесь — только то, что стоит
+          // рядом для сверки и в расчёт не входит.
+          + ((nd.refs || []).length ? `<h3>${_t("Для сверки")} <span style="font-weight:400;color:var(--faint)">· ${_t("в расчёт не входит")}</span></h3><dl class="kv">` +
+              nd.refs.map(s => `<dt></dt><dd style="font-family:inherit">${esc(s.title || s.id)}${
+                s.url ? `<div><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>` : ""}${
+                s.license ? `<div style="color:var(--faint);font-size:11.5px">${_t("лицензия")} ${esc(s.license)}</div>` : ""}</dd>`).join("")
+              + `</dl><p class="lede">fca bench</p>` : "")
         : `<div class="note"><b>${_t("Узла нет на карте.")}</b> ${esc(nd.why || "")}</div>`;
     }
     return;
@@ -2271,7 +2830,7 @@ function bindTabs(){
   });
 }
 bindTabs();
-["lf","fare","month","alt","lease","hours","seatsv"].forEach(id =>
+["lf","fare","month","alt","lease","hours","mfh","mfc","seatsv"].forEach(id =>
   document.getElementById(id).addEventListener("input", draw));
 // `boot()` — внизу, после входа по ссылке на рабочее место: иначе список
 // типов пришёл бы без своих.
@@ -2298,7 +2857,7 @@ function setCur(code, convertInputs = true){
   if (!q || !q.rate) return false;
   const k = q.rate / CUR.rate;
   if (convertInputs && k !== 1) {
-    for (const id of ["fare", "lease"]) {
+    for (const id of ["fare", "lease", "mfh", "mfc", "nlease", "nmfh", "nmfc"]) {
       const el = $("#" + id);
       if (el.value !== "" && isFinite(+el.value)) { el.value = String(Math.round(+el.value * k)); markClear(el); }
     }
@@ -2306,8 +2865,15 @@ function setCur(code, convertInputs = true){
   CUR.code = code; CUR.rate = q.rate; CUR.q = q; CUR.cents = code === "EUR" || code === "USD";
   try { localStorage.setItem("fca.cur", code); } catch (e) {}
   $("label[for=fare]").textContent = cu(_t("Чек, EUR"));
-  $("label[for=lease]").textContent = cu(_t("Лизинг, EUR в месяц"));
-  curOptions(); psum();
+  // Текст подписи — в своём span: textContent всей подписи снимал
+  // кнопку пояснения ⓘ, которая стоит внутри неё.
+  $("#leasel").textContent = cu(_t("Лизинг, EUR в месяц"));
+  $("#mfhl").textContent = cu(_t("ТОиР, EUR/ч"));
+  $("#mfcl").textContent = cu(_t("ТОиР, EUR/цикл"));
+  $("#nleasel").textContent = cu(_t("Лизинг, EUR в месяц на борт"));
+  $("#nmfhl").textContent = cu(_t("ТОиР, EUR/ч"));
+  $("#nmfcl").textContent = cu(_t("ТОиР, EUR/цикл"));
+  curOptions(); psum(); benchDraw();
   if (NET.on) netRender(); else if (LAST) render(LAST);
   if (!$("#wspanel").hidden) wsDraw();
   return true;
@@ -2333,7 +2899,7 @@ $("#cur").addEventListener("change", e => { if (!setCur(e.target.value)) curOpti
 const NET = {on: false, airports: [], base: null, freqMode: "auto", freqs: {}, fares: {},
              market: {}, res: null, sel: null, zones: "all", showRights: false,
              busy: false, dirty: true, msg: ""};
-const NET_TABS = [["net", _t("Сеть")], ["market", _t("Рынок")], ["nwarn", _t("Оговорки")]];
+const NET_TABS = [["net", _t("Сеть")], ["ntypes", _t("Типы")], ["market", _t("Рынок")], ["nwarn", _t("Оговорки")]];
 let ROUTE_TABS_HTML = null;
 const netIcao = key => (APTS.find(x => x.key === key) || {}).icao;
 const netApt = key => APTS.find(x => x.key === key);
@@ -2427,6 +2993,8 @@ function netParams(){
     month: $("#month").value});
   if ($("#nutil").value !== "") p.set("util_h", $("#nutil").value);
   if ($("#nlease").value !== "") p.set("lease", String(Math.round(toEur($("#nlease").value))));
+  if ($("#nmfh").value !== "") p.set("maint_fh", String(Math.round(toEur($("#nmfh").value))));
+  if ($("#nmfc").value !== "") p.set("maint_fc", String(Math.round(toEur($("#nmfc").value))));
   const fares = {}; for (const [k, v] of Object.entries(NET.fares)) if (v !== "" && v != null) fares[k] = (toEur(v)).toFixed(2);
   if (Object.keys(fares).length) p.set("fares", pairsQ(fares));
   if (Object.keys(NET.market).length) p.set("market", pairsQ(NET.market));
@@ -2471,8 +3039,19 @@ function netSoft(){
   clearTimeout(NET_TIMER); NET_TIMER = setTimeout(netRun, 250);
 }
 $("#ngo").onclick = netRun;
-["nfleet", "nutil", "nlease", "nconv"].forEach(id => $("#" + id).addEventListener("input", netSoft));
-$("#nmult").addEventListener("input", () => { $("#nmultv").textContent = `× ${f2(+$("#nmult").value / 100)}`; netSoft(); });
+["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv"].forEach(id => $("#" + id).addEventListener("input", netSoft));
+$("#nmult").addEventListener("input", () => { $("#nmultv").textContent = `× ${f2(+$("#nmult").value / 100)}`; netFareLine(); netSoft(); });
+$("#nconv").addEventListener("input", netFareLine);
+// Итог двух множителей числом: какой чек на самом деле уходит в расчёт,
+// на первой паре с рыночной ценой — чтобы было видно, что их два и они
+// перемножаются.
+function netFareLine() {
+  const conv = +$("#nconv").value || 1, mult = +$("#nmult").value / 100, k = conv * mult;
+  const p = NET.res && NET.res.pairs.find(x => x.status === "ok" && x.legs.some(l => l.fare_eur != null));
+  const l = p && p.legs.find(x => x.fare_eur != null);
+  $("#nfarev").innerHTML = `${_t("в расчёте: минимум")} × ${f2(conv)} × ${f2(mult)} = <b>× ${f2(k)}</b>${
+    l ? ` · ${esc(l.origin)}–${esc(l.destination)}: ${m0(l.fare_eur)} → <b>${m0(l.fare_eur * k)}</b> ${CUR.code}` : ""}`;
+}
 $("#nlf").addEventListener("input", () => { $("#nlfv").textContent = $("#nlf").value + "%"; netSoft(); });
 document.querySelectorAll("#nfreqmode button").forEach(b => b.onclick = () => {
   NET.freqMode = b.dataset.v;
@@ -2503,7 +3082,7 @@ function netRender(){
       NET.busy ? (pr && pr.total ? `${_t("пар посчитано")}${pr.last ? " · " + pr.last : ""}` : _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"))
                : (NET.msg || (NET.dirty ? _t("нажмите «Считать сеть»") : "")), !!NET.msg)
       + kpiCell(_t("Парк"), `${$("#nfleet").value} × ${esc(CHOSEN.ac)}`, "", false)
-      + kpiCell(_t("Цена"), `× ${f2(+$("#nmult").value / 100)}`, _t("к рыночной медиане"), false)
+      + kpiCell(_t("Цена"), `× ${f2(+$("#nmult").value / 100)}`, _t("наша цена к рынку"), false)
       + kpiCell(_t("Загрузка"), $("#nlf").value + "%", _t("расчётная"), false)
       + kpiCell(_t("Пары"), r ? String(r.pairs.length) : "—", r ? `${r.pairs.filter(p => p.status === "ok").length} ${_t("с правом летать")}` : "", false);
   } else {
@@ -2511,17 +3090,19 @@ function netRender(){
     k.innerHTML =
       kpiCell(_t("Безубыточная загрузка"), n.breakeven_lf == null ? _t("нет") : `${(n.breakeven_lf * 100).toLocaleString(LOCALE, {maximumFractionDigits: 1})}<small>%</small>`,
         n.breakeven_lf == null ? _t("не окупается даже полными бортами") : _t("сеть в нуле"), n.breakeven_lf == null || n.breakeven_lf > 0.95)
-      + kpiCell(`${_t("При")} ${Math.round(lf * 100)}%`, `<span class="${n.profit_at_ref < 0 ? "neg" : ""}">${m0(n.profit_at_ref / 1000)}</span><small>${_t("тыс.")} ${CUR.code}/${_t("мес")}</small>`,
-        `${_t("лизинг парка")} ${m0(n.fleet * n.lease_eur_month / 1000)} ${_t("тыс.")}`, n.profit_at_ref < 0)
+      + kpiCell(`${_t("При")} ${Math.round(lf * 100)}%`, `<span class="${n.profit_at_ref < 0 ? "neg" : ""}">${kNum(n.profit_at_ref)}</span><small>${kUnit(n.profit_at_ref)} ${CUR.code}/${_t("мес")}</small>`,
+        `${_t("лизинг парка")} ${kMoney(n.fleet * n.lease_eur_month)}`, n.profit_at_ref < 0)
       + kpiCell(_t("Цена в ноль"), n.fare_mult_breakeven == null ? "—" : `× ${f2(n.fare_mult_breakeven)}`,
-        `${_t("задано")} × ${f2(n.fare_mult)}`, n.fare_mult_breakeven != null && n.fare_mult_breakeven > n.fare_mult)
-      + kpiCell(_t("Лизинг в ноль"), n.lease_breakeven == null ? "—" : `${m0(n.lease_breakeven / 1000)}<small>${_t("тыс.")}/${_t("мес")}</small>`,
-        `${n.lease_prov === "input" ? _t("задано") : _t("заготовка")} ${m0(n.lease_eur_month / 1000)}`, n.lease_breakeven != null && n.lease_breakeven < 0)
+        `${_t("наша цена к рынку")} × ${f2(n.fare_mult)}`, n.fare_mult_breakeven != null && n.fare_mult_breakeven > n.fare_mult)
+      + kpiCell(_t("Лизинг в ноль"), n.lease_breakeven == null ? "—" : `${kNum(n.lease_breakeven)}<small>${kUnit(n.lease_breakeven)}/${_t("мес")}</small>`,
+        `${n.lease_prov === "input" ? _t("задано") : _t("заготовка")} ${kMoney(n.lease_eur_month)}`, n.lease_breakeven != null && n.lease_breakeven < 0)
       + kpiCell(_t("Топливо в ноль"), n.fuel_price_breakeven == null ? "—" : `${m2(n.fuel_price_breakeven)}<small>${CUR.code}/${_t("кг")}</small>`,
         n.fuel_price_now == null ? "" : `${_t("сейчас")} ${m2(n.fuel_price_now)}`, n.fuel_price_breakeven != null && n.fuel_price_now != null && n.fuel_price_breakeven < n.fuel_price_now);
   }
+  netFleetHints(); netFareLine();
   const tab = (document.querySelector("#tabs [aria-selected=true]") || {}).dataset?.tab || "net";
-  $("#main").innerHTML = ({net: tabNet, market: tabMarket, nwarn: tabNetWarn}[tab] || tabNet)();
+  $("#main").innerHTML = ({net: tabNet, ntypes: tabNetTypes, market: tabMarket, nwarn: tabNetWarn}[tab] || tabNet)();
+  if (tab === "ntypes") bindNetTypes();
   $("#main").querySelectorAll("tr[data-pair]").forEach(tr => tr.onclick = e => {
     if (e.target.tagName === "INPUT") return;
     NET.sel = NET.sel === tr.dataset.pair ? null : tr.dataset.pair; netRender();
@@ -2535,6 +3116,185 @@ function netRender(){
   const sr = $("#nshowrights"); if (sr) sr.onclick = () => { NET.showRights = !NET.showRights; netRender(); };
   addClears($("#main"));
   drawGlobe();
+}
+
+// Лизинг и налёт сети — число, с которым считали, прямо в поле вместо
+// «из справочника» (как у маршрута, решение 184). Источник — по порядку:
+// посчитанная сеть этого типа, иначе расчёт маршрута на нём же.
+function netFleetHints(){
+  const r = NET.res, n = r && r.network;
+  let fl = n && n.aircraft === CHOSEN.ac ? n : (r && r.fleet && r.fleet.aircraft === CHOSEN.ac ? r.fleet : null);
+  if (!fl && LAST && LAST.route && LAST.route.aircraft === CHOSEN.ac) {
+    const ls = stepOf(LAST, "d_fleet"), us = stepOf(LAST, "v_util");
+    if (ls || us) fl = {lease_eur_month: ls ? ls.value : null, lease_prov: ls ? ls.prov : "",
+                        util_h_month: us ? us.value : null, util_prov: us ? us.prov : ""};
+  }
+  const P = FLEET_PROV();
+  $("#nlease").placeholder = fl && fl.lease_eur_month != null ? m0(fl.lease_eur_month) : "—";
+  $("#nutil").placeholder = fl && fl.util_h_month != null ? f0(fl.util_h_month) : "—";
+  setHint("nlease", fl && fl.lease_eur_month != null
+    ? `${_t("В расчёте")}: <b>${m0(fl.lease_eur_month)} ${CUR.code}</b> ${_t("на борт в месяц")} — ${esc(P[fl.lease_prov] || fl.lease_prov || "")}.<br>${_t("ноль в лизинге — борт уже оплачен, владение не начисляется")}`
+    : _t("ставка типа появится после расчёта"));
+  // ТОиР: те же два поля, что у маршрута; формула — на самом длинном
+  // плече сети, где цикловая часть весит меньше всего.
+  const mf = n && n.aircraft === CHOSEN.ac ? n : (r && r.fleet && r.fleet.aircraft === CHOSEN.ac ? r.fleet : null);
+  const lfl = !mf && LAST && LAST.route && LAST.route.aircraft === CHOSEN.ac && LAST.inputs ? LAST.inputs.fleet : null;
+  const mh = mf ? mf.maint_fh : lfl ? lfl.maint_eur_per_fh : null;
+  const mc = mf ? mf.maint_fc : lfl ? lfl.maint_eur_per_fc : null;
+  const mp = mf ? mf.maint_prov : lfl && lfl.prov ? lfl.prov.maint_eur_per_fh : "";
+  $("#nmfh").placeholder = mh != null ? m0(mh) : "—";
+  $("#nmfc").placeholder = mc != null ? m0(mc) : "—";
+  const leg = r && r.pairs ? r.pairs.filter(x => x.status === "ok").flatMap(x => x.legs || [])
+    .sort((x, y) => (y.block_h || 0) - (x.block_h || 0))[0] : null;
+  const ufh = $("#nmfh").value !== "" ? toEur(+$("#nmfh").value) : mh;
+  const ufc = $("#nmfc").value !== "" ? toEur(+$("#nmfc").value) : mc;
+  $("#nmaintf").innerHTML = leg && ufh != null && ufc != null
+    ? `${esc(leg.origin)}–${esc(leg.destination)}: ${m0(ufh)} × ${f2(leg.block_h)} ${_t("ч")} + ${m0(ufc)} = <b>${m0(ufh * leg.block_h + ufc)}</b> ${_t("за рейс")}`
+    : "";
+  setHint("nmaint", mh != null
+    ? `${_t("В расчёте")}: <b>${m0(mh)}</b> ${CUR.code} ${_t("за час налёта")} + <b>${m0(mc)}</b> ${CUR.code} ${_t("за цикл")} — ${esc(P[mp] || mp || "")}.<br>${
+        _t("Часовая часть — двигатели, тяжёлые формы, пул компонентов; цикловая — шасси, ВСУ, ресурсные детали, линейное обслуживание. Цикловая от длительности рейса не зависит, поэтому ставка на час падает с ростом плеча.")}<br>${
+        _t("Меняется без пересборки сети: разница ложится в постоянную часть каждого рейса.")}`
+    : _t("ставка типа появится после расчёта"));
+  setHint("nutil", fl && fl.util_h_month != null
+    ? `${_t("В расчёте")}: <b>${f0(fl.util_h_month)} ${_t("ч/мес")}</b> — ${esc(P[fl.util_prov] || fl.util_prov || "")}.`
+    : _t("ставка типа появится после расчёта"));
+}
+
+// ── сеть на нескольких типах (решение 189) ─────────────────────────────
+// Порядок как у человека: сначала какие типы сравнить, потом сеть
+// считается на каждом. Сеть одна и та же — аэропорты, база, бортов,
+// цена, загрузка; меняется только тип.
+NET.cmp = {types: [], res: null, busy: false, progress: null, msg: "", key: ""};
+const netCmpTypes = () => {
+  if (!NET.cmp.types.length && CHOSEN.ac) NET.cmp.types = [CHOSEN.ac];
+  return NET.cmp.types;
+};
+function netCmpAdd(icao) {
+  const t = ACS.find(x => x.icao === icao);
+  if (!t || !t.usable || netCmpTypes().includes(icao)) return;
+  if (NET.cmp.types.length >= 5) { NET.cmp.msg = _t("не больше пяти типов за одно сравнение"); netRender(); return; }
+  NET.cmp.types.push(icao); NET.cmp.msg = ""; netRender();
+}
+// Подсказки, кого добавить: рекомендация подбора на маршруте (если её
+// считали) и соседи по креслам — ±30% от выбранного типа.
+function netCmpSuggest() {
+  const have = new Set(netCmpTypes()), out = [];
+  if (TYPES && TYPES.rows) for (const x of recommend(TYPES)) if (!have.has(x.t.icao)) out.push(x.t.icao);
+  const me = ACS.find(x => x.icao === CHOSEN.ac), ms = me && (me.seats_typical || me.seats_max);
+  if (ms) ACS.filter(t => t.usable && t.physics && !have.has(t.icao) && !out.includes(t.icao)
+      && (t.seats_typical || 0) >= ms * 0.7 && (t.seats_typical || 0) <= ms * 1.3)
+    .sort((a, b) => Math.abs(a.seats_typical - ms) - Math.abs(b.seats_typical - ms))
+    .slice(0, 4).forEach(t => out.push(t.icao));
+  return out.slice(0, 6);
+}
+let NETCMP_SEQ = 0;
+async function netCmpRun() {
+  if (NET.airports.length < 2 || !NET.base) { NET.cmp.msg = _t("нужны хотя бы два аэропорта и база"); netRender(); return; }
+  const my = ++NETCMP_SEQ;
+  const p = netParams(); p.set("types", netCmpTypes().join(","));
+  NET.cmp.busy = true; NET.cmp.msg = ""; NET.cmp.progress = null; netRender();
+  const t0 = performance.now();
+  let r;
+  for (;;) {
+    try {
+      const resp = await fetch("/api/netcompare?" + p);
+      r = await resp.json();
+    } catch (e) { r = {error: _t("Сервер не ответил")}; }
+    if (my !== NETCMP_SEQ) return;
+    if (!(r && r.pending)) break;
+    NET.cmp.progress = r.progress; netRender();
+    await new Promise(res => setTimeout(res, 1500));
+    if (my !== NETCMP_SEQ) return;
+  }
+  NET.cmp.busy = false; NET.cmp.progress = null;
+  if (r && r.rows) { NET.cmp.res = r; NET.cmp.key = netParams().toString() + "|" + netCmpTypes().join(","); }
+  NET.cmp.msg = r && r.error ? r.error : "";
+  NET.cmp.ms = Math.round(performance.now() - t0);
+  netRender();
+}
+function tabNetTypes() {
+  const c = NET.cmp, types = netCmpTypes(), geo = i => (ACS.find(x => x.icao === i) || {}).geom;
+  let h = `<p class="lede">${_t("Сначала выберите типы, потом посчитайте ту же сеть на каждом: аэропорты, база, число бортов, цена и загрузка общие. Лизинг и налёт из полей слева относятся к")} ${esc(CHOSEN.ac)}; ${_t("у остальных — их ставки из справочника.")}</p>
+    <div class="chips" id="ncmpchips">${types.map(i => {
+      const g = geo(i);
+      return `<span class="chip${i === CHOSEN.ac ? " base" : ""}" title="${esc(i)}">${g ? silhouette(g, silK(g, 22)) : ""}${esc(acShort(i))}${
+        i === CHOSEN.ac ? `<i>${_t("в шапке")}</i>` : ""}<s data-rm="${esc(i)}" title="${_t("убрать")}">×</s></span>`;
+    }).join("")}</div>
+    <div class="field pair" style="margin-top:8px">
+      <div class="hp"><input id="ncmpadd" class="pick" autocomplete="off" placeholder="${_t("добавить тип — код или название")}"><div class="hits" id="ncmphits"></div></div>
+      <div><button class="btn" id="ncmpgal">✈ ${_t("по силуэту")}</button></div></div>`;
+  const sug = netCmpSuggest();
+  if (sug.length) h += `<div class="rv" style="margin:2px 0 8px">${_t("добавить:")} ${sug.map(i =>
+      `<button class="chipb" data-add="${esc(i)}">${esc(i)}</button>`).join(" ")}</div>`;
+  h += `<div style="display:flex;gap:6px;margin:6px 0 10px"><button class="btn hot" id="ncmpgo" style="flex:1"${c.busy ? " disabled" : ""}>${
+      c.busy ? (c.progress && c.progress.total ? `${c.progress.done} / ${c.progress.total} ${_t("пар посчитано")}` : _t("считаю…"))
+             : `${_t("Сравнить сеть на")} ${types.length} ${_t("типах")}`}</button></div>`;
+  if (c.msg) h += `<div class="note"><b>${_t("Не посчитать.")}</b> ${esc(c.msg)}</div>`;
+  const r = c.res;
+  if (!r) return h + `<p class="lede">${_t("Первый расчёт сети на типе — до минуты: ядро считает каждое плечо. Дальше — из кэша.")}</p>`;
+  const stale = c.key !== netParams().toString() + "|" + types.join(",");
+  if (stale) h += `<div class="note quiet">${_t("Сеть или список типов изменились после расчёта — нажмите «Сравнить», чтобы обновить.")}</div>`;
+  const ok = r.rows.filter(x => x.status === "ok");
+  const bestP = ok.slice().sort((a, b) => b.profit_at_ref - a.profit_at_ref)[0];
+  const bestL = ok.filter(x => x.breakeven_lf != null).sort((a, b) => a.breakeven_lf - b.breakeven_lf)[0];
+  if (bestP) h += `<div class="note quiet"><b>${_t("Больше всего при")} ${Math.round(r.lf_ref * 100)}%:</b> ${esc(acShort(bestP.icao))}, ${
+      kMoney(bestP.profit_at_ref)} ${CUR.code}/${_t("мес")}${bestL ? ` · <b>${_t("раньше всех в ноль:")}</b> ${esc(acShort(bestL.icao))}, ${_t("при загрузке")} ${pct(bestL.breakeven_lf)}` : ""}.</div>`;
+  const cols = "1.25fr .6fr .8fr .7fr .9fr .7fr .7fr";
+  // Одна единица на колонку: миллионы, если хоть одно число их требует.
+  const big = ok.some(x => kBig(x.profit_at_ref));
+  const kv = eur => f0(M(eur) / (big ? 1e6 : 1e3));
+  h += `<div class="mhead" style="grid-template-columns:${cols}"><span>${_t("тип")}</span><span>${_t("рейс/нед")}</span>
+    <span>${_t("кресел/мес")}</span><span>${_t("загрузка в 0")}</span><span>${_t("при")} ${Math.round(r.lf_ref * 100)}%, ${big ? _t("млн") : _t("тыс.")}/${_t("мес")}</span>
+    <span>${_t("цена в 0")}</span><span>${_t("нужно")}</span></div>`;
+  for (const x of r.rows) {
+    const g = geo(x.icao), cur = x.icao === CHOSEN.ac;
+    const head = `<div class="ml" title="${esc(x.icao)}">${g ? `<span class="msil">${silhouette(g, silK(g, 26))}</span>` : ""}<b${cur ? ' style="color:var(--accent)"' : ""}>${esc(acShort(x.icao))}</b>
+      <span>${x.seats_per_ac ? x.seats_per_ac + " " + _t("кресел") : ""}</span></div>`;
+    if (x.status !== "ok") {
+      h += `<div class="mrow" style="grid-template-columns:${cols}">${head}<div class="mt bad">${
+        x.status === "pending" ? _t("считается…") : esc(x.why || _t("сбой"))}</div></div>`;
+      continue;
+    }
+    const cutTxt = Object.entries(x.cut || {}).map(([k, v]) => `${({rights: _t("права"), airspace: _t("небо"), range: _t("дальность"), error: _t("ошибка")})[k] || k} ${v}`).join(", ");
+    h += `<div class="mrow" style="grid-template-columns:${cols}">${head}
+      <div class="mv">${x.freq_week}</div>
+      <div class="mv">${f0(x.seats_month)}</div>
+      <div class="mv"${x.breakeven_lf == null || x.breakeven_lf > r.lf_ref ? ' style="color:var(--warn)"' : ""}>${x.breakeven_lf == null ? _t("нет") : pct(x.breakeven_lf)}</div>
+      <div class="mv"${x.profit_at_ref < 0 ? ' style="color:var(--warn)"' : ""}>${x.profit_at_ref >= 0 ? "+" : ""}${kv(x.profit_at_ref)}</div>
+      <div class="mv">${x.fare_mult_breakeven == null ? "—" : "× " + f2(x.fare_mult_breakeven)}</div>
+      <div class="mv">${x.need_max == null ? "—" : (x.need_max > 1 ? `<span style="color:var(--warn)">${pct(x.need_max)}</span>` : pct(x.need_max))}</div>
+      <div class="mt">${_t("пар в сети")} ${x.pairs_in} ${_t("из")} ${x.pairs_total}${cutTxt ? ` (${_t("отсечено:")} ${cutTxt})` : ""} · ${_t("лизинг")} ${kMoney(x.lease_eur_month)}
+        <span class="chip ${x.lease_prov === "input" ? "user" : "guess"}">${x.lease_prov === "input" ? _t("задано") : _t("заготовка")}</span>${
+        x.lease_breakeven != null ? `, ${_t("в ноль")} ${kMoney(x.lease_breakeven)}` : ""} · ${_t("налёт")} ${f0((x.hours_used || 0) / (x.fleet || 1))} ${_t("ч/мес из")} ${f0(x.util_h_month)}${
+        cur ? "" : ` · <a href="#" data-use="${esc(x.icao)}">${_t("считать сеть на нём")}</a>`}</div></div>`;
+  }
+  h += `<p class="lede" style="margin-top:10px">${_t("Загрузка у всех типов одна, поэтому больший борт везёт больше пассажиров — сравнение льстит размеру. Проверка — колонка «нужно»: какая доля нынешнего потока нужна на самой требовательной паре; «—» — потока по парам нет, его можно задать на вкладке «Рынок».")}${
+    r.dropped_ctx && r.dropped_ctx.length ? " " + _t("Условия начисления типа сняты у остальных типов:") + " " + esc(r.dropped_ctx.join(", ")) + "." : ""}${c.ms ? ` · ${c.ms} ${_t("мс")}` : ""}</p>`;
+  return h;
+}
+function bindNetTypes() {
+  const m = $("#main");
+  m.querySelectorAll("[data-rm]").forEach(el => el.onclick = () => {
+    NET.cmp.types = NET.cmp.types.filter(x => x !== el.dataset.rm); netRender(); });
+  m.querySelectorAll("[data-add]").forEach(el => el.onclick = () => netCmpAdd(el.dataset.add));
+  m.querySelectorAll("[data-use]").forEach(el => el.onclick = e => {
+    e.preventDefault(); setAc(el.dataset.use); NET.dirty = true; netChips(); netRun(); });
+  const go = $("#ncmpgo"); if (go) go.onclick = netCmpRun;
+  const gal = $("#ncmpgal"); if (gal) gal.onclick = () => galleryOpen(netCmpAdd);
+  const inp = $("#ncmpadd"), box = $("#ncmphits");
+  if (!inp) return;
+  const show = () => {
+    box.innerHTML = acSearch(inp.value, 10).filter(t => t.usable).map(acRow).join("");
+    box.classList.toggle("on", !!box.innerHTML);
+    box.querySelectorAll(".hit[data-ac]").forEach(el =>
+      el.addEventListener("mousedown", e => { e.preventDefault(); netCmpAdd(el.dataset.ac); }));
+  };
+  inp.addEventListener("focus", show);
+  inp.addEventListener("input", show);
+  inp.addEventListener("blur", () => setTimeout(() => box.classList.remove("on"), 140));
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") {
+    const first = box.querySelector(".hit[data-ac]"); if (first) netCmpAdd(first.dataset.ac); } });
 }
 
 function tabNet(){
@@ -2605,7 +3365,7 @@ function tabMarket(){
     }).join("");
     h += `<div class="mkt"><div class="h"><span>${esc(key)}</span><span style="color:var(--faint);font-weight:400">${f0(p.dist_km)} ${_t("км")}</span></div>
       <dl class="kv">${legs}
-      <dt>${_t("поток, пасс./мес")}</dt><dd><input class="nmkt" data-k="${esc(key)}" type="number" min="0" step="100" placeholder="${p.market_est_pax != null ? f0(p.market_est_pax) : "—"}" value="${NET.market[key] ?? ""}">
+      <dt>${_t("поток, пасс./мес")}</dt><dd><input class="nmkt" data-k="${esc(key)}" type="number" min="0" step="100" placeholder="${p.market_pub_pax != null ? f0(p.market_pub_pax) : p.market_est_pax != null ? f0(p.market_est_pax) : "—"}" value="${NET.market[key] ?? ""}">
         <div class="src">${esc(p.market_src || "")}</div></dd></dl></div>`;
   }
   h += `<h3>${_t("S-кривая «доля частот → доля пассажиров»")}</h3><p class="lede">${_t("Отраслевое правило, не измерение: при показателе 1 — пропорция частотам, выше — перевес у того, кто летает чаще. Конкуренты сложены в одного. Где рейсов конкурентов нет, колонки «частоты» и «S» пусты, а не нули.")}</p>`;
@@ -2615,9 +3375,8 @@ function tabMarket(){
 function tabNetWarn(){
   const r = NET.res, n = r && r.network;
   if (!n) return `<p class="lede">${_t("Сначала посчитайте сеть.")}</p>`;
-  let h = `<h3>${_t("Оговорки сети")}</h3>` + n.warnings.map(w => `<div class="note quiet"><b>·</b> ${esc(human(w))}</div>`).join("");
-  if (n.core_warnings.length) h += `<h3>${_t("Оговорки ядра по плечам")} <span style="color:var(--faint);font-weight:400">${n.core_warnings.length}</span></h3>`
-    + n.core_warnings.map(w => `<div class="note quiet"><b>·</b> ${esc(human(w))}</div>`).join("");
+  let h = warnBlock(_t("Оговорки сети"), n.warnings, true);
+  if (n.core_warnings.length) h += warnBlock(_t("Оговорки ядра по плечам"), n.core_warnings);
   if (LANG !== "ru") h += `<div class="note quiet">${_t("Шаги разбора и предупреждения пока на русском: их порождает расчётное ядро, перевод — следующий этап.")}</div>`;
   return h;
 }
@@ -2664,6 +3423,8 @@ function netZonesApply(){
 function netState(){
   return {airports: NET.airports, base: NET.base, ac: CHOSEN.ac, fleet: +$("#nfleet").value || 1,
     util: $("#nutil").value || null, lease_eur: $("#nlease").value === "" ? null : Math.round(toEur($("#nlease").value)),
+    maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
+    maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
     fare_mult: +$("#nmult").value / 100, fare_conv: +$("#nconv").value || 1, lf: +$("#nlf").value / 100,
     freq_mode: NET.freqMode, freqs: NET.freqs, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
     market: NET.market, month: $("#month").value || null, saved_at: new Date().toISOString().slice(0, 16)};
@@ -2673,6 +3434,8 @@ function netApply(st){
   if (st.ac && ACS.some(t => t.icao === st.ac)) setAc(st.ac);
   $("#nfleet").value = st.fleet || 1; $("#nutil").value = st.util || "";
   $("#nlease").value = st.lease_eur == null ? "" : String(Math.round(M(st.lease_eur)));
+  $("#nmfh").value = st.maint_fh_eur == null ? "" : String(Math.round(M(st.maint_fh_eur)));
+  $("#nmfc").value = st.maint_fc_eur == null ? "" : String(Math.round(M(st.maint_fc_eur)));
   $("#nmult").value = Math.round((st.fare_mult || 1) * 100); $("#nmultv").textContent = `× ${f2(st.fare_mult || 1)}`;
   $("#nconv").value = st.fare_conv || 1; $("#nlf").value = Math.round((st.lf || 0.8) * 100); $("#nlfv").textContent = $("#nlf").value + "%";
   NET.freqMode = st.freq_mode || "auto";
@@ -2864,6 +3627,20 @@ async function wsLoadSettings() {
 }
 $("#wsbtn").onclick = async () => { await wsRefresh(); await wsLoadSettings(); wsOpen(); };
 $("#wsclose").onclick = wsClose;
+$("#acgal").onclick = () => galleryOpen();
+// Ссылка «разбор ставки» из пояснения: открыть шаг разбора в шторке.
+document.addEventListener("click", e => {
+  const a = e.target.closest && e.target.closest("[data-step]");
+  if (!a || !LAST) return;
+  e.preventDefault();
+  $("#hintpop").hidden = true;
+  const s = (LAST.trace || []).find(x => x.node === a.dataset.step);
+  if (s) side({node: s.node, src: s.src || "", prov: s.prov || "", ref: s.ref || "", label: s.label,
+               formula: s.formula || "", subst: s.subst || ""});
+});
+$("#acclose").onclick = galleryClose;
+$("#acpanel").addEventListener("click", e => { if (e.target.id === "acpanel") galleryClose(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#acpanel").hidden) galleryClose(); });
 $("#wspanel").addEventListener("click", e => { if (e.target === $("#wspanel")) wsClose(); });
 document.addEventListener("click", e => { if (e.target && e.target.id === "wsopen") { e.preventDefault(); $("#wsbtn").onclick(); } });
 // Сначала вход по ссылке (ставит cookie), потом витрина — уже со своими типами.

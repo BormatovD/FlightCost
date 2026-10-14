@@ -25,6 +25,11 @@ jobs:
               tests/test_easa_noise.py \
               tests/test_i18n.py \
               tests/test_legal.py \
+              tests/test_deploy.py \
+              tests/test_bench.py \
+              tests/test_hints.py \
+              tests/test_selection.py \
+              tests/test_traffic.py \
               tests/test_network.py \
               tests/test_detour.py \
               tests/test_airspace.py \
@@ -34,7 +39,11 @@ jobs:
               tests/test_pipeline.py \
               tests/test_ui.py \
               tests/test_deps.py \
-              tests/test_charge_reference.py
+              tests/test_charge_reference.py \
+              tests/test_ru_reference.py \
+              tests/test_uuee_reference.py \
+              tests/test_cn_reference.py \
+              tests/test_jp_reference.py
           do
             echo "== $t"
             python3 "$t"

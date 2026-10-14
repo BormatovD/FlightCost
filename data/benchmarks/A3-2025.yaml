@@ -1,0 +1,17 @@
+# Aegean Airlines 2025. Группа с Olympic Air (ATR, Dash 8) — парк смешанный.
+# Числа выписаны поиском из релиза результатов; сверить со стр. релиза.
+---
+carrier: A3
+name: Aegean Airlines (группа)
+year: 2025
+source: "Aegean Airlines S.A., FY2025 financial results announcement (ATHEX, 12.03.2026)"
+source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+scope: >
+  Aegean и Olympic Air вместе: реактивные A320-семейства и турбовинтовые.
+  Ставка на блок-час — средняя по смешанному парку.
+values:
+  staff_cost_eur:       {value: 219500000, currency: EUR, basis: "employee benefits — весь персонал", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
+  maintenance_cost_eur: {value: 220200000, currency: EUR, basis: "aircraft maintenance", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
+  depreciation_eur:     {value: 203300000, currency: EUR, basis: "depreciation", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
+  block_hours:          {value: 225350, basis: "total block hours", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
+  flights:              {value: 134371, basis: "total sectors flown", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}

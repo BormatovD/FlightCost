@@ -1,0 +1,175 @@
+{
+ "title": "flightcost.app — параметры расчёта",
+ "path": "/?lang=ru&cur=USD",
+ "locale": "ru-RU",
+ "intro": {
+  "title": [
+   "Что меняет",
+   "каждый параметр?"
+  ],
+  "sub": "Параметры расчёта на flightcost.app"
+ },
+ "outro": {
+  "title": [
+   "Подставьте",
+   "свои числа."
+  ],
+  "url": "flightcost.app",
+  "sub": "открытый код · бесплатно · работает на телефоне"
+ },
+ "watch": [
+  {
+   "label": "Стоимость рейса",
+   "js": "document.querySelector('#kpi > div:nth-child(1)').innerText.split('\\n')[1].replace(/(\\d)([A-Z]{3})/,'$1 $2')"
+  },
+  {
+   "label": "Безубыточный чек",
+   "js": "document.querySelector('#kpi > div:nth-child(2)').innerText.split('\\n')[1].replace(/(\\d)([A-Z]{3})/,'$1 $2')"
+  },
+  {
+   "label": "Итог с пассажира",
+   "kind": "signed",
+   "js": "(t=>{const m=t.match(/(не хватает|запас)\\s+([\\d\\s\\u00a0\\u202f.,]+?)\\s*([A-Z]{3})/);return m?(m[1]==='запас'?'+':'−')+m[2].trim()+' '+m[3]:''})(document.querySelector('#kpi > div:nth-child(2)').innerText)"
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 1000
+  },
+  {
+   "do": "caption",
+   "n": 1,
+   "text": "Исходный рейс",
+   "sub": "табло внизу считает вместе с вами"
+  },
+  {
+   "do": "wait",
+   "ms": 2400
+  },
+  {
+   "do": "caption",
+   "n": 2,
+   "text": "Откройте параметры",
+   "sub": "всё, что вы знаете о рейсе лучше справочника"
+  },
+  {
+   "do": "scroll",
+   "sel": "#ptoggle",
+   "offset": 120,
+   "ms": 1200
+  },
+  {
+   "do": "tap",
+   "sel": "#ptoggle",
+   "after": 1000
+  },
+  {
+   "do": "scroll",
+   "sel": "#ptoggle",
+   "offset": 40,
+   "ms": 900
+  },
+  {
+   "do": "caption",
+   "n": 3,
+   "text": "Загрузка",
+   "sub": "больше пассажиров — ниже безубыточный чек"
+  },
+  {
+   "do": "slide",
+   "sel": "#lf",
+   "to": 95,
+   "ms": 1800,
+   "after": 1600
+  },
+  {
+   "do": "caption",
+   "n": 4,
+   "text": "Чек",
+   "sub": "сколько платит пассажир — сразу видно, хватает ли"
+  },
+  {
+   "do": "fill",
+   "sel": "#fare",
+   "text": "140",
+   "after": 1800
+  },
+  {
+   "do": "caption",
+   "n": 5,
+   "text": "Месяц вылета",
+   "sub": "включает сезонные ставки аэропортов"
+  },
+  {
+   "do": "select",
+   "sel": "#month",
+   "value": "7",
+   "after": 1800
+  },
+  {
+   "do": "caption",
+   "n": 6,
+   "text": "Запасной аэродром",
+   "sub": "больше топлива в запасе — дороже рейс"
+  },
+  {
+   "do": "fill",
+   "sel": "#alt",
+   "text": "200",
+   "after": 1800
+  },
+  {
+   "do": "caption",
+   "n": 7,
+   "text": "Лизинг",
+   "sub": "ноль — борт уже оплачен, владение не начисляется"
+  },
+  {
+   "do": "scrollby",
+   "dy": 200,
+   "ms": 900
+  },
+  {
+   "do": "fill",
+   "sel": "#lease",
+   "text": "0",
+   "after": 2200
+  },
+  {
+   "do": "caption",
+   "n": 8,
+   "text": "Условия аэропорта",
+   "sub": "у каждого аэропорта своя нумерация категорий"
+  },
+  {
+   "do": "scroll",
+   "sel": "#ctxtabs",
+   "offset": 160,
+   "ms": 1100
+  },
+  {
+   "do": "tap",
+   "sel": "#ctxtabs button",
+   "nth": 0,
+   "after": 700
+  },
+  {
+   "do": "fill",
+   "sel": "#ctxfields input[data-ctx=noise_cat]",
+   "text": "3",
+   "after": 1200
+  },
+  {
+   "do": "select",
+   "sel": "#ctxfields select[data-ctx=stand]",
+   "value": "pier",
+   "after": 2000
+  },
+  {
+   "do": "wait",
+   "ms": 800
+  }
+ ],
+ "tail_ms": 600
+}

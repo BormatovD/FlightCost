@@ -597,7 +597,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
                     charge_ctx: dict | None = None,
                     via: list | None = None,
                     _trade: bool = True,
-                    freshness: list[dict] | None = None) -> Result:
+                    freshness: list[dict] | None = None,
+                    _ctx_scope: bool = True) -> Result:
     as_of = as_of or date.today().isoformat()
     # Один ключ `--set` на входе, два механизма внутри: переопределения
     # фактов идут в слой сценария, условия начисления — в контекст.
@@ -628,6 +629,30 @@ def route_economics(store: Store, origin: str, destination: str, *,
     warnings: list[str] = []
     trace: list[Step] = []
     n = [0]
+
+    # Условия из `--set` — сюда, к явному контексту, а не после сборов:
+    # маршрутный и терминальный сбор ниже уже читают `operator`, и ключ из
+    # `--set` до них прежде не доходил.
+    for icao, vals in parse_context_sets(from_set).items():
+        cctx.setdefault(icao, {}).update(vals)
+    # Ключ условия — тот код, который набрал человек. Витрина шлёт код
+    # домена `airport` (ИАТА: `charge_context.FRA.stand=pier`), а читается
+    # условие по ИКАО (`EDDF`) — и молча не применялось вовсе (решение 192,
+    # тот же класс, что CONDITION_KEYS вне контекста). Введённый код конца
+    # маршрута сводится к его ИКАО; явный ИКАО перебивает.
+    alias = {str(origin).upper(): a["icao"], str(destination).upper(): b["icao"]}
+    for code in list(cctx):
+        tgt = alias.get(code)
+        if tgt and tgt != code:
+            cctx[tgt] = {**cctx.pop(code), **cctx.get(tgt, {})}
+    # Условие для аэропорта не с этого маршрута — оговорка, а не тишина.
+    # Сеть передаёт условия всех своих аэропортов каждому плечу и
+    # проверку выключает: там чужой конец — норма.
+    if _ctx_scope:
+        for code in sorted(set(cctx) - {a["icao"], b["icao"]}):
+            warnings.append(f"условия начисления для {code} не применены: такого конца "
+                            f"у маршрута {a['icao']}–{b['icao']} нет "
+                            f"({', '.join(sorted(cctx[code]))})")
 
     # Узел карты данных, к которому относится шаг. Умолчания нет
     # намеренно (решение 24): шаг без узла попадает в отчёт сверки
@@ -1041,8 +1066,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # чтобы `Resolver` не увидел нечислового значения, а условие не попало
     # в отчёт о неиспользованных ключах: оно не факт, его никто не
     # спрашивает, и предупреждение было бы ложным.
-    for icao, vals in parse_context_sets(from_set).items():
-        cctx.setdefault(icao, {}).update(vals)
+    # (условия из `--set` сведены выше, сразу после разбора контекста)
     apt_any = False
     for ap, other in ((a, b), (b, a)):
         load_report: dict = {}
@@ -1388,69 +1412,96 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # длительности рейса, и плоская ставка занижала короткие плечи.
     fe = load_fleet(res_, ac.icao, operator=operator,
                     mtow_t=ac.mtow_t, seats=seats)
-    fe_prov = {"store": "store", "mixed": "override"}.get(fe.provenance, "default")
-    if fe_prov == "default":
+    # Происхождение по полю (решение 190): у своего типа лизинг может быть
+    # назван автором, а экипаж — оставаться заготовкой.
+    def _pair(a: str, b: str) -> str:
+        pa, pb = fe.prov(a), fe.prov(b)
+        return pa if pa == pb else ("override" if "override" in (pa, pb) else "store")
+    p_util, p_lease = fe.prov("monthly_hours"), fe.prov("lease_eur_month")
+    p_maint = _pair("maint_eur_per_fh", "maint_eur_per_fc")
+    p_crew = _pair("crew_eur_per_fh", "crew_eur_per_fc")
+    _fields = ("lease_eur_month", "monthly_hours", "maint_eur_per_fh",
+               "maint_eur_per_fc", "crew_eur_per_fh", "crew_eur_per_fc")
+    _dflt = [f for f in _fields if fe.prov(f) == "default"]
+    if len(_dflt) == len(_fields):
         warnings.append("ставки владения, ТОиР и экипажа — параметрическая "
                         "заготовка, а не данные: подставь свои через --set")
+    elif _dflt:
+        warnings.append("часть ставок флота — параметрическая заготовка: "
+                        + ", ".join(_dflt))
     RU_MODE = {"fleet_average": "типовой по флоту",
                "dedicated": "из частоты рейсов",
                "marginal": "борт уже оплачен"}
+    # Полоса бенчмарка рядом со ставкой (M11): измерение у перевозчиков
+    # США на том же типе. Не подставляется — только стоит рядом, чтобы
+    # заготовка была «с проверенным уровнем», а не «неизвестного качества».
+    from . import bench as _bench
+
+    def band(metric, tail=""):
+        t = _bench.note_for(store, ac.icao, metric)
+        return f" · {t}{tail}" if t else ""
+
     hours, why = fe.monthly_hours_for(block_h, freq_week, util_mode)
     rec(G6, f"Налёт ({RU_MODE[util_mode]})", "часов в месяц на борт", why,
-        hours, "ч/мес", "input" if util_mode == "dedicated" else fe_prov,
+        hours, "ч/мес", "input" if util_mode == "dedicated" else p_util,
         "типовой по флоту — борт летает и на других линиях; из частоты — "
-        "маршруту нужен свой борт; борт уже оплачен — владение не начисляется", node="v_util")
+        "маршруту нужен свой борт; борт уже оплачен — владение не начисляется"
+        + band("util_h_month"), node="v_util")
     rec(G6, "Ставка лизинга", "за месяц", f"{fe.lease_eur_month:,.0f}",
-        fe.lease_eur_month, "EUR/мес", fe_prov, node="d_fleet",
+        fe.lease_eur_month, "EUR/мес", p_lease,
+        band("own_per_ac_month", " — по балансу: аренда и амортизация, старый парк "
+             "самортизирован, для нового борта нижняя оценка").lstrip(" ·"),
+        node="d_fleet",
         # Адрес есть, ТОЛЬКО если значение пришло из хранилища. У
         # заготовки его нет и быть не может: в `facts` она не лежит,
         # и подставить сюда правдоподобный ключ значило бы обещать
         # запись, которой нет, — панель открылась бы с «ключа нет».
-        ref=(f"fleet_economics/{operator}/{ac.icao}/lease_eur_month"
-             if fe_prov == "store" else None))
+        ref=fe.field_ref.get("lease_eur_month") if p_lease == "store" else None)
     eff_m = fe.effective_maint_per_h(block_h)
     eff_c = fe.effective_crew_per_h(block_h)
     rec(G6, "Ставка ТОиР", "полная, на блок-час при этом плече",
         f"(почасовая {fe.maint_eur_per_fh:,.0f} EUR/ч · {block_h:.2f} ч + "
         f"поцикловая {fe.maint_eur_per_fc:,.0f} EUR/рейс) / {block_h:.2f} ч",
-        eff_m, "EUR/ч", fe_prov,
+        eff_m, "EUR/ч", p_maint,
         f"складывается из {fe.maint_eur_per_fh:,.0f} EUR за час налёта "
         f"(двигатели, тяжёлые формы, пул компонентов) и "
         f"{fe.maint_eur_per_fc:,.0f} EUR за рейс (шасси, ВСУ, ресурсные "
         f"детали, линейное обслуживание). Вторая часть от длительности "
-        f"рейса не зависит, поэтому ставка на час падает с ростом плеча",
+        f"рейса не зависит, поэтому ставка на час падает с ростом плеча"
+        + band("maint_per_bh"),
         node="v_maint_rate",
-        ref=(f"fleet_economics/{operator}/{ac.icao}/maint_eur_per_fh"
-             if fe_prov == "store" else None))
+        ref=fe.field_ref.get("maint_eur_per_fh") if p_maint == "store" else None)
     rec(G6, "Ставка экипажа", "полная, на блок-час при этом плече",
         f"(почасовая {fe.crew_eur_per_fh:,.0f} EUR/ч · {block_h:.2f} ч + "
         f"поцикловая {fe.crew_eur_per_fc:,.0f} EUR/рейс) / {block_h:.2f} ч",
-        eff_c, "EUR/ч", fe_prov,
+        eff_c, "EUR/ч", p_crew,
         f"{fe.crew_eur_per_fh:,.0f} EUR за час плюс {fe.crew_eur_per_fc:,.0f} "
-        f"за вылет: брифинг, пред- и послеполётная работа", node="v_crew_rate")
+        f"за вылет: брифинг, пред- и послеполётная работа"
+        + band("cockpit_per_bh", " — только лётный экипаж, без бортпроводников"),
+        node="v_crew_rate")
 
     parts = fe.per_flight(block_h, freq_week, util_mode)
-    item("ownership", parts["ownership"], fe_prov,
+    item("ownership", parts["ownership"], p_lease,
          "месячный платёж · блок-время / налёт"
          if util_mode != "marginal" else "не начисляется: борт уже оплачен",
          f"{fe.lease_eur_month:,.0f} · {block_h:.2f} / {hours:.0f}"
          if util_mode != "marginal" else "", node="c_own")
-    item("maintenance", parts["maintenance"], fe_prov,
+    item("maintenance", parts["maintenance"], p_maint,
          "за час · блок-время + за цикл",
          f"{fe.maint_eur_per_fh:,.0f} · {block_h:.2f} + {fe.maint_eur_per_fc:,.0f}", node="c_mnt")
-    item("crew", parts["crew"], fe_prov,
+    item("crew", parts["crew"], p_crew,
          "за час · блок-время + за цикл",
          f"{fe.crew_eur_per_fh:,.0f} · {block_h:.2f} + {fe.crew_eur_per_fc:,.0f}", node="c_crew")
     item("ground_handling", 900.0 + 2.2 * pax, "default",
          "постоянная + переменная на пассажира",
-         f"900 + 2.2 · {pax:.0f}", "обе константы выдуманы, кандидат №1 на замену", node="c_grnd")
+         f"900 + 2.2 · {pax:.0f}", "обе константы выдуманы; порядок — ACMG 2019: станция и наземка 7,4% расходов", node="c_grnd")
 
     base = sum(cost.values())
     dist_rate = 0.07
     be_fare = base / max(pax, 1e-9) / (1 - dist_rate)
     item("distribution", be_fare * pax * dist_rate, "default",
          "выручка · 7%", f"{be_fare:.0f} · {pax:.0f} · 0.07",
-         "7% — типичная величина для LCC, не проверена", node="c_dist")
+         "7% выручки — порядок сверен со структурой ACMG 2019 (продажи и бронирование — 6,5% расходов)", node="c_dist")
 
     rec("Безубыточность", "Сумма без дистрибуции", "Σ статей", "", base, "EUR", "derived", node="t_base")
     rec("Безубыточность", "Безубыточный тариф", "База / пасс / (1 − 0.07)",
@@ -1472,6 +1523,12 @@ def route_economics(store: Store, origin: str, destination: str, *,
                          "origin_name": a["name"], "dest_name": b["name"],
                          "origin_icao": a["icao"], "dest_icao": b["icao"],
                          "month": month, "charge_ctx": cctx,
+                         # Ставки флота раздельно — для полей «Флот» слева:
+                         # в поле стоит число, с которым считали, и формула
+                         # «час · блок + цикл» под ним (решение 193).
+                         "fleet": {f: getattr(fe, f) for f in _fields}
+                                  | {"prov": {f: fe.prov(f) for f in _fields},
+                                     "block_h": block_h, "note": fe.note},
                          "via": [list(w) for w in (via or [])]},
                  charge_gaps=charge_gaps, charge_lines=apt_lines,
                  feasibility=feasibility, caveats=caveats,

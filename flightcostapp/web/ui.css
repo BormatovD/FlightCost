@@ -163,3 +163,27 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;
   background:var(--doc);border:2px solid var(--bg);cursor:pointer}
 input[type=range]:focus{outline:0}
 input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)}
+
+/* ── пояснение ⓘ (решение 184) ─────────────────────────────────────────
+   Одна форма для всех сносок: серое — справка, оранжевое — оговорка,
+   меняющая вывод. Текст — во всплывающем окне по нажатию. */
+.hint{display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:15px;height:15px;margin:0 0 0 6px;padding:0;border-radius:50%;
+  border:1.3px solid var(--faint);background:none;color:var(--faint);
+  font:600 9.5px/1 var(--sans);cursor:pointer;vertical-align:1px}
+.hint.o{border-color:var(--warn);color:var(--warn)}
+.hint:hover,.hint[aria-expanded="true"]{border-color:var(--ink);color:var(--ink)}
+.hint.o:hover,.hint.o[aria-expanded="true"]{border-color:var(--warn);color:var(--ink2)}
+.hint[hidden]{display:none}
+.hint:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+#hintpop{position:fixed;z-index:80;padding:10px 12px;border-radius:8px;
+  background:var(--raise);border:1px solid var(--line);color:var(--ink);
+  font:12.5px/1.5 var(--sans);overflow-wrap:anywhere}
+#hintpop[hidden]{display:none}
+#hintpop b{color:var(--ink2);font-weight:600}
+#hintpop .faint{color:var(--dim)}
+#hintpop .warnw,.warnw{color:var(--warn)}
+#hintpop .hgrid{display:grid;grid-template-columns:1fr auto auto;gap:3px 10px;margin:8px 0;
+  font-variant-numeric:tabular-nums}
+#hintpop .hgrid .r{text-align:right;color:var(--dim);white-space:nowrap}
+#hintpop .hgrid b{text-align:right;white-space:nowrap}

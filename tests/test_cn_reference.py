@@ -29,7 +29,7 @@ MTOW, PAX = 78.0, 148.0
 def rules(icao):
     doc = ROOT / "data" / "charges" / f"{icao}-2017.json"
     facts = airport_charges.parse(doc.read_bytes(), {
-        "source_id": "test", "sha": "test", "extracted_by": "test",
+        "source_id": "test", "sha": "test", "extracted_by": "test", "node": "src_airport_tariff",
         "as_of": "2026-09-18", "corpus": {}, "icao_seen": []})
     return [Rule.from_fact(asdict(f)) for f in facts
             if f.domain == "airport_charge" and f.value_text
@@ -39,7 +39,7 @@ def rules(icao):
 def total(icao, operator, flight, park_h, stand="pier"):
     c = {"mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0, "movements": 2, "landings": 1,
          "turnarounds": 1, "departures": 1, "flight": flight, "pax_type": "local",
-         "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None,
+         "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None,
          "cargo": False, "stand": stand, "stand_group": None, "ac_group": None,
          "ac_class": None, "pax_per_mtow": PAX / MTOW, "park_h": park_h,
          "park_h_over_free": park_h > 0, "return_technical": False,
@@ -90,7 +90,7 @@ class Xiamen(unittest.TestCase):
         rs = rules("ZSAM")
         ctxd = {"mtow_t": 230.0, "pax": 0.0, "cargo_kg": 0.0, "movements": 2, "landings": 1,
                 "turnarounds": 1, "departures": 1, "flight": "domestic", "pax_type": "local",
-                "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None,
+                "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None,
                 "cargo": False, "stand": "apron", "stand_group": None, "ac_group": None,
                 "ac_class": None, "pax_per_mtow": 0.0, "park_h": 1.0, "park_h_over_free": True,
                 "return_technical": False, "operator": "national", "terminal": None,

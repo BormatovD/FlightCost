@@ -1,0 +1,18 @@
+# Copa Holdings 2025. Парк — только Boeing 737. Блок-часы числом.
+---
+carrier: CM
+name: Copa Holdings
+year: 2025
+source: "Copa Holdings, Fourth-Quarter and Full-Year 2025 earnings release: Operating statistics, Consolidated statement of operations"
+source_url: https://ir.copaair.com/node/17326/pdf
+scope: >
+  Copa Airlines и Wingo вместе. Строки аренды бортов нет: парк в основном
+  в собственности, владение — в амортизации.
+values:
+  staff_cost_eur:       {value: 501979000, currency: USD, basis: "wages, salaries, benefits and other employees' expenses — весь персонал", page: "Statement of operations, YTD25"}
+  maintenance_cost_eur: {value: 156741000, currency: USD, basis: "maintenance, materials and repairs", page: "Statement of operations, YTD25"}
+  depreciation_eur:     {value: 365136000, currency: USD, basis: "depreciation and amortization — все активы", page: "Statement of operations, YTD25"}
+  block_hours:          {value: 505888, basis: "block hours", page: "Operating statistics, YTD25"}
+  flights:              {value: 159197, basis: "departures", page: "Operating statistics, YTD25"}
+  ask_km:               {value: 52155000000, basis: "32 408 млн ASM × 1,609344", page: "Operating statistics, YTD25"}
+  fleet_year_end:       {value: 125, basis: "total fleet of 125 aircraft at year end", page: "текст релиза"}

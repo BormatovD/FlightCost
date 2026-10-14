@@ -1,0 +1,34 @@
+# airBaltic 2025. Парк — только A220-300: ставка на блок-час здесь ставка ТИПА.
+# Отдельно свои рейсы и ACMI-out (полёты для других перевозчиков с экипажем).
+---
+carrier: BT
+name: airBaltic (свои рейсы)
+year: 2025
+source: "Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная таблица key ratios"
+source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+scope: >
+  Только собственные рейсы, без ACMI-out: блок-часы, рейсы и ASK — суммы
+  четырёх кварталов из таблицы «without ACMI-out operations». Стоимости
+  экипажа — в центах на ASK; на какой ASK (свой или общий с ACMI), по
+  выписке не установлено — отсюда reading_unconfirmed.
+values:
+  block_hours:          {value: 107478, basis: "сумма кварталов 23 531 + 27 027 + 28 677 + 28 243, без ACMI-out", page: "Management report, key ratios"}
+  flight_hours:         {value: 92661, basis: "сумма кварталов 20 213 + 23 256 + 24 711 + 24 481", page: "Management report, key ratios"}
+  flights:              {value: 48328, basis: "сумма кварталов 10 265 + 12 575 + 13 417 + 12 071", page: "Management report, key ratios"}
+  ask_km:               {value: 9121000000, basis: "сумма кварталов 1 967 + 2 294 + 2 454 + 2 406 млн, без ACMI-out", page: "Management report, key ratios"}
+  pilot_cost_c_per_ask: {value: 0.45, basis: "CASK пилоты, евроценты; база ASK не установлена", page: "Management report, CASK", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица CASK годового отчёта — на какой ASK (с ACMI или без)"}
+  cabin_cost_c_per_ask: {value: 0.18, basis: "CASK бортпроводники, евроценты; база ASK не установлена", page: "Management report, CASK", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: та же таблица CASK"}
+---
+carrier: BTX
+name: airBaltic (всего, с ACMI-out)
+year: 2025
+source: "Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная таблица key ratios"
+source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+scope: >
+  Вся работа парка, включая ACMI-out. Для стоимостей CASK, если они даны
+  на общий ASK.
+values:
+  block_hours:          {value: 160703, basis: "сумма кварталов 29 150 + 45 355 + 47 438 + 38 760", page: "Management report, key ratios"}
+  flight_hours:         {value: 135589, basis: "сумма кварталов 24 679 + 38 083 + 39 881 + 32 946", page: "Management report, key ratios"}
+  flights:              {value: 78384, basis: "сумма кварталов 13 550 + 22 831 + 23 902 + 18 101", page: "Management report, key ratios"}
+  ask_km:               {value: 13083000000, basis: "сумма кварталов 2 369 + 3 664 + 3 869 + 3 181 млн", page: "Management report, key ratios"}

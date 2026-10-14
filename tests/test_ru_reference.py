@@ -40,7 +40,7 @@ MTOW, PAX = 78.0, 148.0
 def rules(icao="UUEE-2025"):
     doc = ROOT / "data" / "charges" / f"{icao}.json"
     facts = airport_charges.parse(doc.read_bytes(), {
-        "source_id": "test", "sha": "test", "extracted_by": "test",
+        "source_id": "test", "sha": "test", "extracted_by": "test", "node": "src_airport_tariff",
         "as_of": "2026-09-16", "corpus": {}, "icao_seen": []})
     # `from_fact` читает строку хранилища; факт парсера — тот же набор
     # полей, только объектом. Через dataclasses.asdict, чтобы не заводить
@@ -54,7 +54,7 @@ def ctx(operator, flight, terminal, park_h, other="EDDF"):
     return {"mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0,
             "movements": 2, "landings": 1, "turnarounds": 1, "departures": 1,
             "flight": flight, "pax_type": "local", "dest": "intercontinental",
-            "month": 7, "night": False, "noise_cat": None, "cargo": False,
+            "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None, "cargo": False,
             "stand": "apron", "stand_group": None, "ac_group": None,
             "ac_class": None, "pax_per_mtow": PAX / MTOW, "park_h": park_h,
             "park_h_over_free": park_h > 0, "return_technical": False,

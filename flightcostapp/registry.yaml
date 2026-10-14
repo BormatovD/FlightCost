@@ -476,6 +476,129 @@ sources:
       # валидатор сравнил бы float со строкой и упал бы уже в гейте.
       value_max: 1000000000000.0
 
+  form41:
+    title: Расходы перевозчиков США по типам ВС — BTS Form 41 (P-5.2, T-2)
+    kind: directory          # выгрузка TranStats — форма ASP.NET, прямого адреса нет
+    contour: deterministic
+    path: data/raw/form41
+    glob: "*.[cCzZ][sSiI][vVpP]"   # .csv и .zip, в любом регистре
+    license: данные правительства США (BTS), ограничений на использование нет
+    parser: form41
+    domain: fleet_benchmark
+    cadence_days: 90         # квартальная отчётность, BTS выкладывает с лагом ~5 месяцев
+    sla_days: 400
+    tier: 1
+    gate: auto
+    node: src_form41
+    note: >
+      Три файла с TranStats в data/raw/form41/: Schedule P-5.2 (Air Carrier
+      Financial Reports), Schedule T-2 (Air Carrier Summary Data) и
+      расшифровка L_AIRCRAFT_TYPE — как скачать, в шпаргалке. Файл узнаётся
+      по заголовку. Хранится опубликованное: сумма по регионам перевозчика
+      внутри квартала; связывание, масштаб «(000)» и полосы — в bench.py.
+      Бухгалтерия перевозчиков США, не ставки договоров: оплата пилотов по
+      американским контрактам, владение по балансу (старый парк
+      самортизирован). Полоса, а не значение для расчёта.
+    validators:
+      row_count_min: 20
+      value_min: -10000000000.0   # статьи с кредитом (отложенные формы) бывают отрицательны
+      value_max: 100000000000.0
+
+  eurostat_par:
+    title: Пассажиропоток по парам аэропортов — Eurostat avia_par (ЕС, ЕАСТ, кандидаты)
+    kind: directory          # выгрузки Data Browser по странам, массовая выгрузка тоже годится
+    contour: deterministic
+    path: data/raw/eurostat_par
+    glob: "*.[tTcCgG][sSzZ]*"      # .tsv, .csv, .tsv.gz, .gz
+    license: CC BY 4.0 (повторное использование данных Eurostat, решение Комиссии 2011/833/EU)
+    parser: eurostat_par
+    domain: traffic
+    cadence_days: 30         # таблицы обновляются дважды в месяц, данные с лагом 3–6 мес.
+    sla_days: 240
+    tier: 1
+    gate: auto
+    node: src_traffic
+    note: >
+      Таблицы avia_par_<страна> (de, es, it, fr, …): месячные данные, мера
+      PAS_CRD — пассажиры перевезённые, оба направления пары. Скачать в Data
+      Browser (Download → TSV или SDMX-CSV) или массовой выгрузкой
+      и положить в data/raw/eurostat_par/. Пару публикуют обе стороны —
+      читатель берёт среднее и называет расхождение. Хранятся последние
+      36 месяцев каждого файла.
+    validators:
+      row_count_min: 1
+      value_min: 0.0
+      value_max: 5000000.0     # больше пяти миллионов в месяц на паре не бывает
+
+  t100:
+    title: Пассажиропоток пар с концом в США — BTS T-100 Segment (All Carriers)
+    kind: directory          # выгрузка TranStats, как Form 41
+    contour: deterministic
+    path: data/raw/t100
+    glob: "*.[cCzZgG][sSiIzZ]*"   # .csv, .zip, .gz
+    license: данные правительства США (BTS), ограничений на использование нет
+    parser: t100
+    domain: traffic
+    cadence_days: 30         # месячная публикация с лагом около трёх месяцев
+    sla_days: 240
+    tier: 1
+    gate: auto
+    node: src_traffic
+    note: >
+      TranStats → T-100 Segment (All Carriers), все поля или хотя бы
+      PASSENGERS, SEATS, DEPARTURES_PERFORMED, ORIGIN, DEST, YEAR, MONTH,
+      CLASS. Строки складываются по паре и месяцу, оба направления, все
+      перевозчики, классы F и L. Коды ИАТА переводятся в ИКАО указателем
+      (fca refresh --only airport_codes) — непереведённые названы в сводке.
+    validators:
+      row_count_min: 1
+      value_min: 0.0
+      value_max: 5000000.0
+
+  acmg_cost:
+    title: Стоимость эксплуатации по семействам ВС — IATA ACMG через EUROCONTROL
+    kind: url
+    contour: deterministic
+    url: https://raw.githubusercontent.com/euctrl-pru/standard_inputs/master/data/aircraft_operating_costs.xlsx
+    license: CC BY 4.0, EUROCONTROL Standard Inputs for Economic Analyses (данные IATA ACMG)
+    parser: acmg_cost
+    domain: fleet_benchmark
+    cadence_days: 180
+    sla_days: 800
+    tier: 1
+    gate: review
+    node: src_acmg
+    note: >
+      Десять семейств: на борт в год, на лётный час, на цикл. ИТОГ — с
+      топливом, сборами и накладными; сравнивается с итогом модели на
+      блок-час на плече выборки (на цикл / на час), а не со статьёй.
+      Сбор FY2019, пересчёт в цены 2025 по инфляции — топливо 2019 года.
+    validators:
+      row_count_min: 20
+      value_min: 0.0
+      value_max: 100000.0
+
+  acmg_structure:
+    title: Структура расходов перевозчиков — IATA ACMG через EUROCONTROL
+    kind: url
+    contour: deterministic
+    url: https://raw.githubusercontent.com/euctrl-pru/standard_inputs/master/data/AirlineCostStructure.xlsx
+    license: CC BY 4.0, EUROCONTROL Standard Inputs for Economic Analyses (данные IATA ACMG)
+    parser: acmg_cost
+    domain: fleet_benchmark
+    cadence_days: 180
+    sla_days: 800
+    tier: 1
+    gate: review
+    node: src_acmg
+    note: >
+      Доли статей в расходах 51 перевозчика, 2019. Нужна одна величина,
+      которой нет в Form 41 по типам: отношение кабинного экипажа к лётному.
+    validators:
+      row_count_min: 10
+      value_min: 0.0
+      value_max: 1.0
+
   market_fare:
     title: Наблюдения рыночной цены из агрегатора
     kind: custom             # сеть вне контура, свой ключ, свой скрипт

@@ -329,8 +329,12 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json(ctx.airports())
             if u.path == "/api/fx":
                 return self._json(ctx.fx(q))
+            if u.path == "/api/fleetbench":
+                return self._json(ctx.fleet_bench(q))
             if u.path == "/api/network":
                 return self._json(ctx.network(q, ip=self._client_ip()))
+            if u.path == "/api/netcompare":
+                return self._json(ctx.net_compare(q, ip=self._client_ip()))
             if u.path == "/api/route":
                 return self._json(ctx.route(q))
             if u.path == "/api/fact":
@@ -551,6 +555,34 @@ class Context:
             rates = {c: quote(self.store, c, as_of) for c in self.DISPLAY_CURRENCIES}
         return {"base": "EUR", "as_of": as_of, "rates": rates}
 
+    def fleet_bench(self, q: dict) -> dict:
+        """Полоса бенчмарка по типу для панели «Флот» (M11), деньги в евро.
+
+        Только то, что показывается рядом с полями ввода: налёт, владение
+        по балансу, ТОиР и лётный экипаж на блок-час — медиана и p25–p75,
+        число перевозчиков и плечо выборки. Подробности — `fca bench`.
+        """
+        from . import bench as B
+        icao = (q.get("ac") or "").upper()
+        if not icao:
+            return {"error": "нужен ac"}
+        with self.lock:
+            b = B.type_bench(self.store, icao)
+            rate = B.usd_per_eur(self.store, b["year"])[0] if b else None
+        if not b or not b.get("bands") or not rate:
+            return {"icao": icao, "available": False}
+        k = {"util_h_month": 1.0, "block_per_dep": 1.0}
+        out = {}
+        for m in ("util_h_month", "own_per_ac_month", "maint_per_bh", "cockpit_per_bh",
+                  "block_per_dep"):
+            bd = b["bands"].get(m)
+            if bd:
+                f = k.get(m, 1.0 / rate)
+                out[m] = {"p25": bd.p25 * f, "p50": bd.p50 * f, "p75": bd.p75 * f, "n": bd.n}
+        return {"icao": icao, "available": True, "source": "BTS Form 41",
+                "year": b["year"], "carriers": len(b["carriers"]), "bands": out,
+                "usd_per_eur": rate}
+
     def airports(self) -> list[dict]:
         if self._apts is None:
             with self.lock:
@@ -696,7 +728,17 @@ class Context:
         d = self.resolve(q.get("destination", "BCN"))
         with self.lock:
             res = route_economics(self.store, o, d, **kw)
-        return result_json(res)
+            out = result_json(res)
+            # Поток пары (M10): рядом с ответом, в расчёт не входит —
+            # нужен для обращения «какая доля рынка нужна» и подбора типа.
+            try:
+                from .traffic import pair_flow
+                out["traffic"] = pair_flow(self.store, res.inputs.get("origin_icao"),
+                                           res.inputs.get("dest_icao"), kw.get("as_of"),
+                                           kw.get("month"))
+            except Exception as exc:                       # noqa: BLE001
+                out["traffic"] = {"pax_month": None, "src": f"не прочитан: {exc}"}
+        return out
 
     def solve(self, q: dict) -> dict:
         """Порог по каждому параметру, который человек может менять.
@@ -755,7 +797,7 @@ class Context:
         """
         from copy import deepcopy
         from .network import ALPHA, apply_inputs, load_closures, simulate
-        NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease",
+        NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
                     "fare_mult", "fare_conv", "alpha", "airports", "base")
         kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY})
         airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
@@ -803,6 +845,8 @@ class Context:
                            freq=freq,
                            util_h_month=float(q["util_h"]) if q.get("util_h") else None,
                            lease_eur_month=float(q["lease"]) if q.get("lease") else None,
+                           maint_fh=float(q["maint_fh"]) if q.get("maint_fh") else None,
+                           maint_fc=float(q["maint_fc"]) if q.get("maint_fc") else None,
                            fare_mult=float(q.get("fare_mult") or 1.0),
                            fare_conv=float(q.get("fare_conv") or 1.0),
                            lf_ref=float(q.get("lf") or 0.8),
@@ -816,6 +860,112 @@ class Context:
         out["pairs"] = [_jsonable(p) for p in pairs]
         out["fleet"] = _jsonable(fleet)
         return out
+
+    NET_CMP_MAX = 5
+
+    def net_compare(self, q: dict, ip: str = "") -> dict:
+        """Одна сеть на нескольких типах (Ф1 для сети, решение 189).
+
+        Сначала человек выбирает, какие типы сравнить, потом сеть
+        считается на каждом — тем же `network`, с тем же парком в бортах,
+        ценой, загрузкой и частотами. Лизинг и налёт из полей сети
+        относятся к типу, выбранному в шапке; у остальных — их собственные
+        ставки, иначе A320 и E195 считались бы с одной арендой. Условия
+        начисления, которые задаёт тип (шумовая категория, класс, группа
+        стоянки), у чужих типов сняты — как в сравнении на маршруте.
+
+        Одно сравнение — одно «тяжёлое» обращение для ограничителя: типы
+        складываются в фоне каждый своим потоком, страница опрашивает
+        тот же адрес, пока не придут все.
+        """
+        chosen = (q.get("ac") or "").upper()
+        types = list(dict.fromkeys(t for t in (q.get("types") or "").upper().split(",") if t))
+        if not types:
+            return {"error": "не выбрано ни одного типа"}
+        if len(types) > self.NET_CMP_MAX:
+            return {"error": f"типов {len(types)}, предел {self.NET_CMP_MAX} за одно сравнение"}
+        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"))
+        seen = self.__dict__.setdefault("_netcmp_seen", {})
+        if key not in seen:
+            if ip and not self.allow(ip):
+                return {"error": f"слишком часто: сравнение сети — не чаще "
+                                 f"{self.HEAVY_PER_MIN} в минуту с адреса"}
+            if len(seen) > 200:
+                seen.clear()
+            seen[key] = True
+        own_sets = [x for x in (q.get("set") or "").split("~") if x]
+        foreign_sets = [x for x in own_sets
+                        if not (x.startswith("charge_context.")
+                                and x.split("=")[0].split(".")[-1] in self.TYPE_CTX)]
+        rows, pend = [], {"done": 0, "total": 0, "types_left": 0}
+        for t in types:
+            q2 = dict(q, ac=t)
+            q2.pop("types", None)
+            if t != chosen:
+                for k in ("util_h", "lease", "maint_fh", "maint_fc"):
+                    q2.pop(k, None)
+                q2["set"] = "~".join(foreign_sets)
+            r = self.network(q2, ip="")
+            if r.get("pending"):
+                pr = r.get("progress") or {}
+                pend["done"] += pr.get("done", 0)
+                pend["total"] += pr.get("total", 0)
+                pend["types_left"] += 1
+                rows.append({"icao": t, "status": "pending"})
+                continue
+            rows.append(self._net_summary(t, r, own=t == chosen))
+        out = {"rows": rows, "chosen": chosen, "fleet": int(float(q.get("fleet") or 1)),
+               "lf_ref": float(q.get("lf") or 0.8),
+               "dropped_ctx": sorted({x.split("=")[0].split(".")[-1] for x in own_sets}
+                                     - {x.split("=")[0].split(".")[-1] for x in foreign_sets})}
+        if pend["types_left"]:
+            out.update(pending=True, progress=pend)
+        return out
+
+    @staticmethod
+    def _net_summary(t: str, r: dict, own: bool) -> dict:
+        """Строка сравнения: те же пять чисел, что над глобусом, и состав."""
+        n, fl = r.get("network"), r.get("fleet") or {}
+        pairs = r.get("pairs") or []
+        cut: dict[str, int] = {}
+        for p in pairs:
+            if p.get("status") != "ok":
+                cut[p.get("status") or "?"] = cut.get(p.get("status") or "?", 0) + 1
+        row = {"icao": t, "status": "ok" if n else "failed", "why": r.get("error") or "",
+               "own_rates": own, "pairs_total": len(pairs), "cut": cut,
+               "lease_eur_month": (n or fl).get("lease_eur_month"),
+               "lease_prov": (n or fl).get("lease_prov"),
+               "util_h_month": (n or fl).get("util_h_month"),
+               "util_prov": (n or fl).get("util_prov"),
+               "maint_fh": (n or fl).get("maint_fh"), "maint_fc": (n or fl).get("maint_fc"),
+               "maint_prov": (n or fl).get("maint_prov")}
+        if not n:
+            return row
+        np_ = n.get("pairs") or []
+        row.update(
+            pairs_in=len(np_),
+            excluded=len(n.get("excluded") or []),
+            freq_week=sum(x.get("freq_week", 0) for x in np_),
+            seats_month=sum(x.get("seats_month", 0) for x in np_),
+            pax_month=sum(x.get("pax_month", 0) for x in np_),
+            revenue_month=sum(x.get("revenue_month", 0) for x in np_),
+            # Сколько нынешнего потока нужно — единственное, что в сети
+            # держит большой борт от «везёт больше, потому что больше»:
+            # загрузка у всех одна, и без потока сравнение льстит размеру.
+            need_max=max((x["need_share"] for x in np_ if x.get("need_share") is not None),
+                         default=None),
+            need_known=sum(1 for x in np_ if x.get("need_share") is not None),
+            need_over=sum(1 for x in np_ if (x.get("need_share") or 0) > 1),
+            hours_used=n.get("hours_used"), fleet=n.get("fleet"),
+            breakeven_lf=n.get("breakeven_lf"), profit_at_ref=n.get("profit_at_ref"),
+            fare_mult_breakeven=n.get("fare_mult_breakeven"),
+            lease_breakeven=n.get("lease_breakeven"),
+            fuel_price_breakeven=n.get("fuel_price_breakeven"),
+            fuel_price_now=n.get("fuel_price_now"),
+            seats_per_ac=next((l.get("seats") for p in pairs for l in (p.get("legs") or [])
+                               if l.get("seats")), None),
+            warnings=len(n.get("warnings") or []) + len(n.get("core_warnings") or []))
+        return row
 
     def _start_net_job(self, form_key, airports, base, kw, ov, as_of) -> dict:
         """Поток формирования сети на отдельном соединении с базой."""
@@ -877,7 +1027,6 @@ class Context:
         модель спроса. Спрос здесь — вход: пассажиров на рейс. У каждого
         типа своя загрузка при них, а кому кресел не хватает — «нельзя».
         """
-        from .econ import load_aircraft, route_economics
         kw = self._kwargs(q)
         kw.pop("seats", None)                    # кресла — из компоновки каждого типа
         # Снять условия типа из --set до разбора: они приходят строками
@@ -893,61 +1042,136 @@ class Context:
             kw["overrides"] = parse_set(keep)
         else:
             kw.pop("overrides", None)
-        o = self.resolve(q.get("origin", "FRA"))
-        d = self.resolve(q.get("destination", "BCN"))
         pax = float(q.get("pax") or 0)
+        try:
+            legs = self._legs(q, pax)
+        except ValueError as exc:
+            return {"error": str(exc)}
         want = [t for t in (q.get("types") or "").upper().split(",") if t]
         if not want:
             want = [t["icao"] for t in self.aircraft() if t["usable"]]
-        rows = []
-        for t in want:
-            row = {"icao": t, "status": "failed", "why": ""}
-            rows.append(row)
-            try:
-                with self.lock:
-                    ac = load_aircraft(self.store, t, kw.get("as_of"), kw.get("operator", "*"))
-                row.update(name=ac.name, seats=ac.seats, seats_source=ac.seats_source)
-                if pax <= 0:
-                    row.update(status="failed", why="не задано число пассажиров")
-                    continue
-                if pax > ac.seats:
-                    # Не «нельзя» модели, а нехватка кресел: отдельный статус,
-                    # чтобы не смешивать с перегрузом и баками.
-                    row.update(status="too_small",
-                               why=f"{int(pax)} пассажиров при {ac.seats} креслах")
-                    continue
-                k = dict(kw, aircraft=t, load_factor=pax / ac.seats)
-                with self.lock:
-                    res = route_economics(self.store, o, d, **k)
-                tier = next((st for st in res.trace if st.label == "Ярус расхода"), None)
-                cost = sum(res.cost.values())
-                row.update(
-                    status="ok" if res.feasible else "infeasible",
-                    why="" if res.feasible else "; ".join(
-                        l.get("text", "") for l in (res.feasibility or {}).get("limits", [])),
-                    limits=[l.get("key") for l in (res.feasibility or {}).get("limits", [])],
-                    lf=pax / ac.seats, cost_total=cost, cost_per_pax=cost / pax,
-                    breakeven_fare_eur=res.breakeven_fare_eur,
-                    cask=cost / (ac.seats * res.distance_nm * 1.852) * 100
-                         if res.distance_nm else None,
-                    fuel_kg=res.fuel_kg, fuel_per_pax=res.fuel_kg / pax,
-                    block_h=res.block_h, max_pax=res.max_pax,
-                    tier=tier.value if tier else None,
-                    tier_note=tier.subst if tier else "",
-                    default_share=res.default_share(),
-                    unused=[w for w in res.warnings if "не используется" in w])
-            except KeyError as exc:
-                row.update(status="failed", why=str(exc).strip("'"))
-            except Exception as exc:                          # noqa: BLE001
-                row.update(status="failed", why=f"{type(exc).__name__}: {exc}")
+        rows = [self._compare_type(t, legs, kw) for t in want]
         # Порядок: выполнимые по себестоимости на пассажира, потом
         # невыполнимые, потом маленькие, потом сбои.
         rank = {"ok": 0, "infeasible": 1, "too_small": 2, "failed": 3}
         rows.sort(key=lambda r: (rank[r["status"]], r.get("cost_per_pax") or 0))
-        return {"pax": pax, "rows": rows, "dropped_ctx": dropped,
-                "route": {"origin": o, "destination": d},
+        return {"pax": pax if len(legs) == 1 else max(lg["pax"] for lg in legs),
+                "rows": rows, "dropped_ctx": dropped,
+                "legs": [{"origin": lg["o"], "destination": lg["d"], "pax": lg["pax"]} for lg in legs],
+                "route": {"origin": legs[0]["o"], "destination": legs[0]["d"]},
                 "note": ("условия типа сняты у всех типов: " + ", ".join(dropped)
                          if dropped else "")}
+
+    MAX_LEGS = 8
+
+    def _legs(self, q: dict, pax: float) -> list[dict]:
+        """Участки для подбора типа (Ф1, решение 188).
+
+        Без `legs` — один участок, текущий маршрут. С `legs` — строка
+        `FRA-BCN:150~FRA-LIS:120`: тип подходит, только если выполним на
+        каждом, — так выбирают борт под несколько линий сразу. Пассажиры
+        участка не указаны — берутся общие `pax`.
+        """
+        raw = [x.strip() for x in (q.get("legs") or "").split("~") if x.strip()]
+        if not raw:
+            return [{"o": self.resolve(q.get("origin", "FRA")),
+                     "d": self.resolve(q.get("destination", "BCN")), "pax": pax}]
+        if len(raw) > self.MAX_LEGS:
+            raise ValueError(f"участков {len(raw)}, предел {self.MAX_LEGS}: подбор типа под "
+                             f"всю сеть — отчёт по парку (Ф5)")
+        out = []
+        for x in raw:
+            route, _, n = x.partition(":")
+            parts = [p for p in re.split(r"[\s\-–—>→]+", route) if p]
+            if len(parts) != 2:
+                raise ValueError(f"участок {x!r}: нужно «откуда-куда» или «откуда-куда:пассажиров»")
+            try:
+                lp = float(n) if n.strip() else pax
+            except ValueError:
+                raise ValueError(f"участок {x!r}: пассажиры не число") from None
+            o, d = self.resolve(parts[0]), self.resolve(parts[1])
+            # Аэропорт без записи — ошибка ввода, а не свойство типа: один
+            # ответ сразу, а не тридцать семь одинаковых «сбоев».
+            known = {a["key"] for a in self.airports()}
+            for c in (o, d):
+                if c not in known:
+                    raise ValueError(f"аэропорта {c} нет в справочнике ({x})")
+            out.append({"o": o, "d": d, "pax": lp})
+        return out
+
+    def _compare_type(self, t: str, legs: list[dict], kw: dict) -> dict:
+        """Один тип на всех участках; сумма — по рейсам, по одному на участок."""
+        from .econ import load_aircraft, route_economics
+        row = {"icao": t, "status": "failed", "why": ""}
+        try:
+            with self.lock:
+                ac = load_aircraft(self.store, t, kw.get("as_of"), kw.get("operator", "*"))
+            row.update(name=ac.name, seats=ac.seats, seats_source=ac.seats_source)
+            if any(lg["pax"] <= 0 for lg in legs):
+                row.update(why="не задано число пассажиров")
+                return row
+            big = max(legs, key=lambda lg: lg["pax"])
+            if big["pax"] > ac.seats:
+                # Не «нельзя» модели, а нехватка кресел: отдельный статус,
+                # чтобы не смешивать с перегрузом и баками.
+                row.update(status="too_small",
+                           why=f"{int(big['pax'])} пассажиров при {ac.seats} креслах"
+                               + (f" ({big['o']}–{big['d']})" if len(legs) > 1 else ""))
+                return row
+            per, cost = [], 0.0
+            for lg in legs:
+                k = dict(kw, aircraft=t, load_factor=lg["pax"] / ac.seats)
+                with self.lock:
+                    res = route_economics(self.store, lg["o"], lg["d"], **k)
+                tier = next((st for st in res.trace if st.label == "Ярус расхода"), None)
+                c = sum(res.cost.values())
+                cost += c
+                per.append({"o": lg["o"], "d": lg["d"], "pax": lg["pax"], "res": res,
+                            "cost": c, "tier": tier,
+                            "km": (res.distance_nm or 0) * 1.852,
+                            # Запас: сколько ещё пассажиров влезет — по креслам
+                            # и по массе на этой дальности, что меньше.
+                            "head": min(ac.seats, res.max_pax or 0) - lg["pax"]
+                                    if res.max_pax is not None else None})
+            bad = next((p for p in per if not p["res"].feasible), None)
+            pax_sum = sum(p["pax"] for p in per)
+            seat_km = sum(ac.seats * p["km"] for p in per)
+            fuel = sum(p["res"].fuel_kg for p in per)
+            heads = [p for p in per if p["head"] is not None]
+            tight = min(heads, key=lambda p: p["head"]) if heads else None
+            first = per[0]
+            why = ""
+            if bad:
+                why = "; ".join(l.get("text", "") for l in (bad["res"].feasibility or {}).get("limits", []))
+                if len(legs) > 1:
+                    why = f"{bad['o']}–{bad['d']}: {why}"
+            row.update(
+                status="infeasible" if bad else "ok", why=why,
+                limits=[l.get("key") for l in ((bad or first)["res"].feasibility or {}).get("limits", [])]
+                       if bad else [],
+                lf=pax_sum / (ac.seats * len(per)), cost_total=cost, cost_per_pax=cost / pax_sum,
+                # Распространение уже внутри себестоимости, поэтому средний
+                # тариф в ноль по участкам — та же сумма на тех же пассажиров.
+                breakeven_fare_eur=first["res"].breakeven_fare_eur if len(per) == 1
+                                   else cost / pax_sum,
+                cask=cost / seat_km * 100 if seat_km else None,
+                fuel_kg=fuel, fuel_per_pax=fuel / pax_sum,
+                block_h=sum(p["res"].block_h for p in per),
+                max_pax=first["res"].max_pax if len(per) == 1 else (
+                    tight["res"].max_pax if tight else None),
+                headroom=tight["head"] if tight else None,
+                headroom_leg=f"{tight['o']}–{tight['d']}" if tight and len(per) > 1 else "",
+                tier=first["tier"].value if first["tier"] else None,
+                tier_note=first["tier"].subst if first["tier"] else "",
+                default_share=sum(p["res"].default_share() * p["cost"] for p in per) / cost if cost else 0,
+                unused=sorted({w for p in per for w in p["res"].warnings if "не используется" in w}),
+                legs=[{"leg": f"{p['o']}–{p['d']}", "cost": p["cost"], "pax": p["pax"],
+                       "ok": p["res"].feasible, "head": p["head"]} for p in per] if len(per) > 1 else [])
+        except KeyError as exc:
+            row.update(status="failed", why=str(exc).strip("'"))
+        except Exception as exc:                          # noqa: BLE001
+            row.update(status="failed", why=f"{type(exc).__name__}: {exc}")
+        return row
 
     USER_SRC = "aircraft_user"
 
@@ -974,11 +1198,14 @@ class Context:
         doc = dict(doc)
         doc.setdefault("valid_from", today)
         doc["checked_at"] = today
-        for k in ("fields", "burn"):
+        for k in ("fields", "burn", "fleet"):
             if isinstance(doc.get(k), dict):
                 doc[k] = {a: b for a, b in doc[k].items() if b not in ("", None)}
         if not doc.get("burn", {}).get("analog"):
             doc.pop("burn", None)
+        if not doc.get("fleet"):
+            doc.pop("fleet", None)
+            doc.pop("fleet_source", None)
         ctx = {"source_id": self.USER_SRC, "sha": None,
                "extracted_by": "form:aircraft_user@1", "node": "src_aircraft_user"}
         facts = _one(doc, ctx)                      # отказ — ValueError словами
@@ -1106,7 +1333,20 @@ class Context:
             analogs = sorted(a.upper() for a in prop.available_aircraft())
         except Exception:                                  # noqa: BLE001
             analogs = []
-        return {"icao": icao,
+        # Что работает, если поле ставки пусто: заготовка от массы и кресел
+        # (решение 190) — числом в поле, а не словами «из справочника».
+        fleet_default = {}
+        try:
+            from .fleet import parametric
+            num = {f["field"]: f["value"] for f in fields if isinstance(f["value"], (int, float))}
+            if num.get("mtow_t"):
+                pe = parametric(icao, num["mtow_t"], num.get("seats_typical") or num.get("seats_max") or 150)
+                fleet_default = {k: getattr(pe, k) for k in (
+                    "lease_eur_month", "monthly_hours", "maint_eur_per_fh", "maint_eur_per_fc",
+                    "crew_eur_per_fh", "crew_eur_per_fc")}
+        except Exception:                                  # noqa: BLE001
+            fleet_default = {}
+        return {"icao": icao, "fleet_default": fleet_default,
                 "name": next((f["note"] for f in fields if f["field"] == "mtow_t"), ""),
                 "fields": fields, "physics": physics, "analogs": analogs,
                 "editable": (own or not self.public) and all(f["source"] == self.USER_SRC for f in fields),
@@ -1165,6 +1405,10 @@ class Context:
             "certainty": "exact",
             "fields": fields,
             "engine": by["engine"]["text"] if "engine" in by else "",
+            **({"engine_mount": by["engine_mount"]["text"]} if "engine_mount" in by else {}),
+            **({"fleet": fl, "fleet_source": next((by[k]["note"] for k in by if k.startswith("fleet_")), "")
+                .removeprefix("ставка автора типа: ")} if (fl := {k[6:]: by[k]["value"] for k in by
+                                                                if k.startswith("fleet_")}) else {}),
             "burn": burn,
         }
 
@@ -1227,6 +1471,16 @@ class Context:
             except Exception:                      # noqa: BLE001
                 return ""
 
+        def geom(f: dict) -> dict | None:
+            num = lambda k: f.get(k) if isinstance(f.get(k), (int, float)) else None
+            if not num("span_m") or not num("length_m"):
+                return None
+            return {"span": num("span_m"), "length": num("length_m"),
+                    "width": num("fuselage_width_m"), "sweep": num("sweep_deg"),
+                    "engines": int(num("engine_count") or 2),
+                    "mount": f.get("engine_mount") if isinstance(f.get("engine_mount"), str) else None,
+                    "mach": num("cruise_mach"), "mtow": num("mtow_t")}
+
         out = []
         for icao, t in sorted(types.items()):
             f = t["fields"]
@@ -1255,6 +1509,11 @@ class Context:
                 # «737800» находило «737-800». Совпадение по словам — в
                 # браузере: «airbus 320» это два слова, оба должны найтись.
                 "find": " ".join([icao, name, re.sub(r"[\s\-]", "", name)]).lower(),
+                # Силуэт рисует браузер из этих чисел (решение 188):
+                # картинок на сервере нет, лицензий на них не нужно, и
+                # свой тип получает рисунок сразу, как только у него
+                # есть размах и длина.
+                "geom": geom(f),
             })
         return out
 
@@ -1445,6 +1704,9 @@ class Context:
             # поближе — скажем, франке — прошла бы незамеченной.
             slot["meta"][metric] = dict(meta, currency=currency or "")
 
+        from . import bench as _bench
+        with self.lock:
+            rep_by = {(r["carrier"], r["year"]): r for r in _bench.reports(self.store)}
         derived = []
         for who, d in sorted(by_carrier.items()):
             v = d["vals"]
@@ -1460,7 +1722,12 @@ class Context:
             # Валюта хранится как опубликована (решение 22), пересчёт
             # здесь. Без него рублёвый CASK 4,47 встал бы в один ряд с
             # евровыми 9,40 и выглядел бы вдвое лучше, будучи втрое хуже.
-            cur = (d["meta"].get("opex_eur") or {}).get("currency", "")
+            # Валюта денег контура: расходов, а если их нет — выручки. Брал
+            # только расходы, и у Norwegian (выручка в кронах, расходов в
+            # выписке нет) доход с пассажира вышел 1 379 «евро».
+            cur = next((m.get("currency") for k in ("opex_eur", "revenue_eur",
+                                                     "traffic_revenue_eur")
+                        if (m := d["meta"].get(k) or {}).get("currency")), "")
             rate = 1.0
             if cur and cur != "EUR":
                 # Курс ИЗ ОТЧЁТА имеет приоритет (решение 22): отчёт
@@ -1525,8 +1792,26 @@ class Context:
                 # Зато затраты НА ПАССАЖИРА сравнимы: это та же сторона,
                 # что доход с пассажира, и с ней осмысленно сопоставлять.
                 item["cost_per_pax"] = round(opex / rate / v["pax"], 1)
-            if len(item) > 2:
+            # Ставки на блок-час из отчётности (решение 183): у большинства
+            # новых выписок нет ни выручки, ни операционных расходов, зато
+            # есть блок-часы и строки персонала и ТОиР. Считает их
+            # `bench.reports` — тот же расчёт, что в `fca bench`.
+            rep = rep_by.get((car, int(year) if year.isdigit() else year))
+            if rep:
+                for f in ("crew_per_bh", "crew_basis", "staff_per_bh", "maint_per_bh",
+                          "maint_own_per_bh", "bh_estimated", "unconfirmed"):
+                    if rep.get(f) not in (None, [], ""):
+                        item[f] = rep[f]
+            # Заполненность — сколько сравнимых величин у контура. По ней
+            # сортируется список: пустые карточки вверху выглядели так,
+            # будто отчётность есть, а сравнить не с чем.
+            item["filled"] = sum(1 for f in ("cask_cents", "yield_eur_pax", "sector_nm",
+                                             "cost_per_block_h", "cost_per_pax", "crew_per_bh",
+                                             "staff_per_bh", "maint_own_per_bh")
+                                 if item.get(f) is not None)
+            if item["filled"]:
                 derived.append(item)
+        derived.sort(key=lambda x: (-x["filled"], x["name"]))
         out["carriers"] = derived
         for name, field in (("cask", "cask_cents"), ("yield", "yield_eur_pax")):
             vals = sorted(x[field] for x in derived if field in x)
@@ -1599,33 +1884,58 @@ class Context:
                                 "templated": not sv.get("url") and bool(sv.get("url_template")),
                                 "license": sv.get("license")})
             return out
+        def reachable(start: str, empty: list | None = None) -> dict:
+            """Справочники, до которых можно дойти вверх по входам узла.
+
+            `empty` собирает справочники БЕЗ источника в реестре — у
+            fleet_economics его нет, и вместо справочника работает
+            заготовка. Пустой список источников у ставки ТОиР выглядел как
+            «источник не указан», а это ответ: данных нет, есть оценка.
+            """
+            seen, todo, found = set(), [start], {}
+            while todo:
+                cur = todo.pop()
+                if cur in seen or len(seen) > 60:
+                    continue
+                seen.add(cur)
+                node = by_id.get(cur, {})
+                if node.get("role") == "store":
+                    got = sources_for(node.get("label", ""))
+                    if not got and empty is not None and node.get("label") not in empty:
+                        empty.append(node.get("label"))
+                    for s_ in got:
+                        found.setdefault(s_["id"], dict(s_, domain=node.get("label")))
+                todo.extend(i["id"] for i in node.get("inputs") or [])
+            return found
+
+        # Источники — ПО ВХОДУ, а не общей кучей. Общий список у ТОиР
+        # называл OurAirports: справочник честно достижим через блок-время
+        # (координаты → дистанция → время), но под заголовком «Источники»
+        # у ставки ТОиР он читался как источник ставки.
         ins = []
         for inp in me.get("inputs") or []:
             src = by_id.get(inp["id"], {})
-            role = src.get("role", "")
+            empty: list = []
+            found = reachable(inp["id"], empty)
             ins.append({"id": inp["id"], "take": inp["take"],
                         "unit": inp["unit"], "label": src.get("label", inp["id"]),
-                        "role": role, "note": src.get("note", ""),
-                        "sources": sources_for(src.get("label", "")) if role == "store" else []})
-        # Источники узла — все справочники, до которых можно дойти вверх
-        # по входам. У аэронавигации прямые входы сами вычислены (единицы
-        # обслуживания, ставки зон), а справочник CRCO стоит за ними.
-        seen, todo, srcs = set(), [nid], {}
-        while todo:
-            cur = todo.pop()
-            if cur in seen or len(seen) > 60:
-                continue
-            seen.add(cur)
-            node = by_id.get(cur, {})
-            if node.get("role") == "store":
-                for s_ in sources_for(node.get("label", "")):
-                    srcs.setdefault(s_["id"], dict(s_, domain=node.get("label")))
-            todo.extend(i["id"] for i in node.get("inputs") or [])
+                        "role": src.get("role", ""), "note": src.get("note", ""),
+                        "sources": list(found.values()), "unsourced": empty})
+        srcs = reachable(nid)
+        # Сверка — источники, которые стоят РЯДОМ с величиной: полоса
+        # бенчмарка. Собираются по узлу и его входам на один шаг.
+        refs = {}
+        for x in [me] + [by_id.get(i["id"], {}) for i in me.get("inputs") or []]:
+            for sid in x.get("refs") or []:
+                sv = reg.get(sid)
+                if sv:
+                    refs.setdefault(sid, {"id": sid, "title": sv.get("title"),
+                                          "url": sv.get("url"), "license": sv.get("license")})
         return {"id": nid, "found": True, "label": me.get("label"),
                 "unit": me.get("unit"), "role": me.get("role"),
                 "formula": me.get("formula"), "emits": me.get("emits"),
                 "note": me.get("note"), "inputs": ins,
-                "sources": list(srcs.values()),
+                "sources": list(srcs.values()), "refs": list(refs.values()),
                 "fields": me.get("fields") or []}
 
     def data(self) -> dict:

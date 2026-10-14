@@ -1,0 +1,19 @@
+# Volaris 2025. Парк — только A320-семейство. Блок-часы числом.
+---
+carrier: Y4
+name: Volaris (Controladora Vuela)
+year: 2025
+source: "Volaris, Fourth Quarter and Full Year 2025 results release"
+source_url: https://seekingalpha.com/pr/20412295
+scope: >
+  Volaris Mexico, Costa Rica, El Salvador; блок-часы и вылеты ВКЛЮЧАЮТ чартер
+  (сноска 2). Владение через амортизацию права пользования (449) и
+  переменную аренду (196).
+values:
+  staff_cost_eur:       {value: 451000000, currency: USD, basis: "salaries and benefits — весь персонал", page: "Statement of operations, 12M25"}
+  maintenance_cost_eur: {value: 130000000, currency: USD, basis: "maintenance expenses", page: "Statement of operations, 12M25"}
+  aircraft_ownership_eur: {value: 645000000, currency: USD, basis: "depreciation of right of use assets 449 + aircraft and engine variable lease expenses 196", page: "Statement of operations, 12M25"}
+  block_hours:          {value: 481472, basis: "block hours, с чартером", page: "Operating statistics, 12M25"}
+  flights:              {value: 188848, basis: "departures, с чартером", page: "Operating statistics, 12M25"}
+  ask_km:               {value: 58126000000, basis: "36 118 млн ASM × 1,609344", page: "Operating statistics, 12M25"}
+  fleet_year_end:       {value: 155, basis: "aircraft at end of period", page: "Operating statistics"}

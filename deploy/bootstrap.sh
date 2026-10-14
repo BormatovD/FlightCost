@@ -139,7 +139,7 @@ fi
 # ── права deploy ─────────────────────────────────────────────────────────
 say "права deploy: перезапуск витрины и журнал, больше ничего"
 cat > /etc/sudoers.d/fca-deploy <<'SUDO'
-deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart fca, /usr/bin/systemctl status fca, /usr/bin/journalctl -u fca *
+deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart fca, /usr/bin/systemctl status fca, /usr/bin/journalctl -u fca *, /usr/bin/journalctl -u fca-observe *, /usr/bin/journalctl -u fca-backup *
 SUDO
 chmod 440 /etc/sudoers.d/fca-deploy
 visudo -cf /etc/sudoers.d/fca-deploy >/dev/null
@@ -158,6 +158,24 @@ install -m 644 "$ROOT/app/deploy/fca-backup.service" "$ROOT/app/deploy/fca-backu
 command -v restorecon >/dev/null && restorecon /etc/systemd/system/fca-backup.* || true
 systemctl daemon-reload
 systemctl enable --now --quiet fca-backup.timer
+
+say "забор наблюдений ADS-B — своя база, свой таймер"
+# Своя база, а не снимок витрины: fca publish подменяет снимок целиком и
+# вычищает из него наблюдения. Группа fca (в ней deploy) читает базу, чтобы
+# владелец мог забрать накопленное; ключи OpenSky — только fca.
+install -d -o fca -g fca -m 2750 "$ROOT/observe"
+install -m 644 "$ROOT/app/deploy/fca-observe.service" "$ROOT/app/deploy/fca-observe.timer" /etc/systemd/system/
+command -v restorecon >/dev/null && restorecon /etc/systemd/system/fca-observe.* || true
+systemctl daemon-reload
+if [ -f "$ROOT/observe/flightcost.db" ] && [ -f "$ROOT/observe/opensky.json" ]; then
+	systemctl enable --now --quiet fca-observe.timer
+	echo "таймер включён: $(systemctl list-timers fca-observe.timer --no-legend | awk '{print $1, $2, $3}')"
+else
+	# Таймер без базы и ключей падал бы каждые сутки — включается, когда
+	# оба файла на месте. Повторный bootstrap после их появления включит.
+	echo "таймер НЕ включён: нет $( [ -f "$ROOT/observe/flightcost.db" ] || printf 'базы ' )$( [ -f "$ROOT/observe/opensky.json" ] || printf 'ключей' )"
+	echo "  порядок — deploy/README.md, раздел «Наблюдения ADS-B на сервере»"
+fi
 
 say "Caddy: ${DOMAIN:-без домена, только :80}"
 sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/Caddyfile

@@ -1,0 +1,239 @@
+{
+ "title": "flightcost.app — how to use, 60 seconds",
+ "path": "/?lang=en&cur=USD",
+ "locale": "en-US",
+ "intro": {
+  "title": [
+   "Is this route",
+   "worth flying?"
+  ],
+  "sub": "Find out in a minute on flightcost.app"
+ },
+ "outro": {
+  "title": [
+   "Every number shows",
+   "where it came from."
+  ],
+  "url": "flightcost.app",
+  "sub": "open source · free · works on your phone"
+ },
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 1200
+  },
+  {
+   "do": "caption",
+   "n": 1,
+   "text": "Pick two airports",
+   "sub": "code or city name"
+  },
+  {
+   "do": "tap",
+   "sel": "#o"
+  },
+  {
+   "do": "clear",
+   "sel": "#o"
+  },
+  {
+   "do": "type",
+   "sel": "#o",
+   "text": "Frankfurt",
+   "delay": 110
+  },
+  {
+   "do": "tap",
+   "sel": "#oh .hit[data-icao]",
+   "after": 900
+  },
+  {
+   "do": "tap",
+   "sel": "#d"
+  },
+  {
+   "do": "clear",
+   "sel": "#d"
+  },
+  {
+   "do": "type",
+   "sel": "#d",
+   "text": "Barcelona",
+   "delay": 110
+  },
+  {
+   "do": "tap",
+   "sel": "#dh .hit[data-icao]",
+   "after": 900
+  },
+  {
+   "do": "caption",
+   "n": 2,
+   "text": "Choose the aircraft",
+   "sub": "from the catalogue, or add your own"
+  },
+  {
+   "do": "tap",
+   "sel": "#ac"
+  },
+  {
+   "do": "clear",
+   "sel": "#ac"
+  },
+  {
+   "do": "type",
+   "sel": "#ac",
+   "text": "A320",
+   "delay": 140
+  },
+  {
+   "do": "tap",
+   "sel": "#achits .hit[data-ac]",
+   "after": 2200
+  },
+  {
+   "do": "caption",
+   "n": 3,
+   "text": "Read the answer",
+   "sub": "the fare at which the flight breaks even"
+  },
+  {
+   "do": "zoom",
+   "sel": "#kpi > div:nth-child(2)",
+   "ms": 2800,
+   "scale": 2.0
+  },
+  {
+   "do": "zoom",
+   "sel": "#kpi > div:nth-child(1)",
+   "ms": 2000,
+   "scale": 2.0
+  },
+  {
+   "do": "caption",
+   "n": 4,
+   "text": "Change load and fare",
+   "sub": "the answer moves instantly"
+  },
+  {
+   "do": "tap",
+   "sel": "#ptoggle",
+   "after": 900
+  },
+  {
+   "do": "slide",
+   "sel": "#lf",
+   "to": 92,
+   "ms": 1600,
+   "after": 1200
+  },
+  {
+   "do": "fill",
+   "sel": "#fare",
+   "text": "120",
+   "after": 1400
+  },
+  {
+   "do": "tap",
+   "sel": "#ptoggle",
+   "after": 900
+  },
+  {
+   "do": "zoom",
+   "sel": "#kpi > div:nth-child(2)",
+   "ms": 2000,
+   "scale": 2.0
+  },
+  {
+   "do": "caption",
+   "n": 5,
+   "text": "See what it's made of",
+   "sub": "orange = placeholder, not data. We show it."
+  },
+  {
+   "do": "scroll",
+   "sel": "#main h3",
+   "offset": 70,
+   "ms": 1400
+  },
+  {
+   "do": "wait",
+   "ms": 1200
+  },
+  {
+   "do": "zoom",
+   "sel": "#main h3",
+   "ms": 2400,
+   "scale": 1.35
+  },
+  {
+   "do": "scrollby",
+   "dy": 260,
+   "ms": 1400
+  },
+  {
+   "do": "caption",
+   "n": 6,
+   "text": "Open the full breakdown",
+   "sub": "every formula, rate and source"
+  },
+  {
+   "do": "scroll",
+   "sel": "#tabs",
+   "offset": 0,
+   "ms": 1000
+  },
+  {
+   "do": "tap",
+   "sel": "#tabs button[data-tab=trace]",
+   "after": 2200
+  },
+  {
+   "do": "scrollby",
+   "dy": 520,
+   "ms": 1600
+  },
+  {
+   "do": "wait",
+   "ms": 800
+  },
+  {
+   "do": "caption",
+   "n": 7,
+   "text": "Compare aircraft types",
+   "sub": "same route, same demand"
+  },
+  {
+   "do": "scroll",
+   "sel": "#tabs",
+   "offset": 0,
+   "ms": 1000,
+   "optional": true
+  },
+  {
+   "do": "tap",
+   "sel": "#tabs button[data-tab=types]",
+   "after": 600,
+   "optional": true
+  },
+  {
+   "do": "waitfor",
+   "js": "!/calculating|считаю|berechne/i.test(document.querySelector('#main').innerText)",
+   "speed": 4,
+   "timeout": 60000,
+   "after": 800,
+   "optional": true
+  },
+  {
+   "do": "scrollby",
+   "dy": 360,
+   "ms": 1600,
+   "optional": true
+  },
+  {
+   "do": "wait",
+   "ms": 1000
+  }
+ ],
+ "tail_ms": 600
+}

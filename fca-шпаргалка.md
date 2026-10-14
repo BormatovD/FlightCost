@@ -1,6 +1,6 @@
 # `fca` — шпаргалка
 
-Составлено по `cli.py` от 2026-09-28 и по скриптам в `tools/`. Заменяет
+Составлено по `cli.py` от 2026-09-28 (выкладка — 2026-10-13) и по скриптам в `tools/`. Заменяет
 `fca-шпаргалка-2.md`. Всё запускается из корня проекта.
 
 ---
@@ -182,18 +182,72 @@ RU-CN`. У строки перебора число рейсов пусто — 
 
 ## Наблюдения эксплуатации (ADS-B)
 
-Единственный источник, где пропущенные сутки не восстанавливаются.
+Единственный источник, где пропущенные сутки не восстанавливаются
+(догоняется неделя назад, не больше). Забор подготовлен **на сервере** — своя
+база `/srv/fca/observe/flightcost.db`, таймер в 05:20 UTC, — и включается после
+переезда на сервер в Германии; до тех пор `fca observe` дома раз в несколько дней.
+Настройка один раз — `deploy/README.md`, «Наблюдения ADS-B на сервере».
 
 ```bash
-fca observe --check                       # один запрос, ничего не пишет
-fca observe                               # вчерашние сутки
-fca observe --day 2026-09-09 --airports EDDF,LEBL,EGKK --pause 2.0
+# дома: забрать накопленное с сервера и свернуть
+bash deploy/pull-observations.sh          # слияние без дублей, повтор безопасен
 fca observe --aggregate                   # свернуть в факты домена observed
 fca observe --gaps --since 2026-09-09     # борта без типа
+
+# как прошли заборы на сервере
+ssh deploy@flightcost.app sudo journalctl -u fca-observe -n 20
+ssh root@flightcost.app systemctl list-timers fca-observe.timer
+
+# руками, локально (только если сервер не пускают к OpenSky)
+fca observe --check                       # один запрос, ничего не пишет
+fca observe                               # догнать незабранные сутки
+fca observe --day 2026-09-09 --airports EDDF,LEBL,EGKK --pause 2.0
 ```
 
 Ключи OpenSky: `OPENSKY_CLIENT_ID`, `OPENSKY_CLIENT_SECRET` или
-`OPENSKY_CREDENTIALS=<путь к json>`.
+`OPENSKY_CREDENTIALS=<путь к json>`; на сервере — `/srv/fca/observe/opensky.json`.
+Одна учётная запись — один забор: два прогона делят суточный бюджет.
+
+---
+
+## Бенчмарк флота: Form 41 США и IATA ACMG
+
+Полоса рядом с заготовкой владения, ТОиР, экипажа и налёта — в расчёт не
+подставляется (решение 177). Видна в `fca bench`, в «Разборе» у ставок
+флота и в панели «Флот» витрины.
+
+```bash
+# ACMG — машиной, с GitHub книги EUROCONTROL (CC BY 4.0)
+fca refresh --only acmg_cost acmg_structure && fca review   # принять оба
+
+# Form 41 — три файла руками с TranStats в data/raw/form41/ (имя любое, .csv или .zip)
+fca refresh --only form41
+fca bench                       # сводка по всем типам выборки
+fca bench A320                  # полосы, модель на плече выборки, «час + цикл»
+fca bench A321 --carriers       # строки перевозчиков, из которых сложена полоса
+fca bench B738 --year 2024
+```
+
+Что скачать (TranStats, раз в год, после выхода Q4 — примерно в мае):
+
+| файл | где | что отметить |
+|---|---|---|
+| Schedule P-5.2 | Air Carrier Financial Reports (Form 41) → Schedule P-5.2 → Download | год, все кварталы, все поля (Select all) |
+| Schedule T-2 | Air Carrier Summary Data → T2 → Download | тот же год, все кварталы, все поля |
+| L_AIRCRAFT_TYPE | на странице загрузки у поля AircraftType — ссылка на таблицу расшифровки | — |
+
+Адреса страниц загрузки: `transtats.bts.gov/DL_SelectFields.asp?gnoyr_VQ=FMK`
+(P-5.2) и `…?gnoyr_VQ=FIH` (T-2).
+
+Файл узнаётся по заголовку. Незнакомый заголовок — отказ со списком колонок:
+прислать эту строку, парсер дополняется. Тип BTS без нашего ИКАО печатается
+в `fca bench` строкой «кодов типа без нашего ИКАО» — дописывается шаблон в
+`bench.TYPE_PATTERNS`.
+
+Как читать: ТОиР — счёт 52990 (прямой плюс накладные ТОиР) на блок-час;
+экипаж — только лётный, модель приводится к лётному по структуре ACMG;
+владение — аренда и амортизация по балансу, нижняя граница для нового
+борта. Модель сравнивается на СРЕДНЕМ ПЛЕЧЕ ВЫБОРКИ, а не на своём.
 
 ---
 
@@ -327,9 +381,13 @@ JSON, импорт, новая ссылка (старая гаснет), вый�
 
 ```bash
 curl -s https://flightcost.app/api/ws                     # enabled, exists (по cookie)
-sudo -u fca bash /srv/fca/app/deploy/backup.sh            # копия руками
-systemctl list-timers fca-backup.timer                     # когда следующая
-sqlite3 /srv/fca/site/data/user.db "SELECT COUNT(*) FROM workspaces"
+# проверка копий — от root на сервере:
+systemctl list-timers fca-backup.timer                     # «0 timers listed» → повторить bootstrap
+systemctl start fca-backup.service                         # снять копию сейчас
+journalctl -u fca-backup -n 5 --no-pager                   # «копия: … хранится N из 14»
+ls -la /srv/fca/backup/
+sqlite3 /srv/fca/backup/user-$(date -u +%F).db "PRAGMA integrity_check; SELECT COUNT(*) FROM workspaces"
+sqlite3 /srv/fca/site/data/user.db "SELECT COUNT(*) FROM workspaces"   # должно совпасть
 ```
 
 **Свои типы** — вкладка «Характеристики»: библиотечный тип только
@@ -405,6 +463,32 @@ fca refresh --only fir_world          # → data/geo/zones_world.json, CC BY-SA
 Закрытия неба и посадки — `data/rights/closures.yaml`: запись с датой,
 документом и `certainty`. Снятое закрытие получает `valid_to`, а не
 удаляется.
+
+## Пассажиропоток по парам (M10)
+
+Европа — Eurostat, таблицы `avia_par_<страна>` (`de`, `es`, `it`, `fr`, `tr`, …):
+
+1. Data Browser → поиск `avia_par_de` → Download → **TSV** или **SDMX-CSV**,
+   «full dataset» (можно .gz). Нужна месячная частота и мера `PAS_CRD`
+   (пассажиры перевезённые) — остальное парсер пропустит сам.
+2. Положить в `data/raw/eurostat_par/` (имя любое).
+3. `fca refresh --only eurostat_par` — в отчёте «пар N, месяцев с … по …».
+
+США — BTS T-100 Segment (All Carriers), со страницы TranStats, как Form 41:
+файл (.csv, .zip или .gz) в `data/raw/t100/`, затем
+`fca refresh --only airport_codes t100`. Коды ИАТА переводятся в ИКАО
+указателем; непереведённые названы в сводке.
+
+На Mac Терминал по умолчанию не видит «Загрузки» («Operation not
+permitted»): перетащить файлы в папку проекта Finder'ом или дать доступ —
+Системные настройки → Конфиденциальность → Файлы и папки → Терминал.
+
+Пару публикуют обе страны — берётся среднее, расхождение называется.
+Хранятся последние 36 месяцев каждого файла. Где виден поток: вкладка
+«Маршрут» (блок «Поток по паре»), «Типы» (под полем пассажиров), сеть →
+«Рынок» и колонка «нужно». Россия и Казахстан — оценка по наблюдённым
+рейсам или своё число на вкладке «Рынок». Кресла в оценке — по типам
+наблюдённых бортов: после сбора ADS-B выполнить `fca observe --aggregate`.
 
 ## Выкладка на flightcost.app
 

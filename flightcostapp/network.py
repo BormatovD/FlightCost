@@ -104,6 +104,9 @@ class Pair:
     # той же причине, что рыночная цена у плеча.
     market_est_pax: float | None = None
     market_est_src: str = ""
+    # Опубликованный поток (домен `traffic`, решение 195) — выше оценки.
+    market_pub_pax: float | None = None
+    market_pub_src: str = ""
 
     @property
     def key(self) -> str:
@@ -122,6 +125,12 @@ class Fleet:
     lease_prov: str
     util_h_month: float
     util_prov: str
+    # ТОиР двумя частями — с чем сложены плечи (решение 194). Поле сети
+    # меняет их без пересборки: ТОиР не зависит от пассажиров, и разница
+    # «час × блок + цикл» ложится в постоянную часть рейса.
+    maint_fh: float | None = None
+    maint_fc: float | None = None
+    maint_prov: str = "default"
 
 
 # ── вспомогательное ─────────────────────────────────────────────────────
@@ -155,6 +164,14 @@ def _row(row, name, default=None):
         return default
 
 
+# Глубина покупки словами: «d31_60» в строке источника читается как код,
+# а это вопрос «за сколько дней до вылета куплен билет».
+BAND_RU = {"d00_07": "за 0–7 дней до вылета", "d08_14": "за 8–14 дней до вылета",
+           "d15_30": "за 15–30 дней до вылета", "d31_60": "за 31–60 дней до вылета",
+           "d61_120": "за 61–120 дней до вылета", "d121_": "больше чем за 120 дней"}
+FARE_PUBLISHER = "Aviasales Data API (Travelpayouts)"
+
+
 def market_fare(store, o_icao: str, d_icao: str, as_of, bands=FARE_BANDS):
     """Медиана дневных минимумов, прямые рейсы. Только евро: пересчёт
     валюты здесь не делается, и чужая валюта — пропуск с причиной, а не
@@ -174,10 +191,12 @@ def market_fare(store, o_icao: str, d_icao: str, as_of, bands=FARE_BANDS):
             n = json.loads(_row(row, "value_text") or "{}").get("n_days", "")
         except ValueError:
             pass
-        return float(row["value"]), f"медиана дневных минимумов {band}, дат {n}"
+        return float(row["value"]), (f"{FARE_PUBLISHER}: медиана дневных минимумов, прямые, "
+                                     f"покупка {BAND_RU.get(band, band)}, дат {n}")
     if skipped:
         return None, "есть только в другой валюте: " + "; ".join(skipped)
-    return None, "наблюдений цены нет"
+    return None, (f"наблюдений цены нет: сбор {FARE_PUBLISHER} по паре не запускался "
+                  f"или дат меньше порога")
 
 
 def observed_frequency(store, as_of) -> tuple[dict, int]:
@@ -208,7 +227,8 @@ def observed_frequency(store, as_of) -> tuple[dict, int]:
 
 def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=None):
     kw = dict(aircraft=aircraft, as_of=as_of, month=month, overrides=overrides,
-              operator=operator, util_mode="marginal", _trade=False, via=via)
+              operator=operator, util_mode="marginal", _trade=False, via=via,
+              _ctx_scope=False)
     r_full = econ(store, o, d, load_factor=1.0, **kw)
     seats = int(r_full.inputs["seats"])
     cap = int(r_full.max_pax) if r_full.max_pax else seats
@@ -243,13 +263,17 @@ def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
     по флоту», с их происхождением. Сеть не заводит своих констант."""
     r = econ(store, o, d, aircraft=aircraft, as_of=as_of, month=month,
              overrides=overrides, operator=operator, load_factor=0.8,
-             util_mode="fleet_average", _trade=False)
+             util_mode="fleet_average", _trade=False, _ctx_scope=False)
     lease, util = _step(r, "d_fleet"), _step(r, "v_util")
     if lease is None or util is None:
         raise RuntimeError("в разборе ядра нет шагов d_fleet / v_util — "
                            "сеть не может прочесть ставку и налёт")
+    fl = (getattr(r, "inputs", None) or {}).get("fleet") or {}
+    pv = fl.get("prov") or {}
     return Fleet(r.aircraft, float(lease.value), lease.prov,
-                 float(util.value), util.prov)
+                 float(util.value), util.prov,
+                 fl.get("maint_eur_per_fh"), fl.get("maint_eur_per_fc"),
+                 pv.get("maint_eur_per_fh", "default"))
 
 
 def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
@@ -367,11 +391,24 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
             p.reasons = p.reasons + [{"kind": "range_partial", "text":
                           f"{worst.origin}→{worst.destination}: не больше "
                           f"{worst.max_pax} пассажиров из {worst.seats}"}]
+        try:
+            from .traffic import published
+            pub = published(store, p.a_icao, p.b_icao, as_of, month)
+        except Exception:                                  # noqa: BLE001
+            pub = None
+        if pub:
+            p.market_pub_pax, p.market_pub_src = pub["pax_month"], pub["src"]
         if comp:
             c = sum((l.comp_week or 0.0) for l in p.legs)
-            p.market_est_pax = c * WEEKS_PER_MONTH * MARKET_SEATS * MARKET_LF
-            p.market_est_src = (f"оценка: наблюдённые рейсы × {MARKET_SEATS} кресел × "
-                                f"{MARKET_LF:.2f}")
+            try:
+                from .traffic import obs_seats
+                seats, why = obs_seats(store, p.a_icao, p.b_icao, as_of)
+            except Exception:                              # noqa: BLE001
+                seats, why = None, ""
+            p.market_est_pax = c * WEEKS_PER_MONTH * (seats or MARKET_SEATS) * MARKET_LF
+            p.market_est_src = (f"оценка: наблюдённые рейсы × "
+                                f"{why or str(MARKET_SEATS) + ' кресел (типы не известны)'} × "
+                                f"загрузка {MARKET_LF:.2f}")
         pairs.append(p)
     if progress:
         progress(len(todo), len(todo), "")
@@ -399,11 +436,15 @@ def apply_inputs(pairs: list[Pair], user_fares=None, user_market=None) -> list[P
         given = _lookup(user_market, p.a, p.b, directional=False)
         if given is not None:
             p.market_pax_month, p.market_src = float(given), "задано"
+        elif p.market_pub_pax is not None:
+            p.market_pax_month, p.market_src = p.market_pub_pax, p.market_pub_src
         elif p.market_est_pax is not None:
             p.market_pax_month, p.market_src = p.market_est_pax, p.market_est_src
         else:
             p.market_pax_month = None
-            p.market_src = "нет: ни наблюдений рейсов, ни заданного потока"
+            p.market_src = ("источника нет: в статистике Eurostat пары нет, рейсов по паре "
+                            "не наблюдали (ADS-B), поток не задан. Открытой статистики "
+                            "пассажиропотока по парам для RU и KZ нет — впишите своё число")
     return pairs
 
 
@@ -450,6 +491,15 @@ class NetResult:
     # Оговорки ядра по плечам: тарифов нет, сборы по параметрике, ступени.
     # Отдельно от оговорок сети — у них разный адресат (решение 76).
     core_warnings: list = field(default_factory=list)
+    maint_fh: float | None = None
+    maint_fc: float | None = None
+    maint_prov: str = "default"
+
+
+def _shift(leg: Leg, d: float) -> Leg:
+    out = copy.copy(leg)
+    out.fixed_eur = leg.fixed_eur + d
+    return out
 
 
 def _pax(leg: Leg, lf: float) -> float:
@@ -487,10 +537,24 @@ def _bisect(fn, lo, hi, it=80):
 
 def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
              util_h_month=None, lease_eur_month=None, fare_mult=1.0,
-             fare_conv=1.0, lf_ref=0.80, alpha=ALPHA) -> NetResult:
+             fare_conv=1.0, lf_ref=0.80, alpha=ALPHA,
+             maint_fh=None, maint_fc=None) -> NetResult:
     if fleet_n < 1:
         raise ValueError("бортов меньше одного")
     warnings = []
+    # ТОиР из поля сети: разница к ставке, с которой сложены плечи, —
+    # в постоянную часть каждого рейса. Пары меняются на месте: витрина
+    # передаёт сюда копию из кэша, командная строка — свежий состав.
+    m_fh = fleet.maint_fh if maint_fh is None else float(maint_fh)
+    m_fc = fleet.maint_fc if maint_fc is None else float(maint_fc)
+    m_prov = fleet.maint_prov if maint_fh is None and maint_fc is None else "input"
+    if (maint_fh is not None or maint_fc is not None) and fleet.maint_fh is None:
+        raise ValueError("ставка ТОиР плеч неизвестна — состав сложен старой версией; "
+                         "пересчитайте сеть")
+    if m_prov == "input":
+        for p in pairs:
+            p.legs = [_shift(l, (m_fh - fleet.maint_fh) * l.block_h + (m_fc - fleet.maint_fc))
+                      for l in p.legs]
     lease = float(lease_eur_month if lease_eur_month is not None else fleet.lease_eur_month)
     lease_prov = "input" if lease_eur_month is not None else fleet.lease_prov
     util = float(util_h_month if util_h_month is not None else fleet.util_h_month)
@@ -601,7 +665,8 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
 
     return NetResult(fleet_n, fleet.aircraft, lease, lease_prov, util, util_prov, hours,
                      lf_ref, fare_mult, fare_conv, alpha, be_lf, pr_ref, be_k,
-                     be_lease, p_now, p_be, out_pairs, excluded, warnings, core)
+                     be_lease, p_now, p_be, out_pairs, excluded, warnings, core,
+                     m_fh, m_fc, m_prov)
 
 
 # ── отчёт ───────────────────────────────────────────────────────────────

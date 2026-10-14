@@ -461,6 +461,16 @@ def main(argv=None) -> int:
     rg.add_argument("--operator", default="*")
     rg.add_argument("--points", type=int, default=9)
 
+    bn = sub.add_parser("bench", help="полоса флотской экономики: Form 41 США и IATA ACMG "
+                                      "против заготовки")
+    bn.add_argument("aircraft", nargs="?", default=None,
+                    help="тип ИКАО; без него — сводка по всем типам выборки")
+    bn.add_argument("--year", type=int, default=None,
+                    help="год отчётности; по умолчанию последний полный")
+    bn.add_argument("--operator", default="*")
+    bn.add_argument("--carriers", action="store_true",
+                    help="строки перевозчиков, из которых сложена полоса")
+
     ob = sub.add_parser("observe",
                         help="забрать наблюдения эксплуатации за сутки")
     ob.add_argument("--day", default=None, metavar="ГГГГ-ММ-ДД",
@@ -784,6 +794,15 @@ def main(argv=None) -> int:
                           f"{st.get('added', 0)}")
                 for t in thin[:5]:
                     print(f"{'':14} мало: {t}")
+            # Кресла по типам наблюдённых бортов — для оценки потока
+            # там, где статистики по парам нет (RU, KZ; решение 198).
+            facts, thin = _obs.aggregate_seats(store)
+            if facts:
+                st = store.commit_facts(facts)
+                total += st.get("added", 0)
+                print(f"{'seats':14} агрегатов {len(facts)}, записано {st.get('added', 0)}")
+            for t in thin[:5]:
+                print(f"{'':14} мало: {t}")
             print(f"\nвсего записано {total}")
             return 0
 
@@ -1011,6 +1030,9 @@ def main(argv=None) -> int:
             import webbrowser
             webbrowser.open(path.resolve().as_uri())
         return 0
+
+    if a.cmd == "bench":
+        return _bench(store, a)
 
     if a.cmd == "range":
         from .econ import load_aircraft
@@ -1246,6 +1268,165 @@ PUBLISH_CLEAR_TABLES = {
 SERVER_ROOT = "/srv/fca"
 
 
+def _bench_model(store, icao: str, operator: str):
+    """Ставки модели тем же путём, что у расчёта маршрута, или None."""
+    from .econ import load_aircraft
+    from .fleet import load as load_fleet
+    from .overrides import Resolver
+    today = date.today().isoformat()
+    try:
+        ac = load_aircraft(store, icao, today, operator)
+    except KeyError:
+        return None
+    return load_fleet(Resolver(store=store, as_of=today, overrides={}), ac.icao,
+                      operator=operator, mtow_t=ac.mtow_t, seats=ac.seats)
+
+
+def _bench_reports(store, fe=None, leg=None) -> None:
+    """Ставки по отчётности перевозчиков — рядом с полосой Form 41."""
+    from . import bench
+    rows = bench.reports(store)
+    if not rows:
+        return
+    print("\n  Отчётность перевозчиков, EUR на блок-час (весь перевозчик, не тип; курс — сегодняшний):")
+    print(f"  {'':5} {'год':>4} {'блок-ч':>10} {'плечо':>6} {'экипаж':>7} {'персонал':>9} "
+          f"{'ТОиР':>6} {'ТОиР+влад.':>11}")
+    f = lambda x: f"{x:,.0f}" if x else "—"
+    for r in rows:
+        bh = f"{r['block_h']:,.0f}" + ("*" if r["bh_estimated"] else " ")
+        leg_ = f"{r['block_per_dep']:.1f}ч" if r["block_per_dep"] else "—"
+        mark = "  ?" if r["unconfirmed"] else ""
+        print(f"  {r['carrier']:5} {r['year']:>4} {bh:>10} {leg_:>6} {f(r['crew_per_bh']):>7} "
+              f"{f(r['staff_per_bh']):>9} {f(r['maint_per_bh']):>6} {f(r['maint_own_per_bh']):>11}{mark}")
+    print("  * блок-часы — оценка: налёт в сутки × средний парк × 365.  ? — есть величины "
+          "с certainty=reading_unconfirmed, сверить по data/benchmarks/\n"
+          "  экипаж — лётный и кабинный (easyJet — строкой, airBaltic — из ц/ASK); персонал — весь штат.\n"
+          "  ТОиР по МСФО без тяжёлых форм (они в амортизации) — сравнивать сумму ТОиР + владение.")
+    if fe is not None and leg:
+        print(f"  заготовка на плече {leg:.1f} ч: экипаж {fe.effective_crew_per_h(leg):,.0f}, "
+              f"ТОиР {fe.effective_maint_per_h(leg):,.0f} EUR на блок-час")
+
+
+def _bench(store, a) -> int:
+    """Полоса бенчмарка против заготовки (M11)."""
+    from . import bench
+    rows, meta = bench.carrier_rows(store, a.year)
+    if not rows and not bench._load(store)["acmg"] and not bench.reports(store):
+        print("бенчмарка нет: fca refresh --only form41 acmg_cost acmg_structure\n"
+              "  файлы Form 41 — в data/raw/form41/, как скачать — в шпаргалке")
+        return 1
+    if meta["year"]:
+        print(f"Form 41 США, {meta['year']} год (есть: {', '.join(map(str, meta['years']))})")
+        for w in meta["scales"]["why"]:
+            print(f"  масштаб: {w}")
+    for code, why in (meta.get("overrides") or {}).items():
+        print(f"  код {code}: {why}")
+    if meta.get("dropped"):
+        print(f"  кварталов перевозчик×тип без расходов (часы поданы, ТОиР или пилоты — ноль): "
+              f"{meta['dropped']}, в полосу не входят")
+    if meta["unmapped"]:
+        print(f"  кодов типа без нашего ИКАО: {len(meta['unmapped'])} — "
+              + "; ".join(f"{k} {v}" for k, v in list(meta["unmapped"].items())[:6]))
+
+    if not a.aircraft:
+        rate, why = bench.usd_per_eur(store, meta["year"])
+        if not rate:
+            print(f"  {why} — суммы в USD")
+        k = (1 / rate) if rate else 1.0
+        cur = "EUR" if rate else "USD"
+        print(f"  {why}\n")
+        print(f"  {'тип':5} {'перев.':>6} {'плечо':>6} {'налёт':>6}   {'ТОиР ' + cur + '/ч':>17}   "
+              f"{'модель':>7}   {'лётный экипаж':>14}   {'владение ' + cur + '/мес':>17}")
+        for icao in sorted({r["icao"] for r in rows}):
+            b = bench.type_bench(store, icao, meta["year"])
+            bd = b["bands"]
+            fe = _bench_model(store, icao, a.operator)
+            leg = bd["block_per_dep"].p50
+            mm = f"{fe.effective_maint_per_h(leg):7,.0f}" if fe else "      —"
+            print(f"  {icao:5} {bd['maint_per_bh'].n:6d} {leg:5.1f}ч {bd['util_h_month'].p50:6.0f}   "
+                  f"{bd['maint_per_bh'].p50 * k:6,.0f} ({bd['maint_per_bh'].p25 * k:,.0f}–"
+                  f"{bd['maint_per_bh'].p75 * k:,.0f})   {mm}   "
+                  f"{bd['cockpit_per_bh'].p50 * k:14,.0f}   {bd['own_per_ac_month'].p50 * k:17,.0f}")
+        print("\n  ТОиР — счёт 52990 на блок-час; «модель» — заготовка на плече выборки.\n"
+              "  Один-два перевозчика — точка, а не полоса.\n"
+              "  Подробно по типу: fca bench A320")
+        _bench_reports(store)
+        return 0
+
+    icao = a.aircraft.upper()
+    fe = _bench_model(store, icao, a.operator)
+    b = bench.compare(store, icao, fe, a.year) if fe else bench.type_bench(store, icao, a.year)
+    if not b:
+        print(f"{icao}: в выборке нет ни Form 41, ни семейства ACMG")
+        return 1
+    print(f"\n{icao}" + (f" — {fe.note}" if fe else " — типа нет в справочнике, модели нет"))
+    if b.get("fx"):
+        print(f"  {b['fx']}")
+    rate = b.get("usd_per_eur")
+    if b["bands"]:
+        leg = b["bands"]["block_per_dep"].p50
+        print(f"  перевозчиков {b['bands']['maint_per_bh'].n}, среднее плечо выборки {leg:.2f} ч — "
+              f"модель сравнивается на нём\n")
+        print(f"  {'величина':46} {'p25':>9} {'медиана':>9} {'p75':>9}   {'модель':>9}")
+        for m, (unit, label) in bench.METRICS.items():
+            bd = b["bands"].get(m)
+            if not bd:
+                continue
+            mod = (b.get("model") or {}).get(m)
+            ms = f"{mod['usd']:9,.0f}  {mod['where']}" if mod else ""
+            fmt = ",.1f" if bd.p50 < 20 else ",.0f"
+            print(f"  {(label + ', ' + unit)[:46]:46} {bd.p25:9{fmt}} {bd.p50:9{fmt}} "
+                  f"{bd.p75:9{fmt}}   {ms}")
+        if rate:
+            print(f"\n  суммы в USD; модель переведена по {rate:.4f} USD за EUR")
+        if b.get("cabin_ratio"):
+            print(f"  экипаж модели приведён к лётному: ÷ (1 + {b['cabin_ratio']:.2f}) — "
+                  f"кабинный к лётному по структуре ACMG 2019")
+        print("  владение — по балансу (аренда + амортизация): старый парк самортизирован,\n"
+              "  для нового борта это нижняя оценка, а не ставка лизинга")
+        for what, label in (("maint", "ТОиР"), ("cockpit", "лётный экипаж")):
+            s = b["split"].get(what)
+            if s is None:
+                print(f"\n  {label}: структура «час + цикл» не измерена — меньше трёх "
+                      f"перевозчиков или плечи слишком близки")
+                continue
+            if s.structure == "inconsistent":
+                legs = [r["block_per_dep"] for r in b["carriers"]]
+                lvl = [r[f"{what}_per_bh"] for r in b["carriers"]]
+                print(f"\n  {label}: структура «час + цикл» по перевозчикам не выделяется — "
+                      f"плечи {min(legs):.1f}–{max(legs):.1f} ч, а уровни на блок-час "
+                      f"{min(lvl):,.0f}–{max(lvl):,.0f} USD: разница между перевозчиками\n"
+                      f"  {'':{len(label)}}  больше влияния плеча (подбор дал отрицательную "
+                      f"часть, остаток {s.residual:,.0f} USD/рейс). Структура заготовки остаётся допущением")
+                continue
+            print(f"\n  {label}: {s.per_h:,.0f} USD/ч + {s.per_cycle:,.0f} USD/рейс "
+                  f"({s.note}"
+                  + (f"; среднее отклонение {s.residual:,.0f} USD/рейс" if s.residual else "") + ")")
+            if what == "maint" and fe and rate:
+                print(f"  {'':{len(label)}}  модель: {fe.maint_eur_per_fh * rate:,.0f} USD/ч + "
+                      f"{fe.maint_eur_per_fc * rate:,.0f} USD/рейс")
+        if a.carriers:
+            print(f"\n  {'перевозчик':28} {'бортов':>6} {'плечо':>6} {'налёт':>6} {'ТОиР/ч':>8} "
+                  f"{'экипаж/ч':>9} {'владение/мес':>13}")
+            for r in sorted(b["carriers"], key=lambda r: -r["block_h"]):
+                print(f"  {(r['carrier'] + ' ' + r['name'])[:28]:28} {r['aircraft']:6.0f} "
+                      f"{r['block_per_dep']:5.2f}ч {r['util_h_month']:6.0f} {r['maint_per_bh']:8,.0f} "
+                      f"{r['cockpit_per_bh']:9,.0f} {r['own_per_ac_month']:13,.0f}")
+    _bench_reports(store, fe, b["bands"]["block_per_dep"].p50 if b.get("bands") else 2.5)
+    ac_ = b.get("acmg")
+    if ac_:
+        k = (1 / rate) if rate else None
+        print(f"\n  IATA ACMG, семейство {ac_['family']} (FY2019 в ценах 2025): "
+              f"{ac_['per_fh_usd']:,.0f} USD на лётный час ВСЕГО, с топливом и сборами"
+              + (f" ≈ {ac_['per_fh_usd'] * k:,.0f} EUR" if k else ""))
+        if ac_.get("leg_h"):
+            print(f"  плечо выборки {ac_['leg_h']:.2f} ч (на цикл / на час) — сравнивать с "
+                  f"итогом модели на блок-час на таком плече")
+        if ac_["new_gen_note"]:
+            print("  в сборе 2019 года почти только ceo/NG: для neo и MAX — верхняя оценка по топливу")
+    return 0
+
+
 def _publish(store, a) -> int:
     """Снимок справочника -> сервер витрины, подмена целиком.
 
@@ -1274,6 +1455,13 @@ def _publish(store, a) -> int:
         n = cur.execute("SELECT COUNT(*) FROM facts WHERE source_id = ?", (sid,)).fetchone()[0]
         cur.execute("DELETE FROM facts WHERE source_id = ?", (sid,))
         gone[f"источник {sid}"] = (n, why)
+    # История потока витрине не нужна: она считает на сегодня, а каждая
+    # новая выгрузка закрывает прежние ряды — они остались бы в снимке
+    # мёртвым весом (решение 197).
+    n = cur.execute("SELECT COUNT(*) FROM facts WHERE domain = 'traffic' "
+                    "AND valid_to IS NOT NULL").fetchone()[0]
+    cur.execute("DELETE FROM facts WHERE domain = 'traffic' AND valid_to IS NOT NULL")
+    gone["закрытые ряды потока"] = (n, "история выгрузок — витрине нужен только действующий ряд")
     for tbl, why in PUBLISH_CLEAR_TABLES.items():
         if tbl in tables:
             n = cur.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]

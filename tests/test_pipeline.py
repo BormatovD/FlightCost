@@ -303,6 +303,30 @@ held = {d["domain"]: d for d in inv["domains"] if d.get("holds")}
 ok("домены без фактов показаны состоянием хранилища, а не нулём",
    all(d["holds"]["state"] in ("unknown", "empty", "stale", "live") for d in held.values()))
 
+# Условия начисления под тем кодом, что набрал человек (решение 192):
+# витрина шлёт `charge_context.FRA.…`, ядро читает по ИКАО. Прежде ключ
+# FRA молча не применялся. Тарифа Франкфурта в этой сборке нет, поэтому
+# правило подставлено, а контекст, дошедший до начисления, подсмотрен.
+from unittest import mock
+from flightcostapp import econ as _econ, charges as _charges
+_seen = []
+_real_ctx = _econ.charge_context
+def _spy(ap, other, ac_, **kw):
+    _seen.append((ap["icao"], kw.get("operator")))
+    return _real_ctx(ap, other, ac_, **kw)
+_rule = _charges.Rule(code="landing", base=next(iter(_charges.BASES)), rate=1.0)
+with mock.patch.object(_econ, "charge_context", _spy), \
+        mock.patch.object(_econ, "load_rules", lambda *a_, **k_: [_rule]):
+    for code in ("FRA", "EDDF"):
+        _seen.clear()
+        route_economics(store, "FRA", "BCN", load_factor=0.82, fare_eur=95, as_of=DAY.isoformat(),
+                        overrides={f"charge_context.{code}.operator": "foreign"})
+        ok(f"условие под ключом {code} доезжает до EDDF", ("EDDF", "foreign") in _seen)
+rc = route_economics(store, "FRA", "BCN", load_factor=0.82, fare_eur=95, as_of=DAY.isoformat(),
+                     overrides={"charge_context.UUEE.operator": "foreign"})
+ok("условие для аэропорта не с маршрута — оговорка, а не тишина",
+   any("UUEE" in w and "не применены" in w for w in rc.warnings))
+
 print(f"\n{res.report()}")
 if fails:
     print(f"\nпровалено проверок: {len(fails)}")

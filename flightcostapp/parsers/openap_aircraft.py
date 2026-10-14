@@ -35,6 +35,12 @@ from ..store import Fact
 # Знание аэропорта в парсере ТИПА — не на своём месте. Таблица переехала в
 # раздел `categories.stand_group` файла тарифа Франкфурта.
 
+# Поправки к библиотеке, а не допущения: у CRJ900 и ERJ-145 двигатели на
+# хвостовой части фюзеляжа (паспорт Bombardier и Embraer, фото любого
+# борта), а openap 2.x пишет `mount: wing`. Поле идёт только в силуэт
+# (решение 188) — в расчёте его нет, поэтому поправка не трогает чисел.
+MOUNT_FIX = {"CRJ9": "rear", "E145": "rear"}
+
 
 def parse(blob: bytes, ctx: dict) -> list[Fact]:
     """blob не используется: источник — установленный пакет openap.
@@ -68,11 +74,18 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
             "cruise_mach": float(a["cruise"]["mach"]),
             "cruise_alt_m": float(a["cruise"]["height"]),
             "engine_count": float(eng.get("number", 2)),
+            # Для силуэта в выборе типа (решение 188): стреловидность по
+            # четверти хорды и ширина фюзеляжа. Рисунок строится из этих
+            # чисел, картинки не хранятся.
+            "sweep_deg": float(a["wing"].get("sweep") or 0.0),
+            "fuselage_width_m": float(a["fuselage"].get("width") or 0.0),
         }
         for name, value in fields.items():
+            if name == "fuselage_width_m" and not value:
+                continue                       # нет в библиотеке — силуэт оценит сам
             facts.append(Fact(
                 domain="aircraft", key=f"{icao}/{name}", valid_from=day,
-                value=value, unit=name.rsplit("_", 1)[-1],
+                value=value, unit="°" if name == "sweep_deg" else name.rsplit("_", 1)[-1],
                 source_id=ctx["source_id"], artifact_sha=ctx.get("sha"),
                 extracted_by="parser:openap_aircraft@1",
                 confidence="exact",
@@ -88,6 +101,14 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
                 value_text=letter, unit="буква", source_id=ctx["source_id"],
                 artifact_sha=ctx.get("sha"), extracted_by="parser:openap_aircraft@2",
                 confidence="derived", note="Приложение 14, табл. 1-1: по размаху"))
+        mount = MOUNT_FIX.get(icao) or str(eng.get("mount") or "wing")
+        facts.append(Fact(
+            domain="aircraft", key=f"{icao}/engine_mount", valid_from=day,
+            value_text=mount, unit="место", source_id=ctx["source_id"],
+            artifact_sha=ctx.get("sha"), extracted_by="parser:openap_aircraft@3",
+            confidence="exact" if icao not in MOUNT_FIX else "derived",
+            note="поправка к openap: двигатели на хвосте" if icao in MOUNT_FIX
+                 else "только для силуэта"))
         facts.append(Fact(
             domain="aircraft", key=f"{icao}/engine", valid_from=day,
             value_text=str(eng.get("default", "")), unit="designator",

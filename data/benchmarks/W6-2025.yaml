@@ -1,0 +1,28 @@
+# Wizz Air FY25 (год к 31.03.2025). Ради полосы M11: блок-часы опубликованы
+# числом, а не налётом в сутки, — один из немногих отчётов, где ставка на
+# блок-час считается без допущений. Парк — только A320/A321.
+---
+carrier: W6
+name: Wizz Air Holdings
+year: 2025
+source: "Wizz Air Holdings plc, Final Results FY2025: Operating expenses, Key statistics, Fleet update"
+source_url: https://s204.q4cdn.com/169340705/files/doc_news/Final-Results-2025.pdf
+scope: >
+  Группа Wizz Air (Hungary, UK, Malta, Abu Dhabi до выхода). Финансовый год
+  апрель 2024 — март 2025. В среднем 44 борта стояли (двигатели GTF), поэтому
+  налёт «всех бортов» 9:51 против 12:28 у эксплуатируемых. Тяжёлый ТОиР
+  арендованных бортов идёт через амортизацию права пользования (МСФО 16):
+  строка maintenance — не полный ТОиР.
+values:
+  staff_cost_eur:       {value: 564900000, currency: EUR, basis: "staff costs — весь персонал, экипажи без отдельной строки", page: "Operating expenses"}
+  maintenance_cost_eur: {value: 330400000, currency: EUR, basis: "maintenance, materials and repairs; тяжёлые формы — в амортизации ROU", page: "Operating expenses"}
+  depreciation_eur:     {value: 939900000, currency: EUR, basis: "depreciation (без амортизации нематериальных 26,9), включая ROU", page: "Cash flow statement"}
+  fuel_cost_eur:        {value: 1797600000, currency: EUR, basis: "fuel costs", page: "Operating expenses"}
+  airport_handling_cost_eur: {value: 1351800000, currency: EUR, basis: "airport, handling and en-route charges — ВМЕСТЕ с аэронавигацией", page: "Operating expenses"}
+  block_hours:          {value: 812673, basis: "total block hours", page: "Key statistics"}
+  flight_hours:         {value: 705720, basis: "total flight hours", page: "Key statistics"}
+  flights:              {value: 314448, basis: "revenue departures", page: "Key statistics"}
+  ask_km:               {value: 121670679000, basis: "ASK, '000 km 121 670 679", page: "Key statistics"}
+  fleet_avg:            {value: 225.7, basis: "equivalent aircraft — средний парк, включая стоящие", page: "Key statistics"}
+  fleet_year_end:       {value: 231, basis: "fleet at year end", page: "Fleet update"}
+  utilisation_bh_day:   {value: 9.85, basis: "9:51 блок-часов в сутки на ВСЕ борта (на эксплуатируемые — 12:28)", page: "Key statistics"}

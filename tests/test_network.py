@@ -242,6 +242,20 @@ class Simulation(unittest.TestCase):
         kw.setdefault("fleet_n", 4)
         return N.simulate(self.pairs, fleet=self.fleet, **kw)
 
+    def test_maint_field_shifts_fixed_cost_without_reforming(self):
+        """ТОиР из поля сети (решение 194): +100 EUR/ч и +50 EUR/цикл —
+        минус ровно Σ рейсов в месяц · (100 · блок + 50)."""
+        import copy as _c
+        self.fleet.maint_fh, self.fleet.maint_fc = 500.0, 700.0
+        base = N.simulate(_c.deepcopy(self.pairs), fleet=self.fleet, fleet_n=4)
+        more = N.simulate(_c.deepcopy(self.pairs), fleet=self.fleet, fleet_n=4,
+                          maint_fh=600.0, maint_fc=750.0)
+        legs = {p.key: p.legs for p in self.pairs}
+        extra = sum(x.freq_week * N.WEEKS_PER_MONTH * sum(100 * l.block_h + 50 for l in legs[x.key])
+                    for x in base.pairs)
+        self.assertAlmostEqual(base.profit_at_ref - more.profit_at_ref, extra, delta=1.0)
+        self.assertEqual((more.maint_fh, more.maint_prov), (600.0, "input"))
+
     def flown(self, net):
         f = {r.key: r.freq_week for r in net.pairs}
         return [(p, f[p.key]) for p in self.pairs if p.key in f]

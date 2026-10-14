@@ -221,3 +221,60 @@ def aggregate(store, kind: str, *, as_of=None, since=None, min_obs=MIN_OBS,
             certainty="exact",
             note=f"{OBSERVED_QUANTITY.get(kind, ('', kind))[1]}, наблюдений {len(vals)}"))
     return facts, thin
+
+
+SEATS_MIN = 3        # средние кресла по двум рейсам — не средние
+
+
+def seats_of_type(store, ac: str, as_of=None) -> float | None:
+    """Кресла типа: типовая компоновка справочника, иначе типовые кресла типа."""
+    v = store.value("aircraft_layout", f"*/{ac}", as_of)
+    if v is None:
+        v = store.value("aircraft", f"{ac}/seats_typical", as_of)
+    return float(v) if v else None
+
+
+def aggregate_seats(store, *, as_of=None, since=None,
+                    source_id="observation") -> tuple[list[Fact], list[str]]:
+    """Средние кресла на рейсе пары — из типов наблюдённых бортов (M10, решение 198).
+
+    Оценка потока по наблюдённым рейсам умножала каждый рейс на 180
+    кресел: и SSJ100, и A321 на одной линии. Тип борта уже лежит в сырых
+    наблюдениях — у времени контакта ключ `<тип>/<пара>`, — отсюда
+    распределение типов по паре и средние кресла. Рейсы без известного
+    типа в среднее не входят; их доля названа в тексте факта.
+    """
+    as_of = str(as_of or date.today())
+    by_pair: dict[str, dict[str, int]] = {}
+    for kind in ("contact_time", "airborne_time"):
+        for key, n in store.observation_keys(kind, since=since).items():
+            ac, _, pair = key.partition("/")
+            if ac and pair:
+                t = by_pair.setdefault(pair, {})
+                t[ac] = t.get(ac, 0) + n
+    seats_cache: dict[str, float | None] = {}
+    facts, thin = [], []
+    for pair, types in sorted(by_pair.items()):
+        tot = w = 0.0
+        no_seats = []
+        for ac, n in types.items():
+            if ac not in seats_cache:
+                seats_cache[ac] = seats_of_type(store, ac, as_of)
+            s = seats_cache[ac]
+            if s:
+                tot += s * n
+                w += n
+            else:
+                no_seats.append(ac)
+        if w < SEATS_MIN:
+            thin.append(f"seats/{pair}: рейсов с известными креслами {int(w)}, нужно {SEATS_MIN}")
+            continue
+        facts.append(Fact(
+            domain="observed", key=f"seats/{pair}", valid_from=as_of,
+            value=round(tot / w, 1), unit="кресел/рейс",
+            value_text=json.dumps({"n": int(w), "types": dict(sorted(types.items())),
+                                   "no_seats": sorted(no_seats)}, ensure_ascii=False),
+            source_id=source_id, extracted_by="observe.seats@1",
+            confidence="derived", certainty="exact",
+            note=f"средние кресла по типам наблюдённых бортов, рейсов {int(w)}"))
+    return facts, thin
