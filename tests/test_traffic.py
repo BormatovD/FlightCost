@@ -145,5 +145,107 @@ class ObservedSeats(unittest.TestCase):
         self.assertTrue(any("URSS-UUEE" in t for t in thin))
 
 
+class DGCA(unittest.TestCase):
+    """Индия: пары ГОРОДОВ DGCA -> пары аэропортов (вырезка настоящих данных)."""
+
+    class S:
+        def icao_of_iata(self, as_of=None):
+            class D(dict):
+                def get(self, k, d=None):
+                    return ("Z" + k) if k else d
+            return D()
+
+    def run_(self, name):
+        from flightcostapp.parsers import dgca
+        ctx = {"source_id": "dgca", "today": "2026-10-15", "store": self.S()}
+        return dgca.parse((FIX / name).read_bytes(), ctx), ctx
+
+    def test_both_directions_and_both_orientations_are_summed(self):
+        facts, _ = self.run_("dgca_domestic_excerpt.csv")
+        m = months(facts)
+        # 2025-12: DELHI→MUMBAI 304 512 + 275 378 и строка MUMBAI→DELHI 3 624 + 3 674
+        self.assertEqual(m["DGCA/ZBOM-ZDEL/2025"]["12"][0], 304512 + 275378 + 3624 + 3674)
+
+    def test_mumbai_splits_after_navi_mumbai_opens(self):
+        facts, ctx = self.run_("dgca_domestic_excerpt.csv")
+        keys = {f.key for f in facts}
+        self.assertIn("DGCA/ZBOM-ZDEL/2026", keys)        # «MUMBAI (MUMBAI)»
+        self.assertIn("DGCA/ZDEL-ZNMI/2026", keys)        # «MUMBAI (NAVI MUMBAI)»
+
+    def test_goa_after_mopa_opened_is_mopa(self):
+        from flightcostapp.parsers import dgca
+        cities = dgca.load_cities()
+        to = {"GOI": "VOGO", "GOX": "VOGA"}
+        self.assertEqual(dgca.resolve("GOA", "2022-06", cities, to)[0], "VOGO")
+        self.assertIsNone(dgca.resolve("GOA", "2023-03", cities, to)[0])   # переходный
+        self.assertEqual(dgca.resolve("GOA", "2025-06", cities, to)[0], "VOGA")
+        self.assertEqual(dgca.resolve("DABOLIM", "2025-06", cities, to)[0], "VOGO")
+
+    def test_quarters_stay_quarters_and_city_is_flagged(self):
+        facts, _ = self.run_("dgca_international_excerpt.csv")
+        m = months(facts)
+        self.assertEqual(m["DGCA/ZALA-ZDEL/2025"]["Q1"][0], 28212 + 29911)
+        lon = next(f for f in facts if f.key == "DGCA/ZDEL-ZLHR/2025")
+        self.assertIn("LONDON", lon.note)
+
+    def test_reader_takes_a_third_of_the_quarter(self):
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "d.db")
+        st.commit_facts(self.run_("dgca_international_excerpt.csv")[0])
+        r = traffic.published(st, "ZDEL", "ZALA", "2026-10-15")
+        self.assertIn("квартальные", r["src"])
+        q = [28212 + 29911, 21991 + 21225, 17672 + 19980, 16207 + 17388,
+             14466 + 17736, 22747 + 22450]
+        self.assertAlmostEqual(r["pax_month"], sum(q[-4:]) / 12, delta=1)
+
+
+class Nearby(unittest.TestCase):
+    """Второй аэропорт города: Дели–Нави-Мумбаи не должен читаться как весь Мумбаи."""
+
+    def test_other_airport_of_the_city_is_named(self):
+        import json
+        from flightcostapp.store import Fact
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "n.db")
+        st.commit_facts([
+            Fact(domain="airport", key=k, valid_from="2026-01-01", value_text=t,
+                 source_id="t", confidence="exact")
+            for k, t in (("DEL", "28.566,77.103|VIDP|IN|Delhi"),
+                         ("BOM", "19.089,72.868|VABB|IN|Mumbai"),
+                         ("NMI", "18.990,73.070|VANM|IN|Navi Mumbai"),
+                         ("PNQ", "18.582,73.920|VAPO|IN|Pune"))] + [
+            Fact(domain="traffic", key=f"DGCA/{p}/2026", valid_from="2026-08-01", value=v * 7,
+                 value_text=json.dumps({f"{m:02d}": [v, None, None] for m in range(1, 8)}),
+                 source_id="dgca_domestic", confidence="exact")
+            for p, v in (("VABB-VIDP", 550000), ("VANM-VIDP", 52000), ("VAPO-VIDP", 300000))])
+        near = traffic.nearby(st, "VIDP", "VANM", "2026-10-15")
+        self.assertEqual([(n["with"], round(n["pax_month"])) for n in near], [("VABB", 550000)])
+        self.assertLess(near[0]["km"], 80)                 # Пуна (~110 км) — не тот же город
+
+
+class PublishedObservations(unittest.TestCase):
+    """Аэропорты с наблюдениями видны и на сервере, где сырой таблицы нет:
+    `fca publish` её вычищает, остаются агрегаты `observed/frequency/…`."""
+
+    def test_airport_list_reads_aggregated_frequency(self):
+        from flightcostapp.serve import Context
+        from flightcostapp.store import Fact
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "s.db")
+        st.commit_facts([
+            Fact(domain="airport", key=k, valid_from="2026-01-01", value_text=t,
+                 source_id="t", confidence="exact")
+            for k, t in (("SVO", "55.97,37.41|UUEE|RU|Sheremetyevo"),
+                         ("LED", "59.80,30.26|ULLI|RU|Pulkovo"),
+                         ("KZN", "55.61,49.28|UWKD|RU|Kazan"))] + [
+            Fact(domain="observed", key=f"frequency/UUEE-ULLI/2026-09-0{d}", valid_from="2026-10-01",
+                 value=12.0, unit="рейсов", source_id="observation", confidence="derived")
+            for d in (1, 2)])
+        c = object.__new__(Context)
+        import threading
+        c.store, c.lock, c._apts, c.ws = st, threading.Lock(), None, None
+        apts = {a["icao"]: a for a in c.airports()}
+        self.assertTrue(apts["UUEE"]["seen"])
+        self.assertEqual(apts["ULLI"]["flights"], 24)
+        self.assertNotIn("UWKD", apts)               # ни тарифа, ни наблюдений, ни перечня
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

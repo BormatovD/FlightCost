@@ -479,6 +479,11 @@ fca refresh --only fir_world          # → data/geo/zones_world.json, CC BY-SA
 `fca refresh --only airport_codes t100`. Коды ИАТА переводятся в ИКАО
 указателем; непереведённые названы в сводке.
 
+Индия — DGCA, скачивается само (сборка Vonter/india-aviation-traffic на
+GitHub): `fca refresh --only airport_codes dgca_domestic dgca_international`.
+Города переводятся в аэропорты по `config/dgca_cities.yaml`; что не
+перевелось — в сводке разбора, дописывается туда же (ИАТА или ИКАО).
+
 На Mac Терминал по умолчанию не видит «Загрузки» («Operation not
 permitted»): перетащить файлы в папку проекта Finder'ом или дать доступ —
 Системные настройки → Конфиденциальность → Файлы и папки → Терминал.

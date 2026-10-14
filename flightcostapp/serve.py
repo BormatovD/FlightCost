@@ -630,23 +630,32 @@ class Context:
             # ИЗМЕРЕННОЕ: число наблюдённых рейсов. Оно не то же самое,
             # но оно наше, у него есть происхождение, и заменить его
             # потоком, когда тот появится, — одна строка.
+            # Источник — агрегаты `observed/frequency/<пара>/<дата>` (факты),
+            # а не сырая таблица `observations`: `fca publish` её вычищает
+            # (в справочнике только агрегаты), и на сервере аэропорты с
+            # наблюдениями пропадали из списка и с карты. Сырое читается
+            # ДОПОЛНИТЕЛЬНО — у владельца оно свежее последней свёртки.
             with self.lock:
                 flights: dict[str, float] = {}
+                seen: set[str] = set()
+                daily: dict[str, float] = {}
                 for key, value in self.store.db.execute(
-                        "SELECT key, value FROM observations WHERE kind='frequency'"):
+                        "SELECT key, value FROM facts WHERE domain='observed' "
+                        "AND key LIKE 'frequency/%' AND valid_to IS NULL"):
+                    daily[key[len("frequency/"):]] = float(value or 0)
+                for key, value in self.store.db.execute(
+                        "SELECT key, COUNT(*) FROM observations WHERE kind='frequency' "
+                        "GROUP BY key"):
+                    daily[key] = max(daily.get(key, 0.0), float(value or 0))
+                for key, n in daily.items():
                     pair = (key or "").split("/")[0]
                     if "-" not in pair:
                         continue
                     for side in pair.split("-"):
-                        flights[side] = flights.get(side, 0) + (value or 1)
-            with self.lock:
+                        flights[side] = flights.get(side, 0) + (n or 1)
+                        seen.add(side)
                 tariffed = {r[0].split("/")[0] for r in self.store.db.execute(
                     "SELECT DISTINCT key FROM facts WHERE domain='airport_charge'")}
-                seen = set()
-                for (k,) in self.store.db.execute(
-                        "SELECT DISTINCT key FROM observations "
-                        "WHERE kind='frequency'"):
-                    seen.update((k or "").split("/")[0].split("-"))
             # Перечень, который ведёт владелец, — третий источник списка.
             # Без него в выборе оставались только те, по кому уже есть
             # тариф или наблюдения, то есть пять аэропортов: человек не мог
@@ -732,10 +741,13 @@ class Context:
             # Поток пары (M10): рядом с ответом, в расчёт не входит —
             # нужен для обращения «какая доля рынка нужна» и подбора типа.
             try:
-                from .traffic import pair_flow
-                out["traffic"] = pair_flow(self.store, res.inputs.get("origin_icao"),
-                                           res.inputs.get("dest_icao"), kw.get("as_of"),
-                                           kw.get("month"))
+                from .traffic import nearby, pair_flow
+                oi, di = res.inputs.get("origin_icao"), res.inputs.get("dest_icao")
+                out["traffic"] = pair_flow(self.store, oi, di, kw.get("as_of"), kw.get("month"))
+                # Другой аэропорт того же города с потоком — рядом с ответом:
+                # Дели–Нави-Мумбаи легко принять за «весь Мумбаи».
+                out["traffic"]["nearby"] = nearby(self.store, oi, di, kw.get("as_of"),
+                                                  kw.get("month"))
             except Exception as exc:                       # noqa: BLE001
                 out["traffic"] = {"pax_month": None, "src": f"не прочитан: {exc}"}
         return out

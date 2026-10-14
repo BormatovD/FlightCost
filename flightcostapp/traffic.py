@@ -17,7 +17,8 @@ from __future__ import annotations
 import json
 from datetime import date
 
-PUBLISHERS = {"eurostat_par": "Eurostat avia_par", "t100": "BTS T-100"}
+PUBLISHERS = {"eurostat_par": "Eurostat avia_par", "t100": "BTS T-100",
+              "dgca_domestic": "DGCA", "dgca_international": "DGCA"}
 
 
 # Ряд пары — одним фактом на год (решение 197): ключ
@@ -28,8 +29,11 @@ PUBLISHERS = {"eurostat_par": "Eurostat avia_par", "t100": "BTS T-100"}
 MIN_PAX_YEAR = 1000          # пара с меньшим годовым потоком — не рынок, а перегоны и чартеры
 
 
-def pack(agg: dict, *, ctx: dict, who: str, note: str) -> list:
-    """{(отчётчик, A, B, "ГГГГ-ММ"): [пасс, кресел|None, рейсов|None]} -> факты."""
+def pack(agg: dict, *, ctx: dict, who: str, note) -> list:
+    """{(отчётчик, A, B, "ГГГГ-ММ" | "ГГГГ-Qn"): [пасс, кресел|None, рейсов|None]} -> факты.
+
+    `note` — строка или функция (отчётчик, A, B) -> строка: у DGCA подпись
+    своя у пар, где город отнесён к главному аэропорту."""
     from .store import Fact
     years: dict[tuple, dict[str, list]] = {}
     for (rep, a, b, mon), v in agg.items():
@@ -47,7 +51,7 @@ def pack(agg: dict, *, ctx: dict, who: str, note: str) -> list:
                                    for m, v in sorted(months.items())}, separators=(",", ":")),
             source_id=ctx["source_id"], artifact_sha=ctx.get("sha"), extracted_by=who,
             confidence="exact", certainty="exact", node=ctx.get("node") or "src_traffic",
-            note=note))
+            note=note(rep, a, b) if callable(note) else note))
     if small:
         ctx.setdefault("summary", []).append(
             f"пропущено пар-лет с потоком меньше {MIN_PAX_YEAR} пасс./год: {small}")
@@ -73,28 +77,39 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
     as_of = str(as_of or date.today())
     a, b = sorted((a_icao.upper(), b_icao.upper()))
     rows = _db(store).execute(
-        """SELECT key, value_text, source_id FROM facts
+        """SELECT key, value_text, source_id, note FROM facts
            WHERE domain = 'traffic' AND key LIKE ? AND valid_from <= ?
              AND (valid_to IS NULL OR valid_to > ?)""",
         (f"%/{a}-{b}/%", as_of, as_of)).fetchall()
     by_month: dict[str, dict[str, float]] = {}
     extra: dict[str, dict[str, dict[str, float]]] = {"seats": {}, "flights": {}}
-    srcs = set()
-    for key, txt, src in rows:
+    srcs, quarterly, notes = set(), set(), set()
+    for key, txt, src, fnote in rows:
         parts = key.split("/")
         if len(parts) != 3 or parts[1] != f"{a}-{b}" or not txt:
             continue
         rep, _, year = parts
         for mm, (pax, seats, flights) in json.loads(txt).items():
-            mon = f"{year}-{mm}"
             if pax is None:
                 continue
+            if mm.startswith("Q"):
+                # Квартал (DGCA, международные): средний месяц — треть
+                # квартала. Сезонность внутри квартала не выдумывается.
+                q = int(mm[1:])
+                for k in range(3):
+                    mon = f"{year}-{(q - 1) * 3 + k + 1:02d}"
+                    by_month.setdefault(mon, {})[rep] = float(pax) / 3
+                    quarterly.add(rep)
+                continue
+            mon = f"{year}-{mm}"
             by_month.setdefault(mon, {})[rep] = float(pax)
             if seats:
                 extra["seats"].setdefault(mon, {})[rep] = float(seats)
             if flights:
                 extra["flights"].setdefault(mon, {})[rep] = float(flights)
         srcs.add(src)
+        if fnote and "город, а не аэропорт" in fnote:
+            notes.add(fnote.split("; ", 1)[1])
     if not by_month:
         return None
     months = sorted(by_month)
@@ -115,6 +130,10 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
     note = f"{pub}: пассажиры перевезённые, оба направления, {how}"
     if gap is not None and gap > 0.05:
         note += f"; отчёты сторон расходятся до {gap * 100:.0f}%"
+    if quarterly:
+        note += "; данные квартальные — месяц взят третью квартала"
+    for n in sorted(notes):
+        note += f"; {n}"
     # Средний борт рынка и его загрузка — по тем же месяцам, где есть и
     # пассажиры, и кресла с рейсами.
     def avg(meas):
@@ -191,5 +210,70 @@ def pair_flow(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
     if est:
         return est
     return {"pax_month": None,
-            "src": "нет: в статистике Eurostat пары нет, рейсов по паре не наблюдали; "
-                   "для RU и KZ открытой статистики по парам не публикуется"}
+            "src": "нет: в опубликованной статистике (Eurostat, BTS T-100, DGCA) пары нет, "
+                   "рейсов по паре не наблюдали; для RU и KZ открытой статистики по парам "
+                   "не публикуется"}
+
+
+NEARBY_KM = 80        # «тот же город»: второй аэропорт Мумбаи — 35 км, Москвы — до 50
+
+
+_COORDS: dict = {}
+
+
+def _coords(store) -> dict:
+    """ИКАО -> (lat, lon, ключ справочника) по домену `airport`, один раз на базу."""
+    db = _db(store)
+    key = id(db)
+    if key not in _COORDS:
+        out = {}
+        for k, txt in db.execute(
+                "SELECT key, value_text FROM facts WHERE domain='airport' AND valid_to IS NULL"):
+            p = (txt or "").split("|", 3)
+            if len(p) < 2 or not p[1]:
+                continue
+            try:
+                lat, lon = (float(x) for x in p[0].split(",", 1))
+            except ValueError:
+                continue
+            out[p[1]] = (lat, lon, k)
+        _COORDS.clear()
+        _COORDS[key] = out
+    return _COORDS[key]
+
+
+def nearby(store, a_icao: str, b_icao: str, as_of=None, month: int | None = None) -> list[dict]:
+    """Пары с ДРУГИМ аэропортом того же города (до 80 км) и опубликованным
+    потоком — чтобы Дели–Нави-Мумбаи не читался как «весь Мумбаи».
+
+    Кандидаты — только партнёры другого конца по домену `traffic`, а не
+    все аэропорты в радиусе: их десятки, поток есть у единиц."""
+    import math
+    co = _coords(store)
+    db = _db(store)
+    out = []
+    for here, other in ((a_icao, b_icao), (b_icao, a_icao)):
+        if here not in co:
+            continue
+        partners = set()
+        for (k,) in db.execute(
+                "SELECT DISTINCT key FROM facts WHERE domain='traffic' AND valid_to IS NULL "
+                "AND (key LIKE ? OR key LIKE ?)", (f"%/{other}-%", f"%-{other}/%")):
+            pair = k.split("/")[1] if k.count("/") >= 2 else ""
+            x, _, y = pair.partition("-")
+            partners.add(y if x == other else x)
+        la, lo, _ = co[here]
+        for p in sorted(partners - {here, other}):
+            if p not in co:
+                continue
+            pl, po, pkey = co[p]
+            d = 6371 * 2 * math.asin(math.sqrt(
+                math.sin(math.radians(pl - la) / 2) ** 2 + math.cos(math.radians(la))
+                * math.cos(math.radians(pl)) * math.sin(math.radians(po - lo) / 2) ** 2))
+            if d > NEARBY_KM:
+                continue
+            pub = published(store, other, p, as_of, month)
+            if pub:
+                out.append({"replace": here, "with": p, "with_key": pkey, "other": other,
+                            "km": round(d), "pax_month": pub["pax_month"]})
+    return sorted(out, key=lambda x: -x["pax_month"])

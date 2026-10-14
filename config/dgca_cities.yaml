@@ -1,0 +1,334 @@
+# Название города в статистике DGCA (Индия) -> аэропорт.
+#
+# DGCA публикует пары ГОРОДОВ, а не аэропортов, и пишет названия как
+# придётся: «TIRUCHIRAPALLY» и «TIRUCHIRAPPALLI», «MUMBAI» до декабря 2025
+# и «MUMBAI (MUMBAI)» / «MUMBAI (NAVI MUMBAI)» после. Перевод — здесь,
+# в одном месте, и проверяется глазами, а не угадывается по сходству.
+#
+# Формы записи:
+#   ИМЯ: ИАТА                         — однозначно
+#   ИМЯ: {icao: VIDX}                 — у аэропорта нет кода ИАТА
+#   ИМЯ: {iata: LHR, city: true}      — город с несколькими аэропортами,
+#                                       поток отнесён к главному; так и
+#                                       написано в подписи факта
+#   ИМЯ: [{iata: GOI, until: "2022-12"}, {skip: "почему"}]
+#                                     — смысл названия менялся во времени;
+#                                       период «ГГГГ-ММ» включительно
+#   ИМЯ: {skip: "почему"}             — не переводится, строка не берётся
+#   scope: domestic | international   — правило только для этого файла
+#
+# Имени нет в списке — строки с ним не берутся и называются в сводке
+# разбора: неизвестное не превращается в «потока нет» молча.
+# Перечень — по названиям, действовавшим с 2023 года: хранятся последние
+# 36 месяцев, старые имена не нужны.
+
+# ── Индия ─────────────────────────────────────────────────────────────
+ADAMPUR: AIP
+AGARTALA: IXA
+AGATTI ISLAND: AGX
+AGRA: AGR
+AHMEDABAD: AMD
+AIZAWL: AJL
+AJMER: KQH
+ALLAHABAD: IXD
+ALLAHABAD (PRAYAGRAJ): IXD
+PRAYAGRAJ: IXD
+AMRITSAR: ATQ
+AURANGABAD: IXU
+AYODHYA: AYJ
+AYODHYA INTERNATIONAL AIRPORT: AYJ
+BAGDOGRA: IXB
+BAREILLY: BEK
+BATHINDA: BUP
+BHATINDA: BUP
+BELGAUM: IXG
+BENGALURU: BLR
+BHAVNAGAR: BHU
+BHOPAL: BHO
+BHUBANESWAR: BBI
+BHUJ: BHJ
+BIDAR: IXX
+BIDAR AIRPORT, KARNATAKA: IXX
+BIKANER: BKB
+BILASPUR: PAB
+CHANDIGARH: IXC
+CHENNAI: MAA
+COCHIN: COK
+KOCHI: COK
+COIMBATORE: CJB
+COOCH BEHAR: COH
+CUDDAPAH: CDP
+CUDDAPAH (KADAPA): CDP
+KADAPA: CDP
+DABOLIM: GOI
+DAMAN: NMB
+DARBHANGA: DBR
+DEHRA DUN: DED
+DEHRADUN: DED
+DELHI: DEL
+DEOGHAR: DGH
+DEOGHAR AIRPORT: DGH
+DHARAMSALA: DHM
+DIBRUGARH: DIB
+DIMAPUR: DMU
+DIU: DIU
+DURGAPUR: RDP
+GANGTOK: PYG
+PAKYONG: PYG
+GAYA: GAY
+GHAZIABAD: {icao: VIDX}
+HINDON AIRPORT: {icao: VIDX}
+# После открытия Мопы «GOA» — это Мопа, а Даболим идёт строкой «DABOLIM»
+# (по объёмам ~4,3 млн пасс./год против Даболима; подтверждено владельцем
+# 2026-10-15). Январь–май 2023, когда рядом стояло «MOPA, GOA», —
+# переходный период, не переводится.
+GOA:
+  - {iata: GOI, until: "2022-12"}
+  - {skip: "переходный период после открытия Мопы: «GOA» и «MOPA, GOA» рядом", until: "2023-05"}
+  - {iata: GOX}
+GOA (DABOLIM, SOUTH GOA): GOI
+GOA (MOPA, NORTH GOA): GOX
+MOPA, GOA: GOX
+GONDIA: GDB
+GONDIA AIRPORT: GDB
+GORAKHPUR: GOP
+GULBARGA: GBI
+KALABURAGI: GBI
+KALABURAGI, KARNATAKA: GBI
+GUWAHATI: GAU
+GWALIOR: GWL
+HIRASAR (RAJKOT): HSR
+RAJKOT INTERNATIONAL AIRPORT: HSR
+RAJKOT:
+  - {iata: RAJ, until: "2023-09"}
+  - {iata: HSR}
+HISAR: HSS
+HISSAR: HSS
+HOLLONGI AIRPORT, ITANAGAR: HGI
+ITANAGAR: HGI
+HUBLI: HBX
+HYDERABAD: HYD
+IMPHAL: IMF
+INDORE: IDR
+JABALPUR: JLR
+JAGDALPUR: JGB
+JAIPUR: JAI
+JAISALMER: JSA
+JALGAON: JLG
+JAMMU: IXJ
+JAMNAGAR: JGA
+JAMSHEDPUR: IXW
+JEYPORE: PYB
+JHARSUGUDA: JRG
+JODHPUR: JDH
+JORHAT: JRH
+KANDLA: IXY
+KANNUR: CNN
+KANPUR: KNU
+KESHOD: IXK
+KHAJURAHO: HJR
+KISHANGARH: KQH
+KOLHAPUR: KLH
+KOLKATA: CCU
+KOZHIKODE: CCJ
+KULLU: KUU
+KURNOOL: KJB
+KUSHINAGAR: KBK
+KUSHINAGAR INTERNATIONAL AIRPORT: KBK
+LEH: IXL
+LILABARI: IXI
+LUCKNOW: LKO
+LUDHIANA: LUH
+MADURAI: IXM
+MALVAN: SDW
+SINDHUDURG AIRPORT: SDW
+MANGALORE: IXE
+MANGALORE (MANGALURU): IXE
+MUMBAI:
+  - {iata: BOM, until: "2025-12"}
+  - {skip: "после открытия Нави-Мумбаи внутренняя статистика пишет аэропорт в скобках", scope: domestic}
+  - {iata: BOM, city: true}       # международная пишет «MUMBAI» и дальше
+MUMBAI (MUMBAI): BOM
+MUMBAI (NAVI MUMBAI): NMI
+MYSORE: MYQ
+NAGPUR: NAG
+NANDED: NDC
+NASHIK: ISK
+NASIK: ISK
+PANTNAGAR: PGH
+PASIGHAT: IXT
+PATHANKOT: IXP
+PATNA: PAT
+PONDICHERRY: PNY
+PONDICHERRY (PUDUCHERRY): PNY
+PUDUCHERRY: PNY
+PORBANDAR: PBD
+PORT BLAIR: IXZ
+PUNE: PNQ
+RAIPUR: RPR
+RAJAHMUNDRY: RJA
+RANCHI: IXR
+ROURKELA: RRK
+RUPSI: RUP
+SALEM: SXV
+SHILLONG: SHL
+SHIMLA: SLV
+SIMLA: SLV
+SHIRDI: SAG
+SHIVAMOGGA: RQY
+SHIVAMOGGA AIRPORT: RQY
+SHOLAPUR: SSE
+SOLAPUR: SSE
+SILCHAR: IXS
+SRINAGAR: SXR
+SURAT: STV
+TEZPUR: TEZ
+TEZU: TEI
+THIRUVANANTHAPURAM: TRV
+TRIVANDRUM: TRV
+TIRUCHIRAPALLY: TRZ
+TIRUCHIRAPPALLI: TRZ
+TIRUPATI: TIR
+TUTICORIN: TCR
+UDAIPUR: UDR
+VADODARA: BDQ
+VARANASI: VNS
+VIDYANAGAR: VDY
+VIJAYAWADA: VGA
+VIJAYWADA: VGA
+VISAKHAPATNAM: VTZ
+VISHAKHAPATNAM (VISAKHAPATNAM): VTZ
+ZIRO: ZER
+ZERO AIRPORT: ZER
+
+# ── зарубежные города в международной статистике ─────────────────────
+ABUDHABI: AUH
+ADDIS ABABA: ADD
+ADEN: ADE
+AL AIN: AAN
+ALMATY: ALA
+AMMAN: AMM
+AMSTERDAM: AMS
+ASHGABAT: ASB
+ATHENS: ATH
+BAGHDAD: BGW
+BAHRAIN: BAH
+BAKU: GYD
+BANDAR SERI BEGAWAN: BWN
+BANGKOK: BKK                    # Дон Мыанг DGCA пишет отдельно
+DON MUEANG: DMK
+DON MUEANG, BANGKOK: DMK
+BIRMINGHAM: BHX
+BISHKEK: {icao: UCFM}           # Манас; в указателе ИАТА→ИКАО его нет
+CAIRO: CAI
+CANBERRA: CBR
+CHICAGO: {iata: ORD, city: true}
+CHITTAGONG: CGP
+COLOGNE: CGN
+COLOMBO: CMB
+COPENHAGEN: CPH
+DA NANG: DAD
+DAMMAM: DMM
+DAR ES SALAM: DAR
+DENPASAR: DPS
+DHAKA: DAC
+DOHA: DOH
+DUBAI: {iata: DXB, city: true}
+DUSHANBE: DYU
+ENTEBBE: EBB
+FRANKFURT: FRA
+FUJAIRAH: FJR
+GELEPHU: GLU
+GUANGZHOU: CAN
+HAA DHAALU ATOLL: HAQ
+HANOI: HAN
+HELNSKI: HEL
+HO CHI MINH CITY: SGN
+HONG KONG: HKG
+ISTANBUL: {iata: IST, city: true}
+JAFFNA: JAF
+JEDDAH: JED
+KABUL: KBL
+KATHMANDU: KTM
+KIGALI: KGL
+KRABI: KBV
+KUALALUMPUR: KUL
+KUNMING: KMG
+KUTAISI: KUT
+KUWAIT: KWI
+LANGKAWI: LGK
+Langkawi: LGK
+LEIPZIG: LEJ
+LIEGE: LGG
+LONDON: {iata: LHR, city: true}
+LUXEMBOURG: LUX
+MALE: MLE
+MALPENSA: MXP
+MANCHESTER: MAN
+MANILA: MNL
+MEDINA: MED
+MELBOURNE: MEL
+MILAN: {iata: MXP, city: true}
+MILAN BERGAMO: BGY
+Milan Bergamo: BGY
+MINSK: MSQ
+MONTREAL: YUL
+MOSCOW: {iata: SVO, city: true}
+MUENCHEN: MUC
+MUNICH: MUC
+MUSCAT: MCT
+NAIROBI: NBO
+NAJF: NJF
+NARITA: NRT
+NEW YORK: {iata: JFK, city: true}
+NEWARK: EWR
+NEWARK, NEW YORK: EWR
+NOTTIMGHAM: EMA
+NOVOSIBIRSK: OVB
+OSAKA: {iata: KIX, city: true}
+OSH: OSS
+PARIS: {iata: CDG, city: true}
+PARO: PBH
+PENANG: PEN
+Penang: PEN
+PHU QUOC ISLAND: PQC
+Phu Quoc Island: PQC
+PHUKET: HKT
+PORT LOUIS: MRU
+PORT LOUIS,MAURITIUS: MRU
+RANGOON: RGN
+RAS AL-KHAIMAH: RKT
+REUNION: RUN
+ST-DENIS, REUNION: RUN
+RIYADH: RUH
+ROME: {iata: FCO, city: true}
+SALALAH: SLL
+SAN FRANCISCO: SFO
+SEOUL: {iata: ICN, city: true}
+SEYCHELLES: SEZ
+SHANGHAI: {iata: PVG, city: true}
+SHANNON: SNN
+SHARJAH: SHJ
+SHENZHEN: SZX
+SHYAMKENT: CIT
+Shymkent: CIT
+SINGAPORE: SIN
+SOHAR: OHS
+SYDNEY: SYD
+TAIPAE: TPE
+TANGERANG: CGK
+TASHKENT: TAS
+TBILISI: TBS
+TEHRAN: {iata: IKA, city: true}
+TELAVIV: TLV
+TOKYO: {iata: HND, city: true}  # Нариту DGCA пишет отдельно
+TORONTO: YYZ
+VANCOUVER: YVR
+Vancouver: YVR
+VERONA: VRN
+VIENNA: VIE
+WARSAW: WAW
+WASHINGTON, DC: {iata: IAD, city: true}
+YEKATERINBURG: SVX
+Yekaterinburg: SVX
+ZURICH: ZRH

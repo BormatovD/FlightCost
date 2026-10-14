@@ -79,3 +79,14 @@ OpenAP — Open Aircraft Performance Model (Junzi Sun, TU Delft)
   Физика и расход типов ВС (источник aircraft_openap, библиотека openap).
   Лицензия GNU LGPL v3. Используется как зависимость, не встраивается и
   не модифицируется. https://github.com/junzis/openap
+
+Пассажиропоток по парам аэропортов (домен traffic, M10)
+  Eurostat — таблицы avia_par_* (источник eurostat_par). © European Union,
+  повторное использование по CC BY 4.0 (решение Комиссии 2011/833/EU).
+  U.S. Bureau of Transportation Statistics — T-100 Segment (источник t100).
+  Данные правительства США, общественное достояние.
+  DGCA, Directorate General of Civil Aviation, India — статистика по парам
+  городов (источники dgca_domestic, dgca_international), в сборке
+  github.com/Vonter/india-aviation-traffic под Open Database License 1.0.
+  Витрина показывает производные числа с подписью «DGCA»; вырезки в
+  tests/fixtures/dgca_*_excerpt.csv распространяются под ODbL 1.0.

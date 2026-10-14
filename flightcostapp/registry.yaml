@@ -528,7 +528,7 @@ sources:
     validators:
       row_count_min: 1
       value_min: 0.0
-      value_max: 5000000.0     # больше пяти миллионов в месяц на паре не бывает
+      value_max: 30000000.0    # пасс. за ГОД на паре (решение 197); крупнейшие в мире — порядка 15 млн
 
   t100:
     title: Пассажиропоток пар с концом в США — BTS T-100 Segment (All Carriers)
@@ -553,7 +553,56 @@ sources:
     validators:
       row_count_min: 1
       value_min: 0.0
-      value_max: 5000000.0
+      value_max: 30000000.0    # пасс. за ГОД на паре (решение 197); крупнейшие в мире — порядка 15 млн
+
+  dgca_domestic:
+    title: Пассажиропоток пар городов Индии, внутренние рейсы — DGCA, по месяцам
+    kind: url
+    contour: deterministic
+    url: https://raw.githubusercontent.com/Vonter/india-aviation-traffic/main/aggregated/domestic/city.csv
+    license: >
+      ODbL 1.0 — сборка github.com/Vonter/india-aviation-traffic из статистики
+      DGCA; указывать DGCA и сборку (NOTICE)
+    parser: dgca
+    domain: traffic
+    cadence_days: 30
+    sla_days: 120
+    tier: 1
+    gate: auto
+    node: src_traffic
+    note: >
+      Регулярные внутренние рейсы, пары ГОРОДОВ по месяцам, оба
+      направления. Города переводятся в аэропорты по
+      config/dgca_cities.yaml; непереведённые названы в сводке разбора.
+    validators:
+      row_count_min: 1
+      value_min: 0.0
+      value_max: 30000000.0    # пасс. за ГОД на паре (решение 197); крупнейшие в мире — порядка 15 млн
+
+  dgca_international:
+    title: Пассажиропоток Индия — зарубежье по парам городов — DGCA, по кварталам
+    kind: url
+    contour: deterministic
+    url: https://raw.githubusercontent.com/Vonter/india-aviation-traffic/main/aggregated/international/city.csv
+    license: >
+      ODbL 1.0 — сборка github.com/Vonter/india-aviation-traffic из статистики
+      DGCA; указывать DGCA и сборку (NOTICE)
+    parser: dgca
+    domain: traffic
+    cadence_days: 90
+    sla_days: 240
+    tier: 1
+    gate: auto
+    node: src_traffic
+    note: >
+      Таблица 4 квартального отчёта DGCA: пары «индийский город — зарубежный
+      город», квартал, оба направления. Хранится кварталом; читатель берёт
+      треть квартала как средний месяц и пишет это. Города с несколькими
+      аэропортами (Лондон, Москва, Дубай) отнесены к главному — в подписи.
+    validators:
+      row_count_min: 1
+      value_min: 0.0
+      value_max: 30000000.0    # пасс. за ГОД на паре (решение 197); крупнейшие в мире — порядка 15 млн
 
   acmg_cost:
     title: Стоимость эксплуатации по семействам ВС — IATA ACMG через EUROCONTROL
