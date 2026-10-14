@@ -6,7 +6,7 @@
 
 ![Витрина](docs/screenshot.png)
 
-▶ Видео: как поставить и посчитать первый маршрут — *ссылка появится здесь*
+▶ Видео: как поставить и посчитать первый маршрут — [![Смотреть видео](https://www.youtube.com/shorts/ShYoj5Nu1yI)](https://www.youtube.com/shorts/ShYoj5Nu1yI)
 
 ---
 
