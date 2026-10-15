@@ -512,7 +512,11 @@ def load_rules(store, icao: str, as_of, report: dict | None = None) -> list[Rule
     state = icao[:2].upper()
     if _state_covers(store, state, icao, as_of):
         prefixes += [f"{state}/", f"{state}:{icao}/"]
-    for key, row in store.current("airport_charge", as_of).items():
+    try:
+        rows = store.current("airport_charge", as_of, prefixes=prefixes)
+    except TypeError:                     # хранилище-заглушка в тестах без префиксов
+        rows = store.current("airport_charge", as_of)
+    for key, row in rows.items():
         if not any(key.startswith(p) for p in prefixes):
             continue
         if "/_cat/" in key:

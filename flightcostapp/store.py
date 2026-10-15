@@ -168,6 +168,7 @@ class Store:
         self.db.executescript(SCHEMA)
         self._migrate()
         self.db.commit()
+        self._cur_cache: dict = {}
 
     def _migrate(self) -> None:
         """Добавление колонок в уже существующую базу.
@@ -242,17 +243,44 @@ class Store:
         row = self.get(domain, key, as_of)
         return row["value"] if row else default
 
-    def current(self, domain: str, as_of=None) -> dict[str, sqlite3.Row]:
+    def _version(self) -> tuple:
+        """Меняется при любой записи — своей (`total_changes`) или чужого
+        соединения к тому же файлу (`data_version`). Ключ кэша чтений."""
+        return (self.db.execute("PRAGMA data_version").fetchone()[0], self.db.total_changes)
+
+    def current(self, domain: str, as_of=None, prefixes=None) -> dict[str, sqlite3.Row]:
+        """Действующее на дату по всем ключам домена (или ключам с префиксом).
+
+        Раньше — запрос ключей и `get()` на каждый: у тарифов это тысячи
+        запросов на один расчёт рейса, а сеть зовёт расчёт сотни раз —
+        40% времени сборки сети уходило сюда. Теперь один запрос, выбор
+        действующей строки — тот же, что у `get()`: позднее начало,
+        затем позднее создание. Результат кэшируется до первой записи в
+        базу; отдаётся копия словаря — вызывающие его дополняют.
+        """
         as_of = _as_str(as_of or date.today())
-        cur = self.db.execute(
-            "SELECT DISTINCT key FROM facts WHERE domain = ?", (domain,)
-        )
-        out = {}
-        for (key,) in [(r["key"],) for r in cur.fetchall()]:
-            row = self.get(domain, key, as_of)
-            if row is not None:
-                out[key] = row
-        return out
+        pre = tuple(prefixes) if prefixes else ()
+        ck = (domain, as_of, pre, self._version())
+        hit = self._cur_cache.get(ck)
+        if hit is not None:
+            return dict(hit)
+        sql = ["SELECT * FROM facts WHERE domain = ? AND valid_from <= ? "
+               "AND (valid_to IS NULL OR valid_to > ?)"]
+        args: list = [domain, as_of, as_of]
+        if pre:
+            # Префикс — диапазоном ключей: так работает индекс (domain, key).
+            sql.append(" AND (" + " OR ".join("(key >= ? AND key < ?)" for _ in pre) + ")")
+            for p in pre:
+                args += [p, p[:-1] + chr(ord(p[-1]) + 1)]
+        sql.append(" ORDER BY key, valid_from DESC, created_at DESC")
+        out: dict = {}
+        for row in self.db.execute("".join(sql), args):
+            if row["key"] not in out:
+                out[row["key"]] = row
+        if len(self._cur_cache) > 256:
+            self._cur_cache.clear()
+        self._cur_cache[ck] = out
+        return dict(out)
 
     # ---------- запись ----------
 

@@ -65,9 +65,17 @@ tools = [
     "pandas>=2.0",
     "python-dateutil>=2.8",
 ]
+# Съёмка витрины для документации: tools/capture.py (браузер) и
+# tools/montage.py (склейка кадров). Витрине и расчёту не нужны.
 screenshots = [
     "playwright>=1.40",
     "pillow>=10.0",
+]
+# PDF отчёта по парку (решение 204): печать светлого документа безголовым
+# Chromium. Без неё сайт работает, а /api/fleetreport.pdf отвечает, что
+# поставить. После установки: playwright install --with-deps chromium.
+pdf = [
+    "playwright>=1.40",
 ]
 
 [project.scripts]

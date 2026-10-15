@@ -82,6 +82,11 @@ class Leg:
     market_fare_src: str = ""
     comp_week: float | None = None   # наблюдённых рейсов конкурентов в неделю
     warnings: list = field(default_factory=list)
+    # Статьи рейса той же прямой: {статья: [на рейс, на пассажира]}, без
+    # дистрибуции и владения. Сумма — `fixed_eur` и `per_pax_eur`. Нужна
+    # отчёту по парку (Ф5): из чего сложена разница типов и живые формулы
+    # Excel. У плеч, сложенных до этой версии, пусто — отчёт так и скажет.
+    parts: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -131,6 +136,18 @@ class Fleet:
     maint_fh: float | None = None
     maint_fc: float | None = None
     maint_prov: str = "default"
+    # Экипаж — так же двумя частями; в сети не правится, но отчёт по
+    # парку показывает его формулой (Ф5).
+    crew_fh: float | None = None
+    crew_fc: float | None = None
+    crew_prov: str = "default"
+
+
+# Статьи рейса, которые раскладываются на постоянную часть и добавку на
+# пассажира. Дистрибуция — доля выручки, владение — за борт в месяц: обе
+# считаются сетью отдельно.
+LEG_PARTS = ("fuel", "enroute", "terminal", "airport_charges", "ground_handling",
+             "maintenance", "crew")
 
 
 # ── вспомогательное ─────────────────────────────────────────────────────
@@ -242,6 +259,17 @@ def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=
     b1, b2 = _base_cost(r1), _base_cost(r2)
     v = (b1 - b2) / (p1 - p2)
     fpp = (r1.fuel_kg - r2.fuel_kg) / (p1 - p2)
+    parts = {}
+    for k in LEG_PARTS:
+        c1, c2 = float(r1.cost.get(k, 0.0)), float(r2.cost.get(k, 0.0))
+        pp = (c1 - c2) / (p1 - p2)
+        parts[k] = [c1 - pp * p1, pp]
+    # Статьи вне списка (новая статья ядра) — одной строкой «прочее», чтобы
+    # сумма статей всегда сходилась с рейсом.
+    rest_v = v - sum(c[1] for c in parts.values())
+    rest_1 = b1 - sum(c[0] + c[1] * p1 for c in parts.values())
+    if abs(rest_1) > 0.5 or abs(rest_v) > 1e-3:
+        parts["other"] = [rest_1 - rest_v * p1, rest_v]
     price = (r1.cost.get("fuel", 0.0) / r1.fuel_kg) if r1.fuel_kg else None
     warn = list(dict.fromkeys(r1.warnings))
     # Третья точка: линейность — свойство статей, но ступени тарифов (полосы
@@ -254,7 +282,7 @@ def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=
                     f"({_base_cost(r3):,.0f} против {pred:,.0f} по прямой) — "
                     f"ступень тарифа; сеть считает по прямой")
     return Leg(o, d, r1.block_h, seats, p_hi, b1 - v * p1, v,
-               r1.fuel_kg - fpp * p1, fpp, price, warnings=warn), r1
+               r1.fuel_kg - fpp * p1, fpp, price, warnings=warn, parts=parts), r1
 
 
 def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
@@ -273,7 +301,9 @@ def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
     return Fleet(r.aircraft, float(lease.value), lease.prov,
                  float(util.value), util.prov,
                  fl.get("maint_eur_per_fh"), fl.get("maint_eur_per_fc"),
-                 pv.get("maint_eur_per_fh", "default"))
+                 pv.get("maint_eur_per_fh", "default"),
+                 fl.get("crew_eur_per_fh"), fl.get("crew_eur_per_fc"),
+                 pv.get("crew_eur_per_fh", "default"))
 
 
 def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
@@ -499,6 +529,9 @@ class NetResult:
 def _shift(leg: Leg, d: float) -> Leg:
     out = copy.copy(leg)
     out.fixed_eur = leg.fixed_eur + d
+    if leg.parts.get("maintenance"):
+        out.parts = {**leg.parts, "maintenance": [leg.parts["maintenance"][0] + d,
+                                                  leg.parts["maintenance"][1]]}
     return out
 
 

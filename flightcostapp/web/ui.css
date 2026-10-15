@@ -187,3 +187,24 @@ input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)
   font-variant-numeric:tabular-nums}
 #hintpop .hgrid .r{text-align:right;color:var(--dim);white-space:nowrap}
 #hintpop .hgrid b{text-align:right;white-space:nowrap}
+
+/* ── документ: отчёт по парку (решение 204) ────────────────────────────
+   Два вида одного документа: светлый — для PDF и печати (как обзоры
+   типов владельца), тёмный — на сайте. Цвета типов — категориальная
+   палитра из пяти, проверенная на различимость при дальтонизме и на
+   контраст (validate_palette: обе темы проходят). Оранжевого среди них
+   нет: на сайте он значит «выдумано», и тип им не красится. Тип всегда
+   подписан текстом рядом с цветом — цвет не единственный признак. */
+.doc{--d-paper:var(--bg);--d-card:var(--panel);--d-ink:var(--ink);--d-ink2:var(--dim);
+  --d-rule:var(--line);--d-rule2:var(--line2);--d-warn:var(--warn);--d-head:var(--ink2);
+  --d-ok:var(--calc);--d-ok-f:var(--calc-f);--d-no:var(--warn);--d-no-f:var(--guess-f);
+  --d-mid:var(--doc);--d-mid-f:var(--doc-f);--d-track:var(--raise);
+  --d-rng:var(--orange-t);--d-rng-f:var(--orange-f);--d-bad:#E8705F;
+  --t1:#3987e5;--t2:#199e70;--t3:#9085e9;--t4:#c98500;--t5:#d55181}
+.doc.light{--d-paper:#F2F4F6;--d-card:#FFFFFF;--d-ink:#16222C;--d-ink2:#5A6975;
+  --d-rule:#CDD5DC;--d-rule2:#E3E8EC;--d-warn:#B23A1C;--d-head:#16222C;
+  --d-ok:#1F6B3A;--d-ok-f:#E1F0E6;--d-no:#8E2B12;--d-no-f:#F6E1DC;
+  --d-mid:#7A5A0E;--d-mid-f:#F5EBD1;--d-track:#E3E8EC;
+  --d-rng:#B85C00;--d-rng-f:#FDEBD5;--d-bad:#B23A1C;
+  --t1:#2a78d6;--t2:#1baf7a;--t3:#6250d6;--t4:#eda100;--t5:#e87ba4}
+@media print{.doc.light{--d-paper:#FFFFFF}}

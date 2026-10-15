@@ -88,5 +88,8 @@ OpenAP — Open Aircraft Performance Model (Junzi Sun, TU Delft)
   DGCA, Directorate General of Civil Aviation, India — статистика по парам
   городов (источники dgca_domestic, dgca_international), в сборке
   github.com/Vonter/india-aviation-traffic под Open Database License 1.0.
+  Пассажиры по парам городов России за год (источник ru_pairs) — сводка,
+  переданная аналитическим агентством, первоисточник неизвестен; сырой
+  файл не распространяется, витрина подписывает числа «без первоисточника».
   Витрина показывает производные числа с подписью «DGCA»; вырезки в
   tests/fixtures/dgca_*_excerpt.csv распространяются под ODbL 1.0.

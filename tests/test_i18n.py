@@ -29,12 +29,30 @@ def norm(s: str) -> str:
 
 class I18n(unittest.TestCase):
 
+    # Страницы с переводом из одного каталога. Отчёт по парку (Ф5)
+    # собирается на сервере: его фразы — вызовы T("…") в Python и
+    # проверяются отдельно (DOC_T), но сиротами в каталоге не считаются.
+    PAGES = ("serve.html",)
+    DOC = WEB.parent / "fleetreport_doc.py"
+    DOC_T = re.compile(r'(?<![\w$.])T\("((?:[^"\\]|\\.)*)"\)')
+
     @classmethod
     def setUpClass(cls):
-        cls.html = (WEB / "serve.html").read_text(encoding="utf-8")
         cls.cat = json.loads((WEB / "i18n.json").read_text(encoding="utf-8"))
-        a = cls.html.index('<script type="module">')
-        cls.markup, cls.script = cls.html[:a], cls.html[a:cls.html.rindex("</script>")]
+        markup, script = [], []
+        for name in cls.PAGES:
+            html = (WEB / name).read_text(encoding="utf-8")
+            a = html.index('<script type="module">')
+            markup.append(html[:a])
+            script.append(html[a:html.rindex("</script>")])
+        cls.markups, cls.scripts = markup, script
+        cls.script = "\n".join(script)
+        cls.doc_keys = {norm(k) for k in cls.DOC_T.findall(cls.DOC.read_text(encoding="utf-8"))}
+
+    def test_report_phrases_are_translated(self):
+        for lang in ("en", "de"):
+            missing = sorted(k for k in self.doc_keys if k not in self.cat[lang])
+            self.assertEqual(missing, [], f"отчёт по парку без перевода на {lang}: {missing[:10]}")
 
     def test_every_wrapped_phrase_is_translated(self):
         keys = {norm(json.loads('"' + k + '"')) for k in T_CALL.findall(self.script)}
@@ -43,10 +61,12 @@ class I18n(unittest.TestCase):
             self.assertEqual(missing, [], f"нет перевода на {lang}: {missing[:10]}")
 
     def test_static_markup_is_translated(self):
-        body = re.sub(r"<!--[\s\S]*?-->", "", self.markup[self.markup.index("<body"):])
-        texts = {norm(m) for m in re.findall(r">([^<]+)<", body) if CYR.search(m)}
-        texts |= {norm(m) for m in re.findall(r'(?:placeholder|title|aria-label)="([^"]*)"', body)
-                  if CYR.search(m)}
+        texts = set()
+        for markup in self.markups:
+            body = re.sub(r"<!--[\s\S]*?-->", "", markup[markup.index("<body"):])
+            texts |= {norm(m) for m in re.findall(r">([^<]+)<", body) if CYR.search(m)}
+            texts |= {norm(m) for m in re.findall(r'(?:placeholder|title|aria-label)="([^"]*)"', body)
+                      if CYR.search(m)}
         for lang in ("en", "de"):
             missing = sorted(k for k in texts if k not in self.cat[lang])
             self.assertEqual(missing, [], f"разметка без перевода на {lang}: {missing[:10]}")
@@ -76,16 +96,19 @@ class I18n(unittest.TestCase):
                            r"\(\s*_t\s*[,)=]|,\s*_t\s*[,)]|function\s+\w+\s*\([^)]*\b_t\b",
                            self.script)
         self.assertEqual(binds, [], f"имя функции перевода перекрыто: {binds}")
-        self.assertEqual(len(re.findall(r"function _t\(", self.script)), 1)
+        for sc in self.scripts:
+            self.assertEqual(len(re.findall(r"function _t\(", sc)), 1)
 
     def test_catalogue_has_no_orphans(self):
         keys = {norm(json.loads('"' + k + '"')) for k in T_CALL.findall(self.script)}
-        body = re.sub(r"<!--[\s\S]*?-->", "", self.markup[self.markup.index("<body"):])
-        keys |= {norm(m) for m in re.findall(r">([^<]+)<", body) if CYR.search(m)}
-        keys |= {norm(m) for m in re.findall(r'(?:placeholder|title|aria-label)="([^"]*)"', body)}
-        t = re.search(r"<title>([^<]+)</title>", self.markup)
-        if t:
-            keys.add(norm(t.group(1)))
+        for markup in self.markups:
+            body = re.sub(r"<!--[\s\S]*?-->", "", markup[markup.index("<body"):])
+            keys |= {norm(m) for m in re.findall(r">([^<]+)<", body) if CYR.search(m)}
+            keys |= {norm(m) for m in re.findall(r'(?:placeholder|title|aria-label)="([^"]*)"', body)}
+            t = re.search(r"<title>([^<]+)</title>", markup)
+            if t:
+                keys.add(norm(t.group(1)))
+        keys |= self.doc_keys
         orphans = sorted(set(self.cat["en"]) - keys)
         self.assertEqual(orphans, [], f"в каталоге фразы, которых нет на странице: {orphans[:10]}")
 

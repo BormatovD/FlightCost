@@ -347,3 +347,29 @@ class Invariants(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class CoreCaches(unittest.TestCase):
+    """Сборка сети зовёт ядро сотни раз: дорогое, что не меняется между
+    рейсами, обязано создаваться один раз (решение 206)."""
+
+    def test_fuel_flow_and_its_failure_are_cached(self):
+        from flightcostapp import fuel
+        try:
+            import openap  # noqa: F401
+        except ImportError:
+            self.skipTest("нет openap")
+        fuel._flow_or_error.cache_clear()
+        for icao in ("A320", "A320", "A21N", "A21N"):
+            try:
+                fuel._flow(icao)
+            except Exception:                              # noqa: BLE001
+                pass
+        info = fuel._flow_or_error.cache_info()
+        self.assertEqual((info.misses, info.hits), (2, 2))
+
+    def test_tcz_map_read_once(self):
+        from flightcostapp import econ
+        econ._TCZ_CACHE.clear()
+        a = econ._tcz_map()
+        self.assertIs(econ._tcz_map(), a)

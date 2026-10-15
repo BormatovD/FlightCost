@@ -443,12 +443,14 @@ class GuestStore:
         row = self.get(domain, key, as_of)
         return row["value"] if row else default
 
-    def current(self, domain, as_of=None):
-        out = self.base.current(domain, as_of)
+    def current(self, domain, as_of=None, prefixes=None):
+        out = self.base.current(domain, as_of, prefixes)
         d = str(as_of or date.today())[:10]
         with self.gdb.lock:
             keys = [r[0] for r in self.gdb.db.execute(
                 "SELECT DISTINCT key FROM gfacts WHERE ws=? AND domain=?", (self.ws, domain))]
+        if prefixes:
+            keys = [k for k in keys if any(k.startswith(p) for p in prefixes)]
         for k in keys:
             row = self._own(domain, k, d)
             if row is not None:

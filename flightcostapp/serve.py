@@ -34,6 +34,7 @@
 from __future__ import annotations
 
 import json
+from html import escape as html_escape
 import re
 import threading
 import time
@@ -335,6 +336,47 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json(ctx.network(q, ip=self._client_ip()))
             if u.path == "/api/netcompare":
                 return self._json(ctx.net_compare(q, ip=self._client_ip()))
+            if u.path == "/report":
+                code, page = ctx.fleet_report_html(q, ip=self._client_ip(), theme="dark")
+                return self._send(code, page.encode("utf-8"), "text/html; charset=utf-8")
+            if u.path == "/api/fleetreport.pdf":
+                code, page = ctx.fleet_report_html(q, ip=self._client_ip(), theme="light")
+                if code != 200:
+                    return self._send(code, page.encode("utf-8"), "text/html; charset=utf-8")
+                from .fleetreport_pdf import html_to_pdf
+                try:
+                    body = html_to_pdf(page)
+                except RuntimeError as exc:
+                    return self._json({"error": str(exc)}, 501)
+                base = re.sub(r"[^A-Za-z0-9]", "", str(q.get("base") or ""))
+                self.send_response(200)
+                self.send_header("Content-Type", "application/pdf")
+                self.send_header("Content-Disposition", f'attachment; filename="fca-fleet-{base}.pdf"')
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(body)
+                return
+            if u.path == "/api/fleetreport":
+                return self._json(ctx.fleet_report(q, ip=self._client_ip())[0])
+            if u.path == "/api/fleetreport.xlsx":
+                rep, results = ctx.fleet_report(q, ip=self._client_ip())
+                if results is None or rep.get("error"):
+                    return self._json(rep, 202 if rep.get("pending") else 400)
+                from .fleetreport_xlsx import build_xlsx
+                body = build_xlsx(rep, results)
+                base = re.sub(r"[^A-Za-z0-9]", "", str((rep.get("context") or {}).get("base") or ""))
+                tys = "-".join(re.sub(r"[^A-Za-z0-9]", "", t["icao"]) for t in rep["types"])[:60]
+                name = f"fca-fleet-{base}-{tys}.xlsx"
+                self.send_response(200)
+                self.send_header("Content-Type", "application/vnd.openxmlformats-"
+                                 "officedocument.spreadsheetml.sheet")
+                self.send_header("Content-Disposition", f'attachment; filename="{name}"')
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if u.path == "/api/route":
                 return self._json(ctx.route(q))
             if u.path == "/api/fact":
@@ -781,7 +823,18 @@ class Context:
     # другими ценами, частотами и парком — миллисекунды. Поэтому сложенные
     # пары кэшируются по тому, что их определяет (аэропорты, база, тип,
     # месяц, переопределения), а ввод человека накладывается заново.
-    NET_CACHE = 6
+    # Сложенных сетей в памяти. Было 6 на весь сервер: сравнение пяти
+    # типов у двух человек одновременно вытесняло своё же из кэша, и опрос
+    # страницы запускал расчёт заново. Сеть — десятки плеч, сотни КБ.
+    NET_CACHE = 64
+    # Одновременных сборок сети. Расчёт — чистый Python под одной
+    # блокировкой интерпретатора: десять параллельных потоков не быстрее
+    # двух, зато каждый ждёт в десять раз дольше. Остальные — в очереди,
+    # и страница показывает место в ней.
+    NET_WORKERS = 2
+    _net_sem = threading.Semaphore(NET_WORKERS)
+    _net_queue: list = []
+    _net_queue_lock = threading.Lock()
 
     @staticmethod
     def _pairs_q(raw: str, cast=float) -> dict:
@@ -905,11 +958,22 @@ class Context:
             if len(seen) > 200:
                 seen.clear()
             seen[key] = True
+        results, pend, dropped = self._net_by_type(q, chosen, types)
+        rows = [{"icao": t, "status": "pending"} if results[t] is None
+                else self._net_summary(t, results[t], own=t == chosen) for t in types]
+        out = {"rows": rows, "chosen": chosen, "fleet": int(float(q.get("fleet") or 1)),
+               "lf_ref": float(q.get("lf") or 0.8), "dropped_ctx": dropped}
+        if pend["types_left"]:
+            out.update(pending=True, progress=pend)
+        return out
+
+    def _net_by_type(self, q: dict, chosen: str, types: list) -> tuple[dict, dict, list]:
+        """Сеть на каждом типе: {тип: ответ `network` | None, пока считается}."""
         own_sets = [x for x in (q.get("set") or "").split("~") if x]
         foreign_sets = [x for x in own_sets
                         if not (x.startswith("charge_context.")
                                 and x.split("=")[0].split(".")[-1] in self.TYPE_CTX)]
-        rows, pend = [], {"done": 0, "total": 0, "types_left": 0}
+        results, pend = {}, {"done": 0, "total": 0, "types_left": 0}
         for t in types:
             q2 = dict(q, ac=t)
             q2.pop("types", None)
@@ -923,16 +987,105 @@ class Context:
                 pend["done"] += pr.get("done", 0)
                 pend["total"] += pr.get("total", 0)
                 pend["types_left"] += 1
-                rows.append({"icao": t, "status": "pending"})
+                if pr.get("queue"):
+                    pend["queue"] = min(pend.get("queue") or 10 ** 6, pr["queue"])
+                results[t] = None
                 continue
-            rows.append(self._net_summary(t, r, own=t == chosen))
-        out = {"rows": rows, "chosen": chosen, "fleet": int(float(q.get("fleet") or 1)),
-               "lf_ref": float(q.get("lf") or 0.8),
-               "dropped_ctx": sorted({x.split("=")[0].split(".")[-1] for x in own_sets}
-                                     - {x.split("=")[0].split(".")[-1] for x in foreign_sets})}
+            results[t] = r
+        dropped = sorted({x.split("=")[0].split(".")[-1] for x in own_sets}
+                         - {x.split("=")[0].split(".")[-1] for x in foreign_sets})
+        return results, pend, dropped
+
+    def fleet_report(self, q: dict, ip: str = "") -> tuple[dict, dict | None]:
+        """Отчёт по парку (Ф5) по тем же вводам, что сравнение сети.
+
+        Возвращает (отчёт, ответы сети по типам) — второе нужно выгрузке в
+        Excel. Пока какой-то тип считается — `pending`, как у сравнения;
+        лимит тяжёлых обращений тот же: отчёт по уже посчитанному
+        сравнению берётся из кэша и лимит не тратит.
+        """
+        from .fleetreport import build
+        chosen = (q.get("ac") or "").upper()
+        types = list(dict.fromkeys(t for t in (q.get("types") or "").upper().split(",") if t))
+        if not types:
+            return {"error": "не выбрано ни одного типа"}, None
+        if len(types) > self.NET_CMP_MAX:
+            return {"error": f"типов {len(types)}, предел {self.NET_CMP_MAX} за один отчёт"}, None
+        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"))
+        seen = self.__dict__.setdefault("_netcmp_seen", {})
+        if key not in seen:
+            if ip and not self.allow(ip):
+                return {"error": f"слишком часто: отчёт по парку — не чаще "
+                                 f"{self.HEAVY_PER_MIN} в минуту с адреса"}, None
+            if len(seen) > 200:
+                seen.clear()
+            seen[key] = True
+        results, pend, dropped = self._net_by_type(q, chosen, types)
         if pend["types_left"]:
-            out.update(pending=True, progress=pend)
-        return out
+            return {"pending": True, "progress": pend}, None
+        acs = self.aircraft()
+        names = {a["icao"]: a["name"] for a in acs}
+        geom = {a["icao"]: a.get("geom") for a in acs}
+        any_r = next((r for r in results.values() if r), {}) or {}
+        # Допущения плана — из запроса; цена к рынку по умолчанию та же,
+        # что у сети на витрине.
+        assume = {k: q.get(k) for k in ("share", "price", "elasticity", "lf_target", "min_freq",
+                                         "reserve", "share_cap", "fare_conv")}
+        if not assume["price"] and q.get("fare_mult"):
+            assume["price"] = q["fare_mult"]
+        rep = build(results, assume=assume, chosen=chosen, names=names, geom=geom, context={
+            "base": any_r.get("base"), "carrier": any_r.get("carrier"),
+            "airports": sorted({p.get("a") for p in any_r.get("pairs") or []}
+                               | {p.get("b") for p in any_r.get("pairs") or []} - {None}),
+            "month": int(q["month"]) if q.get("month") else None,
+            "as_of": any_r.get("as_of"), "dropped_ctx": dropped,
+            "market_given": bool(q.get("market")), "fares_given": bool(q.get("fares")),
+            "freqs_given": bool(q.get("freqs"))})
+        return rep, results
+
+    def fleet_report_html(self, q: dict, ip: str = "", *, theme="dark") -> tuple[int, str]:
+        """Документ отчёта: тёмный — страница сайта, светлый — для PDF."""
+        from .fleetreport import assumptions
+        from .fleetreport_doc import Doc, render, toolbar
+        from .ui import css
+        lang = q.get("lang") if q.get("lang") in ("ru", "en", "de") else "ru"
+        cur, rate = (q.get("cur") or "EUR").upper(), 1.0
+        if cur != "EUR":
+            try:
+                rate = float(((self.fx({}) or {}).get("rates") or {}).get(cur, {}).get("rate") or 0)
+            except Exception:                              # noqa: BLE001
+                rate = 0.0
+            if not rate:
+                cur, rate = "EUR", 1.0
+        rep, _ = self.fleet_report(q, ip)
+        D = Doc(lang, cur, rate)
+        if rep.get("error"):
+            return (400, f'<!doctype html><html><head><meta charset="utf-8">'
+                         f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+                         f'<style>{css(inline_fonts=False)}</style></head><body class="doc" '
+                         f'style="padding:40px 24px"><p>{D.T("Не собрать.")} {html_escape(rep["error"])}</p>'
+                         f'</body></html>')
+        if rep.get("pending"):
+            # Та же зона ожидания, что на витрине: страница перезагружается
+            # раз в две секунды, фраза эфира — новая на каждой загрузке.
+            import random
+            pr = rep.get("progress") or {}
+            ph = D.T(random.choice(LOADER_PHRASES))
+            if pr.get("total"):
+                sub = f'{pr.get("done", 0)} / {pr["total"]} {D.T("пар посчитано")}'
+            elif pr.get("queue"):
+                sub = f'{D.T("в очереди на взлёт:")} {pr["queue"]}'
+            else:
+                sub = D.T("ядро считает каждое плечо сети")
+            return (202, f'<!doctype html><html><head><meta charset="utf-8">'
+                         f'<meta http-equiv="refresh" content="2">'
+                         f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+                         f'<style>{css(inline_fonts=False)}{LOADER_CSS}</style></head>'
+                         f'<body style="margin:0;min-height:100vh;background:var(--bg)">'
+                         f'{LOADER_SVG.format(ph=html_escape(ph), sub=html_escape(sub))}</body></html>')
+        tb = toolbar(D, q, assumptions(q)) if theme == "dark" else ""
+        return 200, render(rep, theme=theme, lang=lang, cur=cur, rate=rate, toolbar=tb,
+                           css_text=css(inline_fonts=(theme == "light")))
 
     @staticmethod
     def _net_summary(t: str, r: dict, own: bool) -> dict:
@@ -984,13 +1137,42 @@ class Context:
         from .econ import route_economics
         from .network import fleet_from_core, form_network
         from .store import Store
-        job = {"done": False, "error": None, "progress": {"done": 0, "total": 0, "last": ""}}
+        job = {"done": False, "error": None, "progress": {"done": 0, "total": 0, "last": "",
+                                                          "queue": 0}}
         self._net_jobs[form_key] = job
+        cls = type(self)
+        with cls._net_queue_lock:
+            cls._net_queue.append(job)
 
         def progress(done, total, key):
             job["progress"].update(done=done, total=total, last=key)
 
+        def queue_pos():
+            with cls._net_queue_lock:
+                waiting = [j for j in cls._net_queue if not j.get("started")]
+                for i, j in enumerate(waiting):
+                    j["progress"]["queue"] = i + 1
+
+        # Плечи — общие для всех, у кого нет своих данных: витрина без
+        # своих ставок и типов считает одно и то же, и после видео десять
+        # человек, открывших одну сеть, должны ждать один расчёт, а не
+        # десять. Переопределения в ключе плеча, поэтому чужие не смешаются.
+        scope = self.ws
+        if self.ws and self.gdb is not None:
+            try:
+                if not self.gdb.facts(self.ws):
+                    scope = "shared"
+            except Exception:                                  # noqa: BLE001
+                pass
+        elif not self.ws:
+            scope = "shared"
+
         def run():
+            queue_pos()
+            cls._net_sem.acquire()
+            job["started"] = True
+            job["progress"]["queue"] = 0
+            queue_pos()
             t0 = time.monotonic()
             try:
                 base_store = Store(self.store.path if not isinstance(self.store, GuestStore)
@@ -1001,7 +1183,7 @@ class Context:
                     pairs = form_network(store, airports, base=base, aircraft=kw["aircraft"],
                                          as_of=kw.get("as_of"), month=kw.get("month"),
                                          overrides=ov or None, operator=kw.get("operator", "*"),
-                                         leg_cache=self._leg_cache.setdefault(self.ws, {}),
+                                         leg_cache=self._leg_cache.setdefault(scope, {}),
                                          detour_cache=self._detour_cache,
                                          progress=progress)
                     ok = [p for p in pairs if p.status == "ok"]
@@ -1022,6 +1204,11 @@ class Context:
                 job["error"] = f"{type(exc).__name__}: {exc}"
             finally:
                 job["done"] = True
+                cls._net_sem.release()
+                with cls._net_queue_lock:
+                    if job in cls._net_queue:
+                        cls._net_queue.remove(job)
+                queue_pos()
 
         threading.Thread(target=run, daemon=True, name="net-form").start()
         return job
@@ -1993,14 +2180,47 @@ def _legal_page(kind: str, values: dict | None = None) -> bytes:
     return re.sub(r"\{\{(\w+)\}\}", sub, page).encode("utf-8")
 
 
-def _page() -> bytes:
+# Зона ожидания для страницы отчёта, пока сеть считается (те же фразы и
+# рисунок, что у витрины в serve.html).
+LOADER_PHRASES = ("Запрашиваю запуск", "Руление к исполнительному старту", "Взлёт разрешён",
+                  "Набираю эшелон", "Обхожу закрытое небо", "Сверяю сборы аэропортов",
+                  "Считаю топливо до запасного", "Выбираю запасной аэродром",
+                  "Связываюсь с подходом", "Вхожу в зону ожидания", "Ухожу на второй круг",
+                  "Запрашиваю разрешение на посадку", "Выпускаю шасси")
+LOADER_CSS = (
+    "#loader{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;"
+    "flex-direction:column;align-items:center;gap:10px;padding:22px 28px 18px;border-radius:14px;"
+    "background:var(--panel);border:1px solid var(--line);min-width:260px;max-width:86vw}"
+    "#loader svg{width:132px;height:132px;overflow:visible}"
+    "#loader .orbit{fill:none;stroke:var(--line);stroke-width:1.2;stroke-dasharray:3 5}"
+    "#loader .rwy{fill:var(--raise);stroke:var(--line)}"
+    "#loader .rwy-c{stroke:var(--dim);stroke-width:.8;stroke-dasharray:3 3}"
+    "#loader .hold{animation:o 5.2s linear infinite;transform-origin:0 0}"
+    "#loader .plane{fill:var(--doc)}"
+    "#loader .trail{fill:none;stroke:var(--doc);stroke-width:1.6;stroke-linecap:round;opacity:.35}"
+    "#loader .ph{font:600 14px/1.35 var(--sans);color:var(--ink2);text-align:center}"
+    "#loader .sub{font:12px var(--sans);color:var(--dim);text-align:center}"
+    "@keyframes o{to{transform:rotate(360deg)}}"
+    "@media (prefers-reduced-motion:reduce){#loader .hold{animation:none}}")
+LOADER_SVG = (
+    '<div id="loader" role="status"><svg viewBox="-66 -66 132 132" aria-hidden="true">'
+    '<circle class="orbit" r="46"/><rect class="rwy" x="-5" y="-22" width="10" height="44" rx="2"/>'
+    '<line class="rwy-c" x1="0" y1="-18" x2="0" y2="18"/><g class="hold">'
+    '<path class="trail" d="M0,-46 A46,46 0 0 0 -32.5,-32.5"/><g transform="translate(0,-46) rotate(90)">'
+    '<path class="plane" d="M0,-9 C1.1,-9 1.5,-7.5 1.5,-6 L1.5,-2.2 L9,2 L9,3.6 L1.5,1.4 L1.3,5.6 '
+    'L4,7.6 L4,8.8 L0,7.8 L-4,8.8 L-4,7.6 L-1.3,5.6 L-1.5,1.4 L-9,3.6 L-9,2 L-1.5,-2.2 L-1.5,-6 '
+    'C-1.5,-7.5 -1.1,-9 0,-9Z"/></g></g></svg>'
+    '<div class="ph">{ph}</div><div class="sub">{sub}</div></div>')
+
+
+def _page(name: str = "serve.html") -> bytes:
     """Страница витрины с вшитым каталогом переводов.
 
     Каталог вшивается, а не грузится отдельным запросом: страница остаётся
     одним самодостаточным файлом, и подписи готовы до первой отрисовки —
     без мелькания русского текста перед английским.
     """
-    html = (WEB / "serve.html").read_text(encoding="utf-8")
+    html = (WEB / name).read_text(encoding="utf-8")
     cat_path = WEB / "i18n.json"
     if cat_path.exists():
         cat = json.dumps(json.loads(cat_path.read_text(encoding="utf-8")),
