@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import copy
+import re
 import json
 import math
 import pathlib
@@ -140,6 +141,24 @@ class Document(unittest.TestCase):
             self.assertIn(sec, h)
         self.assertLess(h.index("Лётно-технические"), h.index("Экономика кресла"))
         self.assertLess(h.index("Экономика кресла"), h.index("Примерка на сеть"))
+
+    def test_highlight_and_tooltips(self):
+        """Выделение типа задаётся в разметке (работает и в PDF), у точек
+        графика — подписи с плечами, RASK — у каждого типа свой."""
+        from flightcostapp.fleetreport_doc import render
+        rep = build(copy.deepcopy(FIX), assume={"share": 0.12})
+        h = render(copy.deepcopy(rep))
+        self.assertNotIn("data-hl=", h.split("<body")[1].split(">")[0])
+        icaos = [t["icao"] for t in rep["types"] if t.get("status") == "ok"]
+        h = render(copy.deepcopy(rep), hl=icaos[-1].lower())
+        self.assertIn(f'data-hlk="{icaos[-1]}"', h)
+        self.assertIn("data-tip=", h)
+        self.assertIn("→", h.split('class="rask"')[1][:400])
+        slots = {s for s in re.findall(r'class="rask" data-t="(\d)"', h)}
+        self.assertEqual(len(slots), len(icaos))
+        self.assertIn('data-hl="1"] [data-t]:not([data-t="1"])', h)
+        h = render(copy.deepcopy(rep), hl="XXXX")
+        self.assertNotIn("data-hlk=", h)
 
 
 def _chromium() -> bool:
