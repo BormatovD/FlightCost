@@ -1083,9 +1083,10 @@ class Context:
                          f'<style>{css(inline_fonts=False)}{LOADER_CSS}</style></head>'
                          f'<body style="margin:0;min-height:100vh;background:var(--bg)">'
                          f'{LOADER_SVG.format(ph=html_escape(ph), sub=html_escape(sub))}</body></html>')
-        tb = toolbar(D, q, assumptions(q)) if theme == "dark" else ""
+        types = [t["icao"] for t in rep.get("types") or [] if t.get("status") == "ok"]
+        tb = toolbar(D, q, assumptions(q), types) if theme == "dark" else ""
         return 200, render(rep, theme=theme, lang=lang, cur=cur, rate=rate, toolbar=tb,
-                           css_text=css(inline_fonts=(theme == "light")))
+                           css_text=css(inline_fonts=(theme == "light")), hl=q.get("hl"))
 
     @staticmethod
     def _net_summary(t: str, r: dict, own: bool) -> dict:

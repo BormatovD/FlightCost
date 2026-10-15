@@ -175,11 +175,21 @@ def overlay_svg(types: list, m: str = "м") -> str:
     pad = 1.5
     W, H = span + 2 * pad, length - top + 2 * pad + 3
     g = []
+    seen: set = set()
     for t, p in sorted(parts, key=lambda tp: -tp[1]["span"] * tp[1]["length"]):
         c = f"var(--t{t['slot']})"
         body = "".join(f'<polygon points="{x}"/>' for x in p["polys"]) + f'<path d="{p["fus"]}"/>'
-        g.append(f'<g fill="{c}" fill-opacity=".10" stroke="{c}" stroke-width="{span * .006:.2f}" '
-                 f'stroke-linejoin="round">{body}{p["eng"]}</g>')
+        # Тот же планер, что у уже нарисованного (A320ceo и A320neo в
+        # справочнике совпадают), — контуром пунктиром без заливки: иначе
+        # второй силуэт целиком прячется под первым, а в легенде он есть.
+        sig = (p["fus"], tuple(p["polys"]))      # планер; мотогондолы у neo чуть крупнее
+        dup = sig in seen
+        seen.add(sig)
+        sw = span * .006
+        g.append(f'<g data-t="{t["slot"]}" fill="{c}" fill-opacity="{0 if dup else .10}" stroke="{c}" '
+                 f'stroke-width="{sw * (1.6 if dup else 1):.2f}" stroke-linejoin="round"'
+                 + (f' stroke-dasharray="{sw * 5:.2f} {sw * 4:.2f}"' if dup else "")
+                 + f'>{body}{p["eng"]}</g>')
     # Масштабная линейка 10 м.
     y = length + pad + 1
     x0 = -span / 2
@@ -207,7 +217,7 @@ def _nice(x):
 def cask_chart(D: Doc, types: list) -> str:
     """CASK каждого типа и RASK рынка по длине плеча, ¢ на кресло-км."""
     pts = [(c["dist"], c["cask_ct"]) for t in types for c in t["curve"] if c["cask_ct"]]
-    rask = [(c["dist"], c["rask_ct"]) for c in types[0]["curve"] if c["rask_ct"]] if types else []
+    rask = [(c["dist"], c["rask_ct"]) for tp in types for c in tp["curve"] if c["rask_ct"]]
     if not pts:
         return ""
     xmax = _nice(max(x for x, _ in pts) * 1.05)
@@ -230,29 +240,45 @@ def cask_chart(D: Doc, types: list) -> str:
         g.append(f'<text x="{xx:.1f}" y="{H - b + 18}" text-anchor="middle" class="ax">{D.n(xv)}</text>')
     g.append(f'<text x="{W - r}" y="{H - 4}" text-anchor="end" class="ax">{D.T("км по прямой")}</text>')
     g.append(f'<text x="{l - 40}" y="14" class="ax">{D.cur}-{D.T("цент на кресло-км")}</text>')
-    for x, y in rask:
-        g.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="3.2" class="rask"><title>RASK {D.ct(y)}</title></circle>')
+    # RASK — у каждого типа свой (загрузка и потолок по дальности у них
+    # разные); виден RASK выделенного типа, без выделения — первого.
+    # Туда и обратно обычно ложатся в одну точку — одна точка, оба плеча в подписи.
+    for tp in types:
+        pts: dict = {}
+        for c in tp["curve"]:
+            if c["rask_ct"]:
+                k = (round(X(c["dist"])), round(Y(c["rask_ct"])))
+                pts.setdefault(k, [c, []])[1].append(f'{c["o"]}→{c["d"]}')
+        for c, legs_ in pts.values():
+            tip = (f'{e(tp["short"])} · {e(", ".join(legs_))} · {D.n(c["dist"])} {D.T("км")} · '
+                   f'RASK {D.ct(c["rask_ct"])} · CASK {D.ct(c["cask_ct"])}')
+            g.append(f'<circle cx="{X(c["dist"]):.1f}" cy="{Y(c["rask_ct"]):.1f}" r="3.4" class="rask" '
+                     f'data-t="{tp["slot"]}" data-tip="{tip}"><title>{tip}</title></circle>')
     labels = []
     for tp in types:
-        by = {}
+        by, legs = {}, {}
         for c in tp["curve"]:
             if c["cask_ct"]:
                 by.setdefault(round(c["dist"]), []).append(c["cask_ct"])
+                legs.setdefault(round(c["dist"]), []).append(f'{c["o"]}→{c["d"]}')
         line = sorted((x, sum(v) / len(v)) for x, v in by.items())
         if not line:
             continue
         col = f"var(--t{tp['slot']})"
         d = " ".join(f"{'M' if i == 0 else 'L'}{X(x):.1f},{Y(y):.1f}" for i, (x, y) in enumerate(line))
-        g.append(f'<path d="{d}" fill="none" stroke="{col}" stroke-width="2"/>')
+        g.append(f'<path d="{d}" fill="none" stroke="{col}" stroke-width="2" data-t="{tp["slot"]}"/>')
         for x, y in line:
-            g.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4" fill="{col}" class="pt">'
-                     f'<title>{e(tp["short"])}: {D.ct(y)} @ {D.n(x)} km</title></circle>')
-        labels.append([Y(line[-1][1]), X(line[-1][0]), tp["short"], col])
+            tip = (f'{e(tp["short"])} · {e(", ".join(legs[round(x)]))} · {D.n(x)} {D.T("км")} · '
+                   f'CASK {D.ct(y)}')
+            g.append(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4" fill="{col}" class="pt" '
+                     f'data-t="{tp["slot"]}" data-tip="{tip}"><title>{tip}</title></circle>')
+        labels.append([Y(line[-1][1]), X(line[-1][0]), tp["short"], col, tp["slot"], tp["icao"]])
     labels.sort()                                               # подписи без наложения
     for i in range(1, len(labels)):
         labels[i][0] = max(labels[i][0], labels[i - 1][0] + 13)
-    for yy, xx, name, col in labels:
-        g.append(f'<text x="{W - r + 8}" y="{yy + 4:.1f}" class="lab" fill="{col}">{e(name)}</text>')
+    for yy, xx, name, col, slot, icao in labels:
+        g.append(f'<text x="{W - r + 8}" y="{yy + 4:.1f}" class="lab" fill="{col}" data-t="{slot}" '
+                 f'data-pick="{e(icao)}">{e(name)}</text>')
     return (f'<svg viewBox="0 0 {W} {H}" class="chart" role="img" '
             f'aria-label="{e(D.T("CASK по длине плеча"))}">{"".join(g)}</svg>')
 
@@ -268,7 +294,7 @@ def bars(D: Doc, label: str, items: list, fmt, lo_best=True, note: str = "") -> 
     for t, v, extra in items:
         w = 0 if v is None else abs(v) / top * 100
         neg = v is not None and v < 0
-        rows.append(f'<div class="bar"><span class="bn">{e(t["short"])}</span><div class="track"><div class="fill{" neg" if neg else ""}" '
+        rows.append(f'<div class="bar" data-t="{t["slot"]}"><span class="bn">{e(t["short"])}</span><div class="track"><div class="fill{" neg" if neg else ""}" '
                     f'style="width:{w:.1f}%;background:var(--t{t["slot"]})"></div>'
                     f'</div><div class="val'
                     f'{" best" if v == best and len(vals) > 1 else ""}">{fmt(v)}'
@@ -421,7 +447,7 @@ CSS = """
 .doc .chart .grid{stroke:var(--d-rule2);stroke-width:1}
 .doc .chart .ax{font-size:11.5px;fill:var(--d-ink2)}
 .doc .chart .lab{font-size:12.5px;font-weight:600}
-.doc .chart .rask{fill:none;stroke:var(--d-ink2);stroke-width:1.4}
+.doc .chart .rask{fill:none;stroke:var(--d-ink2);stroke-width:1.4}.doc .chart .rask,.doc .chart .pt{pointer-events:all}.doc .chart .rask[data-t="1"]{stroke:var(--t1)}.doc .chart .rask[data-t="2"]{stroke:var(--t2)}.doc .chart .rask[data-t="3"]{stroke:var(--t3)}.doc .chart .rask[data-t="4"]{stroke:var(--t4)}.doc .chart .rask[data-t="5"]{stroke:var(--t5)}
 .doc .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 18px;font-size:13.5px}
 .doc .kv div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--d-rule2);padding:3px 0}
 .doc .kv b{font-weight:600;color:var(--d-head)}
@@ -447,6 +473,16 @@ CSS = """
    обёртка без прокрутки, строки не рвутся, шапка таблицы повторяется, а
    у заголовка невидимый «хвост»: если под ним меньше ~45 мм, он уходит
    на следующую страницу вместе с началом раздела. */
+/* Выделение типа (решение 208): нажатие на тип в легенде, шапке таблицы
+   или карточке — остальные бледнеют на всех рисунках и в таблицах. */
+.doc [data-t]{transition:opacity .2s}
+.doc [data-pick]{cursor:pointer}
+.doc .chart .rask{display:none}
+.doc[data-hl="1"] [data-t]:not([data-t="1"]){opacity:.22}.doc[data-hl="1"] path[data-t="1"]{stroke-width:3.4}.doc[data-hl="1"] .rask[data-t="1"],.doc:not([data-hl]) .rask[data-t="1"]{display:inline}.doc[data-hl="2"] [data-t]:not([data-t="2"]){opacity:.22}.doc[data-hl="2"] path[data-t="2"]{stroke-width:3.4}.doc[data-hl="2"] .rask[data-t="2"],.doc:not([data-hl]) .rask[data-t="1"]{display:inline}.doc[data-hl="3"] [data-t]:not([data-t="3"]){opacity:.22}.doc[data-hl="3"] path[data-t="3"]{stroke-width:3.4}.doc[data-hl="3"] .rask[data-t="3"],.doc:not([data-hl]) .rask[data-t="1"]{display:inline}.doc[data-hl="4"] [data-t]:not([data-t="4"]){opacity:.22}.doc[data-hl="4"] path[data-t="4"]{stroke-width:3.4}.doc[data-hl="4"] .rask[data-t="4"],.doc:not([data-hl]) .rask[data-t="1"]{display:inline}.doc[data-hl="5"] [data-t]:not([data-t="5"]){opacity:.22}.doc[data-hl="5"] path[data-t="5"]{stroke-width:3.4}.doc[data-hl="5"] .rask[data-t="5"],.doc:not([data-hl]) .rask[data-t="1"]{display:inline}
+#tip{position:fixed;z-index:90;pointer-events:none;padding:6px 9px;border-radius:6px;font:12px/1.4 var(--sans);
+  background:var(--d-card);color:var(--d-ink);border:1px solid var(--d-rule);box-shadow:0 4px 16px rgba(0,0,0,.25);
+  max-width:320px}
+#tip[hidden]{display:none}
 @media print{.doc .wrap{padding:0}.doc section{break-inside:auto}.doc .card,.doc .barrow,.doc .chart{break-inside:avoid}
   .doc .tblwrap{overflow:visible}.doc table{min-width:0}.doc thead{display:table-header-group}
   .doc tr{break-inside:avoid}.doc .sec-head,.doc h2,.doc h3{break-inside:avoid;break-after:avoid}
@@ -461,8 +497,12 @@ def _tag(kind):
 
 
 def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
-           toolbar: str = "", css_text: str = "") -> str:
-    """HTML документа целиком. `css_text` — ui.css (со шрифтами для PDF)."""
+           toolbar: str = "", css_text: str = "", hl: str | None = None) -> str:
+    """HTML документа целиком. `css_text` — ui.css (со шрифтами для PDF).
+
+    `hl` — ICAO выделенного типа: остальные бледнеют на рисунках и в
+    таблицах. Задаётся сразу в разметке, поэтому работает и в PDF; на
+    сайте переключается нажатием на тип без перезагрузки."""
     D = Doc(lang, cur, rate)
     T = D.T
     a = rep["assume"]
@@ -508,16 +548,17 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     for t in ok + bad:
         av = t.get("availability") or {}
         sub = av.get("tagline") or (f'{t.get("seats") or "—"} {T("кресел в расчёте")}')
-        leg.append(f'<div class="item"><span class="sw" style="background:var(--t{t["slot"]})"></span>'
+        leg.append(f'<div class="item" data-t="{t["slot"]}" data-pick="{e(t["icao"])}"><span class="sw" style="background:var(--t{t["slot"]})"></span>'
                    f'<div><b>{e(av.get("full_name") or t["name"])}</b><span>{e(sub)}</span></div></div>')
     g = lambda t, k: (t.get("geom") or {}).get(k)               # noqa: E731
     kf = [(T("Размах × длина, м"), lambda t: f'{D.n(g(t, "span"), 1)} × {D.n(g(t, "length"), 1)}' if g(t, "span") else "—"),
           (T("Взлётная масса, т"), lambda t: D.n(g(t, "mtow"), 1) if g(t, "mtow") else "—"),
           (T("Кресел в расчёте"), lambda t: str(t.get("seats") or "—")),
           (T("Цена борта"), lambda t: e((t.get("availability") or {}).get("price") or "—"))]
-    hd = "".join('<th style="color:var(--t%d)">%s</th>' % (t["slot"], e(t["short"])) for t in ok)
+    hd = "".join('<th data-t="%d" data-pick="%s" style="color:var(--t%d)">%s</th>'
+                 % (t["slot"], e(t["icao"]), t["slot"], e(t["short"])) for t in ok)
     keyf = ('<table class="kf"><thead><tr><th></th>' + hd + "</tr></thead><tbody>"
-            + "".join(f"<tr><th>{k}</th>" + "".join(f"<td>{f(t)}</td>" for t in ok) + "</tr>" for k, f in kf)
+            + "".join(f"<tr><th>{k}</th>" + "".join(f'<td data-t="{t["slot"]}">{f(t)}</td>' for t in ok) + "</tr>" for k, f in kf)
             + "</tbody></table>")
     H.append(f'<div class="hero"><div>{overlay_svg(ok, T("м"))}<p class="small">{T("Вид сверху, носы совмещены, один масштаб. Схема по размаху, длине, стреловидности и двигателям — узнаваемая, но не чертёж.")}</p></div>'
              f'<div class="legend">{"".join(leg)}<div class="keyfacts">{keyf}</div></div></div>')
@@ -527,11 +568,11 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     for t in ok + bad:
         av = t.get("availability")
         if not av:
-            cards.append(f'<div class="card top" style="--tc:var(--t{t["slot"]})"><h3>{e(t["short"])}</h3>'
+            cards.append(f'<div class="card top" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="--tc:var(--t{t["slot"]})"><h3>{e(t["short"])}</h3>'
                          f'<span class="tag mid">{T("сведений о поставках нет")}</span>'
                          f'<p class="small">{T("Типа нет в обзорах — блок заполняется, когда обзор появится.")}</p></div>')
             continue
-        cards.append(f'<div class="card top" style="--tc:var(--t{t["slot"]})"><h3>{e(av["name"])}</h3>'
+        cards.append(f'<div class="card top" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="--tc:var(--t{t["slot"]})"><h3>{e(av["name"])}</h3>'
                      f'<span class="tag {_tag(av.get("kind"))}">{e(av["status"])}</span>'
                      f'<ul>{"".join(f"<li>{e(p)}</li>" for p in av["points"])}</ul>'
                      f'<p class="price">{e(av["price"])}<small>{e(av["price_note"])}</small></p></div>')
@@ -552,13 +593,14 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
             ("enroute", T("Аэронавигация")), ("ground_handling", T("Обслуживание")),
             ("other", T("Прочее")), ("distribution", T("Дистрибуция")), ("ownership", T("Лизинг"))]
     per = lambda t, k: t["plan"]["cost"][k] / t["plan"]["ask"] * 100 if t["plan"]["ask"] else None  # noqa: E731
-    th = "".join(f'<th class="r" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
+    th = "".join(f'<th class="r" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
     trs = []
 
     def crow(lab, vals, low=True, strong=False):
         vv = [v for v in vals if v is not None]
         best = (min if low else max)(vv) if len(vv) > 1 and max(vv) - min(vv) > 0.005 * max(abs(x) for x in vv) else None
-        cells = "".join(f'<td class="r{" best" if v is not None and v == best else ""}">{D.ct(v)}</td>' for v in vals)
+        cells = "".join(f'<td class="r{" best" if v is not None and v == best else ""}" data-t="{t["slot"]}">{D.ct(v)}</td>'
+                        for t, v in zip(ok, vals))
         lab = f"<b>{lab}</b>" if strong else lab
         return f"<tr><th>{lab}</th>{cells}</tr>"
     for k, lab in arts:
@@ -589,13 +631,13 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     for t in ok:
         pros = "".join(f"<li>{pc_text(D, x)}</li>" for x in t["pros"])
         cons = "".join(f"<li>{pc_text(D, x)}</li>" for x in t["cons"])
-        pcs.append(f'<div class="card top" style="--tc:var(--t{t["slot"]})"><h3>#{t["rank"]} {e(t["short"])}</h3>'
+        pcs.append(f'<div class="card top" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="--tc:var(--t{t["slot"]})"><h3>#{t["rank"]} {e(t["short"])}</h3>'
                    f'<p class="small">{D.money(t["plan"]["result"], True)}/{T("мес")} · {t["plan"]["n_op"]}+{t["plan"]["spare"]} '
                    f'{T("бортов")} · {T("загрузка")} {D.pct(t["plan"]["lf"])}</p>'
                    + ('<ul class="pc pro">' + pros + "</ul>" if pros else "")
                    + ('<ul class="pc con">' + cons + "</ul>" if cons else "") + "</div>")
     for t in bad:
-        pcs.append(f'<div class="card top" style="--tc:var(--t{t["slot"]})"><h3>{e(t["short"])}</h3>'
+        pcs.append(f'<div class="card top" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="--tc:var(--t{t["slot"]})"><h3>{e(t["short"])}</h3>'
                    f'<p class="bad">{e(t.get("why") or "")}</p></div>')
     H.append(f'<section><div class="sec-head"><h2>{T("Плюсы и минусы на этой сети")}</h2><p>'
              f'{T("Выведены из расчёта плана; поставки — из обзоров.")}</p></div><div class="grid3">{"".join(pcs)}</div></section>')
@@ -622,12 +664,15 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     H.append(f'<section class="sources"><h2>{T("Источники")}</h2><ol>{"".join(src)}</ol></section>')
 
     body = "".join(H)
+    hl = (hl or "").strip().upper()
+    hs = next((t for t in ok + bad if t["icao"].upper() == hl), None)
+    hl_attr = f' data-hl="{hs["slot"]}" data-hlk="{e(hs["icao"])}"' if hs else ""
     return (f'<!doctype html><html lang="{D.lang}"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{e(T("Отчёт по парку"))} — {e(ctx.get("base") or "")}</title>'
             f'<style>{css_text}{CSS}</style></head>'
-            f'<body class="doc{" light" if theme == "light" else ""}" style="margin:0">'
-            f'{toolbar}<div class="wrap">{body}</div></body></html>')
+            f'<body class="doc{" light" if theme == "light" else ""}" style="margin:0"{hl_attr}>'
+            f'{toolbar}<div class="wrap">{body}</div>{JS}</body></html>')
 
 
 def _specs_section(D: Doc, types: list) -> str:
@@ -649,7 +694,7 @@ def _specs_section(D: Doc, types: list) -> str:
     order = ["Геометрия и салон", "Массы", "Силовая установка", "Полёт", "Аэродром и условия",
              "Стоимость владения и эксплуатации"]
     rows.sort(key=lambda gk: order.index(gk[0]) if gk[0] in order else len(order))
-    head = "".join(f'<th style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in types)
+    head = "".join(f'<th data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in types)
     out, grp = [], None
     # Своё: из справочника проекта — то, с чем считал расчёт.
     g = lambda t, k: (t.get("geom") or {}).get(k)               # noqa: E731
@@ -663,7 +708,7 @@ def _specs_section(D: Doc, types: list) -> str:
     out.append(f'<tr class="group"><th colspan="{len(types) + 1}">{T("С чем считал расчёт")}</th></tr>')
     for lab, f in own:
         out.append(f'<tr><th>{lab}</th>' + "".join(
-            f'<td>{"—" if t.get("status") != "ok" or f(t) in (None, "") else f(t)}</td>' for t in types) + "</tr>")
+            f'<td data-t="{t["slot"]}">{"—" if t.get("status") != "ok" or f(t) in (None, "") else f(t)}</td>' for t in types) + "</tr>")
     for k in rows:
         if k[0] != grp:
             grp = k[0]
@@ -672,12 +717,12 @@ def _specs_section(D: Doc, types: list) -> str:
         for t in types:
             s = vals[k[1]].get(t["icao"])
             if not s:
-                cells.append("<td>—</td>")
+                cells.append(f'<td data-t="{t["slot"]}">—</td>')
                 continue
             cls = " class=\"best\"" if (one_review and s.get("best")) else ""
             v = f'<span class="est">{e(s["value"])}</span>' if s.get("est") else e(s["value"])
             note = '<span class="sm">%s</span>' % e(s["note"]) if s.get("note") else ""
-            cells.append(f"<td{cls}>{v}{note}</td>")
+            cells.append(f'<td{cls} data-t="{t["slot"]}">{v}{note}</td>')
         out.append(f"<tr><th>{e(k[1])}</th>{''.join(cells)}</tr>")
     miss = [t["short"] for t in types if not t.get("specs")]
     return (f'<section><div class="sec-head"><h2>{T("Лётно-технические характеристики")}</h2><p>'
@@ -718,7 +763,7 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
     # Пары: объём, частота и загрузка у каждого типа.
     keys = rep.get("common_pairs") or []
     vol = {p["key"]: p for p in ok[0]["plan"]["pairs"]}
-    th = "".join(f'<th class="r" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
+    th = "".join(f'<th class="r" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
     trs = []
     for k in keys:
         pv = vol.get(k) or {}
@@ -726,13 +771,13 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
         for t in ok:
             p = next((x for x in t["plan"]["pairs"] if x["key"] == k), None)
             if not p:
-                cells.append("<td class=r>—</td>")
+                cells.append(f'<td class="r" data-t="{t["slot"]}">—</td>')
                 continue
             rng = ""
             if p.get("range_cap") is not None:
                 rng = (f'<span class="rng" title="{e(T("дальность: на плече поднимает не больше"))} '
                        f'{D.pct(p["range_cap"])} {e(T("кресел"))}">{T("дальность")} ≤{D.pct(p["range_cap"])}</span>')
-            cells.append(f'<td class="r{" bad" if p["min_binds"] else ""}">{p["freq"]}/{T("нед")} · {D.pct(p["lf"])}{rng}</td>')
+            cells.append(f'<td class="r{" bad" if p["min_binds"] else ""}" data-t="{t["slot"]}">{p["freq"]}/{T("нед")} · {D.pct(p["lf"])}{rng}</td>')
         trs.append(f'<tr><th>{e(k)}<span class="sm">{D.n(pv.get("dist"))} {T("км")} · {T("поток")} '
                    f'{D.n(pv.get("market"))}/{T("мес")}</span></th><td class="r">{D.n(pv.get("volume"))}</td>{"".join(cells)}</tr>')
     tbl = (f'<div class="tblwrap" style="margin-top:22px"><table><thead><tr><th>{T("Пара")}</th>'
@@ -747,13 +792,13 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
 def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
     T = D.T
     ps = rep["price_sweep"]
-    th = "".join(f'<th class="r" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
+    th = "".join(f'<th class="r" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="color:var(--t{t["slot"]})">{e(t["short"])}</th>' for t in ok)
     trs = []
     for row in ps:
         best = max(row["types"].values(), key=lambda v: v["result"])["result"]
         cells = "".join(
             f'<td class="r{" best" if row["types"][t["icao"]]["result"] == best else ""}'
-            f'{" bad" if row["types"][t["icao"]]["result"] < 0 else ""}">{D.money(row["types"][t["icao"]]["result"], True, unit=False)}'
+            f'{" bad" if row["types"][t["icao"]]["result"] < 0 else ""}" data-t="{t["slot"]}">{D.money(row["types"][t["icao"]]["result"], True, unit=False)}'
             f'<span class="sm">{row["types"][t["icao"]]["fleet"]} {T("бортов")}</span></td>' for t in ok)
         cur = abs(row["price"] - rep["assume"]["price"]) < 1e-9
         trs.append(f'<tr><th>{"<b>" if cur else ""}× {D.n(row["price"], 2)}{"</b>" if cur else ""}'
@@ -765,7 +810,7 @@ def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
         best = max(row["types"].values(), key=lambda v: v["result"])["result"]
         cells = "".join(
             f'<td class="r{" best" if row["types"][t["icao"]]["result"] == best else ""}'
-            f'{" bad" if row["types"][t["icao"]]["result"] < 0 else ""}">{D.money(row["types"][t["icao"]]["result"], True, unit=False)}'
+            f'{" bad" if row["types"][t["icao"]]["result"] < 0 else ""}" data-t="{t["slot"]}">{D.money(row["types"][t["icao"]]["result"], True, unit=False)}'
             f'<span class="sm">{row["types"][t["icao"]]["fleet"]} {T("бортов")}</span></td>' for t in ok)
         trs2.append(f'<tr><th>{D.pct(row["share"])}</th>{cells}</tr>')
     best_p = "; ".join(f'{e(t["short"])} — × {D.n(t["best_price"], 2)}' for t in ok)
@@ -779,17 +824,26 @@ def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
             f'<div class="tblwrap"><table><thead><tr><th>{T("Доля потока")}</th>{th2}</tr></thead><tbody>{"".join(trs2)}</tbody></table></div></section>')
 
 
-def toolbar(D: Doc, query: dict, a: dict) -> str:
+JS = '<div id="tip" hidden></div><script>(function(){\nvar b=document.body,tip=document.getElementById("tip"),slot={};\ndocument.querySelectorAll("[data-pick]").forEach(function(x){slot[x.dataset.pick]=x.dataset.t});\nfunction links(k){document.querySelectorAll("a.go,input[name=hl]").forEach(function(a){\n if(a.tagName==="INPUT"){a.value=k||"";return}var u=new URL(a.href,location.href);\n if(k)u.searchParams.set("hl",k);else u.searchParams.delete("hl");a.href=u.pathname+u.search});\n var u=new URL(location.href);if(k)u.searchParams.set("hl",k);else u.searchParams.delete("hl");\n history.replaceState(null,"",u.pathname+u.search);\n document.querySelectorAll(".tb .chip").forEach(function(c){c.classList.toggle("on",c.dataset.pick===k)})}\nfunction pick(k){if(!k||b.dataset.hlk===k){delete b.dataset.hl;delete b.dataset.hlk;links("");return}\n b.dataset.hl=slot[k];b.dataset.hlk=k;links(k)}\ndocument.addEventListener("click",function(ev){var x=ev.target.closest("[data-pick]");\n if(x){ev.preventDefault();pick(x.dataset.pick)}});\ndocument.addEventListener("mousemove",function(ev){var x=ev.target.closest("[data-tip]");\n if(!x){tip.hidden=true;return}tip.textContent=x.dataset.tip;tip.hidden=false;\n var w=tip.offsetWidth,h=tip.offsetHeight,l=ev.clientX+14,t=ev.clientY+14;\n if(l+w>innerWidth-8)l=ev.clientX-w-14;if(t+h>innerHeight-8)t=ev.clientY-h-14;\n tip.style.left=l+"px";tip.style.top=t+"px"});\n})();</script>'
+
+
+def toolbar(D: Doc, query: dict, a: dict, types: list | None = None) -> str:
     """Полоса над документом на сайте: допущения формой, скачать PDF и Excel."""
     T = D.T
-    keep = {k: v for k, v in query.items() if k not in a}
+    keep = {k: v for k, v in query.items() if k not in a and k != "hl"}
+    hidden_hl = f'<input type="hidden" name="hl" value="{e(query.get("hl") or "")}">'
+    hl = (query.get("hl") or "").upper()
+    # Чипы выделения: те же типы, что в отчёте; нажатие — без перезагрузки.
+    chips = "".join(f'<a class="chip{" on" if t.upper() == hl else ""}" href="#" data-pick="{e(t)}">{e(t)}</a>'
+                    for t in types or [])
+    chips = (f'<div class="hlrow"><span>{T("Выделить тип")}</span>{chips}</div>') if chips else ""
     hidden = "".join(f'<input type="hidden" name="{e(k)}" value="{e(str(v))}">' for k, v in keep.items())
     qs = urllib.parse.urlencode(query)
 
     def fld(name, lab, val, step, unit=""):
         return (f'<label>{lab}<input name="{name}" type="number" step="{step}" value="{val}">'
                 f'{f"<i>{unit}</i>" if unit else ""}</label>')
-    return (f'<form class="tb noprint" method="get" action="/report">{hidden}'
+    return (f'<form class="tb noprint" method="get" action="/report">{hidden}{hidden_hl}'
             f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%")}'
             f'{fld("price", T("Цена к рынку"), a["price"], "0.01", "×")}'
             f'{fld("fare_conv", T("Чек к минимуму"), a.get("fare_conv") or 1, "0.01", "×")}'
@@ -799,7 +853,7 @@ def toolbar(D: Doc, query: dict, a: dict) -> str:
             f'{fld("reserve", T("Резерв парка"), round(a["reserve"] * 100), "1", "%")}'
             f'<button class="go">{T("Пересчитать")}</button>'
             f'<a class="go" href="/api/fleetreport.pdf?{e(qs)}">PDF</a>'
-            f'<a class="go" href="/api/fleetreport.xlsx?{e(qs)}">Excel</a></form>'
+            f'<a class="go" href="/api/fleetreport.xlsx?{e(qs)}">Excel</a>{chips}</form>'
             f'<style>.tb{{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-end;padding:12px 24px;'
             f'border-bottom:1px solid var(--d-rule);background:var(--d-card);position:sticky;top:0;z-index:5}}'
             f'.tb label{{display:flex;flex-direction:column;font-size:11.5px;color:var(--d-ink2);gap:3px}}'
@@ -807,5 +861,9 @@ def toolbar(D: Doc, query: dict, a: dict) -> str:
             f'border-radius:5px;padding:5px 7px;font:13px var(--sans)}}.tb i{{display:none}}'
             f'.tb .go{{background:var(--d-paper);border:1px solid var(--d-rule);color:var(--d-ink);border-radius:5px;'
             f'padding:6px 12px;font:13px var(--sans);cursor:pointer;text-decoration:none}}'
-            f'.tb .go:hover{{border-color:var(--t1)}}@media (max-width:640px){{.tb{{padding:10px 16px;position:static}}'
+            f'.tb .go:hover{{border-color:var(--t1)}}.tb .hlrow{{display:flex;flex-wrap:wrap;gap:6px;align-items:center;'
+            f'width:100%;font-size:11.5px;color:var(--d-ink2)}}.tb .chip{{border:1px solid var(--d-rule);border-radius:12px;'
+            f'padding:2px 10px;color:var(--d-ink);text-decoration:none;font:12px var(--sans)}}'
+            f'.tb .chip.on{{background:var(--d-ink);color:var(--d-paper)}}'
+            f'@media (max-width:640px){{.tb{{padding:10px 16px;position:static}}'
             f'.tb input{{width:72px}}}}</style>')
