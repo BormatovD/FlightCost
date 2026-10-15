@@ -55,3 +55,4 @@ logs/
 .idea/
 logs/
 data/user.db
+profile.txt
