@@ -117,7 +117,7 @@ class Reader(unittest.TestCase):
     def test_unknown_pair_falls_through_with_reason(self):
         r = traffic.pair_flow(self.store, "UUEE", "URSS", "2026-10-14")
         self.assertIsNone(r["pax_month"])
-        self.assertIn("RU", r["src"])
+        self.assertIn("сводка по РФ", r["src"])
 
 
 class ObservedSeats(unittest.TestCase):
@@ -196,6 +196,41 @@ class DGCA(unittest.TestCase):
         q = [28212 + 29911, 21991 + 21225, 17672 + 19980, 16207 + 17388,
              14466 + 17736, 22747 + 22450]
         self.assertAlmostEqual(r["pax_month"], sum(q[-4:]) / 12, delta=1)
+
+
+class RuPairs(unittest.TestCase):
+    """Россия: годовая таблица пар городов без первоисточника (вырезка выгрузки за 2024 год)."""
+
+    class S:
+        def icao_of_iata(self, as_of=None):
+            m = {"LED": "ULLI", "AER": "URSS", "KGD": "UMKK", "SVX": "USSS", "MRV": "URMM"}
+
+            class D(dict):
+                def get(self, k, d=None):
+                    return m.get(k, "Z" + k) if k else d
+            return D()
+
+    def parsed(self):
+        from flightcostapp.parsers import ru_pairs
+        ctx = {"source_id": "ru_pairs", "today": "2026-10-15", "store": self.S()}
+        return ru_pairs.parse((FIX / "ru_pairs_2024_excerpt.xlsx").read_bytes(), ctx), ctx
+
+    def test_both_directions_summed_moscow_kept_as_city(self):
+        facts, ctx = self.parsed()
+        m = months(facts)
+        self.assertEqual(m["RUPAIRS/@MOW-ULLI/2024"]["A"][0], 2325559 + 2314954)
+        self.assertIn("ЯМБ", ctx["summary"][0])            # внутренний код — назван, не потерян
+
+    def test_any_moscow_airport_gets_city_flow_flagged(self):
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "r.db")
+        st.commit_facts(self.parsed()[0])
+        for ap in ("UUEE", "UUDD", "UUWW"):
+            r = traffic.published(st, ap, "ULLI", "2026-10-15")
+            self.assertTrue(r["city"])
+            self.assertAlmostEqual(r["pax_month"], (2325559 + 2314954) / 12, delta=1)
+            self.assertIn("весь город", r["src"])
+            self.assertIn("годовые", r["src"])
+            self.assertIn("первоисточник таблицы неизвестен", r["src"])
 
 
 class Nearby(unittest.TestCase):

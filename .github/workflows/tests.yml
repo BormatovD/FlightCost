@@ -30,6 +30,8 @@ jobs:
               tests/test_hints.py \
               tests/test_selection.py \
               tests/test_traffic.py \
+              tests/test_fleetreport.py \
+              tests/test_store_current.py \
               tests/test_network.py \
               tests/test_detour.py \
               tests/test_airspace.py \

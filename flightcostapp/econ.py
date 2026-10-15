@@ -35,14 +35,30 @@ R_EARTH_NM = 3440.065
 TCZ_PATH = Path(__file__).resolve().parents[1] / "config" / "tcz.yaml"
 
 
+_TCZ_CACHE: dict = {}
+
+
 def _tcz_map() -> dict:
-    """Аэродром -> терминальная зона. Ярус 1: список ведётся вручную."""
+    """Аэродром -> терминальная зона. Ярус 1: список ведётся вручную.
+
+    Файл читается один раз и перечитывается, только когда изменился: до
+    кэша его разбор стоил ~11 мс на КАЖДЫЙ расчёт рейса — в сети это сотни
+    разборов одного и того же файла."""
+    try:
+        mt = TCZ_PATH.stat().st_mtime
+    except OSError:
+        return {}
+    hit = _TCZ_CACHE.get("v")
+    if hit and hit[0] == mt:
+        return hit[1]
     try:
         import yaml
         with open(TCZ_PATH, encoding="utf-8") as fh:
-            return (yaml.safe_load(fh) or {}).get("tcz", {}) or {}
+            val = (yaml.safe_load(fh) or {}).get("tcz", {}) or {}
     except Exception:                                   # noqa: BLE001
         return {}
+    _TCZ_CACHE["v"] = (mt, val)
+    return val
 
 
 @dataclass

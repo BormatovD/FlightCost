@@ -18,7 +18,11 @@ import json
 from datetime import date
 
 PUBLISHERS = {"eurostat_par": "Eurostat avia_par", "t100": "BTS T-100",
-              "dgca_domestic": "DGCA", "dgca_international": "DGCA"}
+              "dgca_domestic": "DGCA", "dgca_international": "DGCA",
+              "ru_pairs": "сводка по РФ без первоисточника"}
+# Источники, у которых нет публикации-первоисточника: поток берётся (сверен
+# с итогами аэропортов), но подпись говорит об этом прямо (решение 202).
+UNVERIFIED = {"ru_pairs"}
 
 
 # Ряд пары — одним фактом на год (решение 197): ключ
@@ -62,7 +66,60 @@ def _db(store):
     return getattr(store, "db", None) or store.base.db
 
 
+_PAIR_IDX: dict = {}
+
+
+def _pair_index(store, as_of: str) -> dict:
+    """Действующие ряды потока, разложенные по паре.
+
+    Ключ ряда — `<отчётчик>/<A-B>/<год>`, и поиск пары шёл по `LIKE
+    '%/A-B/%'`: с ведущим шаблоном индекс не работает, каждый запрос —
+    проход по всему домену (~70 мс на настоящей базе), а сеть спрашивает
+    поток каждой пары. Один проход на дату, дальше — словарь; кэш живёт
+    до первой записи в базу."""
+    db = _db(store)
+    ver = (db.execute("PRAGMA data_version").fetchone()[0], db.total_changes)
+    ck = (id(db), as_of)
+    hit = _PAIR_IDX.get(ck)
+    if hit and hit[0] == ver:
+        return hit[1]
+    idx: dict = {}
+    for row in db.execute(
+            """SELECT key, value_text, source_id, note FROM facts
+               WHERE domain = 'traffic' AND valid_from <= ?
+                 AND (valid_to IS NULL OR valid_to > ?)""", (as_of, as_of)):
+        parts = row[0].split("/")
+        if len(parts) == 3:
+            idx.setdefault(parts[1], []).append(tuple(row))
+    if len(_PAIR_IDX) > 32:
+        _PAIR_IDX.clear()
+    _PAIR_IDX[ck] = (ver, idx)
+    return idx
+
+
+# Коды городов, под которыми источник не делит поток по аэропортам
+# (решение 201). Аэропорт такого города получает поток города — с пометкой.
+CITY_GROUPS = {"@MOW": ("UUEE", "UUDD", "UUWW", "UUBW")}
+CITY_OF = {ap: city for city, aps in CITY_GROUPS.items() for ap in aps}
+
+
 def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = None) -> dict | None:
+    """Поток пары аэропортов; нет своего — поток пары ГОРОДОВ, если конец
+    маршрута входит в город, который источник не делит (Москва у
+    сводки по РФ). Город подписывается, а не выдаётся за аэропорт."""
+    got = _published(store, a_icao, b_icao, as_of, month)
+    if got:
+        return got
+    a_c, b_c = CITY_OF.get((a_icao or "").upper()), CITY_OF.get((b_icao or "").upper())
+    if not (a_c or b_c):
+        return None
+    got = _published(store, a_c or a_icao, b_c or b_icao, as_of, month)
+    if got:
+        got["city"] = True
+    return got
+
+
+def _published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = None) -> dict | None:
     """Опубликованный поток пары, пасс./мес, или None.
 
     Обе стороны пары отчитываются об одном и том же (Германия о FRA–BCN,
@@ -76,14 +133,10 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
         return None
     as_of = str(as_of or date.today())
     a, b = sorted((a_icao.upper(), b_icao.upper()))
-    rows = _db(store).execute(
-        """SELECT key, value_text, source_id, note FROM facts
-           WHERE domain = 'traffic' AND key LIKE ? AND valid_from <= ?
-             AND (valid_to IS NULL OR valid_to > ?)""",
-        (f"%/{a}-{b}/%", as_of, as_of)).fetchall()
+    rows = _pair_index(store, as_of).get(f"{a}-{b}", [])
     by_month: dict[str, dict[str, float]] = {}
     extra: dict[str, dict[str, dict[str, float]]] = {"seats": {}, "flights": {}}
-    srcs, quarterly, notes = set(), set(), set()
+    srcs, quarterly, notes, annual = set(), set(), set(), set()
     for key, txt, src, fnote in rows:
         parts = key.split("/")
         if len(parts) != 3 or parts[1] != f"{a}-{b}" or not txt:
@@ -91,6 +144,12 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
         rep, _, year = parts
         for mm, (pax, seats, flights) in json.loads(txt).items():
             if pax is None:
+                continue
+            if mm == "A":
+                # Год целиком (сводка по РФ): средний месяц — 1/12 года.
+                for k in range(12):
+                    by_month.setdefault(f"{year}-{k + 1:02d}", {})[rep] = float(pax) / 12
+                annual.add(rep)
                 continue
             if mm.startswith("Q"):
                 # Квартал (DGCA, международные): средний месяц — треть
@@ -108,7 +167,7 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
             if flights:
                 extra["flights"].setdefault(mon, {})[rep] = float(flights)
         srcs.add(src)
-        if fnote and "город, а не аэропорт" in fnote:
+        if fnote and ("город, а не аэропорт" in fnote or "весь город" in fnote):
             notes.add(fnote.split("; ", 1)[1])
     if not by_month:
         return None
@@ -132,6 +191,11 @@ def published(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
         note += f"; отчёты сторон расходятся до {gap * 100:.0f}%"
     if quarterly:
         note += "; данные квартальные — месяц взят третью квартала"
+    if annual:
+        note += "; данные годовые — месяц взят 1/12 года"
+    if srcs & UNVERIFIED:
+        note += ("; первоисточник таблицы неизвестен — сверена с итогами аэропортов, "
+                 "не с публикацией ведомства")
     for n in sorted(notes):
         note += f"; {n}"
     # Средний борт рынка и его загрузка — по тем же месяцам, где есть и
@@ -210,9 +274,8 @@ def pair_flow(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
     if est:
         return est
     return {"pax_month": None,
-            "src": "нет: в опубликованной статистике (Eurostat, BTS T-100, DGCA) пары нет, "
-                   "рейсов по паре не наблюдали; для RU и KZ открытой статистики по парам "
-                   "не публикуется"}
+            "src": "нет: в опубликованной статистике (Eurostat, BTS T-100, DGCA, сводка по РФ) "
+                   "пары нет, рейсов по паре не наблюдали"}
 
 
 NEARBY_KM = 80        # «тот же город»: второй аэропорт Мумбаи — 35 км, Москвы — до 50

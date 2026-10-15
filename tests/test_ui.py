@@ -36,6 +36,7 @@ from flightcostapp import ui  # noqa: E402
 
 PAGES = [
     ROOT / "flightcostapp" / "web" / "serve.html",
+    ROOT / "flightcostapp" / "fleetreport_doc.py",
     ROOT / "flightcostapp" / "explain.py",
     ROOT / "flightcostapp" / "heatmap.py",
     ROOT / "flightcostapp" / "graph.py",
