@@ -219,3 +219,24 @@ ssh deploy@АДРЕС sudo journalctl -u fca-observe -n 20   # как прошл
 - **слой гостя** — есть: свои типы и ставки сохраняются в рабочем месте по
   ссылке;
 - **английский и немецкий** в интерфейсе — есть.
+
+## PDF отчёта по парку
+
+Нужен Chromium. Ставится один раз от root в общий каталог — витрина
+работает от `fca` без домашнего каталога и чужих домашних не видит:
+
+```bash
+PLAYWRIGHT_BROWSERS_PATH=/srv/fca/ms-playwright /srv/fca/venv/bin/playwright install chromium
+chmod -R a+rX /srv/fca/ms-playwright
+```
+
+На Debian/Ubuntu добавьте `--with-deps`. На AlmaLinux он не работает (нет
+apt-get) — библиотеки через dnf:
+
+```bash
+dnf install -y nss nspr atk at-spi2-atk at-spi2-core cups-libs libdrm libxkbcommon \
+  libXcomposite libXdamage libXfixes libXrandr libxshmfence mesa-libgbm pango cairo alsa-lib
+```
+
+Путь к браузеру витрине сообщает `fca.service` (`PLAYWRIGHT_BROWSERS_PATH`).
+Проверка — кнопка PDF в отчёте по парку или `journalctl -u fca -n 30`.
