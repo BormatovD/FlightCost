@@ -377,6 +377,9 @@ def note_text(D: Doc, x: dict) -> tuple[str, str]:
     if c == "no_market":
         return (T("Пары без потока не считаются"),
                 f'{", ".join(x["pairs"])}: {T("потока нет ни в статистике, ни в оценке — задайте его на вкладке «Рынок» витрины.")}')
+    if c == "fare_estimated":
+        return (T("Цена — оценка по формуле"),
+                f'{", ".join(x["pairs"])}: {T("наблюдений цены по паре нет; взята прямая «постоянная часть + ставка за километр», подогнанная по парам региона, где цена известна. Типичная ошибка формулы — в подписи цены плеча на сайте.")}')
     if c == "market_estimated":
         return (T("Поток — оценка по наблюдённым рейсам"),
                 f'{", ".join(x["pairs"])}: {T("опубликованной статистики по паре нет, поток оценён по рейсам ADS-B × кресла × загрузка.")}')
@@ -471,6 +474,7 @@ CSS = """
 .doc .kv b{font-weight:600;color:var(--d-head)}
 .doc .assume{background:var(--d-card);border:1px solid var(--d-rule);border-radius:10px;padding:14px 16px;margin-bottom:18px}
 .doc .assume .guess{color:var(--d-warn)}
+.doc .assume small.sub{display:block;font-weight:400;font-size:12px;color:var(--d-ink2);margin-top:2px}
 .doc .pc{list-style:none;padding:0;margin:0 0 6px}
 .doc .pc li{padding:3px 0 3px 18px;position:relative;font-size:13.5px}
 .doc .pc li::before{position:absolute;left:0;font-weight:600}
@@ -762,9 +766,37 @@ def _specs_section(D: Doc, types: list) -> str:
             f'<tbody>{"".join(out)}</tbody></table></div></section>')
 
 
+def share_volume(rep: dict) -> dict:
+    """Доля в пассажирах (решение 213): рынок пар с потоком, наш объём при
+    рыночной цене и после отклика на цену, сколько пар без потока."""
+    ok = [t for t in rep.get("types") or [] if t.get("status") == "ok"]
+    if not ok:
+        return {}
+    pl = ok[0]["plan"]
+    rows = pl["pairs"]
+    market = sum(float(r["market"] or 0) for r in rows)
+    return {"market": market, "at_market": market * rep["assume"]["share"],
+            "planned": sum(r["volume"] for r in rows), "missing": len(pl["skipped"])}
+
+
+def share_line(D: Doc, rep: dict) -> str:
+    T = D.T
+    v = share_volume(rep)
+    if not v or not v["market"]:
+        return ""
+    s = f'≈ {D.n(v["at_market"])} {T("пасс./мес")} {T("из")} {D.n(v["market"])}'
+    if v["missing"]:
+        s += f' · {T("без потока пар:")} {v["missing"]}'
+    return s
+
+
 def _plan_section(D: Doc, rep: dict, ok: list) -> str:
     T, a = D.T, rep["assume"]
-    kv = [(T("Наша доля потока при рыночной цене"), D.pct(a["share"])),
+    sl = share_line(D, rep)
+    sv = share_volume(rep)
+    planned = (f' — ≈ {D.n(sv["planned"])} {T("пасс./мес")}' if sv and sv["market"] else "")
+    kv = [(T("Наша доля потока при рыночной цене"),
+           D.pct(a["share"]) + (f'<small class="sub">{sl}</small>' if sl else "")),
           (T("Наша цена к рыночной"), f'× {D.n(a["price"], 2)}'),
           (T("Средний чек к минимальному"), (
               f'<span class="guess">× {D.n(CONV_BASE, 1)}, {T("на парах от")} {D.n(THICK_PAX_MONTH / 1000)} '
@@ -778,7 +810,8 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
           (T("Резерв парка"), f'{D.pct(a["reserve"])}, {T("не меньше борта")}')]
     eff = ok[0]["plan"]["share"]
     head = (f'<div class="assume"><div class="kv">{"".join(f"<div><span>{k}</span><b>{v}</b></div>" for k, v in kv)}</div>'
-            f'<p class="small" style="margin:8px 0 0">{T("Доля после отклика на цену:")} <b>{D.pct(eff, 1)}</b>. '
+            f'<p class="small" style="margin:8px 0 0">{T("Доля после отклика на цену:")} <b>{D.pct(eff, 1)}</b>'
+            f'{planned}. '
             f'{T("Объём пары = поток × доля; рейсов — сколько нужно, чтобы вывезти объём при плановой загрузке, но не меньше нижней границы; бортов — налёт расписания на налёт борта, вверх до целого, плюс резерв.")}</p></div>')
     P = lambda t: t["plan"]                                      # noqa: E731
     brs = [
@@ -859,7 +892,7 @@ def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
 JS = '<div id="tip" hidden></div><script>(function(){\nvar b=document.body,tip=document.getElementById("tip"),slot={};\ndocument.querySelectorAll("[data-pick]").forEach(function(x){slot[x.dataset.pick]=x.dataset.t});\nfunction links(k){document.querySelectorAll("a.go,input[name=hl]").forEach(function(a){\n if(a.tagName==="INPUT"){a.value=k||"";return}var u=new URL(a.href,location.href);\n if(k)u.searchParams.set("hl",k);else u.searchParams.delete("hl");a.href=u.pathname+u.search});\n var u=new URL(location.href);if(k)u.searchParams.set("hl",k);else u.searchParams.delete("hl");\n history.replaceState(null,"",u.pathname+u.search);\n document.querySelectorAll(".tb .chip").forEach(function(c){c.classList.toggle("on",c.dataset.pick===k)})}\nfunction pick(k){if(!k||b.dataset.hlk===k){delete b.dataset.hl;delete b.dataset.hlk;links("");return}\n b.dataset.hl=slot[k];b.dataset.hlk=k;links(k)}\ndocument.addEventListener("click",function(ev){var x=ev.target.closest("[data-pick]");\n if(x){ev.preventDefault();pick(x.dataset.pick)}});\ndocument.addEventListener("mousemove",function(ev){var x=ev.target.closest("[data-tip]");\n if(!x){tip.hidden=true;return}tip.textContent=x.dataset.tip;tip.hidden=false;\n var w=tip.offsetWidth,h=tip.offsetHeight,l=ev.clientX+14,t=ev.clientY+14;\n if(l+w>innerWidth-8)l=ev.clientX-w-14;if(t+h>innerHeight-8)t=ev.clientY-h-14;\n tip.style.left=l+"px";tip.style.top=t+"px"});\n})();</script>'
 
 
-def toolbar(D: Doc, query: dict, a: dict, types: list | None = None) -> str:
+def toolbar(D: Doc, query: dict, a: dict, types: list | None = None, share_hint: str = "") -> str:
     """Полоса над документом на сайте: допущения формой, скачать PDF и Excel."""
     T = D.T
     keep = {k: v for k, v in query.items() if k not in a and k != "hl"}
@@ -872,12 +905,12 @@ def toolbar(D: Doc, query: dict, a: dict, types: list | None = None) -> str:
     hidden = "".join(f'<input type="hidden" name="{e(k)}" value="{e(str(v))}">' for k, v in keep.items())
     qs = urllib.parse.urlencode(query)
 
-    def fld(name, lab, val, step, unit="", ph=""):
+    def fld(name, lab, val, step, unit="", ph="", sub=""):
         place = f' placeholder="{e(ph)}"' if ph else ""
         return (f'<label>{lab}<input name="{name}" type="number" step="{step}" value="{val}"{place}>'
-                f'{f"<i>{unit}</i>" if unit else ""}</label>')
+                f'{f"<i>{unit}</i>" if unit else ""}{f"<small>{sub}</small>" if sub else ""}</label>')
     return (f'<form class="tb noprint" method="get" action="/report">{hidden}{hidden_hl}'
-            f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%")}'
+            f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%", sub=share_hint)}'
             f'{fld("price", T("Цена к рынку"), a["price"], "0.01", "×")}'
             f'{fld("fare_conv", T("Чек к минимуму"), "" if a.get("fare_conv") is None else a["fare_conv"], "0.01", "×", T("авто"))}'
             f'{fld("elasticity", T("Эластичность"), a["elasticity"], "0.1")}'
@@ -887,13 +920,15 @@ def toolbar(D: Doc, query: dict, a: dict, types: list | None = None) -> str:
             f'<button class="go">{T("Пересчитать")}</button>'
             f'<a class="go" href="/api/fleetreport.pdf?{e(qs)}">PDF</a>'
             f'<a class="go" href="/api/fleetreport.xlsx?{e(qs)}">Excel</a>{chips}</form>'
-            f'<style>.tb{{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-end;padding:12px 24px;'
+            f'<style>.tb{{display:flex;flex-wrap:wrap;gap:22px 14px;align-items:flex-end;padding:12px 24px 24px;'
             f'border-bottom:1px solid var(--d-rule);background:var(--d-card);position:sticky;top:0;z-index:5}}'
             f'.tb label{{display:flex;flex-direction:column;font-size:11.5px;color:var(--d-ink2);gap:3px}}'
             f'.tb input{{width:88px;background:var(--d-paper);color:var(--d-ink);border:1px solid var(--d-rule);'
             f'border-radius:5px;padding:5px 7px;font:13px var(--sans)}}.tb i{{display:none}}'
             f'.tb .go{{background:var(--d-paper);border:1px solid var(--d-rule);color:var(--d-ink);border-radius:5px;'
             f'padding:6px 12px;font:13px var(--sans);cursor:pointer;text-decoration:none}}'
+            f'.tb label{{position:relative}}.tb label small{{position:absolute;top:100%;left:0;margin-top:3px;'
+            f'font-size:11px;color:var(--d-ink2);white-space:nowrap}}'
             f'.tb .go:hover{{border-color:var(--t1)}}.tb .hlrow{{display:flex;flex-wrap:wrap;gap:6px;align-items:center;'
             f'width:100%;font-size:11.5px;color:var(--d-ink2)}}.tb .chip{{border:1px solid var(--d-rule);border-radius:12px;'
             f'padding:2px 10px;color:var(--d-ink);text-decoration:none;font:12px var(--sans)}}'

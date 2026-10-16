@@ -372,7 +372,9 @@ def build(results: dict, *, assume: dict | None = None, chosen: str = "",
         "price_sweep": price_sweep, "share_sweep": share_sweep, "share_bands": bands,
         "common_pairs": sorted(common), "partial_pairs": partial,
         "types": rows, "availability_as_of": av_of, "specs_as_of": sp.get("as_of"),
-        "notes": _notes(ok, a, partial),
+        "notes": _notes(ok, a, partial, sorted({
+            p["key"] for tp in plans.values() for p in tp.pairs
+            if any((l.get("fare_src") or "").startswith("оценка по формуле") for l in p["legs"])})),
     }
 
 
@@ -433,8 +435,10 @@ def _pros_cons(r: dict, ok: list, a: dict) -> tuple[list, list]:
     return pros, cons
 
 
-def _notes(ok: list, a: dict, partial: list) -> list:
+def _notes(ok: list, a: dict, partial: list, fare_est: list | None = None) -> list:
     out = [{"code": "elasticity", "v": a["elasticity"]}]
+    if fare_est:
+        out.append({"code": "fare_estimated", "pairs": fare_est})
     if a.get("fare_conv") is not None and abs(a["fare_conv"] - 1.0) < 1e-9:
         out.append({"code": "conv_one"})
     if partial:

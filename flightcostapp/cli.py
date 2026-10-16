@@ -506,6 +506,9 @@ def main(argv=None) -> int:
     fr.add_argument("--routes-out", default=None, metavar="ФАЙЛ.xlsx",
                     help="с --list: записать отобранные пары списком маршрутов "
                          "для tools/collect_prices.py (коды ИАТА)")
+    fr.add_argument("--model", action="store_true",
+                    help="формула цены по регионам (решение 212): постоянная часть, "
+                         "ставка за 100 км, число пар и типичная ошибка")
     fr.add_argument("--aggregate", action="store_true",
                     help="свернуть накопленное в факты домена market_fare")
     fr.add_argument("--min-obs", type=int, default=5,
@@ -896,6 +899,19 @@ def main(argv=None) -> int:
             # Одна пара целиком вместо «…и ещё 2066»: механизм, который
             # чего-то не сделал, обязан дать спросить, чего именно.
             print("\n".join(_mf.explain(store, a.why, min_obs=a.min_obs)))
+            return 0
+        if a.model:
+            from . import fare_model as _fm
+            m = _fm.fit(store)
+            if not m:
+                print("формулы нет: свёрнутых прямых цен в EUR меньше "
+                      f"{_fm.MIN_PAIRS} на регион — fca fare --aggregate")
+                return 0
+            print(f"{'регион':22} {'пар':>5} {'база, EUR':>10} {'EUR/100 км':>11} {'ошибка':>8}")
+            for g, v in sorted(m.items(), key=lambda kv: -kv[1]["n"]):
+                print(f"{_fm.REGION_RU.get(g, g):22} {v['n']:>5} {v['a']:>10.0f} "
+                      f"{v['b'] * 100:>11.1f} {v['mdape'] * 100:>7.0f}%")
+            print("\nошибка — медиана |оценка − наблюдение| / наблюдение по парам региона")
             return 0
         if a.listing:
             # Вопрос «что подтянулось» задавался, потому что ответить на

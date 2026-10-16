@@ -1046,7 +1046,7 @@ class Context:
     def fleet_report_html(self, q: dict, ip: str = "", *, theme="dark") -> tuple[int, str]:
         """Документ отчёта: тёмный — страница сайта, светлый — для PDF."""
         from .fleetreport import assumptions
-        from .fleetreport_doc import Doc, render, toolbar
+        from .fleetreport_doc import Doc, render, share_line, toolbar
         from .ui import css
         lang = q.get("lang") if q.get("lang") in ("ru", "en", "de") else "ru"
         cur, rate = (q.get("cur") or "EUR").upper(), 1.0
@@ -1084,7 +1084,7 @@ class Context:
                          f'<body style="margin:0;min-height:100vh;background:var(--bg)">'
                          f'{LOADER_SVG.format(ph=html_escape(ph), sub=html_escape(sub))}</body></html>')
         types = [t["icao"] for t in rep.get("types") or [] if t.get("status") == "ok"]
-        tb = toolbar(D, q, assumptions(q), types) if theme == "dark" else ""
+        tb = toolbar(D, q, assumptions(q), types, share_line(D, rep)) if theme == "dark" else ""
         return 200, render(rep, theme=theme, lang=lang, cur=cur, rate=rate, toolbar=tb,
                            css_text=css(inline_fonts=(theme == "light")), hl=q.get("hl"))
 

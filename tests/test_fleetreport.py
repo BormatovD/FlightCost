@@ -142,6 +142,17 @@ class Document(unittest.TestCase):
         self.assertLess(h.index("Лётно-технические"), h.index("Экономика кресла"))
         self.assertLess(h.index("Экономика кресла"), h.index("Примерка на сеть"))
 
+    def test_share_in_passengers(self):
+        """Решение 213: под долей — пассажиры: доля × поток пар, у которых он есть."""
+        from flightcostapp.fleetreport_doc import Doc, render, share_volume
+        rep = build(copy.deepcopy(FIX), assume={"share": 0.10})
+        v = share_volume(rep)
+        mk = sum(r["market"] for r in rep["types"][0]["plan"]["pairs"])
+        self.assertAlmostEqual(v["market"], mk)
+        self.assertAlmostEqual(v["at_market"], 0.10 * mk)
+        h = render(copy.deepcopy(rep))
+        self.assertIn(f"{Doc().n(v['at_market'])} пасс./мес из", h)
+
     def test_highlight_and_tooltips(self):
         """Выделение типа задаётся в разметке (работает и в PDF), у точек
         графика — подписи с плечами, RASK — у каждого типа свой."""
