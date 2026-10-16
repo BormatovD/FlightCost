@@ -424,6 +424,13 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                 oi, di = info[o]["icao"], info[d]["icao"]
                 leg.market_fare_eur, leg.market_fare_src = market_fare(store, oi, di, as_of,
                                                                        fare_bands)
+                if leg.market_fare_eur is None:
+                    # Наблюдений нет — цена по формуле из наших же наблюдений
+                    # (решение 212): пара не выпадает, а подпись говорит, что это оценка.
+                    from .fare_model import estimate
+                    est, esrc = estimate(store, oi, di, p.dist_km, as_of)
+                    if est is not None:
+                        leg.market_fare_eur, leg.market_fare_src = est, esrc
                 leg.comp_week = comp.get(f"{oi}-{di}") if comp else None
                 p.legs.append(leg)
         except (KeyError, ValueError, RuntimeError) as exc:
@@ -695,6 +702,12 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
                                     contrib, lf_p, p.market_pax_month, need, fs, ss, cw,
                                     cv[p.key]))
 
+    est_legs = [f"{l.origin}→{l.destination}" for p, _ in flown for l in p.legs
+                if (l.fare_src or "").startswith("оценка по формуле")]
+    if est_legs:
+        warnings.append(f"цена по формуле, а не по наблюдениям, на {len(est_legs)} плечах "
+                        f"({', '.join(est_legs[:6])}{' …' if len(est_legs) > 6 else ''}): "
+                        f"рынок по ним не собран — точность см. в подписи цены плеча")
     if fare_conv is None:
         thick = sum(1 for v in cv.values() if v == CONV_THICK)
         r = lambda x: f"{x:.1f}".replace(".", ",")                          # noqa: E731

@@ -856,7 +856,10 @@
   "по потоку пары": "nach Verkehr des Paars",
   "на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "pro Sitz-km beim Planvolumen: ein Typ mit zu wenigen Passagieren für die Mindestfrequenz fliegt leerer, sein Sitz kostet mehr.",
   "цент": "Cent",
-  "на кресло-км": "pro Sitz-km"
+  "на кресло-км": "pro Sitz-km",
+  "Цена — оценка по формуле": "Preis — Schätzung nach Formel",
+  "наблюдений цены по паре нет; взята прямая «постоянная часть + ставка за километр», подогнанная по парам региона, где цена известна. Типичная ошибка формулы — в подписи цены плеча на сайте.": "für das Paar gibt es keine beobachteten Preise; verwendet wird die Gerade „Fixanteil + Satz je Kilometer“, angepasst an Paare der Region mit bekanntem Preis. Der typische Fehler der Formel steht in der Preisangabe der Strecke auf der Website.",
+  "без потока пар:": "Paare ohne Verkehr:"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -1715,6 +1718,9 @@
   "по потоку пары": "by pair traffic",
   "на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "per seat-km at the plan volume: a type with too few passengers for the minimum frequency flies emptier and its seat costs more.",
   "цент": "cent",
-  "на кресло-км": "per seat-km"
+  "на кресло-км": "per seat-km",
+  "Цена — оценка по формуле": "Fare — formula estimate",
+  "наблюдений цены по паре нет; взята прямая «постоянная часть + ставка за километр», подогнанная по парам региона, где цена известна. Типичная ошибка формулы — в подписи цены плеча на сайте.": "no observed fares for the pair; the line “fixed part + rate per kilometre”, fitted to pairs of the region with known fares, is used. The formula's typical error is shown with the leg fare on the site.",
+  "без потока пар:": "pairs without traffic:"
  }
 }
