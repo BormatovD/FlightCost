@@ -35,7 +35,7 @@ from datetime import date
 
 import yaml
 
-from .network import DIST_RATE, WEEKS_PER_MONTH
+from .network import CONV_BASE, CONV_THICK, DIST_RATE, THICK_PAX_MONTH, WEEKS_PER_MONTH, pair_conv
 
 DATA = pathlib.Path(__file__).resolve().parents[1] / "data" / "types"
 AVAIL = DATA / "availability.yaml"
@@ -131,7 +131,9 @@ class TypePlan:
         fl = res.get("fleet") or {}
         self.lease = float(self.net.get("lease_eur_month") or fl.get("lease_eur_month") or 0.0)
         self.util = float(self.net.get("util_h_month") or fl.get("util_h_month") or 0.0)
-        self.conv = float(self.net.get("fare_conv") or 1.0)
+        # Заданный в сети средний чек к минимуму; None — по потоку пары (решение 210).
+        c = self.net.get("fare_conv")
+        self.conv = float(c) if c not in (None, "") else None
         self.rates = {"maint_fh": self.net.get("maint_fh", fl.get("maint_fh")),
                       "maint_fc": self.net.get("maint_fc", fl.get("maint_fc")),
                       "crew_fh": fl.get("crew_fh"), "crew_fc": fl.get("crew_fc")}
@@ -160,7 +162,7 @@ class TypePlan:
     def plan(self, a: dict, *, volume: dict | None = None, fuel_px=None) -> dict:
         """План при допущениях `a`. `volume` — {пара: пасс./мес} вместо доли."""
         share = min(a["share"] * a["price"] ** (-a["elasticity"]), a["share_cap"])
-        conv = a.get("fare_conv") or self.conv
+        conv = a.get("fare_conv") if a.get("fare_conv") is not None else self.conv
         cost = {x: 0.0 for x in ARTICLES}
         rows, skipped = [], []
         rev = pax_m = seats_m = ask = hours = flights = fuel_kg = 0.0
@@ -178,13 +180,14 @@ class TypePlan:
             f_need = math.ceil(need - 1e-9)
             f = max(int(a["min_freq"]), f_need)
             m = f * WEEKS_PER_MONTH
-            prow = {"key": p["key"], "dist": p["dist"], "volume": V, "freq": f,
+            cp = pair_conv(p["market"], conv)
+            prow = {"key": p["key"], "dist": p["dist"], "volume": V, "freq": f, "conv": cp,
                     "freq_need": f_need, "min_binds": f > f_need, "market": p["market"],
                     "market_src": p["market_src"], "legs": []}
             for l in legs:
                 pax = min(D / m, float(l["max_pax"]))
                 c = leg_cost(l, pax, fuel_px)
-                r = pax * float(l["fare_eur"]) * a["price"] * conv
+                r = pax * float(l["fare_eur"]) * a["price"] * cp
                 for x, v in c.items():
                     cost[x] += v * m
                 cost["distribution"] += r * DIST_RATE * m
@@ -234,7 +237,8 @@ class TypePlan:
             for l in p["legs"]:
                 pax = min(a["lf_target"] * l["seats"], float(l["max_pax"]))
                 c = sum(leg_cost(l, pax).values())
-                r = pax * float(l["fare_eur"]) * a["price"] * (a.get("fare_conv") or self.conv)
+                r = pax * float(l["fare_eur"]) * a["price"] * pair_conv(
+                    p["market"], a.get("fare_conv") if a.get("fare_conv") is not None else self.conv)
                 own = self.lease / self.util * float(l["block_h"]) if self.util else 0.0
                 sk = l["seats"] * p["dist"]
                 out.append({"o": l["origin"], "d": l["destination"], "dist": p["dist"],
@@ -293,7 +297,7 @@ def build(results: dict, *, assume: dict | None = None, chosen: str = "",
     if not ok:
         return {"error": "ни один тип не посчитан", "types": rows, "assume": a}
     if a.get("fare_conv") is None:
-        a["fare_conv"] = plans[ok[0]["icao"]].conv
+        a["fare_conv"] = plans[ok[0]["icao"]].conv          # None — по потоку пары
 
     for r in ok:
         tp = plans[r["icao"]]
@@ -431,7 +435,7 @@ def _pros_cons(r: dict, ok: list, a: dict) -> tuple[list, list]:
 
 def _notes(ok: list, a: dict, partial: list) -> list:
     out = [{"code": "elasticity", "v": a["elasticity"]}]
-    if abs((a.get("fare_conv") or 1.0) - 1.0) < 1e-9:
+    if a.get("fare_conv") is not None and abs(a["fare_conv"] - 1.0) < 1e-9:
         out.append({"code": "conv_one"})
     if partial:
         out.append({"code": "partial_pairs", "pairs": partial})

@@ -145,7 +145,6 @@
   "Ровно по спросу": "Passend zur Nachfrage",
   "Рынок": "Markt",
   "Рынок пары": "Markt des Paares",
-  "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. 1,00 — все летят по минимуму (нижняя граница выручки). Публичных данных о соотношении по парам нет; это ваше допущение.": "Der Markt, nicht Sie: der Aggregator zeigt das günstigste Ticket je Datum, das durchschnittlich verkaufte Ticket ist teurer, weil ein Teil der Sitze in höheren Buchungsklassen verkauft wird. 1,00 heißt, alle fliegen zum Minimum (Untergrenze des Erlöses). Öffentliche Daten zu diesem Verhältnis je Paar gibt es nicht; es ist Ihre Annahme.",
   "С запасом роста": "Mit Wachstumsreserve",
   "С обходом закрытого неба": "Mit Umweg um gesperrten Luftraum",
   "С чем сравнить": "Vergleichen mit",
@@ -850,7 +849,12 @@
   "за 15–30 дней до вылета": "15–30 Tage vor Abflug",
   "за 31–60 дней до вылета": "31–60 Tage vor Abflug",
   "за 61–120 дней до вылета": "61–120 Tage vor Abflug",
-  "больше чем за 120 дней": "mehr als 120 Tage vorher"
+  "больше чем за 120 дней": "mehr als 120 Tage vorher",
+  "авто": "auto",
+  "на парах от": "auf Paaren ab",
+  "тыс. пасс./мес": "Tsd. Pax/Monat",
+  "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки).": "Der Markt, nicht Sie: Der Aggregator zeigt das billigste Ticket je Datum, das durchschnittlich verkaufte Ticket ist teurer — ein Teil der Plätze geht zu höheren Tarifen. Leer — Annahme nach Verkehr des Paars: × 1,2, auf Paaren ab 80 Tsd. Passagieren im Monat × 2,0 (dort ist der Abstand größer: Aktionsminima, späte und geschäftliche Käufe). Eine Zahl gilt für alle Paare; 1,00 — alle fliegen zum Minimum (untere Erlösgrenze).",
+  "по потоку пары": "nach Verkehr des Paars"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -998,7 +1002,6 @@
   "Ровно по спросу": "Matches demand",
   "Рынок": "Market",
   "Рынок пары": "Pair market",
-  "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. 1,00 — все летят по минимуму (нижняя граница выручки). Публичных данных о соотношении по парам нет; это ваше допущение.": "The market, not you: the aggregator shows the cheapest ticket for a date, while the average ticket sold is dearer because some seats go at higher fare classes. 1.00 means everyone flies at the minimum (the floor for revenue). There is no public data on this ratio by pair; it is your assumption.",
   "С запасом роста": "Room to grow",
   "С обходом закрытого неба": "Detouring closed airspace",
   "С чем сравнить": "Compare with",
@@ -1703,6 +1706,11 @@
   "за 15–30 дней до вылета": "15–30 days before departure",
   "за 31–60 дней до вылета": "31–60 days before departure",
   "за 61–120 дней до вылета": "61–120 days before departure",
-  "больше чем за 120 дней": "more than 120 days ahead"
+  "больше чем за 120 дней": "more than 120 days ahead",
+  "авто": "auto",
+  "на парах от": "on pairs from",
+  "тыс. пасс./мес": "k pax/month",
+  "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки).": "The market, not you: the aggregator shows the cheapest ticket per date, while the average ticket sold is dearer — some seats go at higher fares. Empty — an assumption by pair traffic: × 1.2, on pairs from 80k passengers a month × 2.0 (the gap is wider there: promo minimums, late and business bookings). A number applies to all pairs; 1.00 — everyone flies at the minimum (lower bound of revenue).",
+  "по потоку пары": "by pair traffic"
  }
 }

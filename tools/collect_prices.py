@@ -161,6 +161,11 @@ def respect_limits(resp):
 
 # ------------------------------------------------------------------ сбор
 MARKET = None
+# Только прямые. Кэш по хабовым парам забит стыковками (FRA–MAD, AMS–FRA,
+# VIE–ZRH: десятки дат «с пересадкой» и меньше пяти прямых), а расчёт
+# берёт только прямые. Отдельный прогон с direct=true — проверка, есть ли
+# прямые в кэше вообще или их вытесняют стыковки в выдаче.
+DIRECT_ONLY = False
 
 
 def fetch_month(origin, destination, month):
@@ -170,7 +175,7 @@ def fetch_month(origin, destination, month):
         params = {
             "origin": origin, "destination": destination,
             "departure_at": month,          # YYYY-MM: весь месяц одним запросом
-            "one_way": "true", "unique": "false", "direct": "false",
+            "one_way": "true", "unique": "false", "direct": "true" if DIRECT_ONLY else "false",
             "currency": CURRENCY, "sorting": "price",
             "limit": PAGE_LIMIT, "page": page,
             "token": TOKEN,
@@ -334,12 +339,15 @@ if __name__ == "__main__":
         c.add_argument("--months", type=int, default=12); c.set_defaults(func=cmd_collect)
     a = sub.add_parser("aggregate"); a.add_argument("--routes", required=True); \
         a.set_defaults(func=cmd_aggregate)
+    c.add_argument("--direct-only", action="store_true",
+                   help="только прямые рейсы — для пар, где кэш забит стыковками")
     for sp in (c, a):
         sp.add_argument("--market", default=None,
                         help="рынок кэша агрегатора: de, uk, es, it, fr, in …; по умолчанию — по городу вылета")
     args = p.parse_args()
-    if args.market:
-        MARKET = args.market.lower()
-        OUT = os.path.join(OUT, f"market_{MARKET}")
+    DIRECT_ONLY = bool(getattr(args, "direct_only", False))
+    if args.market or DIRECT_ONLY:
+        MARKET = args.market.lower() if args.market else None
+        OUT = os.path.join(OUT, f"market_{MARKET or 'auto'}" + ("_direct" if DIRECT_ONLY else ""))
         LOG = os.path.join(OUT, "processed.log")
     args.func(args)

@@ -56,6 +56,25 @@ ALPHA = 1.3
 # глубина — ближе к среднему чеку, чем «за неделю» и «за полгода».
 FARE_BANDS = ("d15_30", "d31_60", "d08_14", "d61_120", "d00_07", "d121_")
 
+# Средний чек к медиане дневных минимумов, когда человек его не задал
+# (решение 210). ДОПУЩЕНИЕ владельца, не измерение: на загруженных парах
+# минимум продаётся акционной частью кресел, а средний чек держат поздние
+# и деловые покупки — разрыв больше; на обычных — ближе к минимуму.
+# Исследования расходятся (Borenstein–Rose 1994 против Gerardi–Shapiro
+# 2007), калибровка по DB1B отложена. Порог — поток пары в обе стороны.
+CONV_BASE = 1.2
+CONV_THICK = 2.0
+THICK_PAX_MONTH = 80_000          # ≈ 1 млн пассажиров в год
+
+
+def pair_conv(market_pax_month, explicit=None) -> float:
+    """Средний чек к минимуму на паре: заданный человеком — всем парам,
+    иначе по потоку пары. Нет потока — как обычная пара."""
+    if explicit is not None:
+        return float(explicit)
+    return CONV_THICK if (market_pax_month or 0) >= THICK_PAX_MONTH else CONV_BASE
+
+
 # Если борт на плече поднимает меньше этой доли кресел, пара считается
 # недоступной по дальности: такой рейс — не рейс сети, а перегон.
 MIN_CAP_SHARE = 0.5
@@ -494,6 +513,7 @@ class PairResult:
     freq_share: float | None
     s_share: float | None
     comp_week: float | None
+    fare_conv: float = 1.0         # средний чек к минимуму, применённый к паре
 
 
 @dataclass
@@ -507,7 +527,7 @@ class NetResult:
     hours_used: float
     lf_ref: float
     fare_mult: float
-    fare_conv: float
+    fare_conv: float | None        # заданный человеком; None — по потоку пары (решение 210)
     alpha: float
     breakeven_lf: float | None
     profit_at_ref: float
@@ -543,14 +563,16 @@ def _net_rev(leg: Leg, k: float) -> float:
     return leg.fare_eur * k * (1 - DIST_RATE)
 
 
-def _profit(flown, fleet_n, lease, lf, k, dfuel=0.0) -> float:
+def _profit(flown, fleet_n, lease, lf, k, dfuel=0.0, cv=None) -> float:
+    """`k` — множитель к рыночной цене; `cv` — средний чек к минимуму по парам."""
     total = -fleet_n * lease
     for p, f in flown:
         m = f * WEEKS_PER_MONTH
+        kp = k * (cv.get(p.key, 1.0) if cv else 1.0)
         for l in p.legs:
             pax = _pax(l, lf)
             fuel = l.fuel_kg0 + l.fuel_kg_per_pax * pax
-            total += m * (pax * (_net_rev(l, k) - l.per_pax_eur) - l.fixed_eur - dfuel * fuel)
+            total += m * (pax * (_net_rev(l, kp) - l.per_pax_eur) - l.fixed_eur - dfuel * fuel)
     return total
 
 
@@ -570,7 +592,7 @@ def _bisect(fn, lo, hi, it=80):
 
 def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
              util_h_month=None, lease_eur_month=None, fare_mult=1.0,
-             fare_conv=1.0, lf_ref=0.80, alpha=ALPHA,
+             fare_conv=None, lf_ref=0.80, alpha=ALPHA,
              maint_fh=None, maint_fc=None) -> NetResult:
     if fleet_n < 1:
         raise ValueError("бортов меньше одного")
@@ -633,9 +655,10 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
                         f"{util:,.0f}: расписание с такими частотами {fleet_n} бортами "
                         f"не выполнить — либо больше бортов, либо меньше рейсов")
 
-    be_lf = _bisect(lambda x: _profit(flown, fleet_n, lease, x, fare_mult * fare_conv), 0.0, 1.0)
-    pr_ref = _profit(flown, fleet_n, lease, lf_ref, fare_mult * fare_conv)
-    be_k = _bisect(lambda k: _profit(flown, fleet_n, lease, lf_ref, k * fare_conv), 0.0, 20.0)
+    cv = {p.key: pair_conv(p.market_pax_month, fare_conv) for p, _ in flown}
+    be_lf = _bisect(lambda x: _profit(flown, fleet_n, lease, x, fare_mult, cv=cv), 0.0, 1.0)
+    pr_ref = _profit(flown, fleet_n, lease, lf_ref, fare_mult, cv=cv)
+    be_k = _bisect(lambda k: _profit(flown, fleet_n, lease, lf_ref, k, cv=cv), 0.0, 20.0)
     be_lease = lease + pr_ref / fleet_n
     fuel_kg = sum(f * WEEKS_PER_MONTH * (l.fuel_kg0 + l.fuel_kg_per_pax * _pax(l, lf_ref))
                   for p, f in flown for l in p.legs)
@@ -650,8 +673,9 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
         m = f * WEEKS_PER_MONTH
         lf_use = lf_need if lf_need is not None else lf_ref
         pax = sum(_pax(l, lf_use) * m for l in p.legs)
-        rev = sum(_pax(l, lf_ref) * m * _net_rev(l, fare_mult * fare_conv) for l in p.legs)
-        contrib = sum(m * (_pax(l, lf_ref) * (_net_rev(l, fare_mult * fare_conv) - l.per_pax_eur)
+        kp = fare_mult * cv[p.key]
+        rev = sum(_pax(l, lf_ref) * m * _net_rev(l, kp) for l in p.legs)
+        contrib = sum(m * (_pax(l, lf_ref) * (_net_rev(l, kp) - l.per_pax_eur)
                            - l.fixed_eur) for l in p.legs)
         cw = None
         if all(l.comp_week is not None for l in p.legs):
@@ -665,12 +689,19 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
         # загрузке пара окупает свои рейсы и сколько при расчётной
         # загрузке приносит в парк. Сеть в нуле там, где сумма вкладов
         # равна лизингу парка; делить лизинг по парам нечем и незачем.
-        lf_p = _bisect(lambda x: _profit([(p, f)], 0, 0.0, x, fare_mult * fare_conv),
+        lf_p = _bisect(lambda x: _profit([(p, f)], 0, 0.0, x, fare_mult, cv=cv),
                        0.0, 1.0)
         out_pairs.append(PairResult(p.key, f, sum(l.seats for l in p.legs) * m, pax, rev,
-                                    contrib, lf_p, p.market_pax_month, need, fs, ss, cw))
+                                    contrib, lf_p, p.market_pax_month, need, fs, ss, cw,
+                                    cv[p.key]))
 
-    if fare_conv == 1.0:
+    if fare_conv is None:
+        thick = sum(1 for v in cv.values() if v == CONV_THICK)
+        r = lambda x: f"{x:.1f}".replace(".", ",")                          # noqa: E731
+        warnings.append(f"средний чек к минимуму — допущение по потоку пары: × {r(CONV_BASE)}, "
+                        f"на парах от {THICK_PAX_MONTH // 1000} тыс. пасс./мес — × {r(CONV_THICK)} "
+                        f"(таких {thick} из {len(cv)}); своё число — в поле «Средний чек к минимальному»")
+    elif fare_conv == 1.0:
         warnings.append("медиана дневных минимумов принята за средний чек (--fare-conv 1): "
                         "минимум ниже среднего, выручка занижена на неизвестную величину")
     if any(r.s_share is not None for r in out_pairs):
@@ -761,7 +792,9 @@ def report(net: NetResult, pairs: list[Pair], *, base: str) -> str:
              f"из принятых {net.util_h_month:,.0f} [{net.util_prov}]")
     L.append("\nУСЛОВИЯ")
     L.append(f"  цена          медиана рынка × {net.fare_mult:.2f}"
-             + (f" × {net.fare_conv:.2f} (минимум → средний чек)" if net.fare_conv != 1 else ""))
+             + (f" × {net.fare_conv:.2f} (минимум → средний чек)" if net.fare_conv not in (None, 1)
+                else f" × {CONV_BASE:.1f}/{CONV_THICK:.1f} по потоку пары (минимум → средний чек)"
+                if net.fare_conv is None else ""))
     if net.breakeven_lf is not None:
         L.append(f"  безубыточная загрузка сети          {net.breakeven_lf * 100:5.1f}%")
     else:

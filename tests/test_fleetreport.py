@@ -246,8 +246,15 @@ class Excel(unittest.TestCase):
         wb = openpyxl.load_workbook(d / "r.xlsx")
         wb["Допущения"]["B5"] = 0.25                      # доля потока
         wb.save(d / "s25.xlsx")
+        # Чек к минимуму не задан — по потоку пары (решение 210): в фикстуре
+        # есть пары и выше, и ниже порога.
+        cls.fix_auto = copy.deepcopy(FIX)
+        for v in cls.fix_auto.values():
+            v["network"]["fare_conv"] = None
+        cls.rep_auto = build(copy.deepcopy(cls.fix_auto), assume={"share": 0.12})
+        (d / "auto.xlsx").write_bytes(build_xlsx(cls.rep_auto, cls.fix_auto))
         cls.vals = {}
-        for name in ("r.xlsx", "s25.xlsx"):
+        for name in ("r.xlsx", "s25.xlsx", "auto.xlsx"):
             subprocess.run(["soffice", "--headless", "--convert-to", "xlsx", "--outdir",
                             str(d / "out"), str(d / name)], check=True,
                            capture_output=True, timeout=180)
@@ -268,6 +275,13 @@ class Excel(unittest.TestCase):
             self.assertAlmostEqual(self.vals["r.xlsx"]["Результат за месяц"][t["name"]],
                                    t["plan"]["result"], delta=5.0)
             self.assertEqual(self.vals["r.xlsx"]["Бортов всего"][t["name"]], t["plan"]["fleet"])
+
+    def test_auto_conv_matches_plan(self):
+        convs = {r["conv"] for t in self.rep_auto["types"] for r in t["plan"]["pairs"]}
+        self.assertEqual(convs, {1.2, 2.0})
+        for t in self.rep_auto["types"]:
+            self.assertAlmostEqual(self.vals["auto.xlsx"]["Результат за месяц"][t["name"]],
+                                   t["plan"]["result"], delta=5.0)
 
     def test_share_change_matches_plan(self):
         for t in self.rep["types"]:
