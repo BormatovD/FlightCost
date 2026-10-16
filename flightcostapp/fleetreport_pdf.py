@@ -19,7 +19,8 @@ import threading
 _LOCK = threading.Lock()
 
 INSTALL = ("PDF на сервере не настроен: нужен Chromium для печати — "
-           "pip install playwright && playwright install --with-deps chromium. "
+           "pip install playwright && playwright install --with-deps chromium "
+           "(на сервере — в общий каталог, см. deploy/README.md, «PDF отчёта по парку»). "
            "Пока можно распечатать страницу отчёта из браузера в PDF.")
 
 

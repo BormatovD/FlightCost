@@ -457,7 +457,7 @@ CSS = """
 .doc .pc li{padding:3px 0 3px 18px;position:relative;font-size:13.5px}
 .doc .pc li::before{position:absolute;left:0;font-weight:600}
 .doc .pc.pro li::before{content:"+";color:var(--d-ok)}.doc .pc.con li::before{content:"−";color:var(--d-warn)}
-.doc .verdict{display:grid;gap:12px}
+.doc .verdict{display:grid;gap:12px}.doc .keep+.verdict{margin-top:12px}
 .doc .verdict .card p{margin:0;max-width:none}.doc .verdict .card b{display:block;margin-bottom:3px;font-size:15.5px;color:var(--d-head)}
 .doc .sources{font-size:13px;color:var(--d-ink2)}.doc .sources ol{padding-left:20px;margin:0}.doc .sources li{margin:4px 0}
 .doc .sil{color:var(--tc)}
@@ -485,7 +485,7 @@ CSS = """
 #tip[hidden]{display:none}
 @media print{.doc .wrap{padding:0}.doc section{break-inside:auto}.doc .card,.doc .barrow,.doc .chart{break-inside:avoid}
   .doc .tblwrap{overflow:visible}.doc table{min-width:0}.doc thead{display:table-header-group}
-  .doc tr{break-inside:avoid}.doc .sec-head,.doc h2,.doc h3{break-inside:avoid;break-after:avoid}
+  .doc tr,.doc .keep{break-inside:avoid}.doc .sec-head,.doc h2,.doc h3{break-inside:avoid;break-after:avoid}
   .doc .sec-head::after,.doc h3::after,.doc .sources h2::after{content:"";display:block;height:170px;margin-bottom:-170px}
   .doc tbody th{position:static}
   .noprint{display:none!important}}
@@ -577,11 +577,11 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
                      f'<ul>{"".join(f"<li>{e(p)}</li>" for p in av["points"])}</ul>'
                      f'<p class="price">{e(av["price"])}<small>{e(av["price_note"])}</small></p></div>')
     stale = any((t.get("availability") or {}).get("stale") for t in ok)
-    H.append(f'<section><div class="sec-head"><h2>{T("Что реально можно получить")}</h2><p>'
+    H.append(f'<section><div class="keep"><div class="sec-head"><h2>{T("Что реально можно получить")}</h2><p>'
              f'{T("Сведения о рынке поставок — не расчёт: производство, сертификация, двигатели, цены.")}'
              f'{" <b class=bad>" + T("Сведениям больше полугода — сверьте перед решением.") + "</b>" if stale else ""}'
              f'{" " + T("Тексты обзоров — на русском.") if D.lang != "ru" else ""}</p></div>'
-             f'<div class="grid3">{"".join(cards)}</div></section>')
+             f'<div class="grid3">{"".join(cards)}</div></div></section>')
 
     # ── ЛТХ
     H.append(_specs_section(D, ok + bad))
@@ -612,10 +612,10 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     trs.append(crow(T("Разница"), [t["plan"]["rask_ct"] - t["plan"]["cask_ct"] for t in ok], low=False, strong=True))
     cost_tbl = (f'<div class="tblwrap"><table><thead><tr><th>{T("Статья")}</th>{th}</tr></thead>'
                 f'<tbody>{"".join(trs)}</tbody></table></div>')
-    H.append(f'<section><div class="sec-head"><h2>{T("Экономика кресла: CASK и RASK")}</h2><p>'
+    H.append(f'<section><div class="keep"><div class="sec-head"><h2>{T("Экономика кресла: CASK и RASK")}</h2><p>'
              f'{T("Себестоимость кресло-километра у каждого типа на плечах этой сети при плановой загрузке")} '
              f'{D.pct(a["lf_target"])}, {T("с лизингом через налёт. Кружки — выручка на кресло-км на тех же плечах (RASK): где линия типа ниже кружков, плечо окупается.")}</p></div>'
-             f'{chart}<p class="small">{T("Короткие плечи дороже на кресло-км у всех: взлёт, посадка и сборы приходятся на меньший пробег. Разница типов — в наклоне и уровне линии.")}</p>'
+             f'{chart}</div><p class="small">{T("Короткие плечи дороже на кресло-км у всех: взлёт, посадка и сборы приходятся на меньший пробег. Разница типов — в наклоне и уровне линии.")}</p>'
              f'<h3 style="margin-top:22px">{T("Из чего складывается кресло-км в плане")}</h3>'
              f'<p class="small">{D.cur}-{T("цент на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.")}</p>'
              f'{cost_tbl}<p class="small">{T("Точка — дешевле всех по статье; в строках выручки и разницы — больше всех.")}</p></section>')
@@ -639,8 +639,8 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     for t in bad:
         pcs.append(f'<div class="card top" data-t="{t["slot"]}" data-pick="{e(t["icao"])}" style="--tc:var(--t{t["slot"]})"><h3>{e(t["short"])}</h3>'
                    f'<p class="bad">{e(t.get("why") or "")}</p></div>')
-    H.append(f'<section><div class="sec-head"><h2>{T("Плюсы и минусы на этой сети")}</h2><p>'
-             f'{T("Выведены из расчёта плана; поставки — из обзоров.")}</p></div><div class="grid3">{"".join(pcs)}</div></section>')
+    H.append(f'<section><div class="keep"><div class="sec-head"><h2>{T("Плюсы и минусы на этой сети")}</h2><p>'
+             f'{T("Выведены из расчёта плана; поставки — из обзоров.")}</p></div><div class="grid3">{"".join(pcs)}</div></div></section>')
 
     # ── что важно понимать
     vs = []
@@ -649,8 +649,8 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
         vs.append(f'<div class="card"><p><b>{h}</b>{txt}</p></div>')
     vs.append(f'<div class="card"><p><b>{T("Что этот отчёт не говорит")}</b>'
               f'{T("Спрос не прогнозируется: доля рынка — ваш ввод, поток пары — статистика или оценка. Расписание проверено суммой часов, без разворотов, ночёвок и окон аэропортов. Права на линии и закрытое небо учтены при сборке сети.")}</p></div>')
-    H.append(f'<section><div class="sec-head"><h2>{T("Что важно понимать, принимая решение")}</h2></div>'
-             f'<div class="verdict">{"".join(vs)}</div></section>')
+    H.append(f'<section><div class="keep"><div class="sec-head"><h2>{T("Что важно понимать, принимая решение")}</h2></div>'
+             f'<div class="verdict">{vs[0]}</div></div><div class="verdict">{"".join(vs[1:])}</div></section>')
 
     # ── источники
     src, seen = [], set()
@@ -724,6 +724,17 @@ def _specs_section(D: Doc, types: list) -> str:
             note = '<span class="sm">%s</span>' % e(s["note"]) if s.get("note") else ""
             cells.append(f'<td{cls} data-t="{t["slot"]}">{v}{note}</td>')
         out.append(f"<tr><th>{e(k[1])}</th>{''.join(cells)}</tr>")
+    # Строка группы и две строки под ней — в своём tbody, который не
+    # рвётся страницей: иначе «Массы» остаются последней строкой страницы.
+    body, i = [], 0
+    while i < len(out):
+        if out[i].startswith('<tr class="group"'):
+            body.append('</tbody><tbody class="keep">' + "".join(out[i:i + 3]) + '</tbody><tbody>')
+            i += 3
+        else:
+            body.append(out[i])
+            i += 1
+    out = body
     miss = [t["short"] for t in types if not t.get("specs")]
     return (f'<section><div class="sec-head"><h2>{T("Лётно-технические характеристики")}</h2><p>'
             f'{T("Сверху — с чем считал расчёт; ниже — таблицы обзоров, значения как в обзоре, пунктир — оценка.")}'
@@ -784,9 +795,9 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
            f'<th class="r">{T("наших пасс./мес")}</th>{th}</tr></thead><tbody>{"".join(trs)}</tbody></table></div>'
            f'<p class="small">{T("В ячейке — рейсов туда-обратно в неделю и загрузка. Красным — частоту держит нижняя граница: объёма на эту частоту не хватает, борт летает полупустым.")} '
            f'<span class="rng">{T("дальность")} ≤80%</span> — {T("на плече борт по дальности поднимает не больше этой доли кресел: рейсы подобраны по этому пределу, а не по плановой загрузке, и их больше.")}</p>')
-    return (f'<section><div class="sec-head"><h2>{T("Примерка на сеть: этот объём на этом типе")}</h2>'
+    return (f'<section><div class="keep"><div class="sec-head"><h2>{T("Примерка на сеть: этот объём на этом типе")}</h2>'
             f'<p>{T("Объём перевозок один на все типы; рейсы, борты и деньги — у каждого свои.")}</p></div>'
-            f'{head}<div class="bars">{"".join(brs)}</div>{tbl}</section>')
+            f'{head}</div><div class="bars">{"".join(brs)}</div>{tbl}</section>')
 
 
 def _sweep_section(D: Doc, rep: dict, ok: list) -> str:

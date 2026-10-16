@@ -15,6 +15,11 @@ WorkingDirectory=/srv/fca/site
 ExecStart=/srv/fca/venv/bin/fca --db data/flightcost.db serve --public --host 127.0.0.1 --port 8000
 Environment=FCA_VERSION_FILE=/srv/fca/VERSION
 Environment=PYTHONUNBUFFERED=1
+# PDF отчёта по парку: Chromium лежит в общем каталоге, а не в домашнем
+# (у fca его нет, а чужие домашние скрыты ProtectHome). Писать Chromium
+# может только во временный каталог — туда же его профиль и кэш.
+Environment=PLAYWRIGHT_BROWSERS_PATH=/srv/fca/ms-playwright
+Environment=HOME=/tmp
 Restart=on-failure
 RestartSec=3
 

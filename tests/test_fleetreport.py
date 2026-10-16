@@ -177,17 +177,25 @@ class Pdf(unittest.TestCase):
     HEADS = ("Что реально можно получить", "Лётно-технические характеристики",
              "Экономика кресла", "Из чего складывается кресло-км", "Примерка на сеть",
              "Цена и доля", "Тонкий и толстый рынок", "Плюсы и минусы", "Что важно понимать",
-             "Источники")
+             "Источники", "Массы", "Силовая установка", "Полёт", "Аэродром и условия",
+             "Стоимость владения")
 
     def test_no_orphan_headings(self):
         from flightcostapp.fleetreport_doc import render
         from flightcostapp.fleetreport_pdf import html_to_pdf
         from flightcostapp.ui import css
         d = pathlib.Path(tempfile.mkdtemp())
-        for share, types in ((0.05, list(FIX)), (0.3, ["A320", "B738", "A21N"])):
+        # Отступ сверху сдвигает все разрывы страниц: так проверяются разные
+        # положения заголовков, а не одно, случайно удачное (на сервере
+        # отчёт DME оставил «Что реально можно получить» внизу страницы).
+        for share, types, pad in ((0.05, list(FIX), 0), (0.3, ["A320", "B738", "A21N"], 0),
+                                  (0.1, list(FIX)[:3], 300), (0.1, list(FIX)[:3], 1380),
+                                  (0.1, list(FIX), 900)):
             rep = build({k: FIX[k] for k in types}, assume={"share": share})
             f = d / "r.pdf"
-            f.write_bytes(html_to_pdf(render(rep, theme="light", css_text=css(inline_fonts=True))))
+            h = render(rep, theme="light", css_text=css(inline_fonts=True))
+            h = h.replace('<div class="wrap">', f'<div class="wrap"><div style="height:{pad}px"></div>', 1)
+            f.write_bytes(html_to_pdf(h))
             pages = subprocess.run(["pdftotext", "-layout", str(f), "-"], capture_output=True,
                                    text=True).stdout.split("\f")
             for n, txt in enumerate(pages, start=1):
@@ -195,7 +203,7 @@ class Pdf(unittest.TestCase):
                 for h in self.HEADS:
                     idx = [i for i, x in enumerate(lines) if x.startswith(h)]
                     self.assertFalse(idx and len(lines) - 1 - idx[-1] <= 2,
-                                     f"стр. {n}: «{h}» внизу страницы без содержания")
+                                     f"отступ {pad}, стр. {n}: «{h}» внизу страницы без содержания")
 
 
 class Availability(unittest.TestCase):
