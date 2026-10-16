@@ -2022,6 +2022,21 @@ class Context:
         if fares:
             out["fare"] = [{"key": k, "value": v, "unit": u,
                             "meta": json.loads(t or "{}")} for k, v, u, t in fares]
+            # Одна цена на линию — по тому же правилу, что в сети (решение 209):
+            # прямые, полосы глубины в порядке FARE_BANDS (сначала «за 15–30
+            # дней»). Остальные полосы — разложение по глубине и пересадкам,
+            # не разброс одной цены; витрина показывает их по нажатию.
+            from .network import FARE_BANDS
+            rank = {b: i for i, b in enumerate(FARE_BANDS)}
+
+            def _order(i):
+                parts = out["fare"][i]["key"].split("/")
+                band = parts[1] if len(parts) > 1 else ""
+                direct = (parts[2] if len(parts) > 2 else "direct") == "direct"
+                return (0 if direct else 1, rank.get(band, len(rank)))
+            idx = sorted(range(len(out["fare"])), key=_order)
+            out["fare_order"] = idx
+            out["fare_main"] = idx[0]
             # Число без валюты рядом с евровыми — приглашение сравнить
             # несравнимое. Пересчёт даётся, ТОЛЬКО если курс есть: без
             # него подпись валюты и всё.

@@ -1,5 +1,9 @@
 {
  "title": "flightcost.app — параметры расчёта",
+ "viewport": [
+  390,
+  436
+ ],
  "path": "/?lang=ru&cur=USD",
  "locale": "ru-RU",
  "intro": {

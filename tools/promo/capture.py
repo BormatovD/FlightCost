@@ -26,6 +26,12 @@ def ease(x):
 
 async def run(a):
     sc = json.load(open(a.scenario, encoding="utf-8"))
+    # высота кадра — под безопасную зону Shorts: чем ниже кадр, тем крупнее
+    # экран в ролике (montage.layout), ширина остаётся телефонной
+    VW, VH = sc.get("viewport", [390, 693])
+    # десктоп: мышь вместо пальца, кадр 16:9, прокрутка внутри панелей
+    desktop = sc.get("device") == "desktop"
+    DPR = sc.get("dpr", 1.5 if desktop else 3)
     fdir = os.path.join(a.out, "frames")
     os.makedirs(fdir, exist_ok=True)
     for f in os.listdir(fdir):
@@ -52,16 +58,22 @@ async def run(a):
         if b is None:
             raise SystemExit(f"браузер не запустился: {str(last)[:300]}\n"
                              "поставьте Google Chrome или выполните `playwright install chromium`")
-        ctx = await b.new_context(
-            viewport={"width": VW, "height": VH}, device_scale_factor=DPR,
-            is_mobile=True, has_touch=True, locale=sc.get("locale", "en-US"),
+        dev = {} if desktop else dict(
+            is_mobile=True, has_touch=True,
             user_agent=("Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) "
                         "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 "
                         "Mobile/15E148 Safari/604.1"))
+        ctx = await b.new_context(
+            viewport={"width": VW, "height": VH}, device_scale_factor=DPR,
+            locale=sc.get("locale", "en-US"), **dev)
         pg = await ctx.new_page()
         cdp = await ctx.new_cdp_session(pg)
         await cdp.send("Emulation.setDeviceMetricsOverride",
-                       {"width": VW, "height": VH, "deviceScaleFactor": DPR, "mobile": True})
+                       {"width": VW, "height": VH, "deviceScaleFactor": DPR, "mobile": not desktop})
+
+        async def press(el):
+            """касание на телефоне, щелчок мышью на десктопе"""
+            await (el.click() if desktop else el.tap())
 
         async def shot(dt):
             """снять кадр, поставить его на текущее время, сдвинуть часы на dt"""
@@ -92,12 +104,24 @@ async def run(a):
             bb = await el.bounding_box()
             return el, [round(bb["x"], 1), round(bb["y"], 1), round(bb["width"], 1), round(bb["height"], 1)]
 
-        async def scroll_to(y1, ms):
-            y0 = await pg.evaluate("scrollY")
-            y1 = await pg.evaluate("y=>Math.max(0,Math.min(y,document.documentElement.scrollHeight-innerHeight))", y1)
+        # Прокручивается не всегда окно: на десктопе у витрины свои панели
+        # (#left, #main). Контейнер — ближайший прокручиваемый предок
+        # элемента; для scrollby — элемент `in` или окно.
+        PICK = """(a)=>{
+          const S=e=>{const s=getComputedStyle(e);return /(auto|scroll)/.test(s.overflowY)&&e.scrollHeight>e.clientHeight+2};
+          let e=a.sel?document.querySelectorAll(a.sel)[a.nth||0]:null, c=null;
+          if(e&&a.self&&S(e)) c=e;
+          for(let p=e&&!c?e.parentElement:null;p&&p!==document.body&&p!==document.documentElement;p=p.parentElement) if(S(p)){c=p;break}
+          c=c||document.scrollingElement; window.__fcaC=c;
+          const top=c===document.scrollingElement?0:c.getBoundingClientRect().top;
+          const y=a.to==='el'?e.getBoundingClientRect().top-top+c.scrollTop-a.off:c.scrollTop+a.dy;
+          return [c.scrollTop, Math.max(0,Math.min(y,c.scrollHeight-c.clientHeight))]}"""
+
+        async def scroll_to(arg, ms):
+            y0, y1 = await pg.evaluate(PICK, arg)
             n = max(2, round(ms / 1000 * FPS))
             for k in range(1, n + 1):
-                await pg.evaluate("y=>scrollTo({top:y,behavior:'instant'})", y0 + (y1 - y0) * ease(k / n))
+                await pg.evaluate("y=>{window.__fcaC.scrollTop=y}", y0 + (y1 - y0) * ease(k / n))
                 await shot(1 / FPS)
 
         url = a.base.rstrip("/") + sc.get("path", "/")
@@ -117,7 +141,13 @@ async def run(a):
                     await realtime(120)
                     log("tap", box=bb, sel=s["sel"])
                     await realtime(s.get("before", 300))
-                    await el.tap()
+                    if s.get("nav"):                      # касание уводит на другую страницу
+                        async with pg.expect_navigation(wait_until="domcontentloaded",
+                                                        timeout=s.get("timeout", 120000)):
+                            await el.evaluate("e=>e.removeAttribute('target')")
+                            await press(el)
+                    else:
+                        await press(el)
                     if do == "fill":
                         await el.fill("")
                         for ch in str(s["text"]):
@@ -157,18 +187,23 @@ async def run(a):
                         await shot(1 / FPS)
                     await el.evaluate("e=>e.dispatchEvent(new Event('change',{bubbles:true}))")
                     await realtime(s.get("after", 800))
-                elif do == "scroll":                  # элемент к верху экрана
-                    y = await pg.locator(s["sel"]).nth(s.get("nth", 0)).evaluate(
-                        "e=>e.getBoundingClientRect().top+scrollY")
-                    await scroll_to(y - s.get("offset", 60), s.get("ms", 1200))
+                elif do == "scroll":                  # элемент к верху своей панели
+                    await scroll_to({"sel": s["sel"], "nth": s.get("nth", 0), "to": "el",
+                                     "off": s.get("offset", 60)}, s.get("ms", 1200))
                 elif do == "scrollby":
-                    y = await pg.evaluate("scrollY")
-                    await scroll_to(y + s["dy"], s.get("ms", 1200))
+                    await scroll_to({"sel": s.get("in"), "self": True, "to": "by", "dy": s["dy"]},
+                                    s.get("ms", 1200))
                 elif do == "zoom":                    # приближение делает монтаж
-                    el, bb = await box(s["sel"], s.get("nth", 0))
-                    log("zoom", box=bb, sel=s["sel"], ms=s.get("ms", 2500),
-                        scale=s.get("scale", 1.7))
-                    await realtime(s.get("ms", 2500))
+                    # `box` — область кадра в css-пикселях вместо элемента;
+                    # `wait: false` — приближение идёт поверх следующих шагов
+                    if "box" in s:
+                        bb, sel = s["box"], ""
+                    else:
+                        _, bb = await box(s["sel"], s.get("nth", 0))
+                        sel = s["sel"]
+                    log("zoom", box=bb, sel=sel, ms=s.get("ms", 2500), scale=s.get("scale", 1.7))
+                    if s.get("wait", True):
+                        await realtime(s.get("ms", 2500))
                 elif do == "waitfor":                 # долгий расчёт: монтаж ускорит
                     log("fast_on", x=s.get("speed", 6), label=s.get("label", ""))
                     task = asyncio.ensure_future(
@@ -197,7 +232,7 @@ async def run(a):
         log("end")
         await b.close()
 
-    json.dump({"viewport": [VW, VH, DPR], "frames": times, "events": events,
+    json.dump({"viewport": [VW, VH, DPR], "device": "desktop" if desktop else "phone", "frames": times, "events": events,
                "watch": [{"label": w["label"], **({"kind": w["kind"]} if "kind" in w else {})} for w in watch],
                "reads": reads, "scenario": a.scenario},
               open(os.path.join(a.out, "log.json"), "w"), ensure_ascii=False, indent=1)

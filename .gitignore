@@ -56,3 +56,8 @@ logs/
 logs/
 data/user.db
 profile.txt
+
+# видеоинструкции (tools/promo)
+tools/promo/fonts/
+promo-takes/
+promo-out/
