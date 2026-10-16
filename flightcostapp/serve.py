@@ -913,7 +913,7 @@ class Context:
                            maint_fh=float(q["maint_fh"]) if q.get("maint_fh") else None,
                            maint_fc=float(q["maint_fc"]) if q.get("maint_fc") else None,
                            fare_mult=float(q.get("fare_mult") or 1.0),
-                           fare_conv=float(q.get("fare_conv") or 1.0),
+                           fare_conv=float(q["fare_conv"]) if q.get("fare_conv") not in (None, "") else None,
                            lf_ref=float(q.get("lf") or 0.8),
                            alpha=float(q["alpha"]) if q.get("alpha") else ALPHA)
         except ValueError as exc:

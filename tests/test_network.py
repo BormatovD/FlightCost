@@ -260,10 +260,28 @@ class Simulation(unittest.TestCase):
         f = {r.key: r.freq_week for r in net.pairs}
         return [(p, f[p.key]) for p in self.pairs if p.key in f]
 
+    @staticmethod
+    def cv(net):
+        return {r.key: r.fare_conv for r in net.pairs}
+
+    def test_fare_conv_by_pair_volume(self):
+        """Решение 210: без заданного числа — 1,2, на загруженной паре 2,0;
+        заданное число — всем парам одинаково."""
+        self.assertEqual(N.pair_conv(None), N.CONV_BASE)
+        self.assertEqual(N.pair_conv(N.THICK_PAX_MONTH - 1), N.CONV_BASE)
+        self.assertEqual(N.pair_conv(N.THICK_PAX_MONTH), N.CONV_THICK)
+        self.assertEqual(N.pair_conv(10 ** 6, 1.0), 1.0)
+        net = self.sim()
+        self.assertIsNone(net.fare_conv)
+        self.assertTrue(any("допущение по потоку" in w for w in net.warnings))
+        one = self.sim(fare_conv=1.0)
+        self.assertTrue(all(r.fare_conv == 1.0 for r in one.pairs))
+        self.assertGreater(net.profit_at_ref, one.profit_at_ref)
+
     def test_breakeven_lf_zeroes_profit(self):
         net = self.sim()
         self.assertIsNotNone(net.breakeven_lf)
-        pr = N._profit(self.flown(net), 4, net.lease_eur_month, net.breakeven_lf, 1.0)
+        pr = N._profit(self.flown(net), 4, net.lease_eur_month, net.breakeven_lf, 1.0, cv=self.cv(net))
         self.assertAlmostEqual(pr, 0.0, delta=1.0)
 
     def test_thresholds_are_consistent(self):
@@ -271,10 +289,10 @@ class Simulation(unittest.TestCase):
         again = self.sim(lease_eur_month=net.lease_breakeven)
         self.assertAlmostEqual(again.profit_at_ref, 0.0, delta=1.0)
         pr = N._profit(self.flown(net), 4, net.lease_eur_month, net.lf_ref,
-                       net.fare_mult_breakeven)
+                       net.fare_mult_breakeven, cv=self.cv(net))
         self.assertAlmostEqual(pr, 0.0, delta=1.0)
         pr = N._profit(self.flown(net), 4, net.lease_eur_month, net.lf_ref, 1.0,
-                       dfuel=net.fuel_price_breakeven - net.fuel_price_now)
+                       dfuel=net.fuel_price_breakeven - net.fuel_price_now, cv=self.cv(net))
         self.assertAlmostEqual(pr, 0.0, delta=1.0)
 
     def test_auto_frequency_fits_fleet_hours(self):
@@ -324,7 +342,7 @@ class Simulation(unittest.TestCase):
         f = {r.key: r.freq_week for r in net.pairs}
         for r in net.pairs:
             p = next(x for x in self.pairs if x.key == r.key)
-            self.assertAlmostEqual(N._profit([(p, f[r.key])], 0, 0.0, r.lf_own, 1.0), 0.0, delta=1.0)
+            self.assertAlmostEqual(N._profit([(p, f[r.key])], 0, 0.0, r.lf_own, 1.0, cv=self.cv(net)), 0.0, delta=1.0)
 
     def test_report_renders(self):
         net = self.sim()

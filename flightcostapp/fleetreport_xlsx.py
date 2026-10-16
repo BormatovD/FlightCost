@@ -21,7 +21,7 @@ from openpyxl.comments import Comment
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter as L
 
-from .network import DIST_RATE
+from .network import CONV_BASE, CONV_THICK, DIST_RATE, THICK_PAX_MONTH
 
 FONT = "Arial"
 F_IN = Font(name=FONT, color="0000FF")
@@ -115,12 +115,18 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
         ("Рейсов туда-обратно в неделю, не меньше", a["min_freq"], "0", True,
          "реже — не регулярная линия"),
         ("Резерв парка", a["reserve"], PCT, False, "доля от эксплуатационного парка, не меньше борта"),
-        ("Средний чек к минимальному", ok[0]["plan"].get("conv", None) or 1.0, MULT, True,
-         "рыночная цена — медиана дневных минимумов, не чек; множитель общий у нас и у рынка"),
+        ("Средний чек к минимальному", a.get("fare_conv"), MULT, True,
+         "пусто — по потоку пары (две строки ниже); число — всем парам одно (решение 210)"),
         ("Дистрибуция, доля выручки", DIST_RATE, PCT, False, "та же величина, что в ядре"),
         ("Цена топлива, EUR/кг", None, EUR2, False,
          "пусто — у каждого плеча своя цена из ядра (по аэропорту вылета)"),
         ("Недель в месяце", "=365.25/12/7", NUM3, False, "календарная величина"),
+        ("Чек к минимуму на обычной паре", CONV_BASE, MULT, False,
+         "ДОПУЩЕНИЕ: медиана минимумов → средний чек, когда B13 пусто"),
+        ("Чек к минимуму на загруженной паре", CONV_THICK, MULT, False,
+         "ДОПУЩЕНИЕ: на загруженных парах разрыв больше — акционные минимумы, поздние и деловые покупки"),
+        ("Загруженная пара — поток от, пасс./мес", THICK_PAX_MONTH, NUM0, False,
+         "в обе стороны; ≈ 1 млн пассажиров в год"),
     ]
     for i, (lab, v, fmt, key, note) in enumerate(rows, start=5):
         A.cell(i, 1, lab).font = F_CALC
@@ -133,16 +139,17 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
     SHARE, LFT, MINF, RES, CONV, DIST, FUEL, WPM = (
         f"Допущения!$B${i}" for i in (9, 10, 11, 12, 13, 14, 15, 16))
     PRICE = "Допущения!$B$6"
+    CBASE, CTHICK, CTHR = (f"Допущения!$B${i}" for i in (17, 18, 19))
 
-    A["A19"] = "Ставки типов"
-    A["A19"].font = F_B
+    A["A21"] = "Ставки типов"
+    A["A21"].font = F_B
     head = ["Тип", "Кресел", "Лизинг, EUR/мес на борт", "ТОиР, EUR/ч", "ТОиР, EUR/цикл",
             "Экипаж, EUR/ч", "Экипаж, EUR/цикл", "Налёт борта, ч/мес", "Происхождение ставок"]
     for j, h in enumerate(head, start=1):
-        c = A.cell(20, j, h)
+        c = A.cell(22, j, h)
         c.font, c.fill, c.alignment = F_B, FILL_HEAD, WRAP
     type_row = {}
-    for i, t in enumerate(ok, start=21):
+    for i, t in enumerate(ok, start=23):
         type_row[t["icao"]] = i
         rt, pv = t.get("rates") or {}, t.get("prov") or {}
         vals = [t["name"], t.get("seats"), t.get("lease_eur_month"), rt.get("maint_fh"),
@@ -214,7 +221,9 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
                     13: f'=IF(D{r}="",0,MAX({MINF},ROUNDUP(MAX(L{pr0}:L{pr1}),0)))',
                     14: f"=M{r}*{WPM}", 15: f"=IF(N{r}>0,MIN(G{r}/N{r},J{r}),0)",
                     16: f"=IF(I{r}>0,O{r}/I{r},0)", 17: lg.get("fare_eur"),
-                    18: f"=Q{r}*{PRICE}*{CONV}", 19: f"=O{r}*R{r}*N{r}", 20: f"=S{r}*{DIST}",
+                    # Чек к минимуму: заданный — всем; пусто — по потоку пары.
+                    18: (f'=Q{r}*{PRICE}*IF(ISBLANK({CONV}),'
+                         f'IF(N(D{r})>={CTHR},{CTHICK},{CBASE}),{CONV})'), 19: f"=O{r}*R{r}*N{r}", 20: f"=S{r}*{DIST}",
                     21: f"={AF}+{AG}*O{r}", 22: f"=IF(ISBLANK({FUEL}),{AH},{FUEL})",
                     # Без статей (старый кэш) топливо, ТОиР и экипаж сидят в
                     # «прочем»: показать их отдельно, не задвоив, нельзя.

@@ -20,6 +20,8 @@ import math
 import urllib.parse
 from pathlib import Path
 
+from .network import CONV_BASE, CONV_THICK, THICK_PAX_MONTH
+
 WEB = Path(__file__).parent / "web"
 _CAT = None
 
@@ -748,9 +750,12 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
     T, a = D.T, rep["assume"]
     kv = [(T("Наша доля потока при рыночной цене"), D.pct(a["share"])),
           (T("Наша цена к рыночной"), f'× {D.n(a["price"], 2)}'),
-          (T("Средний чек к минимальному"), (f'<span class="guess">× {D.n(a["fare_conv"], 2)}</span>'
-                                             if abs((a.get("fare_conv") or 1) - 1) < 1e-9
-                                             else f'× {D.n(a["fare_conv"], 2)}')),
+          (T("Средний чек к минимальному"), (
+              f'<span class="guess">× {D.n(CONV_BASE, 1)}, {T("на парах от")} {D.n(THICK_PAX_MONTH / 1000)} '
+              f'{T("тыс. пасс./мес")} × {D.n(CONV_THICK, 1)} · {T("допущение")}</span>'
+              if a.get("fare_conv") is None
+              else f'<span class="guess">× {D.n(a["fare_conv"], 2)}</span>'
+              if abs(a["fare_conv"] - 1) < 1e-9 else f'× {D.n(a["fare_conv"], 2)}')),
           (T("Эластичность доли по цене"), f'<span class="guess">{D.n(a["elasticity"], 1)} · {T("допущение")}</span>'),
           (T("Плановая загрузка"), D.pct(a["lf_target"])),
           (T("Частота не реже"), f'{a["min_freq"]} {T("рейсов в неделю")}'),
@@ -851,13 +856,14 @@ def toolbar(D: Doc, query: dict, a: dict, types: list | None = None) -> str:
     hidden = "".join(f'<input type="hidden" name="{e(k)}" value="{e(str(v))}">' for k, v in keep.items())
     qs = urllib.parse.urlencode(query)
 
-    def fld(name, lab, val, step, unit=""):
-        return (f'<label>{lab}<input name="{name}" type="number" step="{step}" value="{val}">'
+    def fld(name, lab, val, step, unit="", ph=""):
+        place = f' placeholder="{e(ph)}"' if ph else ""
+        return (f'<label>{lab}<input name="{name}" type="number" step="{step}" value="{val}"{place}>'
                 f'{f"<i>{unit}</i>" if unit else ""}</label>')
     return (f'<form class="tb noprint" method="get" action="/report">{hidden}{hidden_hl}'
             f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%")}'
             f'{fld("price", T("Цена к рынку"), a["price"], "0.01", "×")}'
-            f'{fld("fare_conv", T("Чек к минимуму"), a.get("fare_conv") or 1, "0.01", "×")}'
+            f'{fld("fare_conv", T("Чек к минимуму"), "" if a.get("fare_conv") is None else a["fare_conv"], "0.01", "×", T("авто"))}'
             f'{fld("elasticity", T("Эластичность"), a["elasticity"], "0.1")}'
             f'{fld("lf_target", T("Плановая загрузка"), round(a["lf_target"] * 100), "1", "%")}'
             f'{fld("min_freq", T("Рейсов в неделю не меньше"), a["min_freq"], "1")}'

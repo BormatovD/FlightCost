@@ -657,7 +657,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
          минимума — допущение о рынке; дешевле или дороже рынка мы — решение.
          Перемножаются, и итог стоит под полями числом. -->
     <div class="field"><label for="nconv">Средний чек к минимальному<button type="button" class="hint" data-hk="nconv" aria-label="пояснение">i</button></label>
-      <input id="nconv" type="number" step="0.05" min="0.5" max="3" value="1.00"></div>
+      <input id="nconv" type="number" step="0.05" min="0.5" max="3" value="" placeholder="по потоку пары"></div>
     <div class="field"><label for="nmult">Наша цена к рынку<button type="button" class="hint" data-hk="nmult" aria-label="пояснение">i</button></label>
       <input id="nmult" type="range" min="50" max="150" value="100">
       <div class="rv"><span id="nmultv">× 1,00</span></div></div>
@@ -1351,7 +1351,7 @@ function benchDraw(){ fleetHints(); }
 // переводы каталога остаются в силе.
 setHint("alt", _t("без него запас неполон, предельная нагрузка завышена"));
 setHint("ctx", _t("их нет в справочнике: у каждого аэропорта своя нумерация"));
-setHint("nconv", _t("Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. 1,00 — все летят по минимуму (нижняя граница выручки). Публичных данных о соотношении по парам нет; это ваше допущение."));
+setHint("nconv", _t("Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки)."));;
 setHint("nmult", _t("Ваше решение: насколько дешевле или дороже рынка продаёте. 1,00 — как рынок. «Цена в ноль» над глобусом — в этих же единицах."));
 setHint("nlf", _t("вклад и «нужно» — при ней"));
 setHint("ngo", _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"));
@@ -3107,7 +3107,7 @@ function netParams(){
     airports: NET.airports.join(","), base: NET.base || "", ac: CHOSEN.ac,
     operator: ["*", "max", "own"].includes(CHOSEN.op) ? "*" : CHOSEN.op,
     fleet: $("#nfleet").value || "1", lf: (+$("#nlf").value / 100).toFixed(2),
-    fare_mult: (+$("#nmult").value / 100).toFixed(2), fare_conv: $("#nconv").value || "1",
+    fare_mult: (+$("#nmult").value / 100).toFixed(2), fare_conv: $("#nconv").value || "",
     month: $("#month").value});
   if ($("#nutil").value !== "") p.set("util_h", $("#nutil").value);
   if ($("#nlease").value !== "") p.set("lease", String(Math.round(toEur($("#nlease").value))));
@@ -3165,10 +3165,14 @@ $("#nconv").addEventListener("input", netFareLine);
 // на первой паре с рыночной ценой — чтобы было видно, что их два и они
 // перемножаются.
 function netFareLine() {
-  const conv = +$("#nconv").value || 1, mult = +$("#nmult").value / 100, k = conv * mult;
+  // Пусто — чек к минимуму по потоку пары (решение 210): берётся тот,
+  // что сервер применил к этой паре; до первого расчёта — обычный 1,2.
+  const auto = $("#nconv").value === "", mult = +$("#nmult").value / 100;
   const p = NET.res && NET.res.pairs.find(x => x.status === "ok" && x.legs.some(l => l.fare_eur != null));
   const l = p && p.legs.find(x => x.fare_eur != null);
-  $("#nfarev").innerHTML = `${_t("в расчёте: минимум")} × ${f2(conv)} × ${f2(mult)} = <b>× ${f2(k)}</b>${
+  const pr = p && NET.res.network && (NET.res.network.pairs || []).find(x => x.key === `${p.a}-${p.b}`);
+  const conv = auto ? ((pr && pr.fare_conv) || 1.2) : (+$("#nconv").value || 1), k = conv * mult;
+  $("#nfarev").innerHTML = `${_t("в расчёте: минимум")} × ${f2(conv)}${auto ? " (" + _t("по потоку пары") + ")" : ""} × ${f2(mult)} = <b>× ${f2(k)}</b>${
     l ? ` · ${esc(l.origin)}–${esc(l.destination)}: ${m0(l.fare_eur)} → <b>${m0(l.fare_eur * k)}</b> ${CUR.code}` : ""}`;
 }
 $("#nlf").addEventListener("input", () => { $("#nlfv").textContent = $("#nlf").value + "%"; netSoft(); });
@@ -3555,7 +3559,7 @@ function netState(){
     util: $("#nutil").value || null, lease_eur: $("#nlease").value === "" ? null : Math.round(toEur($("#nlease").value)),
     maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
     maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
-    fare_mult: +$("#nmult").value / 100, fare_conv: +$("#nconv").value || 1, lf: +$("#nlf").value / 100,
+    fare_mult: +$("#nmult").value / 100, fare_conv: $("#nconv").value === "" ? null : +$("#nconv").value, lf: +$("#nlf").value / 100,
     freq_mode: NET.freqMode, freqs: NET.freqs, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
     market: NET.market, month: $("#month").value || null, saved_at: new Date().toISOString().slice(0, 16)};
 }
@@ -3567,7 +3571,7 @@ function netApply(st){
   $("#nmfh").value = st.maint_fh_eur == null ? "" : String(Math.round(M(st.maint_fh_eur)));
   $("#nmfc").value = st.maint_fc_eur == null ? "" : String(Math.round(M(st.maint_fc_eur)));
   $("#nmult").value = Math.round((st.fare_mult || 1) * 100); $("#nmultv").textContent = `× ${f2(st.fare_mult || 1)}`;
-  $("#nconv").value = st.fare_conv || 1; $("#nlf").value = Math.round((st.lf || 0.8) * 100); $("#nlfv").textContent = $("#nlf").value + "%";
+  $("#nconv").value = st.fare_conv == null ? "" : st.fare_conv; $("#nlf").value = Math.round((st.lf || 0.8) * 100); $("#nlfv").textContent = $("#nlf").value + "%";
   NET.freqMode = st.freq_mode || "auto";
   document.querySelectorAll("#nfreqmode button").forEach(x => x.setAttribute("aria-selected", String(x.dataset.v === NET.freqMode)));
   NET.freqs = st.freqs || {}; NET.market = st.market || {};

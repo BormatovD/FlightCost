@@ -499,6 +499,13 @@ def main(argv=None) -> int:
                     help="где лежат выгрузки агрегатора")
     fr.add_argument("--list", action="store_true", dest="listing",
                     help="что уже накоплено: пары, полосы глубины, число дат")
+    fr.add_argument("--state", default=None, action="append",
+                    choices=["в справочнике", "наберётся", "только с пересадкой", "мало дат",
+                             "ready", "pending", "via", "thin"],
+                    help="с --list: только пары в этом состоянии; можно несколько раз")
+    fr.add_argument("--routes-out", default=None, metavar="ФАЙЛ.xlsx",
+                    help="с --list: записать отобранные пары списком маршрутов "
+                         "для tools/collect_prices.py (коды ИАТА)")
     fr.add_argument("--aggregate", action="store_true",
                     help="свернуть накопленное в факты домена market_fare")
     fr.add_argument("--min-obs", type=int, default=5,
@@ -566,8 +573,9 @@ def main(argv=None) -> int:
                     help="поток на паре в месяц, оба направления")
     nw.add_argument("--fare-mult", type=float, default=1.0,
                     help="наша цена к рыночной медиане, 0.9 = на 10%% ниже")
-    nw.add_argument("--fare-conv", type=float, default=1.0,
-                    help="переход от медианы дневных минимумов к среднему чеку")
+    nw.add_argument("--fare-conv", type=float, default=None,
+                    help="переход от медианы дневных минимумов к среднему чеку; "
+                         "не задан — по потоку пары: 1,2, на загруженных 2,0 (решение 210)")
     nw.add_argument("--lf", type=float, default=0.80,
                     help="загрузка, при которой считаются пороги")
     nw.add_argument("--alpha", type=float, default=None,
@@ -900,22 +908,67 @@ def main(argv=None) -> int:
             if not rows:
                 print("наблюдений цены нет: fca fare")
                 return 0
-            pairs: dict[str, list] = {}
+            # Отметка считается по наблюдениям, а не по справочнику: раньше
+            # «нет, дат мало» печаталось у всего, что ещё не свёрнуто, и
+            # свежий сбор на сотне дат читался как пустой. Главная полоса —
+            # по правилу сети (решение 209): прямые, порядок FARE_BANDS.
+            from .network import FARE_BANDS
+            pairs: dict[str, dict] = {}
             for key, n, lo, hi in rows:
                 pair, _, rest = key.partition("/")
-                pairs.setdefault(pair, []).append((rest, n, lo, hi))
-            live = {r[0].split("/")[0] for r in store.db.execute(
+                pairs.setdefault(pair, {})[rest] = n
+            # В справочнике — именно эта полоса прямых, а не любая полоса
+            # пары: свёрнутая когда-то полоса «с пересадкой» не делает
+            # новую прямую посчитанной.
+            live = {r[0] for r in store.db.execute(
                 "SELECT key FROM facts WHERE domain='market_fare' "
                 "AND valid_to IS NULL")}
-            print(f"{'пара':14} {'дат':>5}  полосы глубины"
-                  f"{'':14}полоса посчитана")
+            print(f"{'пара':14} {'дат':>5}  {'главная полоса (прямые)':<26} состояние")
+            cnt = {"в справочнике": 0, "наберётся": 0, "только с пересадкой": 0, "мало дат": 0}
+            alias = {"ready": "в справочнике", "pending": "наберётся", "via": "только с пересадкой",
+                     "thin": "мало дат"}
+            want = {alias.get(s, s) for s in a.state or []}
+            picked = []
             for pair, items in sorted(pairs.items()):
-                total = sum(x[1] for x in items)
-                bands = ", ".join(sorted({x[0].split("/")[0] for x in items}))
-                mark = "да" if pair in live else "нет, дат мало"
-                print(f"{pair:14} {total:>5}  {bands:<28} {mark}")
-            print(f"\nпар {len(pairs)}, полос в справочнике "
-                  f"{len(live)} — остальным не хватает дат")
+                total = sum(items.values())
+                main = next(((b, items[f"{b}/direct"]) for b in FARE_BANDS
+                             if items.get(f"{b}/direct", 0) >= a.min_obs), None)
+                via = any(k.endswith("/via") and v >= a.min_obs for k, v in items.items())
+                if main and f"{pair}/{main[0]}/direct" in live:
+                    state = "в справочнике"
+                elif main:
+                    state = "наберётся"
+                elif via:
+                    state = "только с пересадкой"
+                else:
+                    state = "мало дат"
+                cnt[state] += 1
+                if want and state not in want:
+                    continue
+                picked.append(pair)
+                band = f"{main[0]}: {main[1]} дат" if main else "—"
+                print(f"{pair:14} {total:>5}  {band:<26} {state}")
+            if a.routes_out:
+                # Сборщик говорит на ИАТА, хранилище — на ИКАО (решение 103):
+                # обратный перевод по тому же указателю, что и при загрузке.
+                back = {}
+                for iata, icao in store.icao_of_iata().items():
+                    back.setdefault(icao, iata)
+                rows, lost = [], []
+                for pr in picked:
+                    o, _, d = pr.partition("-")
+                    if o in back and d in back:
+                        rows.append(f"{back[o]}-{back[d]}")
+                    else:
+                        lost.append(pr)
+                import pandas as pd
+                pd.DataFrame({"Направление": rows, "Кол-во рейсов": None,
+                              "Дистанция, км": None}).to_excel(a.routes_out, index=False)
+                print(f"\nсписок маршрутов: {a.routes_out}, направлений {len(rows)}"
+                      + (f"; без кода ИАТА {len(lost)}: {', '.join(lost[:5])}" if lost else ""))
+            print(f"\nпар {len(pairs)}: " + ", ".join(f"{k} {v}" for k, v in cnt.items() if v)
+                  + f". Порог — {a.min_obs} дат на полосу; «наберётся» станет ценой после "
+                  f"fca fare --aggregate")
             return 0
         if a.aggregate:
             facts, thin = _mf.aggregate(store, min_obs=a.min_obs)
