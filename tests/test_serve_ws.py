@@ -154,6 +154,19 @@ class WsHttp(unittest.TestCase):
         st, d, _, _ = self.call("GET", "/api/bench?origin=FRA&destination=DEL")
         self.assertIsNone(d["fare"])
 
+    def test_bench_names_one_fare_by_the_network_rule(self):
+        """Одна цена на линию — как в сети: прямые, сначала «за 15–30 дней»;
+        цена с пересадкой не становится главной, даже если дешевле."""
+        F = lambda k, v: Fact(domain="market_fare", key=f"VIE-ZRH/{k}", valid_from="2026-10-01",  # noqa: E731
+                              value=v, unit="EUR", source_id="market_fare", extracted_by="t")
+        self.store.commit_facts([F("d00_07/direct", 190.0), F("d31_60/direct", 95.0),
+                                 F("d15_30/via", 70.0), F("d15_30/direct", 110.0)])
+        st, d, _, _ = self.call("GET", "/api/bench?origin=VIE&destination=ZRH")
+        main = d["fare"][d["fare_main"]]
+        self.assertEqual(main["key"], "VIE-ZRH/d15_30/direct")
+        order = [d["fare"][i]["key"].split("/", 1)[1] for i in d["fare_order"]]
+        self.assertEqual(order, ["d15_30/direct", "d31_60/direct", "d00_07/direct", "d15_30/via"])
+
     def test_health_counts_workspaces(self):
         st, d, _, _ = self.call("GET", "/healthz")
         self.assertIn("workspaces", d)

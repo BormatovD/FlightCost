@@ -1,5 +1,9 @@
 {
  "title": "flightcost.app — how to use, 60 seconds",
+ "viewport": [
+  390,
+  500
+ ],
  "path": "/?lang=en&cur=USD",
  "locale": "en-US",
  "intro": {

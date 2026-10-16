@@ -1,5 +1,9 @@
 {
  "title": "flightcost.app — как пользоваться, за минуту",
+ "viewport": [
+  390,
+  500
+ ],
  "path": "/?lang=ru&cur=USD",
  "locale": "ru-RU",
  "intro": {

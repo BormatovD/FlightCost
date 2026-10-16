@@ -1,0 +1,40 @@
+{
+ "title": "flightcost.app — параметры расчёта (десктоп)",
+ "device": "desktop",
+ "viewport": [1440, 810],
+ "path": "/?lang=ru&cur=USD",
+ "locale": "ru-RU",
+ "intro": {"title": ["Что меняет каждый параметр?"], "sub": "Параметры расчёта на flightcost.app"},
+ "outro": {"title": ["Подставьте свои числа."], "url": "flightcost.app", "sub": "открытый код · бесплатно · в браузере"},
+ "steps": [
+  {"do": "wait", "ms": 1000},
+
+  {"do": "caption", "n": 1, "text": "Слева — параметры, сверху — ответ", "sub": "всё, что вы знаете о рейсе лучше справочника"},
+  {"do": "wait", "ms": 1600},
+  {"do": "zoom", "box": [0, 95, 1000, 560], "ms": 30000, "scale": 1.44, "wait": false},
+  {"do": "wait", "ms": 1600},
+
+  {"do": "caption", "n": 2, "text": "Загрузка", "sub": "больше пассажиров — ниже безубыточный чек"},
+  {"do": "slide", "sel": "#lf", "to": 95, "ms": 1800, "after": 1700},
+
+  {"do": "caption", "n": 3, "text": "Чек", "sub": "сколько платит пассажир — сразу видно, хватает ли"},
+  {"do": "fill", "sel": "#fare", "text": "140", "after": 1900},
+
+  {"do": "caption", "n": 4, "text": "Месяц вылета", "sub": "включает сезонные ставки аэропортов"},
+  {"do": "select", "sel": "#month", "value": "7", "after": 1800},
+
+  {"do": "caption", "n": 5, "text": "Запасной аэродром", "sub": "больше топлива в запасе — дороже рейс"},
+  {"do": "fill", "sel": "#alt", "text": "200", "after": 1900},
+
+  {"do": "caption", "n": 6, "text": "Лизинг", "sub": "ноль — борт уже оплачен, владение не начисляется"},
+  {"do": "fill", "sel": "#lease", "text": "0", "after": 2300},
+
+  {"do": "caption", "n": 7, "text": "Условия аэропорта", "sub": "у каждого аэропорта своя нумерация категорий"},
+  {"do": "scroll", "sel": "#ctxtabs", "offset": 150, "ms": 1200},
+  {"do": "tap", "sel": "#ctxtabs button", "nth": 0, "after": 600},
+  {"do": "fill", "sel": "#ctxfields input[data-ctx=noise_cat]", "text": "3", "after": 1200},
+  {"do": "select", "sel": "#ctxfields select[data-ctx=stand]", "value": "pier", "after": 2200},
+  {"do": "wait", "ms": 600}
+ ],
+ "tail_ms": 500
+}

@@ -7,6 +7,14 @@
 Использование:
     export TP_TOKEN="ваш_токен"
     python collect_prices.py collect   --routes "Маршрутная_сеть.xlsx" --months 12
+    python collect_prices.py collect   --routes europe.xlsx --market de   # кэш немецкого рынка
+
+РЫНОК. Кэш агрегатора разделён по рынкам — по языку сайта, где искали:
+поиск на .ru не наполняет немецкий рынок. Без `--market` агрегатор берёт
+рынок по городу вылета, а не определил — ru; по Европе и Индии это кэш,
+набранный русскоязычными пользователями, и он тонкий. Сбор с рынком
+кладётся в свой каталог (flight_data/market_de/ …) со своим журналом:
+тот же маршрут на другом рынке — другой сбор, а не «уже собрано».
     python collect_prices.py aggregate --routes "Маршрутная_сеть.xlsx"
 
 Выход:
@@ -152,6 +160,9 @@ def respect_limits(resp):
 
 
 # ------------------------------------------------------------------ сбор
+MARKET = None
+
+
 def fetch_month(origin, destination, month):
     """Все кэшированные предложения по маршруту за месяц (с пагинацией)."""
     rows, page = [], 1
@@ -164,6 +175,8 @@ def fetch_month(origin, destination, month):
             "limit": PAGE_LIMIT, "page": page,
             "token": TOKEN,
         }
+        if MARKET:
+            params["market"] = MARKET
         for attempt in range(4):
             try:
                 resp = SESSION.get(API_URL, params=params, timeout=60)
@@ -214,6 +227,7 @@ def cmd_collect(args):
             offers, status = fetch_month(o, d, m)
             for x in offers:
                 x["origin_req"], x["destination_req"], x["month"] = o, d, m
+                x["market"] = MARKET or "auto"
                 x["collected_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
             buffer.extend(offers)
             log_row(o, d, m, status, len(offers))
@@ -320,5 +334,12 @@ if __name__ == "__main__":
         c.add_argument("--months", type=int, default=12); c.set_defaults(func=cmd_collect)
     a = sub.add_parser("aggregate"); a.add_argument("--routes", required=True); \
         a.set_defaults(func=cmd_aggregate)
+    for sp in (c, a):
+        sp.add_argument("--market", default=None,
+                        help="рынок кэша агрегатора: de, uk, es, it, fr, in …; по умолчанию — по городу вылета")
     args = p.parse_args()
+    if args.market:
+        MARKET = args.market.lower()
+        OUT = os.path.join(OUT, f"market_{MARKET}")
+        LOG = os.path.join(OUT, "processed.log")
     args.func(args)

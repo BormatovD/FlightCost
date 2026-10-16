@@ -1,13 +1,14 @@
 """Монтаж видеоинструкции из съёмки capture.py.
 
-    python3 montage.py take/ out.mp4 [--stills]
+    python3 montage.py take/ out.mp4 [t1,t2,… — вместо ролика кадры]
 
 Читает take/log.json и кадры, сценарий берёт по пути из лога (заставка,
-концовка). Шортс 1080×1920, 30 кадров/с: сверху номер шага и подпись,
-посередине экран телефона, касания кольцами, приближения внутри экрана,
-долгие ожидания ускорены с пометкой.
+концовка). Формат — по съёмке: телефон → шортс 1080×1920 с полями под
+интерфейс Shorts, касания кольцами; десктоп → 1920×1080, курсор мыши со
+щелчками. Подпись шага над экраном, приближения внутри экрана, долгие
+ожидания ускорены с пометкой.
 """
-import bisect, json, re, math, os, subprocess, sys
+import bisect, functools, json, re, math, os, subprocess, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H, FPS = 1080, 1920, 30
@@ -22,10 +23,45 @@ ORANGE = (255, 138, 42)
 
 INTRO, OUTRO, XF = 3.2, 4.2, 0.6         # с; XF — перекрытие переходов
 
-CARD_W = 800
-CARD_X = (W - CARD_W) // 2
-CARD_Y = 330
-RADIUS = 46
+# Безопасная зона Shorts: сверху поиск и меню, снизу название, автор и
+# описание (длинное название поднимается выше 15 %), справа кнопки
+# «нравится», комментарии, «поделиться». Всё важное — внутри SAFE, поля
+# вокруг остаются пустыми.
+SAFE = (40, 300, 940, 1540)                 # x0, y0, x1, y1
+CX = (SAFE[0] + SAFE[2]) / 2                # центр безопасной зоны, левее центра кадра
+CAP_H = 140                                 # подпись шага над экраном
+READ_H, READ_GAP = 122, 58                  # табло под экраном; в зазоре — разница после смены
+RADIUS = 40
+CARD_W, CARD_X, CARD_Y = 800, 140, 440      # пересчитываются в build() под кадр съёмки
+
+
+# Десктоп 16:9: у обычного плеера YouTube поверх кадра только полоса
+# управления снизу, и та — при наведении; поля узкие.
+FORMATS = {
+    "phone":   dict(W=1080, H=1920, SAFE=(40, 300, 940, 1540), CAP_H=140, RADIUS=40,
+                    cap=(58, 34, 40), sub_dy=80, slide=160),
+    "desktop": dict(W=1920, H=1080, SAFE=(96, 40, 1824, 1048), CAP_H=112, RADIUS=20,
+                    cap=(48, 30, 32), sub_dy=62, slide=70),
+}
+CAP = FORMATS["phone"]["cap"]
+SUB_DY, SLIDE = 80, 160
+
+
+def use_format(name):
+    global W, H, SAFE, CX, CAP_H, RADIUS, CAP, SUB_DY, SLIDE
+    f = FORMATS[name]
+    W, H, SAFE, CAP_H, RADIUS, CAP = f["W"], f["H"], f["SAFE"], f["CAP_H"], f["RADIUS"], f["cap"]
+    SUB_DY, SLIDE = f["sub_dy"], f["slide"]
+    CX = (SAFE[0] + SAFE[2]) / 2
+
+
+def layout(vw, vh, readout):
+    """карточка экрана наибольшая, какая влезает в безопасную зону"""
+    top = SAFE[1] + CAP_H
+    bottom = SAFE[3] - ((READ_H + READ_GAP) if readout else 0)
+    w = min(SAFE[2] - SAFE[0], (bottom - top) * vw / vh)
+    w = int(w) // 2 * 2
+    return w, int(CX - w / 2), top
 
 
 PLEX = "https://raw.githubusercontent.com/IBM/plex/master/packages/{p}/fonts/complete/ttf/{f}"
@@ -44,7 +80,15 @@ def ensure_fonts():
             urllib.request.urlretrieve(PLEX.format(p=pkg, f=f), dst)
 
 
+@functools.lru_cache(maxsize=None)
 def font(w, s): return ImageFont.truetype(os.path.join(FONTS, f"IBMPlexSans-{w}.ttf"), s)
+def fit(d, s, w, size, room):
+    """шрифт не больше size, при котором строка влезает в room пикселей"""
+    while size > 20 and d.textlength(s, font=font(w, size)) > room:
+        size -= 2
+    return font(w, size)
+
+
 def mono(s): return ImageFont.truetype(os.path.join(FONTS, "IBMPlexMono-Medium.ttf"), s)
 
 
@@ -65,6 +109,7 @@ class Take:
         self.path = path
         lg = json.load(open(os.path.join(path, "log.json"), encoding="utf-8"))
         self.vw, self.vh, self.dpr = lg["viewport"]
+        self.device = lg.get("device", "phone")
         self.ft = lg["frames"]
         self.ev = lg["events"]
         sp = lg.get("scenario", "")
@@ -153,6 +198,10 @@ def build(take, out, stills=None):
     sc = take.sc
     intro = sc.get("intro", {"title": ["flightcost.app"], "sub": ""})
     outro = sc.get("outro", {"title": ["flightcost.app"], "url": "flightcost.app", "sub": ""})
+    global CARD_W, CARD_X, CARD_Y
+    use_format(take.device)
+    desk = take.device == "desktop"
+    CARD_W, CARD_X, CARD_Y = layout(take.vw, take.vh, bool(take.watch))
     card_h = round(CARD_W * take.vh / take.vw)
     k_css = CARD_W / take.vw                       # css px → px карточки
     mask = rounded_mask(CARD_W, card_h, RADIUS)
@@ -165,7 +214,39 @@ def build(take, out, stills=None):
     total = T_SHOW1 + OUTRO - XF + XF
     taps = [e for e in take.ev if e["kind"] == "tap"]
     drags = [e for e in take.ev if e["kind"] == "drag"]
-    f_cap, f_sub, f_num = font("SemiBold", 60), font("Regular", 36), font("Bold", 46)
+    f_num = font("Bold", round(CAP[2] * 1.15))
+    mid = (SAFE[1] + SAFE[3]) / 2
+
+    # Курсор (десктоп): опорные точки — щелчки и ползунки; между ними
+    # курсор плывёт к следующей цели, приходя чуть раньше щелчка.
+    keys = []                       # (время прихода, x css, y css, длительность хода)
+    for e in sorted(taps + drags, key=lambda e: e["t"]):
+        x, y, w, h = e["box"]
+        if e["kind"] == "tap":
+            keys.append((e["t"] - 0.05, x + (min(w / 2, 60) if w > 160 else w / 2), y + h / 2, 0.6))
+        else:
+            t0, t1 = e["t"], e["t"] + e["ms"] / 1000
+            keys.append((t0, x + w * e["frac0"], y + h / 2, 0.6))
+            keys.append((t1, x + w * e["frac1"], y + h / 2, t1 - t0))
+
+    def cursor_at(v):
+        if not keys:
+            return None
+        prev = (take.vw * 0.62, take.vh * 0.7)
+        for ta, x, y, mv in keys:
+            if v < ta - mv:
+                return prev
+            if v < ta:
+                k = ease2((v - (ta - mv)) / mv)
+                return (prev[0] + (x - prev[0]) * k, prev[1] + (y - prev[1]) * k)
+            prev = (x, y)
+        return prev
+
+    def draw_cursor(od, X, Y, a):
+        sc_ = 1.5
+        pts = [(0, 0), (0, 25), (6.5, 19), (11, 29.5), (15.5, 27.5), (11, 17.5), (19, 17.5)]
+        poly = [(X + px * sc_, Y + py * sc_) for px, py in pts]
+        od.polygon(poly, fill=(245, 247, 250, int(255 * a)), outline=(10, 12, 14, int(255 * a)), width=3)
 
     def screen_at(tv):
         v = take.to_virtual(clamp(tv, 0, take.dur))
@@ -208,7 +289,11 @@ def build(take, out, stills=None):
             if last:
                 tch, prev = last[-1]
                 flash = 1 - clamp((v - tch) / 1.6)
-                a0, a1 = num(prev), num(val)
+                # разница — от значения в начале шага (подписи), а не от
+                # предыдущего кадра: ползунок меняет число по единице
+                caps = [e["t"] for e in take.ev if e["kind"] == "caption" and e["t"] <= tch]
+                base = (take.readout(max(caps[-1] - 1e-3, 0)) or [""] * n)[j] if caps else prev
+                a0, a1 = num(base), num(val)
                 if flash > 0 and a0 is not None and a1 is not None and abs(a1 - a0) > 1e-9:
                     dlt = a1 - a0
                     s_ = f"{abs(dlt):,.1f}".replace(",", " ").removesuffix(".0").replace(".", ",")
@@ -218,7 +303,7 @@ def build(take, out, stills=None):
                     tw = d.textlength(s_, font=f_) + 26          # 26 — треугольник и зазор
                     mx = x0 + cw * j + cw / 2
                     rise = (1 - flash) * 10
-                    yc = y0 - 32 - rise
+                    yc = y0 - READ_GAP / 2 - rise + 4
                     c_ = GREEN if good else ORANGE
                     d.rounded_rectangle((mx - tw / 2 - 18, yc - 22, mx + tw / 2 + 18, yc + 22), 22,
                                         fill=mix((22, 26, 33), fa))
@@ -238,15 +323,15 @@ def build(take, out, stills=None):
         im = Image.new("RGB", (W, H), BG)
         d = ImageDraw.Draw(im)
         # бренд вверху и внизу
-        text(d, (W / 2, 70), "flightcost.app", mono(34), MUTED, ramp(t, 0.1, 0.8) * (1 - ramp(t, T_SHOW1, T_SHOW1 + 0.5)), "ma")
 
         # заставка
         a = min(ramp(t, 0, 0.5), 1 - ramp(t, INTRO - XF, INTRO))
         if a > 0:
             dy = (1 - ramp(t, 0, 0.7)) * 40
+            y0i = mid - (len(intro["title"]) * 112 + 100) / 2 - 40
             for i, s in enumerate(intro["title"]):
-                text(d, (W / 2, 640 + i * 116 + dy), s, font("SemiBold", 96), FG, a, "ma")
-            text(d, (W / 2, 640 + len(intro["title"]) * 116 + 50 + dy), intro.get("sub", ""), font("Regular", 42), MUTED,
+                text(d, (CX, y0i + i * 112 + dy), s, font("SemiBold", 88), FG, a, "ma")
+            text(d, (CX, y0i + len(intro["title"]) * 112 + 50 + dy), intro.get("sub", ""), font("Regular", 42), MUTED,
                  a * ramp(t, 0.5, 1.1), "ma")
 
         # экран
@@ -254,7 +339,7 @@ def build(take, out, stills=None):
         if ca > 0:
             tv = t - T_SHOW0
             scr, v, zs, to_card = screen_at(tv)
-            dy = round((1 - ramp(t, T_SHOW0, T_SHOW0 + 0.8)) * 160 + ramp(t, T_SHOW1 - 0.1, T_SHOW1 + 0.5) * -60)
+            dy = round((1 - ramp(t, T_SHOW0, T_SHOW0 + 0.8)) * SLIDE + ramp(t, T_SHOW1 - 0.1, T_SHOW1 + 0.5) * -SLIDE / 3)
             cy = CARD_Y + dy
             # подпись шага
             cap = take.caption(v)
@@ -263,15 +348,17 @@ def build(take, out, stills=None):
                 k = ramp(t, ct, ct + 0.45)
                 ya = (1 - k) * 24
                 aa = ca * k
+                r_ = CAP[2]
                 if cap.get("n"):
-                    cxn, cyn = 104, 186 + ya
-                    d.ellipse((cxn - 40, cyn - 40, cxn + 40, cyn + 40), fill=mix(SKY, aa))
+                    cxn, cyn = SAFE[0] + r_, SAFE[1] + r_ + 6 + ya
+                    d.ellipse((cxn - r_, cyn - r_, cxn + r_, cyn + r_), fill=mix(SKY, aa))
                     text(d, (cxn, cyn + 2), str(cap["n"]), f_num, BG, 1, "mm") if aa > 0.5 else None
-                    tx = 172
+                    tx = SAFE[0] + 2 * r_ + 24
                 else:
-                    tx = 72
-                text(d, (tx, 140 + ya), cap["text"], f_cap, FG, aa)
-                text(d, (tx, 222 + ya), cap.get("sub", ""), f_sub, MUTED, aa)
+                    tx = SAFE[0]
+                room = SAFE[2] - tx
+                text(d, (tx, SAFE[1] + 4 + ya), cap["text"], fit(d, cap["text"], "SemiBold", CAP[0], room), FG, aa)
+                text(d, (tx, SAFE[1] + SUB_DY + ya), cap.get("sub", ""), fit(d, cap.get("sub", ""), "Regular", CAP[1], room), MUTED, aa)
             # тень и карточка
             sh_a = Image.new("RGBA", im.size, (0, 0, 0, 0))
             sh_a.paste(shadow, (CARD_X - 80, cy - 80))
@@ -287,7 +374,7 @@ def build(take, out, stills=None):
             # касания
             ov = Image.new("RGBA", im.size, (0, 0, 0, 0))
             od = ImageDraw.Draw(ov)
-            for e in taps:
+            for e in ([] if desk else taps):
                 dt = v - e["t"]
                 if -0.25 <= dt <= 0.9:
                     x, y, w, h = e["box"]
@@ -301,7 +388,21 @@ def build(take, out, stills=None):
                         r = 26 + 70 * ease(dt / 0.8)
                         al = int(200 * (1 - ease(dt / 0.85)))
                         od.ellipse((X - r, Y - r, X + r, Y + r), outline=(0, 237, 229, al), width=5)
-            for e in drags:
+            if desk:
+                for e in taps:                                     # щелчок — маленькая волна
+                    dt = v - e["t"]
+                    if 0 <= dt <= 0.6:
+                        x, y, w, h = e["box"]
+                        X, Y = to_card(x + (min(w / 2, 60) if w > 160 else w / 2), y + h / 2)
+                        X += CARD_X; Y += cy
+                        r = 10 + 34 * ease(dt / 0.55)
+                        od.ellipse((X - r, Y - r, X + r, Y + r), outline=(0, 237, 229, int(220 * (1 - ease(dt / 0.6)))), width=4)
+                c_ = cursor_at(v)
+                if c_:
+                    X, Y = to_card(*c_)
+                    X, Y = clamp(X, 0, CARD_W - 24), clamp(Y, 0, card_h - 36)
+                    draw_cursor(od, X + CARD_X, Y + cy, ca * ramp(v, 0.2, 0.7))
+            for e in ([] if desk else drags):
                 t0, t1 = e["t"], e["t"] + e["ms"] / 1000
                 if t0 - 0.3 <= v <= t1 + 0.4:
                     x, y, w, h = e["box"]
@@ -319,21 +420,20 @@ def build(take, out, stills=None):
                 d.rounded_rectangle((bx, by, bx + 124, by + 56), 28, fill=(20, 24, 30))
                 text(d, (bx + 62, by + 28), f"×{x:g}  ▸▸", font("Medium", 28), AQUA, 1, "mm")
             if take.watch:
-                draw_readout(d, v, cy + card_h + 18, ca)
-            else:
-                text(d, (W / 2, 1840), "flightcost.app", font("Medium", 36), SKY, ca * 0.9, "ma")
+                draw_readout(d, v, cy + card_h + READ_GAP, ca)
 
         # концовка
         a = ramp(t, T_SHOW1, T_SHOW1 + 0.6)
         if a > 0:
+            y0o = mid - (len(outro["title"]) * 100 + 110 + 280) / 2
             for i, s in enumerate(outro["title"]):
-                text(d, (W / 2, 620 + i * 104), s, font("SemiBold", 84), FG, a, "ma")
+                text(d, (CX, y0o + i * 100), s, font("SemiBold", 80), FG, a, "ma")
             b = ramp(t, T_SHOW1 + 0.9, T_SHOW1 + 1.5)
-            yu = 620 + len(outro["title"]) * 104 + 130
-            text(d, (W / 2, yu), outro.get("url", ""), font("Bold", 110), SKY, b, "ma")
-            text(d, (W / 2, yu + 150), outro.get("sub", ""), font("Regular", 40), MUTED, b, "ma")
+            yu = y0o + len(outro["title"]) * 100 + 110
+            text(d, (CX, yu), outro.get("url", ""), font("Bold", 96), SKY, b, "ma")
+            text(d, (CX, yu + 136), outro.get("sub", ""), font("Regular", 36), MUTED, b, "ma")
             for i, c in enumerate([SKY, AQUA, BLUE, GREEN, DEEP]):
-                x = W / 2 - 2.5 * 90 + i * 90
+                x = CX - 2.5 * 90 + i * 90
                 d.rounded_rectangle((x + 8, yu + 260, x + 82, yu + 272), 6, fill=mix(c, b))
         return im
 
@@ -343,14 +443,51 @@ def build(take, out, stills=None):
         return total
 
     n = int(total * FPS)
-    p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                          "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                          "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p",
-                          "-movflags", "+faststart", out], stdin=subprocess.PIPE)
-    for i in range(n):
-        p.stdin.write(frame(i / FPS).tobytes())
-    p.stdin.close(); p.wait()
+    ff, vcodec = encoder()
+    print(f"кодек: {vcodec[1]} ({ff})")
+    p = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
+                          "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", *vcodec, "-pix_fmt", "yuv420p",
+                          "-movflags", "+faststart", out], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        for i in range(n):
+            p.stdin.write(frame(i / FPS).tobytes())
+        p.stdin.close()
+    except BrokenPipeError:
+        pass
+    err = p.stderr.read().decode(errors="replace").strip()
+    if p.wait() != 0:
+        raise SystemExit(f"ffmpeg ({ff}) завершился с ошибкой:\n{err}")
     return total
+
+
+def encoder():
+    """ffmpeg и кодек H.264, какой есть.
+
+    ffmpeg из conda и часть сборок идут без libx264 — тогда «-preset» им
+    незнаком. Берём первый, у которого кодек есть: FCA_FFMPEG, потом
+    Homebrew, потом что найдётся в PATH; кодек — libx264, на Mac —
+    аппаратный h264_videotoolbox, в крайнем случае openh264."""
+    import shutil
+    cands = [os.environ.get("FCA_FFMPEG"), "/opt/homebrew/bin/ffmpeg", "/usr/local/bin/ffmpeg",
+             shutil.which("ffmpeg")]
+    seen = []
+    for ff in cands:
+        if not ff or ff in seen or not os.path.exists(ff):
+            continue
+        seen.append(ff)
+        try:
+            enc = subprocess.run([ff, "-hide_banner", "-encoders"], capture_output=True, text=True).stdout
+        except OSError:
+            continue
+        if " libx264 " in enc:
+            return ff, ["-c:v", "libx264", "-preset", "slow", "-crf", "19"]
+        if " h264_videotoolbox " in enc:
+            return ff, ["-c:v", "h264_videotoolbox", "-b:v", "14M", "-allow_sw", "1"]
+        if " libopenh264 " in enc:
+            return ff, ["-c:v", "libopenh264", "-b:v", "14M"]
+    raise SystemExit("нет ffmpeg с кодеком H.264 (libx264, h264_videotoolbox или openh264). "
+                     "Проверено: " + (", ".join(seen) or "ffmpeg не найден") +
+                     ". Поставьте `brew install ffmpeg` или укажите путь в FCA_FFMPEG.")
 
 
 if __name__ == "__main__":

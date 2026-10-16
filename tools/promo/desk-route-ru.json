@@ -1,0 +1,51 @@
+{
+ "title": "flightcost.app — как пользоваться (десктоп)",
+ "device": "desktop",
+ "viewport": [1440, 810],
+ "path": "/?lang=ru&cur=USD",
+ "locale": "ru-RU",
+ "intro": {"title": ["Окупится ли этот рейс?"], "sub": "Узнайте за минуту на flightcost.app"},
+ "outro": {"title": ["У каждого числа видно происхождение."], "url": "flightcost.app", "sub": "открытый код · бесплатно · в браузере"},
+ "steps": [
+  {"do": "wait", "ms": 1000},
+
+  {"do": "caption", "n": 1, "text": "Выберите два аэропорта", "sub": "код или название города"},
+  {"do": "tap", "sel": "#o"}, {"do": "clear", "sel": "#o"},
+  {"do": "type", "sel": "#o", "text": "FRA", "delay": 200},
+  {"do": "tap", "sel": "#oh .hit[data-icao]", "after": 700},
+  {"do": "tap", "sel": "#d"}, {"do": "clear", "sel": "#d"},
+  {"do": "type", "sel": "#d", "text": "BCN", "delay": 200},
+  {"do": "tap", "sel": "#dh .hit[data-icao]", "after": 900},
+
+  {"do": "caption", "n": 2, "text": "Выберите тип самолёта", "sub": "из каталога или заведите свой"},
+  {"do": "tap", "sel": "#ac"}, {"do": "clear", "sel": "#ac"},
+  {"do": "type", "sel": "#ac", "text": "A320", "delay": 170},
+  {"do": "tap", "sel": "#achits .hit[data-ac]", "after": 2000},
+
+  {"do": "caption", "n": 3, "text": "Смотрите ответ", "sub": "чек, при котором рейс выходит в ноль"},
+  {"do": "zoom", "sel": "#kpi > div:nth-child(2)", "ms": 3000, "scale": 2.6},
+  {"do": "zoom", "sel": "#kpi", "ms": 2200, "scale": 1.7},
+
+  {"do": "caption", "n": 4, "text": "Меняйте загрузку и чек", "sub": "ответ пересчитывается сразу"},
+  {"do": "zoom", "box": [0, 95, 1000, 300], "ms": 6200, "scale": 1.44, "wait": false},
+  {"do": "slide", "sel": "#lf", "to": 92, "ms": 1700, "after": 1300},
+  {"do": "fill", "sel": "#fare", "text": "120", "after": 2200},
+
+  {"do": "caption", "n": 5, "text": "Из чего сложилась цена", "sub": "оранжевое — заготовка, и мы это не прячем"},
+  {"do": "zoom", "box": [1000, 140, 440, 670], "ms": 4200, "scale": 1.21},
+
+  {"do": "caption", "n": 6, "text": "Откройте полный разбор", "sub": "каждая формула, ставка и источник"},
+  {"do": "tap", "sel": "#tabs button[data-tab=trace]", "after": 1500},
+  {"do": "zoom", "box": [1000, 140, 440, 670], "ms": 4400, "scale": 1.21, "wait": false},
+  {"do": "scrollby", "in": "#main", "dy": 560, "ms": 2200},
+  {"do": "wait", "ms": 1800},
+
+  {"do": "caption", "n": 7, "text": "Сравните типы", "sub": "тот же маршрут, тот же спрос"},
+  {"do": "tap", "sel": "#tabs button[data-tab=types]", "after": 600},
+  {"do": "waitfor", "js": "!/calculating|считаю|berechne/i.test(document.querySelector('#main').innerText)", "speed": 4, "timeout": 120000, "after": 600, "optional": true},
+  {"do": "zoom", "box": [1000, 140, 440, 670], "ms": 4200, "scale": 1.21, "wait": false},
+  {"do": "scrollby", "in": "#main", "dy": 380, "ms": 1800},
+  {"do": "wait", "ms": 1800}
+ ],
+ "tail_ms": 500
+}
