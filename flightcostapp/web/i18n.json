@@ -805,7 +805,6 @@
   "сеть посчитана старой версией — пересчитайте её на витрине.": "das Netz wurde mit einer älteren Version berechnet — auf der Hauptseite neu berechnen.",
   "точка — лучший тип в строке, красным — убыток.": "Punkt: bester Typ der Zeile, rot: Verlust.",
   "худший итог: на": "schlechtestes Ergebnis: um",
-  "цент на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "Cent pro Sitz-km beim Planvolumen: ein Typ mit zu wenigen Passagieren für die Mindestfrequenz fliegt leerer, sein Sitz kostet mehr.",
   "цента": "Cent",
   "ч/мес на борт из": "h/Monat je Flugzeug von",
   "—": "—",
@@ -854,7 +853,10 @@
   "на парах от": "auf Paaren ab",
   "тыс. пасс./мес": "Tsd. Pax/Monat",
   "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки).": "Der Markt, nicht Sie: Der Aggregator zeigt das billigste Ticket je Datum, das durchschnittlich verkaufte Ticket ist teurer — ein Teil der Plätze geht zu höheren Tarifen. Leer — Annahme nach Verkehr des Paars: × 1,2, auf Paaren ab 80 Tsd. Passagieren im Monat × 2,0 (dort ist der Abstand größer: Aktionsminima, späte und geschäftliche Käufe). Eine Zahl gilt für alle Paare; 1,00 — alle fliegen zum Minimum (untere Erlösgrenze).",
-  "по потоку пары": "nach Verkehr des Paars"
+  "по потоку пары": "nach Verkehr des Paars",
+  "на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "pro Sitz-km beim Planvolumen: ein Typ mit zu wenigen Passagieren für die Mindestfrequenz fliegt leerer, sein Sitz kostet mehr.",
+  "цент": "Cent",
+  "на кресло-км": "pro Sitz-km"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -1662,7 +1664,6 @@
   "сеть посчитана старой версией — пересчитайте её на витрине.": "the network was calculated by an older version — recalculate it on the main page.",
   "точка — лучший тип в строке, красным — убыток.": "dot: best type in the row, red: loss.",
   "худший итог: на": "worst result: by",
-  "цент на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "cents per seat-km at the plan volume: a type with too few passengers for the minimum frequency flies emptier and its seat costs more.",
   "цента": "cents",
   "ч/мес на борт из": "h/month per aircraft out of",
   "—": "—",
@@ -1711,6 +1712,9 @@
   "на парах от": "on pairs from",
   "тыс. пасс./мес": "k pax/month",
   "Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки).": "The market, not you: the aggregator shows the cheapest ticket per date, while the average ticket sold is dearer — some seats go at higher fares. Empty — an assumption by pair traffic: × 1.2, on pairs from 80k passengers a month × 2.0 (the gap is wider there: promo minimums, late and business bookings). A number applies to all pairs; 1.00 — everyone flies at the minimum (lower bound of revenue).",
-  "по потоку пары": "by pair traffic"
+  "по потоку пары": "by pair traffic",
+  "на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.": "per seat-km at the plan volume: a type with too few passengers for the minimum frequency flies emptier and its seat costs more.",
+  "цент": "cent",
+  "на кресло-км": "per seat-km"
  }
 }
