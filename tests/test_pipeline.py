@@ -254,7 +254,7 @@ _t1 = _time.monotonic()
 n2 = ctx.network({**netq, "fares": "FRA-BCN:120,FRA-LPA:120,BCN-LPA:200", "fleet": "3"})
 _second = _time.monotonic() - _t1
 ok(f"повтор с другими ценами — из кэша ({_second * 1000:.0f} мс против {_first * 1000:.0f})",
-   n2["cached"] and _second < _first / 5
+   n2["cached"]                       # признак кэша, а не время: время на CI шумит
    and {f"{p['a']}-{p['b']}": p for p in n2["pairs"]}["FRA-BCN"]["legs"][0]["fare_eur"] == 120.0)
 _n3 = ctx.network({**netq, "fares": "FRA-BCN:95"})
 ok("без цены пара уходит с причиной, а не падает",
@@ -262,13 +262,17 @@ ok("без цены пара уходит с причиной, а не пада�
    and any(r["kind"] == "no_fare" for p in _n3["pairs"]
            for r in p["reasons"] if p["a"] == "FRA" and p["b"] == "LPA"))
 # Седьмой аэропорт к прежним — только его плечи: кэш плеч переживает смену состава.
-_t4 = _time.monotonic()
+# Проверяется числом плеч в кэше, а не временем: на сервере CI соседние
+# задачи и шаг опроса 50 мс делали замер то 30, то 60 мс при 120 мс
+# первого расчёта, и проверка падала без причины в коде.
+_legs_before = sum(len(v) for v in ctx._leg_cache.values())
 n4 = ctx.network({**netq, "airports": "FRA,BCN"})
 while n4.get("pending"):
     _time.sleep(0.05); n4 = ctx.network({**netq, "airports": "FRA,BCN"})
-_fourth = _time.monotonic() - _t4
-ok(f"подмножество состава — из кэша плеч ({_fourth * 1000:.0f} мс против {_first * 1000:.0f})",
-   n4["network"] is not None and len(n4["pairs"]) == 1 and _fourth < _first / 3)
+_legs_after = sum(len(v) for v in ctx._leg_cache.values())
+ok(f"подмножество состава — из кэша плеч (новых плеч {_legs_after - _legs_before}, в кэше {_legs_before})",
+   n4["network"] is not None and len(n4["pairs"]) == 1 and _legs_before > 0
+   and _legs_after == _legs_before)
 # Один разбор параметров на маршрут и порог: месяц и --set обязаны
 # доезжать до `base_kwargs` (ловушка `--month` из ROADMAP).
 kw = ctx._kwargs({"month": "7", "fare": "125", "lf": "0.82",
