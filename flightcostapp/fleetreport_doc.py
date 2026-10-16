@@ -40,6 +40,9 @@ class Doc:
     def __init__(self, lang="ru", cur="EUR", rate=1.0):
         self.lang = lang if lang in ("ru", "en", "de") else "ru"
         self.cur, self.rate = cur, float(rate or 1.0)
+        # CASK в центах — только у евро и доллара, как на витрине (caskVal):
+        # в рублях, тенге, лирах кресло-км считают в целых единицах валюты.
+        self.cents = self.cur in ("EUR", "USD")
 
     def T(self, s: str) -> str:                       # noqa: N802 — как _t в витрине
         if self.lang == "ru":
@@ -73,10 +76,23 @@ class Doc:
         return f"{s}{self.n(a, 0)}{cu}"
 
     def ct(self, eur_ct, d=2) -> str:
-        return "—" if eur_ct is None else self.n(eur_ct * self.rate, d)
+        """Величина на кресло-км: из евроцентов в центы или целую валюту показа."""
+        if eur_ct is None:
+            return "—"
+        return self.n(eur_ct * self.rate / (1 if self.cents else 100), d)
+
+    def ct_unit(self) -> str:
+        """Подпись единицы CASK/RASK: «EUR-цент» или «RUB»."""
+        T = self.T
+        return f'{self.cur}-{T("цент")}' if self.cents else self.cur
 
 
 e = html.escape
+
+
+def _T_SEATKM(D) -> str:                              # noqa: N802
+    T = D.T
+    return T("на кресло-км")
 
 
 # ── силуэт ──────────────────────────────────────────────────────────────
@@ -241,7 +257,7 @@ def cask_chart(D: Doc, types: list) -> str:
         xx = X(xv)
         g.append(f'<text x="{xx:.1f}" y="{H - b + 18}" text-anchor="middle" class="ax">{D.n(xv)}</text>')
     g.append(f'<text x="{W - r}" y="{H - 4}" text-anchor="end" class="ax">{D.T("км по прямой")}</text>')
-    g.append(f'<text x="{l - 40}" y="14" class="ax">{D.cur}-{D.T("цент на кресло-км")}</text>')
+    g.append(f'<text x="{l - 40}" y="14" class="ax">{D.ct_unit()} {_T_SEATKM(D)}</text>')
     # RASK — у каждого типа свой (загрузка и потолок по дальности у них
     # разные); виден RASK выделенного типа, без выделения — первого.
     # Туда и обратно обычно ложатся в одну точку — одна точка, оба плеча в подписи.
@@ -318,7 +334,7 @@ def pc_text(D: Doc, x: dict) -> str:
     if c == "dearest_pax":
         return f'{T("самый дорогой пассажир:")} {D.money(x["v"])}'
     if c == "lowest_cask":
-        return f'{T("самое дешёвое кресло-км:")} {D.ct(x["v"])} {T("цента")}'
+        return f'{T("самое дешёвое кресло-км:")} {D.ct(x["v"])} {T("цента") if D.cents else D.cur}'
     if c == "fewest_aircraft":
         return f'{T("меньше всех бортов:")} {x["v"]}'
     if c == "most_aircraft":
@@ -619,7 +635,7 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
              f'{D.pct(a["lf_target"])}, {T("с лизингом через налёт. Кружки — выручка на кресло-км на тех же плечах (RASK): где линия типа ниже кружков, плечо окупается.")}</p></div>'
              f'{chart}</div><p class="small">{T("Короткие плечи дороже на кресло-км у всех: взлёт, посадка и сборы приходятся на меньший пробег. Разница типов — в наклоне и уровне линии.")}</p>'
              f'<h3 style="margin-top:22px">{T("Из чего складывается кресло-км в плане")}</h3>'
-             f'<p class="small">{D.cur}-{T("цент на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.")}</p>'
+             f'<p class="small">{D.ct_unit()} {T("на кресло-км при объёме плана: у типа, которому мало пассажиров на минимальную частоту, загрузка ниже и кресло дороже.")}</p>'
              f'{cost_tbl}<p class="small">{T("Точка — дешевле всех по статье; в строках выручки и разницы — больше всех.")}</p></section>')
 
     # ── примерка на сеть
