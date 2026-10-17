@@ -53,6 +53,20 @@ class Catalog(unittest.TestCase):
         keys = {json.loads(f.read_text(encoding="utf-8"))["icao"].upper() for f in FILES}
         self.assertEqual(sorted(keys & lib), [])
 
+    def test_analog_has_fuel_model(self):
+        """Аналог обязан считать расход: у A19N, A21N, B37M… в openap есть
+        паспорт, но нет поляры — тип с таким аналогом падал в ядре."""
+        try:
+            from flightcostapp.fuel import _flow
+            _flow("A320")
+        except Exception:                                  # noqa: BLE001
+            self.skipTest("openap не установлен")
+        for f in FILES:
+            b = json.loads(f.read_text(encoding="utf-8")).get("burn") or {}
+            if b.get("analog"):
+                with self.subTest(f.name):
+                    _flow(b["analog"])
+
     def test_card_names_its_gaps(self):
         for f in FILES:
             d = json.loads(f.read_text(encoding="utf-8"))

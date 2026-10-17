@@ -13,8 +13,8 @@
  "engine": "не объявлен (базовый C919 — LEAP-1C)",
  "engine_mount": "wing",
  "burn": {
-  "analog": "A21N",
-  "note": "200–240 мест, нацелен на сегмент A321neo (AirData News)"
+  "analog": "A20N",
+  "note": "200–240 мест, нацелен на сегмент A321neo (AirData News) | аналог A21N заменён на A20N: у A21N в openap нет модели расхода"
  },
  "certainty": "exact",
  "meta": {

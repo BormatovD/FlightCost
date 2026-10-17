@@ -23,8 +23,14 @@
  "engine": "Pratt & Whitney PW1500G (PW1521G/PW1524G)",
  "engine_mount": "wing",
  "burn": {
-  "analog": "A19N",
-  "note": "Ближайший по массе (63–71 т против ~75 т у A319neo) и поколению двигателя (GTF) тип в списке; у A220 расход на рейс заметно ниже — модель A19N даёт верхнюю оценку."
+  "analog": "A20N",
+  "note": "Ближайший по массе (63–71 т против ~75 т у A319neo) и поколению двигателя (GTF) тип в списке; у A220 расход на рейс заметно ниже — модель A19N даёт верхнюю оценку. | аналог A19N заменён на A20N: у A19N в openap нет модели расхода",
+  "anchor_kg_per_h": 1800,
+  "anchor_mass_t": 52.1,
+  "anchor_trip_kg": 3990,
+  "anchor_trip_nm": 861,
+  "anchor_trip_pax": 113,
+  "anchor_source": "Aircraft Commerce, Issue 142 (Jun/Jul 2022), 'A220-100/-300 fuel burn & operating performance', pp.11-16, tables 'Block fuel performance of ...' (ORD hub, nine sectors 200-862 nm), 2022-06: «ORD-MCO | A220-300 (PW1524G-3) | ESAD 861 nm | flight time 133 min | trip fuel 1,313 USG» — рейс ORD–MCO; множитель считается по рейсу целиком (решение 224), кг/ч — средний за лётное время, для справки; галлоны × 3,039 кг. https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf"
  },
  "certainty": "exact",
  "meta": {
@@ -48,7 +54,8 @@
    "length_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-300",
    "cruise_mach": "типовая; Mmo 0.82 по https://www.aircraft.airbus.com/en/aircraft/a220/a220-300",
    "cruise_alt_m": "типовой эшелон FL350, не из документа",
-   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-300 (max fuselage diameter)"
+   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-300 (max fuselage diameter)",
+   "burn_anchor": "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf"
   },
   "gaps": [
    "sweep_deg — первоисточник не найден"
