@@ -1,0 +1,74 @@
+{
+ "icao": "C919",
+ "name": "COMAC C919 (C919-100 STD)",
+ "valid_from": "2026-10-17",
+ "source": "ICAO AOP/SG/8 WP/26 «The airport characteristics of C919» (Китай, 07.2024, данные на 06.2024)",
+ "source_url": "https://www.icao.int/sites/default/files/APAC/Meetings/2024/2024%20AOP-SG-8/3-Working%20Papers/WP26-AI9-THE-AIRPORT-CHARACTERISTICS-OF-C919.pdf",
+ "publisher": "CAAC / Китай, рабочий документ ICAO APAC",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 75.1,
+  "oew_t": 45.7,
+  "mlw_t": 67.8,
+  "fuel_capacity_t": 19.93,
+  "seats_max": 192,
+  "seats_typical": 158,
+  "span_m": 35.8,
+  "length_m": 38.9,
+  "cruise_mach": 0.785,
+  "engine_count": 2,
+  "fuselage_width_m": 3.96,
+  "cruise_alt_m": 10670
+ },
+ "engine": "2 × CFM LEAP-1C28 (STD) / LEAP-1C30 (ER)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A20N",
+  "note": "тот же класс (158–192 места, MTOW 75–79 т), поколение двигателя LEAP-1 (у A20N LEAP-1A/PW1100G); C919 тяжелее по OEW (≈45,7 т против ~44,3 т)"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "in_service",
+  "first_flight": "2017-05-05",
+  "eis": "2023-05-28 (China Eastern)",
+  "data_kind": "official",
+  "range_km": 4139,
+  "range_note": "STD при стандартной коммерческой загрузке 15 010 кг; ER (MTOW 78,9 т) — 5 576 км",
+  "takeoff_m": 2052,
+  "landing_m": 2043,
+  "orders_note": "Поставки: 2022 — 1, 2023 — 2, 2024 — 13, 2025 — 15–16, 2026 — 11 по 30.09 (план трёх авиакомпаний был 33); итого ≈43. Портфель >1 000 (по Wikipedia ~1 130–1 150 заказов, неточно). 12.08.2026 первый регулярный международный рейс за пределы Большого Китая (Air China, Пекин—Улан-Батор). IBA: ~28 поставок в 2026, 93 в 2030",
+  "variants_note": "C919 ER (Air China): MTOW 78,9 т, MTW 79,3 т, топливо то же, LEAP-1C30; тот же ключ C919. Укороченный C919-600 (плато) и удлинённый C919-800 — отдельные файлы USER_C919-600 / USER_C919-800",
+  "field_sources": {
+   "mtow_t": "ICAO WP/26: 75 100 kg STD (ER 78 900)",
+   "mlw_t": "ICAO WP/26: 67 800 kg",
+   "fuel_capacity_t": "ICAO WP/26: usable fuel 24 917 л × 0,8 кг/л = 19,93 т (пересчёт)",
+   "seats_max": "ICAO WP/26: 158–192",
+   "seats_typical": "ICAO WP/26: 158 (2 класса, 8J+150Y по Wikipedia); типовой разворот 168 в одном классе",
+   "span_m": "ICAO WP/26: 35,8 м",
+   "length_m": "ICAO WP/26: 38,9 м",
+   "oew_t": "Wikipedia C919 spec table: 45 700 kg — без сноски, производитель в найденных документах OEW не даёт",
+   "cruise_mach": "Wikipedia: M0.785 (COMAC указывает крейсерскую 0,78–0,785; в ICAO WP не дана)",
+   "fuselage_width_m": "Wikipedia: 3,96 × 4,166 м",
+   "takeoff_m": "ICAO WP/26: ВПП для взлёта MTOW, SL ISA 2 052 м",
+   "landing_m": "ICAO WP/26: посадочная дистанция MLW 2 043 м",
+   "range_km": "ICAO WP/26",
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  },
+  "gaps": [
+   "sweep_deg — не найдено",
+   "anchor_kg_per_h — опубликованного часового расхода не найдено"
+  ],
+  "doubts": [
+   "OEW 45,7 т — только Wikipedia без первоисточника; в документе ICAO/CAAC OEW отсутствует",
+   "В ICAO WP/26 у ER дистанция взлёта 2 125 м, но в футах 6 267 ft (не совпадает) — ошибка в документе",
+   "Дальность: в той же бумаге 4 075–5 555 км во вступлении и 4 139 / 5 576 км в таблице",
+   "Поставки 2025: Wikipedia (Aviation Week) — 16, AirData News — 15"
+  ],
+  "region": "china",
+  "assumed": {
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  }
+ }
+}

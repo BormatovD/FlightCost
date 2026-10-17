@@ -1,0 +1,60 @@
+{
+ "icao": "USER:L410NG",
+ "name": "Aircraft Industries L 410 NG",
+ "valid_from": "2026-10-17",
+ "source": "Сайт и листовка производителя Aircraft Industries (let.cz)",
+ "source_url": "https://www.let.cz/en/l410ng",
+ "publisher": "Aircraft Industries a.s. (Куновице, группа Omnipol)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 7.0,
+  "mlw_t": 6.8,
+  "fuel_capacity_t": 1.87,
+  "seats_max": 19,
+  "seats_typical": 19,
+  "span_m": 19.48,
+  "length_m": 15.1,
+  "cruise_mach": 0.36,
+  "cruise_alt_m": 4270,
+  "engine_count": 2
+ },
+ "engine": "2x GE H85-200 (850 shp), винты Avia AV-725",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Aircraft Industries a.s.",
+  "country": "Чехия",
+  "status": "in_service",
+  "first_flight": "2015-07-29",
+  "eis": "2018 (серийное производство с 03.2018); EASA TC A.026 issue 2017-12-19, FAA TC A42CE 2018-01-10",
+  "data_kind": "official",
+  "range_km": 2100,
+  "range_note": "максимальная, резерв 45 мин, с концевыми баками (let.cz)",
+  "takeoff_m": 590,
+  "landing_m": 600,
+  "orders_note": "2026: поставка в Чили (Aerocardal, FIDAE 2026); ранние поставки — Россия, Казахстан",
+  "field_sources": {
+   "mtow_t": "let.cz",
+   "mlw_t": "let.cz",
+   "fuel_capacity_t": "let.cz: max usable fuel 1870 кг",
+   "seats_max": "листовка let.cz (https://www.let.cz/documents/leaflet_NG_web.pdf)",
+   "span_m": "листовка let.cz 19,48 м (подпись поля не распознана; совпадает с Wikipedia 19,478 м)",
+   "length_m": "листовка let.cz 15,1 м (совпадает с Wikipedia 15,074 м)",
+   "cruise_mach": "225 KTAS max cruise (let.cz); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) FL140",
+   "cruise_alt_m": "FL140 — высота расчёта дальности (Wikipedia со ссылкой на let.cz); производитель типовую высоту явно не называет",
+   "orders_note": "https://www.defensa.com/chile/l-410-ng-fidae-2026-omnipol-group-aerocardal-como-operador-clave/"
+  },
+  "gaps": [
+   "oew_t — производитель не публикует (MZFW 6,6 т, max payload 2,3 т)",
+   "fuselage_width_m — не опубликована",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "ICAO-обозначатель — L410 (общий для всех L-410, в т.ч. УЗГА/УВП-Е20, которые собирает другой исследователь); ключ USER:L410NG взят, чтобы не затереть запись L410 — координатору решить",
+   "Топливо: let.cz 1870 кг usable, Wikipedia 2244 кг (вероятно полная ёмкость) — взят производитель",
+   "Дальность: let.cz 2100 км, Wikipedia 2750 км при FL140",
+   "Взлёт/посадка: в листовке let.cz цифры 590/600 м переставлены местами в разных разделах"
+  ],
+  "region": "emerging"
+ }
+}

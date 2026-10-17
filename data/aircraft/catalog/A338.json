@@ -1,0 +1,62 @@
+{
+ "icao": "A338",
+ "name": "Airbus A330-800",
+ "valid_from": "2026-10-17",
+ "source": "Airbus, страница A330-800 (aircraft.airbus.com), спецификация",
+ "source_url": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+ "publisher": "Airbus",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 251.0,
+  "mlw_t": 186.0,
+  "fuel_capacity_t": 111.27,
+  "seats_max": 406,
+  "seats_typical": 264,
+  "span_m": 64.0,
+  "length_m": 58.36,
+  "cruise_mach": 0.82,
+  "cruise_alt_m": 11280,
+  "engine_count": 2,
+  "fuselage_width_m": 5.64,
+  "sweep_deg": 30
+ },
+ "engine": "Rolls-Royce Trent 7000",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A332",
+  "note": "Тот же фюзеляж ceo-версии; двигатель Trent 7000 и новое крыло дают меньший расход (Airbus: до −25% на место vs A330ceo) — модель A332 завышает расход, учитывать поправку."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Airbus",
+  "country": "Франция/Германия (ЕС)",
+  "status": "in_service",
+  "first_flight": "2018-11-06",
+  "eis": "2020-10 (Kuwait Airways)",
+  "data_kind": "official",
+  "range_km": 15000,
+  "range_note": "8100 nm по Airbus, типовая 3-классная загрузка",
+  "mzfw_t": 176.0,
+  "field_sources": {
+   "mtow_t": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "mlw_t": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "fuel_capacity_t": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800 — 139 090 л × 0,8 кг/л = 111,27 т",
+   "seats_max": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "seats_typical": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800 (257–271 в 3 классах, середина)",
+   "span_m": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800 (geometric span 64.00 m)",
+   "length_m": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "cruise_mach": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "cruise_alt_m": "типовой эшелон FL370, не из документа",
+   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a330/a330-800",
+   "sweep_deg": "A330 — 30°, общеизвестное значение, не из документа"
+  },
+  "gaps": [
+   "oew_t — Airbus не публикует OEW; надёжного первоисточника не нашёл"
+  ],
+  "doubts": [
+   "MTOW: на странице Airbus 251.0 t; в июне 2025 объявлено повышение A330-900 до 257 t (A330-800 — «аналогично») с внедрением к середине 2026 (eplaneai.com/es/news/airbus-announces-longer-version-of-a330neo) — после поставок новых WV MTOW может быть выше",
+   "Типовая вместимость на странице Airbus дана двумя диапазонами (см. field_sources)"
+  ],
+  "region": "west"
+ }
+}

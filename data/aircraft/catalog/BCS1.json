@@ -1,0 +1,63 @@
+{
+ "icao": "BCS1",
+ "name": "Airbus A220-100",
+ "valid_from": "2026-10-17",
+ "source": "Airbus, страница A220-100 (aircraft.airbus.com); OEW — Aircraft Commerce №142 (2022)",
+ "source_url": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+ "publisher": "Airbus",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 63.7,
+  "oew_t": 36.81,
+  "mlw_t": 54.7,
+  "fuel_capacity_t": 17.44,
+  "seats_max": 135,
+  "seats_typical": 110,
+  "span_m": 35.1,
+  "length_m": 35.0,
+  "cruise_mach": 0.78,
+  "cruise_alt_m": 10670,
+  "engine_count": 2,
+  "fuselage_width_m": 3.5
+ },
+ "engine": "Pratt & Whitney PW1500G (PW1521G/PW1524G)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A19N",
+  "note": "Ближайший по массе (63–71 т против ~75 т у A319neo) и поколению двигателя (GTF) тип в списке; у A220 расход на рейс заметно ниже — модель A19N даёт верхнюю оценку."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Airbus (Airbus Canada, ex-Bombardier CSeries)",
+  "country": "Канада/ЕС",
+  "status": "in_service",
+  "first_flight": "2015-09-16",
+  "eis": "2016-07-15 (SWISS)",
+  "data_kind": "official",
+  "range_km": 6700,
+  "range_note": "3600 nm по Airbus, без уточнения загрузки",
+  "mzfw_t": 52.6,
+  "field_sources": {
+   "mtow_t": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "mlw_t": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "oew_t": "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf — OEW 81,151 lb (аналитика Aircraft Commerce, не Airbus)",
+   "fuel_capacity_t": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100 — 21,805 л × 0,8 кг/л",
+   "seats_max": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "seats_typical": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100 (100–120 в 2 классах, середина)",
+   "span_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "length_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "cruise_mach": "типовая; Mmo 0.82 по https://www.aircraft.airbus.com/en/aircraft/a220/a220-100",
+   "cruise_alt_m": "типовой эшелон FL350, не из документа",
+   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a220/a220-100 (max fuselage diameter)"
+  },
+  "gaps": [
+   "sweep_deg — первоисточник не найден"
+  ],
+  "doubts": [
+   "MTOW росла: Airbus 2019 — 60.8→63.1 t; текущая страница — 63.7 t; Aircraft Commerce 2022 использует 140 500 lb",
+   "Топливо: Airbus 21,805 л; Aircraft Commerce — 5 756 USG; у A220-300 на странице Airbus объём меньше, чем у -100 — вероятно, разные опции/источники",
+   "OEW — из отраслевой аналитики (конкретная компоновка 117/133 мест), не паспорт производителя"
+  ],
+  "region": "west"
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "icao": "USER:ES30",
+ "name": "Heart Aerospace ES-30 (X1 — демонстратор)",
+ "valid_from": "2026-10-17",
+ "source": "Отраслевая пресса (FlightGlobal 2024 через Wikipedia; ProPakistani/Interesting Engineering 08.2026)",
+ "source_url": "https://propakistani.pk/2026/08/16/worlds-largest-electric-aircraft-completes-first-flight/",
+ "publisher": "FlightGlobal; ProPakistani; Wikipedia как указатель",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 30,
+  "seats_typical": 30
+ },
+ "engine": "гибридно-электрическая: электромоторы на батареях + 2 турбовинтовых/турбогенератора для расширенной дальности (конфигурация менялась)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Heart Aerospace",
+  "country": "Швеция/США (штаб-квартира перенесена в Лос-Анджелес)",
+  "status": "development",
+  "first_flight": "X1 (демонстратор): 2026-08-12, Платтсбург (NY), 27 мин",
+  "eis": "план: сертификация и коммерческая эксплуатация ~2031",
+  "data_kind": "announced",
+  "range_km": 200,
+  "range_note": "~200 км полностью на батареях; ~400 км гибридно с 30 пасс.; до ~800 км с 25 пасс.",
+  "field_sources": {
+   "seats_max": "https://en.wikipedia.org/wiki/Heart_Aerospace (FlightGlobal 15.05.2024)",
+   "seats_typical": "то же",
+   "range_km": "propakistani.pk 16.08.2026; Wikipedia (FlightGlobal 2024)"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, cruise_mach, cruise_alt_m — Heart не публиковала для ES-30 (размах 32 м / 105 ft назван для демонстратора X1)",
+   "расход: гибридно-электрическая силовая установка — аналога в openap нет, блок burn не ставится",
+   "engine_count — число движителей/турбин в актуальной конфигурации не подтверждено"
+  ],
+  "doubts": [
+   "Гибридная дальность: 400 км (Wikipedia/FlightGlobal) vs «до 800 км» (ProPakistani) — второе относится к 25 пассажирам",
+   "EIS: «конец 2020-х» (Wikipedia) vs 2031 (пресса 2026)",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "west"
+ }
+}

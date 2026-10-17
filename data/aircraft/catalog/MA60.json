@@ -1,0 +1,56 @@
+{
+ "icao": "MA60",
+ "name": "AVIC XAC MA60 / MA600 «Синьчжоу-60/600»",
+ "valid_from": "2026-10-17",
+ "source": "Справочные данные (Jane's через Wikipedia; flugzeuginfo.net)",
+ "source_url": "https://en.wikipedia.org/wiki/Xian_MA60",
+ "publisher": "Jane's All the World's Aircraft 2003–04 через Wikipedia; flugzeuginfo.net",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 21.8,
+  "oew_t": 13.7,
+  "mlw_t": 21.2,
+  "seats_max": 60,
+  "seats_typical": 56,
+  "span_m": 29.2,
+  "length_m": 24.71,
+  "cruise_mach": 0.38,
+  "engine_count": 2
+ },
+ "engine": "2 × P&WC PW127J (2 051 кВт)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "AVIC Xi'an Aircraft (XAC)",
+  "country": "Китай",
+  "status": "in_service",
+  "first_flight": "2000-03-12 (MA60); MA600 — 2008",
+  "eis": "2000-е",
+  "data_kind": "official",
+  "range_km": 1600,
+  "range_note": "Wikipedia/Jane's; flugzeuginfo — 1 430 км",
+  "orders_note": "Экспорт ~57 к 2016, значительная часть на хранении; MA600 в малых количествах (в т. ч. CAFUC). Данных о выпуске 2025–2026 не найдено",
+  "field_sources": {
+   "mtow_t": "Jane's/Wikipedia; flugzeuginfo: 21 800 кг",
+   "oew_t": "13 700 кг, там же",
+   "mlw_t": "flugzeuginfo: 21 200 кг",
+   "seats_max": "Wikipedia/flugzeuginfo: 60 (в спецификации Wikipedia — 62)",
+   "seats_typical": "flugzeuginfo: 52–56",
+   "span_m": "29,2 м",
+   "length_m": "24,71 м",
+   "cruise_mach": "расчёт: крейсерская 430 км/ч (Jane's) при допущенной высоте 6 000 м МСА → M0,38; высота не опубликована"
+  },
+  "gaps": [
+   "fuel_capacity_t — ёмкость топлива не найдена",
+   "cruise_alt_m — не опубликована (потолок 7 620 м)",
+   "расход турбовинтового — нет аналога в openap",
+   "Отдельные ЛТХ MA600 не найдены — файл на MA60, MA600 считается его модификацией с тем же ключом"
+  ],
+  "doubts": [
+   "Крейсерская: 430 км/ч (Wikipedia/Jane's) против 519 км/ч max cruise (flugzeuginfo)",
+   "Статус производства 2026 неясен — тип эксплуатируется, но новых поставок не найдено",
+   "Ключ MA600 в Doc 8643 не проверял — исхожу из того, что идёт под MA60"
+  ],
+  "region": "china"
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "icao": "Y12",
+ "name": "AVIC Harbin Y-12F (19 мест)",
+ "valid_from": "2026-10-17",
+ "source": "Данные AVIC/HAIG по случаю сертификата EASA (iFeng 15.07.2023); AIN 2011",
+ "source_url": "https://tech.ifeng.com/c/8RQMBHiSY1T",
+ "publisher": "iFeng/AVIC; AIN; AirData News",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 8.4,
+  "mlw_t": 8.0,
+  "fuel_capacity_t": 2.454,
+  "seats_max": 19,
+  "cruise_mach": 0.32,
+  "engine_count": 2
+ },
+ "engine": "2 × P&WC PT6A-65B (1 100 л.с.)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "AVIC Harbin (HAIG)",
+  "country": "Китай",
+  "status": "in_service",
+  "first_flight": "2010-12-29",
+  "eis": "CAAC TC 10.12.2015; FAA 22.02.2016; EASA 13.07.2023",
+  "data_kind": "official",
+  "range_km": 2255,
+  "range_note": "максимальная (AVIC); AIN: 700 nm (1 296 км) с полной пассажирской загрузкой",
+  "takeoff_m": 540,
+  "orders_note": "Данных о поставках Y-12F в пассажирском варианте 2025–2026 не найдено",
+  "field_sources": {
+   "mtow_t": "AVIC/iFeng: 8 400 кг (также AirData News)",
+   "mlw_t": "AVIC/iFeng: 8 000 кг",
+   "fuel_capacity_t": "AVIC/iFeng: max fuel 2 454 кг — в кг, пересчёт не нужен",
+   "seats_max": "19",
+   "cruise_mach": "расчёт: экономичная крейсерская 380 км/ч при допущенной высоте 3 000 м МСА (a≈1 183 км/ч) → M0,32",
+   "takeoff_m": "AIN 2011: 1 770 ft (прогноз) → 540 м"
+  },
+  "gaps": [
+   "oew_t — не найден",
+   "span_m, length_m — для Y-12F не найдены (у Y-12 IV размах 19,2 м — другой вариант)",
+   "cruise_alt_m — не опубликована (потолок 7 000 м)",
+   "расход турбовинтового — нет аналога в openap",
+   "TCDS EASA.IM.A.679 не открылся из сессии (403/таймаут разрешения)"
+  ],
+  "doubts": [
+   "Ключ Y12 общий для всех Y-12 — в fields только Y-12F",
+   "AirData News дал дальность 357 км — явно ошибка",
+   "Статус эксплуатации пассажирских Y-12F не подтверждён свежими источниками"
+  ],
+  "region": "china"
+ }
+}

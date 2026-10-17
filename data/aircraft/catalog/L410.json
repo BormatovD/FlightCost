@@ -1,0 +1,58 @@
+{
+ "icao": "L410",
+ "name": "L-410 УВП-Э20 (УЗГА / Aircraft Industries)",
+ "valid_from": "2026-10-17",
+ "source": "Заводской техлист L 410 UVP-E20 (s/n 2013 г.) + GlobalSecurity (массы)",
+ "source_url": "https://ie.aircraft24.com/images/aircraftpics/55/attach_131055_1.pdf",
+ "publisher": "Aircraft Industries (техлист борта), GlobalSecurity, airport-technology",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 6.6,
+  "oew_t": 4.2,
+  "mlw_t": 6.4,
+  "fuel_capacity_t": 1.3,
+  "seats_max": 19,
+  "span_m": 19.98,
+  "length_m": 14.424,
+  "cruise_mach": 0.33,
+  "cruise_alt_m": 3050,
+  "engine_count": 2
+ },
+ "engine": "2 × GE H80-200 (на ранних E20 — Walter/GE M601E, 560 кВт); планируется ремоторизация на ОДК ВК-800",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Aircraft Industries (Чехия); сборка в РФ — УЗГА (2010-е)",
+  "country": "Чехия / Россия",
+  "status": "in_service",
+  "first_flight": "1969-04-16 (L-410)",
+  "eis": "1971 (L-410); в РФ — эксплуатируется",
+  "data_kind": "official",
+  "range_km": 1400,
+  "range_note": "airport-technology, без указания загрузки",
+  "orders_note": "Около 130 L-410 УВП-Э20 и L-410NG выпущено в кооперации УЗГА; чешский бизнес продан в 2022 (санкции). В РФ ≈60 бортов в ВКС и ≥30 у авиакомпаний (2025). УЗГА рассматривает ремоторизацию парка на ВК-800 (02.2026); сертификация ВК-800 ожидается 2026–2027.",
+  "field_sources": {
+   "mtow_t": "техлист Aircraft Industries; GlobalSecurity; airport-technology",
+   "oew_t": "расчёт: MZFW 6 000 кг − макс. коммерческая нагрузка 1 800 кг = 4 200 кг (GlobalSecurity) — приближённая OEW",
+   "mlw_t": "техлист; GlobalSecurity (6 400 кг)",
+   "fuel_capacity_t": "техлист: 1 300 кг с концевыми баками (1 000 кг без)",
+   "seats_max": "техлист (19/17/15)",
+   "span_m": "техлист (19,980 м с концевыми баками)",
+   "length_m": "техлист (14,424 м)",
+   "cruise_mach": "расчёт: макс. крейсерская TAS 386 км/ч на 10 000 ft (техлист), a ≈ 328 м/с → M ≈ 0,33",
+   "cruise_alt_m": "техлист: крейсерский режим задан для 10 000 ft ≈ 3 050 м; потолок 4 200 м"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap",
+   "fuselage_width_m — внешняя ширина не найдена (макс. ширина салона 1,95 м)",
+   "Официальная OEW не найдена — дано расчётное значение"
+  ],
+  "doubts": [
+   "Это не новая российская программа: L-410NG — чешская (Aircraft Industries), к российскому региону не относится и здесь не собирался.",
+   "Импортозамещённой версии с ВК-800 пока нет ни в испытаниях, ни с объявленными ЛТХ.",
+   "Дальность 1 400–1 500 км (airport-technology, www1.ru) без указания загрузки.",
+   "исследователь пометил certainty=estimated"
+  ],
+  "region": "russia"
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "icao": "USER:OVERTURE",
+ "name": "Boom Overture (сверхзвуковой)",
+ "valid_from": "2026-10-17",
+ "source": "Boom Supersonic, пресс-релиз «Refined Overture» (2022) — актуальная официальная конфигурация",
+ "source_url": "https://boomsupersonic.com/press-release/refined-overture-northrop-grumman",
+ "publisher": "Boom Supersonic",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 80,
+  "seats_typical": 65,
+  "span_m": 32.31,
+  "length_m": 61.26,
+  "cruise_mach": 1.7,
+  "engine_count": 4
+ },
+ "engine": "4 × Boom Symphony (собственный ТРДД средней двухконтурности, 100% SAF)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Boom Supersonic",
+  "country": "США",
+  "status": "development",
+  "eis": "план Boom: пассажиры в 2029 (вероятен сдвиг)",
+  "data_kind": "announced",
+  "range_km": 7871,
+  "range_note": "4 250 nm с полной загрузкой (Boom)",
+  "subsonic_cruise_mach": 0.94,
+  "orders_note": "United 15 (+35 опц.), American 20 (+40 опц.), JAL 20 (pre-order) — по сообщениям Boom; XB-1 вышел на сверхзвук в 2025",
+  "field_sources": {
+   "seats_max": "Boom: 65–80 мест",
+   "seats_typical": "Boom: 65–80, взято нижнее",
+   "span_m": "Boom: 106 ft → 32,31 м",
+   "length_m": "Boom: 201 ft → 61,26 м",
+   "cruise_mach": "Boom: M1.7 над водой, M0.94 над сушей",
+   "engine_count": "Boom: four medium-bypass turbofans"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t — Boom не публиковал",
+   "cruise_alt_m — Boom в найденном релизе не указывает (ранее публично называлось ~60 000 ft — не перепроверено, поле не ставлю)",
+   "burn: сверхзвуковой тип — подходящего аналога в списке openap нет, блок burn не ставится"
+  ],
+  "doubts": [
+   "Сроки EIS 2029 — заявление Boom, при том что двигатель Symphony ещё в разработке; высокий риск сдвига",
+   "orders_note — по памяти о публичных заявлениях Boom, в этой сессии не перепроверено",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "west"
+ }
+}

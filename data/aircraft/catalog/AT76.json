@@ -1,0 +1,62 @@
+{
+ "icao": "AT76",
+ "name": "ATR 72-600",
+ "valid_from": "2026-10-17",
+ "source": "ATR fact sheet ATR 72-600 (2020)",
+ "source_url": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+ "publisher": "ATR",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 23.0,
+  "oew_t": 13.45,
+  "mlw_t": 22.35,
+  "fuel_capacity_t": 5.0,
+  "seats_max": 78,
+  "seats_typical": 72,
+  "span_m": 27.05,
+  "length_m": 27.17,
+  "cruise_mach": 0.455,
+  "cruise_alt_m": 7315,
+  "engine_count": 2
+ },
+ "engine": "2 × Pratt & Whitney Canada PW127M/N (новые — PW127XT-M)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ATR",
+  "country": "Франция/Италия",
+  "status": "in_service",
+  "first_flight": "2009 (ATR 72-600; базовый ATR 72 — 1988)",
+  "eis": "2011",
+  "data_kind": "official",
+  "range_km": 1404,
+  "range_note": "758 nm с максимумом пассажиров",
+  "takeoff_m": 1279,
+  "landing_m": 915,
+  "mzfw_t": 21.0,
+  "cruise_fuel_flow_kg_h": 762,
+  "cruise_fuel_flow_note": "ATR: 762 кг/ч на крейсерской 275 KTAS (95% MTOW, ISA, оптимальный эшелон); блок-топливо 200/300 nm — 638/879 кг",
+  "field_sources": {
+   "mtow_t": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf (22 800 базовая, 23 000 с опцией)",
+   "oew_t": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf (13 450 typical in-service; 13 010 техн. спецификация)",
+   "mlw_t": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+   "fuel_capacity_t": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf (5 000 кг)",
+   "seats_max": "ATR: «до 78 мест» — маркетинговая цифра ATR, в fact sheet 2020 только 72 при 29\"",
+   "seats_typical": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+   "span_m": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+   "length_m": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+   "cruise_mach": "РАСЧЁТ: 275 KTAS при FL240 ISA → M0.455 (эшелон в документе — «оптимальный», FL240 принят как в fact sheet ATR 42)",
+   "cruise_alt_m": "принято FL240 по аналогии с fact sheet ATR 42-600; ATR указывает «optimum FL»"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap (блок burn не ставится)",
+   "fuselage_width_m — не подписан в fact sheet"
+  ],
+  "doubts": [
+   "Длина/размах 27,166/27,050 м в fact sheet без подписей — присвоены по общеизвестным значениям (длина 27,17, размах 27,05)",
+   "seats_max 78 — не из этого документа",
+   "cruise_alt_m/Mach — допущение по эшелону"
+  ],
+  "region": "west"
+ }
+}

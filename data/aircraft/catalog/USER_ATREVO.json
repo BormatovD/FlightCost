@@ -1,0 +1,36 @@
+{
+ "icao": "USER:ATREVO",
+ "name": "ATR EVO (проект, гибридный ATR 72)",
+ "valid_from": "2026-10-17",
+ "source": "Отраслевая пресса: The Air Current (31.01.2026), Forecast International (13.02.2025), AirInsight (2023)",
+ "source_url": "https://theaircurrent.com/aircraft-development/atr-2029-evo-decision-hybrid-pw130-strategy/",
+ "publisher": "The Air Current; Forecast International",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "engine_count": 2
+ },
+ "engine": "гибрид на базе существующего двигателя P&WC (вероятно семейство PW127XT/«PW130»), не объявлен",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ATR",
+  "country": "Франция/Италия",
+  "status": "concept",
+  "eis": "план: 2035 (ранее 2030)",
+  "data_kind": "announced",
+  "range_note": "не объявлена",
+  "field_sources": {
+   "engine_count": "двухдвигательная компоновка семейства ATR 42/72"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap (блок burn не ставится)",
+   "mtow_t, oew_t, fuel_capacity_t, seats_max, span_m, cruise_mach, cruise_alt_m — ATR их не объявлял; решение по архитектуре — в 2029 (CEO Tarnaud Laude)",
+   "единственная целевая цифра: ~−20% расхода топлива (ранее −20…30%), −20% DMC, 100% SAF"
+  ],
+  "doubts": [
+   "Программа дважды сдвинута; семейство (EVO 42/72) или только 72 — по The Air Current первым будет гибридизированный ATR 72",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "west"
+ }
+}

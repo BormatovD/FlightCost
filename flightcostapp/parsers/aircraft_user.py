@@ -57,6 +57,14 @@ FIELDS = {
     "sweep_deg": "°", "fuselage_width_m": "м",
 }
 MOUNTS = ("wing", "rear")
+# Вид данных: official — серийный тип по документу производителя или
+# сертификату; announced — объявлено производителем для типа в испытаниях
+# или разработке; projected — оценка прессы/аналитиков, производитель не
+# подтверждал. Статус программы — как в обзорах.
+CATALOG = "aircraft_catalog"
+DATA_KINDS = ("official", "announced", "projected")
+STATUSES = ("in_service", "certifying", "flight_test", "development", "concept",
+            "paused", "ended")
 # Ставки эксплуатации, названные автором типа (решение 190). Не паспорт,
 # а допущение автора — поэтому отдельным блоком `fleet`, в факт
 # `<тип>/fleet_<поле>` домена `aircraft`: так они живут и снимаются вместе
@@ -150,13 +158,19 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
                          f"пишите это в source")
     fields = d.get("fields") or {}
     missing = [k for k in REQUIRED if fields.get(k) is None]
-    if missing:
+    # Каталог типов (решение 223) держит и карточки неполных типов: у C929
+    # или 777-9 масса пустого не опубликована, но тип нужен в обзоре. Такой
+    # тип заводится с перечнем пробелов и в расчёт не выбирается; свой тип
+    # владельца по-прежнему обязан быть полным — он заводится для расчёта.
+    card_only = ctx.get("source_id") == CATALOG
+    if missing and not card_only:
         raise ValueError(f"{icao}: нет полей {', '.join(missing)}")
     unknown = sorted(set(fields) - set(FIELDS))
     if unknown:
         raise ValueError(f"{icao}: неизвестные поля {', '.join(unknown)}; "
                          f"допустимы {', '.join(FIELDS)}")
-    if float(fields["oew_t"]) >= float(fields["mtow_t"]):
+    if (fields.get("oew_t") is not None and fields.get("mtow_t") is not None
+            and float(fields["oew_t"]) >= float(fields["mtow_t"])):
         raise ValueError(f"{icao}: масса пустого не меньше взлётной")
 
     base = dict(domain="aircraft", valid_from=d["valid_from"],
@@ -168,7 +182,14 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
                 note=d.get("name") or icao,
                 source_note=f"{d['source']} | {d['publisher']} | {d['source_url']}")
     facts = [Fact(key=f"{key_ac}/{k}", value=float(v), unit=FIELDS[k],
-                  confidence="exact", **base) for k, v in fields.items()]
+                  confidence="exact", **base) for k, v in fields.items() if v is not None]
+    if missing:
+        facts.append(Fact(key=f"{key_ac}/calc_gaps", value_text=", ".join(missing),
+                          unit="поля", confidence="exact", **base))
+    assumed = (d.get("meta") or {}).get("assumed") or {}
+    if assumed:
+        facts.append(Fact(key=f"{key_ac}/assumed", value_text="; ".join(
+            f"{k}: {v}" for k, v in assumed.items()), unit="текст", confidence="exact", **base))
     fleet = {k: v for k, v in (d.get("fleet") or {}).items() if v not in ("", None)}
     bad = sorted(set(fleet) - set(FLEET))
     if bad:
@@ -192,6 +213,28 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
     if d.get("engine"):
         facts.append(Fact(key=f"{key_ac}/engine", value_text=str(d["engine"]),
                           unit="designator", confidence="exact", **base))
+    # Статус программы и вид данных (каталог типов, решение 223): у типа в
+    # разработке числа — объявленные производителем или оценки прессы, и
+    # отчёт обязан сказать это рядом с числом, а не в сноске.
+    meta = d.get("meta") or {}
+    kind = str(meta.get("data_kind") or "").strip().lower()
+    if kind and kind not in DATA_KINDS:
+        raise ValueError(f"{icao}: meta.data_kind {kind!r} — допустимо {', '.join(DATA_KINDS)}")
+    status = str(meta.get("status") or "").strip().lower()
+    if status and status not in STATUSES:
+        raise ValueError(f"{icao}: meta.status {status!r} — допустимо {', '.join(STATUSES)}")
+    for k, v, unit in (("data_kind", kind, "вид данных"), ("program_status", status, "статус"),
+                       ("eis", str(meta.get("eis") or "").strip(), "дата"),
+                       ("manufacturer", str(meta.get("manufacturer") or "").strip(), "текст")):
+        if v:
+            facts.append(Fact(key=f"{key_ac}/{k}", value_text=v, unit=unit,
+                              confidence="exact", **base))
+    for k in ("range_km", "takeoff_m", "landing_m"):
+        if meta.get(k) not in (None, ""):
+            facts.append(Fact(key=f"{key_ac}/{k}", value=float(meta[k]),
+                              unit="км" if k == "range_km" else "м", confidence="exact",
+                              **dict(base, note=f"{d.get('name') or icao}: "
+                                                f"{meta.get('range_note') or ''}".strip(": "))))
 
     burn = d.get("burn") or {}
     if burn:

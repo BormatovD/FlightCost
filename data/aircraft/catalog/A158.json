@@ -1,0 +1,62 @@
+{
+ "icao": "A158",
+ "name": "Antonov An-158",
+ "valid_from": "2026-10-17",
+ "source": "Airport Technology, профиль An-158",
+ "source_url": "https://www.airport-technology.com/projects/an-158-jumbo-passenger-jet/",
+ "publisher": "Airport Technology (вторичный)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 43.7,
+  "mlw_t": 37.8,
+  "seats_max": 99,
+  "span_m": 28.91,
+  "length_m": 30.83,
+  "cruise_mach": 0.78,
+  "cruise_alt_m": 11000,
+  "fuselage_width_m": 3.13,
+  "engine_count": 2
+ },
+ "engine": "2x Ивченко-Прогресс Д-436-148 (FADEC, ~67 кН)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "E190",
+  "note": "99 мест, MTOW 43,7 т, ТРДД под крылом — ближе всего E190 по вместимости; MTOW ниже E190 (~51 т), двигатель старшего поколения"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ГП «Антонов»",
+  "country": "Украина",
+  "status": "ended",
+  "first_flight": "2010-04-28",
+  "eis": "2013-04 (Cubana); сертификат МАК/Госавиаслужбы Украины — 02.2011",
+  "data_kind": "official",
+  "range_km": 4000,
+  "range_note": "'до 4000 км', загрузка не указана",
+  "orders_note": "Ilyushin Finance — твёрдый контракт на 20 (06.2011), фактически поставлено ~6 в Cubana; в 2019 Антонов заявлял о намерении возобновить выпуск после импортозамещения, с 2022 — нет",
+  "field_sources": {
+   "mtow_t": "Airport Technology",
+   "mlw_t": "Airport Technology",
+   "seats_max": "Airport Technology",
+   "span_m": "крыло общее с An-148 (28,91 м, GlobalSecurity)",
+   "length_m": "производная: длина An-148 29,13 м + удлинение фюзеляжа 1,7 м (Airport Technology)",
+   "cruise_mach": "780–870 км/ч на высотах до 12 200 м (Airport Technology); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) ≥11 000 м: M0,73–0,82, взята середина",
+   "cruise_alt_m": "принято как у An-148 (11 000–11 600 м), Airport Technology даёт только 'до 12 200 м'",
+   "fuselage_width_m": "внутренняя ширина кабины 3,13 м (не наружный диаметр) — Airport Technology",
+   "orders_note": "https://aviamuseum.com.ua/en/news/museum-news/1456-april-28-is-the-15th-anniversary-of-the-an-158-regional-airliner; aeroTELEGRAPH 05.11.2019"
+  },
+  "gaps": [
+   "oew_t — не найден",
+   "fuel_capacity_t — не найден (крыло и баки, вероятно, как у An-148 ~12 т, но не подтверждено)",
+   "takeoff_m, landing_m, sweep_deg — не найдены",
+   "antonov.com недоступен (fetch заблокирован)"
+  ],
+  "doubts": [
+   "length_m и span_m выведены, а не взяты из таблицы производителя",
+   "fuselage_width_m — внутренняя ширина кабины, наружная больше",
+   "cruise_alt_m принято по An-148",
+   "исследователь пометил certainty=approximate"
+  ],
+  "region": "emerging"
+ }
+}

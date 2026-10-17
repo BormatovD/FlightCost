@@ -1,0 +1,62 @@
+{
+ "icao": "A35K",
+ "name": "Airbus A350-1000",
+ "valid_from": "2026-10-17",
+ "source": "Airbus, страница A350-1000 (aircraft.airbus.com), спецификация",
+ "source_url": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+ "publisher": "Airbus",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 324.0,
+  "mlw_t": 236.0,
+  "fuel_capacity_t": 134.64,
+  "seats_max": 480,
+  "seats_typical": 388,
+  "span_m": 64.75,
+  "length_m": 73.78,
+  "cruise_mach": 0.85,
+  "cruise_alt_m": 11280,
+  "engine_count": 2,
+  "fuselage_width_m": 5.94,
+  "sweep_deg": 31.9
+ },
+ "engine": "Rolls-Royce Trent XWB-97",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A359",
+  "note": "Удлинённый вариант того же семейства (Trent XWB-84 → XWB-97); модель A359 с фактической массой — ближайший аналог в списке."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Airbus",
+  "country": "Франция/Германия (ЕС)",
+  "status": "in_service",
+  "first_flight": "2016-11-24",
+  "eis": "2018-02 (Qatar Airways)",
+  "data_kind": "official",
+  "range_km": 16850,
+  "range_note": "9 100 nm по текущей странице Airbus (там же встречаются 9 000 и 8 000 nm — разные версии MTOW/подачи)",
+  "mzfw_t": 223.0,
+  "field_sources": {
+   "mtow_t": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000 (324.00 t, max taxi 324.9 t)",
+   "mlw_t": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "fuel_capacity_t": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000 — 168 300 л × 0,8 кг/л = 134,64 т",
+   "seats_max": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "seats_typical": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000 (375–400 в 3 классах, середина)",
+   "span_m": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "length_m": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "cruise_mach": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "cruise_alt_m": "типовой эшелон FL370, не из документа",
+   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a350/a350-1000",
+   "sweep_deg": "Airbus A350 — 31,9°, общеизвестное значение, не из документа"
+  },
+  "gaps": [
+   "oew_t — Airbus не публикует OEW; в прессе встречается ~155 т, первоисточника не нашёл"
+  ],
+  "doubts": [
+   "MTOW росла: 308 t (2011) → 316 t (2017, FlightGlobal) → 319/322 t → 324 t (текущая страница); у конкретного борта зависит от WV",
+   "Дальность на одной странице Airbus: 9 100 / 9 000 / 8 000 nm"
+  ],
+  "region": "west"
+ }
+}

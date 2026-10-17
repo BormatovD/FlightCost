@@ -1,0 +1,42 @@
+{
+ "icao": "USER:RTA90",
+ "name": "NAL/HAL Regional Transport Aircraft (RTA-90)",
+ "valid_from": "2026-10-17",
+ "source": "Сводка программы (Wikipedia как указатель) + Moneycontrol 01.2026, BusinessLine 12.2024",
+ "source_url": "https://en.wikipedia.org/wiki/HAL/NAL_Regional_Transport_Aircraft",
+ "publisher": "CSIR-NAL / правительство Индии через прессу",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 90,
+  "engine_count": 2,
+  "fuselage_width_m": 3.01
+ },
+ "engine": "2x турбовинтовых нового поколения (не выбран)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "SPV (CSIR-NAL, HAL, частные партнёры — состав не утверждён)",
+  "country": "Индия",
+  "status": "concept",
+  "eis": "официально не назначен (в 2021 называли 2026 — сорвано)",
+  "data_kind": "projected",
+  "range_note": "для RTA-90 не объявлено; пресса 2024 — 600–700 км (для SPV-концепта)",
+  "orders_note": "нет; ВВС и ВМС Индии проявляют интерес (idrw.org). 27.01.2026 — MoU Embraer–Adani о сборке регионального самолёта в Индии (конкурирующий/параллельный трек)",
+  "field_sources": {
+   "seats_max": "разрешение NAL на 90-местный вариант, 02.2021 (Wikipedia со ссылкой на IIMB/India Education Diary)",
+   "fuselage_width_m": "внутренняя ширина кабины 3,01 м — данные NAL RTA brochure (архив), относится к 70-местному концепту",
+   "status": "Moneycontrol 21.01.2026: правительство вероятно выделит Rs 12 511 крор (~$1,36 млрд) SPV; решение turboprop vs clean-sheet за SPV"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, cruise_mach, cruise_alt_m — для 90-местного варианта не опубликованы",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Старые данные NAL для RTA-70 (2010, FlightGlobal): 70 мест, размах 29,4 м, длина 28,6 м, 300 уз, потолок 30 000 фт, дальность 2500 км, ВПП 900 м — к RTA-90 неприменимы",
+   "Не решено даже, турбовинтовой ли будет самолёт (в 2010 правительство просило рассмотреть ТРДД)",
+   "Финансирование SPV — сообщение прессы о вероятном выделении, не подтверждённое решение",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "emerging"
+ }
+}

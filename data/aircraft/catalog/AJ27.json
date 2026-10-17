@@ -1,0 +1,72 @@
+{
+ "icao": "AJ27",
+ "name": "COMAC C909 (ARJ21-700) STD",
+ "valid_from": "2026-10-17",
+ "source": "COMAC ACAP ARJ21-700 (по ссылке из Wikipedia; сам PDF comac.cc недоступен из сессии — DNS) + отраслевая пресса 2026",
+ "source_url": "https://en.wikipedia.org/wiki/Comac_C909",
+ "publisher": "COMAC (ACAP) через Wikipedia-указатель; AirData News",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 40.5,
+  "oew_t": 24.955,
+  "mlw_t": 37.665,
+  "fuel_capacity_t": 10.386,
+  "seats_max": 90,
+  "seats_typical": 78,
+  "span_m": 27.28,
+  "length_m": 33.46,
+  "cruise_mach": 0.78,
+  "engine_count": 2,
+  "sweep_deg": 25,
+  "cruise_alt_m": 10670
+ },
+ "engine": "2 × GE CF34-10A (75,87 кН)",
+ "engine_mount": "rear",
+ "burn": {
+  "analog": "E75L",
+  "note": "по массе (MTOW 40,5 т против ~40,4 т у E175) и местам (78–90 против 76–88); двигатель CF34-10A ближе к E190 (CF34-10E), но E190 тяжелее (~50 т). ARJ21 известен большим OEW (≈25 т против ~22 т у E175) — расход вероятно выше аналога"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "in_service",
+  "first_flight": "2008-11-28",
+  "eis": "2016-06-28 (Chengdu Airlines)",
+  "data_kind": "official",
+  "range_km": 2200,
+  "range_note": "STD, полная загрузка (1 200 nm); ER — 3 700 км (2 000 nm) при MTOW 43,5 т без доп. баков",
+  "takeoff_m": 1700,
+  "orders_note": "≈187 построено/поставлено (AirData News, 29.06.2026, вкл. испытательные); Wikipedia — 210 к 03.2026. 10 лет эксплуатации 28.06.2026; >40 млн пассажиров (COMAC, 18.09.2026). Новые зарубежные: VietJet (лизинг +10, 04.2026), Air Cambodia (20, первые 2 — Q4 2026), Lao Airlines",
+  "variants_note": "C909 ER: MTOW 43,5 т, MLW 40,455 т, дальность 3 700 км (тот же ключ AJ27 — в fields STD). Сертифицированы CBJ (бизнес, 20 мест — вне задания), CCF (грузовой), EMJ, MSJ (медицинский); FFJ (пожарный) — в разработке/заказан. Удлинённый ARJ21-900 (~115 мест) не развивается с 2010-х — роль перешла к C919. Новых пассажирских вариантов C909 к 10.2026 не объявлено",
+  "field_sources": {
+   "mtow_t": "COMAC ACAP (via Wikipedia C909): 40 500 kg STD",
+   "oew_t": "COMAC ACAP (via Wikipedia): OEW 24 955 kg",
+   "mlw_t": "COMAC ACAP (via Wikipedia): 37 665 kg STD",
+   "fuel_capacity_t": "COMAC ACAP (via Wikipedia): max fuel load 10 386 kg — дано в кг, пересчёт не нужен",
+   "seats_max": "Wikipedia/COMAC: 90 (1 класс), AirData News 29.06.2026: 78–90",
+   "seats_typical": "78 (2 класса), Wikipedia/COMAC",
+   "span_m": "Wikipedia (ACAP): 27,28 м",
+   "length_m": "Wikipedia (ACAP): 33,46 м",
+   "cruise_mach": "Wikipedia: normal cruise M0.78 (MMO 0.82)",
+   "sweep_deg": "Wikipedia: 25°",
+   "engine_count": "2 × CF34-10A",
+   "takeoff_m": "Wikipedia: разбег при MTOW 1 700 м (STD), 1 900 м (ER)",
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  },
+  "gaps": [
+   "fuselage_width_m — найдена только ширина салона 3,14 м, внешний диаметр фюзеляжа не найден",
+   "landing_m — не найден",
+   "anchor_kg_per_h — опубликованного часового расхода не найдено",
+   "первоисточник ACAP (comac.cc/pdf/acap_en.pdf) не открылся — числа взяты через Wikipedia со ссылкой на него"
+  ],
+  "doubts": [
+   "Поставки: AirData News ≈187 (06.2026) против Wikipedia 210 (03.2026); таблица Wikipedia по годам суммируется в 162",
+   "Портфель: Wikipedia даёт несогласованные 386 / 314+35 / 263+10 — в orders_note не ставлю"
+  ],
+  "region": "china",
+  "assumed": {
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  }
+ }
+}

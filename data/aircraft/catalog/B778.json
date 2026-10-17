@@ -1,0 +1,57 @@
+{
+ "icao": "B778",
+ "name": "Boeing 777-8 (пассажирский)",
+ "valid_from": "2026-10-17",
+ "source": "Boeing 777X Airport Compatibility Brochure (2015, предварительно) + сообщения Boeing 2023 об удлинении -8",
+ "source_url": "https://www.boeing.com/resources/boeingdotcom/commercial/airports/acaps/777Xbrochure.pdf",
+ "publisher": "Boeing; Sam Chui (2023-08-09) со ссылкой на Boeing",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 351.53,
+  "seats_typical": 395,
+  "span_m": 71.8,
+  "length_m": 70.9,
+  "cruise_mach": 0.84,
+  "cruise_alt_m": 11280,
+  "engine_count": 2,
+  "fuselage_width_m": 6.2
+ },
+ "engine": "GE Aerospace GE9X",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "B77W",
+  "note": "Укороченный 777X с тем же крылом и GE9X; ближайший по массе/поколению тип в списке — 777-300ER (777-200LR в списке нет)."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Boeing",
+  "country": "США",
+  "status": "development",
+  "eis": "не объявлен; после 777-8F (поставки грузовой версии — не ранее 2028) и 777-9",
+  "data_kind": "announced",
+  "range_km": 16190,
+  "range_note": "8 745 nm после удлинения (Boeing, 2023, по Sam Chui); ранее 8 730 nm",
+  "wingspan_folded_m": 64.8,
+  "field_sources": {
+   "mtow_t": "https://www.boeing.com/resources/boeingdotcom/commercial/airports/acaps/777Xbrochure.pdf (775 000 lb — как у 777-9, предварительно)",
+   "seats_typical": "https://samchui.com/2023/08/09/boeing-stretches-777-8-fuselage-to-boost-capacity-and-range/ (395 в 2 классах, ранее 384)",
+   "span_m": "https://www.boeing.com/resources/boeingdotcom/commercial/airports/acaps/777Xbrochure.pdf",
+   "length_m": "Sam Chui 2023: 70,9 м после удлинения на 1,1 м (брошюра 2015: 69,8 м)",
+   "cruise_mach": "как 777-9 (Boeing M0.84)",
+   "cruise_alt_m": "типовой эшелон FL370, не из документа",
+   "fuselage_width_m": "общий фюзеляж 777X, https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf"
+  },
+  "gaps": [
+   "oew_t — не публиковался",
+   "fuel_capacity_t — для -8 Boeing в ACAP Rev G данных не даёт (документ только по 777-9); вероятно равно 777-9 (157,5 т), но не подтверждено",
+   "seats_max — не публиковался",
+   "mlw_t — не публиковался"
+  ],
+  "doubts": [
+   "Пассажирский 777-8 фактически отодвинут: Boeing приоритизирует 777-9 и 777-8F; дата EIS пассажирской версии не названа",
+   "Все размеры брошюры 2015 г. помечены как предварительные; длина изменена в 2023 г.",
+   "исследователь пометил certainty=approx"
+  ],
+  "region": "west"
+ }
+}

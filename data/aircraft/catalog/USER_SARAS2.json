@@ -1,0 +1,61 @@
+{
+ "icao": "USER:SARAS2",
+ "name": "CSIR-NAL Saras Mk2",
+ "valid_from": "2026-10-17",
+ "source": "Брошюра CSIR-NAL SARAS Mk2",
+ "source_url": "https://www.nal.res.in/sites/default/files/inline-files/SARAS%20MK2%20brochure.pdf",
+ "publisher": "CSIR-National Aerospace Laboratories (разработчик)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 7.6,
+  "oew_t": 5.1,
+  "fuel_capacity_t": 1.832,
+  "seats_max": 19,
+  "seats_typical": 19,
+  "span_m": 18.0,
+  "length_m": 17.3,
+  "cruise_mach": 0.42,
+  "engine_count": 2,
+  "cruise_alt_m": 7620
+ },
+ "engine": "2x Pratt & Whitney Canada PT6A-67A (1200 shp flat rated)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "CSIR-NAL (металлические агрегаты — HAL Kanpur)",
+  "country": "Индия",
+  "status": "development",
+  "first_flight": "план: конец 2027 (Mk2; Saras PT1N — 2018)",
+  "eis": "план: не ранее 2028–2029",
+  "data_kind": "announced",
+  "range_km": 750,
+  "range_note": "750 км с 19 пасс. и резервом 45 мин; 2350 км с 10 пасс.; перегон 2400 км",
+  "takeoff_m": 820,
+  "landing_m": 665,
+  "orders_note": "ВВС Индии — MoU на ≥15 шт. при условии успешных лётных испытаний (Raksha Anirveda, 2025–2026)",
+  "field_sources": {
+   "mtow_t": "брошюра NAL",
+   "oew_t": "брошюра NAL (operating empty weight 5100 кг)",
+   "fuel_capacity_t": "брошюра NAL (max fuel weight 1832 кг)",
+   "seats_max": "брошюра NAL",
+   "span_m": "брошюра NAL",
+   "length_m": "брошюра NAL",
+   "cruise_mach": "260 KTAS (брошюра NAL); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) FL200–FL250 → M0,42–0,43",
+   "status": "https://raksha-anirveda.com/indias-indigenous-aviation-vaults-forward-saras-mk-ii-flight-tests-slated-for-late-2027/",
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL250 для турбовинтовых — в документах производителя крейсерская высота не названа"
+  },
+  "gaps": [
+   "mlw_t, fuselage_width_m — не опубликованы",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Взлётная дистанция: брошюра NAL 820 м, Raksha Anirveda (2025–26) 670 м; посадка: брошюра 665 м, пресса 900 м — взяты значения брошюры",
+   "Первый полёт Mk2 неоднократно сдвигался (ранее 2024, затем 2026, теперь конец 2027)",
+   "исследователь пометил certainty=approximate"
+  ],
+  "region": "emerging",
+  "assumed": {
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL250 для турбовинтовых — в документах производителя крейсерская высота не названа"
+  }
+ }
+}

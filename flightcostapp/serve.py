@@ -1630,24 +1630,29 @@ class Context:
         """
         with self.lock:
             rows = self.store.db.execute(
-                """SELECT key, value, value_text, source_id FROM facts
+                """SELECT key, value, value_text, source_id, note FROM facts
                    WHERE domain = 'aircraft' AND valid_to IS NULL""").fetchall()
             lay = self.store.db.execute(
                 """SELECT key, value, source_id, confidence FROM facts
                    WHERE domain = 'aircraft_layout' AND valid_to IS NULL""").fetchall()
         if self.ws:
             # Свои типы гостя — поверх справочника, как при чтении.
-            rows = list(rows) + [(r["key"], r["value"], r["value_text"], r["source_id"])
+            rows = list(rows) + [(r["key"], r["value"], r["value_text"], r["source_id"],
+                                  r["note"] if "note" in r.keys() else None)
                                  for r in self.gdb.facts(self.ws, "aircraft")]
             lay = list(lay) + [(r["key"], r["value"], r["source_id"], r["confidence"])
                                for r in self.gdb.facts(self.ws, "aircraft_layout")]
         types: dict[str, dict] = {}
-        for key, value, txt, src in rows:
+        for key, value, txt, src, note in rows:
             icao, _, field = (key or "").partition("/")
             if not icao or not field:
                 continue
             t = types.setdefault(icao, {"icao": icao, "fields": {}, "sources": set()})
             t["fields"][field] = value if value is not None else txt
+            # Имя своего типа и типа каталога парсер кладёт в note массы
+            # (как openap): без него в списке стоял один код.
+            if field == "mtow_t" and note and "name" not in t["fields"]:
+                t["fields"]["name"] = str(note)
             t["sources"].add(src)
         layouts: dict[str, list[dict]] = {}
         for key, seats, src, conf in lay:
@@ -1701,9 +1706,14 @@ class Context:
                 "seats_max": f.get("seats_max"),
                 # Без взлётной массы `load_aircraft` отказывает; такой тип
                 # в списке остаётся, но выбрать его нельзя — с причиной.
-                "usable": f.get("mtow_t") is not None,
-                "why_not": "" if f.get("mtow_t") is not None
-                           else "в домене aircraft нет mtow_t",
+                # Карточка каталога без полей расчёта (решение 223) видна
+                # в списке, но не выбирается — с перечнем того, чего нет.
+                "usable": f.get("mtow_t") is not None and not f.get("calc_gaps"),
+                "why_not": ("в домене aircraft нет mtow_t" if f.get("mtow_t") is None
+                            else f"только карточка: не опубликованы {f['calc_gaps']}"
+                            if f.get("calc_gaps") else ""),
+                "status": f.get("program_status") if isinstance(f.get("program_status"), str) else None,
+                "data_kind": f.get("data_kind") if isinstance(f.get("data_kind"), str) else None,
                 "layouts": ls,
                 "layout_default": next((x for x in ls if x["operator"] == "*"), None),
                 # None — «не проверялось» (библиотеки нет), а не «нет

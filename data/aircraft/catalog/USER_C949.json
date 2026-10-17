@@ -1,0 +1,40 @@
+{
+ "icao": "USER:C949",
+ "name": "COMAC C949 (сверхзвуковой концепт)",
+ "valid_from": "2026-10-17",
+ "source": "Научная статья специалистов COMAC (2025), пересказ AirData News 01.04.2025",
+ "source_url": "https://www.airdatanews.com/chinese-concorde-comac-outlines-the-supersonic-c949",
+ "publisher": "AirData News (по статье COMAC)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 168,
+  "cruise_mach": 1.6,
+  "engine_count": 2
+ },
+ "engine": "2 двигателя в хвостовой части (тип не указан)",
+ "engine_mount": "rear",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "concept",
+  "eis": "цель ~2049",
+  "data_kind": "projected",
+  "range_km": 11000,
+  "range_note": "заявлено ~11 000 км (AirData News); в той же статье 6 800 nm (=12 600 км) — расхождение",
+  "field_sources": {
+   "seats_max": "AirData News: 168",
+   "cruise_mach": "AirData News: «до M1.6»",
+   "engine_count": "AirData News"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, cruise_alt_m — не опубликованы",
+   "burn: сверхзвуковой — подходящего аналога в списке openap нет, блок burn не ставится"
+  ],
+  "doubts": [
+   "Это исследовательская статья, не программа: COMAC не объявлял запуск; data_kind projected",
+   "M1.6 — максимальная или крейсерская, из пересказа неясно"
+  ],
+  "region": "china"
+ }
+}

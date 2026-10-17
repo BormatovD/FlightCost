@@ -1,0 +1,64 @@
+{
+ "icao": "E290",
+ "name": "Embraer E190-E2 (ERJ 190-300)",
+ "valid_from": "2026-10-17",
+ "source": "Embraer E-Jets E2 Airport Planning Manual, Rev 25 (29.11.2024; раздел 2 — Rev 21, 05.08.2022) + спецификация E190-E2",
+ "source_url": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+ "publisher": "Embraer",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 56.4,
+  "oew_t": 33.2,
+  "mlw_t": 49.05,
+  "fuel_capacity_t": 13.5,
+  "seats_max": 114,
+  "seats_typical": 104,
+  "span_m": 33.72,
+  "length_m": 36.24,
+  "cruise_mach": 0.78,
+  "cruise_alt_m": 10670,
+  "engine_count": 2
+ },
+ "engine": "Pratt & Whitney PW1919G",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "E190",
+  "note": "Тот же фюзеляж E190, новое крыло и GTF (Embraer: −17% топлива на рейс vs E190-E1) — модель E190 завышает расход."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Embraer",
+  "country": "Бразилия",
+  "status": "in_service",
+  "first_flight": "2016-05-23",
+  "eis": "2018-04 (Widerøe)",
+  "data_kind": "official",
+  "range_km": 5463,
+  "range_note": "2 950 nm с полной пассажирской загрузкой, LRC, типовые резервы, запасной 100 nm (Embraer spec)",
+  "takeoff_m": 1615,
+  "landing_m": 1215,
+  "mzfw_t": 46.7,
+  "field_sources": {
+   "mtow_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "mlw_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "oew_t": "РАСЧЁТ: MZFW 46 700 кг (https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf) − max payload 13 500 кг (https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf) = 33 200 кг",
+   "fuel_capacity_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (13 500 кг / 16 800 л; в spec sheet — 13 690 кг)",
+   "seats_max": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (114 при шаге 29\")",
+   "seats_typical": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (104 при 31\")",
+   "span_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "length_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (раздел 2.2.1; на рис. 2.1 — 36,33 м)",
+   "cruise_mach": "типовая LRC; макс. крейсерская M0.82 по https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
+   "cruise_alt_m": "типовой эшелон FL350; потолок 41 000 ft по https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
+   "takeoff_m": "https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
+   "landing_m": "https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf"
+  },
+  "gaps": [
+   "fuselage_width_m, sweep_deg — в APM-выдержке не найдены"
+  ],
+  "doubts": [
+   "Макс. топливо: APM 13 500 кг (16 800 л) vs spec sheet 13 690 кг — взят APM",
+   "OEW — производная (MZFW − max payload), не прямая цифра Embraer"
+  ],
+  "region": "west"
+ }
+}

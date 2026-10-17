@@ -1,0 +1,65 @@
+{
+ "icao": "B779",
+ "name": "Boeing 777-9",
+ "valid_from": "2026-10-17",
+ "source": "Boeing D6-86073 777-9 Airplane Characteristics for Airport Planning, Rev G (Sept 2025)",
+ "source_url": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf",
+ "publisher": "Boeing",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 351.53,
+  "mlw_t": 266.26,
+  "fuel_capacity_t": 157.48,
+  "seats_typical": 426,
+  "span_m": 71.76,
+  "length_m": 76.73,
+  "cruise_mach": 0.84,
+  "cruise_alt_m": 11280,
+  "engine_count": 2,
+  "fuselage_width_m": 6.2
+ },
+ "engine": "GE Aerospace GE9X-105B1A",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "B77W",
+  "note": "Тот же класс (777-300ER → 777-9), фюзеляж длиннее, новое композитное крыло и GE9X (Boeing: ~10% лучше по топливу на место vs 777-300ER) — модель B77W даёт верхнюю оценку."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Boeing",
+  "country": "США",
+  "status": "certifying",
+  "first_flight": "2020-01-25",
+  "eis": "план: 2027 (первые поставки; Lufthansa ждёт летом 2027)",
+  "data_kind": "announced",
+  "range_km": 13500,
+  "range_note": "Boeing: 7 285 nm (типовая 2-классная компоновка) — с сайта Boeing, в этой сессии не перепроверено",
+  "mzfw_t": 254.92,
+  "mtw_t": 352.44,
+  "wingspan_folded_m": 64.85,
+  "orders_note": "Emirates 170 шт. 777-9 (+35 777-8); всего 777X — порядка 600 заказов",
+  "field_sources": {
+   "mtow_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (775 000 lb)",
+   "mlw_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (587 000 lb)",
+   "fuel_capacity_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (max usable 52 136 USG / 197 356 л / 157 477 kg — Boeing даёт кг)",
+   "seats_typical": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (426 в 2 классах; 357 в 3 классах)",
+   "span_m": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (законцовки разложены; сложены 64,85 м)",
+   "length_m": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf",
+   "cruise_mach": "Boeing: M0.84 (официальный сайт 777X)",
+   "cruise_alt_m": "типовой эшелон FL370, не из документа",
+   "fuselage_width_m": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/777X_Rev_G.pdf (размеры из чертежа 2.2.1 — подписи распознаны по раскладке)",
+   "status": "https://www.air-journal.fr/2026-05-28-737-max-7-et-10-777-9-boeing-repousse-tout-a-2027-mais-se-dit-confiant-5275395.html; https://www.aviationweek.com/air-transport/safety-ops-regulation/faa-administrator-signals-777x-certification-2027"
+  },
+  "gaps": [
+   "oew_t — Boeing в ACAP не публикует OEW; надёжного первоисточника нет",
+   "seats_max — exit limit в ACAP не найден"
+  ],
+  "doubts": [
+   "Сроки: TC ожидался в 2025, затем «конец 2026»; FAA (Бедфорд, 28.05.2026) надеется на «начало следующего года» — т.е. сертификация, вероятно, начало 2027",
+   "range_km 13 500 (7 285 nm) — цифра Boeing из памяти, не перепроверена в этой сессии; использовать осторожно",
+   "Ранняя брошюра 2015 г.: топливо 197 977 л; ACAP Rev G: 197 356 л — взят ACAP",
+   "исследователь пометил certainty=approx"
+  ],
+  "region": "west"
+ }
+}

@@ -1,0 +1,72 @@
+{
+ "icao": "T204",
+ "name": "Ту-214 (импортозамещённый, ПС-90А)",
+ "valid_from": "2026-10-17",
+ "source": "Справочные ЛТХ Ту-214 (данные КАЗ/Туполев в пересказе GlobalSecurity и avia.tutu.ru); статус — ОАК, 06.2026",
+ "source_url": "https://www.globalsecurity.org/military/world/russia/tu-204-specs.htm",
+ "publisher": "GlobalSecurity.org (таблица ЛТХ Ту-204/214), avia.tutu.ru, ОАК",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 110.75,
+  "oew_t": 59.0,
+  "mlw_t": 93.0,
+  "fuel_capacity_t": 35.71,
+  "seats_max": 210,
+  "seats_typical": 164,
+  "span_m": 42.0,
+  "length_m": 46.0,
+  "cruise_mach": 0.79,
+  "engine_count": 2,
+  "fuselage_width_m": 3.8,
+  "cruise_alt_m": 10670
+ },
+ "engine": "2 × ОДК-ПМ ПС-90А (16 тс)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "B752",
+  "note": "Ту-214 — аналог Boeing 757-200 по размерности (MTOW 110 т против 115 т, 164–210 мест) и поколению двигателя (ПС-90А ≈ PW2000/RB211-535). Опубликованного часового расхода от производителя не найдено."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ПАО «Туполев» (ОАК); производство — КАЗ им. С. П. Горбунова",
+  "country": "Россия",
+  "status": "in_service",
+  "first_flight": "1996-03-21",
+  "eis": "2001 (исходный Ту-214); импортозамещённая версия — одобрение главного изменения типовой конструкции 12.2025, поставки начаты в 2026 (ОАК, 02.06.2026)",
+  "data_kind": "official",
+  "range_km": 4340,
+  "range_note": "с максимальной коммерческой нагрузкой 25,2 т; ОАК (2026) — «до 4 500 км»; 6 500 км с пасс. и багажом (avia.tutu.ru)",
+  "takeoff_m": 2250,
+  "orders_note": "План Минпромторга: 8 шт. в 2026, 12 в 2027, до 20/год с 2028 (www1.ru 21.01.2026). Поставки 2025–2026 — в основном госзаказчикам; ГТЛК готовит контракт для S7. На первом этапе — экипаж 3 чел. и ПС-90А, двухчленный экипаж и ПД-14 отложены.",
+  "field_sources": {
+   "mtow_t": "GlobalSecurity (Tu-214: 110,75 т); avia.tutu.ru; lenta.ru/lib/tu214",
+   "oew_t": "avia.tutu.ru и lenta.ru (масса пустого снаряжённого 59,0 т)",
+   "mlw_t": "GlobalSecurity; avia.tutu.ru (93,0 т)",
+   "fuel_capacity_t": "GlobalSecurity: «Max fuel reserve» 35,71 т",
+   "seats_max": "GlobalSecurity / avia.tutu.ru (210, экономкласс)",
+   "seats_typical": "airport-technology.com (164: 16 бизнес + 148 эконом)",
+   "span_m": "GlobalSecurity; avia.tutu.ru",
+   "length_m": "GlobalSecurity; avia.tutu.ru (46,0 м; airport-technology — 46,16 м)",
+   "cruise_mach": "SKYbrary T204: крейсерское M 0,79 (TAS 450 уз) https://skybrary.aero/aircraft/t204",
+   "fuselage_width_m": "GlobalSecurity: сечение фюзеляжа 3,8 × 4,1 м",
+   "takeoff_m": "GlobalSecurity (2 250 м)",
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  },
+  "gaps": [
+   "sweep_deg не найден",
+   "Официальная таблица ЛТХ Туполева/КАЗ для импортозамещённой версии не найдена — данные справочные по серийному Ту-214"
+  ],
+  "doubts": [
+   "ICAO T204 общий для семейства Ту-204/214/204-300; файл описывает Ту-214 (Ту-204-200).",
+   "OEW: 59,0 т (avia.tutu.ru, lenta.ru) против 56,5 т (flugzeuginfo, вероятно Ту-204-100); MTOW 103 т у Ту-204-100 vs 110,75 т у Ту-214.",
+   "Дальность: 4 340 км с макс. нагрузкой; airport-technology — 5 650 км с полной пассажирской загрузкой; lenta.ru — 6 500 км «с полной загрузкой» (вероятно, с пассажирами, не с макс. нагрузкой).",
+   "Масса импортозамещённой версии могла измениться — производитель новых цифр не публиковал.",
+   "certainty «estimated»: числа справочные, не из документа производителя.",
+   "исследователь пометил certainty=estimated"
+  ],
+  "region": "russia",
+  "assumed": {
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL350 для реактивных — в документах производителя крейсерская высота не названа"
+  }
+ }
+}
