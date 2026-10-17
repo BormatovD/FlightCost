@@ -413,6 +413,12 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json(ctx.node(q))
             if u.path == "/api/data":
                 return self._json(ctx.data())
+            if u.path == "/api/browse":
+                return self._json(ctx.browse(q))
+            if u.path == "/data":
+                return self._send(200, _page("data.html"), "text/html; charset=utf-8")
+            if u.path == "/map":
+                return self._send(200, ctx.map_page(), "text/html; charset=utf-8")
             if u.path == "/api/aircraft":
                 return self._json(ctx.aircraft())
             if u.path == "/api/solve":
@@ -1751,7 +1757,14 @@ class Context:
                 "certainty", "error_cost", "confirm_by", "source_note", "note"]
         hist = [dict(zip(cols, r)) for r in rows]
         src = self.registry.get("sources", {}).get(hist[0]["source_id"], {})
-        return {"domain": dom, "key": key, "found": True,
+        # Решение 219: запись закрытого источника на публичной витрине —
+        # только действующее значение, которое и так стоит в расчёте;
+        # истории и выписок из первоисточника нет.
+        from .browse import is_public
+        restricted = self.public and not is_public(self.registry, hist[0]["source_id"])
+        if restricted:
+            hist = [{k: v for k, v in hist[0].items() if k not in ("source_note", "note")}]
+        return {"domain": dom, "key": key, "found": True, "restricted": restricted,
                 "current": hist[0], "history": hist[1:],
                 "source": {"id": hist[0]["source_id"],
                            "title": src.get("title"), "url": src.get("url"),
@@ -2155,9 +2168,35 @@ class Context:
 
     def data(self) -> dict:
         from . import inventory
+        from .browse import is_public
         with self.lock:
             self.store.registry = self.registry
-            return inventory.collect(self.store)
+            out = inventory.collect(self.store)
+        # Решение 219: на публичной витрине образцы строк — только из
+        # открытых источников; закрытые остаются числом в `sources`.
+        if self.public:
+            for d in out["domains"]:
+                d["shown"] = [r for r in d.get("shown") or []
+                              if is_public(self.registry, r.get("source"))]
+        return out
+
+    def browse(self, q: dict) -> dict:
+        """Просмотр хранилища (/data): каталог разделов или страница строк."""
+        from . import browse
+        with self.lock:
+            if not q.get("domain"):
+                return browse.catalog(self.store, self.registry, open_all=not self.public)
+            try:
+                page = int(q.get("page") or 0)
+            except ValueError:
+                page = 0
+            return browse.rows(self.store, self.registry, q["domain"], q.get("q", ""),
+                               page, open_all=not self.public)
+
+    def map_page(self) -> bytes:
+        """Карта данных на сайте: та же, что `fca map`, плюс форма маршрута."""
+        from .graph import to_html
+        return _i18n(to_html(self.registry, web=True)).encode("utf-8")
 
 
 LEGAL_FIELDS = ("name", "street", "city", "email", "hoster", "server_location")
@@ -2236,7 +2275,11 @@ def _page(name: str = "serve.html") -> bytes:
     одним самодостаточным файлом, и подписи готовы до первой отрисовки —
     без мелькания русского текста перед английским.
     """
-    html = (WEB / name).read_text(encoding="utf-8")
+    return _i18n((WEB / name).read_text(encoding="utf-8")).encode("utf-8")
+
+
+def _i18n(html: str) -> str:
+    """Вшить каталог переводов на место `/*I18N*/{}/*/I18N*/`."""
     cat_path = WEB / "i18n.json"
     if cat_path.exists():
         cat = json.dumps(json.loads(cat_path.read_text(encoding="utf-8")),
@@ -2244,7 +2287,7 @@ def _page(name: str = "serve.html") -> bytes:
         # «</» внутри <script> закрыл бы его раньше времени
         cat = cat.replace("</", "<\\/")
         html = html.replace("/*I18N*/{}/*/I18N*/", "/*I18N*/" + cat + "/*/I18N*/", 1)
-    return html.encode("utf-8")
+    return html
 
 
 def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,

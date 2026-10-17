@@ -28,6 +28,13 @@ IATA/ICAO List — IP2Location
     This site or product includes IATA/ICAO List data available from
     https://github.com/ip2location/ip2location-iata-icao.
 
+GeoNames
+  Города мира от 15 тыс. жителей с населением и координатами (источник
+  geonames_cities) — население вокруг аэропорта в модели потока
+  (решение 214). Лицензия: Creative Commons Attribution 4.0. В
+  репозитории не хранится. Атрибуция: data from GeoNames,
+  https://www.geonames.org, CC BY 4.0.
+
 OurAirports
   Координаты аэропортов и полосы (источники ourairports, ourairports_runways).
   Public domain. https://ourairports.com/data/

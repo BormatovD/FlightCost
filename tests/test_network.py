@@ -226,6 +226,18 @@ class Formation(unittest.TestCase):
         self.assertAlmostEqual(p.market_pax_month,
                                14.0 * N.WEEKS_PER_MONTH * N.MARKET_SEATS * N.MARKET_LF)
         self.assertTrue(p.market_src.startswith("оценка"))
+        self.assertEqual((p.market_kind, p.legs[0].fare_kind), ("adsb", "market"))
+
+    def test_unobserved_pair_is_not_an_empty_market(self):
+        # Наблюдения есть только по DME–ALA. У OVB–ALA рейсов не видели —
+        # это не «поток 0», а отсутствие оценки: дорога модели открыта.
+        freq = {"UUDD-UAAA/2026-09-01": 14, "UAAA-UUDD/2026-09-14": 14}
+        p = next(x for x in form(FakeStore(all_fares(), freq)) if x.key == "OVB-ALA")
+        self.assertIsNone(p.market_est_pax)
+        self.assertNotEqual(p.market_kind, "adsb")
+        fares = {"UUDD-UAAA/d15_30/direct": (9000.0, "RUB")}
+        q = next(x for x in form(FakeStore(fares)) if x.key == "DME-ALA")
+        self.assertEqual(q.legs[0].fare_kind, "none")
 
 
 class Simulation(unittest.TestCase):

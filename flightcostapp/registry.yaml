@@ -21,6 +21,7 @@ sources:
     kind: csv
     contour: deterministic
     url: https://davidmegginson.github.io/ourairports-data/airports.csv
+    public: full
     license: public-domain
     parser: ourairports
     domain: airport
@@ -32,11 +33,35 @@ sources:
       row_count_min: 20000        # санитарный пол: ловит обрыв закачки, не точный порог
       row_count_drop_max_pct: 5
 
+  geonames_cities:
+    title: GeoNames — города мира от 15 тыс. жителей (население, координаты)
+    kind: zip
+    contour: deterministic
+    url: https://download.geonames.org/export/dump/cities15000.zip
+    public: full
+    license: CC BY 4.0 (GeoNames)
+    parser: geonames_cities
+    domain: city
+    cadence_days: 180
+    sla_days: 720
+    tier: 2
+    gate: auto
+    node: src_traffic
+    note: >
+      Население вокруг аэропорта — главная переменная модели потока
+      (traffic_model, решение 214): поток пары, у которой нет ни
+      статистики, ни наблюдённых рейсов, оценивается по населению концов
+      и расстоянию, с калибровкой по опубликованному потоку.
+    validators:
+      row_count_min: 20000
+      row_count_drop_max_pct: 10
+
   ourairports_runways:
     title: "OurAirports — полосы: длина, ширина, покрытие"
     kind: csv
     contour: deterministic
     url: https://davidmegginson.github.io/ourairports-data/runways.csv
+    public: full
     license: public-domain
     parser: ourairports_runways
     domain: airport_limits
@@ -54,6 +79,7 @@ sources:
     contour: agent
     path: data/fleet
     glob: "*.yaml"
+    public: full
     license: own
     parser: fleet_reference
     domain: aircraft_layout
@@ -77,6 +103,7 @@ sources:
     url_template: "https://www.eurocontrol.int/sites/default/files/{Y}-{m}/ur-{Y}-{m}.txt"
     url_fallback_months: 2   # файл публикуется в первых числах; в начале месяца
                              # его по новому адресу ещё нет — откатываемся назад
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: check-terms     # не перераспространять, только локальный снапшот
     parser: crco_enroute
     domain: enroute_rate
@@ -110,6 +137,7 @@ sources:
     kind: zip
     contour: deterministic
     url: https://raw.githubusercontent.com/euctrl-pru/eurocontrol-atlas/master/zip/FirUir_NM.zip
+    public: full
     license: MIT                 # правообладатель — сама EUROCONTROL
     parser: eurocontrol_fir
     domain: airspace
@@ -135,6 +163,7 @@ sources:
     kind: url
     url: https://raw.githubusercontent.com/vatsimnetwork/vatspy-data-project/master/Boundaries.geojson
     contour: deterministic
+    public: full
     license: >
       CC BY-SA 4.0, VATSIM (VATSpy data project). Данные сообщества, не
       официальные. В репозиторий не идёт, производный файл наследует
@@ -159,6 +188,7 @@ sources:
     contour: agent
     path: data/tkp
     glob: "*.xlsx"
+    public: full
     license: CC BY 4.0 вместе с данными проекта (DATA-LICENSE)
     parser: tkp_charges
     domain: airport_charge   # плюс terminal_rate (АНО АД)
@@ -174,6 +204,7 @@ sources:
     contour: agent
     path: data/ans
     glob: "*.yaml"
+    public: full
     license: own             # приказ — нормативный акт, выписка наша
     parser: fas_ans
     domain: enroute_rate     # плюс terminal_rate, как у CRCO плюс fx
@@ -187,6 +218,7 @@ sources:
     kind: pdf
     contour: deterministic   # был agent: текст PDF извлекается чисто, строк 26
     url: https://www.eurocontrol.int/ServiceUnits/Dashboard/Downloads/Terminal%202026%20Unit%20Rates.pdf
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: check-terms
     parser: crco_terminal
     domain: terminal_rate
@@ -210,6 +242,7 @@ sources:
     contour: agent
     path: data/charges
     glob: "*.json"
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: check-terms
     parser: airport_charges
     domain: airport_charge
@@ -241,6 +274,7 @@ sources:
     package: openap
     contour: deterministic
     url: null                    # версия пакета фиксируется в артефакте
+    public: full
     license: open
     parser: openap_aircraft
     domain: aircraft
@@ -265,6 +299,7 @@ sources:
     # устаревание видно по дате выпуска, а не по ошибке загрузки.
     url: https://www.easa.europa.eu/en/downloads/16974/en
     page: https://www.easa.europa.eu/en/domains/environment/easa-certification-noise-levels
+    public: full
     license: public           # публикация агентства ЕС, с указанием источника
     parser: easa_noise
     domain: aircraft
@@ -292,6 +327,7 @@ sources:
     contour: agent           # заводит человек; приёмка через review
     path: data/aircraft/user
     glob: "*.json"
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: check-terms     # паспортные величины публикуются, якорь — по источнику в файле
     parser: aircraft_user
     domain: aircraft         # тот же домен, что у openap: одни ключи, один читатель
@@ -314,6 +350,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://www.eia.gov/dnav/pet/hist/eer_epjk_pf4_rgc_dpgD.htm
+    public: full
     license: данные правительства США, ограничений на использование нет
     parser: jet_fuel_price
     domain: jet_fuel_price
@@ -356,6 +393,7 @@ sources:
     # аэропортовых сборов в валютах, которых у CRCO нет. Порядок разрешения
     # и валюты с привязкой к доллару — в flightcostapp/fx.py.
     url: https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
+    public: full
     license: open
     parser: ecb_fx
     domain: fx
@@ -376,6 +414,7 @@ sources:
     # остаются за ЕЦБ, отсюда — только то, чего там нет.
     kind: url
     url: https://www.cbr.ru/scripts/XML_daily.asp
+    public: full
     license: open                  # cbr.ru: использование с указанием источника
     parser: cbr_fx
     domain: fx
@@ -406,6 +445,7 @@ sources:
     sla_days: 3
     tier: 2
     gate: auto
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: OpenSky Network, некоммерческое и исследовательское использование
     note: >
       Копится ТОЛЬКО ВПЕРЁД. Исторический массив выдаётся исследователям при
@@ -426,6 +466,7 @@ sources:
     url:
       - https://opensky-network.org/datasets/metadata/aircraftDatabase.csv
       - https://s3.opensky-network.org/data-samples/metadata/aircraftDatabase.csv
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: OpenSky Network, некоммерческое и исследовательское использование
     parser: aircraft_registry
     domain: aircraft_registry
@@ -450,6 +491,7 @@ sources:
     contour: agent
     path: data/benchmarks
     glob: "*.yaml"
+    public: full
     license: own
     parser: carrier_benchmark
     domain: carrier_benchmark
@@ -482,6 +524,7 @@ sources:
     contour: deterministic
     path: data/raw/form41
     glob: "*.[cCzZ][sSiI][vVpP]"   # .csv и .zip, в любом регистре
+    public: full
     license: данные правительства США (BTS), ограничений на использование нет
     parser: form41
     domain: fleet_benchmark
@@ -510,6 +553,7 @@ sources:
     contour: deterministic
     path: data/raw/eurostat_par
     glob: "*.[tTcCgG][sSzZ]*"      # .tsv, .csv, .tsv.gz, .gz
+    public: full
     license: CC BY 4.0 (повторное использование данных Eurostat, решение Комиссии 2011/833/EU)
     parser: eurostat_par
     domain: traffic
@@ -536,6 +580,7 @@ sources:
     contour: deterministic
     path: data/raw/t100
     glob: "*.[cCzZgG][sSiIzZ]*"   # .csv, .zip, .gz
+    public: full
     license: данные правительства США (BTS), ограничений на использование нет
     parser: t100
     domain: traffic
@@ -560,6 +605,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://raw.githubusercontent.com/Vonter/india-aviation-traffic/main/aggregated/domestic/city.csv
+    public: full
     license: >
       ODbL 1.0 — сборка github.com/Vonter/india-aviation-traffic из статистики
       DGCA; указывать DGCA и сборку (NOTICE)
@@ -584,6 +630,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://raw.githubusercontent.com/Vonter/india-aviation-traffic/main/aggregated/international/city.csv
+    public: full
     license: >
       ODbL 1.0 — сборка github.com/Vonter/india-aviation-traffic из статистики
       DGCA; указывать DGCA и сборку (NOTICE)
@@ -610,6 +657,7 @@ sources:
     contour: deterministic
     path: data/raw/ru_pairs
     glob: "*.[xX][lL][sS][xX]"
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: >
       первоисточник неизвестен: таблица передана аналитическим агентством без
       ссылки на публикацию (решение 202). Сырой файл в репозиторий не кладётся;
@@ -638,6 +686,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://raw.githubusercontent.com/euctrl-pru/standard_inputs/master/data/aircraft_operating_costs.xlsx
+    public: full
     license: CC BY 4.0, EUROCONTROL Standard Inputs for Economic Analyses (данные IATA ACMG)
     parser: acmg_cost
     domain: fleet_benchmark
@@ -661,6 +710,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://raw.githubusercontent.com/euctrl-pru/standard_inputs/master/data/AirlineCostStructure.xlsx
+    public: full
     license: CC BY 4.0, EUROCONTROL Standard Inputs for Economic Analyses (данные IATA ACMG)
     parser: acmg_cost
     domain: fleet_benchmark
@@ -687,6 +737,7 @@ sources:
     sla_days: 120
     tier: 2
     gate: auto
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: >
       условия использования агрегатора; сбор запускает у себя тот, кто им
       пользуется, своим ключом. В репозиторий не попадает ни строки
@@ -706,6 +757,7 @@ sources:
     kind: url
     url: https://raw.githubusercontent.com/ip2location/ip2location-iata-icao/master/iata-icao.csv
     contour: deterministic
+    public: full
     license: >
       CC BY-SA 4.0, IP2Location. В репозиторий не идёт, строка атрибуции —
       в NOTICE и на публичной витрине
@@ -731,6 +783,7 @@ sources:
     contour: agent          # ведёт человек, разбирает парсер
     path: data/codes
     glob: "airports_list.xlsx"
+    public: full
     license: own
     parser: airport_watch
     domain: airport_watch
@@ -755,6 +808,7 @@ sources:
     contour: agent
     path: data/fx
     glob: "*.yaml"
+    public: full
     license: own
     parser: fx_declared
     domain: fx
@@ -781,6 +835,7 @@ sources:
     kind: url
     contour: deterministic
     url: https://api.travelpayouts.com/data/en/airports.json
+    public: none        # решение 219: на сайте только агрегатами или не виден
     license: >
       Travelpayouts / Aviasales, справочные файлы; проверить условия перед
       публикацией — данные партнёрские, а не открытые

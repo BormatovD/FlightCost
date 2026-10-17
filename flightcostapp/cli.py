@@ -494,6 +494,11 @@ def main(argv=None) -> int:
                     help="один пробный запрос: показать ключи, токен и ответ "
                          "целиком, ничего не записывая")
 
+    fl = sub.add_parser("flow", help="модель потока по населению (решение 214): "
+                                     "коэффициенты, ошибка, оценка пары")
+    fl.add_argument("--pair", default=None, metavar="A-B",
+                    help="оценка пары (ИКАО) и, если есть, опубликованный поток рядом")
+
     fr = sub.add_parser("fare", help="наблюдения рыночной цены из выгрузок")
     fr.add_argument("--dir", default="data/raw/market_fare",
                     help="где лежат выгрузки агрегатора")
@@ -893,6 +898,69 @@ def main(argv=None) -> int:
                      "регистр (ожидается нижний) и дату начала действия"))
         return 0
 
+    if a.cmd == "flow":
+        import math
+        from . import traffic_model as _tmod
+        from .fare_model import REGION_RU, _coords, _km
+        sp = lambda v: f"{v:,.0f}".replace(",", " ")              # noqa: E731
+        m = _tmod.fit(store)
+        if not m.get("P"):
+            print(_tmod.estimate(store, "", "", 0)[1])
+            return 0
+        names = {"T": "по потоку аэропортов (обе массы — статистика)",
+                 "P": "по жителям (массы — население в 150 км)"}
+        for k in ("T", "P"):
+            if k not in m:
+                continue
+            mm, c = m[k], m[k]["coef"]
+            print(f"модель {names[k]}: пар {mm['n']}, R² {mm['r2']:.2f}, ошибка в "
+                  f"{mm['factor']:.1f} раза на своих парах, в {mm['factor_cv']:.1f} — на отложенных")
+            print(f"  ln(поток/мес) = {c[0]:.2f} + {c[1]:.2f}·ln(масса A × B) "
+                  f"{c[2]:+.2f}·ln(км/1000) {c[3]:+.2f}·ln²(км/1000)"
+                  f"   [база: {REGION_RU.get(m['base'], m['base'])}]")
+            ns = len(m["shifts"])
+            sl = dict(zip(m.get("slopes", []), c[4 + ns:]))
+            for g, s_ in zip(m["shifts"], c[4:4 + ns]):
+                print(f"    {REGION_RU.get(g, g):22} сдвиг {s_:+.2f}"
+                      + (f", степень по массе {c[1] + sl[g]:.2f}" if g in sl else ""))
+        F = m.get("F") or {}
+        if F.get("factor_cv"):
+            print(f"модель по потоку аэропортов с поправкой на сам аэропорт: ошибка на отложенных "
+                  f"парах в {F['factor_cv']:.1f} раза (проверено на {F['n_eval']} парах, где у "
+                  f"обоих аэропортов от {_tmod.MIN_AP_PAIRS} пар в статистике)")
+        print("  пар по регионам: " + ", ".join(f"{REGION_RU.get(g, g)} {n}"
+                                              for g, n in sorted(m["counts"].items(), key=lambda x: -x[1])))
+        if a.pair:
+            x, _, y = a.pair.upper().partition("-")
+            xy = _coords(store)
+            if x not in xy or y not in xy:
+                print(f"{a.pair}: аэропорта нет в справочнике")
+                return 2
+            pax, why, c = _tmod.estimate_detail(store, x, y, _km(xy[x], xy[y]))
+            if pax is None:
+                print(f"\n{a.pair}: {why}")
+                return 0
+            print(f"\n{a.pair}: модель ≈ {sp(pax)} пасс./мес — {why}")
+            print("  как посчитано (логарифмы):")
+            for e in c["ends"]:
+                how = ("поток по статистике" if e["how"] == "stat" else
+                       f"{sp(e['pop'])} жителей × {e['ratio']:.2f}")
+                print(f"    масса {e['code']}: {sp(e['mass'])} пасс./мес ({how})")
+            print(f"    уровень региона ({c['region']}): {c['c']:+.2f} {c['shift']:+.2f}")
+            print(f"    размер: {c['alpha']:.2f} × {c['mass_term'] / c['alpha']:.2f} = {c['mass_term']:+.2f}")
+            print(f"    расстояние: {c['b1']:+.2f} × {c['ld']:.2f} {c['b2']:+.2f} × {c['ld'] ** 2:.2f} "
+                  f"= {c['dist_term']:+.2f}")
+            if c["mu"]:
+                print(f"    поправки аэропортов: {c['mu']['a']:+.2f} (по {c['mu']['na']} парам) "
+                      f"{c['mu']['b']:+.2f} (по {c['mu']['nb']})")
+            print(f"    сумма {c['ln']:.2f} → e^{c['ln']:.2f} ≈ {sp(c['pax'])} пасс./мес")
+            from .traffic import published
+            pub = published(store, x, y)
+            if pub:
+                print(f"  опубликовано {sp(pub['pax_month'])} пасс./мес — модель "
+                      f"× {pax / pub['pax_month']:.2f} к факту")
+        return 0
+
     if a.cmd == "fare":
         from . import market_fare as _mf
         if a.why:
@@ -907,10 +975,14 @@ def main(argv=None) -> int:
                 print("формулы нет: свёрнутых прямых цен в EUR меньше "
                       f"{_fm.MIN_PAIRS} на регион — fca fare --aggregate")
                 return 0
-            print(f"{'регион':22} {'пар':>5} {'база, EUR':>10} {'EUR/100 км':>11} {'ошибка':>8}")
+            print(f"{'регион':22} {'пар':>5} {'500 км':>8} {'1000 км':>8} {'3000 км':>8} "
+                  f"{'степень':>8} {'ошибка':>7}")
             for g, v in sorted(m.items(), key=lambda kv: -kv[1]["n"]):
-                print(f"{_fm.REGION_RU.get(g, g):22} {v['n']:>5} {v['a']:>10.0f} "
-                      f"{v['b'] * 100:>11.1f} {v['mdape'] * 100:>7.0f}%")
+                p_ = lambda km: _fm.predict(v, km)                  # noqa: E731
+                print(f"{_fm.REGION_RU.get(g, g):22} {v['n']:>5} {p_(500):>8.0f} {p_(1000):>8.0f} "
+                      f"{p_(3000):>8.0f} {v['beta']:>8.2f} {v['mdape'] * 100:>6.0f}%")
+            print("\nцена в EUR по формуле цена = A · км^степень; степень 1 — пропорционально "
+                  "расстоянию, 0 — не зависит от него")
             print("\nошибка — медиана |оценка − наблюдение| / наблюдение по парам региона")
             return 0
         if a.listing:

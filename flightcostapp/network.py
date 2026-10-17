@@ -99,6 +99,10 @@ class Leg:
     # другими ценами, не считая ядро заново (витрина, кэш).
     market_fare_eur: float | None = None
     market_fare_src: str = ""
+    # Откуда применённая цена: input | market | formula | none. Витрина
+    # метит оранжевым всё, что не измерено (formula, none) — оценка не
+    # должна выглядеть как наблюдение.
+    fare_kind: str = ""
     comp_week: float | None = None   # наблюдённых рейсов конкурентов в неделю
     warnings: list = field(default_factory=list)
     # Статьи рейса той же прямой: {статья: [на рейс, на пассажира]}, без
@@ -124,6 +128,8 @@ class Pair:
     detour_km: float = 0.0                       # лишние километры обхода
     market_pax_month: float | None = None
     market_src: str = ""
+    # Ярус применённого потока: input | published | adsb | model | none.
+    market_kind: str = ""
     # Оценка потока по наблюдённым рейсам — отдельно от применённой, по
     # той же причине, что рыночная цена у плеча.
     market_est_pax: float | None = None
@@ -131,6 +137,11 @@ class Pair:
     # Опубликованный поток (домен `traffic`, решение 195) — выше оценки.
     market_pub_pax: float | None = None
     market_pub_src: str = ""
+    # Поток по модели населения (решение 214) — нижний ярус, только где
+    # нет ни статистики, ни наблюдённых рейсов.
+    market_model_pax: float | None = None
+    market_model_src: str = ""
+    market_model_calc: dict = field(default_factory=dict)   # шаги формулы (решение 218)
 
     @property
     def key(self) -> str:
@@ -454,8 +465,10 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
             pub = None
         if pub:
             p.market_pub_pax, p.market_pub_src = pub["pax_month"], pub["src"]
-        if comp:
-            c = sum((l.comp_week or 0.0) for l in p.legs)
+        c = sum((l.comp_week or 0.0) for l in p.legs) if comp else 0.0
+        # Ноль наблюдённых рейсов — не «рынок пуст», а «не видели»: такая
+        # оценка давала поток 0 и закрывала дорогу модели (нижнему ярусу).
+        if c > 0:
             try:
                 from .traffic import obs_seats
                 seats, why = obs_seats(store, p.a_icao, p.b_icao, as_of)
@@ -465,6 +478,17 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
             p.market_est_src = (f"оценка: наблюдённые рейсы × "
                                 f"{why or str(MARKET_SEATS) + ' кресел (типы не известны)'} × "
                                 f"загрузка {MARKET_LF:.2f}")
+        if p.market_pub_pax is None and p.market_est_pax is None:
+            try:
+                from .traffic_model import estimate_detail as _model
+                pax, why, calc = _model(store, p.a_icao, p.b_icao, p.dist_km, as_of)
+            except Exception as exc:                       # noqa: BLE001
+                pax, why, calc = None, f"модель потока не посчиталась: {exc}", {}
+            if pax is not None:
+                p.market_model_pax, p.market_model_src = pax, why
+                p.market_model_calc = calc
+            else:
+                p.market_model_src = why
         pairs.append(p)
     if progress:
         progress(len(todo), len(todo), "")
@@ -487,20 +511,32 @@ def apply_inputs(pairs: list[Pair], user_fares=None, user_market=None) -> list[P
                 given = _lookup(user_fares, o, d, directional=False)
             if given is not None:
                 leg.fare_eur, leg.fare_src = float(given), "задано"
+                leg.fare_kind = "input"
             else:
                 leg.fare_eur, leg.fare_src = leg.market_fare_eur, leg.market_fare_src
+                leg.fare_kind = ("none" if leg.fare_eur is None else
+                                 "formula" if (leg.fare_src or "").startswith("оценка по формуле")
+                                 else "market")
         given = _lookup(user_market, p.a, p.b, directional=False)
         if given is not None:
             p.market_pax_month, p.market_src = float(given), "задано"
+            p.market_kind = "input"
         elif p.market_pub_pax is not None:
             p.market_pax_month, p.market_src = p.market_pub_pax, p.market_pub_src
+            p.market_kind = "published"
         elif p.market_est_pax is not None:
             p.market_pax_month, p.market_src = p.market_est_pax, p.market_est_src
+            p.market_kind = "adsb"
+        elif p.market_model_pax is not None:
+            p.market_pax_month, p.market_src = p.market_model_pax, p.market_model_src
+            p.market_kind = "model"
         else:
             p.market_pax_month = None
-            p.market_src = ("источника нет: в статистике Eurostat пары нет, рейсов по паре "
-                            "не наблюдали (ADS-B), поток не задан. Открытой статистики "
-                            "пассажиропотока по парам для RU и KZ нет — впишите своё число")
+            p.market_kind = "none"
+            p.market_src = ("источника нет: в статистике пары нет, рейсов по паре не "
+                            "наблюдали (ADS-B), поток не задан"
+                            + (f"; {p.market_model_src}" if p.market_model_src else "")
+                            + " — впишите своё число")
     return pairs
 
 
