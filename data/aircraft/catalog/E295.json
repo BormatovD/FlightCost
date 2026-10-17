@@ -1,0 +1,64 @@
+{
+ "icao": "E295",
+ "name": "Embraer E195-E2 (ERJ 190-400)",
+ "valid_from": "2026-10-17",
+ "source": "Embraer E-Jets E2 Airport Planning Manual, Rev 25 (29.11.2024) + спецификация E195-E2",
+ "source_url": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+ "publisher": "Embraer",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 61.5,
+  "oew_t": 35.7,
+  "mlw_t": 54.0,
+  "fuel_capacity_t": 13.69,
+  "seats_max": 146,
+  "seats_typical": 138,
+  "span_m": 35.12,
+  "length_m": 41.6,
+  "cruise_mach": 0.78,
+  "cruise_alt_m": 10670,
+  "engine_count": 2
+ },
+ "engine": "Pratt & Whitney PW1921G",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "E195",
+  "note": "Тот же класс, удлинённый фюзеляж, новое крыло и GTF (Embraer: −25% топлива на место vs E195-E1) — модель E195 завышает расход."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Embraer",
+  "country": "Бразилия",
+  "status": "in_service",
+  "first_flight": "2017-03-29",
+  "eis": "2019-09 (Azul)",
+  "data_kind": "official",
+  "range_km": 5556,
+  "range_note": "3 000 nm с полной пассажирской загрузкой, LRC, типовые резервы (Embraer spec, MTOW 62,5 т)",
+  "takeoff_m": 1840,
+  "landing_m": 1290,
+  "mzfw_t": 51.85,
+  "field_sources": {
+   "mtow_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (61 500 кг — стандарт; текущий spec sheet https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf — 62 500 кг)",
+   "mlw_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "oew_t": "РАСЧЁТ: MZFW 51 850 кг (https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf) − max payload 16 150 кг (https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf) = 35 700 кг",
+   "fuel_capacity_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (13 690 кг / 17 060 л)",
+   "seats_max": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (146 при 28\")",
+   "seats_typical": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (138 при 29\")",
+   "span_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "length_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "cruise_mach": "типовая LRC; макс. крейсерская M0.82 по https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf",
+   "cruise_alt_m": "типовой эшелон FL350; потолок 41 000 ft по https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf",
+   "takeoff_m": "https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf",
+   "landing_m": "https://www.embraer.com/media/q5sll1p5/e195-e2-spec.pdf"
+  },
+  "gaps": [
+   "fuselage_width_m, sweep_deg — не найдены"
+  ],
+  "doubts": [
+   "MTOW: APM 61,5 т; spec sheet 2018 — 61,5 т; текущий spec sheet — 62,5 т (опция повышенной массы); ранний spec 2017 — 60,7 т",
+   "OEW — производная (MZFW − max payload), не прямая цифра Embraer"
+  ],
+  "region": "west"
+ }
+}

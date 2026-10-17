@@ -1,0 +1,60 @@
+{
+ "icao": "DH8D",
+ "name": "De Havilland Dash 8-400",
+ "valid_from": "2026-10-17",
+ "source": "DHC Dash 8 Spec Sheet v11 (07.2026)",
+ "source_url": "https://dehavilland.com/wp-content/uploads/2026/07/DHC_Dash8_Spec-Sheet_v11_Digital.pdf",
+ "publisher": "De Havilland Aircraft of Canada",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 29.574,
+  "oew_t": 17.885,
+  "mlw_t": 28.123,
+  "fuel_capacity_t": 5.318,
+  "seats_max": 90,
+  "seats_typical": 82,
+  "span_m": 28.4,
+  "length_m": 32.8,
+  "cruise_mach": 0.6,
+  "cruise_alt_m": 7620,
+  "fuselage_width_m": 2.69,
+  "engine_count": 2
+ },
+ "engine": "2x Pratt & Whitney Canada PW150A",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "De Havilland Aircraft of Canada",
+  "country": "Канада",
+  "status": "in_service",
+  "first_flight": "1998-01-31",
+  "eis": "2000-02",
+  "data_kind": "official",
+  "range_km": 1596,
+  "range_note": "с полной пассажирской загрузкой (102 кг/пасс.), вариант EHGW 82 пасс.",
+  "takeoff_m": 1277,
+  "landing_m": 1268,
+  "orders_note": "Выпуск приостановлен с 2022 (уход из Даунсвью); новый завод в Wheatland County (Альберта) — рестарт до 2033; Farnborough 2024 — 7 заказов, программа восстановления б/у",
+  "field_sources": {
+   "mtow_t": "DHC spec sheet v11",
+   "oew_t": "DHC: typical operational empty",
+   "mlw_t": "DHC",
+   "fuel_capacity_t": "DHC: standard 5318 кг",
+   "seats_max": "DHC: до 90 в один класс, 82 стандарт",
+   "span_m": "Wikipedia (Dash 8) — в spec sheet нет",
+   "length_m": "Wikipedia",
+   "fuselage_width_m": "Wikipedia 2,69 м (общая для всех серий)",
+   "cruise_mach": "360 KTAS max cruise (DHC); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) 25 000 фт",
+   "cruise_alt_m": "DHC: max cruise altitude 25 000 фт (опция 27 000 фт)",
+   "orders_note": "https://en.wikipedia.org/wiki/De_Havilland_Canada_Dash_8; https://airinsight.com/longview-committed-to-dhc-dash-8-to-be-built-elsewhere-after-a-pause"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Wikipedia MTOW 30,481 т (HGW/EHGW) и топливо 6526 л ≈ 5,22 т против spec sheet 29,574 т / 5,318 кг — взят производитель (BGW)",
+   "360 KTAS — максимальная крейсерская; типовая экономичная меньше (~300 уз)"
+  ],
+  "region": "emerging"
+ }
+}

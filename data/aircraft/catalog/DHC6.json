@@ -1,0 +1,60 @@
+{
+ "icao": "DHC6",
+ "name": "De Havilland DHC-6 Twin Otter Classic 300-G",
+ "valid_from": "2026-10-17",
+ "source": "Спецификация DHC Twin Otter 300-G WHEELS Spec Sheet v2 (09.2025) + брошюра V3 (07.2026)",
+ "source_url": "https://dehavilland.com/wp-content/uploads/2025/09/DHC_Twin_Otter_300-G_WHEELS_Spec_Sheet_v2_DIGITAL.pdf",
+ "publisher": "De Havilland Aircraft of Canada",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 5.67,
+  "oew_t": 3.189,
+  "mlw_t": 5.579,
+  "fuel_capacity_t": 1.168,
+  "seats_max": 19,
+  "seats_typical": 19,
+  "span_m": 19.81,
+  "length_m": 15.77,
+  "cruise_mach": 0.285,
+  "cruise_alt_m": 3050,
+  "fuselage_width_m": 1.75,
+  "engine_count": 2
+ },
+ "engine": "2x Pratt & Whitney Canada PT6A-27 (620 shp), опция PT6A-34",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "De Havilland Aircraft of Canada",
+  "country": "Канада",
+  "status": "in_service",
+  "first_flight": "DHC-6: 1965-05-20",
+  "eis": "300-G — поставки с 2025/2026 (модернизация Series 400 в 'Classic 300-G')",
+  "data_kind": "official",
+  "range_km": 1487,
+  "range_note": "803 nm с нагрузкой 1030 кг на 10 000 фт; 1580 км без нагрузки (станд. баки), 1971 км с доп. баками",
+  "takeoff_m": 454,
+  "landing_m": 460,
+  "field_sources": {
+   "mtow_t": "DHC spec sheet",
+   "oew_t": "DHC: equipped weight empty 3189 кг",
+   "mlw_t": "DHC spec sheet",
+   "fuel_capacity_t": "DHC: станд. 1168 кг (опция 1440 кг)",
+   "seats_max": "DHC spec sheet",
+   "span_m": "DHC",
+   "length_m": "DHC",
+   "fuselage_width_m": "ширина кабины 1,75 м (внутр.)",
+   "cruise_mach": "182 KTAS на 10 000 фт (DHC); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) 10 000 фт",
+   "cruise_alt_m": "10 000 фт — высота, на которой DHC даёт крейсерские и дальностные данные",
+   "takeoff_m": "SFAR 23, до 50 фт (STOL: 366 м)",
+   "landing_m": "SFAR 23 от 50 фт при MLW (STOL: 320 м)"
+  },
+  "gaps": [
+   "oew_t — дан 'equipped weight empty', не OEW с экипажем",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Ключ DHC6 общий для всех Twin Otter (Series 100–400) с разными массами"
+  ],
+  "region": "emerging"
+ }
+}

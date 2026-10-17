@@ -1,0 +1,57 @@
+{
+ "icao": "USER:D328ECO",
+ "name": "Deutsche Aircraft D328eco",
+ "valid_from": "2026-10-17",
+ "source": "Aircraft Commerce №142 (2022), данные Deutsche Aircraft; AirInsight (28.05.2025, выкатка TAC1)",
+ "source_url": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf",
+ "publisher": "Aircraft Commerce (по данным Deutsche Aircraft)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 15.66,
+  "oew_t": 10.15,
+  "fuel_capacity_t": 3.62,
+  "seats_max": 40,
+  "seats_typical": 40,
+  "cruise_mach": 0.543,
+  "cruise_alt_m": 8230,
+  "engine_count": 2
+ },
+ "engine": "2 × Pratt & Whitney Canada PW127XT-S",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Deutsche Aircraft",
+  "country": "Германия",
+  "status": "flight_test",
+  "eis": "план: Q4 2027",
+  "data_kind": "announced",
+  "range_km": 1037,
+  "range_note": "560 nm с 40 пассажирами по 97 кг (214 lb); 400 nm с макс. коммерческой нагрузкой; AirInsight даёт «макс. дальность 1 205 nm» (вероятно, перегоночная)",
+  "landing_m": 965,
+  "cruise_fuel_flow_kg_h": 499,
+  "cruise_fuel_flow_note": "Aircraft Commerce/Deutsche Aircraft: ~1 100 lb/ч (ISA, 95% MTOW, FL270); блок-топливо с 40 пасс.: 200/300/500 nm — 494/666/1015 кг",
+  "field_sources": {
+   "mtow_t": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf (34 525 lb)",
+   "oew_t": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf (22 377 lb)",
+   "fuel_capacity_t": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf (7 970 lb при 0,80 кг/л)",
+   "seats_max": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf; https://airinsight.com/deutsche-aircraft-d328eco-prototype-rolls-out/ (40)",
+   "seats_typical": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf (38 или 40 в зависимости от компоновки)",
+   "cruise_mach": "РАСЧЁТ: 324 KTAS на FL270 ISA → M0.543 (https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf; AirInsight называет 324 kt LRC)",
+   "cruise_alt_m": "FL270 — условие расхода в https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_DEVELOP.pdf; макс. 30 000 ft",
+   "landing_m": "https://airinsight.com/deutsche-aircraft-d328eco-prototype-rolls-out/ (3 166 ft)",
+   "status": "https://www.airdatanews.com/deutsche-aircraft-delays-d328eco-prototype-first-flight-2026/; https://airinsight.com/deutsche-aircraft-d328eco-prototype-rolls-out/"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap (блок burn не ставится)",
+   "span_m, length_m — в найденных материалах нет (известно лишь удлинение фюзеляжа Do 328 на 2,1 м)",
+   "first_flight — на 17.10.2026 подтверждения первого полёта не нашёл (TAC1 выкачен 28.05.2025, полёт перенесён на 2026)"
+  ],
+  "doubts": [
+   "status: flight_test — по смыслу (прототип построен, испытания идут), но факт первого полёта не подтверждён; возможно, вернее development",
+   "324 kt — то «макс. крейсерская» (Aircraft Commerce), то «LRC» (AirInsight)",
+   "Данные 2022 г. — проектные, могли измениться после удлинения/выбора двигателя",
+   "исследователь пометил certainty=approx"
+  ],
+  "region": "west"
+ }
+}

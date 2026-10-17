@@ -1,0 +1,63 @@
+{
+ "icao": "B78X",
+ "name": "Boeing 787-10",
+ "valid_from": "2026-10-17",
+ "source": "Boeing D6-58333 787 Airplane Characteristics for Airport Planning, Rev Q (Oct 2025)",
+ "source_url": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf",
+ "publisher": "Boeing",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 254.01,
+  "mlw_t": 201.85,
+  "fuel_capacity_t": 101.52,
+  "seats_max": 440,
+  "seats_typical": 330,
+  "span_m": 60.12,
+  "length_m": 68.28,
+  "cruise_mach": 0.85,
+  "cruise_alt_m": 11280,
+  "engine_count": 2,
+  "fuselage_width_m": 5.77,
+  "sweep_deg": 32.2
+ },
+ "engine": "GE GEnx-1B или Rolls-Royce Trent 1000",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "B789",
+  "note": "Удлинение 787-9 на 5,5 м с теми же двигателями и крылом — B789 с фактической массой."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Boeing",
+  "country": "США",
+  "status": "in_service",
+  "first_flight": "2017-03-31",
+  "eis": "2018-04 (Singapore Airlines)",
+  "data_kind": "official",
+  "range_km": 11730,
+  "range_note": "Boeing: 6 330 nm (типовая 2-классная) — цифра Boeing из памяти, не перепроверена; +400 nm у новой версии с повышенной MTOW (Boeing, март 2026)",
+  "mzfw_t": 192.78,
+  "mtow_option_t": 260.36,
+  "field_sources": {
+   "mtow_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf (560 000 lb базовая; опция 574 000 lb = 260,36 т)",
+   "mlw_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf",
+   "fuel_capacity_t": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf (33 399 USG / 126 429 л / 101 522 kg — Boeing даёт кг)",
+   "seats_max": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf (440 all-economy)",
+   "seats_typical": "https://www.boeing.com/content/dam/boeing/v2/airports/acaps/787_ACAP_Rev_Q.pdf (330 в 2 классах: 32 J + 298 Y)",
+   "span_m": "https://www.axonaviation.com/commercial-aircraft/aircraft-data/boeing-787-10 (60,2 м); 60,12 м — Boeing 787 ACAP чертёж 2.2.3, значение из памяти",
+   "length_m": "axonaviation (68,3 м); 68,28 м — Boeing",
+   "cruise_mach": "Boeing: M0.85",
+   "cruise_alt_m": "типовой эшелон FL370, не из документа",
+   "fuselage_width_m": "Boeing 787: 5,77 м (общеизвестное значение, не перепроверено)",
+   "sweep_deg": "787 — 32,2°, общеизвестное значение"
+  },
+  "gaps": [
+   "oew_t — Boeing в ACAP не публикует OEW; первоисточника нет"
+  ],
+  "doubts": [
+   "MTOW: ACAP Rev Q даёт 254,0 / 260,4 т; Boeing 23.03.2026 сообщил о сертификации FAA повышения ещё ~14 000 lb (6,35 т) для 787-10 — абсолютное значение не названо (вероятно ~266,7 т, если от 574 000 lb)",
+   "range_km — из памяти (Boeing 6 330 nm), не перепроверено"
+  ],
+  "region": "west"
+ }
+}

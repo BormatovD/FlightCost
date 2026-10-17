@@ -1,0 +1,43 @@
+{
+ "icao": "USER:R80",
+ "name": "Regio Aviasi Industri R80",
+ "valid_from": "2026-10-17",
+ "source": "Atlantis Press, Advances in Engineering Research vol.147 (GROST 2017) + Bisnis.com 21.09.2020",
+ "source_url": "https://www.atlantis-press.com/article/25889441.pdf",
+ "publisher": "Atlantis Press (академическая статья); Bisnis.com",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 92,
+  "seats_typical": 80,
+  "engine_count": 2
+ },
+ "engine": "2x турбовинтовых (тип не выбран публично)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "PT Regio Aviasi Industri (RAI, основана семьёй Хабиби)",
+  "country": "Индонезия",
+  "status": "paused",
+  "eis": "не назначен (ранее обещали 2024–2025 — сорвано)",
+  "data_kind": "projected",
+  "takeoff_m": 1200,
+  "landing_m": 1200,
+  "orders_note": "Заявления 2017–2018 о 125–145 намерениях (NAM Air, Kalstar и др.) — твёрдыми не являются",
+  "field_sources": {
+   "seats_max": "Atlantis Press: 80–92 места в один класс",
+   "takeoff_m": "Atlantis Press: ~1200 м",
+   "status": "Bisnis.com 21.09.2020: R80 исключён из Proyek Strategis Nasional, переведён в приоритеты исследований с поддержкой LAPAN (https://ekonomi.bisnis.com/read/20200921/257/1294392/dicoret-dari-psn-proyek-pesawat-r80-dapat-dukungan-lapan)"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, cruise_mach, cruise_alt_m — никогда не публиковались в проверяемых источниках",
+   "расход турбовинтового — нет аналога в openap",
+   "Новостей о программе за 2025–2026 не найдено"
+  ],
+  "doubts": [
+   "Атлантис-статья сама себе противоречит (80–92 vs 100–110 мест; прототип готов vs прототипа нет)",
+   "Фактически программа заморожена с 2020 (нет прототипа, нет финансирования)",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "emerging"
+ }
+}

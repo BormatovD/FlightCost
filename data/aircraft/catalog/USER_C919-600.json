@@ -1,0 +1,44 @@
+{
+ "icao": "USER:C919-600",
+ "name": "COMAC C919-600 (укороченный высокогорный/плато)",
+ "valid_from": "2026-10-17",
+ "source": "COMAC/CCTV (18.09.2026, ген. директор Шэнь Бо) и China Daily (30.07.2026) о первом полёте",
+ "source_url": "https://www.stdaily.com/web/gdxw/2026-09/18/content_583175.html",
+ "publisher": "Science and Technology Daily / CCTV; China Daily; AirData News",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 160,
+  "seats_typical": 140,
+  "engine_count": 2
+ },
+ "engine": "CFM LEAP-1C (не подтверждено для варианта)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A19N",
+  "note": "укороченный на 6 шпангоутов C919 на 140–160 мест ≈ класс A319neo; двигатели LEAP-1C"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "flight_test",
+  "first_flight": "2026-07-29 (B-002U, Шанхай Пудун, 1 ч 59 мин)",
+  "eis": "не объявлен; рынок ждёт замены A319/737-700HGW в 2028–2030",
+  "data_kind": "announced",
+  "orders_note": "Xizang (Tibet) Airlines — 40 (стартовый заказчик, 2024)",
+  "field_sources": {
+   "seats_typical": "COMAC (Шэнь Бо, 18.09.2026): 140 мест в двух классах",
+   "seats_max": "China Daily 30.07.2026 / Wikipedia: 140–160 (1 класс HD)",
+   "engine_count": "производная C919"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, length_m, cruise_mach, cruise_alt_m — COMAC не публиковал; размах и Mach, вероятно, как у C919 (35,8 м, M0.785), но не подтверждено — поля не ставлю",
+   "Даты сертификации нет"
+  ],
+  "doubts": [
+   "Обозначение C919-600 — по Wikipedia/AirData News; в официальных сообщениях COMAC чаще «高原型/укороченный C919»",
+   "Места: AirData News ~140; China Daily/Wikipedia 140–160"
+  ],
+  "region": "china"
+ }
+}

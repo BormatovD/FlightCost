@@ -1,0 +1,65 @@
+{
+ "icao": "USER:A321XLR",
+ "name": "Airbus A321XLR",
+ "valid_from": "2026-10-17",
+ "source": "Airbus, страница A321XLR (aircraft.airbus.com) + страница A321neo для базового объёма баков",
+ "source_url": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr",
+ "publisher": "Airbus",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 101.5,
+  "fuel_capacity_t": 29.18,
+  "seats_max": 244,
+  "seats_typical": 200,
+  "span_m": 35.8,
+  "length_m": 44.51,
+  "cruise_mach": 0.78,
+  "cruise_alt_m": 10670,
+  "engine_count": 2,
+  "fuselage_width_m": 3.95,
+  "sweep_deg": 25
+ },
+ "engine": "CFM LEAP-1A или PW1100G-JM (GTF)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A21N",
+  "note": "Тот же планер A321neo с RCT и усиленным шасси; MTOW 101,5 т против 97 т у A321LR — расход на тонну массы близок к A21N, модель openap брать с фактической массой."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Airbus",
+  "country": "Франция/Германия (ЕС)",
+  "status": "in_service",
+  "first_flight": "2022-06-15",
+  "eis": "2024-11 (Iberia, поставка 2024-10-30; EASA TC 2024-07-19)",
+  "data_kind": "official",
+  "range_km": 8700,
+  "range_note": "4 700 nm, по Airbus; без указания загрузки (типовая 2-классная компоновка)",
+  "orders_note": ">500 заказов (Airbus, пресс-релиз о сертификации, июль 2024)",
+  "field_sources": {
+   "mtow_t": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr (101.5 t; в материалах 2023 г. — 101 t)",
+   "fuel_capacity_t": "РАСЧЁТ: базовые баки A321neo 23 580 л (32 940 л с 3 ACT по https://www.aircraft.airbus.com/en/aircraft/a320-family/a321neo минус 3×3 121 л) + RCT 12 900 л (https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr) = 36 480 л × 0,8 кг/л = 29,18 т; с опциональным ACT (+3 121 л) ≈ 39 600 л ≈ 31,7 т",
+   "seats_max": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr (244 single-class)",
+   "seats_typical": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr (180–220 в 2 классах, взята середина 200)",
+   "span_m": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr",
+   "length_m": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr",
+   "cruise_mach": "типовая крейсерская для семейства A320 (Mmo 0.82 по https://www.aircraft.airbus.com/en/aircraft/a320-family/a321neo)",
+   "cruise_alt_m": "типовой эшелон FL350, не из документа",
+   "fuselage_width_m": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321neo",
+   "sweep_deg": "семейство A320, 25° — общеизвестное значение, не из документа",
+   "engine": "Airbus press release 2024-07 (LEAP-1A), PW версия — сертификация позже в 2024"
+  },
+  "gaps": [
+   "oew_t — Airbus не публикует OEW; в прессе надёжной цифры не нашёл (Reuters 2023: доработки RCT добавили 700–800 кг сверх плана)",
+   "mlw_t — на странице Airbus не указан; ACAP A321 (с XLR) не скачан"
+  ],
+  "doubts": [
+   "Типовая вместимость: Airbus пишет и 180–220, и 206–220 на одной странице",
+   "MTOW: 101 t (Airbus 2023) vs 101.5 t (текущая страница) — взято 101.5",
+   "fuel_capacity_t — производная величина, не прямая цифра Airbus; ACAP A321 даст точный usable fuel",
+   "Не удалось открыть airbus.com/.../a321xlr (блок прокси) — использован зеркальный aircraft.airbus.com",
+   "исследователь пометил certainty=approx"
+  ],
+  "region": "west"
+ }
+}

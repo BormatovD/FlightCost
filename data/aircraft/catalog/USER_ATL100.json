@@ -1,0 +1,47 @@
+{
+ "icao": "USER:ATL100",
+ "name": "Desaer ATL-100",
+ "valid_from": "2026-10-17",
+ "source": "Данные Desaer (через Wikipedia) + aeroTELEGRAPH 10.2020",
+ "source_url": "https://en.wikipedia.org/wiki/Desaer_ATL-100",
+ "publisher": "Desaer (Бразилия) через прессу",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 8.618,
+  "seats_max": 19,
+  "span_m": 20.0,
+  "length_m": 16.0,
+  "engine_count": 2
+ },
+ "engine": "2x турбовинтовых ~750 кВт (по данным 2025 — PW PT6)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Desaer (Desenvolvimento Aeronáutico)",
+  "country": "Бразилия",
+  "status": "development",
+  "first_flight": "не состоялся (план 2023 — сорван)",
+  "eis": "план был 2026 — нереалистичен, прототип не показан",
+  "data_kind": "announced",
+  "range_km": 1398,
+  "range_note": "с максимальной нагрузкой 2,5 т; перегон 3700 км; ранее заявляли ~1600 км",
+  "orders_note": "LoI AGS Logística — 2 + 3 опциона (2020)",
+  "field_sources": {
+   "mtow_t": "Desaer data (Wikipedia): 8618 кг; aeroTELEGRAPH 2020: ~8,6 т",
+   "seats_max": "Desaer data / aeroTELEGRAPH",
+   "span_m": "Desaer data (Wikipedia)",
+   "length_m": "Desaer data (Wikipedia)"
+  },
+  "gaps": [
+   "oew_t, fuel_capacity_t — не опубликованы",
+   "cruise_mach, cruise_alt_m — даны только скорость 380 км/ч на макс. дальность и потолок 7620 м, высоты крейсерского режима нет; негерметичный",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Сроки программы постоянно сдвигаются; СП с CEiiA (Португалия) распалось в 2021",
+   "Дальность 1398 vs 1600 км в разных источниках",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "emerging"
+ }
+}

@@ -1,0 +1,51 @@
+{
+ "icao": "USER:MA700",
+ "name": "AVIC XAC MA700 «Синьчжоу-700» (Modern Ark 700)",
+ "valid_from": "2026-10-17",
+ "source": "Данные AVIC в обзоре Airport Technology (проектные ЛТХ) + HK01 07.06.2026 о статусе испытаний",
+ "source_url": "https://www.airport-technology.com/projects/ma700-medium-range-turboprop-aircraft/",
+ "publisher": "Airport Technology (по данным AVIC); HK01; AirData News",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 26.5,
+  "seats_max": 86,
+  "seats_typical": 78,
+  "span_m": 27.5,
+  "length_m": 30.5,
+  "cruise_mach": 0.56,
+  "engine_count": 2
+ },
+ "engine": "2 × P&WC PW150C (проект; экспорт заблокирован Канадой) → предположительно AECC AEP400",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "AVIC Xi'an Aircraft (XAC)",
+  "country": "Китай",
+  "status": "flight_test",
+  "first_flight": "по журналу «大飞机» — 04.2022 без огласки; официально не подтверждено",
+  "eis": "не объявлен (исходный план — 2022)",
+  "data_kind": "announced",
+  "range_km": 2700,
+  "range_note": "максимальная, по AVIC",
+  "orders_note": "285 намерений от 11 заказчиков (2019, без твёрдых контрактов); 10.2025 и 06.2026 — ролики испытаний с предполагаемым AEP400",
+  "field_sources": {
+   "mtow_t": "Airport Technology (AVIC): 26 500 кг",
+   "seats_max": "AVIC: до 86 (HD)",
+   "seats_typical": "AVIC: 78 (базовая)",
+   "span_m": "Airport Technology: 27,5 м (AirData News 2021: 28 м)",
+   "length_m": "Airport Technology: 30,5 м (AirData News: 30 м)",
+   "cruise_mach": "расчёт: макс. крейсерская 637 км/ч при допущенной высоте 6 000 м МСА (a≈1 139 км/ч) → M0,56; высота крейсерского режима не опубликована"
+  },
+  "gaps": [
+   "oew_t, fuel_capacity_t, mlw_t — не опубликованы",
+   "cruise_alt_m — не опубликована (потолок 7 620 м)",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Статус: официальных сообщений AVIC о первом полёте нет; «大飞机» (2022) — полёт в 04.2022; HK01 (07.06.2026) — видео испытаний, «предположительно» с AEP400. Ставлю flight_test с оговоркой — может быть фактически paused",
+   "Смена двигателя на AEP400 изменит массы и характеристики — проектные ЛТХ под PW150C могут устареть",
+   "cruise_mach — пересчёт с допущением по высоте, не прочтение документа"
+  ],
+  "region": "china"
+ }
+}

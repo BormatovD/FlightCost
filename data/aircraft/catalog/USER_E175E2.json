@@ -1,0 +1,54 @@
+{
+ "icao": "USER:E175E2",
+ "name": "Embraer E175-E2",
+ "valid_from": "2026-10-17",
+ "source": "Embraer E-Jets E2 Airport Planning Manual, Rev 25 (29.11.2024)",
+ "source_url": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+ "publisher": "Embraer",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 44.6,
+  "mlw_t": 40.0,
+  "fuel_capacity_t": 8.65,
+  "seats_max": 90,
+  "span_m": 31.39,
+  "length_m": 32.37,
+  "engine_count": 2
+ },
+ "engine": "Pratt & Whitney PW1714G",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "E75L",
+  "note": "Тот же класс 76–90 мест; новое крыло и GTF — модель E75L завышает расход."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Embraer",
+  "country": "Бразилия",
+  "status": "paused",
+  "first_flight": "2019-12-12",
+  "eis": "не определён: 25.02.2025 Embraer объявил ещё 4 года паузы (до ~2029), EIS будет перепланирован",
+  "data_kind": "announced",
+  "mzfw_t": 37.7,
+  "orders_note": "заказов нет (ранее: SkyWest 100 — условный, привязан к scope clause); MTOW 44,6 т > лимита scope clause США 39 т (86 000 lb)",
+  "field_sources": {
+   "mtow_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "mlw_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "fuel_capacity_t": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf (8 645 кг / 10 659 л)",
+   "seats_max": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "span_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "length_m": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+   "status": "https://static.poder360.com.br/2025/02/fato-relevante-embraer-e175-e2-25-fev-2025.pdf"
+  },
+  "gaps": [
+   "oew_t — не публиковался (нет max payload в доступных материалах)",
+   "cruise_mach, cruise_alt_m — для E175-E2 отдельно не опубликованы; по семейству E2 — M0.78–0.82, FL350–410, но поле не ставлю",
+   "Обозначатель ИКАО: E175-E2 не сертифицирован, кода в Doc 8643 не нашёл — ключ USER:E175E2"
+  ],
+  "doubts": [
+   "Программа заморожена трижды (2020, 2022, 2025); данные APM — проектные/лётных испытаний",
+   "исследователь пометил certainty=approx"
+  ],
+  "region": "west"
+ }
+}

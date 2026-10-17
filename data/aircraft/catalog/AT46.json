@@ -1,0 +1,60 @@
+{
+ "icao": "AT46",
+ "name": "ATR 42-600",
+ "valid_from": "2026-10-17",
+ "source": "ATR fact sheet ATR 42-600 (2022, с PW127XT-M)",
+ "source_url": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf",
+ "publisher": "ATR",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 18.6,
+  "oew_t": 11.9,
+  "mlw_t": 18.3,
+  "fuel_capacity_t": 4.5,
+  "seats_max": 50,
+  "seats_typical": 48,
+  "span_m": 24.57,
+  "length_m": 22.67,
+  "cruise_mach": 0.478,
+  "cruise_alt_m": 7315,
+  "engine_count": 2
+ },
+ "engine": "2 × Pratt & Whitney Canada PW127XT-M (2 400 shp)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ATR",
+  "country": "Франция/Италия",
+  "status": "in_service",
+  "first_flight": "2010 (ATR 42-600; базовый ATR 42 — 1984)",
+  "eis": "2012",
+  "data_kind": "official",
+  "range_km": 1383,
+  "range_note": "747 nm с максимумом пассажиров, LRC",
+  "takeoff_m": 1107,
+  "landing_m": 966,
+  "mzfw_t": 17.0,
+  "cruise_fuel_flow_kg_h": 620,
+  "cruise_fuel_flow_note": "ATR: 620 кг/ч при макс. крейсерской 289 KTAS, 95% MTOW, ISA, FL240; блок-топливо 200/300/400 nm — 570/778/1013 кг",
+  "field_sources": {
+   "mtow_t": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf",
+   "oew_t": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf (typical in-service)",
+   "mlw_t": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf",
+   "fuel_capacity_t": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf (4 500 кг)",
+   "seats_max": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf (up to 50)",
+   "seats_typical": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf (48 при 30\")",
+   "span_m": "https://atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_42-600.pdf",
+   "length_m": "https://atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_42-600.pdf",
+   "cruise_mach": "РАСЧЁТ: 289 KTAS на FL240 ISA (a=604 kt) → M0.478, по https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf",
+   "cruise_alt_m": "FL240 — условие крейсерского режима в fact sheet ATR"
+  },
+  "gaps": [
+   "расход турбовинтового — нет аналога в openap (блок burn не ставится)",
+   "fuselage_width_m — в fact sheet подписан неоднозначно"
+  ],
+  "doubts": [
+   "Размеры по чертежу fact sheet 2020 г. (подписи распознаны по раскладке)"
+  ],
+  "region": "west"
+ }
+}

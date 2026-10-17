@@ -1,0 +1,41 @@
+{
+ "icao": "USER:C919-800",
+ "name": "COMAC C919-800 (удлинённый)",
+ "valid_from": "2026-10-17",
+ "source": "COMAC/CCTV (18.09.2026, ген. директор Шэнь Бо): удлинённый узкофюзеляжный C919 до 240 мест",
+ "source_url": "https://www.stdaily.com/web/gdxw/2026-09/18/content_583175.html",
+ "publisher": "Science and Technology Daily / CCTV; AirData News 27.12.2025",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 240,
+  "engine_count": 2
+ },
+ "engine": "не объявлен (базовый C919 — LEAP-1C)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A21N",
+  "note": "200–240 мест, нацелен на сегмент A321neo (AirData News)"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "development",
+  "eis": "сроки не объявлены (AirData News 27.12.2025); Wikipedia — «к 2030»",
+  "data_kind": "announced",
+  "orders_note": "Соглашение о совместной разработке с China Eastern (12.2025); твёрдых заказов не найдено",
+  "field_sources": {
+   "seats_max": "COMAC (Шэнь Бо, 18.09.2026): до 240 мест; AirData News: «не менее 200»; Aviation Week 11.2023: 210 мест",
+   "engine_count": "производная C919"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, length_m, cruise_mach, cruise_alt_m — не объявлены",
+   "seats_typical — не объявлено (200–210 по прессе)"
+  ],
+  "doubts": [
+   "Обозначение C919-800 — пресса/Wikipedia; COMAC официально говорит «加长型»",
+   "Места: 210 (Aviation Week 2023), ≥200 (AirData 2025), до 240 (COMAC 2026)"
+  ],
+  "region": "china"
+ }
+}

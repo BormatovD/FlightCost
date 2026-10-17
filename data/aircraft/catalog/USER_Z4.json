@@ -1,0 +1,44 @@
+{
+ "icao": "USER:Z4",
+ "name": "JetZero Z4 (смешанное крыло)",
+ "valid_from": "2026-10-17",
+ "source": "JetZero пресс-релиз о партнёрстве с JAL (21.07.2026); AIN (20.07.2026)",
+ "source_url": "https://www.jetzero.aero/jal-partners-with-jetzero",
+ "publisher": "JetZero; AIN",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 250,
+  "engine_count": 2
+ },
+ "engine": "не выбран; демонстратор — 2 × Pratt & Whitney PW2040, двигатели над фюзеляжем",
+ "engine_mount": "rear",
+ "burn": {
+  "analog": "B788",
+  "note": "Класс 250 мест / 5 000 nm — средний широкофюзеляжный; B788 ближайший по размерности. JetZero заявляет −30…50% топлива — модель B788 даст сильно завышенную оценку; исследование HAW Hamburg (01.2026) эти цифры оспаривает."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "JetZero",
+  "country": "США",
+  "status": "development",
+  "first_flight": "план демонстратора: 2027",
+  "eis": "план: начало 2030-х",
+  "data_kind": "announced",
+  "range_km": 9260,
+  "range_note": "~5 000 nm (JetZero), загрузка не указана",
+  "orders_note": "United — предварительно до 200 шт. (2025); Gulf Air — LOI (07.2026); JAL — интерес/оценка, не заказ",
+  "field_sources": {
+   "seats_max": "https://www.jetzero.aero/jal-partners-with-jetzero (250 мест)",
+   "engine_count": "https://backend.ainonline.com/aviation-news/air-transport/2026-07-20/gulf-air-may-buy-jet-zeros-blended-wing-body-z4 (twinjet)"
+  },
+  "gaps": [
+   "mtow_t, oew_t, fuel_capacity_t, span_m, cruise_mach, cruise_alt_m — JetZero не публиковала"
+  ],
+  "doubts": [
+   "engine_mount: двигатели на верхней поверхности центроплана/фюзеляжа — значение fuselage условно",
+   "Заявленная экономия топлива 30–50% оспорена независимым исследованием (HAW Hamburg, январь 2026)",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "west"
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "icao": "D228",
+ "name": "HAL Hindustan-228 (Do-228 гражданская версия, 228-201)",
+ "valid_from": "2026-10-17",
+ "source": "Mobility Outlook (по данным HAL) + EASA TCDS A.359 для базового Do 228-200",
+ "source_url": "https://mobilityoutlook.com/news/hal-moves-ahead-with-do228-civil-variant",
+ "publisher": "HAL через отраслевую прессу; EASA",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 6.2,
+  "oew_t": 3.8,
+  "fuel_capacity_t": 1.909,
+  "seats_max": 19,
+  "seats_typical": 17,
+  "span_m": 16.97,
+  "length_m": 16.56,
+  "cruise_mach": 0.33,
+  "engine_count": 2,
+  "cruise_alt_m": 7620
+ },
+ "engine": "2x Honeywell TPE331-10 (5-лопастной композитный винт)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Hindustan Aeronautics Ltd (лицензия Dornier)",
+  "country": "Индия",
+  "status": "in_service",
+  "first_flight": "Do 228: 1981-03-28; гражданский HAL VT-KNR — 2021",
+  "eis": "2022-04 (Alliance Air, Дибругарх–Пасигхат); ТС DGCA — 2021 (до 20.08.2021)",
+  "data_kind": "official",
+  "range_note": "дальность гражданской версии HAL не опубликована в найденных источниках",
+  "orders_note": "Alliance Air — 2 шт. в лизинг (соглашение 02.2022, первая поставка 07.04.2022, AirInsight)",
+  "field_sources": {
+   "mtow_t": "Mobility Outlook 17.08.2021 со слов HAL: 6,2 т",
+   "oew_t": "Mobility Outlook: ~3,8 т",
+   "fuel_capacity_t": "EASA TCDS A.359 Do 228-200: 2386 л расходуемого × 0,8 кг/л = 1,909 т (https://www.easa.europa.eu/pl/downloads/7178/en)",
+   "seats_max": "Mobility Outlook: 19 commuter / 17 с туалетом; TCDS 228-212: 19 пасс.",
+   "span_m": "SKYbrary D228 (https://skybrary.aero/aircraft/d228)",
+   "length_m": "SKYbrary D228 (тех. данные)",
+   "cruise_mach": "210 KTAS (SKYbrary); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) ~10 000 фт",
+   "eis": "https://airinsight.com/alliance-air-inducts-first-india-made-19-seater-dornier-228/; ТС: https://www.aviacionline.com/indias-first-fixed-wing-aircraft-obtains-its-type-certificate",
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL250 для турбовинтовых — в документах производителя крейсерская высота не названа"
+  },
+  "gaps": [
+   "mlw_t — для HAL-версии не найдено (у 228-212 по TCDS 6,1 т)",
+   "range_km, takeoff_m, landing_m — не найдены для HAL-версии",
+   "Страница hal-india.co.in недоступна (fetch заблокирован)",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "Ключ D228 общий для всех Do 228: RUAG/GA-ASI 228 NG (228-212) имеет MTOW 6,4 т (EASA TCDS) против 6,2 т у HAL",
+   "EASA TCDS прямо исключает самолёты HAL (S/N 8I-xxxx) — топливо взято по TCDS для 228-200 как ближайший аналог",
+   "Длина: SKYbrary 16,56 м (228-200), для 228-100 — 15,03 м",
+   "AirInsight пишет 17 мест в тексте и 19 в заголовке",
+   "исследователь пометил certainty=approximate"
+  ],
+  "region": "emerging",
+  "assumed": {
+   "cruise_alt_m": "допущение по классу (решение 223): типовой эшелон FL250 для турбовинтовых — в документах производителя крейсерская высота не названа"
+  }
+ }
+}

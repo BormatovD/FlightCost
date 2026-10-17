@@ -1,0 +1,60 @@
+{
+ "icao": "USER:C929",
+ "name": "COMAC C929 (бывш. CR929-600, широкофюзеляжный)",
+ "valid_from": "2026-10-17",
+ "source": "Спецификация CR929-600 эпохи CRAIC (2017–2018, через Wikipedia со ссылками на AIN/Aviation Week/Flight) + статус COMAC 18.09.2026",
+ "source_url": "https://en.wikipedia.org/wiki/Comac_C929",
+ "publisher": "CRAIC/COMAC через Wikipedia-указатель; CCTV/STDaily; HK01",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 245,
+  "fuel_capacity_t": 103.7,
+  "seats_max": 440,
+  "seats_typical": 280,
+  "span_m": 63.86,
+  "length_m": 63.755,
+  "cruise_mach": 0.85,
+  "engine_count": 2,
+  "fuselage_width_m": 5.92
+ },
+ "engine": "2 × AECC CJ-2000 (по прессе; ранее рассматривались PD-35 и западные)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "B789",
+  "note": "размер и масса (MTOW 245 т, 280 мест в 3 кл., 12 000 км) ≈ 787-9; двигатель не выбран окончательно"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "COMAC",
+  "country": "Китай",
+  "status": "development",
+  "first_flight": "план ~2030 (HK01 со ссылкой на прежние сообщения; The Air Current — не ранее 2029)",
+  "eis": "план: до 2035 (HK01, 09.2026)",
+  "data_kind": "projected",
+  "range_km": 12000,
+  "range_note": "CR929-600, заявлено CRAIC (6 480 nm); COMAC в 2024 повторил «~12 000 км»",
+  "orders_note": "Стартовый заказчик Air China (11.2024), количество не раскрыто. Статус 18.09.2026: «стабильный этап детального проектирования» (Шэнь Бо); 01.2026 COMAC+AECC: схема в основном заморожена, подготовка производства; первая секция фюзеляжа — 09.2027",
+  "field_sources": {
+   "mtow_t": "Wikipedia spec CR929-600: 245 т",
+   "fuel_capacity_t": "Wikipedia: 103,7 т",
+   "seats_max": "Wikipedia: 405–440 в 1 классе (CR929 2018)",
+   "seats_typical": "COMAC/пресса: ~280 (3 кл. 258–280)",
+   "span_m": "Wikipedia: 63,86 м",
+   "length_m": "Wikipedia: 63,755 м (в тексте 2018 — 63,25 м)",
+   "cruise_mach": "Wikipedia: M0.85",
+   "fuselage_width_m": "Wikipedia: 5,92 м",
+   "range_km": "Wikipedia/Flight 2017; AirData News 28.03.2024"
+  },
+  "gaps": [
+   "oew_t — не публиковался",
+   "cruise_alt_m — не публиковался",
+   "Конфигурация после выхода России (2023) официально не опубликована — все массы/размеры от CR929-600"
+  ],
+  "doubts": [
+   "Числа от совместного проекта CR929 (2017–2018); COMAC с 2024 говорит 280–400 мест и «возможно три варианта» — финальные ЛТХ могут отличаться",
+   "Двигатель CJ-2000 — по HK01/китайской прессе, официального выбора COMAC не найдено",
+   "Длина 63,755 vs 63,25 м в разных местах Wikipedia"
+  ],
+  "region": "china"
+ }
+}

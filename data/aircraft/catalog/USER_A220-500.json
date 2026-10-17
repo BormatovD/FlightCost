@@ -1,0 +1,45 @@
+{
+ "icao": "USER:A220-500",
+ "name": "Airbus A220-500 (проект)",
+ "valid_from": "2026-10-17",
+ "source": "Пресса о проработке удлинения A220-300; официальных данных Airbus нет",
+ "source_url": "https://lessentieldeleco.fr/7251-airbus-renonce-a-lancer-son-nouvel-avion-cet-ete/",
+ "publisher": "L'Essentiel de l'Éco (5 июня 2026), ch-aviation, airdatanews",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "seats_max": 180,
+  "seats_typical": 165,
+  "engine_count": 2
+ },
+ "engine": "ожидается PW1500G (как A220-300), без изменений по прессе",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "A20N",
+  "note": "Удлинённый A220 на ~165–180 мест с GTF — по вместимости и поколению ближе всего A320neo."
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "Airbus",
+  "country": "Канада/ЕС",
+  "status": "concept",
+  "eis": "план прессы: первая поставка не ранее 2032 (CEO AirAsia)",
+  "data_kind": "projected",
+  "range_note": "аналитики: потеря ~13% дальности относительно A220-300; Airbus цифр не давал",
+  "orders_note": "Airbus собирает предзаказы (Air Canada, Delta, AirAsia); решение не принято — на Farnborough-2026 не запущен, AirAsia ожидает решения в Q4 2026",
+  "field_sources": {
+   "seats_max": "lessentieldeleco.fr (5.06.2026): ~180 в смешанной компоновке?/165 single-class — в источнике формулировка неоднозначна",
+   "seats_typical": "lessentieldeleco.fr: 165 single-class",
+   "engine_count": "по аналогии с A220-300, пресса: двигатели и MTOW без изменений"
+  },
+  "gaps": [
+   "mtow_t — пресса пишет «MTOW без изменений» (т.е. ~70,9 т как у A220-300), но Airbus не подтверждал — поле не ставлю",
+   "oew_t, fuel_capacity_t, span_m, cruise_mach, cruise_alt_m — официальных данных нет, программа не запущена"
+  ],
+  "doubts": [
+   "Источники по вместимости расходятся: ~170 (airdatanews, 2025), ~180 смешанная / 165 одноклассная (L'Essentiel de l'Éco, 2026) — выглядит перевёрнуто (обычно одноклассная больше)",
+   "Рассматриваются два пути: простое удлинение (с потерей дальности) или глубокая модернизация с новым крылом/двигателями",
+   "исследователь пометил certainty=projected"
+  ],
+  "region": "west"
+ }
+}

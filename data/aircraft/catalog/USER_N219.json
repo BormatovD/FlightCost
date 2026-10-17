@@ -1,0 +1,63 @@
+{
+ "icao": "USER:N219",
+ "name": "PTDI N219 Nurtanio",
+ "valid_from": "2026-10-17",
+ "source": "Airforce Technology (проектный профиль) + PTDI пресс-релизы 2026",
+ "source_url": "https://www.airforce-technology.com/projects/n219-multi-mission-aircraft/",
+ "publisher": "Airforce Technology; PT Dirgantara Indonesia",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 7.03,
+  "oew_t": 4.039,
+  "mlw_t": 6.94,
+  "fuel_capacity_t": 1.6,
+  "seats_max": 19,
+  "seats_typical": 19,
+  "span_m": 19.5,
+  "length_m": 16.7,
+  "cruise_mach": 0.33,
+  "cruise_alt_m": 3050,
+  "engine_count": 2
+ },
+ "engine": "2x Pratt & Whitney Canada PT6A-42 (850 shp)",
+ "engine_mount": "wing",
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "PT Dirgantara Indonesia (PTDI)",
+  "country": "Индонезия",
+  "status": "in_service",
+  "first_flight": "2017-08-16",
+  "eis": "ТС DKPPU (Минтранс Индонезии) — 12.2020, CASR Part 23; первая коммерческая передача — 2026 (PT Mitra Aviasi Perkasa)",
+  "data_kind": "official",
+  "range_km": 1539,
+  "range_note": "831 nm с полным топливом; 149 nm (276 км) с максимальной нагрузкой",
+  "takeoff_m": 455,
+  "landing_m": 493,
+  "orders_note": "На 26.08.2026: 7 заказов (MAP — 4 грузовых, $36,1 млн; одна передана), мощность новой линии FAL — 12 шт./год; президент Прабово поручил построить 30 шт.; ВВС Индонезии — первый военный заказ (Jane's, 02.2024)",
+  "field_sources": {
+   "mtow_t": "Airforce Technology; Kumparan 11.2021",
+   "oew_t": "Airforce Technology (OEW 4039 кг)",
+   "mlw_t": "Kumparan 13.11.2021 (https://kumparan.com/kumparanbisnis/apa-kabar-pesawat-n219-cek-progres-terbarunya-1wuWsZZ4glI)",
+   "fuel_capacity_t": "Kumparan: 1600 кг; Airforce Technology: 'max fuel 1600 kg'",
+   "seats_max": "PTDI (indonesian-aerospace.com, 05.2026)",
+   "span_m": "Airforce Technology",
+   "length_m": "Airforce Technology",
+   "cruise_mach": "210 KTAS max cruise (Airforce Technology; экономичная 190 KTAS → M0,30); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) 10 000 фт",
+   "cruise_alt_m": "рабочая высота 10 000 фт (Airforce Technology, Kumparan)",
+   "orders_note": "https://indonesian-aerospace.com/en/media/news/detail/1730/ptdi-boosts-n219-production-capacity-dedicated-hangar-readied-to-strengthen-market-position",
+   "eis": "https://indonesian-aerospace.com/en/media/news/detail/1661/n219-ptdis-aircraft-that-can-be-magically-customized-to-suit-needs-and-missions"
+  },
+  "gaps": [
+   "fuselage_width_m — не найден",
+   "Официальная брошюра PTDI с ЛТХ не найдена; en.wikipedia N-219 недоступна (fetch заблокирован)",
+   "расход турбовинтового — нет аналога в openap"
+  ],
+  "doubts": [
+   "ICAO-обозначатель для N219 в Doc 8643 не подтверждён — использован USER:N219",
+   "Дальность 831 nm (1539 км) с полным топливом — Airforce Technology; Kumparan даёт 231 км с нагрузкой 1560 кг",
+   "Kumparan: взлёт 500 м/посадка 590 м (с препятствием 35/50 фт) против 455/493 м у Airforce Technology",
+   "исследователь пометил certainty=approximate"
+  ],
+  "region": "emerging"
+ }
+}

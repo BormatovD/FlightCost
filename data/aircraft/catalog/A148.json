@@ -1,0 +1,63 @@
+{
+ "icao": "A148",
+ "name": "Antonov An-148-100B",
+ "valid_from": "2026-10-17",
+ "source": "GlobalSecurity.org, таблица ЛТХ An-148 (по данным АНТК Антонов)",
+ "source_url": "https://www.globalsecurity.org/military/world/ukraine/an-148-specs.htm",
+ "publisher": "GlobalSecurity.org (вторичный, по данным Антонова)",
+ "checked_at": "2026-10-17",
+ "fields": {
+  "mtow_t": 41.55,
+  "fuel_capacity_t": 12.05,
+  "seats_max": 85,
+  "seats_typical": 75,
+  "span_m": 28.91,
+  "length_m": 29.13,
+  "cruise_mach": 0.8,
+  "cruise_alt_m": 11000,
+  "engine_count": 2
+ },
+ "engine": "2x Ивченко-Прогресс / Мотор Сич Д-436-148 (6830 кгс)",
+ "engine_mount": "wing",
+ "burn": {
+  "analog": "E75L",
+  "note": "Регионал 75–85 мест, MTOW 38–44 т, ТРДД под крылом; ближайший по размеру — E175 (E75L). Двигатель Д-436 старше CF34-8E — реальный расход, вероятно, выше аналога"
+ },
+ "certainty": "exact",
+ "meta": {
+  "manufacturer": "ГП «Антонов» (Киев); серийно также ВАСО (Воронеж)",
+  "country": "Украина",
+  "status": "ended",
+  "first_flight": "2004-12-17",
+  "eis": "2009-06 (АК «Аэросвит»)",
+  "data_kind": "official",
+  "range_km": 3500,
+  "range_note": "-100B с максимальной коммерческой загрузкой; -100A 2100 км, -100E 4400 км",
+  "takeoff_m": 1800,
+  "orders_note": "Производство остановлено: в Украине — из-за зависимости от российских комплектующих (Донец, aeroTELEGRAPH 11.2019: рестарт возможен только после полного импортозамещения); с 2022 — война, новых поставок нет",
+  "field_sources": {
+   "mtow_t": "GlobalSecurity: -100A 38,55 / -100B 41,55 / -100E 43,70 т",
+   "fuel_capacity_t": "GlobalSecurity: 12 050 кг (макс. ёмкость баков)",
+   "seats_max": "GlobalSecurity: до 85 при шаге 30\"",
+   "seats_typical": "GlobalSecurity (вторая таблица): 75",
+   "span_m": "GlobalSecurity",
+   "length_m": "GlobalSecurity",
+   "cruise_mach": "820–870 км/ч на 11 000–12 200 м (GlobalSecurity); Мах пересчитан из KTAS по скорости звука МСА на указанной высоте (не опубликован производителем) ≥11 000 м: M0,77–0,82, взята середина",
+   "cruise_alt_m": "GlobalSecurity: 11 000–11 600 м (вторая таблица); максимум 12 200 м",
+   "takeoff_m": "потребная длина ВПП для -100B (GlobalSecurity)",
+   "orders_note": "https://www.aerotelegraph.com/aircraft/we-intend-to-restart-production-of-the-an-158/prbpl0x"
+  },
+  "gaps": [
+   "oew_t, mlw_t, fuselage_width_m — в найденных источниках не опубликованы",
+   "sweep_deg — не найден",
+   "Сайт antonov.com недоступен (fetch заблокирован) — первоисточник производителя не проверен"
+  ],
+  "doubts": [
+   "Ключ A148 охватывает -100A/B/E с разной MTOW; взят -100B. Российский выпуск ВАСО (если собирается другим исследователем) — тот же ключ A148",
+   "GlobalSecurity приводит две таблицы с разными MTOW (38,55/41,55/43,70 vs 37,13/39,90/43,05 т) и дальностями",
+   "landing_m не найден — поле оставлено пустым",
+   "исследователь пометил certainty=approximate"
+  ],
+  "region": "emerging"
+ }
+}
