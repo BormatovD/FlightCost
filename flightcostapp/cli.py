@@ -1059,14 +1059,31 @@ def main(argv=None) -> int:
                   f"fca fare --aggregate")
             return 0
         if a.aggregate:
-            facts, thin = _mf.aggregate(store, min_obs=a.min_obs)
+            rep: dict = {}
+            facts, thin = _mf.aggregate(store, min_obs=a.min_obs, report=rep)
+            thin = [t for t in thin if "цена неправдоподобна" not in t]
             st = store.commit_facts(facts) if facts else {}
+            # Полоса с неправдоподобной ценой не публикуется, а прежняя её
+            # запись аннулируется на всём интервале: в мире такой цены не
+            # было, она была у нас (решение 222).
+            for x in rep.get("suspect", []):
+                store.db.execute("""UPDATE facts SET valid_to = valid_from
+                                    WHERE domain = 'market_fare' AND key = ?
+                                      AND valid_to IS NULL""", (x["key"],))
+            store.db.commit()
             add, same = st.get("added", 0), st.get("unchanged", 0)
             # «Записано 0» читается как отказ, а означало «всё уже лежит».
             # Различать обязательно: это разные состояния (решение 67).
             print(f"полос {len(facts)}: записано {add}"
                   + (f", уже было {same}" if same else "")
                   + (", новых нет" if facts and not add else ""))
+            sus = rep.get("suspect", [])
+            if sus:
+                print(f"  ! цена неправдоподобна для расстояния, не опубликовано: {len(sus)} — "
+                      f"чужая подпись валюты или выброс агрегатора. Посмотреть пару: "
+                      f"fca fare --why <пара>")
+                for x in sus:
+                    print(f"    {x['key']}: {x['value']:,.0f} {x['unit']} — {x['why']}".replace(",", " "))
             for t in thin[:8]:
                 print(f"  мало наблюдений: {t}")
             if len(thin) > 8:

@@ -73,3 +73,48 @@ class FareModel(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class CurrencyLabel(unittest.TestCase):
+    """Решение 222: неправдоподобная цена (чужая подпись валюты, выброс) не публикуется."""
+
+    def test_thresholds(self):
+        from flightcostapp.market_fare import implausible
+        self.assertEqual(implausible(85.0, 1100), "")            # FRA–BCN
+        self.assertEqual(implausible(700.0, 9000), "")           # дальний, дорогой, но рынок
+        self.assertEqual(implausible(629.0, 599), "")            # пересадка ULLI–UUEE: дорого, но живое
+        self.assertIn("EUR/км", implausible(4259.0, 286))        # выброс EDDF–LSZH
+        self.assertIn("EUR/км", implausible(7976.0, 2800))       # рубли под евро
+        self.assertIn("дешевле", implausible(99 / 95, 1000))     # евро под рублями
+        self.assertEqual(implausible(500.0, None), "")           # без расстояния не судим
+
+    def test_aggregate_names_and_skips_suspect(self):
+        from flightcostapp import market_fare as MF
+        d = pathlib.Path(tempfile.mkdtemp())
+        s = Store(d / "t.db")
+        ap = {"EDDF": (50.03, 8.54), "LEBL": (41.30, 2.08),
+              "UUEE": (55.97, 37.41), "UNNT": (55.01, 82.65)}
+        s.commit_facts([Fact(domain="airport", key=k, valid_from="2026-01-01",
+                             value_text=f"{la},{lo}|{k}|XX|{k}", source_id="t", extracted_by="t")
+                        for k, (la, lo) in ap.items()]
+                       + [Fact(domain="fx", key="RUB", valid_from="2026-01-01", value=95.0,
+                               unit="per_EUR", currency="RUB", source_id="fx_rates",
+                               extracted_by="t")])
+        rows = []
+        for i in range(6):
+            day = f"2026-11-{i + 1:02d}"
+            rows += [dict(kind=MF.KIND, key="EDDF-LEBL/d15_30/direct", value=80.0 + i,
+                          unit="EUR", observed_at=day, source_id="market_fare"),
+                     dict(kind=MF.KIND, key="UUEE-UNNT/d15_30/direct", value=7900.0 + i,
+                          unit="EUR", observed_at=day, source_id="market_fare"),
+                     dict(kind=MF.KIND, key="UNNT-UUEE/d15_30/direct", value=8100.0 + i,
+                          unit="RUB", observed_at=day, source_id="market_fare")]
+        s.add_observations(rows)
+        rep = {}
+        facts, notes = MF.aggregate(s, as_of="2026-10-17", report=rep)
+        keys = {f.key for f in facts}
+        self.assertIn("EDDF-LEBL/d15_30/direct", keys)
+        self.assertIn("UNNT-UUEE/d15_30/direct", keys)          # честные рубли проходят
+        self.assertNotIn("UUEE-UNNT/d15_30/direct", keys)
+        self.assertEqual([x["key"] for x in rep["suspect"]], ["UUEE-UNNT/d15_30/direct"])
+        self.assertTrue(any("цена неправдоподобна" in n for n in notes))

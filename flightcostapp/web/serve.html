@@ -2787,7 +2787,7 @@ async function drawBench(r){
     ? `<tr><td>${_t("Видимая цена на линии")}<div style="color:var(--faint);font-size:11px">
          ${_t("можно ли войти ценой · медиана МИНИМУМОВ по датам")}</div></td>
        <td class="v">${(fm => fm.eur
-         ? m0(fm.v) + ` <span style="color:var(--dim);font-size:11px">${CUR.code}</span>`
+         ? f0(fm.v) + ` <span style="color:var(--dim);font-size:11px">${CUR.code}</span>`
          : f0(fm.v) + ` <span style="color:var(--warn);font-size:11px">${esc(fm.unit)}</span>`)(fareMain(b))}</td>
        <td style="color:var(--faint);font-size:11px">${esc(fareMain(b).label)} · ${_t("по данным Aviasales")}${
          b.fare.length > 1 ? fareBands(b) : ""}${
