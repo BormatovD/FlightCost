@@ -262,8 +262,28 @@ def explain(store, pair: str, *, min_obs: int = MIN_OBS) -> list[str]:
     return out
 
 
+# Правдоподобие цены по расстоянию, в евро. Медиана дневных МИНИМУМОВ
+# дороже и 1 500 EUR, и 2 EUR за километр, или дешевле 5 EUR — это не
+# рынок. Две причины: подпись валюты не та (рубли под евро — ×90, евро под
+# рублями — «99 RUB») или выброс агрегатора (в кэше по датам остались одни
+# дорогие тарифы: EDDF–LSZH 4 259 EUR на 286 км). Настоящие минимумы лежат
+# в 0,03–0,5 EUR/км; порог грубый нарочно, чтобы дорогая, но живая линия
+# (пересадка, монополия) через него проходила.
+MAX_EUR_FLOOR, MAX_EUR_PER_KM, MIN_EUR = 1500.0, 2.0, 5.0
+
+
+def implausible(value_eur: float, km: float | None) -> str:
+    """Пусто — правдоподобно; иначе — почему нет."""
+    if value_eur < MIN_EUR:
+        return f"{value_eur:.2f} EUR — дешевле {MIN_EUR:.0f} EUR"
+    if km and value_eur > max(MAX_EUR_FLOOR, MAX_EUR_PER_KM * km):
+        return f"{value_eur:,.0f} EUR на {km:,.0f} км — {value_eur / km:.1f} EUR/км".replace(",", " ")
+    return ""
+
+
 def aggregate(store, *, as_of=None, min_obs: int = MIN_OBS,
-              source_id: str = "market_fare") -> tuple[list[Fact], list[str]]:
+              source_id: str = "market_fare",
+              report: dict | None = None) -> tuple[list[Fact], list[str]]:
     """Свёртка в домен `market_fare`. В `facts` едут только агрегаты.
 
     Число наблюдений кладётся ОБЯЗАТЕЛЬНО и в значение, и в текст: полоса
@@ -281,6 +301,11 @@ def aggregate(store, *, as_of=None, min_obs: int = MIN_OBS,
     # легла бы под рублёвой подписью, и полоса собралась бы из чисел в
     # разных деньгах — та же ошибка, что была с CASK Аэрофлота, только
     # без спасительного различия в два порядка.
+    from . import fx as _fx
+    from .fare_model import _coords, _km
+    xy = _coords(store)
+    rates: dict[str, float | None] = {}
+    suspect = (report.setdefault("suspect", []) if report is not None else [])
     cur_by_key: dict[str, set[str]] = {}
     for k, u in store.db.execute(
             "SELECT key, unit FROM observations WHERE kind = ?", (KIND,)):
@@ -297,6 +322,18 @@ def aggregate(store, *, as_of=None, min_obs: int = MIN_OBS,
         if len(vals) < min_obs:
             thin.append(f"{key}: дат {len(vals)}, нужно {min_obs}")
             continue
+        # Неправдоподобная цена — ключ не публикуется, а называется: такая
+        # медиана хуже пропуска, она молча тянет за собой и формулу цены.
+        med = statistics.median(vals)
+        if cur not in rates:
+            rates[cur] = _fx.resolve(store, cur, as_of)[0] if cur else None
+        if rates[cur]:
+            a, b = key.split("/", 1)[0].split("-", 1) if "-" in key else ("", "")
+            km = _km(xy[a], xy[b]) if a in xy and b in xy else None
+            why = implausible(med / rates[cur], km)
+            if why:
+                suspect.append({"key": key, "value": med, "unit": cur, "why": why})
+                continue
         q = statistics.quantiles(vals, n=4) if len(vals) >= 4 else None
         facts.append(Fact(
             domain="market_fare", key=key, valid_from=as_of,
@@ -313,4 +350,5 @@ def aggregate(store, *, as_of=None, min_obs: int = MIN_OBS,
                          "предложений: интерфейс агрегатора отдаёт самое "
                          "дешёвое найденное на дату"),
             note=f"дат {len(vals)}"))
-    return facts, thin + mixed
+    return facts, thin + mixed + [f"{x['key']}: цена неправдоподобна — {x['why']}"
+                                  for x in suspect]
