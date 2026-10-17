@@ -263,6 +263,8 @@ input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 header #acgal{margin-left:4px;padding:3px 7px}
 .galq{width:100%;margin:0 0 6px;padding:6px 9px;border:1px solid var(--line);border-radius:4px;
  background:var(--bg);color:var(--ink);font:13px var(--sans)}
+.galu{display:flex;align-items:center;gap:6px;font:12.5px var(--sans);color:var(--dim);margin:0 0 6px;cursor:pointer}
+.galu span{color:var(--faint)}
 .galg{font:600 12px var(--sans);color:var(--dim);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em}
 .galg span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint)}
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
@@ -1224,13 +1226,22 @@ const AC_CLASS = [["regional", _t("Региональные")], ["narrow", _t("�
 // onPick — выбор не в шапку, а в список сравнения сети: тот же
 // рисунок, другой адресат.
 let GAL_PICK = null;
+// «Скрыть пользовательские»: типы с ключом USER: — без кода ИКАО. Это
+// концепты и проекты каталога (ES-30, RTA-90) и свои типы; в выборе для
+// расчёта они чаще мешают. По умолчанию скрыты, выбор помнится в браузере.
+let GAL_HIDE_USER = (() => { try { return localStorage.getItem("fca.galHideUser") !== "0"; } catch (e) { return true; } })();
 function galleryOpen(onPick) { GAL_PICK = typeof onPick === "function" ? onPick : null;
   $("#acpanel").hidden = false; galleryDraw(""); setTimeout(() => { const q = $("#galq"); q && q.focus(); }, 30); }
 function galleryClose() { $("#acpanel").hidden = true; }
 function galleryDraw(q) {
   const box = $("#acbody");
-  const list = q.trim() ? acSearch(q, 200) : ACS.slice();
+  const all = q.trim() ? acSearch(q, 200) : ACS.slice();
+  const isUser = t => String(t.icao).toUpperCase().startsWith("USER:");
+  const hidden = GAL_HIDE_USER ? all.filter(isUser).length : 0;
+  const list = GAL_HIDE_USER ? all.filter(t => !isUser(t)) : all;
   let h = `<input id="galq" class="galq" autocomplete="off" placeholder="${_t("фильтр: код или название")}" value="${esc(q)}">
+    <label class="galu"><input type="checkbox" id="galu"${GAL_HIDE_USER ? " checked" : ""}> ${_t("скрыть пользовательские")}${
+      hidden ? ` <span>· ${_t("скрыто")} ${hidden}</span>` : ""}${hint(_t("Типы без кода ИКАО (ключ USER:): концепты и проекты из каталога — ES-30, RTA-90, C929 — и свои типы. Большинство из них — карточки без расчёта."))}</label>
     <p class="lede" style="margin:0">${_t("Внутри группы — один масштаб: видно, какой борт больше. Рисунок построен из размаха, длины и двигателей типа, это схема, а не чертёж.")}</p>`;
   for (const [cls, title] of AC_CLASS) {
     const grp = list.filter(t => acClass(t) === cls)
@@ -1253,6 +1264,11 @@ function galleryDraw(q) {
   }
   if (!list.length) h += `<p class="lede">${_t("такого типа в хранилище нет")}</p>`;
   box.innerHTML = h;
+  $("#galu").addEventListener("change", e => {
+    GAL_HIDE_USER = e.target.checked;
+    try { localStorage.setItem("fca.galHideUser", GAL_HIDE_USER ? "1" : "0"); } catch (err) {}
+    galleryDraw($("#galq").value);
+  });
   const inp = $("#galq");
   inp.addEventListener("input", () => { const v = inp.value, pos = inp.selectionStart; galleryDraw(v);
     const n = $("#galq"); n.focus(); n.setSelectionRange(pos, pos); });
