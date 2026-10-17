@@ -214,6 +214,13 @@ body.net #netleft{display:block}
 .mkt input{width:90px;font:12.5px var(--mono);background:var(--raise);color:var(--ink);
  border:1px solid var(--line);border-radius:4px;padding:2px 6px;text-align:right}
 .mkt .src{color:var(--faint);font-size:11.5px}
+.mkt input.par{border-color:var(--warn);box-shadow:0 0 0 1px var(--warn) inset}
+.calc{margin-top:4px;font-size:11.5px}.calc summary{cursor:pointer;color:var(--dim)}
+.calc .f{margin:6px 0;color:var(--ink);font-family:var(--mono);font-size:11.5px}
+.calc table{border-collapse:collapse;width:100%}.calc td{padding:3px 6px 3px 0;vertical-align:top;color:var(--dim)}
+.calc td.v{color:var(--ink);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.calc td.vw{color:var(--ink);font-variant-numeric:tabular-nums;width:55%}
+.calc tr.tot td{border-top:1px solid var(--line);color:var(--ink);font-weight:600}
 .btn.hot{border-color:var(--accent);color:var(--ink)}
 .grp2{font:600 11.5px/1 var(--sans);letter-spacing:.06em;color:var(--dim);
  margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
@@ -577,6 +584,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
+  <a class="legal" href="/map" id="maplink">Карта данных</a><a class="legal" href="/data">Данные</a>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a></header>
 <div id="acpanel" hidden><div class="wsbox" role="dialog" aria-labelledby="ach">
   <div class="wshead"><b id="ach">Выбор типа по силуэту</b><button id="acclose" class="chipb">закрыть</button></div>
@@ -1829,6 +1837,11 @@ function params(){
   if (sets.length) p.set = sets.join("~");
   return new URLSearchParams(p);
 }
+
+// Карта данных открывается на текущем маршруте: те же параметры, что у расчёта.
+$("#maplink").addEventListener("click", ev => {
+  if (CHOSEN.o && CHOSEN.d) ev.currentTarget.href = "/map?" + params();
+});
 
 let timer = null, seq = 0;
 function draw(){
@@ -3444,7 +3457,9 @@ function tabNet(){
     const rows = n.pairs.map(x => {
       const bad = x.lf_own == null || x.lf_own > n.lf_ref;
       const w = x.lf_own == null ? 40 : Math.min(40, Math.round(x.lf_own * 40));
-      return `<tr data-pair="${esc(x.key)}"${NET.sel === x.key ? ' class="sel"' : ""}><td>${esc(x.key)}</td>
+      const fp = r.pairs.find(p => `${p.a}-${p.b}` === x.key);
+      const par = fp && (parFlow(fp) || fp.legs.some(parFare));
+      return `<tr data-pair="${esc(x.key)}"${NET.sel === x.key ? ' class="sel"' : ""}><td>${esc(x.key)}${par ? hint(_t("Цена или поток этой пары — оценка, а не наблюдение. Откуда и как задать свои числа — на вкладке «Рынок»."), "o") : ""}</td>
         <td class="v">${own ? `<input class="nf" data-k="${esc(x.key)}" type="number" min="0" step="1" value="${NET.freqs[x.key] ?? x.freq_week}">` : x.freq_week}</td>
         <td class="v" ${bad ? 'style="color:var(--warn)"' : ""}><span class="bar${bad ? " bad" : ""}" style="width:${w}px"></span>${x.lf_own == null ? ">100%" : pct(x.lf_own)}</td>
         <td class="v" ${x.contribution_month < 0 ? 'style="color:var(--warn)"' : ""}>${x.contribution_month >= 0 ? "+" : ""}${m0(x.contribution_month / 1000)}</td>
@@ -3488,22 +3503,70 @@ function tabNet(){
 function tabMarket(){
   const r = NET.res;
   if (!r) return `<p class="lede">${_t("Сначала посчитайте сеть.")}</p>`;
-  let h = `<p class="lede">${_t("Откуда взяты цена и поток по каждой паре и что можно задать своё. Цена — медиана дневных минимумов прямых рейсов по данным агрегатора, не средний чек. Поток для RU и KZ в открытых источниках не публикуется: задаётся вами и хранится в рабочем месте вместе с сетью.")}</p>`;
+  const est = r.pairs.filter(p => p.status === "ok" && (parFlow(p) || p.legs.some(parFare))).length;
+  let h = est ? `<div class="note"><b>${_t("Оценка, а не наблюдение:")}</b> ${est} ${_t("пар: цена или поток не измерены, а оценены — такие поля обведены оранжевым. Впишите свои числа, если знаете их.")}</div>` : "";
+  h += `<p class="lede">${_t("Откуда взяты цена и поток по каждой паре и что можно задать своё. Цена — медиана дневных минимумов прямых рейсов по данным агрегатора, не средний чек. Поток для RU и KZ в открытых источниках не публикуется: задаётся вами и хранится в рабочем месте вместе с сетью.")}</p>`;
   for (const p of r.pairs.filter(p => p.status === "ok")) {
     const key = `${p.a}-${p.b}`;
     const legs = p.legs.map(l => {
       const k = `${l.origin}-${l.destination}`;
-      return `<dt>${esc(k)}</dt><dd><span class="in"><input class="nfare" data-k="${esc(k)}" type="number" min="0" step="1" placeholder="${l.market_fare_eur != null ? m0(l.market_fare_eur) : "—"}" value="${NET.fares[k] ?? ""}"> ${CUR.code}</span>
+      const pf = parFare(l);
+      return `<dt>${esc(k)}</dt><dd><span class="in"><input class="nfare${pf ? " par" : ""}" data-k="${esc(k)}" type="number" min="0" step="1" placeholder="${l.market_fare_eur != null ? m0(l.market_fare_eur) : "—"}" value="${NET.fares[k] ?? ""}"> ${CUR.code}${pf ? hint(pf, "o") : ""}</span>
         <div class="src">${l.fare_eur != null ? `${NET.fares[k] ? _t("задано") : _t("рынок")}: ${m0(l.fare_eur)} ${CUR.code} · ${esc(l.market_fare_src)}` : esc(l.fare_src || l.market_fare_src)}${
         l.comp_week != null ? ` · ${_t("рейсов конкурентов")} ${f0(l.comp_week)}/${_t("нед")}` : ""}</div></dd>`;
     }).join("");
     h += `<div class="mkt"><div class="h"><span>${esc(key)}</span><span style="color:var(--faint);font-weight:400">${f0(p.dist_km)} ${_t("км")}</span></div>
       <dl class="kv">${legs}
-      <dt>${_t("поток, пасс./мес")}</dt><dd><input class="nmkt" data-k="${esc(key)}" type="number" min="0" step="100" placeholder="${p.market_pub_pax != null ? f0(p.market_pub_pax) : p.market_est_pax != null ? f0(p.market_est_pax) : "—"}" value="${NET.market[key] ?? ""}">
-        <div class="src">${esc(p.market_src || "")}</div></dd></dl></div>`;
+      <dt>${_t("поток, пасс./мес")}</dt><dd><span class="in"><input class="nmkt${parFlow(p) ? " par" : ""}" data-k="${esc(key)}" type="number" min="0" step="100" placeholder="${p.market_pub_pax != null ? f0(p.market_pub_pax) : p.market_est_pax != null ? f0(p.market_est_pax) : p.market_model_pax != null ? "≈" + f0(p.market_model_pax) : "—"}" value="${NET.market[key] ?? ""}">${parFlow(p) ? hint(parFlow(p), "o") : ""}</span>
+        <div class="src">${esc(p.market_src || "")}</div>${
+        !NET.market[key] && p.market_pax_month === p.market_model_pax && p.market_model_calc && p.market_model_calc.ln != null
+          ? flowCalc(p.market_model_calc) : ""}</dd></dl></div>`;
   }
   h += `<h3>${_t("S-кривая «доля частот → доля пассажиров»")}</h3><p class="lede">${_t("Отраслевое правило, не измерение: при показателе 1 — пропорция частотам, выше — перевес у того, кто летает чаще. Конкуренты сложены в одного. Где рейсов конкурентов нет, колонки «частоты» и «S» пусты, а не нули.")}</p>`;
   return h;
+}
+
+// Параметрика на виду: цена по формуле и поток по модели или по наблюдённым
+// рейсам — не измерения. Поле обводится оранжевым, рядом — оранжевое ⓘ с
+// объяснением; без этого оценка выглядит так же, как рыночная цена, а
+// оговорка в отчёте до человека может и не дойти. Пустая строка — измерено.
+function parFare(l){
+  if (NET.fares[`${l.origin}-${l.destination}`]) return "";
+  if (l.fare_kind === "formula") return `${_t("Цен по этой паре не наблюдали — это оценка по формуле региона из наших же наблюдений. Ошибка указана в подписи; впишите свою цену, если знаете её.")}<br><br>${esc(l.fare_src || "")}`;
+  if (l.fare_kind === "none") return _t("Цены нет ни по наблюдениям, ни по формуле — впишите свою.");
+  return "";
+}
+function parFlow(p){
+  if (NET.market[`${p.a}-${p.b}`]) return "";
+  if (p.market_kind === "model") return `${_t("Поток по паре не опубликован и рейсов не наблюдали — это оценка по модели размера аэропортов. Насколько она ошибается — в подписи под полем; впишите свой поток, если знаете его.")}<br><br>${esc(p.market_src || "")}`;
+  if (p.market_kind === "adsb") return `${_t("Поток по паре не опубликован — это оценка по наблюдённым рейсам конкурентов, типовым креслам и средней загрузке, а не перевезённые пассажиры.")}<br><br>${esc(p.market_src || "")}`;
+  if (p.market_kind === "none") return _t("Потока нет ни в статистике, ни в наблюдениях, модель не посчиталась — впишите своё число.");
+  return "";
+}
+
+// Поток по модели — по шагам (решение 218): каждое слагаемое числом, чтобы
+// оценку можно было проверить руками. Формула — в traffic_model.py.
+function flowCalc(c){
+  const s = v => (v < 0 ? "− " : "+ ") + f2(Math.abs(v));
+  const mass = e => e.how === "stat"
+    ? `${f0(e.mass)} ${_t("пасс./мес — его поток по статистике")}`
+    : `${f0(e.pop)} ${_t("жителей в 150 км")} × ${f2(e.ratio)} = ${f0(e.mass)} ${_t("пасс./мес (жители переведены в пассажиров по соотношению региона)")}`;
+  const mu = c.mu
+    ? `<tr><td>${_t("поправки аэропортов: насколько их пары в среднем больше или меньше формулы")} (${c.mu.na} ${_t("и")} ${c.mu.nb} ${_t("пар")})</td>
+        <td class="v">${s(c.mu.a)} ${s(c.mu.b)}</td></tr>` : "";
+  return `<details class="calc"><summary>${_t("как посчитано")}</summary>
+    <div class="f">${_t("поток")} = e<sup>${_t("уровень")}</sup> × (M<sub>A</sub> × M<sub>B</sub>)<sup>α</sup> × ${_t("расстояние")}<sup>β₁ + β₂·ln</sup>${c.mu ? " × e<sup>μ<sub>A</sub>+μ<sub>B</sub></sup>" : ""}</div>
+    <table>
+      <tr><td>M<sub>A</sub> — ${esc(c.ends[0].code)}</td><td class="vw">${mass(c.ends[0])}</td></tr>
+      <tr><td>M<sub>B</sub> — ${esc(c.ends[1].code)}</td><td class="vw">${mass(c.ends[1])}</td></tr>
+      <tr><td>${_t("уровень региона")} (${esc(c.region)})</td><td class="v">${s(c.c).replace(/^\+ /, "")} ${s(c.shift)}</td></tr>
+      <tr><td>${_t("размер")}: α × ln(M<sub>A</sub> × M<sub>B</sub>) = ${f2(c.alpha)} × ${f2(c.mass_term / c.alpha)}</td><td class="v">${s(c.mass_term)}</td></tr>
+      <tr><td>${_t("расстояние")} ${f0(c.km)} ${_t("км")}: β₁·ln(d/1000) + β₂·ln²(d/1000) = ${f2(c.b1)} × ${f2(c.ld)} ${s(c.b2)} × ${f2(c.ld * c.ld)}</td><td class="v">${s(c.dist_term)}</td></tr>
+      ${mu}
+      <tr class="tot"><td>${_t("сумма логарифмов")} → e<sup>${f2(c.ln)}</sup></td><td class="v">≈ ${f0(c.pax)} ${_t("пасс./мес")}</td></tr>
+    </table>
+    <div class="src">${_t("Коэффициенты подогнаны по")} ${f0(c.n)} ${_t("парам с опубликованным потоком. На отложенных парах модель ошибается обычно в")} ${f2(c.err)} ${_t("раза: у половины проверочных пар оценка попадает в пределы от факта, делённого на это число, до факта, умноженного на него.")}</div>
+  </details>`;
 }
 
 function tabNetWarn(){

@@ -593,7 +593,15 @@ def unrealised_nodes(results) -> list[str]:
             for i in dead]
 
 
-def to_html(registry: dict | None = None) -> str:
+def to_html(registry: dict | None = None, web: bool = False) -> str:
+    """Карта данных одной страницей.
+
+    `web=True` — вариант для сайта (/map): меню, форма маршрута и наложение
+    живого расчёта. С маршрутом в адресе (`?origin=FRA&destination=BCN&ac=A320`)
+    у каждого узла видно значение на этом маршруте, а в панели — шаги, их
+    источники и адреса записей. Без маршрута — просто переменные, как у
+    `fca map`. Сеть откроет ту же разбивку для пары позже.
+    """
     nodes = [dict(x) for x in N]
     for nd in nodes:
         nd["outputs"] = [
@@ -608,7 +616,11 @@ def to_html(registry: dict | None = None) -> str:
         f'<span class="lg"><i style="background:{c}"></i>{html.escape(l)}</span>'
         for l, c in ROLE.values())
 
-    return (_TPL.replace("__UI__", style_tag(inline_fonts=True))
+    ui = ('<link rel="stylesheet" href="/ui.css">' if web
+          else style_tag(inline_fonts=True))
+    return (_TPL.replace("__UI__", ui)
+                .replace("__NAV__", _WEB_NAV if web else "")
+                .replace("__WEB__", _WEB_JS if web else "")
                 .replace("__DATA__", json.dumps(nodes, ensure_ascii=False))
                 .replace("__LAYERS__", json.dumps(LAYERS, ensure_ascii=False))
                 .replace("__LEGEND__", legend)
@@ -628,10 +640,22 @@ h1{margin:0 0 4px;font:600 20px/1.2 var(--sans);color:var(--ink2)}
 .lg{display:flex;align-items:center;gap:6px}
 .lg i{width:9px;height:9px;border-radius:2px;display:block}
 main{display:flex;align-items:flex-start}
-#board{flex:1;overflow-x:auto;padding:22px 26px 60px;position:relative}
+#wrap{flex:1;min-width:0}
+#board{overflow-x:auto;padding:22px 26px 60px;position:relative}
+/* Прокрутка вбок — полосой сверху, прилипшей к краю окна: родная полоса
+   стоит внизу доски, под всеми узлами, и её не видно. */
+#hbar{position:sticky;top:0;z-index:3;overflow-x:auto;overflow-y:hidden;height:14px;
+ background:var(--bg);border-bottom:1px solid var(--line2)}
+#hbar>div{height:1px}
+/* Своя полоса видна всегда: системная на macOS прячется до прокрутки. */
+#hbar,#board{scrollbar-color:var(--faint) transparent}
+#hbar::-webkit-scrollbar{height:10px}
+#hbar::-webkit-scrollbar-thumb{background:var(--faint);border-radius:5px}
+#hbar::-webkit-scrollbar-thumb:hover{background:var(--dim)}
+#hbar[hidden]{display:none}
 #svg{position:absolute;inset:0;pointer-events:none;z-index:0}
-.cols{display:flex;gap:34px;position:relative;z-index:1;min-width:max-content}
-.col{width:186px;flex:none}
+.cols{display:flex;gap:24px;position:relative;z-index:1;min-width:max-content}
+.col{width:164px;flex:none}
 .colh{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
  color:var(--dim);font-weight:600;margin-bottom:11px;height:26px}
 .node{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--c);
@@ -642,7 +666,7 @@ main{display:flex;align-items:flex-start}
 .node.dim{opacity:.22}
 .node .t{font-weight:600;color:var(--ink2);font-size:13.5px;line-height:1.3}
 .node .u{font:11px var(--mono);color:var(--dim);margin-top:3px}
-aside{width:398px;flex:none;border-left:1px solid var(--line);padding:22px 24px 60px;
+aside{width:350px;flex:none;border-left:1px solid var(--line);padding:22px 24px 60px;
  position:sticky;top:0;max-height:100vh;overflow-y:auto}
 aside h2{margin:0 0 3px;font-size:19px;color:var(--ink2)}
 .role{display:inline-block;font-size:10px;letter-spacing:.09em;
@@ -665,23 +689,44 @@ td.u{width:28%;font:11.5px var(--mono);color:var(--dim);text-align:right;
 .fnote{color:var(--dim);font-size:11.5px;display:block;margin-top:2px;line-height:1.45}
 .note{border:0;background:none;padding:0;border-radius:0;color:var(--dim);font-size:13px;line-height:1.6}
 .empty{color:var(--faint);font-size:12.5px;font-style:italic}
-.hint{color:var(--dim);font-size:12.5px;line-height:1.6;margin-top:8px}
+.foot{color:var(--dim);font-size:12.5px;line-height:1.6;margin-top:8px}
+.node .v{font:600 12px var(--mono);color:var(--ink2);margin-top:5px}
+.node .v small{font-weight:400;color:var(--dim)}
+.node.cold{opacity:.4}
+.node.hit{box-shadow:inset 0 0 0 1px var(--c)}
+nav.site{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-size:13px}
+nav.site a{color:var(--dim);text-decoration:none}
+nav.site a.on,nav.site a:hover{color:var(--ink2)}
+form.rt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
+form.rt input{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:5px;
+ padding:6px 9px;font:13px var(--sans);width:110px}
+form.rt button{background:var(--raise);color:var(--ink2);border:1px solid var(--line);border-radius:5px;
+ padding:6px 12px;cursor:pointer;font:13px var(--sans)}
+#rmsg{color:var(--dim);font-size:12.5px}
+.step{border-bottom:1px solid var(--line2);padding:7px 0;font-size:12.5px}
+.step .sv{float:right;font:600 12.5px var(--mono);color:var(--ink2)}
+.step .ss{font:11.5px/1.5 var(--mono);color:var(--dim);display:block;margin-top:2px;word-break:break-word}
+.step .pv{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+.step a{color:var(--ink);font-size:11.5px}
 @media(max-width:900px){main{flex-direction:column}aside{width:100%;
  border-left:0;border-top:1px solid var(--line);position:static;max-height:none}}
 </style></head><body>
 <header>
-<h1>FlightCostApp · карта данных</h1>
+__NAV__<h1>FlightCostApp · карта данных</h1>
 <div class="sub">Каждый узел — величина в расчёте. Клик показывает формулу,
 собственные поля, а также что именно узел получает от каждого входа и что
 отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.</div>
 <div class="legend">__LEGEND__</div>
 </header>
 <main>
-<div id="board"><svg id="svg"></svg><div class="cols" id="cols"></div></div>
+<div id="wrap"><div id="hbar" hidden><div></div></div>
+<div id="board"><svg id="svg"></svg><div class="cols" id="cols"></div></div></div>
 <aside id="panel"></aside>
 </main>
 <script>
 const NODES = __DATA__, LAYERS = __LAYERS__;
+// Наложение маршрута (только на сайте): шаги расчёта по узлам.
+let routeNode = () => '', routeIntro = () => '';
 const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
 const cols = document.getElementById('cols'), svg = document.getElementById('svg');
 
@@ -756,13 +801,14 @@ function panel(n, u, d) {
     '<h2>' + n.label + '</h2>'
     + '<span class="role" style="background:' + n.color + '22;color:' + n.color
       + '">' + n.roleLabel + ' · ' + n.unit + '</span>'
+    + routeNode(n)
     + (n.formula ? '<div class="sec">Формула</div><div class="f">' + n.formula + '</div>' : '')
     + fields(n.fields)
     + '<div class="sec">Получает</div>' + rows(n.inputs)
     + '<div class="sec">Отдаёт «' + n.emits + '» в</div>' + rows(n.outputs)
     + (n.note ? '<div class="sec">Что важно знать</div><div class="note">' + n.note + '</div>' : '')
     + '<div class="sec">Во фронте</div><div class="note">' + n.ui + '</div>'
-    + '<div class="hint">' + u.size + ' узлов выше по потоку, ' + d.size + ' ниже.</div>';
+    + '<div class="foot">' + u.size + ' узлов выше по потоку, ' + d.size + ' ниже.</div>';
 }
 
 document.getElementById('board').onclick = () => {
@@ -771,7 +817,7 @@ document.getElementById('board').onclick = () => {
   drawEdges(null); intro();
 };
 function intro() {
-  document.getElementById('panel').innerHTML =
+  document.getElementById('panel').innerHTML = routeIntro() +
     '<h2>Как читать</h2>'
     + '<div class="note">Поток слева направо: внешний источник → справочник '
     + '→ промежуточная величина → статья затрат → итог. Ребро несёт '
@@ -785,8 +831,119 @@ function intro() {
     + '<div class="note">Синие узлы становятся полями ввода, фиолетовые — '
     + 'выбором типа ВС, зелёные — таблицами только для чтения, серые — '
     + 'выводом. Список собственных полей узла — это и есть схема формы.</div>'
-    + '<div class="hint">Сгенерировано __DATE__ командой <code>fca map</code>.</div>';
+    + '<div class="foot">Сгенерировано __DATE__ командой <code>fca map</code>.</div>';
 }
+__WEB__
+// Верхняя полоса прокрутки ходит вместе с доской.
+const board = document.getElementById('board'), hbar = document.getElementById('hbar');
+function syncBar() {
+  hbar.firstElementChild.style.width = board.scrollWidth + 'px';
+  hbar.hidden = board.scrollWidth <= board.clientWidth + 1;
+}
+hbar.onscroll = () => { if (board.scrollLeft !== hbar.scrollLeft) board.scrollLeft = hbar.scrollLeft; };
+board.onscroll = () => { if (hbar.scrollLeft !== board.scrollLeft) hbar.scrollLeft = board.scrollLeft; };
+window.addEventListener('resize', syncBar);
+setTimeout(syncBar, 80);
 window.addEventListener('resize', () => drawEdges(null));
 setTimeout(() => { drawEdges(null); intro(); }, 60);
 </script></body></html>"""
+
+
+# Меню и форма маршрута для /map. Фразы — в _t("…"), чтобы их видел
+# каталог переводов (tests/test_i18n.py читает и этот файл). Узлы карты
+# пока по-русски: это словарь модели, переводится отдельным шагом.
+_WEB_NAV = """<nav class="site"><b>FlightCost</b><a href="/" id="nav-calc">Расчёт</a>
+<a href="/map" class="on" id="nav-map">Карта данных</a><a href="/data" id="nav-data">Данные</a></nav>
+<form class="rt" id="rt"><input id="fo" placeholder="FRA"> <span>→</span> <input id="fd" placeholder="BCN">
+<input id="fac" placeholder="A320"> <button type="submit" id="fgo">Показать на маршруте</button>
+<span id="rmsg"></span></form>
+"""
+
+_WEB_JS = r"""
+const I18N = /*I18N*/{}/*/I18N*/;
+const LANG = (() => {
+  const L = ["ru", "en", "de"], q = new URLSearchParams(location.search).get("lang");
+  if (L.includes(q)) return q;
+  let s = null; try { s = localStorage.getItem("fca.lang"); } catch (e) {}
+  if (L.includes(s)) return s;
+  for (const l of (navigator.languages || [navigator.language || ""]))
+    if (L.includes(String(l).slice(0, 2).toLowerCase())) return String(l).slice(0, 2).toLowerCase();
+  return "en";
+})();
+function _t(s) {
+  if (LANG === "ru") return s;
+  const v = (I18N[LANG] || {})[String(s).replace(/\s+/g, " ").trim()];
+  return v == null ? s : v;
+}
+const LOC = {ru: "ru-RU", en: "en-GB", de: "de-DE"}[LANG];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const fmt = v => v == null || isNaN(v) ? "—" : Math.abs(v) >= 100
+  ? Math.round(v).toLocaleString(LOC) : Number(v).toLocaleString(LOC, {maximumSignificantDigits: 3});
+const PV = {store: "var(--doc)", source: "var(--src)", input: "var(--user)", override: "var(--override)",
+            derived: "var(--calc)", default: "var(--guess)", fleet: "var(--guess)", estimated: "var(--guess)"};
+const PROV = {store: _t("справочник"), input: _t("задано"), override: _t("задано вручную"),
+              derived: _t("вычислено"), default: _t("оценка без источника"), fleet: _t("параметр флота")};
+document.getElementById("nav-calc").textContent = _t("Расчёт");
+document.getElementById("nav-map").textContent = _t("Карта данных");
+document.getElementById("nav-data").textContent = _t("Данные");
+document.getElementById("fgo").textContent = _t("Показать на маршруте");
+const P = new URLSearchParams(location.search);
+const F = {o: document.getElementById("fo"), d: document.getElementById("fd"), ac: document.getElementById("fac")};
+F.o.value = P.get("origin") || ""; F.d.value = P.get("destination") || ""; F.ac.value = P.get("ac") || "";
+document.getElementById("rt").onsubmit = ev => {
+  ev.preventDefault();
+  const q = new URLSearchParams({origin: F.o.value.trim() || "FRA", destination: F.d.value.trim() || "BCN"});
+  if (F.ac.value.trim()) q.set("ac", F.ac.value.trim());
+  if (P.get("lang")) q.set("lang", P.get("lang"));
+  location.search = q.toString();
+};
+const msg = t => document.getElementById("rmsg").textContent = t;
+// Адрес записи `домен/ключ` → страница данных на этой записи.
+const factLink = ref => {
+  if (!ref) return "";
+  const i = ref.indexOf("/"), dom = ref.slice(0, i), key = ref.slice(i + 1);
+  return `<a href="/data?domain=${encodeURIComponent(dom)}&key=${encodeURIComponent(key)}" target="_blank">${esc(ref)}</a>`;
+};
+const stepHtml = s => `<div class="step"><span class="sv">${fmt(s.value)} <small>${esc(s.unit || "")}</small></span>
+  <i class="pv" style="background:${PV[s.prov] || "var(--guess)"}"></i>${esc(s.label)}
+  ${s.subst ? `<span class="ss">${esc(s.formula ? s.formula + " = " : "")}${esc(s.subst)}</span>` : ""}
+  <span class="ss">${esc(PROV[s.prov] || s.prov || "")}${s.src ? " · " + esc(s.src) : ""}${s.ref ? " · " + factLink(s.ref) : ""}</span></div>`;
+
+if (P.get("origin") && P.get("destination")) {
+  msg(_t("считаю маршрут…"));
+  const q = new URLSearchParams(P); q.delete("lang");
+  fetch("/api/route?" + q).then(r => r.json()).then(r => {
+    if (r.error || !r.trace) { msg(_t("не посчиталось") + ": " + (r.error || "")); return; }
+    const by = {};
+    r.trace.forEach(s => { if (s.node) (by[s.node] = by[s.node] || []).push(s); });
+    const title = `${P.get("origin").toUpperCase()} → ${P.get("destination").toUpperCase()}${P.get("ac") ? " · " + P.get("ac") : ""}`;
+    msg(`${_t("на карте маршрут")} ${title}: ${r.trace.length} ${_t("шагов расчёта")}`);
+    // Узлы маршрута — со значением; их входы (источники, справочники,
+    // ввод) — без затемнения; остальное — бледнее: на этом маршруте не участвует.
+    const feed = new Set();
+    Object.keys(by).forEach(id => { if (byId[id]) up(id).forEach(x => feed.add(x)); });
+    NODES.forEach(n => {
+      const el = document.getElementById("n_" + n.id), st = by[n.id];
+      if (st) {
+        const last = st[st.length - 1];
+        el.classList.add("hit");
+        el.insertAdjacentHTML("beforeend", `<div class="v">${fmt(last.value)} <small>${esc(last.unit || "")}${st.length > 1 ? " · " + st.length + " " + _t("шагов") : ""}</small></div>`);
+      } else if (!feed.has(n.id)) el.classList.add("cold");
+    });
+    routeNode = n => {
+      const st = by[n.id];
+      if (!st) return feed.has(n.id)
+        ? `<div class="sec">${_t("На маршруте")} ${esc(title)}</div><div class="note">${_t("Питает расчёт через узлы ниже по потоку; своего шага у узла нет.")}</div>`
+        : `<div class="sec">${_t("На маршруте")} ${esc(title)}</div><div class="note">${_t("На этом маршруте не участвует.")}</div>`;
+      return `<div class="sec">${_t("На маршруте")} ${esc(title)}</div>` + st.map(stepHtml).join("");
+    };
+    routeIntro = () => {
+      const facts = r.trace.filter(s => s.ref || s.src || s.prov === "default" || s.prov === "input" || s.prov === "override");
+      return `<h2>${esc(title)}</h2><div class="note">${_t("Откуда какое значение: шаги, которые стоят на записи справочника, на вводе или на оценке без источника. Клик по узлу — его шаги; адрес записи открывает её на странице данных.")}</div>`
+        + `<div class="sec">${_t("Значения из данных")} · ${facts.length}</div>` + facts.map(stepHtml).join("")
+        + `<div class="sec" style="margin-top:28px"></div>`;
+    };
+    intro();
+  }).catch(e => msg(_t("не посчиталось") + ": " + e));
+}
+"""

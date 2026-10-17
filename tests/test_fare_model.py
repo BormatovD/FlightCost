@@ -11,7 +11,7 @@ from flightcostapp import fare_model as FM   # noqa: E402
 from flightcostapp.store import Fact, Store  # noqa: E402
 
 # Европейские аэропорты с координатами — сетка, на которой «рынок» платит
-# 40 EUR + 8 EUR за 100 км; одна пара — прямая с пересадкой, она не в счёт.
+# 12 · км^0,6 EUR; одна пара — прямая с пересадкой, она не в счёт.
 EU = {"EDDF": (50.03, 8.54), "LEBL": (41.30, 2.08), "LIRF": (41.80, 12.24),
       "LPPT": (38.78, -9.14), "LEMD": (40.47, -3.56), "EGLL": (51.47, -0.45),
       "EHAM": (52.31, 4.76), "LFPG": (49.01, 2.55), "LOWW": (48.11, 16.57),
@@ -30,7 +30,7 @@ def store_with(n_pairs: int) -> Store:
         km = FM._km(EU[a], EU[b])
         noise = 1 + (0.06 if i % 2 else -0.06)
         facts.append(Fact(domain="market_fare", key=f"{a}-{b}/d15_30/direct",
-                          valid_from="2026-10-01", value=(40 + 0.08 * km) * noise,
+                          valid_from="2026-10-01", value=12 * km ** 0.6 * noise,
                           unit="EUR", currency="EUR", source_id="t", extracted_by="t"))
         facts.append(Fact(domain="market_fare", key=f"{a}-{b}/d15_30/via",
                           valid_from="2026-10-01", value=9999.0, unit="EUR", currency="EUR",
@@ -50,11 +50,10 @@ class FareModel(unittest.TestCase):
     def test_line_recovered_from_direct_fares_only(self):
         s = store_with(40)
         m = FM.fit(s)["europe"]
-        self.assertAlmostEqual(m["b"] * 100, 8.0, delta=0.8)       # EUR на 100 км
-        self.assertAlmostEqual(m["a"], 40, delta=12)
+        self.assertAlmostEqual(m["beta"], 0.6, delta=0.08)
         self.assertLess(m["mdape"], 0.10)
         fare, src = FM.estimate(s, "EDDF", "LGAV", 1800.0)
-        self.assertAlmostEqual(fare, 40 + 0.08 * 1800, delta=25)
+        self.assertAlmostEqual(fare, 12 * 1800 ** 0.6, delta=0.1 * 12 * 1800 ** 0.6)
         self.assertIn("оценка по формуле", src)
         self.assertIn("Европа", src)
 

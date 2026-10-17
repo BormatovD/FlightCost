@@ -1,6 +1,9 @@
 """Цена по формуле там, где наблюдений нет (решение 212).
 
-ЧТО ЭТО. Нижний ярус цены пары: прямая «постоянная часть + ставка × км»,
+ЧТО ЭТО. Нижний ярус цены пары: степенная зависимость цена = A · км^β
+(прямая в логарифмах; первая версия была прямой «база + ставка × км» и в
+Европе давала отрицательный наклон — лоукостеры делают цену почти
+плоской по расстоянию, а ошибку меряют в процентах, не в евро),
 подогнанная по НАШИМ ЖЕ наблюдениям — медианам дневных минимумов
 (`market_fare`, прямые, главная полоса по правилу сети, решение 209).
 Отдельно по регионам: километр в Европе, в России и в Индии стоит по-разному.
@@ -77,6 +80,13 @@ def _coords(store) -> dict:
     return out
 
 
+def _ols_log(pts):
+    """ln цена = ln A + β · ln км: возвращает (A, β)."""
+    lp = [(math.log(x), math.log(y)) for x, y in pts if x > 0 and y > 0]
+    a, b = _ols(lp)
+    return math.exp(a), b
+
+
 def _ols(pts):
     n = len(pts)
     mx = sum(x for x, _ in pts) / n
@@ -88,8 +98,13 @@ def _ols(pts):
     return my - b * mx, b
 
 
-def _mdape(pts, a, b) -> float:
-    errs = sorted(abs(max(FLOOR_EUR, a + b * x) - y) / y for x, y in pts if y > 0)
+def predict(m: dict, km: float) -> float:
+    return max(FLOOR_EUR, m["A"] * km ** m["beta"])
+
+
+def _mdape(pts, A, beta) -> float:
+    m = {"A": A, "beta": beta}
+    errs = sorted(abs(predict(m, x) - y) / y for x, y in pts if y > 0)
     return errs[len(errs) // 2] if errs else float("nan")
 
 
@@ -131,10 +146,10 @@ def fit(store, as_of=None) -> dict:
     for g, pts in groups.items():
         if len(pts) < MIN_PAIRS:
             continue
-        a, b = _ols(pts)
-        if b <= 0:                                       # цена, падающая с расстоянием, — не модель
-            continue
-        model[g] = {"a": a, "b": b, "n": len(pts), "mdape": _mdape(pts, a, b)}
+        A, beta = _ols_log(pts)
+        beta = max(0.0, beta)                            # цена, падающая с расстоянием, — не модель
+        model[g] = {"A": A, "beta": beta, "n": len(pts), "mdape": _mdape(pts, A, beta),
+                    "at1000": predict({"A": A, "beta": beta}, 1000.0)}
     if len(_CACHE) > 8:
         _CACHE.clear()
     _CACHE[key] = model
@@ -151,7 +166,8 @@ def estimate(store, o_icao: str, d_icao: str, dist_km: float, as_of=None):
     if not m:
         return None, "формулы цены нет"
     used = g if g in model else "all"
-    fare = max(FLOOR_EUR, m["a"] + m["b"] * dist_km)
-    return fare, (f"оценка по формуле ({REGION_RU.get(used, used)}): {m['a']:.0f} + "
-                  f"{m['b'] * 100:.1f} EUR на 100 км, по {m['n']} парам с ценой, "
+    fare = predict(m, dist_km)
+    b = f"{m['beta']:.2f}".replace(".", ",")
+    return fare, (f"оценка по формуле ({REGION_RU.get(used, used)}): {m['at1000']:.0f} EUR за "
+                  f"1000 км, цена растёт как км^{b}; по {m['n']} парам с ценой, "
                   f"типичная ошибка ±{m['mdape'] * 100:.0f}%")

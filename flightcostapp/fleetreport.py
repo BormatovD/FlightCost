@@ -450,6 +450,10 @@ def _notes(ok: list, a: dict, partial: list, fare_est: list | None = None) -> li
                   if (p["market_src"] or "").startswith("оценка")})
     if est:
         out.append({"code": "market_estimated", "pairs": est})
+    mod = sorted({p["key"] for r in ok for p in r["plan"]["pairs"]
+                  if (p["market_src"] or "").startswith("модель")})
+    if mod:
+        out.append({"code": "market_model", "pairs": mod})
     if any(not r["parts_ok"] for r in ok):
         out.append({"code": "no_parts", "types": [r["icao"] for r in ok if not r["parts_ok"]]})
     if any(r["plan"]["share"] >= a["share_cap"] - 1e-9 for r in ok):

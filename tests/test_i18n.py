@@ -32,7 +32,10 @@ class I18n(unittest.TestCase):
     # Страницы с переводом из одного каталога. Отчёт по парку (Ф5)
     # собирается на сервере: его фразы — вызовы T("…") в Python и
     # проверяются отдельно (DOC_T), но сиротами в каталоге не считаются.
-    PAGES = ("serve.html",)
+    PAGES = ("serve.html", "data.html")
+    # Карта данных (/map) собирается из graph.py: фразы её меню и наложения
+    # маршрута — вызовы _t("…") в строке шаблона.
+    MAP = WEB.parent / "graph.py"
     DOC = WEB.parent / "fleetreport_doc.py"
     DOC_T = re.compile(r'(?<![\w$.])T\("((?:[^"\\]|\\.)*)"\)')
 
@@ -47,6 +50,8 @@ class I18n(unittest.TestCase):
             script.append(html[a:html.rindex("</script>")])
         cls.markups, cls.scripts = markup, script
         cls.script = "\n".join(script)
+        cls.map_keys = {norm(json.loads('"' + k + '"'))
+                        for k in T_CALL.findall(cls.MAP.read_text(encoding="utf-8"))}
         cls.doc_keys = {norm(k) for k in cls.DOC_T.findall(cls.DOC.read_text(encoding="utf-8"))}
 
     def test_report_phrases_are_translated(self):
@@ -55,7 +60,7 @@ class I18n(unittest.TestCase):
             self.assertEqual(missing, [], f"отчёт по парку без перевода на {lang}: {missing[:10]}")
 
     def test_every_wrapped_phrase_is_translated(self):
-        keys = {norm(json.loads('"' + k + '"')) for k in T_CALL.findall(self.script)}
+        keys = {norm(json.loads('"' + k + '"')) for k in T_CALL.findall(self.script)} | self.map_keys
         for lang in ("en", "de"):
             missing = sorted(k for k in keys if k not in self.cat[lang])
             self.assertEqual(missing, [], f"нет перевода на {lang}: {missing[:10]}")
@@ -108,7 +113,7 @@ class I18n(unittest.TestCase):
             t = re.search(r"<title>([^<]+)</title>", markup)
             if t:
                 keys.add(norm(t.group(1)))
-        keys |= self.doc_keys
+        keys |= self.doc_keys | self.map_keys
         orphans = sorted(set(self.cat["en"]) - keys)
         self.assertEqual(orphans, [], f"в каталоге фразы, которых нет на странице: {orphans[:10]}")
 
