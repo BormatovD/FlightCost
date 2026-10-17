@@ -242,13 +242,21 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
         if not analog:
             raise ValueError(f"{icao}: в burn нет analog — без аналога ярус 4 не строится")
         anchor = burn.get("anchor_kg_per_h")
+        trip = {k: burn.get(f"anchor_trip_{k}") for k in ("kg", "nm", "pax")}
+        if any(v is not None for v in trip.values()):
+            # Якорь рейсом (решение 224): все три числа или ни одного.
+            if any(v is None for v in trip.values()):
+                raise ValueError(f"{icao}: якорь рейсом — нужны anchor_trip_kg, anchor_trip_nm "
+                                 f"и anchor_trip_pax вместе")
+            if not burn.get("anchor_source"):
+                raise ValueError(f"{icao}: якорь без anchor_source не заводится")
         # Якорь без издателя — то же, что число с форума (решение 108).
         if anchor is not None and not burn.get("anchor_source"):
             raise ValueError(f"{icao}: якорь без anchor_source не заводится")
         # Вариант с тем же двигателем (свой A320): якорь не нужен,
         # вычислитель аналога и есть вычислитель типа. Флаг явный.
         same = bool(burn.get("same_engine"))
-        if same and anchor is not None:
+        if same and (anchor is not None or trip.get("kg") is not None):
             raise ValueError(f"{icao}: same_engine и якорь одновременно — выбрать одно")
         bnote = (f"{burn.get('note') or ''} | якорь: {burn.get('anchor_source') or 'не назван'}"
                  f" | аналог назван человеком по поколению двигателя, не выведен")
@@ -258,6 +266,10 @@ def _one(d: dict, ctx: dict) -> list[Fact]:
         if same:
             facts.append(Fact(key=f"{key_ac}/burn_same_engine", value=1.0,
                               unit="да/нет", **b))
+        for k, unit in (("kg", "кг"), ("nm", "nm"), ("pax", "пасс.")):
+            if trip.get(k) is not None:
+                facts.append(Fact(key=f"{key_ac}/burn_anchor_trip_{k}", value=float(trip[k]),
+                                  unit=unit, **b))
         if anchor is not None:
             facts.append(Fact(key=f"{key_ac}/burn_anchor_kg_per_h", value=float(anchor),
                               unit="кг/ч", **b))

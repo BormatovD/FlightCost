@@ -23,7 +23,13 @@
  "engine_mount": "wing",
  "burn": {
   "analog": "E190",
-  "note": "Тот же фюзеляж E190, новое крыло и GTF (Embraer: −17% топлива на рейс vs E190-E1) — модель E190 завышает расход."
+  "note": "Тот же фюзеляж E190, новое крыло и GTF (Embraer: −17% топлива на рейс vs E190-E1) — модель E190 завышает расход.",
+  "anchor_kg_per_h": 1467,
+  "anchor_mass_t": 44.4,
+  "anchor_trip_kg": 3349,
+  "anchor_trip_nm": 863,
+  "anchor_trip_pax": 85,
+  "anchor_source": "Aircraft Commerce, Issue 142 (Jun/Jul 2022), 'A220-100/-300 fuel burn & operating performance', pp.11-16, tables 'Block fuel performance of ...' (ORD hub, nine sectors 200-862 nm), 2022-06: «ORD-MCO | E190-E2 (PW1919G) | ESAD 863 nm | flight time 137 min | trip fuel 1,102 USG» — рейс ORD–MCO; множитель считается по рейсу целиком (решение 224), кг/ч — средний за лётное время, для справки; галлоны × 3,039 кг. https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf"
  },
  "certainty": "exact",
  "meta": {
@@ -50,7 +56,8 @@
    "cruise_mach": "типовая LRC; макс. крейсерская M0.82 по https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
    "cruise_alt_m": "типовой эшелон FL350; потолок 41 000 ft по https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
    "takeoff_m": "https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
-   "landing_m": "https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf"
+   "landing_m": "https://www.embraer.com/media/e5whgknk/e190-e2_spec.pdf",
+   "burn_anchor": "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf"
   },
   "gaps": [
    "fuselage_width_m, sweep_deg — в APM-выдержке не найдены"

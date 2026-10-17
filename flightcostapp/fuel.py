@@ -274,6 +274,15 @@ class BurnRef:
     # вычислитель аналога и есть вычислитель этого типа, якорь не нужен.
     # Требование якоря — про ДРУГОЙ тип с тем же поколением двигателя.
     same_engine: bool = False
+    # Якорь РЕЙСОМ (решение 224): опубликованное рейсовое топливо на
+    # названном секторе с названной загрузкой. Точнее часового: средний
+    # расход за лётное время включает набор и снижение, и сравнивать его с
+    # крейсерским расходом аналога значило бы завысить множитель на
+    # 10–20 %. Рейс аналога считается тем же профилем на нашем планере —
+    # сравниваются одинаковые вещи.
+    anchor_trip_kg: float | None = None
+    anchor_trip_nm: float | None = None
+    anchor_trip_pax: float | None = None
 
 
 @dataclass
@@ -519,6 +528,17 @@ def trip_fuel(icao: str, dist_nm: float, pax: float,
 
 def _anchor_scale(ref: "BurnRef", frame: "Airframe") -> tuple[float, str]:
     """Множитель к расходу аналога по якорю; 1,0 и пометка, если якоря нет."""
+    if ref.anchor_trip_kg and ref.anchor_trip_nm and ref.anchor_trip_pax is not None:
+        # Два шага неподвижной точки: множитель меняет топливо, топливо —
+        # взлётную массу, масса — расход. Второй шаг поправляет на доли
+        # процента; дальше не нужно.
+        k = 1.0
+        for _ in range(2):
+            model = _openap_profile("anchor", ref.anchor_trip_nm, ref.anchor_trip_pax,
+                                    frame=frame, flow_of=ref.analog, scale=k).trip_kg
+            k = k * ref.anchor_trip_kg / model if model else k
+        return k, (f"якорь рейсом {ref.anchor_trip_kg:,.0f} кг на {ref.anchor_trip_nm:,.0f} nm "
+                   f"с {ref.anchor_trip_pax:.0f} пасс., аналог на нашем планере — множитель {k:.3f}")
     if ref.anchor_kg_per_h is None:
         if ref.same_engine:
             return 1.0, "вариант с тем же двигателем — множитель 1,0"
