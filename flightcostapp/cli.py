@@ -499,6 +499,11 @@ def main(argv=None) -> int:
     fl.add_argument("--pair", default=None, metavar="A-B",
                     help="оценка пары (ИКАО) и, если есть, опубликованный поток рядом")
 
+    bu = sub.add_parser("burn", help="сверка расхода openap с опубликованной эксплуатацией "
+                                     "(решение 225)")
+    bu.add_argument("--calib", action="store_true",
+                    help="таблица: опубликовано ÷ модель по Aircraft Commerce и Form 41")
+
     fr = sub.add_parser("fare", help="наблюдения рыночной цены из выгрузок")
     fr.add_argument("--dir", default="data/raw/market_fare",
                     help="где лежат выгрузки агрегатора")
@@ -898,6 +903,19 @@ def main(argv=None) -> int:
                      "регистр (ожидается нижний) и дату начала действия"))
         return 0
 
+    if a.cmd == "burn":
+        from .burn_calib import report
+        print("Сверка расхода openap (решение 225). Опубликовано ÷ модель: 1,00 — совпадение,\n"
+              "больше 1 — модель занижает. Form 41 — выданное топливо с ВСУ и задержками,\n"
+              "поэтому выше модели на 5–15 % и сравнивается ПОРЯДКОМ типов (столбцы /A320).\n")
+        for line in report(store):
+            print(line)
+        cur = store.db.execute("SELECT key, value FROM facts WHERE domain='aircraft' "
+                               "AND key LIKE '%/burn_calib' AND valid_to IS NULL").fetchall()
+        print("\nдействующие поправки: " + (", ".join(f"{k.split('/')[0]} ×{v:.2f}" for k, v in cur)
+                                          or "нет (fca refresh --only burn_calib)"))
+        return 0
+
     if a.cmd == "flow":
         import math
         from . import traffic_model as _tmod
@@ -1206,7 +1224,8 @@ def main(argv=None) -> int:
         # тип с другими массами — чужой конверт, а тип без физики не
         # считался вовсе. Молча.
         d = payload_range(ac.icao, ac.seats, points=a.points,
-                          frame=ac.frame, ref=ac.burn_ref)
+                          frame=ac.frame, ref=ac.burn_ref,
+                          calib=ac.burn_calib[0] if ac.burn_calib else None)
         if d.get("error"):
             print("не считается:", d["error"]); return 1
         print(f"{ac.icao}: {ac.seats} кресел, {d['pax_mass_kg']:.0f} кг на "

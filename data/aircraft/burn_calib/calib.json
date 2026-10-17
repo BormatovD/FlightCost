@@ -1,0 +1,118 @@
+{
+ "about": "Поправки к расходу openap по опубликованной эксплуатации (решение 225). Множитель применяется к фазам полёта, к плечу до запасного и к диаграмме «нагрузка — дальность», только для типов, которые считает сама openap. Правило: у Aircraft Commerce не меньше 5 строк, отклонение от модели больше 5 %, и независимая сверка по Form 41 (выданное топливо перевозчиков США, порядок типов относительно A320) расходится с ним не больше чем на 10 %. Как получены: fca burn --calib. Множитель — медиана Aircraft Commerce; Form 41 — подтверждение.",
+ "as_of": "2026-10-17",
+ "types": {
+  "A20N": {
+   "factor": 1.37,
+   "n": 32,
+   "range": [
+    1.26,
+    1.59
+   ],
+   "basis": "Aircraft Commerce №117 (2018), №123 (2019), №137 (2021): блочное топливо A320neo на секторах 250–2 730 nm, 32 строки; медиана опубликовано ÷ openap = 1,37. openap даёт A320neo на ~40 % экономичнее A320ceo, у издателя — на ~15 %",
+   "sources": [
+    "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/Flight%20Operations/2018/117_FLTOPS_A.pdf",
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2019/123_FLTOPS_A.pdf",
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2021/137_FLTOPS.pdf"
+   ],
+   "form41": "подтверждено: AC/A320 1,42 · F41/A320 1,33 (2 перевозчика)"
+  },
+  "B737": {
+   "factor": 0.87,
+   "n": 14,
+   "range": [
+    0.79,
+    1.03
+   ],
+   "basis": "Aircraft Commerce №142 (2022) и выпуски 2008–2010: 737-700 на секторах 200–1 610 nm, 14 строк; медиана 0,87",
+   "sources": [
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2022/142_FLTOPS_A.pdf"
+   ],
+   "form41": "подтверждено: AC/A320 0,90 · F41/A320 0,93 (5 перевозчиков)"
+  },
+  "B752": {
+   "factor": 0.84,
+   "n": 29,
+   "range": [
+    0.8,
+    1.16
+   ],
+   "basis": "Aircraft Commerce №117 (2018), №123 (2019) и выпуски 2008–2010: 757-200 на секторах 250–2 400 nm, 29 строк; медиана 0,84",
+   "sources": [
+    "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/Flight%20Operations/2018/117_FLTOPS_A.pdf",
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2019/123_FLTOPS_A.pdf"
+   ],
+   "form41": "подтверждено: AC/A320 0,87 · F41/A320 0,84 (3 перевозчика)"
+  },
+  "A333": {
+   "factor": 1.07,
+   "n": 5,
+   "range": [
+    1.05,
+    1.08
+   ],
+   "basis": "Aircraft Commerce №121 (2018) и выпуски 2008–2010: блочное топливо A330-300 на секторах 3 900–7 800 nm, 5 строк; медиана опубликовано ÷ openap = 1,07",
+   "sources": [
+    "https://www.aircraft-commerce.com/sample_article_folder/121_FLTOPS_A.pdf",
+    "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
+   ],
+   "form41": "подтверждено: AC/A320 1,11 · F41/A320 1,06 (1 перевозчик)"
+  },
+  "A359": {
+   "factor": 0.75,
+   "n": 5,
+   "range": [
+    0.75,
+    0.76
+   ],
+   "basis": "Aircraft Commerce №121 (2018) и выпуски 2008–2010: блочное топливо A350-900 на секторах 3 900–7 800 nm, 5 строк; медиана опубликовано ÷ openap = 0,75",
+   "sources": [
+    "https://www.aircraft-commerce.com/sample_article_folder/121_FLTOPS_A.pdf",
+    "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
+   ],
+   "form41": "подтверждено: AC/A320 0,78 · F41/A320 0,76 (1 перевозчик)"
+  },
+  "B789": {
+   "factor": 0.73,
+   "n": 5,
+   "range": [
+    0.73,
+    0.74
+   ],
+   "basis": "Aircraft Commerce №121 (2018) и выпуски 2008–2010: блочное топливо 787-9 на секторах 3 900–7 800 nm, 5 строк; медиана опубликовано ÷ openap = 0,73",
+   "sources": [
+    "https://www.aircraft-commerce.com/sample_article_folder/121_FLTOPS_A.pdf",
+    "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
+   ],
+   "form41": "подтверждено: AC/A320 0,76 · F41/A320 0,75 (2 перевозчика)"
+  },
+  "B77W": {
+   "factor": 0.69,
+   "n": 14,
+   "range": [
+    0.66,
+    0.8
+   ],
+   "basis": "Aircraft Commerce №121 (2018) и выпуски 2008–2010: блочное топливо 777-300ER на секторах 3 900–7 800 nm, 14 строк; медиана опубликовано ÷ openap = 0,69",
+   "sources": [
+    "https://www.aircraft-commerce.com/sample_article_folder/121_FLTOPS_A.pdf",
+    "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
+   ],
+   "form41": "подтверждено: AC/A320 0,71 · F41/A320 0,70 (2 перевозчика)"
+  },
+  "B772": {
+   "factor": 0.63,
+   "n": 19,
+   "range": [
+    0.58,
+    0.71
+   ],
+   "basis": "Aircraft Commerce №121 (2018) и выпуски 2008–2010: блочное топливо 777-200/200ER на секторах 3 900–7 800 nm, 19 строк; медиана опубликовано ÷ openap = 0,63",
+   "sources": [
+    "https://www.aircraft-commerce.com/sample_article_folder/121_FLTOPS_A.pdf",
+    "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
+   ],
+   "form41": "подтверждено: AC/A320 0,65 · F41/A320 0,63 (4 перевозчика)"
+  }
+ }
+}
