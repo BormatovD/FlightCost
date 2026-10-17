@@ -956,7 +956,10 @@
   "Цен по этой паре не наблюдали — это оценка по формуле региона из наших же наблюдений. Ошибка указана в подписи; впишите свою цену, если знаете её.": "Für diese Strecke wurden keine Preise beobachtet — das ist eine Schätzung nach der regionalen Formel aus unseren eigenen Beobachtungen. Der typische Fehler steht in der Beschriftung; tragen Sie Ihren Preis ein, wenn Sie ihn kennen.",
   "Цена или поток этой пары — оценка, а не наблюдение. Откуда и как задать свои числа — на вкладке «Рынок».": "Preis oder Verkehr dieser Strecke sind geschätzt, nicht beobachtet. Herkunft und eigene Zahlen — im Reiter „Markt“.",
   "Цены нет ни по наблюдениям, ни по формуле — впишите свою.": "Kein Preis aus Beobachtungen oder Formel — tragen Sie Ihren ein.",
-  "пар: цена или поток не измерены, а оценены — такие поля обведены оранжевым. Впишите свои числа, если знаете их.": "Strecken: Preis oder Verkehr sind geschätzt statt gemessen — diese Felder sind orange umrandet. Tragen Sie Ihre Zahlen ein, wenn Sie sie kennen."
+  "пар: цена или поток не измерены, а оценены — такие поля обведены оранжевым. Впишите свои числа, если знаете их.": "Strecken: Preis oder Verkehr sind geschätzt statt gemessen — diese Felder sind orange umrandet. Tragen Sie Ihre Zahlen ein, wenn Sie sie kennen.",
+  "скрыть пользовательские": "Benutzertypen ausblenden",
+  "скрыто": "ausgeblendet",
+  "Типы без кода ИКАО (ключ USER:): концепты и проекты из каталога — ES-30, RTA-90, C929 — и свои типы. Большинство из них — карточки без расчёта.": "Typen ohne ICAO-Code (Schlüssel USER:): Konzepte und Projekte aus dem Katalog — ES-30, RTA-90, C929 — und eigene Typen. Die meisten davon sind Karten ohne Berechnung."
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -1915,6 +1918,9 @@
   "Цен по этой паре не наблюдали — это оценка по формуле региона из наших же наблюдений. Ошибка указана в подписи; впишите свою цену, если знаете её.": "No fares were observed for this pair — this is an estimate from the regional formula fitted on our own observations. The typical error is in the caption; enter your own fare if you know it.",
   "Цена или поток этой пары — оценка, а не наблюдение. Откуда и как задать свои числа — на вкладке «Рынок».": "The fare or traffic for this pair is an estimate, not an observation. Where it comes from and how to enter your own figures — on the “Market” tab.",
   "Цены нет ни по наблюдениям, ни по формуле — впишите свою.": "No fare from observations or the formula — enter your own.",
-  "пар: цена или поток не измерены, а оценены — такие поля обведены оранжевым. Впишите свои числа, если знаете их.": "pairs: fare or traffic is estimated rather than measured — those fields are outlined in orange. Enter your own figures if you know them."
+  "пар: цена или поток не измерены, а оценены — такие поля обведены оранжевым. Впишите свои числа, если знаете их.": "pairs: fare or traffic is estimated rather than measured — those fields are outlined in orange. Enter your own figures if you know them.",
+  "скрыть пользовательские": "hide user types",
+  "скрыто": "hidden",
+  "Типы без кода ИКАО (ключ USER:): концепты и проекты из каталога — ES-30, RTA-90, C929 — и свои типы. Большинство из них — карточки без расчёта.": "Types without an ICAO code (key USER:): concepts and projects from the catalogue — ES-30, RTA-90, C929 — and your own types. Most of them are cards without a calculation."
  }
 }
