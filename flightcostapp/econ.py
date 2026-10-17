@@ -89,8 +89,18 @@ class Aircraft:
     # Четвёртый ярус расхода: аналог и якорь из тех же фактов типа.
     # `None` — у типа свой вычислитель (или его нет, и тогда «нельзя»).
     burn_ref: "BurnRef | None" = None
+    # Поправка к расходу openap (решение 225): множитель и основание.
+    burn_calib: tuple | None = None
     # Имя из справочника — для витрины и разбора, не для ключа.
     name: str = ""
+
+
+def _calib(store, icao: str, as_of) -> tuple | None:
+    """(множитель, основание, адрес факта) или None — поправки нет."""
+    row = store.get("aircraft", f"{icao}/burn_calib", as_of)
+    if row is None or row["value"] is None:
+        return None
+    return float(row["value"]), str(row["note"] or ""), f"aircraft/{icao}/burn_calib"
 
 
 def load_aircraft(store, icao: str, as_of, operator: str = "*") -> Aircraft:
@@ -186,7 +196,8 @@ def load_aircraft(store, icao: str, as_of, operator: str = "*") -> Aircraft:
     name = str(row["note"] or "") if row is not None and row["note"] else ""
     return Aircraft(icao=icao, seats=int(seats), mtow_t=float(mtow),
                     cruise_kt=float(kt), seats_source=src,
-                    frame=frame, frame_source=fsrc, burn_ref=ref, name=name)
+                    frame=frame, frame_source=fsrc, burn_ref=ref, name=name,
+                    burn_calib=_calib(store, icao, as_of))
 
 
 @dataclass
@@ -802,8 +813,13 @@ def route_economics(store: Store, origin: str, destination: str, *,
         if burn.structure != "measured":
             warnings.append(f"расход {ac.icao}: {burn.note}")
     fr = trip_fuel(ac.icao, dist, pax_pre, spec=spec, frame=ac.frame, burn=burn,
-                   ref=ac.burn_ref,
+                   ref=ac.burn_ref, calib=ac.burn_calib[0] if ac.burn_calib else None,
                    fallback_kg_per_h=ac.fuel_kg_per_h, cruise_kt=ac.cruise_kt)
+    if ac.burn_calib and fr.tier == 1:
+        k, why, ref_c = ac.burn_calib
+        rec(G3, "Поправка расхода openap",
+            "множитель к расходу во всех фазах по опубликованной эксплуатации",
+            f"× {k:.2f}", k, "×", "store", why, node="v_tier", ref=ref_c)
     # ТОЛЬКО рейсовое. Запас возится и возвращается, в стоимость топлива
     # не входит; его вес уже удорожил рейсовое через взлётную массу.
     fuel_kg, block_h = fr.trip_kg, fr.block_h

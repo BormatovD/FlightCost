@@ -389,7 +389,8 @@ def trip_fuel(icao: str, dist_nm: float, pax: float,
               spec: "ReserveSpec | None" = None,
               frame: "Airframe | None" = None,
               burn: "Split | None" = None,
-              ref: "BurnRef | None" = None) -> FuelResult:
+              ref: "BurnRef | None" = None,
+              calib: float | None = None) -> FuelResult:
     """Рейсовое топливо и блок-время. При отсутствии openap — параметрика.
 
     По умолчанию к ортодромии применяется поправка ИКАО: без неё модель
@@ -445,7 +446,13 @@ def trip_fuel(icao: str, dist_nm: float, pax: float,
         return r
 
     try:
-        r = _openap_profile(icao, dist_nm, pax, spec=spec, frame=frame)
+        # Поправка к openap (решение 225) — тем же множителем, что якорь у
+        # аналога: на все фазы и на плечо до запасного.
+        r = _openap_profile(icao, dist_nm, pax, spec=spec, frame=frame,
+                            flow_of=icao if calib else None, scale=calib or 1.0)
+        if calib:
+            r.tier_note = (r.tier_note + "; " if r.tier_note else "") + \
+                f"поправка к openap × {calib:.2f} по опубликованной эксплуатации"
         if note_dc:
             r.note = note_dc + "; " + r.note
         return r
@@ -718,11 +725,11 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
 def max_range_nm(icao: str, payload_kg: float, lo: float = 50.0,
                  hi: float = 12000.0, tol: float = 5.0,
                  frame: "Airframe | None" = None,
-                 ref: "BurnRef | None" = None) -> float:
+                 ref: "BurnRef | None" = None, calib: float | None = None) -> float:
     """Наибольшее плечо, выполнимое с такой нагрузкой."""
     pm, _ = pax_mass(icao, frame.mtow_kg / 1000.0 if frame else None)
     pax_equiv = payload_kg / pm
-    fx = lambda d: trip_fuel(icao, d, pax_equiv, frame=frame, ref=ref)   # noqa: E731
+    fx = lambda d: trip_fuel(icao, d, pax_equiv, frame=frame, ref=ref, calib=calib)   # noqa: E731
     if fx(lo).feasible.ok is False:
         return 0.0
     while hi - lo > tol:
@@ -736,7 +743,7 @@ def max_range_nm(icao: str, payload_kg: float, lo: float = 50.0,
 
 def payload_range(icao: str, seats: int | None = None, points: int = 9,
                   frame: "Airframe | None" = None,
-                  ref: "BurnRef | None" = None) -> dict:
+                  ref: "BurnRef | None" = None, calib: float | None = None) -> dict:
     """Точки диаграммы и её характерные углы.
 
     Планер — из хранилища, когда он передан; библиотека — только запасной
@@ -769,7 +776,7 @@ def payload_range(icao: str, seats: int | None = None, points: int = 9,
         pl = full * (1 - i / (points - 1))
         curve.append({"payload_kg": pl,
                       "pax": pl / pm,
-                      "range_nm": max_range_nm(icao, pl, frame=frame, ref=ref)})
+                      "range_nm": max_range_nm(icao, pl, frame=frame, ref=ref, calib=calib)})
     # Угол «домика»: там, где баки становятся полными и снятие нагрузки
     # перестаёт покупать дальность. Это самая содержательная точка
     # диаграммы: до неё обмен пассажиров на мили выгоден, после — почти

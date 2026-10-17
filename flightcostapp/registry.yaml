@@ -345,6 +345,30 @@ sources:
       названной массе (решения 94, 105, 106). Без якоря тип считается, но
       отвечает «нельзя».
 
+  burn_calib:
+    title: Поправки к расходу openap по опубликованной эксплуатации
+    kind: directory          # data/aircraft/burn_calib/*.json, в репозитории
+    contour: agent           # считает fca burn --calib, принимает человек
+    path: data/aircraft/burn_calib
+    glob: "*.json"
+    public: full        # множитель и основание со ссылками на издателя
+    license: own
+    parser: burn_calib
+    domain: aircraft
+    node: src_burn_calib
+    cadence_days: 365
+    sla_days: 1100
+    tier: 1
+    gate: review
+    validators:
+      value_min: 0.5
+      value_max: 2.0
+    note: >
+      Решение 225. Множитель к расходу типов, которые считает openap: A320neo
+      ×1,37 и т. д. Основание — таблицы рейсового топлива Aircraft Commerce;
+      сверка по Form 41 — fca burn --calib. Без поправки тип считается как
+      раньше; поправка видна шагом в разборе.
+
   aircraft_catalog:
     title: Каталог типов ВС — паспорт по документам производителей и объявленные ЛТХ новых программ
     kind: directory          # data/aircraft/catalog/*.json, в репозитории

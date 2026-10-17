@@ -36,6 +36,7 @@ jobs:
               tests/test_traffic_model.py \
               tests/test_browse.py \
               tests/test_catalog.py \
+              tests/test_burn_calib.py \
               tests/test_network.py \
               tests/test_detour.py \
               tests/test_airspace.py \
