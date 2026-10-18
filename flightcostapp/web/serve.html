@@ -1228,8 +1228,10 @@ const AC_CLASS = [["regional", _t("Региональные")], ["narrow", _t("�
 let GAL_PICK = null;
 // «Скрыть пользовательские»: типы с ключом USER: — без кода ИКАО. Это
 // концепты и проекты каталога (ES-30, RTA-90) и свои типы; в выборе для
-// расчёта они чаще мешают. По умолчанию скрыты, выбор помнится в браузере.
-let GAL_HIDE_USER = (() => { try { return localStorage.getItem("fca.galHideUser") !== "0"; } catch (e) { return true; } })();
+// расчёта они чаще мешают. По умолчанию скрыты. Выбор живёт до перезагрузки
+// страницы и в браузере не хранится: политика конфиденциальности обещает,
+// что браузер держит только язык и валюту (tests/test_legal.py).
+let GAL_HIDE_USER = true;
 function galleryOpen(onPick) { GAL_PICK = typeof onPick === "function" ? onPick : null;
   $("#acpanel").hidden = false; galleryDraw(""); setTimeout(() => { const q = $("#galq"); q && q.focus(); }, 30); }
 function galleryClose() { $("#acpanel").hidden = true; }
@@ -1266,7 +1268,6 @@ function galleryDraw(q) {
   box.innerHTML = h;
   $("#galu").addEventListener("change", e => {
     GAL_HIDE_USER = e.target.checked;
-    try { localStorage.setItem("fca.galHideUser", GAL_HIDE_USER ? "1" : "0"); } catch (err) {}
     galleryDraw($("#galq").value);
   });
   const inp = $("#galq");
