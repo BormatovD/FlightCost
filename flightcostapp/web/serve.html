@@ -228,6 +228,9 @@ body.net #netleft{display:block}
 .cchip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:12px;padding:2px 4px 2px 10px;font-size:12.5px}
 .cchip button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:14px;padding:0 4px}
 .itab td.na{color:var(--faint)}
+.itab td.nacol{white-space:normal;vertical-align:top;width:180px;min-width:150px;max-width:220px;
+ color:var(--warn);font-size:12px;line-height:1.45;border-left:1px solid var(--line2);
+ background:repeating-linear-gradient(135deg,transparent 0 6px,var(--guess-f) 6px 8px)}
 .itab th small{display:block;font-weight:400}
 .itw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;margin-top:6px}
 .itab{border-collapse:collapse;width:100%;font-size:12.5px}
@@ -2430,8 +2433,12 @@ function cmpTable(s){
   const keys = base.items.map(i => i.item);
   const diff = (v, b) => { if (v == null || !b) return ""; const d = (v - b) / b;
     return `<small class="${d > 0.005 ? "up" : d < -0.005 ? "dn" : ""}">${d > 0 ? "+" : ""}${Math.round(d * 100)}%</small>`; };
+  // Невыполнимый тип — одна плашка на весь столбец, с переносом: причина
+  // длинная, в шапке она растягивала таблицу в строку.
+  const nRows = keys.length + 1;
   const cell = (t, k) => {
-    if (t.status !== "ok") return `<td class="v na">—</td>`;
+    if (t.status !== "ok") return k === keys[0]
+      ? `<td class="nacol" rowspan="${nRows}">${esc(t.why || _t("нельзя"))}</td>` : "";
     const v = val(t, k);
     if (v == null) return `<td class="v">—</td>`;
     const hatch = ["default", "fleet", "estimated"].includes(prov(t, k));
@@ -2440,9 +2447,9 @@ function cmpTable(s){
   const tot = t => CMP.per === "pax" ? t.cost_per_pax : t.cost_total;
   return `<div class="itw"><table class="itab"><thead><tr><th>${cu(_t("статья, EUR"))}</th>${cols.map(t =>
       `<th class="v">${esc(acShort(t.icao))}${t === base ? ` <span class="t3">${_t("база")}</span>` : ""}${
-        t.status === "ok" ? `<small>${Math.round(t.lf * 100)}% ${_t("загрузка")}</small>` : `<small class="up">${esc(t.why || _t("нельзя"))}</small>`}</th>`).join("")}</tr></thead><tbody>${
+        t.status === "ok" ? `<small>${Math.round(t.lf * 100)}% ${_t("загрузка")}</small>` : `<small class="up">${_t("нельзя")}</small>`}</th>`).join("")}</tr></thead><tbody>${
       keys.map(k => `<tr><td>${esc(ITEM_RU[k] || k)}</td>${cols.map(t => cell(t, k)).join("")}</tr>`).join("")}
-      <tr class="itot"><td>${_t("Итого")}</td>${cols.map(t => t.status !== "ok" ? `<td class="v na">—</td>` :
+      <tr class="itot"><td>${_t("Итого")}</td>${cols.map(t => t.status !== "ok" ? "" :
         `<td class="v"><b>${m0(tot(t))}</b>${t === base ? "" : diff(tot(t), tot(base))}</td>`).join("")}</tr></tbody></table></div>
     <p class="lede">${_t("Штриховка — параметрическая заготовка, а не данные: такая разница говорит о допущении, а не о типе. Своё число — в блоке «Флот» слева, для типа из расчёта.")}</p>`;
 }
