@@ -2706,8 +2706,9 @@ function drawKpi(r){
   cells.push(kpiCell(_t("Безубыточный чек"),
     a.feasible ? f0(be) + `<small>${CUR.code}</small>` : "—",
     !a.feasible ? "" : !fare ? _t("чек не задан")
-      : be <= fare ? `${_t("задан")} ${f0(fare)} — ${_t("запас")} ${f0(fare - be)} ${cu(_t("EUR с пассажира"))}`
-      : `${_t("задан")} ${f0(fare)} — ${_t("не хватает")} ${f0(be - fare)} ${cu(_t("EUR с пассажира"))}`,
+      // Заданный чек виден в поле слева — здесь только разница с ним.
+      : be <= fare ? `${_t("запас")} ${f0(fare - be)} ${cu(_t("EUR с пассажира"))}`
+      : `${_t("не хватает")} ${f0(be - fare)} ${cu(_t("EUR с пассажира"))}`,
     a.feasible && fare > 0 && be > fare, "kpi-yield"));
   cells.push(kpiCell("CASK",
     !a.feasible ? "—" : seatsOk ? caskVal(cask(r)) + `<small>${CUR.cents ? _t("ц / кресло-км") : CUR.code + " / " + _t("кресло-км")}</small>`
@@ -2784,7 +2785,8 @@ function drawChips(b){
     ? `${_t("бенчмарк")}: <b>${m0(cur.yield_eur_pax)}</b>`
     : `${_t("бенчмарк")}: ${_t("не публикует")}`;
   const yieldWhy = cur.yield_eur_pax ? esc(cur.yield_basis || "") : _t("доход с пассажира в отчёте не назван");
-  $("#kpi-yield").innerHTML = `${yieldPart} · ${mk.short}${mk.flag}${hint(
+  // Рынок — своей строкой: в одной с бенчмарком он рвался по словам.
+  $("#kpi-yield").innerHTML = `${yieldPart}<br>${mk.short}${mk.flag}${hint(
       `<b>${_t("бенчмарк")}</b>: ${yieldWhy}${caveat}<br><br><b>${_t("рынок")}</b>: ${mk.detail}`, mk.warn ? "o" : "g")}`;
   sub.textContent = "";
 }
