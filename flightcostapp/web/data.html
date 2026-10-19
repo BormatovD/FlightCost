@@ -122,7 +122,8 @@ function pick(d, q = ""){
 async function load(){
   const r = await (await fetch(`/api/browse?domain=${encodeURIComponent(S.dom)}&q=${encodeURIComponent(S.q)}&page=${S.page}`)).json();
   const meta = S.cat.domains.find(x => x.domain === S.dom) || {sources: {}};
-  const srcs = Object.entries(meta.sources || {}).map(([k, s]) => `<div>${s.public ? "" : `<span class="lock">${_t("закрыто")}:</span> `}<b>${esc(s.title)}</b> — ${num(s.n)} ${_t("записей")}${s.license ? ` · ${_t("лицензия")}: ${esc(s.license)}` : ""}</div>`).join("");
+  const srcs = Object.entries(meta.sources || {}).map(([k, s]) => `<div>${s.public ? "" : `<span class="lock">${_t("закрыто")}:</span> `}<b>${esc(s.title)}</b> — ${num(s.n)} ${_t("записей")}${s.license ? ` · ${_t("лицензия")}: ${esc(s.license)}` : ""}${
+    /^https?:\/\//.test(s.url || "") ? ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">${_t("источник")}</a>` : ""}</div>`).join("");
   $("#body").innerHTML = `<h2>${esc(dtitle(S.dom, r.title))}</h2><div class="lead">${esc(dnote(S.dom, meta.note || ""))}</div>
     <div class="srcs">${srcs}</div>
     <div class="bar"><input id="q" placeholder="${_t("поиск: код, название, пара")}" value="${esc(S.q)}">

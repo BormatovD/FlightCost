@@ -122,7 +122,7 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     base = dict(source_id=ctx["source_id"], artifact_sha=ctx.get("sha"),
                 extracted_by=ctx.get("extracted_by", "parser:tkp_charges@2"),
                 confidence="exact")
-    doc = "реестр сообщества"
+    doc = "неофициальные данные сообщества"
 
     # Группировка: аэропорт → (услуга, терминал, примечание) → редакции
     groups: dict[tuple, list[dict]] = {}
