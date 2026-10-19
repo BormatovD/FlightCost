@@ -55,8 +55,12 @@ from .guest import DOC_KINDS, GuestDB, GuestStore, valid_key
 
 try:
     from .econ import COST_RU as _COST_RU
+    from .econ import pax_count as _pax_count
 except ImportError:            # подписей нет — показываем ключи как есть
     _COST_RU = {}
+
+    def _pax_count(seats, lf):
+        return int(seats * lf + 0.5 + 1e-9)
 
 
 def _jsonable(x):
@@ -90,8 +94,10 @@ def result_json(res) -> dict:
                   # (решение 44). Фронт делил на 170, зашитые в двух
                   # местах: CASK у E195 считался на креслах A320.
                   "seats": int(res.inputs.get("seats") or 0),
-                  "pax": int(round((res.inputs.get("seats") or 0)
-                                   * float(res.inputs.get("load_factor") or 0)))},
+                  # То же целое, что считало ядро (решение 229): round()
+                  # Питона банковский и на 144,5 дал бы 144, а ядро — 145.
+                  "pax": _pax_count(res.inputs.get("seats") or 0,
+                                    float(res.inputs.get("load_factor") or 0))},
         "answer": {
             "breakeven_fare_eur": res.breakeven_fare_eur,
             "breakeven_lf": res.breakeven_lf,
@@ -1340,6 +1346,16 @@ class Context:
                             "head": min(ac.seats, res.max_pax or 0) - lg["pax"]
                                     if res.max_pax is not None else None})
             bad = next((p for p in per if not p["res"].feasible), None)
+            # Статьи по всем участкам (замечание 9): выбор типа делается не по
+            # итогу, а по тому, из чего он сложен — топливо против владения.
+            items: dict[str, float] = {}
+            iprov: dict[str, str] = {}
+            for p in per:
+                for k, v in p["res"].cost.items():
+                    items[k] = items.get(k, 0.0) + v
+                    iprov[k] = p["res"].cost_prov.get(k, "?")
+            row["items"] = [{"item": k, "label": _COST_RU.get(k, k), "eur": v, "prov": iprov[k]}
+                            for k, v in sorted(items.items(), key=lambda kv: -kv[1])]
             pax_sum = sum(p["pax"] for p in per)
             seat_km = sum(ac.seats * p["km"] for p in per)
             fuel = sum(p["res"].fuel_kg for p in per)

@@ -100,6 +100,18 @@ class Aircraft:
 COMMUNITY_CHARGES = "tkp_charges"
 
 
+def pax_count(seats: float, load_factor: float) -> int:
+    """Пассажиров на рейсе — целым числом (решение 229).
+
+    Полпассажира на одном рейсе не бывает. Округление к ближайшему, половина
+    вверх: 170 кресел × 82 % = 139,4 → 139. Загрузка дальше в расчёте —
+    фактическая (139 / 170), а заданная остаётся входом. Допуск 1e-9 —
+    чтобы 150 × 0,70 = 104,99999… не стало 104.
+    """
+    import math
+    return max(0, int(math.floor(seats * load_factor + 0.5 + 1e-9)))
+
+
 def _calib(store, icao: str, as_of) -> tuple | None:
     """(множитель, основание, адрес факта) или None — поправки нет."""
     row = store.get("aircraft", f"{icao}/burn_calib", as_of)
@@ -786,7 +798,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
 
     # ---------- топливо и блок-время ----------
     # Считаются вместе: и то и другое выпадает из одного профиля полёта.
-    pax_pre = ac.seats * load_factor
+    pax_pre = pax_count(ac.seats, load_factor)
     # Запас: два слагаемых из правил, третье из операции дня (решение 78).
     # Домена `fuel_reserve` пока нет, поэтому регуляторные величины идут с
     # умолчанием и провенансом `default`; расстояние до запасного — вход и
@@ -862,7 +874,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             "запасной аэродром не задан (--alternate-nm): в запасе нет "
             "ухода, предельная коммерческая нагрузка завышена")
 
-    _pax_now = ac.seats * load_factor
+    _pax_now = pax_count(ac.seats, load_factor)
     feasibility = {"ok": fr.feasible.ok, "max_pax": fr.feasible.max_pax,
                    "pax": _pax_now, "limits": list(fr.feasible.limits)}
     rec(G3, "Выполнимость", "предельная коммерческая загрузка на это плечо",
@@ -1095,9 +1107,10 @@ def route_economics(store: Store, origin: str, destination: str, *,
                 f"(оценка по массе, не расчёт характеристик)")
 
     # ---------- аэропорт ----------
-    pax = seats * load_factor
-    rec(G5, "Пассажиров", "кресла · загрузка",
-        f"{seats} · {load_factor}", pax, "чел", "derived", node="v_pax")
+    pax = pax_count(seats, load_factor)
+    rec(G5, "Пассажиров", "кресла · загрузка, целым",
+        f"{seats} · {load_factor} = {seats * load_factor:.1f} → {pax}", pax, "чел", "derived",
+        "пассажир на рейсе — целый: округление к ближайшему (решение 229)", node="v_pax")
 
     # Сборы аэропорта считаются построчно по правилам из хранилища. Нет
     # правил — ярус 3, грубая параметрика с явной пометкой «оценка».
@@ -1333,7 +1346,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
         community = src_rows == {COMMUNITY_CHARGES}
         if community and lines:
             warnings.append(f"{ap['icao']}: сборы — неофициальные данные сообщества "
-                            f"(реестр сообщества), а не документ аэропорта")
+                            f"(реестр ТКП), а не документ аэропорта")
         for code, amount in sorted(lines.items(), key=lambda kv: -kv[1]):
             if code.startswith("_"):
                 warnings.append(f"{ap['icao']}: {code[1:]}")
@@ -1342,7 +1355,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             rec(G5, f"Сбор {ap['icao']}: {CODE_RU.get(code, code)}",
                 f"правило airport_charge/{ap['icao']}/{code}", "",
                 amount, "EUR", "store",
-                "ярус 2, неофициальные данные сообщества" if community
+                "ярус 2, неофициальные данные сообщества (реестр ТКП)" if community
                 else "ярус 1, разобранный тариф",
                 # Пусто, если правила одного кода приехали из разных
                 # источников: сверка назовёт шаг несверенным, а выбор
