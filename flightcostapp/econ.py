@@ -95,6 +95,11 @@ class Aircraft:
     name: str = ""
 
 
+# Источник реестра сборов сообщества (решение 227): участвует в расчёте с
+# пометкой «неофициально», построчно на сайте не публикуется.
+COMMUNITY_CHARGES = "tkp_charges"
+
+
 def _calib(store, icao: str, as_of) -> tuple | None:
     """(множитель, основание, адрес факта) или None — поправки нет."""
     row = store.get("aircraft", f"{icao}/burn_calib", as_of)
@@ -1318,6 +1323,17 @@ def route_economics(store: Store, origin: str, destination: str, *,
                     if report.get("missing_derived") else "",
                 ])),
                 node="d_charge")
+        # Чей тариф: документ аэропорта или реестр сообщества (решение 227).
+        # Реестр участвует в расчёте, но подписан как неофициальный — и в
+        # каждой статье, и предупреждением: спорить с ним надо иначе, чем с
+        # документом.
+        src_rows = {r[0] for r in store.db.execute(
+            """SELECT DISTINCT source_id FROM facts WHERE domain = 'airport_charge'
+               AND key LIKE ? AND valid_to IS NULL""", (ap["icao"] + "/%",))}
+        community = src_rows == {COMMUNITY_CHARGES}
+        if community and lines:
+            warnings.append(f"{ap['icao']}: сборы — неофициальные данные сообщества "
+                            f"(реестр сообщества), а не документ аэропорта")
         for code, amount in sorted(lines.items(), key=lambda kv: -kv[1]):
             if code.startswith("_"):
                 warnings.append(f"{ap['icao']}: {code[1:]}")
@@ -1325,7 +1341,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
             apt_lines[f"{ap['icao']}/{code}"] = amount
             rec(G5, f"Сбор {ap['icao']}: {CODE_RU.get(code, code)}",
                 f"правило airport_charge/{ap['icao']}/{code}", "",
-                amount, "EUR", "store", "ярус 1, разобранный тариф",
+                amount, "EUR", "store",
+                "ярус 2, неофициальные данные сообщества" if community
+                else "ярус 1, разобранный тариф",
                 # Пусто, если правила одного кода приехали из разных
                 # источников: сверка назовёт шаг несверенным, а выбор
                 # одного из двух наугад промолчал бы.

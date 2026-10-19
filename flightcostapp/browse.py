@@ -44,8 +44,19 @@ def policy(registry: dict) -> dict:
     for sid, sv in (registry or {}).get("sources", {}).items():
         out[sid] = {"public": sv.get("public") == "full",
                     "license": str(sv.get("license") or "").strip(),
-                    "title": sv.get("title") or sid}
+                    "title": sv.get("title") or sid,
+                    # Адрес источника виден и у закрытого (замечание 10): ссылка
+                    # на сайт издателя — не публикация его данных, а способ
+                    # проверить расчёт.
+                    "url": _first(sv.get("home") or sv.get("url"))}
     return out
+
+
+def _first(v) -> str:
+    """Адрес источника: у реестра бортов `url` — список зеркал."""
+    if isinstance(v, (list, tuple)):
+        v = v[0] if v else ""
+    return str(v or "").strip()
 
 
 def _public_ids(registry, store=None, open_all=False) -> list[str]:
@@ -70,7 +81,8 @@ def catalog(store, registry, as_of=None, open_all=False) -> dict:
         c["open" if sid in pub else "closed"] += n
         c["sources"][sid] = {"n": n, "public": sid in pub,
                              "title": (pol.get(sid) or {}).get("title", sid),
-                             "license": (pol.get(sid) or {}).get("license", "")}
+                             "license": (pol.get(sid) or {}).get("license", ""),
+                             "url": (pol.get(sid) or {}).get("url", "")}
     order = [d for d, _, _ in DOMAINS] + sorted(set(counts) - set(TITLE))
     out = []
     for d in order:
