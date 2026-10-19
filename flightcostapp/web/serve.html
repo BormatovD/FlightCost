@@ -32,9 +32,9 @@ header button.ws{display:inline-flex;align-items:center;gap:7px;margin-left:10px
 header button.ws:hover{color:var(--ink);border-color:var(--accent)}
 header button.ws .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
 header button.ws.on .dot{background:var(--doc)}
-#wspanel[hidden],#acpanel[hidden],header button.ws[hidden]{display:none}
-#acpanel .wsbox{width:min(980px,100%)}
-#wspanel,#acpanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
+#wspanel[hidden],#acpanel[hidden],#cmppanel[hidden],header button.ws[hidden]{display:none}
+#acpanel .wsbox,#cmppanel .wsbox{width:min(980px,100%)}
+#wspanel,#acpanel,#cmppanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
  align-items:flex-start;justify-content:center;padding:60px 16px;overflow:auto}
 .wsbox{width:min(640px,100%);background:var(--panel);border:1px solid var(--line);border-radius:8px;
  padding:16px 20px 20px;font-size:13.5px}
@@ -214,6 +214,28 @@ body.net #netleft{display:block}
 .mkt input{width:90px;font:12.5px var(--mono);background:var(--raise);color:var(--ink);
  border:1px solid var(--line);border-radius:4px;padding:2px 6px;text-align:right}
 .mkt .src{color:var(--faint);font-size:11.5px}
+.h3b{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.h3b .chipb{font-weight:400;text-transform:none;letter-spacing:0}
+.cmpk{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0}
+.cmpk .hp{position:relative;flex:1 1 220px}.cmpk input{width:100%}
+.cchip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:12px;padding:2px 4px 2px 10px;font-size:12.5px}
+.cchip button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:14px;padding:0 4px}
+.itab td.na{color:var(--faint)}
+.itab th small{display:block;font-weight:400}
+.itw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;margin-top:6px}
+.itab{border-collapse:collapse;width:100%;font-size:12.5px}
+.itab th,.itab td{padding:6px 9px;border-bottom:1px solid var(--line2);white-space:nowrap}
+.itab th{font-weight:600;color:var(--dim);text-align:left;background:var(--panel)}
+.itab th:first-child,.itab td:first-child{position:sticky;left:0;background:var(--panel);z-index:1}
+.itab .v{text-align:right;font-variant-numeric:tabular-nums}
+.itab td.par{background-image:repeating-linear-gradient(135deg,transparent 0 5px,var(--guess-f) 5px 7px)}
+.itab small{display:block;font-size:10.5px;color:var(--faint)}
+.itab small.up{color:var(--warn)}.itab small.dn{color:var(--calc)}
+.itab tr.itot td{border-top:1px solid var(--line);border-bottom:0}
+.ipers{display:inline-flex;gap:0;margin:2px 0 4px}
+.ipers button{background:var(--panel);color:var(--dim);border:1px solid var(--line);padding:3px 10px;font:12px var(--sans);cursor:pointer}
+.ipers button:first-child{border-radius:5px 0 0 5px}.ipers button:last-child{border-radius:0 5px 5px 0;border-left:0}
+.ipers button[aria-pressed="true"]{color:var(--ink2);background:var(--raise)}
 .mkt input.par{border-color:var(--warn);box-shadow:0 0 0 1px var(--warn) inset}
 .calc{margin-top:4px;font-size:11.5px}.calc summary{cursor:pointer;color:var(--dim)}
 .calc .f{margin:6px 0;color:var(--ink);font-family:var(--mono);font-size:11.5px}
@@ -591,6 +613,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
 <div id="acpanel" hidden><div class="wsbox" role="dialog" aria-labelledby="ach">
   <div class="wshead"><b id="ach">Выбор типа по силуэту</b><button id="acclose" class="chipb">закрыть</button></div>
   <div id="acbody"></div>
+</div></div>
+<div id="cmppanel" hidden><div class="wsbox" role="dialog" aria-labelledby="cmph">
+  <div class="wshead"><b id="cmph">Сравнение типов по статьям</b><button id="cmpclose" class="chipb">закрыть</button></div>
+  <div id="cmpbody"></div>
 </div></div>
 <div id="wspanel" hidden><div class="wsbox" role="dialog" aria-labelledby="wsh">
   <div class="wshead"><b id="wsh">Рабочее место</b><button id="wsclose" class="chipb">закрыть</button></div>
@@ -2009,7 +2035,7 @@ function tabRoute(r){
            : gap>0.5 ? `${_t("не хватает")} ${f0(gap)} ${_t("с пассажира")}`
                      : `${_t("запас")} ${f0(-gap)} ${_t("с пассажира")}`}</span></div>
   </div>`;
-  h += `<h3>${_t("Из чего складывается рейс")}</h3>
+  h += `<h3 class="h3b">${_t("Из чего складывается рейс")}<button type="button" class="chipb" id="cmpopen">${_t("сравнить с другими типами")}</button></h3>
     <p class="lede">${_t("Штриховка — параметрическая заготовка, а не документ. Сейчас")} ${Math.round(r.default_share*100)}% ${_t("суммы.")}</p>
     <div class="stack">` + r.cost.map(c =>
       `<i style="width:${c.eur/tot*100}%;background:${PROV[c.prov]||"var(--param)"}"
@@ -2180,7 +2206,7 @@ function legsParam(txt) {
 async function loadTypes(my){
   if (TYPES_BUSY) await TYPES_BUSY;
   if (my !== TYPES_SEQ) return null;
-  const p = params(); p.set("pax", String(PAX_CMP ?? (LAST && LAST.route.pax) ?? ""));
+  const p = params(); p.set("pax", String(PAX_CMP ?? routePax() ?? ""));
   if (LEGS_CMP) p.set("legs", legsParam(LEGS_CMP));
   const key = p.toString();
   if (TYPES && TYPES_KEY === key) return TYPES;
@@ -2318,6 +2344,94 @@ async function drawTypes(r){
     setAc(b.dataset.pick); draw();
   }));
 }
+
+// Сравнение типов по статьям (замечание 9, решение 228): окно поверх
+// расчёта. База — тип из расчёта, с ним — до пяти типов, выбранных здесь же
+// поиском, а не все подряд. Пассажиров — столько же, сколько в расчёте:
+// у каждого типа своя загрузка при них (решение 91). Столбец — тип, строка
+// — статья, у не-базы — разница к базе. Заготовка (не данные) — штриховкой:
+// разница на ней говорит о допущении, а не о типе.
+const ITEM_RU = {fuel: _t("Топливо"), enroute: _t("Аэронавигация"), terminal: _t("Терминальный сбор"),
+  airport_charges: _t("Аэропортовые сборы"), ownership: _t("Владение ВС"), maintenance: _t("ТОиР"),
+  crew: _t("Экипаж"), ground_handling: _t("Наземное обслуживание"), distribution: _t("Дистрибуция и продажи")};
+const CMP = {types: [], per: "pax", data: null, key: "", seq: 0};
+// Пассажиры расчёта — те же, что в ответе ядра: целое число (решение 229).
+// Прежде ядро считало 139,4 пассажира, а подпись и сравнение брали 139, и
+// итоги расходились на сборы с пассажира, продажи и обслуживание.
+function routePax(){ return LAST ? LAST.route.pax : null; }
+const CMP_MAX = 5;
+function cmpOpen(){ $("#cmppanel").hidden = false; cmpDraw(); setTimeout(() => { const q = $("#cmpq"); q && q.focus(); }, 30); }
+function cmpClose(){ $("#cmppanel").hidden = true; }
+async function cmpLoad(){
+  const base = CHOSEN.ac, others = CMP.types.filter(t => t !== base);
+  if (!others.length || !LAST) return null;
+  const p = params(); p.set("pax", String(routePax())); p.set("types", [base, ...others].join(","));
+  const key = p.toString();
+  if (CMP.data && CMP.key === key) return CMP.data;
+  const my = ++CMP.seq;
+  $("#cmptab").innerHTML = `<p class="lede">${_t("считаю типы…")}</p>`;
+  const d = await (await fetch("/api/compare?" + key)).json();
+  if (my !== CMP.seq) return null;
+  CMP.data = d; CMP.key = key;
+  return d;
+}
+function cmpDraw(){
+  const base = CHOSEN.ac;
+  CMP.types = CMP.types.filter(t => t !== base);
+  const chips = CMP.types.map(t => `<span class="cchip">${esc(acShort(t))}<button data-rm="${esc(t)}" aria-label="${escA(_t("убрать"))}">×</button></span>`).join("");
+  $("#cmpbody").innerHTML = `<p class="lede" style="margin-top:0">${_t("База — тип из расчёта")} <b>${esc(acShort(base))}</b>${
+      LAST ? `, ${f0(LAST.route.pax)} ${_t("пассажиров на рейс — у каждого типа своя загрузка при них.")}` : "."}</p>
+    <div class="cmpk"><div class="hp"><input id="cmpq" class="pick" autocomplete="off" placeholder="${escA(_t("добавить тип — код или название"))}"${
+      CMP.types.length >= CMP_MAX ? " disabled" : ""}><div class="hits" id="cmphits"></div></div>${chips}</div>
+    <div class="ipers" role="group"><button data-per="pax" aria-pressed="${CMP.per === "pax"}">${_t("на пассажира")}</button><button data-per="flight" aria-pressed="${CMP.per !== "pax"}">${_t("на рейс")}</button></div>
+    <div id="cmptab"></div>`;
+  const q = $("#cmpq"), hits = $("#cmphits");
+  q.addEventListener("input", () => {
+    const list = acSearch(q.value, 10).filter(t => t.usable && t.icao !== base && !CMP.types.includes(t.icao)).slice(0, 8);
+    hits.innerHTML = q.value.trim() ? list.map(t => `<div class="hit" data-add="${esc(t.icao)}"><b>${esc(acShort(t.icao))}</b>${esc(t.name || "")}</div>`).join("") : "";
+    hits.classList.toggle("on", !!hits.innerHTML);
+  });
+  hits.addEventListener("click", e => { const h = e.target.closest("[data-add]"); if (!h) return;
+    CMP.types.push(h.dataset.add); cmpDraw(); const n = $("#cmpq"); n && n.focus(); });
+  $("#cmpbody").querySelectorAll("[data-rm]").forEach(b => b.addEventListener("click", () => {
+    CMP.types = CMP.types.filter(t => t !== b.dataset.rm); cmpDraw(); }));
+  $("#cmpbody").querySelectorAll(".ipers button").forEach(b => b.addEventListener("click", () => {
+    CMP.per = b.dataset.per; cmpDraw(); }));
+  if (!CMP.types.length) {
+    $("#cmptab").innerHTML = `<p class="lede">${_t("Добавьте до пяти типов для сравнения: таблица покажет, из чего складывается разница — топливо, владение, сборы, экипаж.")}</p>`;
+    return;
+  }
+  cmpLoad().then(d => { if (d) $("#cmptab").innerHTML = cmpTable(d); });
+}
+function cmpTable(s){
+  if (s.error) return `<div class="note"><b>${_t("Отказ.")}</b> ${esc(s.error)}</div>`;
+  const rows = s.rows || [];
+  const base = rows.find(t => t.icao === CHOSEN.ac);
+  if (!base || base.status !== "ok" || !base.items) return `<div class="note">${esc((base && base.why) || _t("тип из расчёта не посчитался"))}</div>`;
+  const cols = [base, ...CMP.types.map(t => rows.find(r => r.icao === t)).filter(Boolean)];
+  const pax = t => (t.cost_total && t.cost_per_pax) ? t.cost_total / t.cost_per_pax : 1;
+  const val = (t, k) => { const x = (t.items || []).find(i => i.item === k); return x ? (CMP.per === "pax" ? x.eur / pax(t) : x.eur) : null; };
+  const prov = (t, k) => ((t.items || []).find(i => i.item === k) || {}).prov;
+  const keys = base.items.map(i => i.item);
+  const diff = (v, b) => { if (v == null || !b) return ""; const d = (v - b) / b;
+    return `<small class="${d > 0.005 ? "up" : d < -0.005 ? "dn" : ""}">${d > 0 ? "+" : ""}${Math.round(d * 100)}%</small>`; };
+  const cell = (t, k) => {
+    if (t.status !== "ok") return `<td class="v na">—</td>`;
+    const v = val(t, k);
+    if (v == null) return `<td class="v">—</td>`;
+    const hatch = ["default", "fleet", "estimated"].includes(prov(t, k));
+    return `<td class="v${hatch ? " par" : ""}">${m0(v)}${t === base ? "" : diff(v, val(base, k))}</td>`;
+  };
+  const tot = t => CMP.per === "pax" ? t.cost_per_pax : t.cost_total;
+  return `<div class="itw"><table class="itab"><thead><tr><th>${cu(_t("статья, EUR"))}</th>${cols.map(t =>
+      `<th class="v">${esc(acShort(t.icao))}${t === base ? ` <span class="t3">${_t("база")}</span>` : ""}${
+        t.status === "ok" ? `<small>${Math.round(t.lf * 100)}% ${_t("загрузка")}</small>` : `<small class="up">${esc(t.why || _t("нельзя"))}</small>`}</th>`).join("")}</tr></thead><tbody>${
+      keys.map(k => `<tr><td>${esc(ITEM_RU[k] || k)}</td>${cols.map(t => cell(t, k)).join("")}</tr>`).join("")}
+      <tr class="itot"><td>${_t("Итого")}</td>${cols.map(t => t.status !== "ok" ? `<td class="v na">—</td>` :
+        `<td class="v"><b>${m0(tot(t))}</b>${t === base ? "" : diff(tot(t), tot(base))}</td>`).join("")}</tr></tbody></table></div>
+    <p class="lede">${_t("Штриховка — параметрическая заготовка, а не данные: такая разница говорит о допущении, а не о типе. Своё число — в блоке «Флот» слева, для типа из расчёта.")}</p>`;
+}
+document.addEventListener("click", e => { if (e.target.closest("#cmpopen")) cmpOpen(); });
 
 // ── тип ─────────────────────────────────────────────────────────────
 // Карточка типа — форма. Библиотечный тип (openap) только читается, из
@@ -3856,6 +3970,7 @@ document.addEventListener("click", e => {
                formula: s.formula || "", subst: s.subst || ""});
 });
 $("#acclose").onclick = galleryClose;
+$("#cmpclose").onclick = cmpClose;
 $("#acpanel").addEventListener("click", e => { if (e.target.id === "acpanel") galleryClose(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#acpanel").hidden) galleryClose(); });
 $("#wspanel").addEventListener("click", e => { if (e.target === $("#wspanel")) wsClose(); });
