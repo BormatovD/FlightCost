@@ -527,6 +527,10 @@ def main(argv=None) -> int:
                     help="почему по паре есть или нет полоса, по всем полосам "
                          "глубины: DME-OVB или UUDD-UNNT, направление как хранится")
 
+    st = sub.add_parser("stats", help="посещения витрины по дням: просмотры и уникальные посетители")
+    st.add_argument("--days", type=int, default=30, help="за сколько последних суток (по умолчанию 30)")
+    st.add_argument("--pages", action="store_true", help="по страницам, а не только по сайту целиком")
+
     sv = sub.add_parser("serve", help="локальная витрина: ядро за JSON")
     sv.add_argument("--port", type=int, default=8000)
     sv.add_argument("--host", default="127.0.0.1")
@@ -607,6 +611,32 @@ def main(argv=None) -> int:
     # У `serve` поток на запрос, поэтому соединение открывается снятым с
     # привязки к потоку. ВТОРОГО соединения не заводим: две ручки к одному
     # файлу — лишний источник блокировок там, где хватает одной.
+    if a.cmd == "stats":
+        # До открытия справочника: на сервере команду запускает deploy,
+        # ему нужна только stats.db рядом с базой витрины.
+        from .visits import Visits, stats_path, ALL
+        p = stats_path(a.db)
+        if not p.exists():
+            print(f"статистики ещё нет: {p} появится после первого просмотра страницы на запущенной витрине")
+            return 0
+        rows = Visits(p).report(a.days)
+        if not rows:
+            print(f"за {a.days} сут. посещений нет"); return 0
+        days = sorted({r[0] for r in rows}, reverse=True)
+        tot = {r[0]: r for r in rows if r[1] == ALL}
+        print(f"{'день':10}  {'уникальных':>10}  {'просмотров':>10}")
+        for d in days:
+            t = tot.get(d, (d, ALL, 0, 0))
+            print(f"{d:10}  {t[3]:>10}  {t[2]:>10}")
+            if a.pages:
+                for r in rows:
+                    if r[0] == d and r[1] != ALL:
+                        print(f"  {r[1]:16}  {r[3]:>6}  {r[2]:>6}")
+        print(f"итого за {len(days)} сут.: просмотров {sum(r[2] for r in tot.values())}, "
+              f"сумма суточных уникальных {sum(r[3] for r in tot.values())} "
+              "(один человек в разные дни считается заново — между сутками посетителей не связать)")
+        return 0
+
     store = Store(a.db, shared=(a.cmd == "serve"))
     registry = load_registry(a.registry) if a.registry else load_registry()
 

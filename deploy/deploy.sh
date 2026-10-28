@@ -17,7 +17,7 @@ git reset --quiet --hard origin/main
 after=$(git rev-parse --short HEAD)
 echo "код: $before → $after"
 
-"$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e .
+"$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e ".[pdf]"
 echo "$after" > "$ROOT/VERSION"
 
 sudo /usr/bin/systemctl restart fca
@@ -27,7 +27,14 @@ for _ in $(seq 1 30); do
 	sleep 1
 	if out=$(curl -fsS http://127.0.0.1:8000/healthz 2>/dev/null); then
 		case "$out" in
-			*"\"version\": \"$after\""*) echo "витрина отвечает, версия $after"; exit 0 ;;
+			*"\"version\": \"$after\""*)
+				echo "витрина отвечает, версия $after"
+				# Bing и Яндекс узнают о страницах сразу (IndexNow), а не при
+				# следующем обходе. Только при новом коде; сбой выкладку не валит.
+				if [ "$before" != "$after" ]; then
+					"$ROOT/venv/bin/python" -m flightcostapp.seo indexnow || true
+				fi
+				exit 0 ;;
 		esac
 	fi
 done
