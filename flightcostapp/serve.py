@@ -189,6 +189,12 @@ class _Handler(BaseHTTPRequestHandler):
                 return lg
         return "en"
 
+    @staticmethod
+    def _calc_query(query: str) -> bool:
+        """Адрес с параметрами расчёта: такие ссылки ведут прямо в калькулятор."""
+        q = urllib.parse.parse_qs(query or "")
+        return any(k in q for k in ("o", "d", "ac", "mode", "origin", "destination"))
+
     def _seo(self, u) -> bool:
         """Языковые адреса и служебные файлы. True — ответ отправлен."""
         ctx = self.server.ctx
@@ -211,8 +217,8 @@ class _Handler(BaseHTTPRequestHandler):
                 return False
             self._public(f.read_bytes(), "image/png" if u.path.endswith(".png") else "image/svg+xml")
             return True
-        if u.path in ("/about", "/types"):
-            self._redirect(f"/{self._pref_lang()}{u.path}", 302)
+        if u.path in ("/about", "/types", "/calc"):
+            self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True
         m = seo.LANG_PATH.match(u.path)
         if not m:
@@ -223,7 +229,13 @@ class _Handler(BaseHTTPRequestHandler):
             return True
         html_t = "text/html; charset=utf-8"
         if tail == "/":
-            self._send(200, seo.home(lang, _page().decode("utf-8")).encode("utf-8"), html_t)
+            if self._calc_query(u.query):              # старые ссылки /ru/?ac=… — в калькулятор
+                self._redirect(f"/{lang}/calc?{u.query}")
+                return True
+            self._public(seo.landing(lang, ctx.seo_sample()).encode("utf-8"), html_t)
+            return True
+        if tail in ("/calc", "/calc/"):
+            self._send(200, seo.calc_page(lang, _page().decode("utf-8")).encode("utf-8"), html_t)
             return True
         if tail in ("/about", "/about/"):
             self._public(seo.about_page(lang).encode("utf-8"), html_t)
@@ -241,7 +253,8 @@ class _Handler(BaseHTTPRequestHandler):
             entry = next((x for x in seo.public_types(types) if x["icao"] == icao), None)
             if entry is not None:
                 info = ctx.aircraft_type({"icao": icao})
-                self._public(seo.type_page(lang, info, entry, types).encode("utf-8"), html_t)
+                econ = ctx.seo_econ(seo.cls_of(entry)) if entry.get("usable") else None
+                self._public(seo.type_page(lang, info, entry, types, econ).encode("utf-8"), html_t)
                 return True
         self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
         return True
@@ -403,7 +416,7 @@ class _Handler(BaseHTTPRequestHandler):
             # Языковые страницы — по виду, а не по адресу: страница типа одна
             # строка «/en/type», чтобы перебор адресов не раздувал таблицу.
             tail = (m.group(2) or "/").rstrip("/")
-            kind = {"": "/", "/about": "/about", "/types": "/types"}.get(tail)
+            kind = {"": "/", "/calc": "/calc", "/about": "/about", "/types": "/types"}.get(tail)
             if kind is None and tail.startswith("/type/"):
                 kind = "/type"
             page = f"/{m.group(1)}{kind}".replace("//", "/") if kind else None
@@ -438,8 +451,16 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._send(200, _legal_page(u.path.lstrip("/")),
                                   "text/html; charset=utf-8")
             if u.path in ("/", "/index.html"):
-                return self._send(200, seo.home(None, _page().decode("utf-8")).encode("utf-8"),
-                                  "text/html; charset=utf-8")
+                # Корень — главная (обложка) на языке браузера. Ссылки с
+                # параметрами расчёта (промо, старые закладки) открывают
+                # калькулятор сразу, без лишнего шага.
+                if self._calc_query(u.query):
+                    return self._send(200, seo.calc_page(None, _page().decode("utf-8")).encode("utf-8"),
+                                      "text/html; charset=utf-8")
+                q_lang = q.get("lang") if q.get("lang") in seo.LANGS else None
+                return self._public(seo.landing(q_lang or self._pref_lang(), self.server.ctx.seo_sample(),
+                                                canonical_root=True).encode("utf-8"),
+                                    "text/html; charset=utf-8")
             if u.path == "/api/airports":
                 return self._json(ctx.airports())
             if u.path == "/api/fx":
@@ -1742,6 +1763,55 @@ class Context:
             "burn": burn,
         }
 
+    # Расчёты страниц типов на типовом маршруте (seo.ROUTES): класс целиком,
+    # раз в шесть часов. Считает фоновый поток (`start_seo_econ`), чтобы
+    # первый заход робота не ждал десятки расчётов; до готовности страница
+    # пишет «готовится».
+    SEO_ECON_TTL = 6 * 3600
+
+    def seo_econ(self, cls: str) -> dict | None:
+        c = getattr(self, "_seo_econ", {}).get(cls)
+        return c[1] if c else None
+
+    def _seo_econ_build(self, cls: str) -> dict:
+        from .econ import route_economics
+        o, d = (self.resolve(x) for x in seo.ROUTES[cls])
+        out = {}
+        for t in seo.public_types(self.seo_types()):
+            if not t.get("usable") or seo.cls_of(t) != cls:
+                continue
+            try:
+                with self.lock:                     # по одному типу: запросы людей идут между ними
+                    res = route_economics(self.store, o, d, aircraft=t["icao"], load_factor=seo.ECON_LF,
+                                          month=seo.ECON_MONTH)
+                    out[t["icao"]] = seo.econ_summary(result_json(res))
+            except Exception as exc:                # noqa: BLE001 — тип без расчёта не валит класс
+                out[t["icao"]] = {"error": f"{type(exc).__name__}: {exc}"}
+        return out
+
+    def seo_refresh(self) -> None:
+        """Пересчитать все классы (синхронно)."""
+        for cls in seo.ROUTES:
+            built = self._seo_econ_build(cls)
+            self._seo_econ = {**getattr(self, "_seo_econ", {}), cls: (time.time(), built)}
+
+    def start_seo_econ(self, log=print) -> None:
+        def loop():
+            while True:
+                t0 = time.time()
+                try:
+                    self.seo_refresh()
+                    log(f"страницы типов: расчёты на типовых маршрутах готовы за {time.time() - t0:.0f} с")
+                except Exception as exc:            # noqa: BLE001
+                    log(f"страницы типов: расчёт не удался: {type(exc).__name__}: {exc}")
+                time.sleep(self.SEO_ECON_TTL)
+        threading.Thread(target=loop, name="seo-econ", daemon=True).start()
+
+    def seo_sample(self) -> dict | None:
+        """Пример на главной: A320, Франкфурт — Барселона, из тех же расчётов."""
+        e = (self.seo_econ("narrow") or {}).get("A320")
+        return {"icao": "A320", "name": "Airbus A320", "cls": "narrow", "e": e} if e else None
+
     def seo_types(self) -> list[dict]:
         """Типы для страниц поисковика: справочник без слоя гостя, кэш на 10 минут.
 
@@ -2463,6 +2533,7 @@ def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,
             ctx.route({"origin": "FRA", "destination": "BCN"})
         except Exception as exc:                          # noqa: BLE001
             log(f"  прогрев не удался: {type(exc).__name__}: {exc}")
+    ctx.start_seo_econ(log)
     httpd = ThreadingHTTPServer((host, port), _Handler)
     httpd.ctx = ctx
     log(f"витрина: http://{host}:{port}/   (Ctrl-C чтобы остановить)")

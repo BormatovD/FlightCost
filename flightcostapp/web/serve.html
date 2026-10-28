@@ -23,6 +23,7 @@ header #cur{order:0;margin-left:auto}
 header #langs,header button.ws{order:0}
 header #hdr,header .sp,header a.legal{order:2;margin-top:6px}
 header b{font:600 16px/1 var(--sans);margin-right:6px}
+header b a{color:inherit;text-decoration:none}
 header .hp{position:relative}
 /* Переключатель языка: три кнопки, нажатая — цветом акцента. */
 #langs{display:inline-flex;gap:2px;margin-left:10px}
@@ -596,7 +597,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
 @keyframes ldr-spiral{0%,100%{transform:scale(1)}50%{transform:scale(.72)}}
 @media (prefers-reduced-motion:reduce){#loader .hold,#loader .hold .wob{animation:none}}
 </style></head><body>
-<header><b>fca</b>
+<header><b><a href="/" id="homelink" title="FlightCost">fca</a></b>
   <span class="mode" id="mode" role="tablist"><button data-mode="route" aria-selected="true">Маршрут</button><button data-mode="net" aria-selected="false">Сеть</button></span>
   <div class="hp"><input id="o" class="pick" autocomplete="off" placeholder="откуда — код или название" title="Откуда">
     <div class="hits" id="oh"></div></div>
@@ -622,7 +623,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
-  <a class="legal" href="/about" id="aboutlink">О сервисе</a><a class="legal" href="/types" id="typeslink">Типы ВС</a>
+  <a class="legal" href="/" id="aboutlink">О сервисе</a><a class="legal" href="/types" id="typeslink">Типы ВС</a>
   <a class="legal" href="/map" id="maplink">Карта данных</a><a class="legal" href="/data">Данные</a>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a></header>
 <div id="acpanel" hidden><div class="wsbox" role="dialog" aria-labelledby="ach">
@@ -870,7 +871,7 @@ function translateStatic(root) {
 }
 translateStatic(document.body);
 // «О сервисе» и «Типы ВС» — страницы на языке витрины (seo.py).
-for (const id of ["aboutlink", "typeslink"]) {
+for (const id of ["homelink", "aboutlink", "typeslink"]) {
   const a = document.getElementById(id);
   if (a) a.setAttribute("href", `/${LANG}${a.getAttribute("href").replace(/^\/(ru|en|de)/, "")}`);
 }

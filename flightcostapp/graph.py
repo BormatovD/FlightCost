@@ -868,7 +868,7 @@ setTimeout(() => { drawEdges(null); intro(); }, 60);
 # Меню и форма маршрута для /map. Фразы — в _t("…"), чтобы их видел
 # каталог переводов (tests/test_i18n.py читает и этот файл). Узлы карты
 # пока по-русски: это словарь модели, переводится отдельным шагом.
-_WEB_NAV = """<nav class="site"><b>FlightCost</b><a href="/" id="nav-calc">Расчёт</a>
+_WEB_NAV = """<nav class="site"><b>FlightCost</b><a href="/calc" id="nav-calc">Расчёт</a>
 <a href="/map" class="on" id="nav-map">Карта данных</a><a href="/data" id="nav-data">Данные</a></nav>
 <form class="rt" id="rt"><input id="fo" placeholder="FRA"> <span>→</span> <input id="fd" placeholder="BCN">
 <input id="fac" placeholder="A320"> <button type="submit" id="fgo">Показать на маршруте</button>
