@@ -110,7 +110,11 @@ command -v restorecon >/dev/null && restorecon -R /home/deploy/.ssh || true
 # ── каталоги, код, окружение ─────────────────────────────────────────────
 say "каталоги"
 install -d -o deploy -g fca -m 755 "$ROOT"
-install -d -o deploy -g fca -m 2775 "$ROOT/site" "$ROOT/site/data" "$ROOT/site/data/geo" "$ROOT/site/data/airspace"
+# Без права чтения для «прочих»: на сервере живёт ещё агент обновления данных
+# (пользователь agent) — к базе витрины у него доступа нет, только сервер.
+install -d -o deploy -g fca -m 2770 "$ROOT/site" "$ROOT/site/data" "$ROOT/site/data/geo" "$ROOT/site/data/airspace"
+chmod 2770 "$ROOT/site" "$ROOT/site/data"
+find "$ROOT/site/data" -maxdepth 1 -type f -name '*.db*' -exec chmod o-rwx {} + 2>/dev/null || true
 install -d -o deploy -g deploy -m 700 "$ROOT/incoming"
 # Копии базы рабочих мест гостей: пишет только fca, читает только root.
 install -d -o fca -g fca -m 700 "$ROOT/backup"
@@ -118,7 +122,7 @@ install -d -o fca -g fca -m 700 "$ROOT/backup"
 say "код и окружение"
 [ -d "$ROOT/app/.git" ] || sudo -u deploy git clone --quiet "$REPO" "$ROOT/app"
 [ -d "$ROOT/venv" ] || sudo -u deploy "$PY" -m venv "$ROOT/venv"
-sudo -u deploy "$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e "$ROOT/app"
+sudo -u deploy "$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e "$ROOT/app[pdf]"
 sudo -u deploy sh -c "cd $ROOT/app && git rev-parse --short HEAD > $ROOT/VERSION"
 chmod -R g+rX "$ROOT/app" "$ROOT/venv"
 
@@ -134,6 +138,28 @@ if command -v getenforce >/dev/null && [ "$(getenforce)" != Disabled ]; then
 	# Caddy проксирует на 127.0.0.1:8000 — разрешить веб-серверу исходящие
 	# соединения (безвредно, если Caddy работает вне домена httpd_t).
 	setsebool -P httpd_can_network_connect 1
+fi
+
+# ── агент обновления данных (OpenClaw) ──────────────────────────────────
+say "пользователь agent: агент обновления данных, без доступа к базе"
+# Агент только кладёт найденное во входящие; в справочник это попадает после
+# проверки человеком (fca review у владельца). Группы fca у него нет —
+# каталог данных витрины ему закрыт; sudo нет.
+id agent >/dev/null 2>&1 || useradd --create-home --shell /bin/bash agent
+install -d -o agent -g deploy -m 2770 "$ROOT/inbox"
+gpasswd -d agent fca >/dev/null 2>&1 || true
+
+# ── PDF отчёта: Chromium в общий каталог ─────────────────────────────────
+if [ ! -d "$ROOT/ms-playwright" ]; then
+	say "Chromium для PDF отчёта по парку"
+	if [ "$FAMILY" = deb ]; then
+		PLAYWRIGHT_BROWSERS_PATH="$ROOT/ms-playwright" "$ROOT/venv/bin/playwright" install --with-deps chromium
+	else
+		dnf install -y -q nss nspr atk at-spi2-atk at-spi2-core cups-libs libdrm libxkbcommon \
+			libXcomposite libXdamage libXfixes libXrandr libxshmfence mesa-libgbm pango cairo alsa-lib
+		PLAYWRIGHT_BROWSERS_PATH="$ROOT/ms-playwright" "$ROOT/venv/bin/playwright" install chromium
+	fi
+	chmod -R a+rX "$ROOT/ms-playwright"
 fi
 
 # ── права deploy ─────────────────────────────────────────────────────────

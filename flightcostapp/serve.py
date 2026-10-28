@@ -39,6 +39,7 @@ import re
 import threading
 import time
 import traceback
+import sqlite3
 import urllib.parse
 from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -52,6 +53,7 @@ WEB = Path(__file__).resolve().parent / "web"
 # первым молча (решение 87).
 from .inventory import GEO
 from .guest import DOC_KINDS, GuestDB, GuestStore, valid_key
+from . import seo
 
 try:
     from .econ import COST_RU as _COST_RU
@@ -163,6 +165,86 @@ class _Handler(BaseHTTPRequestHandler):
         self._send(code, json.dumps(obj, ensure_ascii=False,
                                     default=str).encode("utf-8"),
                    "application/json; charset=utf-8")
+
+    def _public(self, body: bytes, ctype: str, code: int = 200) -> None:
+        """Страница для поисковика: кэш на час вместо no-store."""
+        self.send_response(code)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "public, max-age=3600")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _redirect(self, to: str, code: int = 301) -> None:
+        self.send_response(code)
+        self.send_header("Location", to)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
+    def _pref_lang(self) -> str:
+        """Язык для перехода с адреса без языка: первый из Accept-Language, иначе en."""
+        for part in (self.headers.get("Accept-Language") or "").split(","):
+            lg = part.strip()[:2].lower()
+            if lg in seo.LANGS:
+                return lg
+        return "en"
+
+    def _seo(self, u) -> bool:
+        """Языковые адреса и служебные файлы. True — ответ отправлен."""
+        ctx = self.server.ctx
+        if u.path == "/robots.txt":
+            self._public(seo.robots().encode(), "text/plain; charset=utf-8")
+            return True
+        if u.path == f"/{seo.INDEXNOW_KEY}.txt":
+            self._public(seo.INDEXNOW_KEY.encode(), "text/plain; charset=utf-8")
+            return True
+        if u.path in ("/sitemap.xml", "/llms.txt"):
+            types = ctx.seo_types()
+            if u.path == "/sitemap.xml":
+                self._public(seo.sitemap(types).encode(), "application/xml; charset=utf-8")
+            else:
+                self._public(seo.llms(types).encode(), "text/plain; charset=utf-8")
+            return True
+        if u.path in ("/og.png", "/favicon.svg"):
+            f = WEB / u.path.lstrip("/")
+            if not f.is_file():
+                return False
+            self._public(f.read_bytes(), "image/png" if u.path.endswith(".png") else "image/svg+xml")
+            return True
+        if u.path in ("/about", "/types"):
+            self._redirect(f"/{self._pref_lang()}{u.path}", 302)
+            return True
+        m = seo.LANG_PATH.match(u.path)
+        if not m:
+            return False
+        lang, tail = m.group(1), m.group(2) or ""
+        if tail == "":
+            self._redirect(f"/{lang}/" + (f"?{u.query}" if u.query else ""))
+            return True
+        html_t = "text/html; charset=utf-8"
+        if tail == "/":
+            self._send(200, seo.home(lang, _page().decode("utf-8")).encode("utf-8"), html_t)
+            return True
+        if tail in ("/about", "/about/"):
+            self._public(seo.about_page(lang).encode("utf-8"), html_t)
+            return True
+        if tail in ("/types", "/types/"):
+            self._public(seo.types_index(lang, ctx.seo_types()).encode("utf-8"), html_t)
+            return True
+        mt = re.match(r"^/type/([A-Za-z0-9]{2,4})/?$", tail)
+        if mt:
+            icao = mt.group(1).upper()
+            if mt.group(1) != icao:
+                self._redirect(f"/{lang}/type/{icao}")
+                return True
+            types = ctx.seo_types()
+            entry = next((x for x in seo.public_types(types) if x["icao"] == icao), None)
+            if entry is not None:
+                info = ctx.aircraft_type({"icao": icao})
+                self._public(seo.type_page(lang, info, entry, types).encode("utf-8"), html_t)
+                return True
+        self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
+        return True
 
     def log_message(self, fmt, *args):        # тише: страница делает много запросов
         if "200" not in (fmt % args):
@@ -310,9 +392,32 @@ class _Handler(BaseHTTPRequestHandler):
             return self._json({"body": doc} if doc is not None else {"error": "нет такого документа"})
         return self._json({"error": "нет такого адреса", "path": u.path}, 404)
 
+    # Страницы, просмотры которых считаются (не API и не файлы оформления).
+    PAGES = {"/": "/", "/index.html": "/", "/map": "/map", "/data": "/data", "/report": "/report",
+             "/impressum": "/impressum", "/datenschutz": "/datenschutz", "/w": "/w"}
+
+    def _count(self, path: str) -> None:
+        page = self.PAGES.get(path) or ("/w" if path.startswith("/w/") else None)
+        m = seo.LANG_PATH.match(path)
+        if page is None and m:
+            # Языковые страницы — по виду, а не по адресу: страница типа одна
+            # строка «/en/type», чтобы перебор адресов не раздувал таблицу.
+            tail = (m.group(2) or "/").rstrip("/")
+            kind = {"": "/", "/about": "/about", "/types": "/types"}.get(tail)
+            if kind is None and tail.startswith("/type/"):
+                kind = "/type"
+            page = f"/{m.group(1)}{kind}".replace("//", "/") if kind else None
+        v = getattr(self.server.ctx, "visits", None)
+        if page and v is not None:
+            try:
+                v.hit(page, self._client_ip(), self.headers.get("User-Agent") or "")
+            except sqlite3.Error:                   # счётчик не должен ронять страницу
+                pass
+
     def do_GET(self):                                     # noqa: N802
         u = urllib.parse.urlparse(self.path)
         q = {k: v[0] for k, v in urllib.parse.parse_qs(u.query).items()}
+        self._count(u.path)
         try:
             if u.path == "/w" or u.path.startswith("/w/") or u.path.startswith("/api/ws"):
                 return self._ws_get(u, q, self._ctx())
@@ -322,6 +427,8 @@ class _Handler(BaseHTTPRequestHandler):
                 # справочника. По ней проверяет себя выкладка и ей
                 # проверяете вы — «на домене то, что я думаю».
                 return self._json(self.server.ctx.health())
+            if self._seo(u):
+                return
             if u.path in ("/api/solve", "/api/compare") and not self.server.ctx.allow(
                     self._client_ip()):
                 return self._json({"error": "слишком часто: тяжёлые расчёты — не чаще "
@@ -331,7 +438,8 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._send(200, _legal_page(u.path.lstrip("/")),
                                   "text/html; charset=utf-8")
             if u.path in ("/", "/index.html"):
-                return self._send(200, _page(), "text/html; charset=utf-8")
+                return self._send(200, seo.home(None, _page().decode("utf-8")).encode("utf-8"),
+                                  "text/html; charset=utf-8")
             if u.path == "/api/airports":
                 return self._json(ctx.airports())
             if u.path == "/api/fx":
@@ -1634,6 +1742,20 @@ class Context:
             "burn": burn,
         }
 
+    def seo_types(self) -> list[dict]:
+        """Типы для страниц поисковика: справочник без слоя гостя, кэш на 10 минут.
+
+        Страницы типов и sitemap спрашивают список на каждый запрос, а
+        поисковый робот ходит пачками; список меняется только выкладкой.
+        """
+        now = time.time()
+        c = getattr(self, "_seo_cache", None)
+        if c and now - c[0] < 600:
+            return c[1]
+        types = self.aircraft()         # общий контекст: слоя гостя нет
+        self._seo_cache = (now, types)
+        return types
+
     def aircraft(self) -> list[dict]:
         """Типы ВС из хранилища, с тем, что о каждом известно.
 
@@ -2330,6 +2452,9 @@ def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,
         n = gdb.prune()                   # сразу, не дожидаясь метлы по часам
         log(f"рабочие места гостей: {gdb.path}" + (f", удалено {n} забытых" if n else ""))
     ctx = Context(store, registry, public=public, gdb=gdb)
+    from .visits import Visits, stats_path
+    ctx.visits = Visits(stats_path(store.path))
+    log(f"статистика посещений: {ctx.visits.path}")
     if warm:
         # Прогрев в явном виде: пять секунд холодных импортов иначе
         # заплатит первый же запрос, и человек решит, что тормозит всё.

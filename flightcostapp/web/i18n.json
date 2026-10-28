@@ -972,7 +972,8 @@
   "пассажиров на рейс — у каждого типа своя загрузка при них.": "Passagiere pro Flug — jeder Typ hat dabei seine eigene Auslastung.",
   "сравнить с другими типами": "mit anderen Typen vergleichen",
   "тип из расчёта не посчитался": "der Typ der Berechnung ließ sich nicht berechnen",
-  "Сравнение типов по статьям": "Typvergleich nach Kostenposten"
+  "Сравнение типов по статьям": "Typvergleich nach Kostenposten",
+  "О сервисе": "Über"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -1947,6 +1948,7 @@
   "пассажиров на рейс — у каждого типа своя загрузка при них.": "passengers per flight — each type has its own load factor at that number.",
   "сравнить с другими типами": "compare with other types",
   "тип из расчёта не посчитался": "the type in the calculation could not be computed",
-  "Сравнение типов по статьям": "Type comparison by cost item"
+  "Сравнение типов по статьям": "Type comparison by cost item",
+  "О сервисе": "About"
  }
 }
