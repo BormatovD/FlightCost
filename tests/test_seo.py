@@ -73,31 +73,49 @@ class SeoHttp(unittest.TestCase):
     def head_of(self, body):
         return body.split("</head>", 1)[0]
 
-    def test_language_home(self):
+    def test_language_calc(self):
         for lg in seo.LANGS:
-            st, body, _ = self.get(f"/{lg}/")
+            st, body, _ = self.get(f"/{lg}/calc")
             self.assertEqual(st, 200)
             h = self.head_of(body)
             self.assertIn(f'<html lang="{lg}">', body)
-            self.assertIn(f'<link rel="canonical" href="{seo.site()}/{lg}/">', h)
+            self.assertIn(f'<link rel="canonical" href="{seo.site()}/{lg}/calc">', h)
             for x in seo.LANGS:
-                self.assertIn(f'hreflang="{x}" href="{seo.site()}/{x}/"', h)
-            self.assertIn('hreflang="x-default"', h)
-            self.assertIn(f"<title>{seo.esc(seo.T[lg]['home_title'])}</title>", h)
-            # относительные адреса витрины не ломаются под /<язык>/
+                self.assertIn(f'hreflang="{x}" href="{seo.site()}/{x}/calc"', h)
+            self.assertIn(f"<title>{seo.esc(seo.T[lg]['calc_title'])}</title>", h)
+            # относительные адреса витрины не ломаются под /<язык>/calc
             self.assertIn('href="/ui.css"', body)
             self.assertIn('from "/geo.js"', body)
             self.assertNotIn('href="ui.css"', body)
             ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', h).group(1))
             self.assertEqual((ld["@type"], ld["offers"]["price"]), ("WebApplication", "0"))
-            self.assertIn(f'<h1 class="vh">', body)
+            self.assertIn('<h1 class="vh">', body)
         st, _, loc = self.get("/en")
         self.assertEqual((st, loc), (301, "/en/"))
+        self.assertEqual(self.get("/calc?ac=A320", "de")[2], "/de/calc?ac=A320")
 
-    def test_root_is_x_default(self):
-        st, body, _ = self.get("/")
+    def test_landing(self):
+        for lg in seo.LANGS:
+            st, body, _ = self.get(f"/{lg}/")
+            self.assertEqual(st, 200)
+            self.assertIn(f"<title>{seo.esc(seo.T[lg]['home_title'])}</title>", body)
+            self.assertIn(f'href="/{lg}/calc"', body)
+            self.assertIn(f'href="/{lg}/types"', body)
+            self.assertIn(f'href="/{lg}/calc?mode=net"', body)
+            self.assertNotIn("I18N", body, "главная — не витрина")
+        # старая ссылка с параметрами на языковой главной — в калькулятор
+        self.assertEqual(self.get("/en/?ac=A320&o=EDDF")[2], "/en/calc?ac=A320&o=EDDF")
+
+    def test_root(self):
+        st, body, _ = self.get("/", "de-DE,de")
         self.assertEqual(st, 200)
         self.assertIn(f'<link rel="canonical" href="{seo.site()}/">', self.head_of(body))
+        self.assertIn('<html lang="de">', body)
+        self.assertNotIn("I18N", body)
+        # ссылки промо и закладки с параметрами — сразу калькулятор
+        st, body, _ = self.get("/?o=UUEE&d=EDDF&ac=A320")
+        self.assertEqual(st, 200)
+        self.assertIn("const I18N", body)
 
     def test_about_redirect_by_language(self):
         self.assertEqual(self.get("/about", "de-DE,de;q=0.9")[2], "/de/about")
@@ -111,7 +129,7 @@ class SeoHttp(unittest.TestCase):
         st, body, _ = self.get("/en/type/A320")
         self.assertEqual(st, 200)
         self.assertIn("<h1>Airbus A320", body)
-        self.assertIn('href="/en/?ac=A320"', body)
+        self.assertIn('href="/en/calc?o=EDDF&amp;d=LEBL&amp;ac=A320"', body)
         self.assertIn("78.0", body)
         st, body, _ = self.get("/de/type/A320")
         self.assertIn("78,0", body)
@@ -178,9 +196,51 @@ class CatalogNames(unittest.TestCase):
         h.server = type("Srv", (), {"ctx": type("C", (), {"visits": V()})()})()
         h.headers = {}
         h.client_address = ("127.0.0.1", 0)
-        for p in ("/en/", "/de/about", "/ru/types", "/en/type/A320", "/en/type/B738", "/api/x"):
+        for p in ("/en/", "/en/calc", "/de/about", "/ru/types", "/en/type/A320", "/en/type/B738", "/api/x"):
             h._count(p)
-        self.assertEqual(seen, ["/en/", "/de/about", "/ru/types", "/en/type", "/en/type"])
+        self.assertEqual(seen, ["/en/", "/en/calc", "/de/about", "/ru/types", "/en/type", "/en/type"])
+
+
+class TypeEconomics(unittest.TestCase):
+    """Блок «экономика на типовом маршруте» из ответа ядра — без ядра."""
+
+    J = {"route": {"distance_nm": 590, "block_h": 2.0, "fuel_kg": 4500, "seats": 170, "pax": 136},
+         "answer": {"cost_total": 15000.0, "breakeven_fare_eur": 110.3, "feasible": True, "max_pax": 290,
+                    "feasibility": {"ok": True, "limits": []}},
+         "cost": [{"item": "fuel", "label": "Топливо", "eur": 9000.0, "prov": "default"},
+                  {"item": "airport_charges", "label": "Аэропортовые сборы", "eur": 6000.0, "prov": "derived"}],
+         "default_share": 0.6}
+
+    def test_summary(self):
+        e = seo.econ_summary(self.J)
+        self.assertAlmostEqual(e["per_seat"], 15000 / 170)
+        self.assertAlmostEqual(e["cask_ct"], 15000 / (170 * 590 * 1.852) * 100)
+        self.assertAlmostEqual(e["per_bh"], 7500)
+        self.assertFalse(e["no_model"])
+
+    def test_block_translated_and_compared(self):
+        e = seo.econ_summary(self.J)
+        other = {**e, "seats": 180, "total": 16000.0, "per_seat": 16000 / 180, "cask_ct": 8.0}
+        types = [{"icao": "A320", "name": "Airbus A320", "seats_typical": 170, "usable": True},
+                 {"icao": "A20N", "name": "Airbus A320neo", "seats_typical": 180, "usable": True}]
+        html = seo.econ_block("de", types[0], {}, {"A320": e, "A20N": other}, "narrow", types)
+        self.assertIn("Frankfurt — Barcelona", html)
+        self.assertIn("Treibstoff", html)
+        self.assertNotRegex(html, CYR)
+        self.assertIn('class="me"', html)
+        self.assertIn("/de/type/A20N", html)
+
+    def test_no_model_and_infeasible(self):
+        nm = seo.econ_summary({**self.J, "answer": {**self.J["answer"], "feasible": False,
+                               "feasibility": {"limits": [{"key": "no_model"}]}}})
+        t = {"icao": "AT76", "name": "ATR 72-600", "seats_typical": 72, "usable": True}
+        self.assertIn(seo.T["en"]["no_model"], seo.econ_block("en", t, {}, {"AT76": nm}, "regional", [t]))
+        inf = seo.econ_summary({**self.J, "answer": {**self.J["answer"], "feasible": False, "max_pax": 90,
+                                "feasibility": {"limits": [{"key": "mtow"}]}}})
+        html = seo.econ_block("ru", t, {}, {"AT76": inf}, "regional", [t])
+        self.assertIn("невыполним", html)
+        self.assertIn("90 пассажиров", html)
+        self.assertIn(seo.T["ru"]["econ_wait"], seo.econ_block("ru", t, {}, None, "regional", [t]))
 
 
 if __name__ == "__main__":
