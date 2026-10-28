@@ -60,6 +60,42 @@ T = {
                       "экипаж, ТОиР, лизинг, безубыточный чек и загрузка. Любой маршрут и тип ВС, источник у каждой цифры. "
                       "Без регистрации, открытый код."),
         "home_h1": "Бесплатный расчёт экономики авиамаршрута",
+        "calc_title": "Калькулятор экономики авиарейса: стоимость рейса и безубыточность | FlightCost",
+        "calc_desc": ("Посчитайте рейс по статьям: топливо, сборы аэропортов и аэронавигации, экипаж, ТОиР, лизинг; "
+                      "безубыточный чек и загрузка. Любой маршрут и тип ВС, бесплатно и без регистрации."),
+        "calc_h1": "Калькулятор экономики авиарейса",
+        "hero_h": "Экономика авиамаршрута — бесплатно",
+        "hero_p": "Стоимость рейса по статьям, безубыточный чек и загрузка — с источником у каждой цифры.",
+        "hero_tags": ["Бесплатно · открытый код", "Любой маршрут", "60+ типов ВС", "RU · EN · DE"],
+        "go_calc": "Посчитать маршрут", "go_types": "Сравнить типы ВС",
+        "doors_h": "С чего начать",
+        "door_types": ("Типы ВС", "Характеристики, схема и экономика каждого типа на типовом маршруте из Франкфурта."),
+        "door_calc": ("Расчёт маршрута", "Любая пара аэропортов и тип: стоимость рейса по статьям и безубыточность."),
+        "door_net": ("Маршрутная сеть", "Для опытных: несколько направлений, частоты, парк и сравнение типов на сети."),
+        "sample_h": "Пример расчёта",
+        "sample_l": "{name} · {route} · загрузка 80%",
+        "sample_open": "Открыть этот расчёт →",
+        "what_h": "Что внутри",
+        "more_about": "Подробнее о сервисе и данных →",
+        "k_total": "рейс, EUR", "k_seat": "на кресло, EUR", "k_cask": "CASK, евроцент на кресло-км",
+        "k_bh": "на блок-час, EUR", "k_be": "безубыточный чек при 80%, EUR",
+        "econ_h": "Экономика на маршруте {route}",
+        "econ_lead": ("{km} км по пути полёта, блок {bh} ч, загрузка 80% — {pax} из {seats} кресел, июль. "
+                      "Посчитано ядром FlightCost; ставки владения, ТОиР и экипажа — заготовка: на допущениях "
+                      "держится {dflt}% суммы."),
+        "econ_range": "Паспортная дальность — {range} км.",
+        "econ_open": "Открыть этот расчёт и поменять параметры →",
+        "col_item": "Статья", "col_eur": "EUR", "col_share": "Доля", "col_prov": "Происхождение",
+        "prov": {"doc": "документ", "calc": "расчёт", "guess": "допущение"},
+        "no_model": "Расход топлива этого типа пока не моделируется — расчёт на маршруте недоступен.",
+        "infeasible": "На этом маршруте рейс невыполним с загрузкой 80%: {why}. Числа ниже — справочные.",
+        "lim": {"mtow": "упирается во взлётную массу — поднимет {mp} пассажиров",
+                "fuel_capacity": "не хватает ёмкости топливных баков", "range": "не хватает дальности"},
+        "cmp_h": "Типы класса на этом маршруте",
+        "cmp_lead": "Тот же маршрут, загрузка и допущения — отличается только тип.",
+        "econ_wait": "Расчёт на типовом маршруте готовится — обновите страницу через минуту.",
+        "sil_h": "Схема",
+        "sil_lead": "Вид сверху в одном масштабе с соседями по классу.",
         "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_about": "О сервисе", "nav_data": "Данные",
         "nav_map": "Карта данных",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
@@ -109,6 +145,42 @@ T = {
                       "maintenance, leasing, break-even fare and load factor. Any route and aircraft type, a source "
                       "for every number. No sign-up, open source."),
         "home_h1": "Free airline route economics calculator",
+        "calc_title": "Flight cost calculator: cost per flight and break-even | FlightCost",
+        "calc_desc": ("Calculate a flight by item: fuel, airport and air navigation charges, crew, maintenance, lease; "
+                      "break-even fare and load factor. Any route and aircraft type, free and without sign-up."),
+        "calc_h1": "Airline flight cost calculator",
+        "hero_h": "Airline route economics, free",
+        "hero_p": "Cost of a flight by item, break-even fare and load factor — with a source for every number.",
+        "hero_tags": ["Free · open source", "Any route", "60+ aircraft types", "RU · EN · DE"],
+        "go_calc": "Calculate a route", "go_types": "Compare aircraft types",
+        "doors_h": "Where to start",
+        "door_types": ("Aircraft types", "Specifications, a drawing and the economics of every type on a typical route from Frankfurt."),
+        "door_calc": ("Route calculation", "Any airport pair and type: cost of the flight by item and break-even."),
+        "door_net": ("Route network", "For experienced users: several routes, frequencies, fleet and type comparison on a network."),
+        "sample_h": "Example",
+        "sample_l": "{name} · {route} · 80% load factor",
+        "sample_open": "Open this calculation →",
+        "what_h": "What is inside",
+        "more_about": "More about the service and the data →",
+        "k_total": "flight, EUR", "k_seat": "per seat, EUR", "k_cask": "CASK, euro cents per seat-km",
+        "k_bh": "per block hour, EUR", "k_be": "break-even fare at 80%, EUR",
+        "econ_h": "Economics on {route}",
+        "econ_lead": ("{km} km along the flight path, {bh} h block, 80% load factor — {pax} of {seats} seats, July. "
+                      "Calculated by the FlightCost engine; ownership, maintenance and crew rates are defaults: "
+                      "{dflt}% of the total rests on assumptions."),
+        "econ_range": "Published range: {range} km.",
+        "econ_open": "Open this calculation and change the inputs →",
+        "col_item": "Item", "col_eur": "EUR", "col_share": "Share", "col_prov": "Origin",
+        "prov": {"doc": "document", "calc": "calculation", "guess": "assumption"},
+        "no_model": "Fuel burn for this type is not modelled yet — the route calculation is not available.",
+        "infeasible": "The flight is not feasible on this route at 80% load factor: {why}. Figures below are for reference.",
+        "lim": {"mtow": "limited by take-off weight — carries {mp} passengers",
+                "fuel_capacity": "fuel tank capacity is insufficient", "range": "range is insufficient"},
+        "cmp_h": "Types of this class on the same route",
+        "cmp_lead": "Same route, load factor and assumptions — only the aircraft type differs.",
+        "econ_wait": "The typical-route calculation is being prepared — reload the page in a minute.",
+        "sil_h": "Drawing",
+        "sil_lead": "Top view at the same scale as its class neighbours.",
         "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_about": "About", "nav_data": "Data",
         "nav_map": "Data map",
         "about_title": "About: free airline flight cost calculator | FlightCost",
@@ -158,6 +230,42 @@ T = {
                       "Flugsicherungsgebühren, Crew, Wartung, Leasing, Break-even-Preis und -Auslastung. Jede Strecke "
                       "und jeder Flugzeugtyp, mit Quelle für jede Zahl. Ohne Anmeldung, Open Source."),
         "home_h1": "Streckenwirtschaftlichkeit kostenlos berechnen",
+        "calc_title": "Flugkostenrechner: Kosten je Flug und Break-even | FlightCost",
+        "calc_desc": ("Einen Flug nach Positionen berechnen: Treibstoff, Flughafen- und Flugsicherungsgebühren, Crew, "
+                      "Wartung, Leasing; Break-even-Preis und -Auslastung. Jede Strecke, jeder Typ, kostenlos."),
+        "calc_h1": "Flugkostenrechner",
+        "hero_h": "Streckenwirtschaftlichkeit, kostenlos",
+        "hero_p": "Flugkosten nach Positionen, Break-even-Preis und -Auslastung — mit Quelle für jede Zahl.",
+        "hero_tags": ["Kostenlos · Open Source", "Jede Strecke", "60+ Flugzeugtypen", "RU · EN · DE"],
+        "go_calc": "Strecke berechnen", "go_types": "Flugzeugtypen vergleichen",
+        "doors_h": "Wo anfangen",
+        "door_types": ("Flugzeugtypen", "Technische Daten, Zeichnung und Wirtschaftlichkeit jedes Typs auf einer typischen Strecke ab Frankfurt."),
+        "door_calc": ("Streckenrechnung", "Jedes Flughafenpaar und jeder Typ: Flugkosten nach Positionen und Break-even."),
+        "door_net": ("Streckennetz", "Für Erfahrene: mehrere Strecken, Frequenzen, Flotte und Typvergleich im Netz."),
+        "sample_h": "Beispiel",
+        "sample_l": "{name} · {route} · 80 % Auslastung",
+        "sample_open": "Diese Rechnung öffnen →",
+        "what_h": "Was drin ist",
+        "more_about": "Mehr über den Dienst und die Daten →",
+        "k_total": "Flug, EUR", "k_seat": "je Sitz, EUR", "k_cask": "CASK, Eurocent je Sitz-km",
+        "k_bh": "je Blockstunde, EUR", "k_be": "Break-even-Preis bei 80 %, EUR",
+        "econ_h": "Wirtschaftlichkeit auf {route}",
+        "econ_lead": ("{km} km entlang der Flugroute, {bh} h Blockzeit, 80 % Auslastung — {pax} von {seats} Sitzen, Juli. "
+                      "Berechnet vom FlightCost-Kern; Besitz-, Wartungs- und Crew-Sätze sind Standardwerte: "
+                      "{dflt} % der Summe beruhen auf Annahmen."),
+        "econ_range": "Reichweite laut Hersteller: {range} km.",
+        "econ_open": "Diese Rechnung öffnen und Eingaben ändern →",
+        "col_item": "Position", "col_eur": "EUR", "col_share": "Anteil", "col_prov": "Herkunft",
+        "prov": {"doc": "Dokument", "calc": "Berechnung", "guess": "Annahme"},
+        "no_model": "Der Treibstoffverbrauch dieses Typs ist noch nicht modelliert — keine Streckenrechnung verfügbar.",
+        "infeasible": "Auf dieser Strecke ist der Flug bei 80 % Auslastung nicht durchführbar: {why}. Die Zahlen unten dienen nur zur Orientierung.",
+        "lim": {"mtow": "durch die Startmasse begrenzt — befördert {mp} Passagiere",
+                "fuel_capacity": "Tankvolumen reicht nicht", "range": "Reichweite reicht nicht"},
+        "cmp_h": "Typen dieser Klasse auf derselben Strecke",
+        "cmp_lead": "Gleiche Strecke, Auslastung und Annahmen — nur der Typ unterscheidet sich.",
+        "econ_wait": "Die Rechnung auf der typischen Strecke wird vorbereitet — Seite in einer Minute neu laden.",
+        "sil_h": "Zeichnung",
+        "sil_lead": "Draufsicht im gleichen Maßstab wie die Nachbarn der Klasse.",
         "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_about": "Über", "nav_data": "Daten",
         "nav_map": "Datenkarte",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
@@ -325,13 +433,24 @@ td.s{font-size:12px;color:var(--dim)}td.s a{color:var(--dim)}
 footer{border-top:1px solid var(--line);padding:16px 22px;font-size:12.5px;color:var(--dim)}
 footer a{color:var(--dim);margin-right:14px}
 details{margin:6px 0;border-bottom:1px solid var(--line2);padding:6px 0}summary{cursor:pointer;color:var(--ink2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel)}
+.kpi b{display:block;font-size:20px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--dim)}
+tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.p-doc{color:var(--doc)}.p-calc{color:var(--calc)}.p-guess{color:var(--guess)}
+.warn{border:1px solid var(--warn);border-radius:8px;padding:10px 12px;color:var(--ink);margin:10px 0}
+.sil{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap;margin:8px 0 4px}
+.sil svg{max-width:100%;height:auto}.sil .lgd{font-size:12.5px;color:var(--dim)}
+.sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
+.sil .lgd i.o{border-top:2px dashed var(--dim)}
 @media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}header{padding:12px 16px}}
 </style>"""
 
 
 def shell(lang: str, path_tail: str, head_html: str, body: str, on: str = "") -> str:
     t = T[lang]
-    nav = [(f"/{lang}/", t["nav_calc"], "calc"), (f"/{lang}/types", t["nav_types"], "types"),
+    nav = [(f"/{lang}/calc", t["nav_calc"], "calc"), (f"/{lang}/types", t["nav_types"], "types"),
            (f"/{lang}/about", t["nav_about"], "about")]
     on_attr = ' class="on"'
     navh = "".join(f'<a href="{p}"{on_attr if k == on else ""}>{esc(n)}</a>' for p, n, k in nav)
@@ -354,32 +473,95 @@ def shell(lang: str, path_tail: str, head_html: str, body: str, on: str = "") ->
 
 # ── витрина на языковом адресе ─────────────────────────────────────────────
 
-def home(lang: str | None, page: str) -> str:
-    """Страница витрины с заголовком для поисковика.
+def calc_page(lang: str | None, page: str) -> str:
+    """Калькулятор (витрина) с заголовком для поисковика.
 
-    `lang=None` — корень `/`: язык выбирает браузер, заголовок английский,
-    страница — версия x-default. Иначе язык зафиксирован адресом.
+    `lang=None` — калькулятор по старому адресу `/` с параметрами маршрута
+    или по ссылке рабочего места: язык выбирает браузер. Иначе язык задан
+    адресом `/<язык>/calc`.
     """
     lg = lang or "en"
     t = T[lg]
-    canon = f"{site()}/{lang}/" if lang else f"{site()}/"
-    h = head(lg, t["home_title"], t["home_desc"], canon, alternates("/", "/"), [app_ld(lg)])
+    canon = f"{site()}/{lg}/calc"
+    h = head(lg, t["calc_title"], t["calc_desc"], canon, alternates("/calc"), [app_ld(lg)])
     page = re.sub(r"<title>.*?</title>", lambda _m: h, page, count=1, flags=re.S)
     page = page.replace('<html lang="ru">', f'<html lang="{lg}">', 1)
     # Относительные адреса ломаются под /en/: ui.css и модули — от корня.
     page = page.replace('href="ui.css"', 'href="/ui.css"').replace('from "./geo.js"', 'from "/geo.js"')
     page = page.replace('from "./globe.js"', 'from "/globe.js"')
     if lang:
-        page = page.replace('href="/about"', f'href="/{lang}/about"').replace(
+        page = page.replace('href="/about"', f'href="/{lang}/"').replace(
             'href="/types"', f'href="/{lang}/types"')
     # Заголовок первого уровня и текст без скриптов: у витрины их нет,
     # а поисковик и читалка экрана начинают с них.
-    links = (f'<a href="/{lg}/about">{esc(t["nav_about"])}</a> · '
+    links = (f'<a href="/{lg}/">{esc(t["nav_about"])}</a> · '
              f'<a href="/{lg}/types">{esc(t["nav_types"])}</a>')
-    seo = (f'<h1 class="vh">{esc(t["home_h1"])}</h1>'
-           f'<noscript><div class="nojs"><h1>{esc(t["home_h1"])}</h1><p>{esc(t["home_desc"])}</p>'
+    seo = (f'<h1 class="vh">{esc(t["calc_h1"])}</h1>'
+           f'<noscript><div class="nojs"><h1>{esc(t["calc_h1"])}</h1><p>{esc(t["calc_desc"])}</p>'
            f'<p>{esc(t["noscript"])} {links}</p></div></noscript>')
     return page.replace("<body>", "<body>\n" + seo, 1) if "<body>" in page else page
+
+
+# ── главная: обложка и три входа ──────────────────────────────────────────
+
+LANDING_STYLE = """<style>
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero .in{position:relative;max-width:1080px;margin:0 auto;padding:72px 22px 64px}
+.hero .arcs{position:absolute;right:-140px;top:-170px;width:720px;height:720px;pointer-events:none}
+.hero h1{font-size:54px;line-height:1.08;margin:0 0 18px;max-width:17ch;color:var(--ink2)}
+.hero p{font-size:20px;color:var(--dim);max-width:46ch;margin:0 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn1,.btn2{display:inline-block;padding:12px 20px;border-radius:7px;font-weight:600;text-decoration:none;font-size:15.5px}
+.btn1{background:var(--accent);color:var(--bg)}.btn1:hover{filter:brightness(1.1)}
+.btn2{border:1px solid var(--line);color:var(--ink2)}.btn2:hover{border-color:var(--accent)}
+.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.tags span{font-size:13.5px;padding:5px 12px;border:1px solid var(--line);border-radius:16px;color:var(--ink)}
+.tags span:first-child{border-color:var(--calc);color:var(--calc)}
+.doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:14px 0 8px}
+.door{display:block;border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--panel);
+  text-decoration:none;color:var(--ink)}
+.door:hover{border-color:var(--accent)}.door b{display:block;color:var(--ink2);font-size:17px;margin-bottom:6px}
+.door span{font-size:14px;color:var(--dim)}.door.adv b::after{content:" ·  pro";color:var(--faint);font-weight:400;font-size:13px}
+.sample{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:10px 0}
+.sample .cap{font-size:13px;color:var(--dim)}
+main.wide{max-width:1080px}
+@media(max-width:640px){.hero .in{padding:44px 16px 40px}.hero h1{font-size:36px}.hero p{font-size:17px}
+  .hero .arcs{width:420px;height:420px;right:-200px;top:-150px;opacity:.3}}
+</style>"""
+
+ARCS = ('<svg class="arcs" viewBox="0 0 720 720" aria-hidden="true">'
+        '<circle cx="360" cy="360" r="330" fill="none" stroke="var(--line)" stroke-width="2"/>'
+        '<circle cx="360" cy="360" r="200" fill="none" stroke="var(--accent)" stroke-width="2" '
+        'stroke-dasharray="6 7" opacity=".5"/>'
+        '<path d="M120 520 Q 330 250 610 300" fill="none" stroke="var(--ink2)" stroke-width="2.4" opacity=".7"/>'
+        '<circle cx="120" cy="520" r="6" fill="var(--ink2)"/><circle cx="610" cy="300" r="6" fill="var(--accent)"/>'
+        '</svg>')
+
+
+def landing(lang: str, sample: dict | None, canonical_root: bool = False) -> str:
+    """Главная: обложка, три входа (типы · расчёт · сеть), пример расчёта, коротко о сервисе."""
+    t, a = T[lang], ABOUT[lang]
+    hero = (f'<section class="hero">{ARCS}<div class="in"><h1>{esc(t["hero_h"])}</h1><p>{esc(t["hero_p"])}</p>'
+            f'<div class="btns"><a class="btn1" href="/{lang}/calc">{esc(t["go_calc"])}</a>'
+            f'<a class="btn2" href="/{lang}/types">{esc(t["go_types"])}</a></div>'
+            f'<div class="tags">' + "".join(f"<span>{esc(x)}</span>" for x in t["hero_tags"]) + "</div></div></section>")
+    doors = [(f"/{lang}/types", *t["door_types"], ""), (f"/{lang}/calc", *t["door_calc"], ""),
+             (f"/{lang}/calc?mode=net", *t["door_net"], " adv")]
+    body = [f"<h2>{esc(t['doors_h'])}</h2><div class=doors>" + "".join(
+        f'<a class="door{c}" href="{esc(u)}"><b>{esc(h)}</b><span>{esc(d)}</span></a>' for u, h, d, c in doors)
+        + "</div>"]
+    if sample and sample.get("e") and not sample["e"].get("no_model") and sample["e"].get("total"):
+        cap = t["sample_l"].format(name=sample["name"], route=route_name(lang, sample["cls"]))
+        body.append(f"<h2>{esc(t['sample_h'])}</h2><div class=sample><div class=cap>{esc(cap)}</div>"
+                    + _kpis(lang, sample["e"])
+                    + f'<a href="{esc(calc_link(lang, sample["cls"], sample["icao"]))}">{esc(t["sample_open"])}</a></div>')
+    sec_h, items = a["sections"][0]
+    body.append(f"<h2>{esc(t['what_h'])}</h2><ul>" + "".join(f"<li>{esc(x)}</li>" for x in items[:5]) + "</ul>"
+                f"<p class=dim>{esc(a['how'])}</p><p><a href=\"/{lang}/about\">{esc(t['more_about'])}</a></p>")
+    canon = f"{site()}/" if canonical_root else f"{site()}/{lang}/"
+    h = head(lang, t["home_title"], t["home_desc"], canon, alternates("/", "/"), [app_ld(lang)])
+    page = shell(lang, "/", h + LANDING_STYLE, "\n".join(body))
+    return page.replace("<main>", hero + '<main class="wide">', 1)
 
 
 # ── «о сервисе» ────────────────────────────────────────────────────────────
@@ -521,7 +703,7 @@ def about_page(lang: str) -> str:
     t, a = T[lang], ABOUT[lang]
     body = [f'<div class="crumbs"><a href="/{lang}/">FlightCost</a> › {esc(t["nav_about"])}</div>',
             f"<h1>{esc(a['h1'])}</h1>", f'<p class="lead">{esc(a["lead"])}</p>',
-            f'<a class="cta" href="/{lang}/">{esc(t["nav_calc"])} →</a>']
+            f'<a class="cta" href="/{lang}/calc">{esc(t["nav_calc"])} →</a>']
     for h, items in a["sections"]:
         body.append(f"<h2>{esc(h)}</h2><ul>" + "".join(f"<li>{esc(x)}</li>" for x in items) + "</ul>")
     body.append(f"<h2>{esc(a['how_h'])}</h2><p>{esc(a['how'])}</p>")
@@ -566,9 +748,18 @@ def name_of(entry: dict, lang: str) -> str:
     return entry.get("name") or entry.get("icao") or ""
 
 
+# Деловая авиация и типы до 10 кресел в справочнике есть (их тянет openap),
+# но на страницах типов не нужны: сайт — про гражданские перевозки от 11 мест.
+BIZJETS = {"C550", "GLF6", "GLF5", "GLEX", "CL60", "C56X", "C68A", "E55P", "PC12", "LJ45"}
+
+
 def public_types(types: list[dict]) -> list[dict]:
-    """Типы для страниц: с кодом ИКАО (без USER:) и с именем."""
-    return [t for t in types if TYPE_CODE.match(t["icao"] or "") and t.get("name")]
+    """Типы для страниц: код ИКАО (без USER:), имя, гражданский от 11 кресел."""
+    def big(t):
+        m = t.get("seats_max") or t.get("seats_typical")
+        return not isinstance(m, (int, float)) or m >= 11
+    return [t for t in types if TYPE_CODE.match(t["icao"] or "") and t.get("name")
+            and t["icao"] not in BIZJETS and big(t)]
 
 
 def seats_of(t: dict) -> float | None:
@@ -654,8 +845,159 @@ def facts_line(lang: str, by: dict) -> str:
     return ", ".join(bits)
 
 
-def type_page(lang: str, info: dict, entry: dict, types: list[dict]) -> str:
-    """Страница одного типа. `info` — Context.aircraft_type, `entry` — строка Context.aircraft."""
+# ── типовой маршрут ────────────────────────────────────────────────────────
+# Все из Франкфурта — эталон проекта (решение владельца, 28.10.2026). Пара
+# на класс, а не на тип: внутри класса типы сравниваются на одном рейсе.
+# Второй конец выбран из аэропортов с разобранным тарифом: Вена, Барселона,
+# Пекин — иначе половина суммы была бы параметрикой сборов.
+ROUTES = {"small": ("EDDF", "LOWW"), "regional": ("EDDF", "LOWW"),
+          "narrow": ("EDDF", "LEBL"), "wide": ("EDDF", "ZBAA")}
+CITY = {"EDDF": ("Франкфурт", "Frankfurt", "Frankfurt"), "LOWW": ("Вена", "Vienna", "Wien"),
+        "LEBL": ("Барселона", "Barcelona", "Barcelona"), "ZBAA": ("Пекин", "Beijing", "Peking")}
+ECON_LF, ECON_MONTH = 0.80, 7
+PROV = {"default": "guess", "fleet": "guess", "estimated": "guess", "derived": "calc", "calc": "calc"}
+
+
+def route_name(lang: str, cls: str) -> str:
+    o, d = ROUTES[cls]
+    return f"{CITY[o][LI[lang]]} — {CITY[d][LI[lang]]}"
+
+
+def calc_link(lang: str, cls: str, icao: str) -> str:
+    o, d = ROUTES[cls]
+    return f"/{lang}/calc?o={o}&d={d}&ac={quote(icao)}"
+
+
+def econ_summary(j: dict) -> dict:
+    """Ответ ядра (`result_json`) → то, что показывает страница типа."""
+    r, a = j["route"], j["answer"]
+    seats, km = int(r.get("seats") or 0), float(r.get("distance_nm") or 0) * 1.852
+    total, bh = float(a.get("cost_total") or 0), float(r.get("block_h") or 0)
+    lim = ((a.get("feasibility") or {}).get("limits")) or []
+    return {"km": km, "block_h": bh, "fuel_kg": r.get("fuel_kg"), "seats": seats, "pax": r.get("pax"),
+            "total": total, "per_seat": total / seats if seats else None,
+            "cask_ct": total / (seats * km) * 100 if seats and km else None,
+            "per_bh": total / bh if bh else None, "be_fare": a.get("breakeven_fare_eur"),
+            "feasible": bool(a.get("feasible")), "max_pax": a.get("max_pax"),
+            "limits": [x.get("key") for x in lim], "no_model": any(x.get("key") == "no_model" for x in lim),
+            "cost": [{"item": c["item"], "label": c["label"], "eur": c["eur"], "prov": c.get("prov")}
+                     for c in j.get("cost", []) if c.get("eur", 0) > 0.5],
+            "default_share": j.get("default_share")}
+
+
+_CAT = None
+
+
+def tr(lang: str, ru: str) -> str:
+    """Подпись ядра (по-русски) → язык страницы, из каталога витрины."""
+    global _CAT
+    if lang == "ru":
+        return ru
+    if _CAT is None:
+        try:
+            from pathlib import Path
+            _CAT = json.loads((Path(__file__).parent / "web" / "i18n.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            _CAT = {}
+    return (_CAT.get(lang) or {}).get(ru, ru)
+
+
+def silhouettes(entry: dict, others: list[dict]) -> str:
+    """Вид сверху: тип заливкой, соседи по классу контуром, один масштаб, линейка 10 м."""
+    from .fleetreport_doc import silhouette_parts
+    items = [(entry, silhouette_parts(entry.get("geom")), True)] + [
+        (o, silhouette_parts(o.get("geom")), False) for o in others]
+    items = [x for x in items if x[1]]
+    if not items or not items[0][2]:
+        return ""
+    span = max(p["span"] for _, p, _ in items)
+    top = min(p["top"] for _, p, _ in items)
+    length = max(p["length"] for _, p, _ in items)
+    pad = 1.5
+    W, H = span + 2 * pad, length - top + 2 * pad + 3
+    sw = span * .006
+    g = []
+    for _t, p, me in sorted(items, key=lambda x: x[2]):            # свой — поверх
+        body = "".join(f'<polygon points="{x}"/>' for x in p["polys"]) + f'<path d="{p["fus"]}"/>'
+        if me:
+            g.append(f'<g fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" '
+                     f'stroke-width="{sw:.2f}" stroke-linejoin="round">{body}{p["eng"]}</g>')
+        else:
+            g.append(f'<g fill="none" stroke="var(--dim)" stroke-width="{sw:.2f}" stroke-linejoin="round" '
+                     f'stroke-dasharray="{sw * 5:.2f} {sw * 4:.2f}">{body}{p["eng"]}</g>')
+    y, x0 = length + pad + 1, -span / 2
+    g.append(f'<g stroke="var(--dim)" stroke-width="{span * .004:.2f}"><line x1="{x0:.2f}" y1="{y:.2f}" '
+             f'x2="{x0 + 10:.2f}" y2="{y:.2f}"/><line x1="{x0:.2f}" y1="{y - .6:.2f}" x2="{x0:.2f}" '
+             f'y2="{y + .6:.2f}"/><line x1="{x0 + 10:.2f}" y1="{y - .6:.2f}" x2="{x0 + 10:.2f}" '
+             f'y2="{y + .6:.2f}"/></g><text x="{x0 + 11:.2f}" y="{y + .6:.2f}" font-size="{span * .035:.2f}" '
+             f'fill="var(--dim)">10 m</text>')
+    px = min(520, max(240, 9 * span))
+    return (f'<svg viewBox="{-span / 2 - pad:.2f} {top - pad:.2f} {W:.2f} {H:.2f}" width="{px:.0f}" '
+            f'role="img" aria-label="top view">{"".join(g)}</svg>')
+
+
+def _kpis(lang: str, e: dict) -> str:
+    t = T[lang]
+    tiles = [(e["total"], t["k_total"], 0), (e["per_seat"], t["k_seat"], 0), (e["cask_ct"], t["k_cask"], 1),
+             (e["per_bh"], t["k_bh"], 0), (e["be_fare"], t["k_be"], 0)]
+    return '<div class="kpis">' + "".join(f'<div class="kpi"><b>{num(v, lang, d)}</b><span>{esc(lab)}</span></div>'
+                                          for v, lab, d in tiles if v) + "</div>"
+
+
+def econ_block(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, types: list[dict]) -> str:
+    """Экономика на типовом маршруте и сравнение с классом."""
+    t = T[lang]
+    out = [f"<h2>{esc(t['econ_h'].format(route=route_name(lang, cls)))}</h2>"]
+    if econ is None:
+        return "".join(out) + f'<p class="dim">{esc(t["econ_wait"])}</p>'
+    e = econ.get(entry["icao"])
+    if not e or e.get("error"):
+        return ""
+    if e["no_model"]:
+        return "".join(out) + f'<p class="dim">{esc(t["no_model"])}</p>'
+    rng = (by.get("range_km") or {}).get("value")
+    lead = t["econ_lead"].format(km=num(e["km"], lang, 0), bh=num(e["block_h"], lang, 1), pax=e["pax"],
+                                 seats=e["seats"], dflt=num((e.get("default_share") or 0) * 100, lang, 0))
+    if rng:
+        lead += " " + t["econ_range"].format(range=num(rng, lang, 0))
+    out.append(f'<p class="dim">{esc(lead)}</p>')
+    if not e["feasible"]:
+        why = "; ".join(t["lim"].get(k, k).format(mp=e.get("max_pax")) for k in e["limits"] if k in t["lim"])
+        out.append(f'<div class="warn">{esc(t["infeasible"].format(why=why or "—"))}</div>')
+    out.append(_kpis(lang, e))
+    out.append(f"<div class=tw><table><tr><th>{esc(t['col_item'])}</th><th class=r>{esc(t['col_eur'])}</th>"
+               f"<th class=r>{esc(t['col_share'])}</th><th>{esc(t['col_prov'])}</th></tr>")
+    for c in e["cost"]:
+        pv = PROV.get(c.get("prov") or "", "doc")
+        out.append(f"<tr><td>{esc(tr(lang, c['label']))}</td><td class=r>{num(c['eur'], lang, 0)}</td>"
+                   f"<td class=r>{num(c['eur'] / e['total'] * 100 if e['total'] else 0, lang, 0)}%</td>"
+                   f"<td class='s p-{pv}'>{esc(t['prov'][pv])}</td></tr>")
+    out.append("</table></div>")
+    out.append(f'<a class="cta" href="{esc(calc_link(lang, cls, entry["icao"]))}">{esc(t["econ_open"])}</a>')
+    # Сравнение с классом: тот же рейс, те же допущения.
+    rows = []
+    names = {x["icao"]: x for x in public_types(types)}
+    for icao, x in econ.items():
+        if icao in names and not x.get("error") and not x.get("no_model") and x.get("feasible") and x.get("per_seat"):
+            rows.append((icao, x))
+    if len(rows) > 1:
+        rows.sort(key=lambda r: r[1]["per_seat"])
+        out.append(f"<h2>{esc(t['cmp_h'])}</h2><p class=dim>{esc(t['cmp_lead'])}</p><div class=tw><table>"
+                   f"<tr><th>{esc(t['col_type'])}</th><th class=r>{esc(t['col_seats'])}</th>"
+                   f"<th class=r>{esc(t['k_total'])}</th><th class=r>{esc(t['k_seat'])}</th>"
+                   f"<th class=r>CASK, ¢</th></tr>")
+        for icao, x in rows:
+            me = ' class="me"' if icao == entry["icao"] else ""
+            out.append(f'<tr{me}><td><a href="{type_url(lang, icao)}">{esc(name_of(names[icao], lang))}</a></td>'
+                       f"<td class=r>{x['seats']}</td><td class=r>{num(x['total'], lang, 0)}</td>"
+                       f"<td class=r>{num(x['per_seat'], lang, 0)}</td><td class=r>{num(x['cask_ct'], lang, 1)}</td></tr>")
+        out.append("</table></div>")
+    return "\n".join(out)
+
+
+def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict | None = None) -> str:
+    """Страница одного типа. `info` — Context.aircraft_type, `entry` — строка Context.aircraft,
+    `econ` — расчёты класса на типовом маршруте (Context.seo_econ) или None, пока не готовы."""
     t = T[lang]
     icao, name = entry["icao"], name_of(entry, lang) or info.get("name") or entry["icao"]
     by = {f["field"]: f for f in info.get("fields", [])}
@@ -664,11 +1006,21 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict]) -> str:
             f'{esc(t["nav_types"])}</a> › {esc(icao)}</div>',
             f"<h1>{esc(t['type_h1'].format(name=name, icao=icao))}</h1>",
             f'<p class="lead">{esc(t["type_lead"].format(name=name, icao=icao, facts=(" — " + facts) if facts else ""))}</p>']
+    cls = cls_of(entry)
     if entry.get("usable"):
-        body.append(f'<a class="cta" href="/{lang}/?ac={quote(icao)}">{esc(t["cta"].format(icao=icao))}</a>')
+        body.append(f'<a class="cta" href="{esc(calc_link(lang, cls, icao))}">{esc(t["cta"].format(icao=icao))}</a>')
     else:
         gaps = by.get("calc_gaps", {}).get("text") or "—"
         body.append(f'<p class="dim">{esc(t["type_card"].format(gaps=gaps))}</p>')
+    me_seats = seats_of(entry) or 0
+    near = sorted((x for x in public_types(types) if x["icao"] != icao and cls_of(x) == cls and x.get("geom")),
+                  key=lambda x: abs((seats_of(x) or 0) - me_seats))[:2]
+    svg = silhouettes(entry, near)
+    if svg:
+        lgd = (f'<div class="lgd"><div><i></i>{esc(name)}</div>'
+               + "".join(f'<div><i class="o"></i>{esc(name_of(x, lang))}</div>' for x in near) + "</div>")
+        body.append(f"<h2>{esc(t['sil_h'])}</h2><p class=dim>{esc(t['sil_lead'])}</p>"
+                    f'<div class="sil">{svg}{lgd}</div>')
     st = by.get("program_status", {}).get("text")
     rows = []
     if st:
@@ -690,6 +1042,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict]) -> str:
             src = f'<a href="{esc(su)}" rel="nofollow">{esc(sl)}</a>' if su else esc(sl)
             body.append(f"<tr><td>{esc(lab)}</td><td class=r>{esc(val)}</td><td class=s>{src}</td></tr>")
         body.append("</table></div>")
+    if entry.get("usable"):
+        body.append(econ_block(lang, entry, by, econ, cls, types))
     fd = info.get("fleet_default") or {}
     if fd and entry.get("usable"):
         own = fd["lease_eur_month"] / fd["monthly_hours"] if fd.get("monthly_hours") else None
@@ -702,7 +1056,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict]) -> str:
                 body.append(f"<tr><td>{esc(lab)}</td><td class='r guess'>{num(v, lang, 0)}</td></tr>")
         body.append("</table></div>")
     me = seats_of(entry) or 0
-    sim = sorted((x for x in public_types(types) if x["icao"] != icao and x.get("usable")
+    has_cmp = bool(econ) and entry.get("usable")      # таблица класса уже ведёт к соседям
+    sim = [] if has_cmp else sorted((x for x in public_types(types) if x["icao"] != icao and x.get("usable")
                   and cls_of(x) == cls_of(entry)), key=lambda x: abs((seats_of(x) or 0) - me))[:8]
     if sim:
         body.append(f"<h2>{esc(t['similar_h'])}</h2><div class=chips>" + "".join(
@@ -724,7 +1079,7 @@ def robots() -> str:
 
 def sitemap(types: list[dict]) -> str:
     """Все адреса с языковыми парами (xhtml:link) — так Google связывает версии."""
-    tails = ["/", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
+    tails = ["/", "/calc", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
@@ -742,7 +1097,7 @@ def sitemap(types: list[dict]) -> str:
 
 def urls(types: list[dict]) -> list[str]:
     """Все адреса сайта для IndexNow."""
-    tails = ["/", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
+    tails = ["/", "/calc", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
     return [f"{site()}/{lg}{tl}" for tl in tails for lg in LANGS] + [site() + p for p in ("/", "/data", "/map")]
 
 
@@ -762,12 +1117,14 @@ a route is, or how two aircraft types compare on the same route or network.
 
 ## Pages
 
-- [Calculator (English)]({site()}/en/): pick origin, destination, aircraft type and load factor. Parameters can be
-  passed in the URL: `{site()}/en/?o=EDDF&d=LEBL&ac=A320` (ICAO airport codes, ICAO aircraft type designator).
-- [Rechner (Deutsch)]({site()}/de/), [Калькулятор (русский)]({site()}/ru/)
+- [Calculator (English)]({site()}/en/calc): pick origin, destination, aircraft type and load factor. Parameters can be
+  passed in the URL: `{site()}/en/calc?o=EDDF&d=LEBL&ac=A320` (ICAO airport codes, ICAO aircraft type designator).
+- [Rechner (Deutsch)]({site()}/de/calc), [Калькулятор (русский)]({site()}/ru/calc)
+- [Home]({site()}/en/): what the service is and where to start.
 - [About and methodology]({site()}/en/about): what is calculated, data sources, how far to trust the numbers.
-- [Aircraft types]({site()}/en/types): specifications with sources and the calculator's default lease,
-  maintenance and crew rates for each type, e.g. [Airbus A320]({site()}/en/type/A320).
+- [Aircraft types]({site()}/en/types): specifications with sources, a top-view drawing, the calculator's default
+  lease, maintenance and crew rates, and the cost of a flight on a typical route from Frankfurt (Vienna, Barcelona
+  or Beijing by class) for each type, e.g. [Airbus A320]({site()}/en/type/A320).
 - [Data]({site()}/data): what the reference store contains, by source and licence.
 - [Data map]({site()}/map): where every input comes from.
 
