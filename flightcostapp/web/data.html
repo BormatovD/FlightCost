@@ -7,10 +7,6 @@
 /* Просмотр хранилища (решение 219): домены слева, строки справа. Видно
    построчно только то, что разрешает лицензия источника; остальное — числом. */
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans)}
-header{display:flex;align-items:center;gap:18px;padding:14px 22px;border-bottom:1px solid var(--line)}
-header h1{margin:0;font:600 17px var(--sans);color:var(--ink2)}
-nav a{color:var(--dim);text-decoration:none;margin-right:14px;font-size:13px}
-nav a.on,nav a:hover{color:var(--ink2)}
 main{display:flex;min-height:calc(100vh - 54px)}
 #doms{width:260px;flex:none;border-right:1px solid var(--line);padding:12px 0;overflow-y:auto}
 .dom{padding:8px 18px;cursor:pointer;border-left:3px solid transparent}
@@ -49,8 +45,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--raise)}
   display:flex;overflow-x:auto;padding:0}.dom{white-space:nowrap;border-left:0;border-bottom:3px solid transparent}
   .dom.on{border-bottom-color:var(--ink2)}.dom span{display:none}#body{padding:14px 16px 50px}.bar input{width:100%}}
 </style></head><body>
-<header><h1>FlightCost</h1>
-<nav><a href="/calc">Расчёт</a><a href="/map">Карта данных</a><a href="/data" class="on">Данные</a></nav></header>
+<!--SITE_HEADER:data-->
 <main><div id="doms"></div><div id="body"><div class="intro" id="intro"></div></div></main>
 <script type="module">
 const I18N = /*I18N*/{}/*/I18N*/;
@@ -74,7 +69,6 @@ function _t(s) {
   return v == null ? s : v;
 }
 document.documentElement.lang = LANG;
-document.querySelectorAll("nav a, header h1").forEach(a => a.textContent = _t(a.textContent));
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 const num = (v, d = 0) => v == null ? "—" : Number(v).toLocaleString(LOCALE, {maximumFractionDigits: d});

@@ -581,7 +581,9 @@ class _Handler(BaseHTTPRequestHandler):
             if u.path == "/api/browse":
                 return self._json(ctx.browse(q))
             if u.path == "/data":
-                return self._send(200, _page("data.html"), "text/html; charset=utf-8")
+                page = _page("data.html").decode("utf-8").replace(
+                    "<!--SITE_HEADER:data-->", seo.site_header(None, "data"))
+                return self._send(200, page.encode("utf-8"), "text/html; charset=utf-8")
             if u.path == "/map":
                 return self._send(200, ctx.map_page(), "text/html; charset=utf-8")
             if u.path == "/api/aircraft":
@@ -1812,8 +1814,12 @@ class Context:
                 continue
             try:
                 with self.lock:                     # по одному типу: запросы людей идут между ними
+                    # Кресла — максимум по сертификату (решение владельца, 29.10.2026):
+                    # компоновки перевозчиков разные, предел типа — один.
+                    smax = t.get("seats_max")
                     res = route_economics(self.store, o, d, aircraft=t["icao"], load_factor=seo.ECON_LF,
-                                          month=seo.ECON_MONTH)
+                                          month=seo.ECON_MONTH,
+                                          seats=int(smax) if isinstance(smax, (int, float)) and smax else None)
                     out[t["icao"]] = seo.econ_summary(result_json(res))
             except Exception as exc:                # noqa: BLE001 — тип без расчёта не валит класс
                 out[t["icao"]] = {"error": f"{type(exc).__name__}: {exc}"}
@@ -2444,7 +2450,8 @@ class Context:
     def map_page(self) -> bytes:
         """Карта данных на сайте: та же, что `fca map`, плюс форма маршрута."""
         from .graph import to_html
-        return _i18n(to_html(self.registry, web=True)).encode("utf-8")
+        return _i18n(to_html(self.registry, web=True)).replace(
+            "<!--SITE_HEADER:map-->", seo.site_header(None, "map")).encode("utf-8")
 
 
 LEGAL_FIELDS = ("name", "street", "city", "email", "hoster", "server_location")
@@ -2480,6 +2487,7 @@ def _legal_page(kind: str, values: dict | None = None) -> bytes:
         v = (vals.get(m.group(1)) or "").strip()
         return (_html.escape(v) if v else
                 f'<mark class="todo">[{m.group(1)}: не заполнено]</mark>')
+    page = page.replace("<!--SITE_HEADER:legal-->", seo.site_header(None))
     return re.sub(r"\{\{(\w+)\}\}", sub, page).encode("utf-8")
 
 

@@ -6,9 +6,10 @@
 <title>Impressum · FlightCost</title>
 <link rel="stylesheet" href="/ui.css">
 <style>
-body{max-width:720px;margin:0 auto;padding:28px 16px 60px;line-height:1.55;
+body{margin:0;line-height:1.55;
   color:var(--ink,#1d1d1f);background:var(--bg,#fff);font-family:var(--sans,system-ui,sans-serif)}
-nav{font-size:13px;margin-bottom:24px}nav a{margin-right:14px}
+#legal{max-width:720px;margin:0 auto;padding:28px 16px 60px}
+nav.cross{font-size:13px;margin-bottom:24px}nav.cross a{margin-right:14px}
 a{color:var(--accent,#2856c9)}
 h1{font-size:24px;margin:0 0 4px}h2{font-size:16px;margin:26px 0 6px}
 section+section{border-top:1px solid var(--line,#ddd);margin-top:40px;padding-top:28px}
@@ -18,9 +19,10 @@ address{font-style:normal}
 </style>
 </head>
 <body>
-<nav><a href="/">← FlightCost</a><a href="/datenschutz">Datenschutz · Privacy · Конфиденциальность</a></nav>
+<!--SITE_HEADER:legal-->
 
 <main id="legal">
+<nav class="cross"><a href="/datenschutz">Datenschutz · Privacy · Конфиденциальность</a></nav>
 <section lang="de" id="de">
 <h1>Impressum</h1>
 <p class="note"><a href="#en">English</a> · <a href="#ru">Русский</a></p>
