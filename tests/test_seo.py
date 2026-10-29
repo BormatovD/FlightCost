@@ -106,6 +106,18 @@ class SeoHttp(unittest.TestCase):
         # старая ссылка с параметрами на языковой главной — в калькулятор
         self.assertEqual(self.get("/en/?ac=A320&o=EDDF")[2], "/en/calc?ac=A320&o=EDDF")
 
+    def test_head(self):
+        """Роботы превью спрашивают HEAD: тот же код и заголовки, без тела."""
+        for path in ("/", "/en/", "/en/type/A320", "/og.png"):
+            c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
+            c.request("HEAD", path)
+            r = c.getresponse()
+            self.assertEqual(r.status, 200, path)
+            self.assertGreater(int(r.getheader("Content-Length")), 0)
+            self.assertEqual(r.read(), b"")
+            c.close()
+        self.assertEqual(self.get("/en/")[0], 200, "после HEAD соединения и GET в порядке")
+
     def test_root(self):
         st, body, _ = self.get("/", "de-DE,de")
         self.assertEqual(st, 200)
@@ -148,6 +160,9 @@ class SeoHttp(unittest.TestCase):
             self.assertIn("yakovlev.ru", main)
         st, body, _ = self.get("/ru/type/MS21")
         self.assertIn("Яковлев МС-21", body)
+        # текстовое значение паспорта переносится, а не выдавливает таблицу вправо
+        self.assertIn("<td class='r tx'>2× ПД-14</td>", body)
+        self.assertIn('<table class=spec>', body)
 
     def test_types_index(self):
         st, body, _ = self.get("/en/types")

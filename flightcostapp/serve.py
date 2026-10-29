@@ -427,10 +427,40 @@ class _Handler(BaseHTTPRequestHandler):
             except sqlite3.Error:                   # счётчик не должен ронять страницу
                 pass
 
+    def end_headers(self):
+        super().end_headers()
+        self._headers_sent = True
+
+    def do_HEAD(self):                                    # noqa: N802
+        """HEAD — тот же ответ, что GET, без тела.
+
+        Без него сервер отвечал 501, а часть роботов превью ссылок и
+        проверки доступности сначала спрашивает HEAD и, получив ошибку,
+        страницу не читает. Счётчик посещений HEAD не считает.
+        """
+        real, handler = self.wfile, self
+
+        class _Sink:
+            def write(self, b):
+                return real.write(b) if not getattr(handler, "_headers_sent", False) else len(b)
+
+            def flush(self):
+                return real.flush()
+
+            def __getattr__(self, name):
+                return getattr(real, name)
+
+        self.wfile = _Sink()
+        try:
+            self.do_GET()
+        finally:
+            self.wfile = real
+
     def do_GET(self):                                     # noqa: N802
         u = urllib.parse.urlparse(self.path)
         q = {k: v[0] for k, v in urllib.parse.parse_qs(u.query).items()}
-        self._count(u.path)
+        if self.command == "GET":
+            self._count(u.path)
         try:
             if u.path == "/w" or u.path.startswith("/w/") or u.path.startswith("/api/ws"):
                 return self._ws_get(u, q, self._ctx())
