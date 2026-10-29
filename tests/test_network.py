@@ -316,6 +316,21 @@ class Simulation(unittest.TestCase):
         net = self.sim(freq={"FRA-ALA": 30, "DME-ALA": 30}, fleet_n=1)
         self.assertTrue(any("не выполнить" in w for w in net.warnings))
 
+    def test_given_frequencies_locked_rest_share_left_hours(self):
+        """Решение 221: заданная частота закреплена, пары без неё делят
+        оставшиеся часы парка поровну; 0 — пара выключена."""
+        full = self.sim()
+        keys = [r.key for r in full.pairs]
+        net = self.sim(freq={keys[0]: 2, keys[1]: 0})
+        f = {r.key: r.freq_week for r in net.pairs}
+        self.assertEqual(f[keys[0]], 2)
+        self.assertNotIn(keys[1], f)
+        rest = [k for k in keys[2:]]
+        self.assertTrue(rest and all(f[k] == f[rest[0]] and f[k] >= 1 for k in rest))
+        self.assertLessEqual(net.hours_used, 4 * net.util_h_month + 1e-6)
+        self.assertTrue(any("выключены" in w for w in net.warnings))
+        self.assertTrue(any("остаток часов" in w for w in net.warnings))
+
     def test_fleet_cannot_cover_one_flight(self):
         with self.assertRaises(ValueError):
             self.sim(fleet_n=1, util_h_month=10)

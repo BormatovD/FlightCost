@@ -346,6 +346,9 @@ def pc_text(D: Doc, x: dict) -> str:
     if c == "min_freq_binds":
         return (f'{T("на")} {x["n"]} {T("из")} {x["of"]} {T("пар объёма не хватает на")} {x["freq"]} '
                 f'{T("рейсов в неделю — летает с загрузкой от")} {D.pct(x["lf"])}')
+    if c == "overbooked":
+        return (f'{T("расписание не выполнить:")} {x["v"]} {T("бортов, по налёту нужно")} {x["need"]} — '
+                f'{T("уменьшите частоты или добавьте борты")}')
     if c == "idle_hours":
         return f'{T("налёт")} {D.n(x["v"])} {T("ч/мес на борт из")} {D.n(x["max"])}: {T("борт целиком не загружен")}'
     if c == "range_limited":
@@ -377,6 +380,9 @@ def note_text(D: Doc, x: dict) -> tuple[str, str]:
     if c == "no_market":
         return (T("Пары без потока не считаются"),
                 f'{", ".join(x["pairs"])}: {T("потока нет ни в статистике, ни в оценке — задайте его на вкладке «Рынок» витрины.")}')
+    if c == "pairs_off":
+        return (T("Пары не летаются"),
+                f'{", ".join(x["pairs"])}: {T("частота 0 — задана или парку не хватило часов на остаток пар. Их нет в итогах.")}')
     if c == "fare_estimated":
         return (T("Цена — оценка по формуле"),
                 f'{", ".join(x["pairs"])}: {T("наблюдений цены по паре нет; взята прямая «постоянная часть + ставка за километр», подогнанная по парам региона, где цена известна. Типичная ошибка формулы — в подписи цены плеча на сайте.")}')
@@ -543,12 +549,16 @@ def render(rep: dict, *, theme="light", lang="ru", cur="EUR", rate=1.0,
     H = []
 
     # ── заголовок и вывод
-    title = (f'{T("Какой тип брать под")} {D.pct(a["share"])} {T("потока на")} {len(pairs) or "—"} '
-             f'{T("парах из")} {e(ctx.get("base") or "—")}')
+    if a.get("mode") == "fleet":
+        title = (f'{T("Какой тип выгоднее на моей сети из")} {e(ctx.get("base") or "—")}: '
+                 + ", ".join(f'{e(t["short"])} × {t["plan"]["fleet"]}' for t in ok))
+    else:
+        title = (f'{T("Какой тип брать под")} {D.pct(a["share"])} {T("потока на")} {len(pairs) or "—"} '
+                 f'{T("парах из")} {e(ctx.get("base") or "—")}')
     lede = [f'{T("Выгоднее всего")} <b>{e(L["short"])}</b>: {D.money(L["plan"]["result"], True)} '
             f'{T("в месяц")}, {L["plan"]["fleet"]} {T("бортов")}, {T("себестоимость пассажира")} '
             f'{D.money(L["plan"]["cost_per_pax"])}.']
-    if len(ok) > 1:
+    if len(ok) > 1 and a.get("mode") != "fleet":
         bands = rep.get("share_bands") or []
         if len(bands) > 1:
             name = {t["icao"]: t["short"] for t in ok}
@@ -769,6 +779,12 @@ def _specs_section(D: Doc, types: list) -> str:
             f'<tbody>{"".join(out)}</tbody></table></div></section>')
 
 
+def back_to_fleet(D: Doc) -> str:
+    """Подпись ссылки со страницы ошибки режима «Доля рынка» обратно."""
+    T = D.T
+    return T("Вернуться к режиму «Мой парк»")
+
+
 def share_volume(rep: dict) -> dict:
     """Доля в пассажирах (решение 213): рынок пар с потоком, наш объём при
     рыночной цене и после отклика на цену, сколько пар без потока."""
@@ -778,8 +794,10 @@ def share_volume(rep: dict) -> dict:
     pl = ok[0]["plan"]
     rows = pl["pairs"]
     market = sum(float(r["market"] or 0) for r in rows)
-    return {"market": market, "at_market": market * rep["assume"]["share"],
-            "planned": sum(r["volume"] for r in rows), "missing": len(pl["skipped"])}
+    planned = sum(r["volume"] for r in rows)
+    fleet = rep["assume"].get("mode") == "fleet"
+    return {"market": market, "at_market": planned if fleet else market * rep["assume"]["share"],
+            "planned": planned, "missing": 0 if fleet else len(pl["skipped"])}
 
 
 def share_line(D: Doc, rep: dict) -> str:
@@ -793,8 +811,31 @@ def share_line(D: Doc, rep: dict) -> str:
     return s
 
 
+def _inputs_kv(D: Doc, rep: dict, ok: list) -> list:
+    """Вводы «Моего парка» строками шапки: что задано на витрине сети."""
+    T, a = D.T, rep["assume"]
+    inp = (rep.get("context") or {}).get("inputs") or {}
+    seats = inp.get("seats") or {}
+    kv = [(T("Режим"), T("Мой парк: борты и частоты заданы")),
+          (T("Бортов"), ", ".join(f'{e(t["short"])} — {t["plan"]["fleet"]}'
+                                  + (f' ({seats[t["icao"]]} {T("кресел")})' if seats.get(t["icao"]) else "")
+                                  for t in ok))]
+    nf = len(inp.get("freqs") or {})
+    kv.append((T("Частоты"), (f'{T("заданы на")} {nf} {T("парах, остальные — поровну на остаток часов")}'
+                              if nf else T("поровну, сколько вывозит парк"))))
+    if inp.get("fares"):
+        kv.append((T("Своих цен"), f'{len(inp["fares"])} {T("плеч или пар")}'))
+    if inp.get("market"):
+        kv.append((T("Своих потоков"), f'{len(inp["market"])} {T("пар")}'))
+    kv += [(T("Загрузка"), D.pct(a["lf_target"])),
+           (T("Наша цена к рыночной"), f'× {D.n(a["price"], 2)}')]
+    return kv
+
+
 def _plan_section(D: Doc, rep: dict, ok: list) -> str:
     T, a = D.T, rep["assume"]
+    if a.get("mode") == "fleet":
+        return _plan_section_fleet(D, rep, ok)
     sl = share_line(D, rep)
     sv = share_volume(rep)
     planned = (f' — ≈ {D.n(sv["planned"])} {T("пасс./мес")}' if sv and sv["market"] else "")
@@ -816,11 +857,37 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
             f'<p class="small" style="margin:8px 0 0">{T("Доля после отклика на цену:")} <b>{D.pct(eff, 1)}</b>'
             f'{planned}. '
             f'{T("Объём пары = поток × доля; рейсов — сколько нужно, чтобы вывезти объём при плановой загрузке, но не меньше нижней границы; бортов — налёт расписания на налёт борта, вверх до целого, плюс резерв.")}</p></div>')
+    return _plan_body(D, rep, ok, head, fleet=False)
+
+
+def _plan_section_fleet(D: Doc, rep: dict, ok: list) -> str:
+    T, a = D.T, rep["assume"]
+    kv = _inputs_kv(D, rep, ok)
+    kv.insert(len(kv) - 1, (T("Средний чек к минимальному"), (
+        f'<span class="guess">× {D.n(CONV_BASE, 1)}, {T("на парах от")} {D.n(THICK_PAX_MONTH / 1000)} '
+        f'{T("тыс. пасс./мес")} × {D.n(CONV_THICK, 1)} · {T("допущение")}</span>'
+        if a.get("fare_conv") is None else f'× {D.n(a["fare_conv"], 2)}')))
+    sv = share_volume(rep)
+    sh = (f' {T("Это")} {D.pct(sv["planned"] / sv["market"], 1)} {T("нынешнего потока пар")}'
+          f' ({D.n(sv["planned"])} {T("из")} {D.n(sv["market"])} {T("пасс./мес")}).') if sv and sv["market"] else ""
+    head = (f'<div class="assume"><div class="kv">{"".join(f"<div><span>{k}</span><b>{v}</b></div>" for k, v in kv)}</div>'
+            f'<p class="small" style="margin:8px 0 0">'
+            f'{T("Борты и рейсы — как на витрине сети: заданное число бортов каждого типа, частоты — заданные, остальные разложены на остаток часов парка; пассажиров на рейс — по загрузке, не больше, чем борт поднимет на плече.")}'
+            f'{sh}</p></div>')
+    return _plan_body(D, rep, ok, head, fleet=True)
+
+
+def _plan_body(D: Doc, rep: dict, ok: list, head: str, *, fleet: bool) -> str:
+    T = D.T
     P = lambda t: t["plan"]                                      # noqa: E731
+    fl_bar = (bars(D, T("Бортов, задано"), [(t, P(t)["fleet"], f'{T("по налёту нужно")} {P(t)["n_op"]}')
+                                            for t in ok], lambda v: D.n(v))
+              if fleet else
+              bars(D, T("Бортов, с резервом"), [(t, P(t)["fleet"], f'{P(t)["n_op"]} + {P(t)["spare"]} {T("резерв")}') for t in ok],
+                   lambda v: D.n(v)))
     brs = [
         bars(D, T("Итог в месяц"), [(t, P(t)["result"], "") for t in ok], lambda v: D.money(v, True), lo_best=False),
-        bars(D, T("Бортов, с резервом"), [(t, P(t)["fleet"], f'{P(t)["n_op"]} + {P(t)["spare"]} {T("резерв")}') for t in ok],
-             lambda v: D.n(v)),
+        fl_bar,
         bars(D, T("Рейсов туда-обратно в неделю"), [(t, P(t)["freq_week"], "") for t in ok], lambda v: D.n(v)),
         bars(D, T("Загрузка"), [(t, P(t)["lf"], "") for t in ok], D.pct, lo_best=False),
         bars(D, T("Себестоимость пассажира"), [(t, P(t)["cost_per_pax"], f'{T("выручка")} {D.money(P(t)["rev_per_pax"])}') for t in ok],
@@ -852,6 +919,12 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
            f'<th class="r">{T("наших пасс./мес")}</th>{th}</tr></thead><tbody>{"".join(trs)}</tbody></table></div>'
            f'<p class="small">{T("В ячейке — рейсов туда-обратно в неделю и загрузка. Красным — частоту держит нижняя граница: объёма на эту частоту не хватает, борт летает полупустым.")} '
            f'<span class="rng">{T("дальность")} ≤80%</span> — {T("на плече борт по дальности поднимает не больше этой доли кресел: рейсы подобраны по этому пределу, а не по плановой загрузке, и их больше.")}</p>')
+    if fleet:
+        tbl = tbl.replace(T("В ячейке — рейсов туда-обратно в неделю и загрузка. Красным — частоту держит нижняя граница: объёма на эту частоту не хватает, борт летает полупустым."),
+                          T("В ячейке — рейсов туда-обратно в неделю и загрузка."))
+        return (f'<section><div class="keep"><div class="sec-head"><h2>{T("Моя сеть на каждом типе")}</h2>'
+                f'<p>{T("Борты и частоты заданы на витрине; деньги, загрузка и налёт — у каждого типа свои.")}</p></div>'
+                f'{head}</div><div class="bars">{"".join(brs)}</div>{tbl}</section>')
     return (f'<section><div class="keep"><div class="sec-head"><h2>{T("Примерка на сеть: этот объём на этом типе")}</h2>'
             f'<p>{T("Объём перевозок один на все типы; рейсы, борты и деньги — у каждого свои.")}</p></div>'
             f'{head}</div><div class="bars">{"".join(brs)}</div>{tbl}</section>')
@@ -870,7 +943,8 @@ def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
             f'<span class="sm">{row["types"][t["icao"]]["fleet"]} {T("бортов")}</span></td>' for t in ok)
         cur = abs(row["price"] - rep["assume"]["price"]) < 1e-9
         trs.append(f'<tr><th>{"<b>" if cur else ""}× {D.n(row["price"], 2)}{"</b>" if cur else ""}'
-                   f'<span class="sm">{T("доля")} {D.pct(row["share"], 1)}</span></th>{cells}</tr>')
+                   + (f'<span class="sm">{T("доля")} {D.pct(row["share"], 1)}</span>' if row["share"] is not None else "")
+                   + f'</th>{cells}</tr>')
     ss = rep["share_sweep"]
     th2 = th
     trs2 = []
@@ -882,13 +956,19 @@ def _sweep_section(D: Doc, rep: dict, ok: list) -> str:
             f'<span class="sm">{row["types"][t["icao"]]["fleet"]} {T("бортов")}</span></td>' for t in ok)
         trs2.append(f'<tr><th>{D.pct(row["share"])}</th>{cells}</tr>')
     best_p = "; ".join(f'{e(t["short"])} — × {D.n(t["best_price"], 2)}' for t in ok)
+    fleet = rep["assume"].get("mode") == "fleet"
+    lead = (T("Борты и рейсы те же, меняется только чек: чувствительность итога к цене. Итог в месяц, в") if fleet else
+            T("Ниже цена — больше доля по допущению об эластичности — больше пассажиров и бортов. Итог в месяц, в"))
+    thick = (T("Если бы парк подбирался под долю рынка, а не был задан: та же сеть при рыночной цене и разной доле. Маленький борт выигрывает, пока объёма мало и частоту держит нижняя граница; большой — когда пассажиров хватает на его кресла.")
+             if fleet else
+             T("Та же сеть при рыночной цене и разной доле: маленький борт выигрывает, пока объёма мало и частоту держит нижняя граница; большой — когда пассажиров хватает на его кресла."))
     return (f'<section><div class="sec-head"><h2>{T("Цена и доля")}</h2><p>'
-            f'{T("Ниже цена — больше доля по допущению об эластичности — больше пассажиров и бортов. Итог в месяц, в")} {D.cur}; '
+            f'{lead} {D.cur}; '
             f'{T("точка — лучший тип в строке, красным — убыток.")}</p></div>'
             f'<div class="tblwrap"><table><thead><tr><th>{T("Цена к рынку")}</th>{th}</tr></thead><tbody>{"".join(trs)}</tbody></table></div>'
             f'<p class="small">{T("Лучшая цена по итогу:")} {best_p}.</p>'
             f'<h3 style="margin-top:24px">{T("Тонкий и толстый рынок")}</h3>'
-            f'<p class="small">{T("Та же сеть при рыночной цене и разной доле: маленький борт выигрывает, пока объёма мало и частоту держит нижняя граница; большой — когда пассажиров хватает на его кресла.")}</p>'
+            f'<p class="small">{thick}</p>'
             f'<div class="tblwrap"><table><thead><tr><th>{T("Доля потока")}</th>{th2}</tr></thead><tbody>{"".join(trs2)}</tbody></table></div></section>')
 
 
@@ -912,27 +992,35 @@ def toolbar(D: Doc, query: dict, a: dict, types: list | None = None, share_hint:
         place = f' placeholder="{e(ph)}"' if ph else ""
         return (f'<label>{lab}<input name="{name}" type="number" step="{step}" value="{val}"{place}>'
                 f'{f"<i>{unit}</i>" if unit else ""}{f"<small>{sub}</small>" if sub else ""}</label>')
-    return (f'<form class="tb noprint" method="get" action="/report">{hidden}{hidden_hl}'
-            f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%", sub=share_hint)}'
+    fleet = a.get("mode") == "fleet"
+    mode = (f'<label>{T("Режим")}<select name="mode" onchange="this.form.submit()">'
+            f'<option value="fleet"{" selected" if fleet else ""}>{T("Мой парк")}</option>'
+            f'<option value="share"{"" if fleet else " selected"}>{T("Доля рынка")}</option></select></label>')
+    share_only = ("" if fleet else
+                  f'{fld("share", T("Доля потока"), round(a["share"] * 100, 1), "0.5", "%", sub=share_hint)}')
+    share_tail = ("" if fleet else
+                  f'{fld("elasticity", T("Эластичность"), a["elasticity"], "0.1")}'
+                  f'{fld("min_freq", T("Рейсов в неделю не меньше"), a["min_freq"], "1")}'
+                  f'{fld("reserve", T("Резерв парка"), round(a["reserve"] * 100), "1", "%")}')
+    return (f'<form class="tb noprint" method="get" action="/report">{hidden}{hidden_hl}{mode}'
+            f'{share_only}'
             f'{fld("price", T("Цена к рынку"), a["price"], "0.01", "×")}'
             f'{fld("fare_conv", T("Чек к минимуму"), "" if a.get("fare_conv") is None else a["fare_conv"], "0.01", "×", T("авто"))}'
-            f'{fld("elasticity", T("Эластичность"), a["elasticity"], "0.1")}'
-            f'{fld("lf_target", T("Плановая загрузка"), round(a["lf_target"] * 100), "1", "%")}'
-            f'{fld("min_freq", T("Рейсов в неделю не меньше"), a["min_freq"], "1")}'
-            f'{fld("reserve", T("Резерв парка"), round(a["reserve"] * 100), "1", "%")}'
+            f'{fld("lf_target", T("Загрузка") if fleet else T("Плановая загрузка"), round(a["lf_target"] * 100), "1", "%")}'
+            f'{share_tail}'
             f'<button class="go">{T("Пересчитать")}</button>'
             f'<a class="go" href="/api/fleetreport.pdf?{e(qs)}">PDF</a>'
             f'<a class="go" href="/api/fleetreport.xlsx?{e(qs)}">Excel</a>{chips}</form>'
             f'<style>.tb{{display:flex;flex-wrap:wrap;gap:22px 14px;align-items:flex-end;padding:12px 24px 24px;'
             f'border-bottom:1px solid var(--d-rule);background:var(--d-card);position:sticky;top:0;z-index:5}}'
             f'.tb label{{display:flex;flex-direction:column;font-size:11.5px;color:var(--d-ink2);gap:3px}}'
-            f'.tb input{{width:88px;background:var(--d-paper);color:var(--d-ink);border:1px solid var(--d-rule);'
+            f'.tb input,.tb select{{width:88px;background:var(--d-paper);color:var(--d-ink);border:1px solid var(--d-rule);'
             f'border-radius:5px;padding:5px 7px;font:13px var(--sans)}}.tb i{{display:none}}'
             f'.tb .go{{background:var(--d-paper);border:1px solid var(--d-rule);color:var(--d-ink);border-radius:5px;'
             f'padding:6px 12px;font:13px var(--sans);cursor:pointer;text-decoration:none}}'
             f'.tb label{{position:relative}}.tb label small{{position:absolute;top:100%;left:0;margin-top:3px;'
             f'font-size:11px;color:var(--d-ink2);white-space:nowrap}}'
-            f'.tb .go:hover{{border-color:var(--t1)}}.tb .hlrow{{display:flex;flex-wrap:wrap;gap:6px;align-items:center;'
+            f'.tb select{{width:auto}}.tb .go:hover{{border-color:var(--t1)}}.tb .hlrow{{display:flex;flex-wrap:wrap;gap:6px;align-items:center;'
             f'width:100%;font-size:11.5px;color:var(--d-ink2)}}.tb .chip{{border:1px solid var(--d-rule);border-radius:12px;'
             f'padding:2px 10px;color:var(--d-ink);text-decoration:none;font:12px var(--sans)}}'
             f'.tb .chip.on{{background:var(--d-ink);color:var(--d-paper)}}'

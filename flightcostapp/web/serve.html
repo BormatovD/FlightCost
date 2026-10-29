@@ -33,9 +33,10 @@ header button.ws{display:inline-flex;align-items:center;gap:7px;margin-left:10px
 header button.ws:hover{color:var(--ink);border-color:var(--accent)}
 header button.ws .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
 header button.ws.on .dot{background:var(--doc)}
-#wspanel[hidden],#acpanel[hidden],#cmppanel[hidden],header button.ws[hidden]{display:none}
+#wspanel[hidden],#acpanel[hidden],#cmppanel[hidden],#tepanel[hidden],header button.ws[hidden]{display:none}
 #acpanel .wsbox,#cmppanel .wsbox{width:min(980px,100%)}
-#wspanel,#acpanel,#cmppanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
+#tepanel .wsbox{width:min(760px,100%)}
+#wspanel,#acpanel,#cmppanel,#tepanel{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:flex;
  align-items:flex-start;justify-content:center;padding:60px 16px;overflow:auto}
 .wsbox{width:min(640px,100%);background:var(--panel);border:1px solid var(--line);border-radius:8px;
  padding:16px 20px 20px;font-size:13.5px}
@@ -201,6 +202,45 @@ body.net #netleft{display:block}
 .arc.net.nofare{stroke:var(--faint);stroke-width:1.3}
 .arc.net.rights{stroke:var(--faint);stroke-dasharray:1 5;stroke-width:1}
 .arc.net.sel{stroke:var(--accent);stroke-width:3}
+#ndrawer{position:fixed;top:0;right:0;bottom:0;width:clamp(560px,54vw,880px);z-index:30;
+ background:var(--panel);border-left:1px solid var(--line);box-shadow:-14px 0 34px rgba(0,0,0,.35);
+ display:flex;flex-direction:column}
+#ndrawer[hidden]{display:none}
+#ndrawer .dhead{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+#ndrawer .dtabs{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+#ndrawer .dtabs button{background:none;border:1px solid var(--line);border-radius:5px;color:var(--dim);
+ padding:6px 12px;font:13.5px var(--sans);cursor:pointer}
+#ndrawer .dtabs button[aria-selected=true]{border-color:var(--accent);color:var(--ink)}
+#ndrawer .dbody{flex:1;overflow:auto;padding:14px 16px 30px}
+#ndrawer section[hidden]{display:none}
+#ndrawer .dcols{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+#ndrawer .dbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+#ndrawer .dbar .btn{width:auto}
+#ndrawer .dbar .sp{flex:1}
+.ltab{width:100%;border-collapse:collapse;font-size:12.5px}
+.ltab th{font:600 11px var(--sans);color:var(--dim);text-align:right;padding:5px 6px;border-bottom:1px solid var(--line);
+ position:sticky;top:-14px;background:var(--panel);cursor:pointer;user-select:none;vertical-align:bottom;line-height:1.25}
+.ltab th:first-child{text-align:left}
+.ltab th.on{color:var(--ink)}
+.ltab td{padding:4px 5px;border-bottom:1px solid var(--line2);text-align:right;white-space:nowrap;font-family:var(--mono)}
+.ltab td:first-child{text-align:left;font-family:var(--sans);font-weight:600}
+.ltab td small{display:block;font:11px var(--sans);color:var(--faint);font-weight:400}
+.ltab tr[data-pair]{cursor:pointer}
+.ltab tr.sel td{background:var(--select)}
+.ltab tr.off td{color:var(--faint)}
+.ltab input{font:12.5px var(--mono);background:var(--raise);color:var(--ink);
+ border:1px solid var(--line);border-radius:4px;padding:2px 5px;text-align:right}
+.ltab input.set{border-color:var(--user);color:var(--user)}
+.ltab input::placeholder{color:var(--dim)}
+.ltab select{font:12px var(--sans);background:var(--raise);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:2px 3px}
+.ltab .neg{color:var(--warn)}
+.ltab .fr{display:inline-flex;gap:4px}
+#dtadd{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:7px 9px;font:14px var(--sans)}
+#dtadd:focus{border-color:var(--accent);outline:0}
+.ltab tr.tot td{border-top:1px solid var(--line);font-weight:600}
+.nopen{display:grid;gap:5px}
+.nopen .btn{text-align:left;display:flex;justify-content:space-between}
+.nopen .btn span{color:var(--dim)}
 .ntab td.v input,.ntab td input{width:68px;font:12.5px var(--mono);background:var(--raise);color:var(--ink);
  border:1px solid var(--line);border-radius:4px;padding:2px 5px;text-align:right}
 .ntab tr.sel td{background:var(--select)}
@@ -230,6 +270,7 @@ body.net #netleft{display:block}
 .cmpk .chipb{flex:none;padding:5px 10px}
 .cchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
 #acpanel{z-index:45}
+#tepanel{z-index:42}
 .cchip{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:12px;padding:2px 4px 2px 10px;font-size:12.5px}
 .cchip button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:14px;padding:0 4px}
 .itab td.na{color:var(--faint)}
@@ -484,6 +525,8 @@ tr.sel td,tr:hover td.v{background:var(--select)}
    страницу при фокусе. */
 .mtoggle,.mfoot,.gzoom{display:none}
 @media (max-width:900px){
+  #ndrawer{width:100vw;border-left:0}
+  #ndrawer .dcols{grid-template-columns:1fr}
   body{height:auto;min-height:100vh;overflow:visible;display:block}
   header{display:grid;grid-template-columns:minmax(0,1.25fr) auto minmax(0,1fr);
    gap:8px;padding:8px 12px 10px;align-items:center}
@@ -632,6 +675,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <div class="wshead"><b id="ach">Выбор типа по силуэту</b><button id="acclose" class="chipb">закрыть</button></div>
   <div id="acbody"></div>
 </div></div>
+<div id="tepanel" hidden><div class="wsbox" role="dialog" aria-labelledby="teh">
+  <div class="wshead"><b id="teh">Свой тип</b><button id="teclose" class="chipb">закрыть</button></div>
+  <div id="tebody"></div>
+</div></div>
 <div id="cmppanel" hidden><div class="wsbox" role="dialog" aria-labelledby="cmph">
   <div class="wshead"><b id="cmph">Сравнение типов по статьям</b><button id="cmpclose" class="chipb">закрыть</button></div>
   <div id="cmpbody"></div>
@@ -706,6 +753,38 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     </div>
     <div class="rv" style="margin-top:-4px"><span id="nmaintf"></span></div>
 
+    <!-- Линии, типы и допущения — во всплывающей панели справа (решение
+         221): в правой колонке таблица линий не помещалась, а частоты и
+         компоновку других типов задать было негде. Здесь — только вход. -->
+    <div class="grp2">Сеть подробно</div>
+    <div class="nopen">
+      <button class="btn" data-open="lines">Линии сети<span id="nlinesn"></span></button>
+      <button class="btn" data-open="types">Типы и парк<span id="ntypesn"></span></button>
+      <button class="btn" data-open="assume">Допущения рынка</button>
+    </div>
+    <div class="rv" style="margin:4px 0 12px"><span id="nsumline"></span></div>
+
+    <div style="display:flex;align-items:center;gap:4px"><button class="btn hot" id="ngo" style="flex:1">Считать сеть</button><button type="button" class="hint" data-hk="ngo" aria-label="пояснение">i</button></div>
+
+    <div class="grp2">Рабочее место</div>
+    <div class="field pair">
+      <div><button class="btn" id="nsave">Сохранить сеть</button></div>
+      <div><select id="nload"><option value="">— сохранённые —</option></select></div>
+    </div>
+  </aside>
+
+  <!-- Панель сети: линии, типы и парк, допущения. Выезжает справа поверх
+       правой колонки; глобус слева виден — строка линии подсвечивает дугу.
+       На телефоне — на весь экран. -->
+  <div id="ndrawer" hidden role="dialog" aria-labelledby="dtabs">
+    <div class="dhead">
+      <nav class="dtabs" id="dtabs"><button data-p="lines">Линии сети</button><button data-p="types">Типы и парк</button><button data-p="assume">Допущения рынка</button></nav>
+      <button class="chipb" id="dclose">закрыть</button>
+    </div>
+    <div class="dbody">
+      <section data-p="lines" id="dlines"></section>
+      <section data-p="types" id="dtypes"></section>
+      <section data-p="assume" id="dassume"><div class="dcols"><div>
     <div class="grp2">Цена</div>
     <!-- Две величины разного рода (решение 191): что рынок платит сверх
          минимума — допущение о рынке; дешевле или дороже рынка мы — решение.
@@ -717,20 +796,31 @@ tr.sel td,tr:hover td.v{background:var(--select)}
       <div class="rv"><span id="nmultv">× 1,00</span></div></div>
     <div class="rv" style="margin-top:-2px"><span id="nfarev"></span></div>
 
-    <div class="grp2">Частоты и загрузка</div>
-    <div class="tabs2" id="nfreqmode"><button data-v="auto" aria-selected="true">поровну, сколько вывозит парк</button><button data-v="own" aria-selected="false">свои</button></div>
-    <div class="field" style="margin-top:9px"><label for="nlf">Расчётная загрузка<button type="button" class="hint" data-hk="nlf" aria-label="пояснение">i</button></label>
+    <div class="grp2">Загрузка</div>
+    <div class="field"><label for="nlf">Расчётная загрузка<button type="button" class="hint" data-hk="nlf" aria-label="пояснение">i</button></label>
       <input id="nlf" type="range" min="40" max="100" value="80">
       <div class="rv"><span id="nlfv">80%</span></div></div>
 
-    <div style="display:flex;align-items:center;gap:4px"><button class="btn hot" id="ngo" style="flex:1">Считать сеть</button><button type="button" class="hint" data-hk="ngo" aria-label="пояснение">i</button></div>
-
-    <div class="grp2">Рабочее место</div>
-    <div class="field pair">
-      <div><button class="btn" id="nsave">Сохранить сеть</button></div>
-      <div><select id="nload"><option value="">— сохранённые —</option></select></div>
+    <div class="grp2">S-кривая</div>
+    <div class="field"><label for="nalpha">Показатель «доля частот → доля пассажиров»<button type="button" class="hint" data-hk="nalpha" aria-label="пояснение">i</button></label>
+      <input id="nalpha" type="number" step="0.1" min="1" max="3" placeholder="1,3"></div>
+      </div><div>
+    <div class="grp2">Отчёт по парку</div>
+    <div class="tabs2" id="rmode"><button data-v="fleet" aria-selected="true">Мой парк</button><button data-v="share" aria-selected="false">Доля рынка</button></div>
+    <div class="rv" id="rmodet"></div>
+    <div id="rsharef">
+      <div class="field pair">
+        <div><label for="rshare">Доля потока, %</label><input id="rshare" type="number" step="0.5" min="0.5" max="60" placeholder="10"></div>
+        <div><label for="relast">Эластичность</label><input id="relast" type="number" step="0.1" min="0" max="5" placeholder="1,5"></div>
+      </div>
+      <div class="field pair">
+        <div><label for="rminf">Рейсов в неделю не меньше</label><input id="rminf" type="number" step="1" min="1" placeholder="7"></div>
+        <div><label for="rres">Резерв парка, %</label><input id="rres" type="number" step="1" min="0" max="50" placeholder="10"></div>
+      </div>
     </div>
-  </aside>
+      </div></div></section>
+    </div>
+  </div>
 
   <div id="hintpop" role="dialog" hidden></div>
   <main class="stage" id="stage">
@@ -1044,6 +1134,20 @@ for (let m=1;m<=12;m++) $("#month").insertAdjacentHTML("beforeend",`<option>${m}
 // Крестик очистки: у каждого текстового и числового поля. Обёртка не
 // трогает обработчики поля — стирание шлёт то же событие `input`, что и
 // набор, и пересчёт запускается тем же путём.
+// Поля в таблицах — по ширине числа: в рублях ставка ТОиР 47 025, лизинг
+// 19 миллионов, и в поле на 64 пикселя хвост числа уходил под крестик.
+// Ширина — по самому длинному из значения и подсказки, в знаках
+// моноширинного шрифта, плюс место под крестик очистки.
+function fitInputs(root) {
+  root.querySelectorAll(".ltab input, .mkt input, .ntab input").forEach(inp => {
+    const fit = () => {
+      const n = Math.max(String(inp.value).length, (inp.placeholder || "").length, 3);
+      inp.style.width = `calc(${n + 1}ch + ${inp.closest(".cl") ? 38 : 14}px)`;
+    };
+    fit();
+    if (!inp.dataset.fit) { inp.dataset.fit = "1"; inp.addEventListener("input", fit); }
+  });
+}
 function addClears(root = document) {
   root.querySelectorAll('input[type="text"],input[type="number"],input:not([type])')
       .forEach(inp => {
@@ -1433,6 +1537,7 @@ setHint("ctx", _t("их нет в справочнике: у каждого аэ
 setHint("nconv", _t("Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — допущение по потоку пары: × 1,2, на парах от 80 тыс. пассажиров в месяц × 2,0 (там разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки)."));;
 setHint("nmult", _t("Ваше решение: насколько дешевле или дороже рынка продаёте. 1,00 — как рынок. «Цена в ноль» над глобусом — в этих же единицах."));
 setHint("nlf", _t("вклад и «нужно» — при ней"));
+setHint("nalpha", _t("Отраслевое правило, не измерение: при показателе 1 доля пассажиров пропорциональна доле частот, выше — перевес у того, кто летает чаще. Пусто — 1,3."));
 setHint("ngo", _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"));
 
 // Значение, которое ушло в расчёт, — прямо в поле вместо «из справочника»,
@@ -1835,7 +1940,13 @@ async function boot(){
   // знает ни пассажиров, ни выполнимости. Расчёт её обновит сам —
   // `draw` зовёт `drawGlobe` по приходе ответа.
   draw();
-  if (new URLSearchParams(location.search).get("mode") === "net") setMode("net");
+  // Со страницы типа: «сравнить в сети» — режим сети и свой вариант в
+  // сравнении рядом с исходным типом (решение 231).
+  if (QP.get("mode") === "net" || QP.get("net") === "1") {
+    setMode("net");
+    const cmp = (QP.get("cmp") || "").toUpperCase().split(",").filter(x => ACS.some(t => t.icao === x && t.usable));
+    if (cmp.length) { NET.cmp.types = [CHOSEN.ac, ...cmp.filter(x => x !== CHOSEN.ac)].slice(0, 5); drawerOpen("types"); }
+  }
 }
 
 // Условия начисления — порядковые номера ВНУТРИ аэропорта: тройка у
@@ -2506,6 +2617,20 @@ const FLEET_RU = {lease_eur_month: _t("лизинг, EUR в месяц"), monthl
   maint_eur_per_fh: _t("ТОиР, EUR за час налёта"), maint_eur_per_fc: _t("ТОиР, EUR за цикл"),
   crew_eur_per_fh: _t("экипаж, EUR за час"), crew_eur_per_fc: _t("экипаж, EUR за вылет")};
 let TYPE_NEW = null;   // черновик нового типа, пока не сохранён: {base, icao}
+// Свой тип из сети (решение 231): тот же редактор в окне поверх панели;
+// после сохранения тип не ставится в шапку, а добавляется в сравнение.
+let TYPE_HOOK = null;
+function typeEditOpen(base, onSaved) {
+  let key = `USER:${String(base).replace(/^USER:/, "")}-MY`, n = 2;
+  const k0 = key; while (ACS.some(x => x.icao === key)) key = `${k0}-${n++}`;
+  TYPE_NEW = {base, icao: key};
+  TYPE_HOOK = onSaved;
+  $("#tebody").innerHTML = `<div id="typebox"></div>`;
+  $("#teh").textContent = `${_t("Свой тип на основе")} ${acShort(base)}`;
+  $("#tepanel").hidden = false;
+  drawType(LAST);
+}
+function typeEditClose() { $("#tepanel").hidden = true; $("#tebody").innerHTML = ""; TYPE_NEW = null; TYPE_HOOK = null; }
 
 function fld(id, label, val, extra = "") {
   return `<div><label for="${id}">${label}</label><input id="${id}" ${extra} value="${esc(val ?? "")}"></div>`;
@@ -2622,7 +2747,7 @@ async function drawType(r){
     TYPE_NEW = {base: t.icao, icao: ($("#newkey").value.trim() || `USER:${t.icao}-MY`).toUpperCase()};
     drawType(LAST);
   };
-  if ($("#tcancel")) $("#tcancel").onclick = () => { TYPE_NEW = null; drawType(LAST); };
+  if ($("#tcancel")) $("#tcancel").onclick = () => { if (TYPE_HOOK) { typeEditClose(); return; } TYPE_NEW = null; drawType(LAST); };
   if ($("#tsave")) $("#tsave").onclick = async () => {
     const fields = {};
     for (const k of FIELD_ORDER) { const v = $("#f_" + k).value; if (v !== "") fields[k] = +v; }
@@ -2649,6 +2774,7 @@ async function drawType(r){
     if (res.error) { msg(res.error, true); return; }
     // Список типов пересобирается: новый тип должен появиться в шапке.
     ACS = await (await fetch("/api/aircraft")).json();
+    if (TYPE_HOOK) { const hook = TYPE_HOOK; typeEditClose(); wsRefresh(); hook(res.icao); return; }
     TYPE_NEW = null;
     setAc(res.icao);
     msg(res.workspace
@@ -3208,9 +3334,14 @@ $("#cur").addEventListener("change", e => { if (!setCur(e.target.value)) curOpti
 // нужна. Сложить сеть — вызовы ядра (секунды, сервер кэширует по составу);
 // переиграть парк, цены и частоты — мгновенно. Поэтому состав считается
 // кнопкой, а остальное — на лету.
-const NET = {on: false, airports: [], base: null, freqMode: "auto", freqs: {}, fares: {},
+// Частоты (решение 221): заданная — закреплена, остальные пары делят
+// оставшиеся часы парка поровну; переключателя «поровну / свои» больше
+// нет. `tset` — свои борты, кресла и ставки сравниваемых типов (панель
+// «Типы и парк»); у типа в шапке они — в полях слева.
+const NET = {on: false, airports: [], base: null, freqs: {}, fares: {},
              market: {}, res: null, sel: null, zones: "all", showRights: false,
-             busy: false, dirty: true, msg: ""};
+             busy: false, dirty: true, msg: "", tset: {}, mode: "fleet", rep: {},
+             lsort: {k: "contrib", d: -1}, panel: null};
 const NET_TABS = [["net", _t("Сеть")], ["ntypes", _t("Типы")], ["market", _t("Рынок")], ["nwarn", _t("Оговорки")]];
 let ROUTE_TABS_HTML = null;
 const netIcao = key => (APTS.find(x => x.key === key) || {}).icao;
@@ -3305,6 +3436,10 @@ function netParams(){
     fleet: $("#nfleet").value || "1", lf: (+$("#nlf").value / 100).toFixed(2),
     fare_mult: (+$("#nmult").value / 100).toFixed(2), fare_conv: $("#nconv").value || "",
     month: $("#month").value});
+  // Компоновка шапки — и в сети: «по сертификату» и «своя» уходят числом
+  // кресел. Прежде сеть их не получала и считала по типовой.
+  const seats = seatsParam(); if (seats) p.set("seats", String(seats));
+  if ($("#nalpha").value !== "") p.set("alpha", $("#nalpha").value);
   if ($("#nutil").value !== "") p.set("util_h", $("#nutil").value);
   if ($("#nlease").value !== "") p.set("lease", String(Math.round(toEur($("#nlease").value))));
   if ($("#nmfh").value !== "") p.set("maint_fh", String(Math.round(toEur($("#nmfh").value))));
@@ -3312,11 +3447,35 @@ function netParams(){
   const fares = {}; for (const [k, v] of Object.entries(NET.fares)) if (v !== "" && v != null) fares[k] = (toEur(v)).toFixed(2);
   if (Object.keys(fares).length) p.set("fares", pairsQ(fares));
   if (Object.keys(NET.market).length) p.set("market", pairsQ(NET.market));
-  if (NET.freqMode === "own" && Object.keys(NET.freqs).length) p.set("freqs", pairsQ(NET.freqs));
+  if (Object.keys(NET.freqs).length) p.set("freqs", pairsQ(NET.freqs));
   // Условия начисления аэропортов — те же, что у маршрута; лизинг и
   // налёт сюда не идут: у сети они свои поля.
   const sets = (params().get("set") || "").split("~").filter(x => x && !x.startsWith("fleet_economics."));
   if (sets.length) p.set("set", sets.join("~"));
+  return p;
+}
+// Сравнение и отчёт — те же вводы плюс свои у каждого типа и режим
+// отчёта. Один адрес на экран, отчёт, PDF и Excel: что видно в панели,
+// то и считается в выгрузке (решение 221).
+function tsetQ(){
+  const out = [];
+  for (const t of netCmpTypes()) {
+    if (t === CHOSEN.ac) continue;
+    const v = NET.tset[t] || {}, kv = [];
+    for (const k of ["fleet", "seats", "lease", "util_h", "maint_fh", "maint_fc"])
+      if (v[k] !== "" && v[k] != null && isFinite(+v[k])) kv.push(`${k}=${Math.round(+v[k])}`);
+    if (kv.length) out.push(`${t}:${kv.join(";")}`);
+  }
+  return out.join("|");
+}
+function netCmpParams(report){
+  const p = netParams(); p.set("types", netCmpTypes().join(","));
+  const ts = tsetQ(); if (ts) p.set("tset", ts);
+  if (report) {
+    p.set("mode", NET.mode);
+    if (NET.mode === "share") for (const [k, v] of Object.entries(NET.rep)) if (v !== "" && v != null) p.set(k, v);
+    p.set("cur", CUR.code); p.set("lang", LANG);
+  }
   return p;
 }
 let NET_SEQ = 0, NET_TIMER = null;
@@ -3354,7 +3513,7 @@ function netSoft(){
   clearTimeout(NET_TIMER); NET_TIMER = setTimeout(netRun, 250);
 }
 $("#ngo").onclick = netRun;
-["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv"].forEach(id => $("#" + id).addEventListener("input", netSoft));
+["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv", "nalpha"].forEach(id => $("#" + id).addEventListener("input", netSoft));
 $("#nmult").addEventListener("input", () => { $("#nmultv").textContent = `× ${f2(+$("#nmult").value / 100)}`; netFareLine(); netSoft(); });
 $("#nconv").addEventListener("input", netFareLine);
 // Итог двух множителей числом: какой чек на самом деле уходит в расчёт,
@@ -3372,11 +3531,20 @@ function netFareLine() {
     l ? ` · ${esc(l.origin)}–${esc(l.destination)}: ${m0(l.fare_eur)} → <b>${m0(l.fare_eur * k)}</b> ${CUR.code}` : ""}`;
 }
 $("#nlf").addEventListener("input", () => { $("#nlfv").textContent = $("#nlf").value + "%"; netSoft(); });
-document.querySelectorAll("#nfreqmode button").forEach(b => b.onclick = () => {
-  NET.freqMode = b.dataset.v;
-  document.querySelectorAll("#nfreqmode button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
-  netSoft();
-});
+// Режим отчёта (решение 221): «Мой парк» — борты и частоты как на экране,
+// «Доля рынка» — парк подбирается под долю потока. Сеть не пересчитывает.
+document.querySelectorAll("#rmode button").forEach(b => b.onclick = () => {
+  NET.mode = b.dataset.v; rmodeApply(); netRender(); });
+function rmodeApply(){
+  document.querySelectorAll("#rmode button").forEach(x => x.setAttribute("aria-selected", String(x.dataset.v === NET.mode)));
+  $("#rsharef").hidden = NET.mode !== "share";
+  $("#rmodet").textContent = NET.mode === "share"
+    ? _t("Отчёт подберёт частоты и парк каждого типа под долю нынешнего потока пар; ваши борты и частоты не используются.")
+    : _t("Отчёт покажет ровно ваши борты каждого типа и частоты — те же числа, что на экране.");
+}
+[["rshare", "share"], ["relast", "elasticity"], ["rminf", "min_freq"], ["rres", "reserve"]].forEach(([id, k]) =>
+  $("#" + id).addEventListener("input", () => { NET.rep[k] = $("#" + id).value; if (NET.panel !== "assume") netRender(); }));
+rmodeApply();
 $("#ac").addEventListener("change", () => { NET.dirty = true; netChips(); });
 $("#month").addEventListener("change", () => { NET.dirty = true; netChips(); });
 $("#ntoggle").onclick = () => {
@@ -3418,7 +3586,7 @@ function netRender(){
       + kpiCell(_t("Топливо в ноль"), n.fuel_price_breakeven == null ? "—" : `${m2(n.fuel_price_breakeven)}<small>${CUR.code}/${_t("кг")}</small>`,
         n.fuel_price_now == null ? "" : `${_t("сейчас")} ${m2(n.fuel_price_now)}`, n.fuel_price_breakeven != null && n.fuel_price_now != null && n.fuel_price_breakeven < n.fuel_price_now);
   }
-  netFleetHints(); netFareLine();
+  netFleetHints(); netFareLine(); netSumLine(); drawerRender();
   const tab = (document.querySelector("#tabs [aria-selected=true]") || {}).dataset?.tab || "net";
   $("#main").innerHTML = ({net: tabNet, ntypes: tabNetTypes, market: tabMarket, nwarn: tabNetWarn}[tab] || tabNet)();
   if (tab === "ntypes") bindNetTypes();
@@ -3426,14 +3594,13 @@ function netRender(){
     if (e.target.tagName === "INPUT") return;
     NET.sel = NET.sel === tr.dataset.pair ? null : tr.dataset.pair; netRender();
   });
-  $("#main").querySelectorAll("input.nf").forEach(inp => inp.addEventListener("change", () => {
-    NET.freqs[inp.dataset.k] = inp.value; netSoft(); }));
+  $("#main").querySelectorAll("[data-open]").forEach(b => b.onclick = e => { e.preventDefault(); drawerOpen(b.dataset.open); });
   $("#main").querySelectorAll("input.nfare").forEach(inp => inp.addEventListener("change", () => {
     NET.fares[inp.dataset.k] = inp.value; netSoft(); }));
   $("#main").querySelectorAll("input.nmkt").forEach(inp => inp.addEventListener("change", () => {
     if (inp.value === "") delete NET.market[inp.dataset.k]; else NET.market[inp.dataset.k] = inp.value; netSoft(); }));
   const sr = $("#nshowrights"); if (sr) sr.onclick = () => { NET.showRights = !NET.showRights; netRender(); };
-  addClears($("#main"));
+  addClears($("#main")); fitInputs($("#main"));
   drawGlobe();
 }
 
@@ -3511,7 +3678,7 @@ let NETCMP_SEQ = 0;
 async function netCmpRun() {
   if (NET.airports.length < 2 || !NET.base) { NET.cmp.msg = _t("нужны хотя бы два аэропорта и база"); netRender(); return; }
   const my = ++NETCMP_SEQ;
-  const p = netParams(); p.set("types", netCmpTypes().join(","));
+  const p = netCmpParams(false);
   NET.cmp.busy = true; NET.cmp.msg = ""; NET.cmp.progress = null; netRender();
   const t0 = performance.now();
   let r;
@@ -3528,14 +3695,14 @@ async function netCmpRun() {
   }
   loaderHide();
   NET.cmp.busy = false; NET.cmp.progress = null;
-  if (r && r.rows) { NET.cmp.res = r; NET.cmp.key = netParams().toString() + "|" + netCmpTypes().join(","); }
+  if (r && r.rows) { NET.cmp.res = r; NET.cmp.key = netCmpParams(false).toString(); }
   NET.cmp.msg = r && r.error ? r.error : "";
   NET.cmp.ms = Math.round(performance.now() - t0);
   netRender();
 }
 function tabNetTypes() {
   const c = NET.cmp, types = netCmpTypes(), geo = i => (ACS.find(x => x.icao === i) || {}).geom;
-  let h = `<p class="lede">${_t("Сначала выберите типы, потом посчитайте ту же сеть на каждом: аэропорты, база, число бортов, цена и загрузка общие. Лизинг и налёт из полей слева относятся к")} ${esc(CHOSEN.ac)}; ${_t("у остальных — их ставки из справочника.")}</p>
+  let h = `<p class="lede">${_t("Сначала выберите типы, потом посчитайте ту же сеть на каждом: аэропорты, база, цена, загрузка и частоты общие. Борты, компоновка и ставки каждого типа — в панели")} <a href="#" data-open="types">${_t("«Типы и парк»")}</a>; ${_t("не заданы — у типа в шапке поля слева, у остальных бортов столько же, ставки из справочника.")}</p>
     <div class="chips" id="ncmpchips">${types.map(i => {
       const g = geo(i);
       return `<span class="chip${i === CHOSEN.ac ? " base" : ""}" title="${esc(i)}">${g ? silhouette(g, silK(g, 22)) : ""}${esc(acShort(i))}${
@@ -3543,7 +3710,8 @@ function tabNetTypes() {
     }).join("")}</div>
     <div class="field pair" style="margin-top:8px">
       <div class="hp"><input id="ncmpadd" class="pick" autocomplete="off" placeholder="${_t("добавить тип — код или название")}"><div class="hits" id="ncmphits"></div></div>
-      <div><button class="btn" id="ncmpgal">✈ ${_t("по силуэту")}</button></div></div>`;
+      <div style="display:flex;gap:6px"><button class="btn" id="ncmpgal">✈ ${_t("по силуэту")}</button>
+        <button class="btn" id="ncmpown" title="${_t("создать свой тип на основе этого и добавить в сравнение")}">✎ ${_t("свой тип")}</button></div></div>`;
   const sug = netCmpSuggest();
   if (sug.length) h += `<div class="rv" style="margin:2px 0 8px">${_t("добавить:")} ${sug.map(i =>
       `<button class="chipb" data-add="${esc(i)}">${esc(i)}</button>`).join(" ")}</div>`;
@@ -3553,7 +3721,7 @@ function tabNetTypes() {
   if (c.msg) h += `<div class="note"><b>${_t("Не посчитать.")}</b> ${esc(c.msg)}</div>`;
   const r = c.res;
   if (!r) return h + `<p class="lede">${_t("Первый расчёт сети на типе — до минуты: ядро считает каждое плечо. Дальше — из кэша.")}</p>`;
-  const stale = c.key !== netParams().toString() + "|" + types.join(",");
+  const stale = c.key !== netCmpParams(false).toString();
   if (stale) h += `<div class="note quiet">${_t("Сеть или список типов изменились после расчёта — нажмите «Сравнить», чтобы обновить.")}</div>`;
   const ok = r.rows.filter(x => x.status === "ok");
   const bestP = ok.slice().sort((a, b) => b.profit_at_ref - a.profit_at_ref)[0];
@@ -3562,9 +3730,9 @@ function tabNetTypes() {
   // отчёта — документ: объём на входе, борты и деньги на выходе; доля
   // потока и цена меняются на ней. PDF и Excel — тот же расчёт.
   if (!stale && ok.length) {
-    const rp = netParams(); rp.set("types", types.join(",")); rp.set("cur", CUR.code); rp.set("lang", LANG);
-    const qs = escA(rp.toString());
-    h += `<div style="display:flex;gap:6px;margin:0 0 10px"><a class="btn" style="flex:1;text-align:center;text-decoration:none;display:block" target="_blank" rel="noopener" href="/report?${qs}">${_t("Отчёт по парку")} ↗</a>
+    const qs = escA(netCmpParams(true).toString());
+    h += `<div class="rv" style="margin:0 0 4px">${_t("Отчёт:")} <b>${NET.mode === "share" ? _t("парк под долю рынка") : _t("мой парк — борты и частоты как на экране")}</b> · <a href="#" data-open="assume">${_t("изменить")}</a></div>
+      <div style="display:flex;gap:6px;margin:0 0 10px"><a class="btn" style="flex:1;text-align:center;text-decoration:none;display:block" target="_blank" rel="noopener" href="/report?${qs}">${_t("Отчёт по парку")} ↗</a>
       <a class="btn" style="width:auto;flex:none;text-decoration:none;display:block" href="/api/fleetreport.pdf?${qs}" title="${_t("Отчёт документом для пересылки")}">PDF</a>
       <a class="btn" style="width:auto;flex:none;text-decoration:none;display:block" href="/api/fleetreport.xlsx?${qs}" title="${_t("Расчёт с живыми формулами: объём, рейсы, борты")}">Excel</a></div>`;
   }
@@ -3580,7 +3748,7 @@ function tabNetTypes() {
   for (const x of r.rows) {
     const g = geo(x.icao), cur = x.icao === CHOSEN.ac;
     const head = `<div class="ml" title="${esc(x.icao)}">${g ? `<span class="msil">${silhouette(g, silK(g, 26))}</span>` : ""}<b${cur ? ' style="color:var(--accent)"' : ""}>${esc(acShort(x.icao))}</b>
-      <span>${x.seats_per_ac ? x.seats_per_ac + " " + _t("кресел") : ""}</span></div>`;
+      <span>${x.fleet ? x.fleet + " × " : ""}${x.seats_per_ac ? x.seats_per_ac + " " + _t("кресел") : ""}</span></div>`;
     if (x.status !== "ok") {
       h += `<div class="mrow" style="grid-template-columns:${cols}">${head}<div class="mt bad">${
         x.status === "pending" ? _t("считается…") : esc(x.why || _t("сбой"))}</div></div>`;
@@ -3611,7 +3779,9 @@ function bindNetTypes() {
   m.querySelectorAll("[data-use]").forEach(el => el.onclick = e => {
     e.preventDefault(); setAc(el.dataset.use); NET.dirty = true; netChips(); netRun(); });
   const go = $("#ncmpgo"); if (go) go.onclick = netCmpRun;
+  m.querySelectorAll("[data-open]").forEach(b => b.onclick = e => { e.preventDefault(); drawerOpen(b.dataset.open); });
   const gal = $("#ncmpgal"); if (gal) gal.onclick = () => galleryOpen(netCmpAdd);
+  const own = $("#ncmpown"); if (own) own.onclick = () => typeEditOpen(CHOSEN.ac, icao => { netCmpAdd(icao); netRender(); });
   const inp = $("#ncmpadd"), box = $("#ncmphits");
   if (!inp) return;
   const show = () => {
@@ -3627,6 +3797,221 @@ function bindNetTypes() {
     const first = box.querySelector(".hit[data-ac]"); if (first) netCmpAdd(first.dataset.ac); } });
 }
 
+// ── панель сети: линии, типы и парк, допущения (решение 221) ───────────
+// Всё, что задаёт человек, живёт в NET и уходит одним адресом в расчёт,
+// сравнение и отчёт. Панель только рисует это состояние и пишет в него.
+function drawerOpen(panel){
+  NET.panel = panel; $("#ndrawer").hidden = false;
+  document.querySelectorAll("#dtabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.p === panel)));
+  document.querySelectorAll("#ndrawer section").forEach(x => x.hidden = x.dataset.p !== panel);
+  drawerRender();
+}
+function drawerClose(){ NET.panel = null; $("#ndrawer").hidden = true; }
+document.querySelectorAll("#dtabs button").forEach(b => b.onclick = () => drawerOpen(b.dataset.p));
+document.querySelectorAll("[data-open]").forEach(b => b.onclick = () => drawerOpen(b.dataset.open));
+$("#dclose").onclick = drawerClose;
+document.addEventListener("keydown", e => { if (e.key === "Escape" && NET.panel && $("#hintpop").hidden) drawerClose(); });
+function drawerRender(){
+  if (!NET.panel) return;
+  // Перерисовка не должна уводить курсор из поля, в которое человек
+  // перешёл табуляцией, пока сервер пересчитывал сеть.
+  const a = document.activeElement, keep = a && a.closest && a.closest("#ndrawer") && a.dataset.f
+    ? [a.dataset.f, a.dataset.k || ""] : null;
+  if (NET.panel === "lines") { $("#dlines").innerHTML = linesHtml(); bindLines(); }
+  if (NET.panel === "types") { $("#dtypes").innerHTML = typesHtml(); bindTypes(); }
+  addClears($("#ndrawer")); fitInputs($("#ndrawer"));
+  if (keep) {
+    const el = [...document.querySelectorAll(`#ndrawer [data-f="${keep[0]}"]`)].find(x => (x.dataset.k || "") === keep[1]);
+    if (el) el.focus();
+  }
+}
+
+// Линии: одна строка — пара; частота, цены плеч и поток — поля. Пустое
+// поле — авто (подсказка серым — что в расчёте), заполненное — закреплено.
+const LCOLS = [["key", _t("пара")], ["dist", _t("км")], ["freq", _t("рейс/нед")], ["fare", _t("цена туда · обратно")],
+  ["market", _t("поток, пасс./мес")], ["seats", _t("кресел/мес")], ["lfown", _t("рейсы в 0")], ["contrib", _t("вклад, тыс./мес")],
+  ["need", _t("нужно")], ["fs", _t("частоты")], ["ss", "S"]];
+function linesRows(){
+  const r = NET.res, n = r && r.network;
+  if (!r) return [];
+  const res = Object.fromEntries(((n && n.pairs) || []).map(x => [x.key, x]));
+  return r.pairs.filter(p => p.status === "ok").map(p => {
+    const key = `${p.a}-${p.b}`, x = res[key];
+    return {key, p, x, dist: p.dist_km, freq: x ? x.freq_week : 0, market: p.market_pax_month,
+            seats: x ? x.seats_month : 0, lfown: x ? x.lf_own : null, contrib: x ? x.contribution_month : null,
+            need: x ? x.need_share : null, fs: x ? x.freq_share : null, ss: x ? x.s_share : null,
+            fare: (p.legs[0] || {}).fare_eur};
+  });
+}
+function linesHtml(){
+  const r = NET.res, n = r && r.network;
+  if (!r) return `<p class="lede">${_t("Сначала посчитайте сеть: линии появятся здесь.")}</p>`;
+  const rows = linesRows(), s = NET.lsort;
+  rows.sort((a, b) => {
+    const va = a[s.k], vb = b[s.k];
+    if (s.k === "key") return s.d * String(va).localeCompare(String(vb));
+    return s.d * ((va == null ? -1e18 : va) - (vb == null ? -1e18 : vb));
+  });
+  const nf = Object.keys(NET.freqs).length, nfa = Object.keys(NET.fares).length + Object.keys(NET.market).length;
+  let h = `<div class="dbar"><span class="lede" style="margin:0">${_t("Пустое поле — авто: серым то, что в расчёте. Вписанное — закреплено; частоты остальных пар делят оставшиеся часы парка. 0 — пара не летается.")}</span></div>
+    <div class="dbar"><button class="btn" id="lrfreq"${nf ? "" : " disabled"}>${_t("сбросить частоты")}${nf ? ` · ${nf}` : ""}</button>
+    <button class="btn" id="lrfare"${nfa ? "" : " disabled"}>${_t("сбросить цены и потоки")}${nfa ? ` · ${nfa}` : ""}</button><span class="sp"></span>
+    ${NET.busy ? `<span class="rv">${_t("считаю…")}</span>` : ""}</div>`;
+  if (NET.msg) h += `<div class="note"><b>${_t("Не посчитать.")}</b> ${esc(NET.msg)}</div>`;
+  h += `<table class="ltab"><thead><tr>${LCOLS.map(([k, t]) =>
+    `<th data-sort="${k}" class="${s.k === k ? "on" : ""}">${t}${s.k === k ? (s.d > 0 ? " ↑" : " ↓") : ""}</th>`).join("")}</tr></thead><tbody>`;
+  let tf = 0, ts = 0, tc = 0;
+  for (const w of rows) {
+    const {p, x, key} = w;
+    const fset = NET.freqs[key] != null && NET.freqs[key] !== "";
+    const fare = p.legs.map(l => {
+      const k = `${l.origin}-${l.destination}`, set = NET.fares[k] != null && NET.fares[k] !== "";
+      return `<input data-f="fare" data-k="${esc(k)}" class="${set ? "set" : ""}${parFare(l) ? " par" : ""}" type="number" min="0" step="1"
+        value="${set ? escA(NET.fares[k]) : ""}" placeholder="${l.fare_eur != null ? m0(l.fare_eur) : "—"}" title="${escA(k + " · " + (l.fare_src || l.market_fare_src || ""))}">`;
+    }).join("");
+    const mset = NET.market[key] != null && NET.market[key] !== "";
+    tf += w.freq; ts += w.seats; tc += w.contrib || 0;
+    h += `<tr data-pair="${esc(key)}" class="${NET.sel === key ? "sel" : ""}${x ? "" : " off"}">
+      <td>${esc(key)}${x ? "" : `<small>${fset && +NET.freqs[key] === 0 ? _t("выключена") : !p.legs.every(l => l.fare_eur) ? _t("нет цены") : _t("не летается")}</small>`}</td>
+      <td>${f0(w.dist)}</td>
+      <td><input data-f="freq" data-k="${esc(key)}" class="${fset ? "set" : ""}" type="number" min="0" step="1"
+        value="${fset ? escA(NET.freqs[key]) : ""}" placeholder="${x ? x.freq_week : "—"}" title="${escA(fset ? _t("задано — закреплено") : _t("авто: остаток часов парка поровну"))}"></td>
+      <td><span class="fr">${fare}</span></td>
+      <td><input data-f="market" data-k="${esc(key)}" class="${mset ? "set" : ""}${parFlow(p) ? " par" : ""}" type="number" min="0" step="100"
+        value="${mset ? escA(NET.market[key]) : ""}" placeholder="${p.market_pax_month != null ? f0(p.market_pax_month) : "—"}" title="${escA(p.market_src || "")}"></td>
+      <td>${x ? f0(w.seats) : "—"}</td>
+      <td class="${w.lfown == null || (n && w.lfown > n.lf_ref) ? "neg" : ""}">${x ? (w.lfown == null ? ">100%" : pct(w.lfown)) : "—"}</td>
+      <td class="${(w.contrib || 0) < 0 ? "neg" : ""}">${x ? (w.contrib >= 0 ? "+" : "") + m0(w.contrib / 1000) : "—"}</td>
+      <td class="${(w.need || 0) > 1 ? "neg" : ""}">${w.need == null ? "—" : pct(w.need)}</td>
+      <td>${w.fs == null ? "—" : pct(w.fs)}</td><td>${w.ss == null ? "—" : pct(w.ss)}</td></tr>`;
+  }
+  if (n) {
+    const lease = n.fleet * n.lease_eur_month;
+    h += `<tr class="tot"><td>${_t("итого")}</td><td></td><td>${tf}</td><td></td><td></td><td>${f0(ts)}</td><td></td>
+      <td class="${tc < 0 ? "neg" : ""}">${tc >= 0 ? "+" : ""}${m0(tc / 1000)}</td><td></td><td></td><td></td></tr>
+      <tr><td colspan="11" style="text-align:left;font-family:var(--sans);color:var(--dim);white-space:normal">${_t("лизинг парка")} ${n.fleet} × ${m0(n.lease_eur_month)} = ${kMoney(lease)} → ${_t("результат")}
+      <b class="${tc - lease < 0 ? "neg" : ""}">${tc - lease >= 0 ? "+" : ""}${kMoney(tc - lease)}</b> ${CUR.code}/${_t("мес")} ${_t("при загрузке")} ${pct(n.lf_ref)} ·
+      ${_t("налёт")} ${f0(n.hours_used / n.fleet)} ${_t("ч/мес из")} ${f0(n.util_h_month)}</td></tr>`;
+  }
+  h += `</tbody></table><p class="lede" style="margin-top:8px">${_t("рейсы в 0 — загрузка, при которой пара окупает свои рейсы, без парка · вклад — в лизинг парка при расчётной загрузке · нужно — доля нынешнего потока при безубыточной загрузке сети · частоты — наша доля рейсов на паре · S — по S-кривой (допущение). Цены — в")} ${CUR.code}, ${_t("щелчок по строке — дуга на глобусе, по заголовку — сортировка.")}</p>`;
+  return h;
+}
+function bindLines(){
+  const box = $("#dlines");
+  box.querySelectorAll("th[data-sort]").forEach(th => th.onclick = () => {
+    const k = th.dataset.sort;
+    NET.lsort = NET.lsort.k === k ? {k, d: -NET.lsort.d} : {k, d: k === "key" ? 1 : -1};
+    drawerRender();
+  });
+  box.querySelectorAll("tr[data-pair]").forEach(tr => tr.onclick = e => {
+    if (e.target.tagName === "INPUT") return;
+    NET.sel = NET.sel === tr.dataset.pair ? null : tr.dataset.pair; netRender();
+  });
+  const store = {freq: NET.freqs, fare: NET.fares, market: NET.market};
+  box.querySelectorAll("input[data-f]").forEach(inp => inp.addEventListener("change", () => {
+    const o = store[inp.dataset.f];
+    if (inp.value === "") delete o[inp.dataset.k]; else o[inp.dataset.k] = inp.value;
+    netSoft();
+  }));
+  const rf = $("#lrfreq"); if (rf) rf.onclick = () => { NET.freqs = {}; netSoft(); };
+  const ra = $("#lrfare"); if (ra) ra.onclick = () => { NET.fares = {}; NET.market = {}; netSoft(); };
+}
+
+// Типы и парк: тип шапки пишет в поля слева (они — его ввод), остальные —
+// в NET.tset. Компоновка: типовая — пусто, по сертификату — seats_max,
+// своя — число.
+const TCOLS = [["fleet", _t("бортов"), 1], ["lease", _t("лизинг, в мес."), 1000], ["util_h", _t("налёт, ч/мес"), 10],
+  ["maint_fh", _t("ТОиР за час"), 10], ["maint_fc", _t("ТОиР за цикл"), 10]];
+const LEFT = {fleet: "#nfleet", lease: "#nlease", util_h: "#nutil", maint_fh: "#nmfh", maint_fc: "#nmfc"};
+const MONEY = new Set(["lease", "maint_fh", "maint_fc"]);
+function typesHtml(){
+  const types = netCmpTypes(), cmp = NET.cmp.res, rows = Object.fromEntries(((cmp && cmp.rows) || []).map(x => [x.icao, x]));
+  const n = NET.res && NET.res.network, fl = NET.res && NET.res.fleet;
+  let h = `<p class="lede">${_t("У каждого типа свои борты, кресла и ставки. Пустое поле — ставка из справочника (серым); вписанное — ваше. Тип в шапке задаётся и полями слева — это одни и те же числа.")}</p>
+    <table class="ltab"><thead><tr><th>${_t("тип")}</th><th>${_t("компоновка")}</th>${TCOLS.map(([, t]) => `<th>${t}</th>`).join("")}<th>${_t("итог, в мес.")}</th><th>${_t("загрузка в 0")}</th><th></th></tr></thead><tbody>`;
+  const fresh = cmp && NET.cmp.key === netCmpParams(false).toString();
+  for (const t of types) {
+    const a = ACS.find(x => x.icao === t) || {}, own = t === CHOSEN.ac, v = NET.tset[t] || {};
+    const src = own ? (n || fl || rows[t] || {}) : (rows[t] || {});
+    const ph = {fleet: own ? "1" : ($("#nfleet").value || "1"), lease: src.lease_eur_month, util_h: src.util_h_month,
+                maint_fh: src.maint_fh, maint_fc: src.maint_fc};
+    const val = k => own ? $(LEFT[k]).value : (v[k] == null || v[k] === "" ? "" : (MONEY.has(k) ? Math.round(M(v[k])) : v[k]));
+    const typ = (a.layout_default || {}).seats || a.seats_typical;
+    const lay = own ? (CHOSEN.op === "max" ? "max" : CHOSEN.op === "own" ? "own" : "")
+                    : (v.lay || "");
+    const seatsOwn = own ? $("#seatsv").value : (v.lay === "own" ? v.seats || "" : "");
+    h += `<tr><td>${esc(acShort(t))}${own ? `<small>${_t("в шапке")}</small>` : ""}</td>
+      <td><select data-f="lay" data-k="${esc(t)}">
+        <option value="">${_t("типовая")}${typ ? " · " + typ : ""}</option>
+        ${a.seats_max ? `<option value="max"${lay === "max" ? " selected" : ""}>${_t("по сертификату")} · ${a.seats_max}</option>` : ""}
+        <option value="own"${lay === "own" ? " selected" : ""}>${_t("своя")}</option></select>
+        ${lay === "own" ? `<input data-f="seats" data-k="${esc(t)}" type="number" min="1" step="1" value="${escA(seatsOwn)}" placeholder="${typ || ""}">` : ""}</td>
+      ${TCOLS.map(([k, , st]) => {
+        const vv = val(k), p = ph[k];
+        return `<td><input data-f="${k}" data-k="${esc(t)}" class="${vv !== "" ? "set" : ""}" type="number" min="0" step="${st}"
+          value="${escA(String(vv))}" placeholder="${p == null || p === "" ? "—" : MONEY.has(k) ? m0(p) : f0(p)}"></td>`;
+      }).join("")}
+      ${(() => { const x = rows[t];
+        if (!x || x.status !== "ok") return `<td>${x && x.status === "pending" ? _t("считается…") : "—"}</td><td></td>`;
+        const c = fresh ? "" : ' style="opacity:.45"';
+        return `<td class="${x.profit_at_ref < 0 ? "neg" : ""}"${c}>${x.profit_at_ref >= 0 ? "+" : ""}${kMoney(x.profit_at_ref)}</td>
+          <td${c}>${x.breakeven_lf == null ? _t("нет") : pct(x.breakeven_lf)}</td>`; })()}
+      <td style="white-space:nowrap"><button class="chipb" data-edt="${esc(t)}" title="${_t("создать свой тип на основе этого и добавить в сравнение")}">✎ ${_t("свой")}</button>
+        ${own ? "" : `<button class="chipb" data-rmt="${esc(t)}" title="${_t("убрать из сравнения")}">×</button>`}</td></tr>`;
+  }
+  h += `</tbody></table>
+    <div class="dbar" style="margin-top:10px"><div class="hp" style="position:relative;flex:1;min-width:200px"><input id="dtadd" class="pick" autocomplete="off" placeholder="${_t("добавить тип — код или название")}"><div class="hits" id="dtaddh"></div></div>
+      <button class="btn" id="dtgal">✈ ${_t("по силуэту")}</button>
+      <button class="btn hot" id="dtgo"${NET.cmp.busy ? " disabled" : ""}>${NET.cmp.busy ? _t("считаю…") : `${_t("Сравнить сеть на")} ${types.length} ${_t("типах")}`}</button></div>
+    <p class="lede">${_t("Свой тип — кнопка «✎ свой» у строки: копия со всеми характеристиками и расходом, вы меняете кресла, массы и ставки; сохраняется в рабочем месте и сразу встаёт в сравнение. Ваши сохранённые типы находятся в поиске выше.")}</p>
+    <p class="lede">${_t("Деньги — в")} ${CUR.code}. ${_t("Итог — при расчётной загрузке; бледный — посчитан до последних правок, нажмите «Сравнить».")} ${_t("Своя компоновка меняет экономику каждого плеча: первый расчёт с ней — как новая сеть, до минуты.")}</p>`;
+  return h;
+}
+function bindTypes(){
+  const box = $("#dtypes");
+  box.querySelectorAll("[data-f]").forEach(el => el.addEventListener("change", () => {
+    const t = el.dataset.k, f = el.dataset.f, own = t === CHOSEN.ac;
+    if (own) {
+      if (f === "lay") { $("#layout").value = el.value || "*"; $("#layout").dispatchEvent(new Event("change")); }
+      else if (f === "seats") { $("#seatsv").value = el.value; $("#seatsv").dispatchEvent(new Event("input")); }
+      else { $(LEFT[f]).value = el.value; }
+      netSoft(); if (f === "lay") drawerRender(); return;
+    }
+    const v = NET.tset[t] = NET.tset[t] || {};
+    if (f === "lay") {
+      v.lay = el.value;
+      const a = ACS.find(x => x.icao === t) || {};
+      v.seats = el.value === "max" ? a.seats_max : el.value === "own" ? (v.seats || (a.layout_default || {}).seats || a.seats_typical) : "";
+      drawerRender();
+    } else v[f] = el.value === "" ? "" : (MONEY.has(f) ? toEur(el.value) : +el.value);
+    netRender();
+  }));
+  box.querySelectorAll("[data-edt]").forEach(el => el.onclick = () =>
+    typeEditOpen(el.dataset.edt, icao => { netCmpAdd(icao); netRender(); }));
+  box.querySelectorAll("[data-rmt]").forEach(el => el.onclick = () => {
+    NET.cmp.types = NET.cmp.types.filter(x => x !== el.dataset.rmt); netRender(); });
+  $("#dtgo").onclick = netCmpRun;
+  $("#dtgal").onclick = () => galleryOpen(i => { netCmpAdd(i); drawerRender(); });
+  const inp = $("#dtadd"), hits = $("#dtaddh");
+  const show = () => {
+    hits.innerHTML = acSearch(inp.value, 10).filter(t => t.usable).map(acRow).join("");
+    hits.classList.toggle("on", !!hits.innerHTML);
+    hits.querySelectorAll(".hit[data-ac]").forEach(el =>
+      el.addEventListener("mousedown", e => { e.preventDefault(); netCmpAdd(el.dataset.ac); }));
+  };
+  inp.addEventListener("focus", show); inp.addEventListener("input", show);
+  inp.addEventListener("blur", () => setTimeout(() => hits.classList.remove("on"), 140));
+}
+// Строка под кнопками слева: что сейчас в расчёте, одной строкой.
+function netSumLine(){
+  const nf = Object.keys(NET.freqs).length, conv = $("#nconv").value;
+  $("#nsumline").textContent = `${_t("цена")} × ${f2(+$("#nmult").value / 100)} · ${_t("чек")} ${conv ? "× " + conv : _t("авто")} · ${_t("загрузка")} ${$("#nlf").value}% · ${
+    nf ? `${_t("частоты заданы на")} ${nf}` : _t("частоты поровну")}`;
+  const r = NET.res;
+  $("#nlinesn").textContent = r ? String(r.pairs.filter(p => p.status === "ok").length) : "";
+  $("#ntypesn").textContent = String(netCmpTypes().length);
+}
+
 function tabNet(){
   const r = NET.res, n = r && r.network;
   if (NET.busy) return `<p class="lede">${_t("считаю сеть…")} ${NET.progress && NET.progress.total
@@ -3636,26 +4021,30 @@ function tabNet(){
   let h = "";
   if (NET.msg) h += `<div class="note"><b>${_t("Не посчитать.")}</b> ${esc(NET.msg)}</div>`;
   if (n) {
-    const own = NET.freqMode === "own";
-    const rows = n.pairs.map(x => {
+    // Правая колонка — сводка (решение 221): худшие линии и вход в панель.
+    // Вся таблица с частотами и ценами — в «Линиях сети».
+    const worst = n.pairs.slice().sort((a, b) => a.contribution_month - b.contribution_month).slice(0, 5);
+    const rows = worst.map(x => {
       const bad = x.lf_own == null || x.lf_own > n.lf_ref;
       const w = x.lf_own == null ? 40 : Math.min(40, Math.round(x.lf_own * 40));
-      const fp = r.pairs.find(p => `${p.a}-${p.b}` === x.key);
-      const par = fp && (parFlow(fp) || fp.legs.some(parFare));
-      return `<tr data-pair="${esc(x.key)}"${NET.sel === x.key ? ' class="sel"' : ""}><td>${esc(x.key)}${par ? hint(_t("Цена или поток этой пары — оценка, а не наблюдение. Откуда и как задать свои числа — на вкладке «Рынок»."), "o") : ""}</td>
-        <td class="v">${own ? `<input class="nf" data-k="${esc(x.key)}" type="number" min="0" step="1" value="${NET.freqs[x.key] ?? x.freq_week}">` : x.freq_week}</td>
+      const fset = NET.freqs[x.key] != null && NET.freqs[x.key] !== "";
+      return `<tr data-pair="${esc(x.key)}"${NET.sel === x.key ? ' class="sel"' : ""}><td>${esc(x.key)}</td>
+        <td class="v">${x.freq_week}${fset ? ` <span class="m" title="${_t("задано — закреплено")}">●</span>` : ""}</td>
         <td class="v" ${bad ? 'style="color:var(--warn)"' : ""}><span class="bar${bad ? " bad" : ""}" style="width:${w}px"></span>${x.lf_own == null ? ">100%" : pct(x.lf_own)}</td>
         <td class="v" ${x.contribution_month < 0 ? 'style="color:var(--warn)"' : ""}>${x.contribution_month >= 0 ? "+" : ""}${m0(x.contribution_month / 1000)}</td>
-        <td class="v">${x.need_share == null ? `<span class="m">—</span>` : (x.need_share > 1 ? `<span style="color:var(--warn)">${pct(x.need_share)}</span>` : pct(x.need_share))}</td>
-        <td class="v">${x.freq_share == null ? `<span class="m">—</span>` : pct(x.freq_share)}</td>
-        <td class="v">${x.s_share == null ? `<span class="m">—</span>` : pct(x.s_share)}</td></tr>`;
+        <td class="v">${x.need_share == null ? `<span class="m">—</span>` : (x.need_share > 1 ? `<span style="color:var(--warn)">${pct(x.need_share)}</span>` : pct(x.need_share))}</td></tr>`;
     }).join("");
     const sum = n.pairs.reduce((a, x) => a + x.contribution_month, 0), lease = n.fleet * n.lease_eur_month;
-    h += `<table class="ntab"><thead><tr><th>${_t("пара")}</th><th class="r">${_t("рейс/нед")}</th><th class="r">${_t("рейсы в 0")}</th>
-      <th class="r">${_t("вклад")}</th><th class="r">${_t("нужно")}</th><th class="r">${_t("частоты")}</th><th class="r">S</th></tr></thead><tbody>${rows}
-      <tr><td style="color:var(--dim)">${_t("сумма вкладов")}</td><td></td><td></td><td class="v"><b>${sum >= 0 ? "+" : ""}${m0(sum / 1000)}</b></td>
-      <td colspan="3" style="color:var(--dim);white-space:normal">${_t("лизинг парка")} ${m0(lease / 1000)} → <b style="color:${sum - lease < 0 ? "var(--warn)" : "var(--ink)"}">${sum - lease >= 0 ? "+" : ""}${m0((sum - lease) / 1000)}</b> ${_t("тыс.")} ${CUR.code}/${_t("мес")}</td></tr></tbody></table>
-      <p class="lede" style="margin-top:8px">${_t("рейсы в 0 — загрузка, при которой пара окупает свои рейсы, без парка · вклад — тыс. в лизинг парка при расчётной загрузке · нужно — доля нынешнего потока при безубыточной загрузке сети · частоты — наша доля рейсов · S — по S-кривой (допущение). «—» значит нет данных: потока и рейсов конкурентов по паре нет — вкладка «Рынок».")}</p>`;
+    const nfr = Object.keys(NET.freqs).length;
+    h += `<div class="dbar" style="display:flex;gap:6px;margin:0 0 8px"><button class="btn hot" data-open="lines" style="flex:1">${_t("Линии сети")} · ${n.pairs.length} ${_t("в сети")} ↗</button></div>
+      <p class="lede" style="margin:0 0 6px">${n.pairs.reduce((a, x) => a + x.freq_week, 0)} ${_t("рейсов в неделю туда-обратно")} · ${
+        nfr ? `${_t("частоты заданы на")} ${nfr} ${_t("парах, остальные — на остаток часов")}` : _t("частоты разложены поровну, сколько вывозит парк")}</p>
+      <h3>${_t("Слабее всего")}</h3>
+      <table class="ntab"><thead><tr><th>${_t("пара")}</th><th class="r">${_t("рейс/нед")}</th><th class="r">${_t("рейсы в 0")}</th>
+      <th class="r">${_t("вклад")}</th><th class="r">${_t("нужно")}</th></tr></thead><tbody>${rows}
+      <tr><td style="color:var(--dim)">${_t("сумма вкладов")}</td><td></td><td></td><td class="v"><b>${sum >= 0 ? "+" : ""}${m0(sum / 1000)}</b></td><td></td></tr>
+      <tr><td colspan="5" style="color:var(--dim);white-space:normal">${_t("лизинг парка")} ${m0(lease / 1000)} → <b style="color:${sum - lease < 0 ? "var(--warn)" : "var(--ink)"}">${sum - lease >= 0 ? "+" : ""}${m0((sum - lease) / 1000)}</b> ${_t("тыс.")} ${CUR.code}/${_t("мес")}</td></tr></tbody></table>
+      <p class="lede" style="margin-top:8px">${_t("рейсы в 0 — загрузка, при которой пара окупает свои рейсы, без парка · вклад — тыс. в лизинг парка при расчётной загрузке · нужно — доля нынешнего потока при безубыточной загрузке сети. Частоты, цены и потоки по каждой паре — в «Линиях сети».")}</p>`;
     const over = n.pairs.filter(x => x.need_share != null && x.need_share > 1).map(x => x.key);
     if (over.length) h += `<div class="note"><b>${_t("Больше всего нынешнего потока нужно на")}</b> ${over.join(", ")} — ${_t("частоты выше, чем рынок способен заполнить.")}</div>`;
   }
@@ -3806,7 +4195,8 @@ function netState(){
     maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
     maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
     fare_mult: +$("#nmult").value / 100, fare_conv: $("#nconv").value === "" ? null : +$("#nconv").value, lf: +$("#nlf").value / 100,
-    freq_mode: NET.freqMode, freqs: NET.freqs, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
+    freqs: NET.freqs, tset: NET.tset, types: NET.cmp.types, mode: NET.mode, rep: NET.rep,
+    alpha: $("#nalpha").value || null, layout: CHOSEN.op, seats: $("#seatsv").value || null, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
     market: NET.market, month: $("#month").value || null, saved_at: new Date().toISOString().slice(0, 16)};
 }
 function netApply(st){
@@ -3818,9 +4208,15 @@ function netApply(st){
   $("#nmfc").value = st.maint_fc_eur == null ? "" : String(Math.round(M(st.maint_fc_eur)));
   $("#nmult").value = Math.round((st.fare_mult || 1) * 100); $("#nmultv").textContent = `× ${f2(st.fare_mult || 1)}`;
   $("#nconv").value = st.fare_conv == null ? "" : st.fare_conv; $("#nlf").value = Math.round((st.lf || 0.8) * 100); $("#nlfv").textContent = $("#nlf").value + "%";
-  NET.freqMode = st.freq_mode || "auto";
-  document.querySelectorAll("#nfreqmode button").forEach(x => x.setAttribute("aria-selected", String(x.dataset.v === NET.freqMode)));
-  NET.freqs = st.freqs || {}; NET.market = st.market || {};
+  // Сети, сохранённые до решения 221: «поровну» означало, что вписанные
+  // частоты не действуют — так и читаем.
+  NET.freqs = st.freq_mode === "auto" ? {} : (st.freqs || {}); NET.market = st.market || {};
+  NET.tset = st.tset || {}; NET.mode = st.mode || "fleet"; NET.rep = st.rep || {};
+  if (Array.isArray(st.types)) NET.cmp.types = st.types.filter(t => ACS.some(x => x.icao === t));
+  $("#nalpha").value = st.alpha || "";
+  [["rshare", "share"], ["relast", "elasticity"], ["rminf", "min_freq"], ["rres", "reserve"]].forEach(([id, k]) => $("#" + id).value = NET.rep[k] || "");
+  if (st.layout) { $("#layout").value = st.layout; if ($("#layout").value === st.layout) { $("#seatsv").value = st.seats || ""; $("#layout").dispatchEvent(new Event("change")); } }
+  rmodeApply();
   NET.fares = Object.fromEntries(Object.entries(st.fares_eur || {}).map(([k, v]) => [k, String(Math.round(M(v)))]));
   if (st.month != null) $("#month").value = st.month;
   NET.dirty = true; NET.res = null; netChips(); netRender(); netRun();
@@ -4019,6 +4415,8 @@ document.addEventListener("click", e => {
                formula: s.formula || "", subst: s.subst || ""});
 });
 $("#acclose").onclick = galleryClose;
+$("#teclose").onclick = typeEditClose;
+$("#tepanel").addEventListener("click", e => { if (e.target.id === "tepanel") typeEditClose(); });
 $("#cmpclose").onclick = cmpClose;
 $("#acpanel").addEventListener("click", e => { if (e.target.id === "acpanel") galleryClose(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#acpanel").hidden) galleryClose(); });

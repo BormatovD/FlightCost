@@ -1,0 +1,16 @@
+{
+ "doc_ok": true,
+ "doc_note": "ANA, Regulated Charges 2026, «Valid from 1st June 2026» (Lisbon Group) — совпадает с valid_from 2026-06-01.",
+ "rules_checked": 30,
+ "rules_ok": 29,
+ "errors": [
+  {
+   "rule": "prm/per_departing_pax/when=null",
+   "file": "0,86 € без условия — начисляется и на прямой транзит",
+   "doc": "Charges Description: PRM следует правилам и освобождениям passenger service; «Passengers in direct transit through the airport» освобождены",
+   "fix": "when: {pax_type: [local, transfer]} (+ правило transit rate 0, как для passenger/security)"
+  }
+ ],
+ "unreachable": false,
+ "note": "Посадка по трём сезонным столбцам (1.23/1.50/1.75/1.50; 5.80/7.02/8.27/7.02; 7.23/8.76/10.32/8.63; мин 30.45/144.86/180.85) — приросты и месяцы (lo,hi] (Jan–Mar [0,3], Apr [3,4], May–Sep [4,9], Oct [9,10], Nov–Dec [10,12]) верны; surcharge у Faro нет — верно не заведён. Пассажир 8.25/8.77/9.26 и 11.19/11.80/12.46 без деления local/transfer — ок. Security 1.80, ANAC 1.76/3.67/7.13 — ок. Стоянка и телетрапы Faro не заведены (k4-033) — пропуск. Шаги extract k4-028, k4-030, k4-032: цитаты найдены дословно."
+}

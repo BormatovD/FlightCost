@@ -1,0 +1,27 @@
+{
+ "icao": "ENGM",
+ "valid_from": "2026-02-01",
+ "source": "Avinor AS, Service Catalogue 2026 (v1.3), разд. 7.1-7.3; ставки едины для всех аэропортов Avinor, подтверждены AIC I 08/25 Luftfartstilsynet (взлётный и пассажирский с 01.02.2026, безопасность с 01.01.2026). НДС не включён",
+ "source_url": "https://partner.avinor.no/siteassets/aviation/tjenestekatalogen/avinor_service-catalogue_2026.pdf",
+ "publisher": "Avinor AS",
+ "checked_at": "2026-10-29",
+ "map_node": "src_airport_tariff",
+ "next_edition": "2027-01-01",
+ "rules": [
+  {"code": "landing", "base": "per_tonne_mtow", "rate": 121, "currency": "NOK", "events": "takeoff",
+   "source_note": "§7.1 Take-off charge, 121 NOK за 1000 кг MTOW, за взлёт; покрывает посадку и взлёт, стоянку регулярных пассажирских рейсов (§8.5) и телетрапы (§7.1.1). Полоса A — полная ставка (в тексте «between 6000 and 75,000 kg»; трактовано как полная ставка на все тонны до 75 т)"},
+  {"code": "landing", "base": "per_tonne_above", "rate": -60.5, "threshold": 75, "currency": "NOK", "events": "takeoff",
+   "source_note": "§7.1 полоса B: 75 001-150 000 кг — 50% полной ставки (60.5); здесь приращение −60.5 к полной ставке сверх 75 т"},
+  {"code": "landing", "base": "per_tonne_above", "rate": -36.3, "threshold": 150, "currency": "NOK", "events": "takeoff",
+   "source_note": "§7.1 полоса C: свыше 150 001 кг — 20% полной ставки (24.2); приращение −36.3 к ставке полосы B сверх 150 т"},
+  {"code": "passenger", "base": "per_departing_pax", "rate": 99, "currency": "NOK", "when": {"pax_type": "local"},
+   "source_note": "§7.2 Passenger charge 99 NOK за вылетающего пассажира; транзитные на том же борту/номере рейса не платят"},
+  {"code": "passenger", "base": "per_departing_pax", "rate": 37, "currency": "NOK", "when": {"pax_type": "transfer", "flight": ["EEA", "INTL"]},
+   "source_note": "§7.2 Transfer passenger international 37 NOK"},
+  {"code": "passenger", "base": "per_departing_pax", "rate": 55, "currency": "NOK", "when": {"pax_type": "transfer", "flight": "domestic"},
+   "source_note": "§7.2 Transfer domestic 55 NOK"},
+  {"code": "security", "base": "per_departing_pax", "rate": 75, "currency": "NOK", "when": {"pax_type": "local"},
+   "valid_from": "2026-01-01",
+   "source_note": "§7.3 Security charge 75 NOK за вылетающего пассажира; с трансферных не взимается"}
+ ]
+}

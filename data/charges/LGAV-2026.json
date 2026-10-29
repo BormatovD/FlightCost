@@ -1,0 +1,290 @@
+{
+ "icao": "LGAV",
+ "valid_from": "2026-05-01",
+ "source": "Athens International Airport S.A., Airport charges (base rates; temporary 30% PTF reduction 01.10.2025–30.04.2026 ended)",
+ "source_url": "https://www.aia.gr/getmedia/a2621fca-f018-4470-b015-ce3556abab2a/aeronautical_charges_Oct2025Apr2026.pdf",
+ "publisher": "Athens International Airport S.A.",
+ "checked_at": "2026-10-29",
+ "categories": {
+  "ac_group": {
+   "source_note": "6.1 делит телетрап на narrow-body / wide-body. Группа 2 — широкофюзеляжные типы по перечню, остальное — 1",
+   "rules": [
+    {
+     "when": {
+      "icao": [
+       "A332",
+       "A333",
+       "A338",
+       "A339",
+       "A343",
+       "A359",
+       "A35K",
+       "A388",
+       "B744",
+       "B748",
+       "B763",
+       "B772",
+       "B773",
+       "B778",
+       "B779",
+       "B77W",
+       "B788",
+       "B789",
+       "B78X",
+       "IL96"
+      ]
+     },
+     "value": 2,
+     "note": "широкофюзеляжные"
+    },
+    {
+     "default": 1,
+     "note": "узкофюзеляжные"
+    }
+   ]
+  }
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.55,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     0,
+     55
+    ]
+   },
+   "source_note": "1. LANDING CHARGE: Unit Rate × Weight Factor; до 120 т Weight Factor = MTOW; до 55 т 5,55 EUR (исправлено по проверке verify/LGAV). Минимум 33,29 (до 6 т) не заведён"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 6.16,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     55,
+     120
+    ]
+   },
+   "source_note": "1. LANDING CHARGE: свыше 55 т 6,16 EUR × MTOW (Weight Factor = MTOW до 120 т; исправлено по проверке verify/LGAV)"
+  },
+  {
+   "code": "landing",
+   "base": "per_service_unit",
+   "rate": 437.1548,
+   "currency": "EUR",
+   "events": "landing",
+   "exponent": 0.6,
+   "when": {
+    "mtow_t": [
+     120,
+     650
+    ]
+   },
+   "source_note": "1. LANDING CHARGE: свыше 120 т Weight Factor = MTOW×(120/MTOW)^0,4; 6,16 × 120^0,4 × 50^0,6 = 437,1548 при базе (MTOW/50)^0,6 (арифметика)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 16.65,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "3.1 Non-Transfer, Intra Schengen EUR 16.65 per departing pax (временная скидка 30% п. 3.A действовала до 30.04.2026)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 19.95,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "3.1 Non-Transfer, Extra Schengen EUR 19.95 per departing pax"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 19.95,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "3.1 Non-Transfer, Extra Schengen EUR 19.95 per departing pax"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 19.95,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "3.1 Non-Transfer, Extra Schengen EUR 19.95 per departing pax"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.9,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "schengen",
+    "pax_type": "transfer"
+   },
+   "source_note": "3.2 Transfer, Intra Schengen EUR 9.90"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.2,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "transfer"
+   },
+   "source_note": "3.2 Transfer, Extra Schengen EUR 13.20"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.2,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "transfer"
+   },
+   "source_note": "3.2 Transfer, Extra Schengen EUR 13.20"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.2,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "transfer"
+   },
+   "source_note": "3.2 Transfer, Extra Schengen EUR 13.20"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "3: Exempt: infants, transit, crew"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 5.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "4. Security Charge EUR 5.00 per departing pax | транзит освобождён (исправлено по проверке verify/LGAV)",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   }
+  },
+  {
+   "code": "adf",
+   "base": "per_departing_pax",
+   "rate": 3.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "8. Airport Development Fund EUR 3.00 per departing pax; exempt: infants, transit, 24 hour transfer, crew, PSO (освобождение PSO не заведено)"
+  },
+  {
+   "code": "adf",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "8. ADF exempt: transit, 24 hour transfer"
+  },
+  {
+   "code": "bhs",
+   "base": "per_departing_pax",
+   "rate": 1.92,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "6.3 Baggage Handling System EUR 1.92 per departing pax | транзит освобождён (исправлено по проверке verify/LGAV)",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   }
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.55,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "7. PRM Charge EUR 0.55 per departing pax | транзит освобождён (исправлено по проверке verify/LGAV)",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   }
+  },
+  {
+   "code": "pbb",
+   "base": "per_turnaround",
+   "rate": 116.01,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "ac_group": 1
+   },
+   "source_note": "6.1 Boarding bridge, narrow-body, first 50 min EUR 116.01; далее 38.67 за 15 мин до максимума 464.04 — не заведено"
+  },
+  {
+   "code": "pbb",
+   "base": "per_turnaround",
+   "rate": 154.68,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "ac_group": 2
+   },
+   "source_note": "6.1 Boarding bridge, wide-body, first 65 min EUR 154.68; максимум 618.72"
+  }
+ ]
+}

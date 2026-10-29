@@ -678,10 +678,11 @@ class Context:
             if has:
                 out["snapshot"] = {k: v for k, v in db.execute(
                     "SELECT key, value FROM publish_meta")}
-            if self._facts_n is None:
-                self._facts_n = db.execute(
+            sh = getattr(self, "_base", self)
+            if sh._facts_n is None:
+                sh._facts_n = db.execute(
                     "SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
-        out["facts"] = self._facts_n
+        out["facts"] = sh._facts_n
         if self.gdb is not None:
             with self.gdb.lock:
                 out["workspaces"] = self.gdb.db.execute(
@@ -745,6 +746,13 @@ class Context:
         import copy
         c = copy.copy(self)
         c.store, c.ws = GuestStore(self.store, self.gdb, ws), ws
+        # Ленивые кэши, которые метод ПРИСВАИВАЕТ (`self._apts = …`), у
+        # копии оседали в копии и пропадали с концом запроса: с рабочим
+        # местом список аэропортов — сорок восемь тысяч строк с названиями
+        # на пяти языках — строился заново на КАЖДЫЙ запрос, включая
+        # `resolve` внутри расчёта маршрута и сети. Кэш читается и пишется
+        # у общего контекста; слоя гостя в нём нет.
+        c._base = self
         return c
 
     def _settings_overrides(self) -> list[str]:
@@ -799,6 +807,9 @@ class Context:
                 "usd_per_eur": rate}
 
     def airports(self) -> list[dict]:
+        sh = getattr(self, "_base", None)
+        if sh is not None:
+            return sh.airports()
         if self._apts is None:
             with self.lock:
                 rows = self.store.db.execute(
@@ -1046,7 +1057,7 @@ class Context:
         as_of = str(kw.get("as_of") or date.today())
         form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
                     kw.get("month"), kw.get("operator"),
-                    tuple(sorted((k, str(v)) for k, v in ov.items())), as_of)
+                    tuple(sorted((k, str(v)) for k, v in ov.items())), as_of, kw.get("seats"))
         cached = self._net_cache.get(form_key)
         if cached is None:
             job = self._net_jobs.get(form_key)
@@ -1122,7 +1133,8 @@ class Context:
             return {"error": "не выбрано ни одного типа"}
         if len(types) > self.NET_CMP_MAX:
             return {"error": f"типов {len(types)}, предел {self.NET_CMP_MAX} за одно сравнение"}
-        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"))
+        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"),
+               q.get("tset"), q.get("seats"))
         seen = self.__dict__.setdefault("_netcmp_seen", {})
         if key not in seen:
             if ip and not self.allow(ip):
@@ -1140,8 +1152,34 @@ class Context:
             out.update(pending=True, progress=pend)
         return out
 
+    # Что человек задаёт у типа в панели «Типы и парк» (решение 221):
+    # бортов, кресел рейсом и ставки. Тип без своего — как в шапке сети
+    # (борты) или своими ставками из разбора ядра (остальное).
+    TSET_KEYS = ("fleet", "seats", "lease", "util_h", "maint_fh", "maint_fc")
+
+    @classmethod
+    def tset(cls, raw: str) -> dict:
+        """«A320:fleet=20;seats=186|E195:fleet=24» → {"A320": {"fleet": "20", …}, …}."""
+        out: dict[str, dict] = {}
+        for part in (raw or "").split("|"):
+            t, _, rest = part.partition(":")
+            t = t.strip().upper()
+            if not t:
+                continue
+            for kv in rest.split(";"):
+                k, _, v = kv.partition("=")
+                k, v = k.strip(), v.strip()
+                if k in cls.TSET_KEYS and v:
+                    try:
+                        float(v)
+                    except ValueError:
+                        continue
+                    out.setdefault(t, {})[k] = v
+        return out
+
     def _net_by_type(self, q: dict, chosen: str, types: list) -> tuple[dict, dict, list]:
         """Сеть на каждом типе: {тип: ответ `network` | None, пока считается}."""
+        ts = self.tset(q.get("tset", ""))
         own_sets = [x for x in (q.get("set") or "").split("~") if x]
         foreign_sets = [x for x in own_sets
                         if not (x.startswith("charge_context.")
@@ -1150,10 +1188,14 @@ class Context:
         for t in types:
             q2 = dict(q, ac=t)
             q2.pop("types", None)
+            q2.pop("tset", None)
             if t != chosen:
-                for k in ("util_h", "lease", "maint_fh", "maint_fc"):
+                # Кресла шапки — компоновка выбранного типа; чужому типу —
+                # его собственная, если в панели не задана своя.
+                for k in ("util_h", "lease", "maint_fh", "maint_fc", "seats"):
                     q2.pop(k, None)
                 q2["set"] = "~".join(foreign_sets)
+            q2.update(ts.get(t) or {})
             r = self.network(q2, ip="")
             if r.get("pending"):
                 pr = r.get("progress") or {}
@@ -1184,7 +1226,8 @@ class Context:
             return {"error": "не выбрано ни одного типа"}, None
         if len(types) > self.NET_CMP_MAX:
             return {"error": f"типов {len(types)}, предел {self.NET_CMP_MAX} за один отчёт"}, None
-        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"))
+        key = (self.ws, ip, tuple(types), q.get("airports"), q.get("base"), q.get("month"),
+               q.get("tset"), q.get("seats"))
         seen = self.__dict__.setdefault("_netcmp_seen", {})
         if key not in seen:
             if ip and not self.allow(ip):
@@ -1203,9 +1246,24 @@ class Context:
         # Допущения плана — из запроса; цена к рынку по умолчанию та же,
         # что у сети на витрине.
         assume = {k: q.get(k) for k in ("share", "price", "elasticity", "lf_target", "min_freq",
-                                         "reserve", "share_cap", "fare_conv")}
+                                         "reserve", "share_cap", "fare_conv", "mode")}
         if not assume["price"] and q.get("fare_mult"):
             assume["price"] = q["fare_mult"]
+        # Загрузка сети над глобусом — она же загрузка отчёта, пока в
+        # отчёте не задана своя: иначе экран и отчёт считали бы разное.
+        if not assume["lf_target"] and q.get("lf"):
+            assume["lf_target"] = q["lf"]
+        ts = self.tset(q.get("tset", ""))
+        inputs = {"mode": assume.get("mode") or "fleet",
+                  "fleet": {t: int(float((ts.get(t) or {}).get("fleet") or q.get("fleet") or 1))
+                            for t in types},
+                  "seats": {t: int(float(v["seats"])) for t, v in ts.items() if v.get("seats")}
+                  | ({chosen: int(float(q["seats"]))} if q.get("seats") and chosen
+                     and not (ts.get(chosen) or {}).get("seats") else {}),
+                  "freqs": self._pairs_q(q.get("freqs", ""), int),
+                  "fares": self._pairs_q(q.get("fares", "")),
+                  "market": self._pairs_q(q.get("market", "")),
+                  "lf": float(q.get("lf") or 0.8)}
         rep = build(results, assume=assume, chosen=chosen, names=names, geom=geom, context={
             "base": any_r.get("base"), "carrier": any_r.get("carrier"),
             "airports": sorted({p.get("a") for p in any_r.get("pairs") or []}
@@ -1213,13 +1271,13 @@ class Context:
             "month": int(q["month"]) if q.get("month") else None,
             "as_of": any_r.get("as_of"), "dropped_ctx": dropped,
             "market_given": bool(q.get("market")), "fares_given": bool(q.get("fares")),
-            "freqs_given": bool(q.get("freqs"))})
+            "freqs_given": bool(q.get("freqs")), "inputs": inputs})
         return rep, results
 
     def fleet_report_html(self, q: dict, ip: str = "", *, theme="dark") -> tuple[int, str]:
         """Документ отчёта: тёмный — страница сайта, светлый — для PDF."""
         from .fleetreport import assumptions
-        from .fleetreport_doc import Doc, render, share_line, toolbar
+        from .fleetreport_doc import Doc, back_to_fleet, render, share_line, toolbar
         from .ui import css
         lang = q.get("lang") if q.get("lang") in ("ru", "en", "de") else "ru"
         cur, rate = (q.get("cur") or "EUR").upper(), 1.0
@@ -1237,7 +1295,9 @@ class Context:
                          f'<meta name="viewport" content="width=device-width,initial-scale=1">'
                          f'<style>{css(inline_fonts=False)}</style></head><body class="doc" '
                          f'style="padding:40px 24px"><p>{D.T("Не собрать.")} {html_escape(rep["error"])}</p>'
-                         f'</body></html>')
+                         + (f'<p><a href="/report?{html_escape(urllib.parse.urlencode(dict(q, mode="fleet")))}">'
+                            f'{back_to_fleet(D)}</a></p>' if q.get("mode") == "share" else "")
+                         + '</body></html>')
         if rep.get("pending"):
             # Та же зона ожидания, что на витрине: страница перезагружается
             # раз в две секунды, фраза эфира — новая на каждой загрузке.
@@ -1359,14 +1419,15 @@ class Context:
                                          overrides=ov or None, operator=kw.get("operator", "*"),
                                          leg_cache=self._leg_cache.setdefault(scope, {}),
                                          detour_cache=self._detour_cache,
-                                         progress=progress)
+                                         progress=progress, seats=kw.get("seats"))
                     ok = [p for p in pairs if p.status == "ok"]
                     fleet = None
                     if ok:
                         fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
                                                 aircraft=kw["aircraft"], as_of=kw.get("as_of"),
                                                 month=kw.get("month"), overrides=ov or None,
-                                                operator=kw.get("operator", "*"))
+                                                operator=kw.get("operator", "*"),
+                                                seats=kw.get("seats"))
                 finally:
                     base_store.db.close()
                 if len(self._net_cache) >= self.NET_CACHE:
@@ -1584,7 +1645,7 @@ class Context:
         for k in ("fields", "burn", "fleet"):
             if isinstance(doc.get(k), dict):
                 doc[k] = {a: b for a, b in doc[k].items() if b not in ("", None)}
-        if not doc.get("burn", {}).get("analog"):
+        if not (doc.get("burn") or {}).get("analog"):
             doc.pop("burn", None)
         if not doc.get("fleet"):
             doc.pop("fleet", None)
@@ -1753,14 +1814,25 @@ class Context:
         from .parsers.aircraft_user import FIELDS
         src = (q.get("icao") or "").upper()
         as_key = (q.get("as") or f"USER:{src}-MY").upper()
+        if not q.get("as"):
+            # Второй свой вариант того же типа не должен молча перезаписать
+            # первый: ключ по умолчанию — свободный.
+            have = {a["icao"] for a in self.aircraft()}
+            base, n = as_key, 2
+            while as_key in have:
+                as_key, n = f"{base}-{n}", n + 1
         t = self.aircraft_type({"icao": src})
         if t.get("error"):
             return t
         by = {f["field"]: f for f in t["fields"]}
         fields = {k: by[k]["value"] for k in FIELDS if k in by and by[k]["value"] is not None}
-        analog = by["burn_analog"]["text"] if "burn_analog" in by else src
+        analog = by["burn_analog"]["text"] if "burn_analog" in by else (src if t["physics"] else None)
         burn = {"analog": analog}
-        if t["physics"] or by.get("burn_same_engine"):
+        if analog is None:
+            # Ни своей физики, ни аналога: копия считаться не будет — так и
+            # сказано, а не подставлен «аналог самого себя».
+            burn = None
+        elif t["physics"] or by.get("burn_same_engine"):
             burn["same_engine"] = True
             burn["note"] = (f"вариант {src} с тем же двигателем: вычислитель {analog}, "
                             f"множитель 1. Если двигатель другой — снять same_engine и "
@@ -1770,6 +1842,12 @@ class Context:
                                  ("burn_anchor_mass_t", "anchor_mass_t")):
                 if k_src in by and by[k_src]["value"] is not None:
                     burn[k_dst] = by[k_src]["value"]
+            # Якорь рейсом (решение 224) — тремя числами; без него копия типа
+            # каталога теряла калибровку и считалась бы аналогом «как есть».
+            for k in ("kg", "nm", "pax"):
+                f = by.get(f"burn_anchor_trip_{k}")
+                if f and f["value"] is not None:
+                    burn[f"anchor_trip_{k}"] = f["value"]
             burn["anchor_source"] = by["burn_anchor_note"]["text"] if "burn_anchor_note" in by else ""
             burn["note"] = f"скопировано из {src}; якорь и аналог унаследованы — проверить"
         return {

@@ -1,0 +1,9 @@
+{
+ "doc_ok": true,
+ "doc_note": "eAIP Kenya GEN 4.1, издание 01.12.2022 (дата только в URL; на странице даты нет, метаданные «specimen»). Документ устаревший — в файле честно certainty stale_edition.",
+ "rules_checked": 33,
+ "rules_ok": 33,
+ "errors": [],
+ "unreachable": false,
+ "note": "Все 11 полос посадки (Day/Night/Night take-off/Air bridge), 7 полос стоянки, PSC 50 USD / 600 KES совпадают; цитаты k8-016…018 совпадают. Сомнения: единица начисления Air Bridge в документе не указана (принято за посадку, но без пометки reading_unconfirmed на правилах boarding_bridge); стоянка в документе — только «in the open on a prepared area», в правилах нет условия stand: apron. Сбор безопасности KAA без ставок — не заведён, верно."
+}

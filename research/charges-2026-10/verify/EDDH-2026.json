@@ -1,0 +1,40 @@
+{
+ "doc_ok": true,
+ "doc_note": "Flughafenentgelte, «Gültig ab 1. April 2026» — совпадает.",
+ "rules_checked": 20,
+ "rules_ok": 15,
+ "errors": [
+  {
+   "rule": "passenger schengen pax_type [transfer, transit]",
+   "file": "8.09 EUR для transfer и transit",
+   "doc": "1.2.3: «Transitfluggäste sind Passagiere, die ihre Flugreise … unterbrechen und mit demselben Flugzeug fortsetzen»; пересадочный (смена ВС) — Zusteiger",
+   "fix": "pax_type transit → 8.09; transfer → 11.56 (ставка Zusteiger)"
+  },
+  {
+   "rule": "passenger eu_non_schengen pax_type [transfer, transit]",
+   "file": "8.09 EUR для transfer и transit",
+   "doc": "1.2.3: «Transitfluggäste sind Passagiere, die ihre Flugreise … unterbrechen und mit demselben Flugzeug fortsetzen»; пересадочный (смена ВС) — Zusteiger",
+   "fix": "pax_type transit → 8.09; transfer → 11.56 (ставка Zusteiger)"
+  },
+  {
+   "rule": "passenger europe_non_eu GB pax_type [transfer, transit]",
+   "file": "8.09 EUR для transfer и transit",
+   "doc": "1.2.3: «Transitfluggäste sind Passagiere, die ihre Flugreise … unterbrechen und mit demselben Flugzeug fortsetzen»; пересадочный (смена ВС) — Zusteiger",
+   "fix": "pax_type transit → 8.09; transfer → 11.56 (ставка Zusteiger)"
+  },
+  {
+   "rule": "passenger europe_non_eu не-GB pax_type [transfer, transit]",
+   "file": "9.59 EUR для transfer и transit",
+   "doc": "1.2.3: «Transitfluggäste sind Passagiere, die ihre Flugreise … unterbrechen und mit demselben Flugzeug fortsetzen»; пересадочный (смена ВС) — Zusteiger",
+   "fix": "pax_type transit → 9.59; transfer → 13.71 (ставка Zusteiger)"
+  },
+  {
+   "rule": "passenger intercontinental pax_type [transfer, transit]",
+   "file": "9.59 EUR для transfer и transit",
+   "doc": "1.2.3: «Transitfluggäste sind Passagiere, die ihre Flugreise … unterbrechen und mit demselben Flugzeug fortsetzen»; пересадочный (смена ВС) — Zusteiger",
+   "fix": "pax_type transit → 9.59; transfer → 13.71 (ставка Zusteiger)"
+  }
+ ],
+ "unreachable": false,
+ "note": "Посадка 3.52/т pro Landung und pro Start, шум классы 1–7 (16.69…5784.88), пассажирские Zusteiger 11.56/13.71, Sicherheit 1.64, PRM 0.76 — совпадают. Документ не упоминает Umsteiger явно; вывод об ошибке — из определения Transitfluggäste. Журнал: k5-011…017 цитируют английскую версию (другой URL), числа совпадают с немецкой; k5-011 часть ставок «по сводке извлечения» — сверено, верно."
+}

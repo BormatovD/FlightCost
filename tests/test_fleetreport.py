@@ -62,7 +62,7 @@ class Plan(unittest.TestCase):
     def test_thin_market_favours_small_aircraft(self):
         """На тонком рынке нижняя граница частоты держит большой борт
         полупустым — маленький выигрывает; на толстом — наоборот."""
-        rep = build(copy.deepcopy(FIX))
+        rep = build(copy.deepcopy(FIX), assume={"mode": "share"})
         seats = {t["icao"]: t["seats"] for t in rep["types"]}
         bands = rep["share_bands"]
         self.assertGreater(len(bands), 1)
@@ -76,14 +76,14 @@ class Plan(unittest.TestCase):
         res = copy.deepcopy(FIX)
         for t in res.values():
             t["pairs"][0]["market_pax_month"] = None
-        rep = build(res)
+        rep = build(res, assume={"mode": "share"})
         note = next(n for n in rep["notes"] if n["code"] == "no_market")
         self.assertIn(f'{FIX["A320"]["pairs"][0]["a"]}-{FIX["A320"]["pairs"][0]["b"]}', note["pairs"])
 
     def test_failed_type_is_named_not_dropped(self):
         res = copy.deepcopy(FIX)
         res["C919"] = {"error": "ни одной пары с правом летать — сети нет", "network": None}
-        rep = build(res)
+        rep = build(res, assume={"mode": "share"})
         c = next(t for t in rep["types"] if t["icao"] == "C919")
         self.assertEqual(c["status"], "failed")
         self.assertIn("сети нет", c["why"])
@@ -99,7 +99,7 @@ class Plan(unittest.TestCase):
         self.assertAlmostEqual(p["range_cap"], lg["max_pax"] / lg["seats"])
         need = p["volume"] / 2 / (WEEKS_PER_MONTH * lg["max_pax"])
         self.assertEqual(p["freq"], max(a["min_freq"], math.ceil(need - 1e-9)))
-        rep = build(res, assume={"share": 0.3})
+        rep = build(res, assume={"mode": "share", "share": 0.3})
         t = next(x for x in rep["types"] if x["icao"] == "A21N")
         self.assertIn("range_limited", [c["code"] for c in t["cons"]])
         from flightcostapp.fleetreport_doc import render
@@ -114,7 +114,7 @@ class Plan(unittest.TestCase):
         self.assertEqual(p1["share"], p2["share"])
         self.assertEqual(p1["fleet"], p2["fleet"])
         self.assertAlmostEqual(p2["revenue"], 1.2 * p1["revenue"], delta=1.0)
-        rep = build(copy.deepcopy(FIX), assume={"share": 0.12, "fare_conv": 1})
+        rep = build(copy.deepcopy(FIX), assume={"mode": "share", "share": 0.12, "fare_conv": 1})
         self.assertIn("conv_one", [n["code"] for n in rep["notes"]])
 
     def test_assumptions_accept_percent(self):
@@ -124,11 +124,68 @@ class Plan(unittest.TestCase):
         self.assertEqual(a["min_freq"], 14)
 
 
+class FleetMode(unittest.TestCase):
+    """«Мой парк» — режим по умолчанию (решение 221): отчёт показывает
+    заданные борты и частоты сети, а не подобранные под долю рынка."""
+
+    def test_default_mode_is_fleet(self):
+        self.assertEqual(assumptions({})["mode"], "fleet")
+        self.assertEqual(assumptions({"mode": "share"})["mode"], "share")
+        self.assertEqual(assumptions({"mode": "что-то"})["mode"], "fleet")
+
+    def test_report_equals_network_on_screen(self):
+        rep = build(copy.deepcopy(FIX), assume={"lf_target": 0.8})
+        for t in rep["types"]:
+            net = FIX[t["icao"]]["network"]
+            pl = t["plan"]
+            self.assertEqual(pl["fleet"], net["fleet"])
+            self.assertEqual({p["key"]: p["freq"] for p in pl["pairs"]},
+                             {p["key"]: p["freq_week"] for p in net["pairs"]})
+            self.assertAlmostEqual(pl["result"], net["profit_at_ref"], delta=1.0)
+
+    def test_given_fleet_is_not_resized(self):
+        """20 бортов на экране — 20 в отчёте, даже если по налёту нужно меньше."""
+        res = copy.deepcopy(FIX)
+        res["A320"]["network"]["fleet"] = 20
+        rep = build(res)
+        t = next(x for x in rep["types"] if x["icao"] == "A320")
+        self.assertEqual(t["plan"]["fleet"], 20)
+        self.assertLess(t["plan"]["n_op"], 20)
+        self.assertAlmostEqual(t["plan"]["cost"]["ownership"], 20 * t["lease_eur_month"], delta=0.01)
+
+    def test_overbooked_fleet_is_said(self):
+        res = copy.deepcopy(FIX)
+        res["A320"]["network"]["fleet"] = 1
+        rep = build(res)
+        t = next(x for x in rep["types"] if x["icao"] == "A320")
+        self.assertIn("overbooked", [c["code"] for c in t["cons"]])
+
+    def test_zero_frequency_pair_is_named(self):
+        res = copy.deepcopy(FIX)
+        for v in res.values():
+            v["network"]["pairs"][0]["freq_week"] = 0
+        rep = build(res)
+        note = next(n for n in rep["notes"] if n["code"] == "pairs_off")
+        self.assertIn(FIX["A320"]["network"]["pairs"][0]["key"], note["pairs"])
+
+    def test_document_lists_inputs(self):
+        from flightcostapp.fleetreport_doc import render
+        rep = build(copy.deepcopy(FIX), context={"base": "FRA", "inputs": {
+            "mode": "fleet", "freqs": {"FRA-BCN": 6}, "seats": {"A320": 186}}})
+        h = render(rep)
+        self.assertIn("Мой парк", h)
+        self.assertIn("заданы на 1 парах", h)
+        self.assertIn("186 кресел", h)
+        self.assertNotIn("Какой тип брать под", h)
+        for lang in ("en", "de"):
+            self.assertNotIn("None", render(copy.deepcopy(rep), lang=lang))
+
+
 class Document(unittest.TestCase):
 
     def test_renders_in_every_language_and_theme(self):
         from flightcostapp.fleetreport_doc import render
-        rep = build(copy.deepcopy(FIX), assume={"share": 0.12})
+        rep = build(copy.deepcopy(FIX), assume={"mode": "share", "share": 0.12})
         for lang in ("ru", "en", "de"):
             for theme in ("light", "dark"):
                 h = render(copy.deepcopy(rep), theme=theme, lang=lang, cur="USD", rate=1.1)
@@ -145,7 +202,7 @@ class Document(unittest.TestCase):
     def test_share_in_passengers(self):
         """Решение 213: под долей — пассажиры: доля × поток пар, у которых он есть."""
         from flightcostapp.fleetreport_doc import Doc, render, share_volume
-        rep = build(copy.deepcopy(FIX), assume={"share": 0.10})
+        rep = build(copy.deepcopy(FIX), assume={"mode": "share", "share": 0.10})
         v = share_volume(rep)
         mk = sum(r["market"] for r in rep["types"][0]["plan"]["pairs"])
         self.assertAlmostEqual(v["market"], mk)
@@ -157,7 +214,7 @@ class Document(unittest.TestCase):
         """Выделение типа задаётся в разметке (работает и в PDF), у точек
         графика — подписи с плечами, RASK — у каждого типа свой."""
         from flightcostapp.fleetreport_doc import render
-        rep = build(copy.deepcopy(FIX), assume={"share": 0.12})
+        rep = build(copy.deepcopy(FIX), assume={"mode": "share", "share": 0.12})
         h = render(copy.deepcopy(rep))
         self.assertNotIn("data-hl=", h.split("<body")[1].split(">")[0])
         icaos = [t["icao"] for t in rep["types"] if t.get("status") == "ok"]
@@ -202,7 +259,7 @@ class Pdf(unittest.TestCase):
         for share, types, pad in ((0.05, list(FIX), 0), (0.3, ["A320", "B738", "A21N"], 0),
                                   (0.1, list(FIX)[:3], 300), (0.1, list(FIX)[:3], 1380),
                                   (0.1, list(FIX), 900)):
-            rep = build({k: FIX[k] for k in types}, assume={"share": share})
+            rep = build({k: FIX[k] for k in types}, assume={"mode": "share", "share": share})
             f = d / "r.pdf"
             h = render(rep, theme="light", css_text=css(inline_fonts=True))
             h = h.replace('<div class="wrap">', f'<div class="wrap"><div style="height:{pad}px"></div>', 1)
@@ -251,7 +308,7 @@ class Excel(unittest.TestCase):
     def setUpClass(cls):
         import openpyxl
         from flightcostapp.fleetreport_xlsx import build_xlsx
-        cls.rep = build(copy.deepcopy(FIX), assume={"share": 0.12})
+        cls.rep = build(copy.deepcopy(FIX), assume={"mode": "share", "share": 0.12})
         d = pathlib.Path(tempfile.mkdtemp())
         (d / "r.xlsx").write_bytes(build_xlsx(cls.rep, FIX))
         wb = openpyxl.load_workbook(d / "r.xlsx")
@@ -262,10 +319,13 @@ class Excel(unittest.TestCase):
         cls.fix_auto = copy.deepcopy(FIX)
         for v in cls.fix_auto.values():
             v["network"]["fare_conv"] = None
-        cls.rep_auto = build(copy.deepcopy(cls.fix_auto), assume={"share": 0.12})
+        cls.rep_auto = build(copy.deepcopy(cls.fix_auto), assume={"mode": "share", "share": 0.12})
         (d / "auto.xlsx").write_bytes(build_xlsx(cls.rep_auto, cls.fix_auto))
+        # «Мой парк» (решение 221): борты и частоты — как в ответе сети.
+        cls.rep_fleet = build(copy.deepcopy(FIX), assume={"lf_target": 0.8})
+        (d / "fleet.xlsx").write_bytes(build_xlsx(cls.rep_fleet, FIX))
         cls.vals = {}
-        for name in ("r.xlsx", "s25.xlsx", "auto.xlsx"):
+        for name in ("r.xlsx", "s25.xlsx", "auto.xlsx", "fleet.xlsx"):
             subprocess.run(["soffice", "--headless", "--convert-to", "xlsx", "--outdir",
                             str(d / "out"), str(d / name)], check=True,
                            capture_output=True, timeout=180)
@@ -293,6 +353,15 @@ class Excel(unittest.TestCase):
         for t in self.rep_auto["types"]:
             self.assertAlmostEqual(self.vals["auto.xlsx"]["Результат за месяц"][t["name"]],
                                    t["plan"]["result"], delta=5.0)
+
+    def test_fleet_mode_workbook_keeps_given_fleet(self):
+        """Excel не подбирает парк заново: бортов — сколько задано на
+        витрине, итог — тот же, что над глобусом."""
+        for t in self.rep_fleet["types"]:
+            net = FIX[t["icao"]]["network"]
+            self.assertEqual(self.vals["fleet.xlsx"]["Бортов всего"][t["name"]], net["fleet"])
+            self.assertAlmostEqual(self.vals["fleet.xlsx"]["Результат за месяц"][t["name"]],
+                                   net["profit_at_ref"], delta=5.0)
 
     def test_share_change_matches_plan(self):
         for t in self.rep["types"]:

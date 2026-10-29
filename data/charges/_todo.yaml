@@ -103,3 +103,176 @@ airports:
 # Абруццо на 2025-2027, Сицилия с 2026 только в Комизо, Лампедузе,
 # Пантеллерии и Трапани, Эмилия-Романья с 2026 только в Римини, Форли
 # и Парме. Для ПАЛЕРМО отмена не действует.
+
+# ── Волна 29.10.2026: агенты по популярным направлениям Европы, Индии, Африки ──
+# Каждый файл сверен отдельным агентом с первоисточником (ставка, база, признак начисления,
+# условия) и прошёл контрольный оборот A320; найденные расхождения исправлены.
+wave_2026_10_29:
+  DAAG:
+    publisher: "Правительство Алжира (décret exécutif); копия JO на сайте SIA/ENNA"
+    url: https://sia-enna.dz/PDF/regulation/executive_decrees/fr/JO_25-2013-FR.pdf
+    status: заведён, DAAG-2013.json, 9 правил
+    note: "декрет 13-177 (2013) — stale_edition; пассажирский сбор 1300 DA найден только в пересказе декрета 2016, не заведён"
+  DGAA:
+    publisher: "Ghana Airports Company Limited (GACL)"
+    url: https://www.gacl.com.gh/charges/
+    status: заведён, DGAA-2026.json, 14 правил
+    note: "GACL, без даты; пассажирского сбора на странице нет"
+  DNAA:
+    publisher: "Federal Airports Authority of Nigeria (FAAN)"
+    url: https://faan.gov.ng/aeronautical-charges/
+    status: заведён, DNAA-2026.json, 10 правил
+    note: "FAAN, тот же перечень, что DNMM"
+  DNMM:
+    publisher: "Federal Airports Authority of Nigeria (FAAN)"
+    url: https://faan.gov.ng/aeronautical-charges/
+    status: заведён, DNMM-2026.json, 10 правил
+    note: "FAAN, перечень без даты действия; Западная Африка 80 USD — список крупных аэропортов ЭКОВАС"
+  EBBR:
+    publisher: "Brussels Airport Company (BAC); надзор — Service de Régulation / Regulatory Body for Railways and Brussels Airport (regul.be)"
+    url: https://media.brusselsairport.be/bruweb/default/0001/40/34f6ba3e5b0acff181dd2df3f7ac74a89e0b8e42.pdf
+    status: заведён, EBBR-2026.json, 62 правил
+    note: "посадочный по 8 шумовым категориям R1–R8 заведён, но пороги категорий в PDF — картинка: сбор не начисляется, пока типу не назначена категория"
+  EDDB:
+    publisher: "Flughafen Berlin Brandenburg GmbH (FBB), утверждается MIL Brandenburg по §19b LuftVG"
+    url: https://corporate.berlin-airport.de/content/dam/corporate/no-language/geschaeftspartner/entgelte/entgeltordnung-ber.pdf
+    status: заведён, EDDB-2026.json, 90 правил
+    note: "ставки нарастающих интервалов стоянки — допущение, документ прямо не говорит; класс шума не назначен"
+  EDDH:
+    publisher: "Flughafen Hamburg GmbH"
+    url: https://www.hamburg-airport.de/resource/blob/92528/dc96fabd699f26bc46eaad3fd5d52854/flughafenentgelte-april-2026-data.pdf
+    status: заведён, EDDH-2026.json, 20 правил
+    note: "класс шума A320 не прочитан (столбцы в PDF перемешаны) — шумовая надбавка не начислена"
+  EDDL:
+    publisher: "Flughafen Düsseldorf GmbH"
+    url: https://www.dus.com/-/media/dus/businesspartner/aviation/entgelte-und-regularien/pdf/dsseldorf-airport-tariff-regulations-eff-01072026.ashx
+    status: заведён, EDDL-2026.json, 53 правил
+  EFHK:
+    publisher: "Finavia Oyj"
+    url: https://www.finavia.fi/sites/default/files/documents/Terms%20of%20services%20Finavia%201.1.2026_0.pdf
+    status: заведён, EFHK-2026.json, 20 правил
+  EGLL:
+    publisher: "Heathrow Airport Limited, ценовой потолок UK CAA (H7)"
+    url: https://acl-uk.org/wp-content/uploads/2025/01/Heathrow-Airport-Limited-Conditions-of-Use-2025.pdf
+    status: заведён, EGLL-2025.json, 27 правил
+    note: "редакция 2025, документа 2026 не нашлось; шумовой сбор по категории конкретного борта не начисляется; Турция и Россия по документу «Other» 50,21 £, в шкале dest попадают на European"
+  EHAM:
+    publisher: "Royal Schiphol Group N.V., надзор ACM"
+    url: https://schiphol.nl/en/download/b2b/1730376559/3liHCYk4gIQ3nGgkQdWeDQ.pdf
+    status: заведён, EHAM-2025.json, 53 правил
+    note: "ставки с 01.04.2025; редакция 2026 оговорена к корректировке, итоговой нет; посадочный по S1–S7 не начислен"
+  EKCH:
+    publisher: "Copenhagen Airports A/S"
+    url: https://www.cph.dk/48facd/globalassets/9.-cph-business/5.-aviation/charges-and-slot/charges%20cphrke%202026/copenhagen%20airport%20charges%20regulations%201%20april%202026.pdf
+    status: заведён, EKCH-2026.json, 12 правил
+  ENGM:
+    publisher: "Avinor AS"
+    url: https://partner.avinor.no/siteassets/aviation/tjenestekatalogen/avinor_service-catalogue_2026.pdf
+    status: заведён, ENGM-2026.json, 7 правил
+    note: "спорно прочтение полосы 6–75 т (возможно, первые 6 т бесплатно)"
+  ESSA:
+    publisher: "Swedavia AB"
+    url: https://www.swedavia.com/contentassets/9514f15d5b9440feb72b4ff3cb3854d8/swedavia---airport-charges-and-conditions-of-services---2026-v.-1.1.new.pdf
+    status: заведён, ESSA-2026.json, 10 правил
+  FACT:
+    publisher: "Airports Company South Africa SOC Ltd; ставки утверждает Regulating Committee"
+    url: https://www.gov.za/sites/default/files/gcis_document/202601/53922gen3720.pdf
+    status: заведён, FACT-2026.json, 78 правил
+  FAOR:
+    publisher: "Airports Company South Africa SOC Ltd; ставки утверждает Regulating Committee"
+    url: https://www.gov.za/sites/default/files/gcis_document/202601/53922gen3720.pdf
+    status: заведён, FAOR-2026.json, 78 правил
+  GCLP:
+    publisher: "Aena SME S.A., надзор — CNMC (DORA)"
+    url: https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf
+    status: заведён, GCLP-2026.json, 28 правил
+    note: "межостровные рейсы получат ставку «материк–острова» — в шкале не различаются"
+  GCTS:
+    publisher: "Aena SME S.A., надзор — CNMC (DORA)"
+    url: https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf
+    status: заведён, GCTS-2026.json, 28 правил
+    note: "межостровные рейсы получат ставку «материк–острова» — в шкале не различаются"
+  HKJK:
+    publisher: "Kenya Civil Aviation Authority (AIP); сборы взимает Kenya Airports Authority"
+    url: https://eaip.kcaa.or.ke/eAIP_01122022/01-12-2022/eAIP/HK-GEN%204.1-en-GB.html
+    status: заведён, HKJK-2022.json, 33 правил
+    note: "eAIP Kenya GEN 4.1 от 01.12.2022 («specimen») — stale_edition"
+  LEAL:
+    publisher: "Aena SME S.A., надзор — CNMC (DORA)"
+    url: https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf
+    status: заведён, LEAL-2026.json, 23 правил
+  LEMD:
+    publisher: "Aena SME S.A., надзор — CNMC (DORA)"
+    url: https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf
+    status: заведён, LEMD-2026.json, 23 правил
+  LEMG:
+    publisher: "Aena SME S.A., надзор — CNMC (DORA)"
+    url: https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf
+    status: заведён, LEMG-2026.json, 23 правил
+  LGAV:
+    publisher: "Athens International Airport S.A."
+    url: https://www.aia.gr/getmedia/a2621fca-f018-4470-b015-ce3556abab2a/aeronautical_charges_Oct2025Apr2026.pdf
+    status: заведён, LGAV-2026.json, 19 правил
+    note: "новой редакции после 30.04.2026 не нашлось, взяты базовые ставки 10.2025–04.2026 без временной скидки"
+  LHBP:
+    publisher: "Budapest Airport Zrt."
+    url: https://www.bud.hu/document/tariff-manual-eng-2026-fin-sign/download
+    status: заведён, LHBP-2026.json, 11 правил
+  LIMC:
+    publisher: "SEA S.p.A. (Società Esercizi Aeroportuali), регулятор ART"
+    url: https://milanairports.com/sites/default/files/TARIFFARIO_ITA_Marzo%202026.pdf
+    status: заведён, LIMC-2026.json, 24 правил
+    note: "посадка зависит от ΔEPNdB, у A320 в справочнике нет шумовых данных — не начислена"
+  LKPR:
+    publisher: "Letiště Praha, a. s."
+    url: https://www.prg.aero/sites/default/files/obsah/harmonika/soubory/prague-airport-pricelist-2026-v1.pdf
+    status: заведён, LKPR-2026.json, 30 правил
+    note: "шумовые классы по AIP ČR; у A320 нет шумовых данных — шум не начислен"
+  LPFR:
+    publisher: "ANA Aeroportos de Portugal (VINCI Airports), регулятор ANAC"
+    url: https://www.ana.pt/sites/default/files/2026-05/Regulated%20charges%20guide%202026_Valid%20from%201%20June%202026.pdf
+    status: заведён, LPFR-2026.json, 43 правил
+  LPPT:
+    publisher: "ANA Aeroportos de Portugal (VINCI Airports), регулятор ANAC"
+    url: https://www.ana.pt/sites/default/files/2026-05/Regulated%20charges%20guide%202026_Valid%20from%201%20June%202026.pdf
+    status: заведён, LPPT-2026.json, 26 правил
+  LSZH:
+    publisher: "Flughafen Zürich AG; надзор BAZL (FGV)"
+    url: https://media.flughafen-zuerich.ch/-/jssmedia/airport/portal/dokumente/business/airlines-and-handling/flight-operations/schedule-of-charges/gebhrenreglement_de_2026.pdf?vs=1&rev=301b9e9c4c9e46dabb0db88424e352b4&sc_lang=de&sc_site=dxp-portal
+    status: заведён, LSZH-2026.json, 26 правил
+  LTAI:
+    publisher: "DHMİ Genel Müdürlüğü; терминалы — Fraport TAV Antalya (ГЧП)"
+    url: https://dhmi.gov.tr/Lists/UcretTarifeleri/Attachments/127/2026%20DHMI%20Airport%20Charges%20REV.01.pdf
+    status: заведён, LTAI-2026.json, 10 правил
+    note: "июль — скидка 50% на посадку; сбор безопасности не прочитан"
+  LTFM:
+    publisher: "DHMİ Genel Müdürlüğü; оператор İGA Havalimanı İşletmesi A.Ş."
+    url: https://www.istairport.com/media/0zzls4ky/2025-koi-ucret-tarifeleri.pdf
+    status: заведён, LTFM-2025.json, 10 правил
+    note: "тариф 2025, действует до новой редакции"
+  VOMM:
+    publisher: "Airports Economic Regulatory Authority of India; оператор Airports Authority of India"
+    url: https://www.aai.aero/sites/default/files/AIC05_2022_Chennai_for_Station.pdf
+    status: заведён, VOMM-2026.json, 26 правил
+    note: "ордер AERA 38/2021-22 истёк 31.03.2026, последние ставки приняты продлёнными (stale_edition)"
+
+not_found_2026_10_29:
+  # где документ не нашёлся или не читается — что нужно человеку
+  EDDM: "Entgeltordnung 2026 найден, PDF без текстового слоя — нужен OCR или ручной ввод"
+  LFPG: "ADP: по пресс-релизу в 2026 действуют тарифы 2025, сетка не найдена"
+  LIRF: "ADR: таблицы при извлечении перемешаны — нужен человек с PDF"
+  HECA: "ни AIP, ни тарифа оператора"
+  HAAB: "ни AIP, ни тарифа оператора"
+  GMMN: "eAIP Марокко (ONDA) не открывается"
+  DTTA: "сайт OACA не открывается"
+  VABB: "ордер AERA от 08.05.2025 не скачивается (aera.gov.in закрыт для агента)"
+  VOHS: "ордер AERA от 24.08.2026 не скачивается; ставки известны только из новостей"
+  VECC: "адрес ордера не найден"
+  VAAH: "тарифная карта в ордере — скан; контрольный период истёк 31.03.2026"
+  VOCI: "тарифная карта в ордере — скан; контрольный период истёк 31.03.2026"
+  VAPO: "ордер AAI 45/2021-22 — скан, истёк 31.03.2026; действующие ставки в AIC на aim-india.aai.aero"
+  VOGO: "ордер AAI 04/2022-23 — скан, истёк 31.03.2026"
+  VEGT: "только предложение оператора; утверждённые ставки — AIC"
+  VIJP: "только предложение оператора; утверждённые ставки — AIC"
+  VILK: "ордер не найден; ставки — AIC"
+  VOGA: "TDSAT в 2025 отменил часть ордера, действующие ставки неясны"

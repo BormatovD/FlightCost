@@ -1,0 +1,215 @@
+{
+ "icao": "LTAI",
+ "valid_from": "2026-07-15",
+ "source": "DHMİ, 2026 DHMI Airport Charges REV.01 (посадка, подход) + 2025 KÖİ Projeleri Ücret Tarifeleri (пассажирский сервис терминалов Fraport TAV)",
+ "source_url": "https://dhmi.gov.tr/Lists/UcretTarifeleri/Attachments/127/2026%20DHMI%20Airport%20Charges%20REV.01.pdf",
+ "publisher": "DHMİ Genel Müdürlüğü; терминалы — Fraport TAV Antalya (ГЧП)",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.06,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     0,
+     8
+    ],
+    "mtow_t": [
+     20,
+     650
+    ]
+   },
+   "source_note": "2a International Landing, Group 1 (Antalya), полоса 0–2000 посадок 10,12 EUR/т; п. 3b REV.01: пассажирским рейсам в Анталье 50% посадочного 01.01–31.08 и 01.11–31.12.2026 → 5,06 (выведено: 50% × 10,12). Масса вверх до тонны"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.06,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     10,
+     12
+    ],
+    "mtow_t": [
+     20,
+     650
+    ]
+   },
+   "source_note": "2a International Landing, Group 1 (Antalya), полоса 0–2000 посадок 10,12 EUR/т; п. 3b REV.01: пассажирским рейсам в Анталье 50% посадочного 01.01–31.08 и 01.11–31.12.2026 → 5,06 (выведено: 50% × 10,12). Масса вверх до тонны"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.12,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     8,
+     10
+    ],
+    "mtow_t": [
+     20,
+     650
+    ]
+   },
+   "source_note": "2a International Landing, Group 1, 0–2000 посадок: 10,12 EUR/т — сентябрь и октябрь без скидки п. 3b. Полосы 2001–4000 (9,72) и 4001+ (9,11) — по годовому числу посадок перевозчика, не заведены"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.12,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": true,
+    "mtow_t": [
+     20,
+     650
+    ]
+   },
+   "source_note": "2a, Group 1: 10,12 EUR/т; скидка 3b только для пассажирских рейсов"
+  },
+  {
+   "code": "approach",
+   "base": "per_movement",
+   "rate": 56.68,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "certainty": "reading_unconfirmed",
+   "error_cost": 6.0,
+   "confirm_by": "DHMİ: какое из чисел 56,68 / 62,76 в табл. 2b Group 1 — подход, какое — светотехника",
+   "source_note": "2b Group 1: approach за посадку 56,68 (сопоставление со строкой по порядку). Светотехника 62,76 за посадку и взлёт не заведена — по сезону и видимости"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 15.0,
+   "valid_from": "2025-01-25",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "pax_type": "local"
+   },
+   "certainty": "stale_edition",
+   "error_cost": 150.0,
+   "confirm_by": "DHMİ/Fraport TAV Antalya: действует ли КÖİ 2025 в 2026",
+   "source_note": "ДРУГОЙ ДОКУМЕНТ: DHMİ 2025 KÖİ Projeleri Ücret Tarifeleri, Bölüm 2, 2.a, групповая строка «Esenboğa 15,00 ... Antalya ...» — международный пассажирский сервис 15,00 EUR за вылетающего; https://www.istairport.com/media/0zzls4ky/2025-koi-ucret-tarifeleri.pdf. Тариф DHMİ 8,50 к терминалам ГЧП не применяется. Безопасность, трансфер и внутренние линии для группы в извлечении не читаются — не заведены"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 101.2,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     0,
+     8
+    ],
+    "mtow_t": [
+     2,
+     20
+    ]
+   },
+   "source_note": "§3a: ВС до 20 т считаются как 20 т → 5.06×20 (исправлено по проверке verify/LTAI)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 101.2,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     10,
+     12
+    ],
+    "mtow_t": [
+     2,
+     20
+    ]
+   },
+   "source_note": "§3a: ВС до 20 т считаются как 20 т → 5.06×20 (исправлено по проверке verify/LTAI)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 202.4,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": false,
+    "month": [
+     8,
+     10
+    ],
+    "mtow_t": [
+     2,
+     20
+    ]
+   },
+   "source_note": "§3a: ВС до 20 т считаются как 20 т → 10.12×20 (исправлено по проверке verify/LTAI)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 202.4,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "cargo": true,
+    "mtow_t": [
+     2,
+     20
+    ]
+   },
+   "source_note": "§3a: ВС до 20 т считаются как 20 т → 10.12×20 (исправлено по проверке verify/LTAI)"
+  }
+ ]
+}

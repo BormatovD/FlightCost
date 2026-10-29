@@ -1,0 +1,831 @@
+{
+ "icao": "EDDL",
+ "valid_from": "2026-07-01",
+ "source": "Flughafen Düsseldorf GmbH, Tariff Regulations valid from 01.01.2026 / Update 01.07.2026",
+ "source_url": "https://www.dus.com/-/media/dus/businesspartner/aviation/entgelte-und-regularien/pdf/dsseldorf-airport-tariff-regulations-eff-01072026.ashx",
+ "publisher": "Flughafen Düsseldorf GmbH",
+ "checked_at": "2026-10-29",
+ "scales": {
+  "noise_cat": 8
+ },
+ "categories": {
+  "noise_cat": {
+   "source_note": "I.1.2, перечень типов по классам шума (измерения в Дюссельдорфе), коды DUS → ИКАО: A3202→A320, A320N→A20N, A3191→A319, A3211/A3212→A321, A321N→A21N, B7378→B738, B738M→B38M, B7377→B737, B7374→B734, E190/E195/E170/E175→E190/E195/E170/E75L, E190E/E195E→E290/E295, A2201/A2203→BCS1/BCS3, CL90→CRJ9, B7878/B7879→B788/B789, A3509→A359, A3302/A3303→A332/A333, A3309→A339, A3403→A343, A3808→A388, B7478→B748, E145. Варианты с VX (вихрегенераторы) — на класс ниже, не заведены",
+   "named": {
+    "A320": 4,
+    "A20N": 2,
+    "A319": 4,
+    "A321": 5,
+    "A21N": 3,
+    "B738": 4,
+    "B38M": 3,
+    "B737": 3,
+    "B734": 6,
+    "E190": 4,
+    "E195": 4,
+    "E170": 4,
+    "E75L": 4,
+    "E290": 3,
+    "E295": 3,
+    "BCS1": 3,
+    "BCS3": 3,
+    "CRJ9": 4,
+    "B788": 5,
+    "B789": 5,
+    "A359": 5,
+    "A332": 6,
+    "A333": 6,
+    "A339": 5,
+    "A343": 6,
+    "A388": 6,
+    "B748": 6,
+    "E145": 3
+   }
+  }
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 14.59,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     0,
+     1.2
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 0–1.2 t: 14.59. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 26.24,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     1.2,
+     2.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 1.2–2.0 t: 26.24. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 52.5,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     2.0,
+     5.7
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 2.0–5.7 t: 52.5. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 247.91,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     5.7,
+     10.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 5.7–10.0 t: 247.91. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 278.75,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     10.0,
+     30.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 10.0–30.0 t: 278.75. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 278.75,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     30.0,
+     52.5
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 30.0–52.5 t: 278.75. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 265.33,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     52.5,
+     79.3
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 52.5–79.3 t: 265.33. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 265.33,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     79.3,
+     125.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 79.3–125.0 t: 265.33. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 257.87,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     125.0,
+     245.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 125.0–245.0 t: 257.87. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 257.87,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     245.0,
+     355.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 245.0–355.0 t: 257.87. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 257.87,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     355.0,
+     440.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 355.0–440.0 t: 257.87. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 257.87,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "mtow_t": [
+     440.0,
+     650.0
+    ]
+   },
+   "source_note": "I.1.1, MTOW Category EUR per Movement, 440.0–650.0 t: 257.87. Начисляется за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 1
+   },
+   "source_note": "I.1.2, Noise Class 1, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 35.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 2
+   },
+   "source_note": "I.1.2, Noise Class 2, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 44.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 3
+   },
+   "source_note": "I.1.2, Noise Class 3, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 47.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 4
+   },
+   "source_note": "I.1.2, Noise Class 4, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 51.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 5
+   },
+   "source_note": "I.1.2, Noise Class 5, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 116.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 6
+   },
+   "source_note": "I.1.2, Noise Class 6, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 7000.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 7
+   },
+   "source_note": "I.1.2, Noise Class 7, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 8000.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 8
+   },
+   "source_note": "I.1.2, Noise Class 8, 06:00–21:59 local time. Вечерние/ночные ставки (22:00–05:59) не заведены: шкала времени вне словаря"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 17.38,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "I.2 a) within the EU (incl. IS/LI/NO/CH) 17.38; b) outside the EU 18.46. Внутренние рейсы — в строке EU. Великобритания — outside the EU"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 17.38,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "I.2 a) within the EU (incl. IS/LI/NO/CH) 17.38; b) outside the EU 18.46. Внутренние рейсы — в строке EU. Великобритания — outside the EU"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 18.46,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "I.2 a) within the EU (incl. IS/LI/NO/CH) 17.38; b) outside the EU 18.46. Внутренние рейсы — в строке EU. Великобритания — outside the EU"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 18.46,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "I.2 a) within the EU (incl. IS/LI/NO/CH) 17.38; b) outside the EU 18.46. Внутренние рейсы — в строке EU. Великобритания — outside the EU"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 10.87,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "I.2 c) proven transfer and transit passengers to all destinations 10.87"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.35,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "I.5, EUR 1.35 per passenger on board at take-off"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 1.15,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "II.1, EUR 1.15 per passenger effective from 1st July 2026"
+  },
+  {
+   "code": "cute",
+   "base": "per_departing_pax",
+   "rate": 0.291,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "II.2 CUTE, passengers checked in (excl. transit) EUR 0.291"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 42.5,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     79.3
+    ]
+   },
+   "source_note": "I.4 positioning charge (PBB + 400 Hz) at building position, MTOW Category EUR per Movement 0–79.3 t"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 47.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     79.3,
+     125.0
+    ]
+   },
+   "source_note": "I.4 positioning charge (PBB + 400 Hz) at building position, MTOW Category EUR per Movement 79.3–125.0 t"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 52.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     125.0,
+     245.0
+    ]
+   },
+   "source_note": "I.4 positioning charge (PBB + 400 Hz) at building position, MTOW Category EUR per Movement 125.0–245.0 t"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 57.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     245.0,
+     355.0
+    ]
+   },
+   "source_note": "I.4 positioning charge (PBB + 400 Hz) at building position, MTOW Category EUR per Movement 245.0–355.0 t"
+  },
+  {
+   "code": "pbb",
+   "base": "per_movement",
+   "rate": 60.0,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     355.0,
+     440.0
+    ]
+   },
+   "source_note": "I.4 positioning charge (PBB + 400 Hz) at building position, MTOW Category EUR per Movement 355.0–440.0 t"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 20.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     0,
+     5.7
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 0–5.7 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 60.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     0,
+     5.7
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 0–5.7 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 30.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     5.7,
+     10.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 5.7–10.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 90.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     5.7,
+     10.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 5.7–10.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 74.4,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     10.0,
+     30.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 10.0–30.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 223.2,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     10.0,
+     30.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 10.0–30.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 93.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     30.0,
+     52.5
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 30.0–52.5 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 279.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     30.0,
+     52.5
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 30.0–52.5 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 102.3,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     52.5,
+     79.3
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 52.5–79.3 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 306.9,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     52.5,
+     79.3
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 52.5–79.3 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 144.1,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     79.3,
+     125.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 79.3–125.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 432.3,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     79.3,
+     125.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 79.3–125.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 372.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     125.0,
+     245.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 125.0–245.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 1116.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     125.0,
+     245.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 125.0–245.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 558.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     245.0,
+     355.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 245.0–355.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 1674.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     245.0,
+     355.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 245.0–355.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 651.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     355.0,
+     440.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 355.0–440.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 1953.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     355.0,
+     440.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 355.0–440.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 744.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     440.0,
+     650.0
+    ],
+    "park_h": [
+     3,
+     96
+    ]
+   },
+   "source_note": "I.3, > 3 – 96 Hours (per 24 Hours), 440.0–650.0 t; 0–3 h бесплатно; ночная стоянка 22–06 не тарифицируется (не заведено)"
+  },
+  {
+   "code": "parking",
+   "base": "per_day",
+   "rate": 2232.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     440.0,
+     650.0
+    ],
+    "park_h": [
+     96,
+     240
+    ]
+   },
+   "source_note": "I.3, > 96 Hours (per 24 Hours), 440.0–650.0 t. Применение ко всему периоду или только сверх 96 ч в документе не пояснено — взято ко всему"
+  }
+ ]
+}

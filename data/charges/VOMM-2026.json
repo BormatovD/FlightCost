@@ -1,0 +1,477 @@
+{
+ "icao": "VOMM",
+ "valid_from": "2026-01-01",
+ "source": "AERA, Order No. 38/2021-22 от 04.02.2022 «Determination of Aeronautical Tariff for Chennai International Airport, Third Control Period 01.04.2021–31.03.2026» (+ Addendum 04.03.2022), таблицы 143–147; копия AAI для AIC-5/2022",
+ "source_url": "https://www.aai.aero/sites/default/files/AIC05_2022_Chennai_for_Station.pdf",
+ "publisher": "Airports Economic Regulatory Authority of India; оператор Airports Authority of India",
+ "checked_at": "2026-10-29",
+ "certainty": "stale_edition",
+ "error_cost": 11000.0,
+ "confirm_by": "AERA: ордер 4-го КП (01.04.2026–31.03.2031) по Ченнаи или приказ о продлении ставок 3-го КП",
+ "icao_note": "Ставки последнего столбца ордера 3-го КП (FY 2026 January–March, с 01.01.2026). Ордер истёк 31.03.2026; ордер 4-го КП по Ченнаи не найден — принято, что ставки продолжают действовать до определения (как у Хайдарабада). Если продлены ставки апреля–декабря 2025 (посадка межд. 8 125+195/т, UDF 455/690) — оборот A320 выше примерно на 11 000 INR. Без GST. Aviation Security Fee — по приказу MoCA, не заведён. Не закодировано: освобождение от посадки домашних регулярных рейсов на ВС менее 80 кресел, вертолётов, учебных; ночная стоянка 22–06 для домашних при НДС на ATF <5%; сверхнормативная стоянка >24 ч +20 INR/т/ч. Временное снижение посадки/стоянки на 25% для домашних рейсов (MoCA/AERA, апрель–июль 2026) истекло и не заведено. Документ — OCR скана",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 70,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     0,
+     25
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса до 25 т, столбец FY 2026 (January to March) с 01.01.2026: 70 INR за тонну; масса до ближайшей тонны"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1750,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 25–50 т, столбец с 01.01.2026: постоянная часть «Rs. 1,750 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 25.0,
+   "rate": 82,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 25–50 т, столбец с 01.01.2026: «Rs. 82 per MT in excess of 25 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 3800,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     50,
+     100
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 50–100 т, столбец с 01.01.2026: постоянная часть «Rs. 3,800 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 50.0,
+   "rate": 93,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     50,
+     100
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 50–100 т, столбец с 01.01.2026: «Rs. 93 per MT in excess of 50 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 8450,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 100–200 т, столбец с 01.01.2026: постоянная часть «Rs. 8,450 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 100.0,
+   "rate": 105,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 100–200 т, столбец с 01.01.2026: «Rs. 105 per MT in excess of 100 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 18950,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 200–999 т, столбец с 01.01.2026: постоянная часть «Rs. 18,950 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 200.0,
+   "rate": 128,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "domestic"
+    ],
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "Table 143 Landing charges (domestic), полоса 200–999 т, столбец с 01.01.2026: «Rs. 128 per MT in excess of 200 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 140,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     0,
+     25
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса до 25 т, столбец FY 2026 (January to March) с 01.01.2026: 140 INR за тонну; масса до ближайшей тонны"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 3500,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 25–50 т, столбец с 01.01.2026: постоянная часть «Rs. 3,500 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 25.0,
+   "rate": 152,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 25–50 т, столбец с 01.01.2026: «Rs. 152 per MT in excess of 25 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 7300,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     50,
+     100
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 50–100 т, столбец с 01.01.2026: постоянная часть «Rs. 7,300 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 50.0,
+   "rate": 175,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     50,
+     100
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 50–100 т, столбец с 01.01.2026: «Rs. 175 per MT in excess of 50 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 16050,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 100–200 т, столбец с 01.01.2026: постоянная часть «Rs. 16,050 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 100.0,
+   "rate": 210,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 100–200 т, столбец с 01.01.2026: «Rs. 210 per MT in excess of 100 MT»"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 37050,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 200–999 т, столбец с 01.01.2026: постоянная часть «Rs. 37,050 plus»"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 200.0,
+   "rate": 234,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "Table 144 Landing charges (international), полоса 200–999 т, столбец с 01.01.2026: «Rs. 234 per MT in excess of 200 MT»"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 2.8,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "mtow_t": [
+     0,
+     100
+    ]
+   },
+   "source_note": "Table 145, Up to 100 MT, с 01.01.2026: 2.8 INR за тонну-час. первые 2 ч бесплатно (плюс стандартные 15+15 мин руления — не закодированы, порог 2 ч как у VIDP/VOBL); следующие 2 ч — Table 145, дальше — двойная ставка Table 146. Часть часа по документу округляется ДО БЛИЖАЙШЕГО часа, база считает начатый час — верхняя оценка до 1 ч",
+   "certainty": "reading_unconfirmed",
+   "confirm_by": "движок: ступенчатая стоянка"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 4.0,
+   "rate": 2.8,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "mtow_t": [
+     0,
+     100
+    ]
+   },
+   "source_note": "Table 146 (5,6 = двойная 2,8): сверх первых 4 ч добавляется вторая 2,8 к правилу Table 145 — в сумме 5,6 (исправлено по проверке verify/VOMM)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "движок: ступенчатая стоянка"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 2.0,
+   "rate": 3.7,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "mtow_t": [
+     100,
+     999
+    ]
+   },
+   "source_note": "Table 145, Above 100 MT, с 01.01.2026: «Rs. 280 plus Rs. 3.7 per MT per hour in excess of 100 MT» — разложено на 3.7 × МВМ за час и постоянный член -90 INR за час (следующее правило). первые 2 ч бесплатно (плюс стандартные 15+15 мин руления — не закодированы, порог 2 ч как у VIDP/VOBL); следующие 2 ч — Table 145, дальше — двойная ставка Table 146. Часть часа по документу округляется ДО БЛИЖАЙШЕГО часа, база считает начатый час — верхняя оценка до 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 2.0,
+   "rate": -90.0,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     100,
+     999
+    ]
+   },
+   "source_note": "Постоянный член разложения Table 145 Above 100 MT: 280 − 3.7×100 = -90 INR за час. Проверка на 150 т: 3.7×150 -90 = 465 = 280 + 3.7×50"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "threshold": 4.0,
+   "rate": 3.8,
+   "currency": "INR",
+   "events": "landing",
+   "round_mtow": "nearest_tonne",
+   "when": {
+    "mtow_t": [
+     100,
+     999
+    ]
+   },
+   "source_note": "Table 146 Above 100 MT: 560 + 7,5/т сверх 100 — сверх 4 ч добавка к Table 145: 7,5−3,7 = 3,8 за т (исправлено по проверке verify/VOMM)"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "threshold": 4.0,
+   "rate": -100.0,
+   "currency": "INR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     100,
+     999
+    ]
+   },
+   "source_note": "Постоянный член добавки Table 146 сверх 4 ч: (560−7,5×100) − (280−3,7×100) = −100 INR/ч"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 410,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "domestic"
+    ]
+   },
+   "source_note": "Table 147 User Development Fees, столбец 2025-26 с 01.01.2026: «Domestic 69 205 295 395 455 410». Единица в таблице не названа; у AAI UDF взимается с вылетающего (п. 18.1.2(a): collection charges per departing passenger). Транзит до 24 ч на одном билете, дети до 2 лет и др. освобождены — pax_type не закодирован",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "AAI Chennai, порядок взимания UDF (с вылетающего)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 625,
+   "currency": "INR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Table 147 User Development Fees, столбец 2025-26 с 01.01.2026: «International 69 300 450 615 690 625». Единица в таблице не названа; у AAI UDF взимается с вылетающего (п. 18.1.2(a): collection charges per departing passenger). Транзит до 24 ч на одном билете, дети до 2 лет и др. освобождены — pax_type не закодирован",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "AAI Chennai, порядок взимания UDF (с вылетающего)"
+  }
+ ]
+}

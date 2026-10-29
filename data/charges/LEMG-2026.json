@@ -1,0 +1,311 @@
+{
+ "icao": "LEMG",
+ "valid_from": "2026-08-01",
+ "source": "Aena SME S.A., Guía de Tarifas 2026, edición agosto 2026. Málaga-Costa del Sol: строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca»",
+ "source_url": "https://www.aena.es/doc/detalleprensa/260801-guia-tarifas-aena-agosto-2026.pdf",
+ "publisher": "Aena SME S.A., надзор — CNMC (DORA)",
+ "checked_at": "2026-10-29",
+ "categories": {
+  "noise_cat": {
+   "source_note": "Aena, Guía de Tarifas 2026, ed. agosto, п. 2.1.4 «Incremento por clasificación acústica»: категория по кумулятивному запасу к пределам главы 3 Приложения 16; при отсутствии сертификата эксплуатанта — по типу из базы EASA (её же читает домен aircraft). Надбавка к посадочному сбору: кат. 1 — 70%/140% (день/ночь), кат. 2 — 20%/40%, кат. 3–4 — 0%. Границы «entre 5 y 10», «entre 10 y 15» в документе включают оба конца; при запасе ровно 10 или 15 взята старшая категория (в пользу эксплуатанта)",
+   "certainty": "reading_unconfirmed",
+   "error_cost": 0.0,
+   "confirm_by": "Aena, Guía de Tarifas: граница категорий при запасе ровно 10 и 15 EPNdB",
+   "rules": [
+    {
+     "when": {
+      "noise_margin_cum": {
+       "gt": 15
+      }
+     },
+     "value": 4,
+     "note": "категория 4: запас больше 15 EPNdB — надбавки нет"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 10
+      }
+     },
+     "value": 3,
+     "note": "категория 3: запас от 10 до 15 EPNdB — надбавки нет"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 5
+      }
+     },
+     "value": 2,
+     "note": "категория 2: запас от 5 до 10 EPNdB — надбавка 20% днём, 40% ночью"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "lt": 5
+      }
+     },
+     "value": 1,
+     "note": "категория 1: запас меньше 5 EPNdB — надбавка 70% днём, 140% ночью"
+    }
+   ]
+  }
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 8.140706,
+   "currency": "EUR",
+   "events": "landing",
+   "source_note": "разд. 2.1.1 «Vuelos del Espacio Europeo e Internacionales», строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», столбец ATERRIZAJE € por Tm. Внутренние рейсы с материка платят ту же ставку (таблицы 2.1.2/2.1.3 — только для островов, Сеуты, Мелильи)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 110.66,
+   "source_note": "разд. 2.1.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», Mínimo por operación"
+  },
+  {
+   "code": "aerodrome_ats",
+   "base": "per_tonne_mtow",
+   "rate": 3.185764,
+   "currency": "EUR",
+   "events": "landing",
+   "source_note": "разд. 2.1.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», столбец SERVICIO DE TRÁNSITO DE AERÓDROMO € por Tm"
+  },
+  {
+   "code": "aerodrome_ats",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 47.47,
+   "source_note": "разд. 2.1.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», минимум за операцию"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.85,
+   "currency": "EUR",
+   "when": {
+    "flight": "EEA",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 2.2.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», столбец E.E.E."
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.51,
+   "currency": "EUR",
+   "when": {
+    "flight": "EEA",
+    "pax_type": "transfer"
+   },
+   "source_note": "разд. 2.2: «Las cuantías de pasajeros y seguridad aplicables a los pasajeros en conexión se reducirán en un 40%». 5.85 × 0,6"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.79,
+   "currency": "EUR",
+   "when": {
+    "flight": "INTL",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 2.2.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», столбец Internacional (всё вне ЕЭП, включая Британию)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.274,
+   "currency": "EUR",
+   "when": {
+    "flight": "INTL",
+    "pax_type": "transfer"
+   },
+   "source_note": "разд. 2.2: «Las cuantías de pasajeros y seguridad aplicables a los pasajeros en conexión se reducirán en un 40%». 8.79 × 0,6"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.85,
+   "currency": "EUR",
+   "when": {
+    "flight": "domestic",
+    "pax_type": "local"
+   },
+   "source_note": "разд. 2.2.1, строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca», внутренние рейсы с материка — столбец E.E.E. разд. 2.2.1 (Испания в ЕЭП)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.51,
+   "currency": "EUR",
+   "when": {
+    "flight": "domestic",
+    "pax_type": "transfer"
+   },
+   "source_note": "разд. 2.2: «Las cuantías de pasajeros y seguridad aplicables a los pasajeros en conexión se reducirán en un 40%». 5.85 × 0,6"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "разд. 2.2, прямой транзит не облагается (как в LEPA/LEBL)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 3.99,
+   "currency": "EUR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL",
+     "domestic"
+    ],
+    "pax_type": "local"
+   },
+   "source_note": "разд. 2.2.1, таблица «Pasajeros PMR Seguridad», строка «0,87 3,99» — одна пара на всю таблицу, от группы не зависит"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 2.394,
+   "currency": "EUR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL",
+     "domestic"
+    ],
+    "pax_type": "transfer"
+   },
+   "source_note": "разд. 2.2.1, таблица «Pasajeros PMR Seguridad», строка «0,87 3,99» — одна пара на всю таблицу, от группы не зависит; стыковка минус 40%"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.87,
+   "currency": "EUR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL",
+     "domestic"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "разд. 2.2.1, таблица «Pasajeros PMR Seguridad», строка «0,87 3,99» — одна пара на всю таблицу, от группы не зависит; скидка за стыковку на PMR не распространяется"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "разд. 2.2, транзит не облагается"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "транзит: как пассажирский сбор (принято по LEPA)"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.7,
+   "currency": "EUR",
+   "events": "landing",
+   "pct_of": "landing",
+   "when": {
+    "noise_cat": 1,
+    "night": false
+   },
+   "source_note": "разд. 2.1.4 «Incremento por clasificación acústica»: Málaga-Costa del Sol в списке аэропортов; кат. 1, день 07:00-22:59 — 70% к посадочному сбору"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1.4,
+   "currency": "EUR",
+   "events": "landing",
+   "pct_of": "landing",
+   "when": {
+    "noise_cat": 1,
+    "night": true
+   },
+   "source_note": "разд. 2.1.4 «Incremento por clasificación acústica»: Málaga-Costa del Sol в списке аэропортов; кат. 1, ночь 23:00-06:59 — 140% к посадочному сбору"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.2,
+   "currency": "EUR",
+   "events": "landing",
+   "pct_of": "landing",
+   "when": {
+    "noise_cat": 2,
+    "night": false
+   },
+   "source_note": "разд. 2.1.4 «Incremento por clasificación acústica»: Málaga-Costa del Sol в списке аэропортов; кат. 2, день 07:00-22:59 — 20% к посадочному сбору"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.4,
+   "currency": "EUR",
+   "events": "landing",
+   "pct_of": "landing",
+   "when": {
+    "noise_cat": 2,
+    "night": true
+   },
+   "source_note": "разд. 2.1.4 «Incremento por clasificación acústica»: Málaga-Costa del Sol в списке аэропортов; кат. 2, ночь 23:00-06:59 — 40% к посадочному сбору"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_15min",
+   "rate": 21.351268,
+   "currency": "EUR",
+   "when": {
+    "stand": "pier"
+   },
+   "source_note": "разд. 2.4 «Uso de pasarelas telescópicas», P = (p1 + p2×Tm)×Ft, Ft — 15 мин или доля; строка «Alicante-Elche, Gran Canaria, Tenerife Sur, Málaga-Costa del Sol y Palma de Mallorca»: p1 = 21.351268, p2 = 0,00. В извлечённом тексте таблица p1/p2 стоит после заголовка 2.5 (топливо в €/литр, формулы p1/p2 у него нет) — отнесена к 2.4, reading_unconfirmed. С 00:00 до 06:00 счёт прерывается — не выражается"
+  },
+  {
+   "code": "meteo",
+   "base": "per_tonne_mtow",
+   "rate": 0.202476,
+   "currency": "EUR",
+   "events": "landing",
+   "source_note": "разд. 2.7: «El importe a abonar será 0,202476 euros por Tm.» Едина по сети"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_departing_pax",
+   "rate": 0.0485,
+   "currency": "EUR",
+   "source_note": "разд. 2.6.2 (Grupo de servicios número 2): 0,0485 € за вылетающего пассажира. Плательщик — агент наземного обслуживания, перекладывается на перевозчика"
+  }
+ ]
+}

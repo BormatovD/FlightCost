@@ -20,6 +20,12 @@
 5. Экономика рейса — прямые плеча ядра (решение 38): статьи на рейс и на
    пассажира (`Leg.parts`). Ядро здесь не зовётся.
 
+Второй вопрос — «Мой парк» (решение 221, режим по умолчанию): число
+бортов каждого типа и частоты задал человек на витрине сети, и отчёт
+обязан показать ровно их — те же борты, частоты и загрузку, что над
+глобусом, а не парк, подобранный под долю рынка. Прежде отчёт всегда
+отвечал на первый вопрос, и 20 бортов на экране становились 38 в Excel.
+
 Ниже — развороты того же расчёта: как итог зависит от цены (через долю)
 и от доли (кто выгоднее на тонком и на толстом рынке), и CASK/RASK по
 длине плеча. Плюсы и минусы — кодами с числами, фразу собирает
@@ -58,6 +64,7 @@ DEFAULTS = {
     # рынка один и тот же. Пусто — как у сети на витрине.
     "fare_conv": None,
 }
+MODES = ("fleet", "share")      # «Мой парк» — по умолчанию; «Доля рынка»
 PRICE_GRID = (0.80, 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.20)
 SHARE_GRID = tuple(x / 100 for x in (2, 4, 6, 8, 10, 12, 15, 20, 25, 30, 35, 40, 50, 60))
 
@@ -213,11 +220,83 @@ class TypePlan:
         n = n_op + spare
         cost["ownership"] = n * self.lease
         total = sum(cost.values())
-        return {"share": share, "conv": conv, "pairs": rows, "skipped": skipped, "revenue": rev, "cost": cost,
+        return {"mode": "share", "share": share, "conv": conv, "pairs": rows, "skipped": skipped, "revenue": rev, "cost": cost,
                 "cost_total": total, "result": rev - total, "pax": pax_m, "seats": seats_m,
                 "ask": ask, "hours": hours, "flights": flights, "fuel_kg": fuel_kg,
                 "n_op": n_op, "spare": spare, "fleet": n,
                 "util_used": hours / n_op if n_op else None,
+                "lf": pax_m / seats_m if seats_m else None,
+                "cask_ct": total / ask * 100 if ask else None,
+                "rask_ct": rev / ask * 100 if ask else None,
+                "cost_per_pax": total / pax_m if pax_m else None,
+                "rev_per_pax": rev / pax_m if pax_m else None,
+                "fuel_share": cost["fuel"] / total if total else None,
+                "kg_per_seat_100km": fuel_kg / ask * 100 if ask else None,
+                "freq_week": sum(r["freq"] for r in rows)}
+
+    def plan_fleet(self, a: dict, *, fuel_px=None) -> dict:
+        """План «Мой парк»: борты и частоты — как на витрине сети.
+
+        Частоты — из ответа сети (заданные человеком закреплены, прочие
+        разложены на остаток часов), бортов — заданное число, пассажиров на
+        рейс — плановая загрузка, не больше, чем борт поднимет на плече.
+        Итог совпадает с «результатом при загрузке» сети над глобусом:
+        те же плечи, та же формула (проверяется тестом)."""
+        conv = a.get("fare_conv") if a.get("fare_conv") is not None else self.conv
+        freq = {r["key"]: int(r.get("freq_week") or 0) for r in self.net.get("pairs") or []}
+        n = int(self.net.get("fleet") or 0)
+        cost = {x: 0.0 for x in ARTICLES}
+        rows, skipped = [], []
+        rev = pax_m = seats_m = ask = hours = flights = fuel_kg = 0.0
+        for p in self.pairs:
+            f = freq.get(p["key"], 0)
+            if f <= 0:
+                skipped.append(p["key"])
+                continue
+            m = f * WEEKS_PER_MONTH
+            cp = pair_conv(p["market"], conv)
+            prow = {"key": p["key"], "dist": p["dist"], "freq": f, "conv": cp, "freq_need": None,
+                    "min_binds": False, "market": p["market"], "market_src": p["market_src"],
+                    "legs": []}
+            vol = 0.0
+            for l in p["legs"]:
+                pax = min(a["lf_target"] * l["seats"], float(l["max_pax"]))
+                c = leg_cost(l, pax, fuel_px)
+                r = pax * float(l["fare_eur"]) * a["price"] * cp
+                for x, v in c.items():
+                    cost[x] += v * m
+                cost["distribution"] += r * DIST_RATE * m
+                rev += r * m
+                vol += pax * m
+                seats_m += l["seats"] * m
+                ask += l["seats"] * p["dist"] * m
+                hours += float(l["block_h"]) * m
+                flights += m
+                fuel_kg += (float(l.get("fuel_kg0") or 0) + float(l.get("fuel_kg_per_pax") or 0) * pax) * m
+                cap = float(l["max_pax"]) / l["seats"]
+                prow["legs"].append({"o": l["origin"], "d": l["destination"], "pax": pax,
+                                     "lf": pax / l["seats"], "block_h": l["block_h"],
+                                     "cap_lf": cap, "range_limited": cap < a["lf_target"] - 1e-9})
+            pax_m += vol
+            prow["volume"] = vol
+            prow["need_share"] = vol / float(p["market"]) if p["market"] else None
+            prow["lf"] = sum(x["lf"] for x in prow["legs"]) / len(prow["legs"])
+            lim = [x["cap_lf"] for x in prow["legs"] if x["range_limited"]]
+            prow["range_cap"] = min(lim) if lim else None
+            rows.append(prow)
+        n_need = math.ceil(hours / self.util - 1e-9) if self.util and hours else 0
+        cost["ownership"] = n * self.lease
+        total = sum(cost.values())
+        market = sum(float(r["market"]) for r in rows if r["market"])
+        return {"mode": "fleet", "share": (pax_m / market) if market else None, "conv": conv,
+                "pairs": rows, "skipped": skipped, "revenue": rev, "cost": cost,
+                "cost_total": total, "result": rev - total, "pax": pax_m, "seats": seats_m,
+                "ask": ask, "hours": hours, "flights": flights, "fuel_kg": fuel_kg,
+                # Борты — заданные. Сколько нужно по налёту — рядом: меньше
+                # заданного — запас, больше — расписание не выполнить.
+                "n_op": n_need, "spare": n - n_need, "fleet": n, "fleet_given": n,
+                "overbooked": n_need > n,
+                "util_used": hours / n if n else None,
                 "lf": pax_m / seats_m if seats_m else None,
                 "cask_ct": total / ask * 100 if ask else None,
                 "rask_ct": rev / ask * 100 if ask else None,
@@ -253,6 +332,7 @@ class TypePlan:
 def assumptions(q: dict | None = None) -> dict:
     """Допущения плана из запроса: пусто — по умолчанию."""
     a = dict(DEFAULTS)
+    m = str((q or {}).get("mode") or "").lower()
     for k in a:
         v = (q or {}).get(k)
         if k == "fare_conv" and v in (None, ""):
@@ -263,6 +343,7 @@ def assumptions(q: dict | None = None) -> dict:
             except (TypeError, ValueError):
                 pass
     a["min_freq"] = int(round(a["min_freq"]))
+    a["mode"] = m if m in MODES else MODES[0]
     for k in ("share", "lf_target", "reserve", "share_cap"):
         if a[k] > 1.5:                 # пришло в процентах
             a[k] /= 100
@@ -298,17 +379,20 @@ def build(results: dict, *, assume: dict | None = None, chosen: str = "",
         return {"error": "ни один тип не посчитан", "types": rows, "assume": a}
     if a.get("fare_conv") is None:
         a["fare_conv"] = plans[ok[0]["icao"]].conv          # None — по потоку пары
+    fleet_mode = a["mode"] == "fleet"
 
     for r in ok:
         tp = plans[r["icao"]]
-        pl = tp.plan(a)
+        pl = tp.plan_fleet(a) if fleet_mode else tp.plan(a)
         r.update(plan=pl, seats=tp.seats, lease_eur_month=tp.lease, util_h_month=tp.util,
                  rates=tp.rates, prov=tp.prov, cut=tp.cut, parts_ok=tp.has_parts,
                  pairs_ok=len(tp.pairs), curve=tp.leg_curve(a))
         if pl["pax"] == 0:
             r.update(status="failed",
-                     why="нет потока ни на одной паре, которую тип может летать — задайте "
-                         "поток на вкладке «Рынок»")
+                     why=("ни одна пара не летается — частоты нулевые или парку не хватает часов"
+                          if fleet_mode else
+                          "нет потока ни на одной паре, которую тип может летать — задайте "
+                          "поток на вкладке «Рынок»"))
     ok = [r for r in ok if r["status"] == "ok"]
     if not ok:
         return {"error": rows[0].get("why") or "нет потока", "types": rows, "assume": a}
@@ -327,10 +411,12 @@ def build(results: dict, *, assume: dict | None = None, chosen: str = "",
     price_sweep = []
     for k in PRICE_GRID:
         b = dict(a, price=k)
-        row = {"price": k, "share": min(a["share"] * k ** -a["elasticity"], a["share_cap"]),
-               "types": {}}
+        # «Мой парк»: борты и рейсы те же, меняется только чек — доля не
+        # пересчитывается, и строки цены — это чувствительность итога.
+        row = {"price": k, "share": None if fleet_mode else
+               min(a["share"] * k ** -a["elasticity"], a["share_cap"]), "types": {}}
         for r in ok:
-            pl = plans[r["icao"]].plan(b)
+            pl = plans[r["icao"]].plan_fleet(b) if fleet_mode else plans[r["icao"]].plan(b)
             row["types"][r["icao"]] = {"result": pl["result"], "fleet": pl["fleet"],
                                        "pax": pl["pax"], "lf": pl["lf"]}
         price_sweep.append(row)
@@ -412,6 +498,8 @@ def _pros_cons(r: dict, ok: list, a: dict) -> tuple[list, list]:
             pros.append({"code": "fuel_lean", "v": pl["kg_per_seat_100km"]})
         elif ext(lambda x: x["plan"]["kg_per_seat_100km"], low=False) is r:
             cons.append({"code": "fuel_heavy", "v": pl["kg_per_seat_100km"]})
+    if pl.get("overbooked"):
+        cons.append({"code": "overbooked", "v": pl["fleet"], "need": pl["n_op"]})
     binds = [p for p in pl["pairs"] if p["min_binds"]]
     if binds:
         cons.append({"code": "min_freq_binds", "n": len(binds), "of": len(pl["pairs"]),
@@ -436,7 +524,8 @@ def _pros_cons(r: dict, ok: list, a: dict) -> tuple[list, list]:
 
 
 def _notes(ok: list, a: dict, partial: list, fare_est: list | None = None) -> list:
-    out = [{"code": "elasticity", "v": a["elasticity"]}]
+    fleet_mode = a.get("mode") == "fleet"
+    out = [] if fleet_mode else [{"code": "elasticity", "v": a["elasticity"]}]
     if fare_est:
         out.append({"code": "fare_estimated", "pairs": fare_est})
     if a.get("fare_conv") is not None and abs(a["fare_conv"] - 1.0) < 1e-9:
@@ -445,7 +534,7 @@ def _notes(ok: list, a: dict, partial: list, fare_est: list | None = None) -> li
         out.append({"code": "partial_pairs", "pairs": partial})
     sk = sorted({k for r in ok for k in r["plan"]["skipped"]})
     if sk:
-        out.append({"code": "no_market", "pairs": sk})
+        out.append({"code": "pairs_off" if fleet_mode else "no_market", "pairs": sk})
     est = sorted({p["key"] for r in ok for p in r["plan"]["pairs"]
                   if (p["market_src"] or "").startswith("оценка")})
     if est:
@@ -456,6 +545,6 @@ def _notes(ok: list, a: dict, partial: list, fare_est: list | None = None) -> li
         out.append({"code": "market_model", "pairs": mod})
     if any(not r["parts_ok"] for r in ok):
         out.append({"code": "no_parts", "types": [r["icao"] for r in ok if not r["parts_ok"]]})
-    if any(r["plan"]["share"] >= a["share_cap"] - 1e-9 for r in ok):
+    if not fleet_mode and any(r["plan"]["share"] >= a["share_cap"] - 1e-9 for r in ok):
         out.append({"code": "share_cap", "v": a["share_cap"]})
     return out

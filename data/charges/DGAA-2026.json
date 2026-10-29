@@ -1,0 +1,242 @@
+{
+ "icao": "DGAA",
+ "valid_from": "2026-10-29",
+ "source": "Ghana Airports Company Ltd, страница «Charges – Accra International Airport» (дата действия не указана; valid_from = дата проверки). Тарифы Intercontinental/Domestic; Sub-Regional (рейсы до 4 ч) не заведены — условия длительности рейса в словаре нет, при этом рейсы в Западную Африку получат ставку Intercontinental. НЕ ЗАВЕДЕНО: пассажирский сервисный сбор (на странице отсутствует; по новостям — сбор в бюджете 2026), ночная/пиковая колонка sub-regional",
+ "source_url": "https://www.gacl.com.gh/charges/",
+ "publisher": "Ghana Airports Company Limited (GACL)",
+ "checked_at": "2026-10-29",
+ "certainty": "reading_unconfirmed",
+ "error_cost": 160.0,
+ "confirm_by": "AIP Ghana GEN 4.1 (GCAA) — подтвердить плоские суммы 0-25 т и не-накопительность полос; пассажирский сбор",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 75.0,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "GACL, Aircraft Charges At Accra International Airport, таблица Intercontinental, строка 0-10, столбец «Charges (Per ton) ($)»: 75.0. Прочитано как плоская сумма за посадку: 75 за тонну давало бы ВС 10 т дороже A320 — прочтение не подтверждено"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 75.0,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     10,
+     25
+    ]
+   },
+   "source_note": "GACL, Aircraft Charges At Accra International Airport, таблица Intercontinental, строка 11-25, столбец «Charges (Per ton) ($)»: 75.0. Прочитано как плоская сумма за посадку: 75 за тонну давало бы ВС 10 т дороже A320 — прочтение не подтверждено"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.5,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     25,
+     75
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "GACL, Aircraft Charges At Accra International Airport, таблица Intercontinental, строка 26-75, столбец «Charges (Per ton) ($)»: 5.5. Ставка на всю массу ВС по полосе (не накопительно) — прочтение не подтверждено документом"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 7.0,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     75,
+     150
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "GACL, Aircraft Charges At Accra International Airport, таблица Intercontinental, строка 76-150, столбец «Charges (Per ton) ($)»: 7.0. Ставка на всю массу ВС по полосе (не накопительно) — прочтение не подтверждено документом"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 7.2,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "GACL, Aircraft Charges At Accra International Airport, таблица Intercontinental, строка Over 150, столбец «Charges (Per ton) ($)»: 7.2. Ставка на всю массу ВС по полосе (не накопительно) — прочтение не подтверждено документом"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.0,
+   "currency": "USD",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "GACL, таблица Domestic, строка 0-10, «Charges (Per ton) ($)»: 5.0. ВНИМАНИЕ: внутренние ставки за тонну выше международных — так в документе"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.0,
+   "currency": "USD",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     10,
+     25
+    ]
+   },
+   "source_note": "GACL, таблица Domestic, строка 11-25, «Charges (Per ton) ($)»: 10.0. ВНИМАНИЕ: внутренние ставки за тонну выше международных — так в документе"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 15.0,
+   "currency": "USD",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     25,
+     75
+    ]
+   },
+   "source_note": "GACL, таблица Domestic, строка 26-75, «Charges (Per ton) ($)»: 15.0. ВНИМАНИЕ: внутренние ставки за тонну выше международных — так в документе"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 20.0,
+   "currency": "USD",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     75,
+     150
+    ]
+   },
+   "source_note": "GACL, таблица Domestic, строка 76-150, «Charges (Per ton) ($)»: 20.0. ВНИМАНИЕ: внутренние ставки за тонну выше международных — так в документе"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 25.0,
+   "currency": "USD",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "GACL, таблица Domestic, строка Over 150, «Charges (Per ton) ($)»: 25.0. ВНИМАНИЕ: внутренние ставки за тонну выше международных — так в документе"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "rate": 0.15,
+   "currency": "USD",
+   "threshold": 1,
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "GACL, Aircraft Parking, International Charges: «The first one(1) hour is free; thereafter a rate of $0.15 per ton per hour is applied.»"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "rate": 0.15,
+   "currency": "USD",
+   "threshold": 5,
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic"
+   },
+   "source_note": "GACL, Aircraft Parking, Domestic Charges: первые 5 часов бесплатно, далее $0.15 за тонну в час"
+  },
+  {
+   "code": "lighting",
+   "base": "per_turnaround",
+   "rate": 187.5,
+   "currency": "USD",
+   "events": "turnaround",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "night": true
+   },
+   "source_note": "GACL, Lighting, International Charges: $187.50 «for landing and/or takeoff» между закатом и рассветом или при включении огней по погоде. Заведено одной суммой на обслуживание (у sub-regional отдельная ставка за «landing only or takeoff»)"
+  },
+  {
+   "code": "lighting",
+   "base": "per_turnaround",
+   "rate": 120.0,
+   "currency": "USD",
+   "events": "turnaround",
+   "when": {
+    "flight": "domestic",
+    "night": true
+   },
+   "source_note": "GACL, Lighting, Domestic Charges: $120.00 за посадку и/или взлёт в тёмное время"
+  }
+ ]
+}

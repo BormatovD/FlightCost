@@ -180,6 +180,42 @@ def read_dump(blob: bytes, *, to_icao: dict[str, str] | None = None) -> list[dic
     return out
 
 
+# Во сколько раз медиана новой выгрузки может отличаться от накопленной по тем
+# же ключам, прежде чем выгрузка считается выгрузкой в другой валюте. Сбор
+# 14.09.2026 лёг рублями под подписью EUR (×95): по коротким парам его
+# поймала проверка «EUR за км», по длинным — ничто, 526 минимумов. Курсы
+# валют к евро, которые путаются с ним, — от 0,8 (GBP) до сотен (RUB, INR, KZT);
+# порог 4 пропускает живое движение цен (сезон, распродажа — в разы реже) и
+# ловит любую путаницу с валютой, кроме фунта и франка.
+DRIFT_MAX, DRIFT_MIN_KEYS = 4.0, 5
+
+
+def currency_drift(store, rows: list[dict]) -> tuple[float, int] | None:
+    """Медиана отношений «новая выгрузка / накопленное» по общим ключам.
+
+    Сравнение — по ключу целиком (пара, полоса глубины, прямой/с пересадкой)
+    и в той же подписи валюты: другую подпись `aggregate` и так не смешает.
+    Накопленное — из других дней сбора, чтобы повторный разбор той же
+    выгрузки не сравнивал её сама с собой. None — общих ключей мало,
+    сравнивать не с чем (первая выгрузка, новые пары).
+    """
+    import statistics
+    by_key: dict[tuple[str, str], list[float]] = {}
+    days = {r["note"] for r in rows}
+    for r in rows:
+        by_key.setdefault((r["key"], r["unit"]), []).append(r["value"])
+    ratios = []
+    for (key, unit), vals in by_key.items():
+        old = [v for v, n in store.db.execute(
+            "SELECT value, note FROM observations WHERE kind = ? AND key = ? AND unit = ?",
+            (KIND, key, unit)) if n not in days]
+        if len(old) >= 3:
+            ratios.append(statistics.median(vals) / statistics.median(old))
+    if len(ratios) < DRIFT_MIN_KEYS:
+        return None
+    return statistics.median(ratios), len(ratios)
+
+
 def collect(store, dump: list[dict], *, source_id: str = "market_fare") -> dict:
     """Дневные минимумы -> таблица наблюдений.
 
@@ -199,6 +235,17 @@ def collect(store, dump: list[dict], *, source_id: str = "market_fare") -> dict:
         source_id=source_id, ref=d["carrier"] or None,
         note=d["observed_at"].isoformat(),
     ) for d in dump]
+    drift = currency_drift(store, rows) if rows else None
+    if drift and not (1 / DRIFT_MAX <= drift[0] <= DRIFT_MAX):
+        # Выгрузка целиком в другой валюте под чужой подписью — не пишется:
+        # частично верной она не бывает, а записанная, она тянет медианы.
+        return {"added": 0, "duplicate": 0, "pairs": len({d["pair"] for d in dump}),
+                "bands": [], "untranslated": [], "skipped": len(rows),
+                "currency_from_link": rep.get("currency_from_link", 0),
+                "no_currency_column": rep.get("no_currency", False),
+                "refused": (f"цены в {drift[0]:.0f} раз(а) отличаются от накопленных по тем же "
+                            f"{drift[1]} линиям — похоже на другую валюту под подписью "
+                            f"{rows[0]['unit']}; выгрузка не записана")}
     st = store.add_observations(rows)
     st["pairs"] = len({d["pair"] for d in dump})
     st["bands"] = sorted({d["band"] for d in dump})
@@ -265,8 +312,8 @@ def explain(store, pair: str, *, min_obs: int = MIN_OBS) -> list[str]:
 # Правдоподобие цены по расстоянию, в евро. Медиана дневных МИНИМУМОВ
 # дороже и 1 500 EUR, и 2 EUR за километр, или дешевле 5 EUR — это не
 # рынок. Две причины: подпись валюты не та (рубли под евро — ×90, евро под
-# рублями — «99 RUB») или выброс агрегатора (в кэше по датам остались одни
-# дорогие тарифы: EDDF–LSZH 4 259 EUR на 286 км). Настоящие минимумы лежат
+# рублями — «99 RUB»; рубли под евро — сбор 14.09.2026, EDDF–LSZH «4 259 EUR»
+# на 286 км, см. currency_drift) или выброс агрегатора. Настоящие минимумы лежат
 # в 0,03–0,5 EUR/км; порог грубый нарочно, чтобы дорогая, но живая линия
 # (пересадка, монополия) через него проходила.
 MAX_EUR_FLOOR, MAX_EUR_PER_KM, MIN_EUR = 1500.0, 2.0, 5.0

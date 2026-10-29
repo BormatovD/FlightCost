@@ -1,0 +1,16 @@
+{
+ "doc_ok": true,
+ "doc_note": "DHMİ 2026 Airport Charges REV.01, in force as of 15.07.2026 — совпадает. Пассажирское правило — из другого документа (KÖİ 2025, istairport.com), там 15,00 EUR подтверждено.",
+ "rules_checked": 6,
+ "rules_ok": 2,
+ "errors": [
+  {
+   "rule": "landing per_tonne_mtow 5,06/10,12 (все 4 правила), when без нижней границы массы",
+   "file": "ставка за т фактической МВМ для любой массы",
+   "doc": "§3a: 'For aircraft with a maximum take-off weight of 20 tons or less, the maximum take-off weight is calculated as 20 tons' (0–2 т — по своей массе)",
+   "fix": "добавить mtow_t [20,650] к четырём правилам и правила per_movement для (2,20]: 101,20 (5,06×20) в сезоны скидки и 202,40 (10,12×20) сентябрь–октябрь и cargo — как в LTFM"
+  }
+ ],
+ "unreachable": false,
+ "note": "Ставки 10,12 и 50% скидка п.3b (01.01–31.08, 01.11–31.12.2026, только пассажирские) и подход 56,68 'per landing' (светотехника 62,76) подтверждены; reading_unconfirmed по подходу можно снять. valid_from пассажирского правила 2025-01-25 взят из англ. PPP Tariff, в турецкой KÖİ 2025 — 01.01.2025. §3a: 'rounded to 1.000 kgs' без направления — ceil_tonne допущение. Ошибка с 20 т для A320 на расчёт не влияет."
+}

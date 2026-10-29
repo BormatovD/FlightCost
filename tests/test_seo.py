@@ -164,6 +164,23 @@ class SeoHttp(unittest.TestCase):
         self.assertIn("<td class='r tx'>2× ПД-14</td>", body)
         self.assertIn('<table class=spec>', body)
 
+    def test_type_page_offers_own_variant(self):
+        """Решение 231: со страницы типа — свой вариант (копия с правкой)
+        и черновик со свободным ключом, с якорем рейсом у типа каталога."""
+        st, body, _ = self.get("/ru/type/MS21")
+        if 'id="edopen"' not in body:
+            self.skipTest("MS21 в этом хранилище не считается — кнопки нет")
+        self.assertIn('id="edcfg"', body)
+        st, body, _ = self.get("/api/aircraft/draft?icao=MS21")
+        self.assertEqual(st, 200)
+        import json
+        d = json.loads(body)
+        self.assertTrue(d["icao"].startswith("USER:MS21-MY"))
+        b = d.get("burn")
+        if b is not None:      # без физики и аналога копия честно без расхода
+            self.assertTrue(b.get("same_engine") or b.get("anchor_trip_kg") or b.get("anchor_kg_per_h"),
+                            "копия без калибровки расхода")
+
     def test_types_index(self):
         st, body, _ = self.get("/en/types")
         self.assertEqual(st, 200)

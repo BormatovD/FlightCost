@@ -1,0 +1,187 @@
+{
+ "icao": "DAAG",
+ "valid_from": "2013-05-12",
+ "source": "Décret exécutif n°13-177 du 5 mai 2013 modifiant le décret exécutif n°01-112 (redevances aéronautiques), JO RADP n°25 du 12.05.2013, ст. 2 — посадка, международный трафик. Декрет 20-74 (2020) посадку не менял. НЕ ЗАВЕДЕНО: сбор за пассажирские сооружения (по вторичному источнику — декрет JO n°6 2016: 1300 DA с пассажира за рубеж из Алжира; первоисточник не найден), стоянка, светосигнальное, внутренние ставки посадки",
+ "source_url": "https://sia-enna.dz/PDF/regulation/executive_decrees/fr/JO_25-2013-FR.pdf",
+ "publisher": "Правительство Алжира (décret exécutif); копия JO на сайте SIA/ENNA",
+ "checked_at": "2026-10-29",
+ "certainty": "stale_edition",
+ "error_cost": 1320.0,
+ "confirm_by": "действующий консолидированный текст декрета 01-112 и декрет JO n°6 2016 (joradp.dz); AIP Algérie GEN 4.1",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1712.74,
+   "currency": "DZD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     0,
+     12
+    ]
+   },
+   "source_note": "Décret exécutif 13-177 (JO n°25 2013, с. 18), ст. 2, трафик международный, строка «Jusqu'à 12 tonnes»: постоянная часть"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1712.74,
+   "currency": "DZD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     12,
+     25
+    ]
+   },
+   "source_note": "Décret exécutif 13-177 (JO n°25 2013, с. 18), ст. 2, трафик международный, строка «De 13 à 25 tonnes»: постоянная часть"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 148.9,
+   "currency": "DZD",
+   "events": "landing",
+   "threshold": 12,
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     12,
+     25
+    ]
+   },
+   "variant": "per_tonne",
+   "source_note": "там же, «De 13 à 25 tonnes»: 148.9 DA/tonne supplémentaire — сверх 12 т (накопление сходится: 11432,61+25×332,92≈19755,69). Неполная тонна округлена вверх — в декрете не оговорено"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 3648.51,
+   "currency": "DZD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Décret exécutif 13-177 (JO n°25 2013, с. 18), ст. 2, трафик международный, строка «De 26 à 50 tonnes»: постоянная часть"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 311.36,
+   "currency": "DZD",
+   "events": "landing",
+   "threshold": 25,
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "variant": "per_tonne",
+   "source_note": "там же, «De 26 à 50 tonnes»: 311.36 DA/tonne supplémentaire — сверх 25 т (накопление сходится: 11432,61+25×332,92≈19755,69). Неполная тонна округлена вверх — в декрете не оговорено"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 11432.61,
+   "currency": "DZD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     50,
+     75
+    ]
+   },
+   "source_note": "Décret exécutif 13-177 (JO n°25 2013, с. 18), ст. 2, трафик международный, строка «De 51 à 75 tonnes»: постоянная часть"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 332.92,
+   "currency": "DZD",
+   "events": "landing",
+   "threshold": 50,
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     50,
+     75
+    ]
+   },
+   "variant": "per_tonne",
+   "source_note": "там же, «De 51 à 75 tonnes»: 332.92 DA/tonne supplémentaire — сверх 50 т (накопление сходится: 11432,61+25×332,92≈19755,69). Неполная тонна округлена вверх — в декрете не оговорено"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 19755.69,
+   "currency": "DZD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     75,
+     650
+    ]
+   },
+   "source_note": "Décret exécutif 13-177 (JO n°25 2013, с. 18), ст. 2, трафик международный, строка «Au dessus de 75 tonnes»: постоянная часть"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 483.42,
+   "currency": "DZD",
+   "events": "landing",
+   "threshold": 75,
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     75,
+     650
+    ]
+   },
+   "variant": "per_tonne",
+   "source_note": "там же, «Au dessus de 75 tonnes»: 483.42 DA/tonne supplémentaire — сверх 75 т (накопление сходится: 11432,61+25×332,92≈19755,69). Неполная тонна округлена вверх — в декрете не оговорено"
+  }
+ ]
+}

@@ -1,0 +1,1700 @@
+{
+ "icao": "FAOR",
+ "valid_from": "2026-04-01",
+ "source": "Airports Company South Africa, Airport charges, General Notice 3720 of 2026, Government Gazette No. 53922 от 02.01.2026, действует с 01.04.2026 (Schedule, Annexures A–C). Единый тариф на все аэропорты компании (company airports); ставки без НДС",
+ "source_url": "https://www.gov.za/sites/default/files/gcis_document/202601/53922gen3720.pdf",
+ "publisher": "Airports Company South Africa SOC Ltd; ставки утверждает Regulating Committee",
+ "checked_at": "2026-10-29",
+ "certainty": "exact",
+ "icao_note": "Не заведены: стоянка >400 т (+481,29 за каждые 100 т), льготы вертолётов/учебных полётов, НДС 15%. Регион BLNS задан перечнем ИКАО аэропортов с регулярными рейсами — неперечисленный аэропорт BLNS пойдёт по международной ставке. Посадка зависит от аэропорта ВЫЛЕТА, PSC — от аэропорта ВЫСАДКИ.",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 81.79,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     0,
+     0.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 121.26,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     0.5,
+     1
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 1000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 155.03,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     1,
+     1.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 1500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 187.22,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     1.5,
+     2
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 2000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 220.96,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     2,
+     2.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 2500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 254.7,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     2.5,
+     3
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 3000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 355.48,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 4000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 453.54,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     4,
+     5
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 5000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 552.68,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     5,
+     6
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 6000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 654.99,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     6,
+     7
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 7000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 753.66,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     7,
+     8
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 8000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 847.98,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     8,
+     9
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 9000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 952.45,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР, строка MTOW до 10000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 952.45,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР: ставка строки 10 000 кг как постоянная часть для MTOW свыше 10 т, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 10.0,
+   "rate": 69.7,
+   "currency": "ZAR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": "domestic",
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 1, вылет из ЮАР: «and thereafter, for every additional 2 000 kg or part thereof» 139.40 ZAR; разложено как 69.70 за тонну сверх 10 т. Шаг 2 т с округлением вверх в схеме не выражается: при нечётном числе начатых тонн сверх 10 т занижение до 69.70 ZAR"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 92.22,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     0,
+     0.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 142.91,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     0.5,
+     1
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 1000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 201.94,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     1,
+     1.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 1500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 255.75,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     1.5,
+     2
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 2000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 310.61,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     2,
+     2.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 2500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 366.99,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     2.5,
+     3
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 3000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 499.9,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 4000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 631.29,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     4,
+     5
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 5000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 761.52,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     5,
+     6
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 6000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 894.93,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     6,
+     7
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 7000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1024.63,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     7,
+     8
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 8000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1154.94,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     8,
+     9
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 9000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1288.32,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS), строка MTOW до 10000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1288.32,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS): ставка строки 10 000 кг как постоянная часть для MTOW свыше 10 т, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 10.0,
+   "rate": 107.06,
+   "currency": "ZAR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ],
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 2, вылет из Ботсваны, Лесото, Намибии, Свазиленда (условие other — перечень аэропортов BLNS): «and thereafter, for every additional 2 000 kg or part thereof» 214.12 ZAR; разложено как 107.06 за тонну сверх 10 т. Шаг 2 т с округлением вверх в схеме не выражается: при нечётном числе начатых тонн сверх 10 т занижение до 107.06 ZAR"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 102.88,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     0,
+     0.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 165.05,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     0.5,
+     1
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 1000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 248.39,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     1,
+     1.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 1500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 323.25,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     1.5,
+     2
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 2000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 399.76,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     2,
+     2.5
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 2500 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 478.28,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     2.5,
+     3
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 3000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 645.46,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 4000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 808.46,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     4,
+     5
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 5000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 969.8,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     5,
+     6
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 6000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1133.86,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     6,
+     7
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 7000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1294.64,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     7,
+     8
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 8000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1459.21,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     8,
+     9
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 9000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1624.26,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств, строка MTOW до 10000 кг включительно, Per single landing, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1624.26,
+   "currency": "ZAR",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств: ставка строки 10 000 кг как постоянная часть для MTOW свыше 10 т, VAT Exclusive"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "threshold": 10.0,
+   "rate": 142.1,
+   "currency": "ZAR",
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    },
+    "mtow_t": [
+     10,
+     650
+    ]
+   },
+   "source_note": "Annexure A, табл. 3, вылет из прочих государств: «and thereafter, for every additional 2 000 kg or part thereof» 284.20 ZAR; разложено как 142.10 за тонну сверх 10 т. Шаг 2 т с округлением вверх в схеме не выражается: при нечётном числе начатых тонн сверх 10 т занижение до 142.10 ZAR"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 61.85,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 2000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 61.85,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 2000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 127.15,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     2,
+     3
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 3000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 127.15,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     2,
+     3
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 3000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 181.06,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 4000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 181.06,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 4000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 248.6,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     4,
+     5
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 5000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 248.6,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     4,
+     5
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 5000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 366.03,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     5,
+     10
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 10000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 366.03,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     5,
+     10
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 10000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 481.29,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     10,
+     15
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 15000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 481.29,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     10,
+     15
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 15000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 606.7,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     15,
+     20
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 20000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 606.7,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     15,
+     20
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 20000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 724.18,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     20,
+     25
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 25000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 724.18,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     20,
+     25
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 25000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 958.0,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 50000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 958.0,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     25,
+     50
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 50000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1192.4,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     50,
+     75
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 75000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1192.4,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     50,
+     75
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 75000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1429.6,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     75,
+     100
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 100000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1429.6,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     75,
+     100
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 100000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1798.45,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     100,
+     150
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 150000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 1798.45,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     100,
+     150
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 150000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 2170.23,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     150,
+     200
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 200000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 2170.23,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     150,
+     200
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 200000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 2481.24,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     200,
+     300
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 300000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 2481.24,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     200,
+     300
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 300000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 3125.13,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     300,
+     400
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 400000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_day_above",
+   "threshold": 4.0,
+   "rate": 3125.13,
+   "currency": "ZAR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     300,
+     400
+    ]
+   },
+   "source_note": "Annexure B, MTOW до 400000 кг включительно, Per 24 hours or part thereof, VAT Exclusive; бесплатно первые 4 ч, далее за каждые 24 ч или часть от 4-го часа (cl. 5); удвоение на стоянке с телетрапом (cl. 5) — вторая такая же ставка"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 105.05,
+   "currency": "ZAR",
+   "when": {
+    "flight": "domestic"
+   },
+   "source_note": "Annexure C, Passenger service charge per embarking passenger, высадка в ЮАР, VAT Exclusive. Не считаются: сквозной транзит без высадки, дети до 2 лет (cl. 6(2))"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 217.8,
+   "currency": "ZAR",
+   "when": {
+    "other": [
+     "FBSK",
+     "FBMN",
+     "FBKE",
+     "FBFT",
+     "FBSP",
+     "FXMM",
+     "FYWH",
+     "FYWE",
+     "FYWB",
+     "FYOA",
+     "FDSK",
+     "FDMS"
+    ]
+   },
+   "source_note": "Annexure C, Passenger service charge per embarking passenger, высадка в Ботсване, Лесото, Намибии, Свазиленде, VAT Exclusive. Не считаются: сквозной транзит без высадки, дети до 2 лет (cl. 6(2))"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 287.0,
+   "currency": "ZAR",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "FBSK",
+      "FBMN",
+      "FBKE",
+      "FBFT",
+      "FBSP",
+      "FXMM",
+      "FYWH",
+      "FYWE",
+      "FYWB",
+      "FYOA",
+      "FDSK",
+      "FDMS"
+     ]
+    }
+   },
+   "source_note": "Annexure C, Passenger service charge per embarking passenger, высадка в прочих государствах, VAT Exclusive. Не считаются: сквозной транзит без высадки, дети до 2 лет (cl. 6(2))"
+  }
+ ]
+}

@@ -1,0 +1,491 @@
+{
+ "icao": "LSZH",
+ "valid_from": "2026-10-01",
+ "source": "Flughafen Zürich AG, Gebührenreglement für den Flughafen Zürich, Version 3.9, gültig ab 1. Oktober 2026",
+ "source_url": "https://media.flughafen-zuerich.ch/-/jssmedia/airport/portal/dokumente/business/airlines-and-handling/flight-operations/schedule-of-charges/gebhrenreglement_de_2026.pdf?vs=1&rev=301b9e9c4c9e46dabb0db88424e352b4&sc_lang=de&sc_site=dxp-portal",
+ "publisher": "Flughafen Zürich AG; надзор BAZL (FGV)",
+ "checked_at": "2026-10-29",
+ "scales": {
+  "noise_cat": 5
+ },
+ "categories": {
+  "noise_cat": {
+   "source_note": "Anhang A.2: Lärmklassen I–V для реактивных — по измерениям аэропорта (отклонение среднего уровня типа от среднего по аэропорту, пороги ±1.5 и ±4.5 dB(A)), поимённый список; римские I–V записаны как 1–5. Не заведены варианты с двигателем: A20N и A21N стоят в разных классах по двигателю (A20N: GTF — IV, LEAP — V; A21N: GTF — III, LEAP — IV), E35L (650/600) — IV/V; признака двигателя в словаре нет. Типы вне списка документ классифицирует временно по шумовому сертификату — правила для этого нет",
+   "named": {
+    "A333": 1,
+    "A124": 1,
+    "B722": 1,
+    "B744": 1,
+    "B772": 1,
+    "B773": 1,
+    "MD11": 1,
+    "MD81": 1,
+    "MD82": 1,
+    "MD83": 1,
+    "IL76": 1,
+    "GLF2": 1,
+    "GLF3": 1,
+    "A306": 2,
+    "A310": 2,
+    "A321": 2,
+    "A332": 2,
+    "A342": 2,
+    "A343": 2,
+    "A345": 2,
+    "A346": 2,
+    "A388": 2,
+    "B762": 2,
+    "B763": 2,
+    "B764": 2,
+    "B77L": 2,
+    "B77W": 2,
+    "MD87": 2,
+    "FA50": 2,
+    "G150": 2,
+    "BE40": 2,
+    "IL96": 2,
+    "T154": 2,
+    "YK40": 2,
+    "YK42": 2,
+    "A320": 3,
+    "B712": 3,
+    "ASTR": 3,
+    "B733": 3,
+    "B734": 3,
+    "B738": 3,
+    "B739": 3,
+    "B39M": 3,
+    "B752": 3,
+    "B753": 3,
+    "GL7T": 3,
+    "C650": 3,
+    "E170": 3,
+    "E75S": 3,
+    "E75L": 3,
+    "E195": 3,
+    "FA20": 3,
+    "F900": 3,
+    "FA7X": 3,
+    "GLF4": 3,
+    "T204": 3,
+    "WW23": 3,
+    "WW24": 3,
+    "A318": 4,
+    "A319": 4,
+    "A359": 4,
+    "A35K": 4,
+    "B735": 4,
+    "B736": 4,
+    "B737": 4,
+    "B38M": 4,
+    "B788": 4,
+    "B789": 4,
+    "PRM1": 4,
+    "GL5T": 4,
+    "GLEX": 4,
+    "CL30": 4,
+    "CL35": 4,
+    "CRJ7": 4,
+    "CRJ9": 4,
+    "CRJX": 4,
+    "MD90": 4,
+    "J328": 4,
+    "E55P": 4,
+    "FA10": 4,
+    "F2TH": 4,
+    "F70": 4,
+    "F100": 4,
+    "GALX": 4,
+    "G280": 4,
+    "GLF5": 4,
+    "GLF6": 4,
+    "HA4T": 4,
+    "LJ31": 4,
+    "LJ35": 4,
+    "LJ55": 4,
+    "BE4W": 4,
+    "BCS1": 5,
+    "BCS3": 5,
+    "A19N": 5,
+    "RJ1H": 5,
+    "RJ70": 5,
+    "RJ85": 5,
+    "B461": 5,
+    "B462": 5,
+    "B463": 5,
+    "CL60": 5,
+    "CRJ1": 5,
+    "CRJ2": 5,
+    "C25A": 5,
+    "C25B": 5,
+    "C25C": 5,
+    "C25M": 5,
+    "C500": 5,
+    "C501": 5,
+    "C510": 5,
+    "C525": 5,
+    "C550": 5,
+    "C551": 5,
+    "C55B": 5,
+    "C560": 5,
+    "C56X": 5,
+    "C680": 5,
+    "C68A": 5,
+    "C700": 5,
+    "C750": 5,
+    "E135": 5,
+    "E145": 5,
+    "E275": 5,
+    "E290": 5,
+    "E295": 5,
+    "E50P": 5,
+    "H25A": 5,
+    "H25B": 5,
+    "H25C": 5,
+    "LJ45": 5,
+    "LJ60": 5,
+    "LJ70": 5,
+    "LJ75": 5,
+    "E545": 5,
+    "E550": 5,
+    "EA50": 5,
+    "FA6X": 5,
+    "FA8X": 5,
+    "GA5C": 5,
+    "GA6C": 5,
+    "GA7C": 5,
+    "HDJT": 5,
+    "LJ40": 5,
+    "PC24": 5,
+    "SF50": 5,
+    "SU95": 5
+   }
+  }
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 84.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     0,
+     15
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 1-3 (Anhang A.1: >0…≤15 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 7.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     0,
+     15
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 1-3. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 159.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     15,
+     25
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 4 (Anhang A.1: >15…≤25 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 12.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     15,
+     25
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 4. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 423.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     25,
+     51
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 5 (Anhang A.1: >25…≤51 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 42.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     25,
+     51
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 5. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 777.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     51,
+     100
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 6 (Anhang A.1: >51…≤100 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 70.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     51,
+     100
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 6. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1495.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 7 (Anhang A.1: >100…≤200 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 116.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     100,
+     200
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 7. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 2490.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     200,
+     400
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 8 (Anhang A.1: >200…≤400 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 162.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     200,
+     400
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 8. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 4117.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     400,
+     650
+    ]
+   },
+   "source_note": "Ziff. 2.2.1, Tabelle 1, MTOM-Klasse 9 (Anhang A.1: >400…≤650 т), CHF за посадку"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour",
+   "rate": 209.0,
+   "currency": "CHF",
+   "events": "turnaround",
+   "when": {
+    "mtow_t": [
+     400,
+     650
+    ]
+   },
+   "source_note": "Ziff. 2.2.4, Tabelle 8 «Parkgebühr (pro Stunde) im Bereich L/C», Kl. 9. Документ: тарификация поминутная, с 23:00:01 до 06:00:00 не взимается — база per_hour округляет вверх до часа и ночь не вычитает"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 800.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "noise_cat": 1
+   },
+   "source_note": "Ziff. 2.2.2, Tabelle 2 Tageslärmgebühr pro Landung, Lärmklasse 1. НЕ ЗАВЕДЕНЫ надбавки Tagesrand/Nacht (Tabellen 3, 4) по точному времени ABT/TDT — в словаре только признак night без часовых окон"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 400.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "noise_cat": 2
+   },
+   "source_note": "Ziff. 2.2.2, Tabelle 2 Tageslärmgebühr pro Landung, Lärmklasse 2. НЕ ЗАВЕДЕНЫ надбавки Tagesrand/Nacht (Tabellen 3, 4) по точному времени ABT/TDT — в словаре только признак night без часовых окон"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 200.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "noise_cat": 3
+   },
+   "source_note": "Ziff. 2.2.2, Tabelle 2 Tageslärmgebühr pro Landung, Lärmklasse 3. НЕ ЗАВЕДЕНЫ надбавки Tagesrand/Nacht (Tabellen 3, 4) по точному времени ABT/TDT — в словаре только признак night без часовых окон"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 100.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "noise_cat": 4
+   },
+   "source_note": "Ziff. 2.2.2, Tabelle 2 Tageslärmgebühr pro Landung, Lärmklasse 4. НЕ ЗАВЕДЕНЫ надбавки Tagesrand/Nacht (Tabellen 3, 4) по точному времени ABT/TDT — в словаре только признак night без часовых окон"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 0.0,
+   "currency": "CHF",
+   "events": "landing",
+   "when": {
+    "noise_cat": 5
+   },
+   "source_note": "Ziff. 2.2.2, Tabelle 2 Tageslärmgebühr pro Landung, Lärmklasse 5. НЕ ЗАВЕДЕНЫ надбавки Tagesrand/Nacht (Tabellen 3, 4) по точному времени ABT/TDT — в словаре только признак night без часовых окон"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 18.2,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Ziff. 2.3.2, Tabelle 9 Lokalpassagier, CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.0,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "Ziff. 2.3.2, Tabelle 9 Transferpassagier, CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "Ziff. 2.3.1: Transitpassagiere befreit, CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 11.3,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Ziff. 2.3.3, Tabelle 10 Lokalpassagier, CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 6.1,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "Ziff. 2.3.3, Tabelle 10 Transferpassagier, CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "CHF",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "Ziff. 2.3.1: Transit освобождён (принято и для безопасности — проверить), CHF за вылетающего. Без деления по направлениям. Скидка L/C 1–10% по годовому объёму перевозчика не заведена"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.9,
+   "currency": "CHF",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Ziff. 2.3.4, Tabelle 11 Gewerblicher Passagier, CHF за вылетающего"
+  }
+ ]
+}

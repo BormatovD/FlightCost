@@ -1,0 +1,928 @@
+{
+ "icao": "EHAM",
+ "valid_from": "2025-04-01",
+ "source": "Royal Schiphol Group, Schiphol Airport Charges and Conditions (October 2024 edition), effective as of 1 April 2025; столбец as per April 1, 2025",
+ "source_url": "https://schiphol.nl/en/download/b2b/1730376559/3liHCYk4gIQ3nGgkQdWeDQ.pdf",
+ "publisher": "Royal Schiphol Group N.V., надзор ACM",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 24.33,
+   "events": "movement",
+   "when": {
+    "noise_cat": 1,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S1, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 97.3,
+   "events": "landing",
+   "when": {
+    "noise_cat": 1,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S1, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 116.76,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 1,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S1, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 16.54,
+   "events": "movement",
+   "when": {
+    "noise_cat": 2,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S2, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 34.06,
+   "events": "landing",
+   "when": {
+    "noise_cat": 2,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S2, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 36.49,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 2,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S2, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 9.73,
+   "events": "movement",
+   "when": {
+    "noise_cat": 3,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S3, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 20.43,
+   "events": "landing",
+   "when": {
+    "noise_cat": 3,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S3, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 24.33,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 3,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S3, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 7.78,
+   "events": "movement",
+   "when": {
+    "noise_cat": 4,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S4, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 18.49,
+   "events": "landing",
+   "when": {
+    "noise_cat": 4,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S4, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 21.41,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 4,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S4, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 6.32,
+   "events": "movement",
+   "when": {
+    "noise_cat": 5,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S5, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 14.6,
+   "events": "landing",
+   "when": {
+    "noise_cat": 5,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S5, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 17.5,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 5,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S5, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 4.87,
+   "events": "movement",
+   "when": {
+    "noise_cat": 6,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S6, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 9.73,
+   "events": "landing",
+   "when": {
+    "noise_cat": 6,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S6, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 11.68,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 6,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S6, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 3.41,
+   "events": "movement",
+   "when": {
+    "noise_cat": 7,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Connected, категория S7, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 7.78,
+   "events": "landing",
+   "when": {
+    "noise_cat": 7,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S7, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 9.24,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 7,
+    "stand": "pier",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Connected, S7, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 19.46,
+   "events": "movement",
+   "when": {
+    "noise_cat": 1,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S1, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 77.84,
+   "events": "landing",
+   "when": {
+    "noise_cat": 1,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S1, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 93.41,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 1,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S1, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 13.23,
+   "events": "movement",
+   "when": {
+    "noise_cat": 2,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S2, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 27.24,
+   "events": "landing",
+   "when": {
+    "noise_cat": 2,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S2, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 29.19,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 2,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S2, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 7.78,
+   "events": "movement",
+   "when": {
+    "noise_cat": 3,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S3, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 16.35,
+   "events": "landing",
+   "when": {
+    "noise_cat": 3,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S3, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 19.46,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 3,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S3, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 6.23,
+   "events": "movement",
+   "when": {
+    "noise_cat": 4,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S4, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 14.79,
+   "events": "landing",
+   "when": {
+    "noise_cat": 4,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S4, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 17.12,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 4,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S4, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 5.06,
+   "events": "movement",
+   "when": {
+    "noise_cat": 5,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S5, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 11.68,
+   "events": "landing",
+   "when": {
+    "noise_cat": 5,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S5, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 14.01,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 5,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S5, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 3.89,
+   "events": "movement",
+   "when": {
+    "noise_cat": 6,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S6, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 7.78,
+   "events": "landing",
+   "when": {
+    "noise_cat": 6,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S6, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 9.34,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 6,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S6, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 2.72,
+   "events": "movement",
+   "when": {
+    "noise_cat": 7,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": false
+   },
+   "source_note": "Appendix I 2025, строка Disconnected, категория S7, Day 06:00-23:00, € per 1.000 kg (or part thereof), за посадку и за взлёт отдельно (Art. 2 s.2-3). noise_cat 1-7 = S1 (самые шумные, ΔEPNdB > -11) … S7 (ΔEPNdB ≤ -27), Art. 3; stand pier = connected (телетрап доступен, используется или нет), apron = disconnected"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 6.23,
+   "events": "landing",
+   "when": {
+    "noise_cat": 7,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S7, Night 23:00-06:00, столбец landing"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "currency": "EUR",
+   "round_mtow": "ceil_tonne",
+   "rate": 7.39,
+   "events": "takeoff",
+   "when": {
+    "noise_cat": 7,
+    "stand": "apron",
+    "mtow_t": [
+     35,
+     650
+    ],
+    "night": true
+   },
+   "source_note": "Appendix I 2025, Disconnected, S7, Night 23:00-06:00, столбец take-off"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 194.6,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "Art. 2 s.3, ВС ≤ 2.000 kg, connected stand, 2025, плоская сумма за посадку или взлёт. Зависимость от шумовой категории и ночи для лёгких ВС в извлечении не видна — заведено без условий"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 340.55,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     2,
+     35
+    ]
+   },
+   "source_note": "Art. 2 s.3, ВС 2.000-35.000 kg MTOW, connected stand, 2025, плоская сумма за посадку или взлёт. То же замечание о шумовой категории и ночи"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 155.6,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "stand": "apron",
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "Art. 2 s.3, ВС ≤ 2.000 kg, disconnected stand, 2025, плоская сумма за посадку или взлёт. Зависимость от шумовой категории и ночи для лёгких ВС в извлечении не видна — заведено без условий"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 272.3,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "stand": "apron",
+    "mtow_t": [
+     2,
+     35
+    ]
+   },
+   "source_note": "Art. 2 s.3, ВС 2.000-35.000 kg MTOW, disconnected stand, 2025, плоская сумма за посадку или взлёт. То же замечание о шумовой категории и ночи"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 29.75,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Appendix I 2025 / Art. 6, Passenger Service Charge Schiphol Centre, per departing local passenger. Schiphol East (23,80 / 9,98) — терминал деловой авиации, не заведён"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 12.49,
+   "currency": "EUR",
+   "when": {
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Appendix I 2025, Passenger Service Charge Schiphol Centre, per departing transfer/transit passenger"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 22.28,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Appendix I 2025 / Art. 6, Security service charge, per departing local passenger (без деления Centre/East)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 12.45,
+   "currency": "EUR",
+   "when": {
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Appendix I 2025, Security service charge, per departing transfer/transit passenger"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 3.7,
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "currency": "EUR",
+   "when": {
+    "park_h": [
+     6.25,
+     30.25
+    ]
+   },
+   "source_note": "Art. 7 / Appendix I 2025, €3,70 per 1.000 kg per 24 hours or part thereof; бесплатно < 6 ч 15 мин; здесь 1 начатых суток. Исключение ночи 23:00-06:00 из времени стоянки (Art. 7) не выражается — для ночёвки сумма завышена. Стоянка свыше 78 ч не заведена"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 7.4,
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "currency": "EUR",
+   "when": {
+    "park_h": [
+     30.25,
+     54.25
+    ]
+   },
+   "source_note": "Art. 7 / Appendix I 2025, €3,70 per 1.000 kg per 24 hours or part thereof; бесплатно < 6 ч 15 мин; здесь 2 начатых суток. Исключение ночи 23:00-06:00 из времени стоянки (Art. 7) не выражается — для ночёвки сумма завышена. Стоянка свыше 78 ч не заведена"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 11.1,
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "currency": "EUR",
+   "when": {
+    "park_h": [
+     54.25,
+     78.25
+    ]
+   },
+   "source_note": "Art. 7 / Appendix I 2025, €3,70 per 1.000 kg per 24 hours or part thereof; бесплатно < 6 ч 15 мин; здесь 3 начатых суток. Исключение ночи 23:00-06:00 из времени стоянки (Art. 7) не выражается — для ночёвки сумма завышена. Стоянка свыше 78 ч не заведена"
+  }
+ ],
+ "scales": {
+  "noise_cat": 7
+ },
+ "map_node": "src_airport_tariff",
+ "not_applicable": {
+  "emission": "Art. 5 NOx €4,00/кг за посадку и за взлёт — нужны данные двигателя",
+  "noise_surcharge": "Art. 4 Chapter 2/3 surcharge €1 837,80 / €2 756,70 за посадку — только для бортов Chapter 3 и ниже, условия в словаре нет",
+  "prm": "PRM levy на 1.4.2025 в документе «not known yet» (1.4.2024: €1,85) — не заведено",
+  "cargo": "строка Cargo Appendix I — грузовые рейсы, по шагу 4 не заводится",
+  "edition_2026": "Документ содержит столбцы 2026 и 2027, но оговаривает их корректировку по итогам расчётов 31.10.2025 / 31.10.2026; по прессе Schiphol намеревался отказаться от роста 2026 и с 27.04.2026 по 31.03.2027 дал временную скидку на дневные посадочные сборы. Окончательный тариф 2026 не найден — заведён 2025"
+ }
+}

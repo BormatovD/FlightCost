@@ -174,3 +174,79 @@ class WsHttp(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TypeSettings(unittest.TestCase):
+    """Панель «Типы и парк» (решение 221): у каждого типа свои борты,
+    кресла и ставки — и они доходят до расчёта сети этого типа."""
+
+    def test_parse(self):
+        from flightcostapp.serve import Context
+        ts = Context.tset("A320:fleet=20;seats=186|e195:fleet=24;lease=x;bad=1|:fleet=3")
+        self.assertEqual(ts, {"A320": {"fleet": "20", "seats": "186"}, "E195": {"fleet": "24"}})
+
+    def test_reaches_each_type(self):
+        from flightcostapp.serve import Context
+        seen = {}
+
+        class Stub:
+            tset = staticmethod(Context.tset)
+
+            def network(self, q, ip=""):
+                seen[q["ac"]] = q
+                return {"network": {}, "pairs": []}
+
+        q = {"ac": "A320", "types": "A320,E195", "fleet": "20", "seats": "180", "lease": "300000",
+             "tset": "E195:fleet=24;seats=118", "set": ""}
+        Context._net_by_type(Stub(), q, "A320", ["A320", "E195"])
+        self.assertEqual((seen["A320"]["fleet"], seen["A320"]["seats"], seen["A320"]["lease"]),
+                         ("20", "180", "300000"))
+        self.assertEqual((seen["E195"]["fleet"], seen["E195"]["seats"]), ("24", "118"))
+        self.assertNotIn("lease", seen["E195"], "ставка шапки — выбранного типа")
+
+
+class SharedCaches(unittest.TestCase):
+    """С рабочим местом кэши общие: список аэропортов не строится заново
+    на каждый запрос, а отметка открытия не пишется в базу на каждый."""
+
+    def test_airports_built_once_across_workspace_requests(self):
+        from flightcostapp.serve import Context
+        calls = []
+
+        class Base(Context):
+            def __init__(self):                    # без хранилища: только кэш
+                self._apts, self.gdb, self.ws = None, None, None
+
+        base = Base()
+        orig = Context.airports
+
+        def fake(self):
+            if getattr(self, "_base", None) is None and self._apts is None:
+                calls.append(1)
+                self._apts = [{"key": "FRA"}]
+            return orig(self)
+        import copy
+        Base.airports = fake
+        for _ in range(3):
+            c = copy.copy(base)
+            c._base = base
+            self.assertEqual(c.airports(), [{"key": "FRA"}])
+        self.assertEqual(len(calls), 1)
+
+    def test_touch_throttled_but_rotate_takes_effect(self):
+        import tempfile
+        from flightcostapp.guest import GuestDB
+        d = tempfile.mkdtemp()
+        g = GuestDB(f"{d}/u.db")
+        key = g.create("127.0.0.1")
+        self.assertIsNotNone(g.touch(key))
+        writes = []
+        g.db.set_trace_callback(lambda q: writes.append(q) if q.startswith("UPDATE workspaces") else None)
+        for _ in range(5):
+            g.touch(key)
+        self.assertEqual(writes, [])
+        g.db.set_trace_callback(None)
+        ws = g.touch(key)
+        g.rotate(ws)
+        self.assertIsNone(g.touch(key), "старая ссылка не открывает сразу после смены")
+
