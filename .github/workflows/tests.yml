@@ -40,6 +40,7 @@ jobs:
               tests/test_pax.py \
               tests/test_visits.py \
               tests/test_seo.py \
+              tests/test_catalog_fill.py \
               tests/test_network.py \
               tests/test_detour.py \
               tests/test_airspace.py \

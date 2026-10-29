@@ -80,7 +80,7 @@ T = {
         "k_total": "рейс, EUR", "k_seat": "на кресло, EUR", "k_cask": "CASK, евроцент на кресло-км",
         "k_bh": "на блок-час, EUR", "k_be": "безубыточный чек при 80%, EUR",
         "econ_h": "Экономика на маршруте {route}",
-        "econ_lead": ("{km} км по пути полёта, блок {bh} ч, загрузка 80% — {pax} из {seats} кресел, июль. "
+        "econ_lead": ("{km} км по пути полёта, блок {bh} ч, загрузка 80% — {pax} из {seats} кресел (максимум по сертификату), июль. "
                       "Посчитано ядром FlightCost; ставки владения, ТОиР и экипажа — заготовка: на допущениях "
                       "держится {dflt}% суммы."),
         "econ_range": "Паспортная дальность — {range} км.",
@@ -96,6 +96,8 @@ T = {
         "econ_wait": "Расчёт на типовом маршруте готовится — обновите страницу через минуту.",
         "sil_h": "Схема",
         "sil_lead": "Вид сверху в одном масштабе с соседями по классу.",
+        "dev_burn": "Расход топлива — оценка разработчика FlightCost: {src}",
+        "dev_field": "оценка разработчика",
         "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_about": "О сервисе", "nav_data": "Данные",
         "nav_map": "Карта данных",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
@@ -165,7 +167,7 @@ T = {
         "k_total": "flight, EUR", "k_seat": "per seat, EUR", "k_cask": "CASK, euro cents per seat-km",
         "k_bh": "per block hour, EUR", "k_be": "break-even fare at 80%, EUR",
         "econ_h": "Economics on {route}",
-        "econ_lead": ("{km} km along the flight path, {bh} h block, 80% load factor — {pax} of {seats} seats, July. "
+        "econ_lead": ("{km} km along the flight path, {bh} h block, 80% load factor — {pax} of {seats} seats (certified maximum), July. "
                       "Calculated by the FlightCost engine; ownership, maintenance and crew rates are defaults: "
                       "{dflt}% of the total rests on assumptions."),
         "econ_range": "Published range: {range} km.",
@@ -181,6 +183,8 @@ T = {
         "econ_wait": "The typical-route calculation is being prepared — reload the page in a minute.",
         "sil_h": "Drawing",
         "sil_lead": "Top view at the same scale as its class neighbours.",
+        "dev_burn": "Fuel burn is a FlightCost developer estimate: {src}",
+        "dev_field": "developer estimate",
         "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_about": "About", "nav_data": "Data",
         "nav_map": "Data map",
         "about_title": "About: free airline flight cost calculator | FlightCost",
@@ -250,7 +254,7 @@ T = {
         "k_total": "Flug, EUR", "k_seat": "je Sitz, EUR", "k_cask": "CASK, Eurocent je Sitz-km",
         "k_bh": "je Blockstunde, EUR", "k_be": "Break-even-Preis bei 80 %, EUR",
         "econ_h": "Wirtschaftlichkeit auf {route}",
-        "econ_lead": ("{km} km entlang der Flugroute, {bh} h Blockzeit, 80 % Auslastung — {pax} von {seats} Sitzen, Juli. "
+        "econ_lead": ("{km} km entlang der Flugroute, {bh} h Blockzeit, 80 % Auslastung — {pax} von {seats} Sitzen (zugelassenes Maximum), Juli. "
                       "Berechnet vom FlightCost-Kern; Besitz-, Wartungs- und Crew-Sätze sind Standardwerte: "
                       "{dflt} % der Summe beruhen auf Annahmen."),
         "econ_range": "Reichweite laut Hersteller: {range} km.",
@@ -266,6 +270,8 @@ T = {
         "econ_wait": "Die Rechnung auf der typischen Strecke wird vorbereitet — Seite in einer Minute neu laden.",
         "sil_h": "Zeichnung",
         "sil_lead": "Draufsicht im gleichen Maßstab wie die Nachbarn der Klasse.",
+        "dev_burn": "Treibstoffverbrauch ist eine Schätzung der FlightCost-Entwickler: {src}",
+        "dev_field": "Schätzung der Entwickler",
         "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_about": "Über", "nav_data": "Daten",
         "nav_map": "Datenkarte",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
@@ -402,13 +408,6 @@ def crumbs_ld(items: list[tuple[str, str]]) -> dict:
 
 STYLE = """<style>
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
-header{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line)}
-header .brand{font:600 17px var(--sans);color:var(--ink2);text-decoration:none}
-header .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
-nav a{color:var(--dim);text-decoration:none;margin-right:14px;font-size:13.5px}
-nav a.on,nav a:hover{color:var(--ink2)}
-.lg{margin-left:auto;font-size:12.5px}.lg a{color:var(--dim);text-decoration:none;margin-left:8px}
-.lg a.on{color:var(--ink2);font-weight:600}
 main{max-width:920px;margin:0 auto;padding:22px 22px 70px}
 h1{font-size:26px;line-height:1.25;color:var(--ink2);margin:6px 0 10px}
 h2{font-size:18px;color:var(--ink2);margin:30px 0 8px}
@@ -446,7 +445,7 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .sil svg{max-width:100%;height:auto}.sil .lgd{font-size:12.5px;color:var(--dim)}
 .sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
 .sil .lgd i.o{border-top:2px dashed var(--dim)}
-@media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}header{padding:12px 16px}
+@media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}
   /* Паспорт на телефоне: строка — сетка «параметр | значение», источник под ними. */
   table.spec tr:first-child{display:none}
   table.spec tr{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:7px 10px;
@@ -457,23 +456,54 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 </style>"""
 
 
+NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("data", "/data", "nav_data"),
+       ("map", "/map", "nav_map"), ("about", "/about", "nav_about"))
+LANG_LOCAL = ("data", "map")          # страницы с одним адресом на все языки
+
+
+def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
+    """Шапка сайта. `lang` — язык страницы; None — язык выбирает браузер
+    (данные, карта данных, Impressum): шапка приходит с подписями на трёх
+    языках и маленьким скриптом, который выбирает их так же, как витрина
+    (?lang → сохранённый выбор → язык браузера → английский)."""
+    on_attr = ' class="on"'
+    L = lang or "ru"
+
+    def href(k, p):
+        return p if k in LANG_LOCAL else f"/{L}{p}"
+    labels = lambda key: esc(json.dumps({x: T[x][key] for x in LANGS}, ensure_ascii=False))  # noqa: E731
+    nav = "".join(f'<a href="{href(k, p)}" data-p="{p}" data-l="{labels(key)}"{on_attr if k == on else ""}>'
+                  f'{esc(T[L][key])}</a>' for k, p, key in NAV)
+    if lang:
+        lg = "".join(f'<a href="/{x}{path_tail}" hreflang="{x}"{on_attr if x == lang else ""}>{x.upper()}</a>'
+                     for x in LANGS)
+    else:
+        lg = "".join(f'<a href="?lang={x}" data-x="{x}">{x.upper()}</a>' for x in LANGS)
+    out = (f'<header class="sh"><a class="brand" href="/{L}/" data-p="/">FlightCost'
+           f'<span data-l="{labels("brand_tag")}">{esc(T[L]["brand_tag"])}</span></a>'
+           f'<nav>{nav}</nav><span class="lg">{lg}</span></header>')
+    if not lang:
+        out += ("<script>(function(){var L=['ru','en','de'],q=new URLSearchParams(location.search).get('lang'),s=null;"
+                "try{s=localStorage.getItem('fca.lang')}catch(e){}var g=L.indexOf(q)>=0?q:L.indexOf(s)>=0?s:null;"
+                "if(!g){var n=navigator.languages||[navigator.language||''];for(var i=0;i<n.length&&!g;i++){"
+                "var p=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(p)>=0)g=p}}g=g||'en';"
+                "var h=document.currentScript.previousElementSibling;"
+                "h.querySelectorAll('[data-l]').forEach(function(a){a.textContent=JSON.parse(a.dataset.l)[g]});"
+                "h.querySelectorAll('a[data-p]').forEach(function(a){var p=a.dataset.p;"
+                "if(p!=='/data'&&p!=='/map')a.href='/'+g+p});"
+                "h.querySelectorAll('.lg a').forEach(function(a){if(a.dataset.x===g)a.className='on'})})();</script>")
+    return out
+
+
 def shell(lang: str, path_tail: str, head_html: str, body: str, on: str = "") -> str:
     t = T[lang]
-    nav = [(f"/{lang}/calc", t["nav_calc"], "calc"), (f"/{lang}/types", t["nav_types"], "types"),
-           (f"/{lang}/about", t["nav_about"], "about")]
-    on_attr = ' class="on"'
-    navh = "".join(f'<a href="{p}"{on_attr if k == on else ""}>{esc(n)}</a>' for p, n, k in nav)
-    navh += f'<a href="/data">{esc(t["nav_data"])}</a>'
-    lg = "".join(f'<a href="/{x}{path_tail}" hreflang="{x}"{on_attr if x == lang else ""}>{x.upper()}</a>'
-                 for x in LANGS)
     return f"""<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 {head_html}
 <link rel="stylesheet" href="/ui.css">
 {STYLE}</head><body>
-<header><a class="brand" href="/{lang}/">FlightCost<span>{esc(t["brand_tag"])}</span></a>
-<nav>{navh}</nav><span class="lg">{lg}</span></header>
+{site_header(lang, on, path_tail)}
 <main>{body}</main>
 <footer><a href="{REPO}">GitHub — {esc(t["foot_open"])}</a><a href="/impressum">Impressum</a>
 <a href="/datenschutz">Datenschutz</a></footer>
@@ -499,11 +529,11 @@ def calc_page(lang: str | None, page: str) -> str:
     page = page.replace('href="ui.css"', 'href="/ui.css"').replace('from "./geo.js"', 'from "/geo.js"')
     page = page.replace('from "./globe.js"', 'from "/globe.js"')
     if lang:
-        page = page.replace('href="/about"', f'href="/{lang}/"').replace(
-            'href="/types"', f'href="/{lang}/types"')
+        page = page.replace('href="/about"', f'href="/{lang}/about"').replace(
+            'href="/types"', f'href="/{lang}/types"').replace('href="/" id="homelink"', f'href="/{lang}/" id="homelink"')
     # Заголовок первого уровня и текст без скриптов: у витрины их нет,
     # а поисковик и читалка экрана начинают с них.
-    links = (f'<a href="/{lg}/">{esc(t["nav_about"])}</a> · '
+    links = (f'<a href="/{lg}/about">{esc(t["nav_about"])}</a> · '
              f'<a href="/{lg}/types">{esc(t["nav_types"])}</a>')
     seo = (f'<h1 class="vh">{esc(t["calc_h1"])}</h1>'
            f'<noscript><div class="nojs"><h1>{esc(t["calc_h1"])}</h1><p>{esc(t["calc_desc"])}</p>'
@@ -864,6 +894,10 @@ ROUTES = {"small": ("EDDF", "LOWW"), "regional": ("EDDF", "LOWW"),
 CITY = {"EDDF": ("Франкфурт", "Frankfurt", "Frankfurt"), "LOWW": ("Вена", "Vienna", "Wien"),
         "LEBL": ("Барселона", "Barcelona", "Barcelona"), "ZBAA": ("Пекин", "Beijing", "Peking")}
 ECON_LF, ECON_MONTH = 0.80, 7
+# Метка данных, собранных разработчиком, а не опубликованных издателем
+# (tools/catalog_fill.py ставит её в начало источника якоря расхода и в
+# meta.assumed поля паспорта). Страница типа показывает её словами.
+DEV_PREFIX = "Оценка разработчика FlightCost"
 PROV = {"default": "guess", "fleet": "guess", "estimated": "guess", "derived": "calc", "calc": "calc"}
 
 
@@ -888,7 +922,9 @@ def econ_summary(j: dict) -> dict:
             "cask_ct": total / (seats * km) * 100 if seats and km else None,
             "per_bh": total / bh if bh else None, "be_fare": a.get("breakeven_fare_eur"),
             "feasible": bool(a.get("feasible")), "max_pax": a.get("max_pax"),
-            "limits": [x.get("key") for x in lim], "no_model": any(x.get("key") == "no_model" for x in lim),
+            "limits": [x.get("key") for x in lim],
+            # Нет вычислителя расхода (типа нет в openap) или назван аналог без якоря.
+            "no_model": any(x.get("key") in ("no_model", "no_anchor") for x in lim),
             "cost": [{"item": c["item"], "label": c["label"], "eur": c["eur"], "prov": c.get("prov")}
                      for c in j.get("cost", []) if c.get("eur", 0) > 0.5],
             "default_share": j.get("default_share")}
@@ -970,6 +1006,12 @@ def econ_block(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, ty
     if rng:
         lead += " " + t["econ_range"].format(range=num(rng, lang, 0))
     out.append(f'<p class="dim">{esc(lead)}</p>')
+    bnote = str((by.get("burn_anchor_note") or {}).get("text") or "")
+    if bnote.startswith(DEV_PREFIX):
+        src = bnote[len(DEV_PREFIX):].lstrip(" :—-")
+        if lang != "ru" and CYR.search(src):
+            src = re.sub(r".*?(https?://\S+).*", r"\1", src) if "http" in src else ""
+        out.append(f'<p class="dim p-guess">{esc(t["dev_burn"].format(src=src).rstrip(": "))}</p>')
     if not e["feasible"]:
         why = "; ".join(t["lim"].get(k, k).format(mp=e.get("max_pax")) for k in e["limits"] if k in t["lim"])
         out.append(f'<div class="warn">{esc(t["infeasible"].format(why=why or "—"))}</div>')
@@ -1034,6 +1076,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     rows = []
     if st:
         rows.append((t["status"], t["st"].get(st, st), ("", "")))
+    assumed = dict(x.split(": ", 1) for x in str((by.get("assumed") or {}).get("text") or "").split("; ")
+                   if ": " in x)
     for key, labels in SPEC:
         f = by.get(key)
         if not f or (f.get("value") is None and not f.get("text")):
@@ -1043,7 +1087,9 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
         # по-русски: на английской и немецкой странице такую строку не
         # показываем, а не показываем кириллицу.
         if val and not (lang != "ru" and CYR.search(val)):
-            rows.append((labels[LI[lang]], val, _src(f, lang)))
+            # Поле, собранное разработчиком, а не опубликованное, — так и подписано.
+            dev = assumed.get(key, "").startswith(DEV_PREFIX)
+            rows.append((labels[LI[lang]], val, (t["dev_field"], "") if dev else _src(f, lang)))
     if rows:
         body.append(f"<h2>{esc(t['specs_h'])}</h2><div class=tw><table class=spec><tr><th>{esc(t['col_param'])}</th>"
                     f"<th class=r>{esc(t['col_value'])}</th><th>{esc(t['col_src'])}</th></tr>")

@@ -208,3 +208,19 @@ input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)
   --d-rng:#B85C00;--d-rng-f:#FDEBD5;--d-bad:#B23A1C;
   --t1:#2a78d6;--t2:#1baf7a;--t3:#6250d6;--t4:#eda100;--t5:#e87ba4}
 @media print{.doc.light{--d-paper:#FFFFFF}}
+
+/* ── шапка сайта (seo.site_header) ─────────────────────────────────────
+   Одна на все страницы, кроме рабочего места калькулятора: главная, типы,
+   «о сервисе», данные, карта данных, Impressum. Ссылки ведут на версию на
+   языке страницы; язык страниц без языка в адресе выбирает скрипт шапки. */
+.sh{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap;padding:14px 22px;
+  border-bottom:1px solid var(--line);font-family:var(--sans)}
+.sh .brand{font:600 17px var(--sans);color:var(--ink2);text-decoration:none;white-space:nowrap}
+.sh .brand span{font-weight:400;color:var(--dim);font-size:13px;margin-left:8px}
+.sh nav{display:flex;flex-wrap:wrap;gap:4px 14px}
+.sh nav a{color:var(--dim);text-decoration:none;font-size:13.5px}
+.sh nav a.on,.sh nav a:hover{color:var(--ink2)}
+.sh .lg{margin-left:auto;font-size:12.5px;white-space:nowrap}
+.sh .lg a{color:var(--dim);text-decoration:none;margin-left:8px}
+.sh .lg a.on{color:var(--ink2);font-weight:600}
+@media(max-width:640px){.sh{padding:12px 16px}.sh .brand span{display:none}}

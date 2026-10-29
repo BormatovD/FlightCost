@@ -635,6 +635,7 @@ def to_html(registry: dict | None = None, web: bool = False) -> str:
     ui = ('<link rel="stylesheet" href="/ui.css">' if web
           else style_tag(inline_fonts=True))
     return (_TPL.replace("__UI__", ui)
+                .replace("__SITEHEAD__", "<!--SITE_HEADER:map-->" if web else "")
                 .replace("__NAV__", _WEB_NAV if web else "")
                 .replace("__WEB__", _WEB_JS if web else "")
                 .replace("__DATA__", json.dumps(nodes, ensure_ascii=False))
@@ -727,7 +728,7 @@ form.rt button{background:var(--raise);color:var(--ink2);border:1px solid var(--
 @media(max-width:900px){main{flex-direction:column}aside{width:100%;
  border-left:0;border-top:1px solid var(--line);position:static;max-height:none}}
 </style></head><body>
-<header>
+__SITEHEAD__<header>
 __NAV__<h1>FlightCostApp · карта данных</h1>
 <div class="sub">Каждый узел — величина в расчёте. Клик показывает формулу,
 собственные поля, а также что именно узел получает от каждого входа и что
@@ -865,12 +866,10 @@ setTimeout(() => { drawEdges(null); intro(); }, 60);
 </script></body></html>"""
 
 
-# Меню и форма маршрута для /map. Фразы — в _t("…"), чтобы их видел
+# Форма маршрута для /map (шапку сайта вставляет сервер: seo.site_header). Фразы — в _t("…"), чтобы их видел
 # каталог переводов (tests/test_i18n.py читает и этот файл). Узлы карты
 # пока по-русски: это словарь модели, переводится отдельным шагом.
-_WEB_NAV = """<nav class="site"><b>FlightCost</b><a href="/calc" id="nav-calc">Расчёт</a>
-<a href="/map" class="on" id="nav-map">Карта данных</a><a href="/data" id="nav-data">Данные</a></nav>
-<form class="rt" id="rt"><input id="fo" placeholder="FRA"> <span>→</span> <input id="fd" placeholder="BCN">
+_WEB_NAV = """<form class="rt" id="rt"><input id="fo" placeholder="FRA"> <span>→</span> <input id="fd" placeholder="BCN">
 <input id="fac" placeholder="A320"> <button type="submit" id="fgo">Показать на маршруте</button>
 <span id="rmsg"></span></form>
 """
@@ -899,9 +898,6 @@ const PV = {store: "var(--doc)", source: "var(--src)", input: "var(--user)", ove
             derived: "var(--calc)", default: "var(--guess)", fleet: "var(--guess)", estimated: "var(--guess)"};
 const PROV = {store: _t("справочник"), input: _t("задано"), override: _t("задано вручную"),
               derived: _t("вычислено"), default: _t("оценка без источника"), fleet: _t("параметр флота")};
-document.getElementById("nav-calc").textContent = _t("Расчёт");
-document.getElementById("nav-map").textContent = _t("Карта данных");
-document.getElementById("nav-data").textContent = _t("Данные");
 document.getElementById("fgo").textContent = _t("Показать на маршруте");
 const P = new URLSearchParams(location.search);
 const F = {o: document.getElementById("fo"), d: document.getElementById("fd"), ac: document.getElementById("fac")};
