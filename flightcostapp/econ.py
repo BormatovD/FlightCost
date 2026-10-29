@@ -1346,7 +1346,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
         community = src_rows == {COMMUNITY_CHARGES}
         if community and lines:
             warnings.append(f"{ap['icao']}: сборы — неофициальные данные сообщества "
-                            f"(реестр ТКП), а не документ аэропорта")
+                            f"(реестр сообщества), а не документ аэропорта")
         for code, amount in sorted(lines.items(), key=lambda kv: -kv[1]):
             if code.startswith("_"):
                 warnings.append(f"{ap['icao']}: {code[1:]}")
@@ -1355,7 +1355,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             rec(G5, f"Сбор {ap['icao']}: {CODE_RU.get(code, code)}",
                 f"правило airport_charge/{ap['icao']}/{code}", "",
                 amount, "EUR", "store",
-                "ярус 2, неофициальные данные сообщества (реестр ТКП)" if community
+                "ярус 2, неофициальные данные сообщества (реестр сообщества)" if community
                 else "ярус 1, разобранный тариф",
                 # Пусто, если правила одного кода приехали из разных
                 # источников: сверка назовёт шаг несверенным, а выбор
