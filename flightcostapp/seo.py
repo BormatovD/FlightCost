@@ -110,9 +110,9 @@ T = {
         "types_lead": ("Каждый тип — с паспортными данными из документов производителей или открытой библиотеки "
                        "OpenAP и с заготовкой калькулятора. Нажмите на тип, чтобы увидеть характеристики "
                        "и посчитать на нём маршрут."),
-        "cls": {"small": "До 30 кресел", "regional": "Региональные (31–99 кресел)",
-                "narrow": "Узкофюзеляжные (100–240 кресел)", "wide": "Широкофюзеляжные (более 240 кресел)"},
-        "col_type": "Тип", "col_seats": "Кресел", "col_mtow": "MTOW, т", "col_status": "",
+        "cls": {"small": "До 30 кресел", "regional": "Региональные (31–99 кресел в типовой компоновке)",
+                "narrow": "Узкофюзеляжные (100–240 кресел в типовой компоновке)", "wide": "Широкофюзеляжные (более 240 кресел в типовой компоновке)"},
+        "col_type": "Тип", "col_seats": "Кресел, макс.", "col_mtow": "MTOW, т", "col_status": "",
         "card_only": "только карточка",
         "type_title": "{name} ({icao}) — характеристики и стоимость эксплуатации | FlightCost",
         "type_desc": ("{name}: {facts}. Бесплатный расчёт экономики маршрута на {icao} — топливо, сборы, экипаж, "
@@ -197,9 +197,9 @@ T = {
         "types_lead": ("Every type comes with its specifications from manufacturer documents or the open OpenAP "
                        "library and with the calculator's default rates. Open a type to see its data and calculate "
                        "a route with it."),
-        "cls": {"small": "Up to 30 seats", "regional": "Regional (31–99 seats)",
-                "narrow": "Narrowbody (100–240 seats)", "wide": "Widebody (more than 240 seats)"},
-        "col_type": "Type", "col_seats": "Seats", "col_mtow": "MTOW, t", "col_status": "",
+        "cls": {"small": "Up to 30 seats", "regional": "Regional (31–99 seats in a typical layout)",
+                "narrow": "Narrowbody (100–240 seats in a typical layout)", "wide": "Widebody (more than 240 seats in a typical layout)"},
+        "col_type": "Type", "col_seats": "Seats, max", "col_mtow": "MTOW, t", "col_status": "",
         "card_only": "card only",
         "type_title": "{name} ({icao}) — specifications and operating cost | FlightCost",
         "type_desc": ("{name}: {facts}. Free route economics on the {icao} — fuel, charges, crew, maintenance, "
@@ -284,9 +284,9 @@ T = {
         "types_lead": ("Jeder Typ mit technischen Daten aus Herstellerdokumenten oder der offenen Bibliothek OpenAP "
                        "und mit den Standardsätzen des Rechners. Öffnen Sie einen Typ, um die Daten zu sehen und "
                        "eine Strecke damit zu berechnen."),
-        "cls": {"small": "Bis 30 Sitze", "regional": "Regional (31–99 Sitze)",
-                "narrow": "Schmalrumpf (100–240 Sitze)", "wide": "Großraum (mehr als 240 Sitze)"},
-        "col_type": "Typ", "col_seats": "Sitze", "col_mtow": "MTOW, t", "col_status": "",
+        "cls": {"small": "Bis 30 Sitze", "regional": "Regional (31–99 Sitze in typischer Bestuhlung)",
+                "narrow": "Schmalrumpf (100–240 Sitze in typischer Bestuhlung)", "wide": "Großraum (mehr als 240 Sitze in typischer Bestuhlung)"},
+        "col_type": "Typ", "col_seats": "Sitze, max.", "col_mtow": "MTOW, t", "col_status": "",
         "card_only": "nur Karte",
         "type_title": "{name} ({icao}) — technische Daten und Betriebskosten | FlightCost",
         "type_desc": ("{name}: {facts}. Streckenwirtschaftlichkeit mit der {icao} kostenlos berechnen — Treibstoff, "
@@ -806,6 +806,14 @@ def seats_of(t: dict) -> float | None:
     return float(v) if isinstance(v, (int, float)) else None
 
 
+def seats_max_of(t: dict) -> float | None:
+    """Кресла для показа и расчёта — максимум по сертификату (решение владельца, 29.10.2026).
+    Класс типа (`cls_of`) остаётся по типовой компоновке: по максимуму A321neo (244)
+    ушёл бы в широкофюзеляжные."""
+    v = t.get("seats_max") or t.get("seats_typical")
+    return float(v) if isinstance(v, (int, float)) else None
+
+
 def cls_of(t: dict) -> str:
     s = seats_of(t) or 0
     return "small" if s <= 30 else "regional" if s < 100 else "narrow" if s <= 240 else "wide"
@@ -821,7 +829,7 @@ def types_index(lang: str, types: list[dict]) -> str:
     body = [f'<div class="crumbs"><a href="/{lang}/">FlightCost</a> › {esc(t["nav_types"])}</div>',
             f"<h1>{esc(t['types_h1'])}</h1>", f'<p class="lead">{esc(t["types_lead"])}</p>']
     for c in ("narrow", "wide", "regional", "small"):
-        rows = sorted((x for x in pub if cls_of(x) == c), key=lambda x: (-(seats_of(x) or 0), x["icao"]))
+        rows = sorted((x for x in pub if cls_of(x) == c), key=lambda x: (-(seats_max_of(x) or 0), x["icao"]))
         if not rows:
             continue
         body.append(f"<h2>{esc(t['cls'][c])}</h2><div class=tw><table><tr><th>{esc(t['col_type'])}</th>"
@@ -829,7 +837,7 @@ def types_index(lang: str, types: list[dict]) -> str:
         for x in rows:
             note = "" if x.get("usable") else f'<span class=tag>{esc(t["card_only"])}</span>'
             body.append(f'<tr><td><a href="{type_url(lang, x["icao"])}">{esc(name_of(x, lang))}</a>{note}</td>'
-                        f'<td>{esc(x["icao"])}</td><td class=r>{num(seats_of(x), lang, 0)}</td>'
+                        f'<td>{esc(x["icao"])}</td><td class=r>{num(seats_max_of(x), lang, 0)}</td>'
                         f'<td class=r>{num(x.get("mtow_t"), lang, 1) if x.get("mtow_t") else ""}</td></tr>')
         body.append("</table></div>")
     lst = {"@context": "https://schema.org", "@type": "ItemList",
@@ -868,10 +876,10 @@ def _value(field: dict, key: str, lang: str) -> str:
 def facts_line(lang: str, by: dict) -> str:
     """«180 кресел, MTOW 78,0 т, дальность 6 100 км» — для описания и вводного абзаца."""
     bits = []
-    s = by.get("seats_typical") or by.get("seats_max")
+    s = by.get("seats_max") or by.get("seats_typical")
     if s and s.get("value"):
-        bits.append({"ru": f"{num(s['value'], lang, 0)} кресел", "en": f"{num(s['value'], lang, 0)} seats",
-                     "de": f"{num(s['value'], lang, 0)} Sitze"}[lang])
+        n = num(s["value"], lang, 0)
+        bits.append({"ru": f"до {n} кресел", "en": f"up to {n} seats", "de": f"bis zu {n} Sitze"}[lang])
     tn, km = {"ru": ("т", "км")}.get(lang, ("t", "km"))
     if by.get("mtow_t") and by["mtow_t"].get("value"):
         bits.append(f"MTOW {num(by['mtow_t']['value'], lang, 1)} {tn}")
