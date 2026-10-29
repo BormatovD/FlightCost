@@ -1,0 +1,9 @@
+{
+ "doc_ok": true,
+ "doc_note": "SEA Tariffario Marzo 2026, in vigore dal 01.01.2026 (PRM dal 31.03.2026) — совпадает.",
+ "rules_checked": 21,
+ "rules_ok": 21,
+ "errors": [],
+ "unreachable": false,
+ "note": "Approdo день/ночь A–F (partenza = approdo → movement), imbarco 10,45/14,42 с трансфером, sicurezza 3,21 (трансфер освобождён), PRM 1,73, sosta 0,28/т/ч сверх 2 ч, pontili 140,71/281,42 до 75 мин — совпадают. Не выражено: ночная ставка стоянки 0,09, доплата телетрапа после 75 мин (197,00/337,71; +42,21/15 мин), дети 2–12 лет 50%, NOx 1,32/кг."
+}

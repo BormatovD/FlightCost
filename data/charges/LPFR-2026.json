@@ -1,0 +1,681 @@
+{
+ "icao": "LPFR",
+ "valid_from": "2026-06-01",
+ "source": "ANA Aeroportos de Portugal, Regulated Charges 2026, valid from 1st June 2026 — единый документ на сеть; взяты строки Faro Airport (p.10-11)",
+ "source_url": "https://www.ana.pt/sites/default/files/2026-05/Regulated%20charges%20guide%202026_Valid%20from%201%20June%202026.pdf",
+ "publisher": "ANA Aeroportos de Portugal (VINCI Airports), регулятор ANAC",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.23,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Jan to Mar), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; слой 1: 1.23 на весь MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 0.27,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 25.0,
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Jan to Mar), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 25 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 0.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 75.0,
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Jan to Mar), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 75 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": -0.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 150.0,
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Jan to Mar), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 150 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 30.45,
+   "when": {
+    "month": [
+     0,
+     3
+    ]
+   },
+   "source_note": "Faro p.11, «Minimum per landing», столбец «Jan to Mar/ Nov and Dec»: 30.45"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.25,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     0,
+     3
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Jan to Mar/ Nov and Dec»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel within the Schengen Area»"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.19,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     0,
+     3
+    ],
+    "dest": [
+     "eu_non_schengen",
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Jan to Mar/ Nov and Dec»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel outside the Schengen Area» (сюда ЕС вне Шенгена: Ирландия, Кипр)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.23,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Nov and Dec), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; слой 1: 1.23 на весь MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 0.27,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 25.0,
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Nov and Dec), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 25 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 0.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 75.0,
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Nov and Dec), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 75 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": -0.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 150.0,
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Jan to Mar/ Nov and Dec» (Nov and Dec), строки «per tonne above ...»: 1.23 / 1.5 / 1.75 / 1.5; прирост сверх 150 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 30.45,
+   "when": {
+    "month": [
+     10,
+     12
+    ]
+   },
+   "source_note": "Faro p.11, «Minimum per landing», столбец «Jan to Mar/ Nov and Dec»: 30.45"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.25,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     10,
+     12
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Jan to Mar/ Nov and Dec»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel within the Schengen Area»"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.19,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     10,
+     12
+    ],
+    "dest": [
+     "eu_non_schengen",
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Jan to Mar/ Nov and Dec»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel outside the Schengen Area» (сюда ЕС вне Шенгена: Ирландия, Кипр)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.8,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "month": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Apr), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; слой 1: 5.8 на весь MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.22,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 25.0,
+   "when": {
+    "month": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Apr), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 25 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 75.0,
+   "when": {
+    "month": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Apr), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 75 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": -1.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 150.0,
+   "when": {
+    "month": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Apr), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 150 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 144.86,
+   "when": {
+    "month": [
+     3,
+     4
+    ]
+   },
+   "source_note": "Faro p.11, «Minimum per landing», столбец «Apr and Oct»: 144.86"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.77,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     3,
+     4
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Apr and Oct»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel within the Schengen Area»"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.8,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     3,
+     4
+    ],
+    "dest": [
+     "eu_non_schengen",
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Apr and Oct»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel outside the Schengen Area» (сюда ЕС вне Шенгена: Ирландия, Кипр)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.8,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "month": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Oct), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; слой 1: 5.8 на весь MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.22,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 25.0,
+   "when": {
+    "month": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Oct), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 25 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 75.0,
+   "when": {
+    "month": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Oct), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 75 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": -1.25,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 150.0,
+   "when": {
+    "month": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «Apr and Oct» (Oct), строки «per tonne above ...»: 5.8 / 7.02 / 8.27 / 7.02; прирост сверх 150 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 144.86,
+   "when": {
+    "month": [
+     9,
+     10
+    ]
+   },
+   "source_note": "Faro p.11, «Minimum per landing», столбец «Apr and Oct»: 144.86"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.77,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     9,
+     10
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Apr and Oct»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel within the Schengen Area»"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.8,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     9,
+     10
+    ],
+    "dest": [
+     "eu_non_schengen",
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «Apr and Oct»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel outside the Schengen Area» (сюда ЕС вне Шенгена: Ирландия, Кипр)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 7.23,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "month": [
+     4,
+     9
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «May – Sept» (May – Sept), строки «per tonne above ...»: 7.23 / 8.76 / 10.32 / 8.63; слой 1: 7.23 на весь MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.53,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 25.0,
+   "when": {
+    "month": [
+     4,
+     9
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «May – Sept» (May – Sept), строки «per tonne above ...»: 7.23 / 8.76 / 10.32 / 8.63; прирост сверх 25 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 1.56,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 75.0,
+   "when": {
+    "month": [
+     4,
+     9
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «May – Sept» (May – Sept), строки «per tonne above ...»: 7.23 / 8.76 / 10.32 / 8.63; прирост сверх 75 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": -1.69,
+   "currency": "EUR",
+   "events": "landing",
+   "threshold": 150.0,
+   "when": {
+    "month": [
+     4,
+     9
+    ]
+   },
+   "source_note": "Faro p.11, LANDING/TAKE-OFF, столбец «May – Sept» (May – Sept), строки «per tonne above ...»: 7.23 / 8.76 / 10.32 / 8.63; прирост сверх 150 т = разность ставок соседних полос (полосы накопительные, p.21: «Amounts charged in each category are cumulative»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 180.85,
+   "when": {
+    "month": [
+     4,
+     9
+    ]
+   },
+   "source_note": "Faro p.11, «Minimum per landing», столбец «May – Sept»: 180.85"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.26,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     4,
+     9
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «May – Sept»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel within the Schengen Area»"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 12.46,
+   "currency": "EUR",
+   "when": {
+    "month": [
+     4,
+     9
+    ],
+    "dest": [
+     "eu_non_schengen",
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, PASSENGER SERVICE (per boarding passenger), столбец «May – Sept»; строки для пассажиров в стыковке у Фару нет — ставка на всех посадочных: «Travel outside the Schengen Area» (сюда ЕС вне Шенгена: Ирландия, Кипр)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "Charges Description p.23-24: прямой транзит освобождён от passenger service и security"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.8,
+   "currency": "EUR",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, AUTONOMOUS REGULATION, Security «Per boarding passenger € 1.80»"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "транзит освобождён (p.23-24)"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 1.76,
+   "currency": "EUR",
+   "when": {
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, OTHER ENTITIES (e) «Invoiced and collected by ANAC»: «Flights inside Schengen Area €1.76»"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 3.67,
+   "currency": "EUR",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, OTHER ENTITIES: «Intra EU flights outside Schengen Area € 3.67»"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 7.13,
+   "currency": "EUR",
+   "when": {
+    "dest": [
+     "europe_non_eu",
+     "intercontinental"
+    ],
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Faro p.11, OTHER ENTITIES: «International flights € 7.13»"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "транзит освобождён (p.23-24)"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.86,
+   "currency": "EUR",
+   "source_note": "Faro p.11, PRM Service «Per boarding passenger (c) € 0.86» | прямой транзит освобождён, как от passenger service (исправлено по проверке verify/LPFR)",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   }
+  }
+ ]
+}

@@ -581,8 +581,8 @@ def main(argv=None) -> int:
     nw.add_argument("--ac", default="A320", help="тип ВС")
     nw.add_argument("--fleet", type=int, required=True, metavar="N", help="бортов")
     nw.add_argument("--freq", action="append", metavar="ПАРА=N",
-                    help="рейсов в неделю туда-обратно, напр. ALA-FRA=4; "
-                         "без ключа частоты раскладываются поровну")
+                    help="рейсов в неделю туда-обратно, напр. ALA-FRA=4 (0 — пара не "
+                         "летается); пары без своей частоты делят оставшиеся часы парка поровну")
     nw.add_argument("--fare", action="append", metavar="ПАРА=EUR",
                     help="цена вместо рыночной медианы; ALA-FRA — оба "
                          "направления, если обратное не задано отдельно")
@@ -1162,6 +1162,9 @@ def main(argv=None) -> int:
                 note += (f", валюта из ссылки у {st['currency_from_link']}"
                          if st.get("currency_from_link")
                          else ", БЕЗ ВАЛЮТЫ — строки пропущены")
+            if st.get("refused"):
+                print(f"{f.name:28} ОТВЕРГНУТ: {st['refused']}")
+                continue
             print(f"{f.name:28} минимумов {st['added']:>5}, "
                   f"дублей {st['duplicate']:>5}, пар {st['pairs']}{note}")
             for u in (st.get("untranslated") or [])[:5]:

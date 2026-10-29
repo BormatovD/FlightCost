@@ -1,0 +1,280 @@
+{
+ "icao": "EFHK",
+ "valid_from": "2026-01-01",
+ "source": "Finavia Oyj, Terms of Services 1.1.2026, разд. 7-11 (сборы сети; минимум посадочного и стоянка — строки Helsinki Airport)",
+ "source_url": "https://www.finavia.fi/sites/default/files/documents/Terms%20of%20services%20Finavia%201.1.2026_0.pdf",
+ "publisher": "Finavia Oyj",
+ "checked_at": "2026-10-29",
+ "map_node": "src_airport_tariff",
+ "next_edition": "2027-01-01",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 14.1,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "§7.1 Landing charge, scheduled and charter traffic, полоса 0 - 2 000 kg: фиксированная часть 14.10 EUR за посадку; минимум на Хельсинки 100.00 EUR. Таблица Other traffic не заведена"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 2.21,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "§7.1 полоса 0 - 2 000 kg: 2.21 EUR за тонну сверх нижней границы 0.0 т. MTOW по документу округляется вверх до 100 кг — не моделируется (round_mtow только до тонны)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 18.57,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     2,
+     5.7
+    ]
+   },
+   "source_note": "§7.1 Landing charge, scheduled and charter traffic, полоса 2 001 - 5 700 kg: фиксированная часть 18.57 EUR за посадку; минимум на Хельсинки 100.00 EUR. Таблица Other traffic не заведена"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 2.04,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     2,
+     5.7
+    ]
+   },
+   "source_note": "§7.1 полоса 2 001 - 5 700 kg: 2.04 EUR за тонну сверх нижней границы 2.0 т. MTOW по документу округляется вверх до 100 кг — не моделируется (round_mtow только до тонны)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 26.18,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     5.7,
+     35
+    ]
+   },
+   "source_note": "§7.1 Landing charge, scheduled and charter traffic, полоса 5 701 - 35 000 kg: фиксированная часть 26.18 EUR за посадку; минимум на Хельсинки 100.00 EUR. Таблица Other traffic не заведена"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 5.15,
+   "threshold": 5.7,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     5.7,
+     35
+    ]
+   },
+   "source_note": "§7.1 полоса 5 701 - 35 000 kg: 5.15 EUR за тонну сверх нижней границы 5.7 т. MTOW по документу округляется вверх до 100 кг — не моделируется (round_mtow только до тонны)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 178.9,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     35,
+     200
+    ]
+   },
+   "source_note": "§7.1 Landing charge, scheduled and charter traffic, полоса 35 001 - 200 000 kg: фиксированная часть 178.90 EUR за посадку; минимум на Хельсинки 100.00 EUR. Таблица Other traffic не заведена"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 7.33,
+   "threshold": 35.0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     35,
+     200
+    ]
+   },
+   "source_note": "§7.1 полоса 35 001 - 200 000 kg: 7.33 EUR за тонну сверх нижней границы 35.0 т. MTOW по документу округляется вверх до 100 кг — не моделируется (round_mtow только до тонны)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1401.83,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "§7.1 Landing charge, scheduled and charter traffic, полоса over 200 000 kg: фиксированная часть 1401.83 EUR за посадку; минимум на Хельсинки 100.00 EUR. Таблица Other traffic не заведена"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 5.74,
+   "threshold": 200.0,
+   "currency": "EUR",
+   "events": "landing",
+   "minimum": 100.0,
+   "when": {
+    "mtow_t": [
+     200,
+     999
+    ]
+   },
+   "source_note": "§7.1 полоса over 200 000 kg: 5.74 EUR за тонну сверх нижней границы 200.0 т. MTOW по документу округляется вверх до 100 кг — не моделируется (round_mtow только до тонны)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.76,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "§7.4 Local traffic (DOM and INT) 11.76 EUR, единая для всех аэропортов Finavia; транзит не платит. Business Flight Terminal Хельсинки 42.00 не заведён"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.59,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "§7.4 Transfer traffic (DOM-DOM, DOM-INT, INT-DOM, INT-INT) 5.59 EUR"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 6.27,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "§7.5 Security charge per departing passenger 6.27 EUR. С трансферных DOM-* и из аэропортов с признанной досмотровой безопасностью не взимается; трансфер из прочих — платит, не заведено"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.55,
+   "currency": "EUR",
+   "source_note": "§8.4 Assistance service charge per departing passenger 0.55 EUR"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 0.9,
+   "currency": "EUR",
+   "source_note": "§10 Air transport supervision fee (Traficom) 0.90 EUR за пассажира от 2 лет на коммерческом рейсе, с вылетающих"
+  },
+  {
+   "code": "pax_supervision",
+   "base": "per_movement",
+   "rate": 27.2,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "stand": "apron"
+   },
+   "source_note": "§7.8 Passenger supervision 27.20 EUR за прилёт и за вылет; на стоянках с телетрапом не взимается"
+  },
+  {
+   "code": "electricity_infra",
+   "base": "per_tonne_mtow",
+   "rate": 0.28,
+   "currency": "EUR",
+   "events": "turnaround",
+   "minimum": 4.5,
+   "round_mtow": "ceil_tonne",
+   "source_note": "§7.3.1 Electricity infrastructure charge, Хельсинки: 0.28 EUR за тонну MTOW, минимум 4.50, за использование стоянки с электропитанием (взимается и при бесплатной стоянке); принят один раз за оборот"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 1.57,
+   "currency": "EUR",
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "minimum": 29.83,
+   "when": {
+    "park_h": [
+     2,
+     5
+    ]
+   },
+   "source_note": "§7.2.1 стоянка Хельсинки, строка «over 2 h 5 h»: 1.57 EUR за каждые 1000 кг MTOW или часть, минимум 29.83; ставка по полосе общей длительности, первые 2 ч бесплатно. Свыше 24 ч (6.24 EUR/т за сутки) не заведено — нет базы"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 3.13,
+   "currency": "EUR",
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "minimum": 59.47,
+   "when": {
+    "park_h": [
+     5,
+     10
+    ]
+   },
+   "source_note": "§7.2.1 стоянка Хельсинки, строка «over 5 h 10 h»: 3.13 EUR за каждые 1000 кг MTOW или часть, минимум 59.47; ставка по полосе общей длительности, первые 2 ч бесплатно. Свыше 24 ч (6.24 EUR/т за сутки) не заведено — нет базы"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_mtow",
+   "rate": 4.68,
+   "currency": "EUR",
+   "events": "turnaround",
+   "round_mtow": "ceil_tonne",
+   "minimum": 88.92,
+   "when": {
+    "park_h": [
+     10,
+     24
+    ]
+   },
+   "source_note": "§7.2.1 стоянка Хельсинки, строка «over 10 h 24 h»: 4.68 EUR за каждые 1000 кг MTOW или часть, минимум 88.92; ставка по полосе общей длительности, первые 2 ч бесплатно. Свыше 24 ч (6.24 EUR/т за сутки) не заведено — нет базы"
+  }
+ ]
+}

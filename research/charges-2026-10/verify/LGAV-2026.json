@@ -1,0 +1,40 @@
+{
+ "doc_ok": false,
+ "doc_note": "Подлинный документ AIA, но период действия «01 OCT 2025 up to 30 APR 2026 (inclusive)»; valid_from 2026-05-01 им не подтверждается. Decision 2026 (media.aia.gr) говорит, что скидка PTF 30% истекает 30.04.2026, а прочие сборы «remain unchanged as per the detailed price list» — базовые ставки, вероятно, действуют, но прайс-лист с мая 2026 не найден.",
+ "rules_checked": 16,
+ "rules_ok": 11,
+ "errors": [
+  {
+   "rule": "landing per_service_unit mtow 0–55",
+   "file": "393.8651 × (MTOW/50)^0.6, т.е. 5.55 × MTOW×(120/MTOW)^0.4 для всех масс",
+   "doc": "Weight Factor: up to 120 t = MTOW; over 120 t = MTOW×(120/MTOW)^0.4; Unit Rate ≤55 t EUR 5.55",
+   "fix": "per_tonne_mtow 5.55, events landing, mtow 0–55 (без exponent)"
+  },
+  {
+   "rule": "landing per_service_unit mtow 55–650",
+   "file": "437.1548 × (MTOW/50)^0.6 для 55–650 т (A320 78 т ≈ 570.8 EUR)",
+   "doc": "55–120 т: 6.16 × MTOW (A320 ≈ 480.5 EUR); степенной фактор только сверх 120 т",
+   "fix": "разбить: per_tonne_mtow 6.16 mtow 55–120; per_service_unit 437.1548 exp 0.6 mtow 120–650"
+  },
+  {
+   "rule": "security per_departing_pax без pax_type",
+   "file": "5.00 для всех pax_type, вкл. transit",
+   "doc": "4. Security: Exempt: infants, transit, crew",
+   "fix": "when pax_type [local, transfer]; transit 0"
+  },
+  {
+   "rule": "bhs per_departing_pax без pax_type",
+   "file": "1.92 для всех, вкл. transit",
+   "doc": "6.3: Exempt: infants, transit, crew",
+   "fix": "when pax_type [local, transfer]"
+  },
+  {
+   "rule": "prm per_departing_pax без pax_type",
+   "file": "0.55 для всех, вкл. transit",
+   "doc": "7. PRM: Exempt: infants, transit, crew",
+   "fix": "when pax_type [local, transfer]"
+  }
+ ],
+ "unreachable": false,
+ "note": "Пассажирские 16.65/19.95/9.90/13.20, ADF 3.00 (local), телетрап 116.01/154.68 — совпадают. Журнал: цитаты k5-051…062 найдены; k5-051 «MTOW x (120 / MTOW)0.4» — это формула только для >120 т, отсюда ошибка посадки. Округление массы в документе не указано."
+}

@@ -1,0 +1,143 @@
+{
+ "icao": "LHBP",
+ "valid_from": "2026-04-01",
+ "source": "Budapest Airport Zrt., Tariff Manual, valid from 01 April 2026",
+ "source_url": "https://www.bud.hu/document/tariff-manual-eng-2026-fin-sign/download",
+ "publisher": "Budapest Airport Zrt.",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 159.61,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "2.1.1, Up to 10 000 kg EUR 159.61 per aircraft"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 15.18,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     10,
+     45
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.1.1, 10 001 – 45 000 kg EUR 15.18 /1000 kg started, на всю MTOW («according to the category the given aircraft falls into»)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 12.88,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     45,
+     150
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.1.1, 45 001 – 150 000 kg EUR 12.88 /1000 kg started, на всю MTOW"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.31,
+   "currency": "EUR",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.1.1, 150 001 kg - EUR 10.31 /1000 kg started"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 29.99,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "2.1.4 b) Terminals 2A/2B, Departing passenger 29.99"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.81,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "2.1.4 b) Departing transfer passenger 7.81"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0.0,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "2.1.4: transit passengers excluded"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.22,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "2.1.4 b) PRM charge EUR 0.22 / departing passenger"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 6.32,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "2.1.5, Terminals 2A and 2B: EUR 6.32 / departing passenger; EUR 6.32 / transfer passenger (транзит не назван)"
+  },
+  {
+   "code": "bhs",
+   "base": "per_turnaround",
+   "rate": 34.83,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "2.1.6 Fixed fee: EUR 34.83 / departing flight. Переменная часть 1.30 за сданное место багажа не заведена — нет числа мест"
+  },
+  {
+   "code": "pbb",
+   "base": "per_turnaround",
+   "rate": 78.92,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier"
+   },
+   "source_note": "2.1.2.2 a) boarding bridge stand, day, The first 60 minutes: EUR 78.92; далее 48.65 за 15 мин — не заведено"
+  }
+ ]
+}

@@ -1,0 +1,595 @@
+{
+ "icao": "LKPR",
+ "valid_from": "2026-03-29",
+ "source": "Letiště Praha, a. s., Airport Price List 2026 v1.0 (29.03.2026–27.03.2027)",
+ "source_url": "https://www.prg.aero/sites/default/files/obsah/harmonika/soubory/prague-airport-pricelist-2026-v1.pdf",
+ "publisher": "Letiště Praha, a. s.",
+ "checked_at": "2026-10-29",
+ "scales": {
+  "noise_cat": 14
+ },
+ "categories": {
+  "noise_cat": {
+   "source_note": "AIP ČR GEN 4.1, 4.1.1.4.2.1 PRAHA/Ruzyně: Noise category по накопленному (кумулятивному) запасу к пределам ICAO Annex 16/I, EPNdB; без сертификата — 14",
+   "rules": [
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 30
+      }
+     },
+     "value": 1,
+     "note": "накопленная разница ≥ 30 EPNdB → 1"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 27.5
+      }
+     },
+     "value": 2,
+     "note": "накопленная разница ≥ 27.5 EPNdB → 2"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 25
+      }
+     },
+     "value": 3,
+     "note": "накопленная разница ≥ 25 EPNdB → 3"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 22.5
+      }
+     },
+     "value": 4,
+     "note": "накопленная разница ≥ 22.5 EPNdB → 4"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 20
+      }
+     },
+     "value": 5,
+     "note": "накопленная разница ≥ 20 EPNdB → 5"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 17.5
+      }
+     },
+     "value": 6,
+     "note": "накопленная разница ≥ 17.5 EPNdB → 6"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 15
+      }
+     },
+     "value": 7,
+     "note": "накопленная разница ≥ 15 EPNdB → 7"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 12.5
+      }
+     },
+     "value": 8,
+     "note": "накопленная разница ≥ 12.5 EPNdB → 8"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 10
+      }
+     },
+     "value": 9,
+     "note": "накопленная разница ≥ 10 EPNdB → 9"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 7.5
+      }
+     },
+     "value": 10,
+     "note": "накопленная разница ≥ 7.5 EPNdB → 10"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 5
+      }
+     },
+     "value": 11,
+     "note": "накопленная разница ≥ 5 EPNdB → 11"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 2.5
+      }
+     },
+     "value": 12,
+     "note": "накопленная разница ≥ 2.5 EPNdB → 12"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "ge": 0
+      }
+     },
+     "value": 13,
+     "note": "накопленная разница ≥ 0 EPNdB → 13"
+    },
+    {
+     "when": {
+      "noise_margin_cum": {
+       "lt": 0
+      }
+     },
+     "value": 14,
+     "note": "< 0 → 14"
+    }
+   ]
+  }
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1110,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     0,
+     5
+    ]
+   },
+   "source_note": "2.3 LANDING CHARGES, 0t to 5t, incl. CZK1,110"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 2220,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     5,
+     9
+    ]
+   },
+   "source_note": "2.3, 6t to 9t, incl. CZK2,220"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 2273,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     9,
+     24
+    ]
+   },
+   "source_note": "2.3, 10t to 24t: CZK2,273 + ... (постоянный член полосы)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 225,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     9,
+     24
+    ]
+   },
+   "threshold": 9,
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.3, CZK225 x (MTOW – 9t), за каждую начатую тонну"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 5689,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     24,
+     49
+    ]
+   },
+   "source_note": "2.3, 25t to 49t: CZK5,689 + ... (постоянный член полосы)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 195,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     24,
+     49
+    ]
+   },
+   "threshold": 24,
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.3, CZK195 x (MTOW – 24t), за каждую начатую тонну"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 10575,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     49,
+     100
+    ]
+   },
+   "source_note": "2.3, 50t to 100t: CZK10,575 + ... (постоянный член полосы)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 186,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     49,
+     100
+    ]
+   },
+   "threshold": 49,
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.3, CZK186 x (MTOW – 49t), за каждую начатую тонну"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 20070,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     100,
+     650
+    ]
+   },
+   "source_note": "2.3, 101t to 650t: CZK20,070 + ... (постоянный член полосы)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_above",
+   "rate": 99,
+   "currency": "CZK",
+   "events": "landing",
+   "when": {
+    "mtow_t": [
+     100,
+     650
+    ]
+   },
+   "threshold": 100,
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.3, CZK99 x (MTOW – 100t), за каждую начатую тонну"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 1,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 1, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 2,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 2, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 3,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 3, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 4,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 4, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 5,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 5, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 6,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 6, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 1,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 7,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 7, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 2,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 8,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 8, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 4,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 9,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 9, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 8,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 10,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 10, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 16,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 11,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 11, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 32,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 12,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 12, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 64,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 13,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 13, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_tonne_mtow",
+   "rate": 128,
+   "currency": "CZK",
+   "events": "movement",
+   "when": {
+    "noise_cat": 14,
+    "mtow_t": [
+     9,
+     650
+    ]
+   },
+   "round_mtow": "ceil_tonne",
+   "source_note": "2.5 Noise Charges, Noise Category 14, Daytime Charge (06:00–21:59) CZK/t MTOW, separately upon arrivals and departures; ВС >9 т. Ночные ставки не заведены"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 682,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "2.1 PASSENGER SERVICE CHARGES, Departing Passenger T1, T2 CZK682 (T3 — CZK1,100, не заведено)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 341,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "2.1, Transfer Passenger T1, T2 CZK341 (пересадка ≤24 ч по одному билету)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 0,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "2.1 exceptions: Passengers in direct transit"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 15,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "2.2 PRM CHARGES, Departing and Transfer Passenger CZK15"
+  },
+  {
+   "code": "pbb",
+   "base": "per_turnaround",
+   "rate": 2910,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     99.999
+    ]
+   },
+   "source_note": "2.9, PB Bridge for ACFT <100t MTOW CZK2,910 / case"
+  },
+  {
+   "code": "pbb",
+   "base": "per_turnaround",
+   "rate": 5440,
+   "currency": "CZK",
+   "events": "turnaround",
+   "when": {
+    "stand": "pier",
+    "mtow_t": [
+     99.999,
+     650
+    ]
+   },
+   "source_note": "2.9, PB Bridge for ACFT ≥100t MTOW incl. AC/Heating CZK5,440 / case"
+  }
+ ]
+}

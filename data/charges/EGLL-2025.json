@@ -1,0 +1,480 @@
+{
+ "icao": "EGLL",
+ "valid_from": "2025-01-01",
+ "source": "Heathrow Airport Limited, Conditions of Use 2025, Schedule 5 (Charges effective from 1 January 2025); выпуск 3.12.2024. Редакция 2026 не найдена",
+ "source_url": "https://acl-uk.org/wp-content/uploads/2025/01/Heathrow-Airport-Limited-Conditions-of-Use-2025.pdf",
+ "publisher": "Heathrow Airport Limited, ценовой потолок UK CAA (H7)",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 14113.5,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 1,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Maximum (cumulative EPNdB margin to Chapter 3 <10), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 7056.76,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 2,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Ultra-High (cumulative EPNdB margin to Chapter 3 <14), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 3528.38,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 3,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Super High (cumulative EPNdB margin to Chapter 3 <17), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 2117.03,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 4,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория High (cumulative EPNdB margin to Chapter 3 <20), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1411.35,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 5,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Base (cumulative EPNdB margin to Chapter 3 <23), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 987.95,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 6,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Low (cumulative EPNdB margin to Chapter 3 <26), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 776.24,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 7,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Super Low (cumulative EPNdB margin to Chapter 3 <29), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 705.68,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "noise_cat": 8,
+    "mtow_t": [
+     16,
+     650
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, Noise Charges, fixed-wing >16 т, категория Ultra-Low (cumulative EPNdB margin to Chapter 3 >=29), столбец вне Night Quota Period. За КАЖДОЕ движение (взлёт и посадка). ШКАЛА ЛОКАЛЬНАЯ 1-8 (1=Maximum … 8=Ultra-Low); категория зависит от сертификата конкретной регистрации — тип не назначен. Столбцы Night Quota / Peak Night (×5 / ×8) по §1.3-1.4 — надбавки за НЕзапланированные ночные движения, не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1930.46,
+   "events": "movement",
+   "currency": "GBP",
+   "when": {
+    "mtow_t": [
+     0,
+     16
+    ]
+   },
+   "source_note": "Schedule 5 §1.2, fixed-wing aircraft not exceeding 16 metric tonnes, за движение"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 21.81,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "schengen",
+    "pax_type": "local"
+   },
+   "source_note": "Schedule 5 §4.4, Embarking Passenger, European Destination. Отображение ступеней: Ирландия (eu_non_schengen) по документу — Common Travel Area (14,56), Турция/Россия и пр. (europe_non_eu) — Other (50,21); шкала dest эти границы не выражает"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.09,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "schengen",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Schedule 5 §4.5, Transfer and Transit Passengers, European Destination, за вылетающего"
+  },
+  {
+   "code": "passenger",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "landing",
+   "minimum": 1679.37,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "schengen"
+   },
+   "source_note": "Schedule 5 §4.1, Minimum Departure Charge European — пол пассажирского сбора рейса (как в EGKK: rate 0 + minimum, признак landing = один раз за оборот)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 21.81,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "eu_non_schengen",
+    "pax_type": "local"
+   },
+   "source_note": "Schedule 5 §4.4, Embarking Passenger, European Destination. Отображение ступеней: Ирландия (eu_non_schengen) по документу — Common Travel Area (14,56), Турция/Россия и пр. (europe_non_eu) — Other (50,21); шкала dest эти границы не выражает"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.09,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "eu_non_schengen",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Schedule 5 §4.5, Transfer and Transit Passengers, European Destination, за вылетающего"
+  },
+  {
+   "code": "passenger",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "landing",
+   "minimum": 1679.37,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "eu_non_schengen"
+   },
+   "source_note": "Schedule 5 §4.1, Minimum Departure Charge European — пол пассажирского сбора рейса (как в EGKK: rate 0 + minimum, признак landing = один раз за оборот)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 21.81,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "europe_non_eu",
+    "pax_type": "local"
+   },
+   "source_note": "Schedule 5 §4.4, Embarking Passenger, European Destination. Отображение ступеней: Ирландия (eu_non_schengen) по документу — Common Travel Area (14,56), Турция/Россия и пр. (europe_non_eu) — Other (50,21); шкала dest эти границы не выражает"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.09,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "europe_non_eu",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Schedule 5 §4.5, Transfer and Transit Passengers, European Destination, за вылетающего"
+  },
+  {
+   "code": "passenger",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "landing",
+   "minimum": 1679.37,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "europe_non_eu"
+   },
+   "source_note": "Schedule 5 §4.1, Minimum Departure Charge European — пол пассажирского сбора рейса (как в EGKK: rate 0 + minimum, признак landing = один раз за оборот)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 50.21,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "intercontinental",
+    "pax_type": "local"
+   },
+   "source_note": "Schedule 5 §4.4, Embarking Passenger, Other Destination. Отображение ступеней: Ирландия (eu_non_schengen) по документу — Common Travel Area (14,56), Турция/Россия и пр. (europe_non_eu) — Other (50,21); шкала dest эти границы не выражает"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 30.13,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "intercontinental",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Schedule 5 §4.5, Transfer and Transit Passengers, Other Destination, за вылетающего"
+  },
+  {
+   "code": "passenger",
+   "base": "per_movement",
+   "rate": 0,
+   "events": "landing",
+   "minimum": 4016.8,
+   "currency": "GBP",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "dest": "intercontinental"
+   },
+   "source_note": "Schedule 5 §4.1, Minimum Departure Charge Other — пол пассажирского сбора рейса (как в EGKK: rate 0 + minimum, признак landing = один раз за оборот)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 14.31,
+   "currency": "GBP",
+   "when": {
+    "flight": "domestic",
+    "pax_type": "local"
+   },
+   "source_note": "Schedule 5 §4.4, Embarking Passenger, Domestic, ставка уже с учётом connectivity discount 7,50 (§4.3). Минимум за вылет Domestic £0"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.16,
+   "currency": "GBP",
+   "when": {
+    "flight": "domestic",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "source_note": "Schedule 5 §4.5, Transfer and Transit, Domestic"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 195.48,
+   "threshold": 0.5,
+   "currency": "GBP",
+   "when": {
+    "ac_class": 1,
+    "stand": "pier"
+   },
+   "source_note": "Schedule 5 §6.3, narrow-bodied: £48.87 per 15 minutes or part thereof после бесплатного периода (на всех стоянках: 0.5 ч). Шаг 15 мин переведён в час ×4, точно на целых часах. Только 06:00-20:59 UTC, ночью бесплатно (§6.2) — не выражается"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 195.48,
+   "threshold": 4.0,
+   "currency": "GBP",
+   "when": {
+    "ac_class": 1,
+    "stand": "apron"
+   },
+   "source_note": "Schedule 5 §6.3, narrow-bodied: £48.87 per 15 minutes or part thereof после бесплатного периода (на удалённой стоянке, вкл. дополнительные бесплатные минуты: 4.0 ч). Шаг 15 мин переведён в час ×4, точно на целых часах. Только 06:00-20:59 UTC, ночью бесплатно (§6.2) — не выражается"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 410.52,
+   "threshold": 1.5,
+   "currency": "GBP",
+   "when": {
+    "ac_class": 2,
+    "stand": "pier"
+   },
+   "source_note": "Schedule 5 §6.3, wide-bodied: £102.63 per 15 minutes or part thereof после бесплатного периода (на всех стоянках: 1.5 ч). Шаг 15 мин переведён в час ×4, точно на целых часах. Только 06:00-20:59 UTC, ночью бесплатно (§6.2) — не выражается"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 410.52,
+   "threshold": 4.0,
+   "currency": "GBP",
+   "when": {
+    "ac_class": 2,
+    "stand": "apron"
+   },
+   "source_note": "Schedule 5 §6.3, wide-bodied: £102.63 per 15 minutes or part thereof после бесплатного периода (на удалённой стоянке, вкл. дополнительные бесплатные минуты: 4.0 ч). Шаг 15 мин переведён в час ×4, точно на целых часах. Только 06:00-20:59 UTC, ночью бесплатно (§6.2) — не выражается"
+  }
+ ],
+ "scales": {
+  "noise_cat": 8,
+  "ac_class": 2
+ },
+ "map_node": "src_airport_tariff",
+ "categories": {
+  "ac_class": {
+   "source_note": "Schedule 5 §6.6: narrow/wide по кодам типов, список «not limited to». 1 = narrow-bodied, 2 = wide-bodied. Поимённо — по классу фюзеляжа",
+   "named": {
+    "A318": 1,
+    "A319": 1,
+    "A320": 1,
+    "A321": 1,
+    "A19N": 1,
+    "A20N": 1,
+    "A21N": 1,
+    "B736": 1,
+    "B737": 1,
+    "B738": 1,
+    "B739": 1,
+    "B37M": 1,
+    "B38M": 1,
+    "B39M": 1,
+    "B752": 1,
+    "B753": 1,
+    "E170": 1,
+    "E175": 1,
+    "E75L": 1,
+    "E190": 1,
+    "E195": 1,
+    "E290": 1,
+    "E295": 1,
+    "BCS1": 1,
+    "BCS3": 1,
+    "CRJ9": 1,
+    "AT76": 1,
+    "DH8D": 1,
+    "A332": 2,
+    "A333": 2,
+    "A338": 2,
+    "A339": 2,
+    "A343": 2,
+    "A346": 2,
+    "A359": 2,
+    "A35K": 2,
+    "A388": 2,
+    "B763": 2,
+    "B764": 2,
+    "B772": 2,
+    "B77L": 2,
+    "B773": 2,
+    "B77W": 2,
+    "B778": 2,
+    "B779": 2,
+    "B788": 2,
+    "B789": 2,
+    "B78X": 2,
+    "B744": 2,
+    "B748": 2
+   }
+  }
+ },
+ "not_applicable": {
+  "landing": "Весового посадочного сбора нет: Schedule 5 берёт шумовой сбор за движение по категории сертификата",
+  "emission": "§3.1 NOx £19,90/кг и §3.2 carbon £0,04/кг за посадку — нужны данные двигателя, по шагу 4 не заводятся",
+  "prm": "PRM, багаж, HBS, PCA, FEGP — в отдельном Tariffs General Notice, не разобран"
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "doc_ok": true,
+ "doc_note": "Schiphol Airport Charges and Conditions, October 2024 edition, Art. 23 effective as of 1 April 2025; столбец 1 April 2025 — совпадает.",
+ "rules_checked": 53,
+ "rules_ok": 53,
+ "errors": [],
+ "unreachable": false,
+ "note": "Appendix I: Day landing/take-off, Night landing, Night take-off для Connected/Disconnected S1–S7 — все 42 ставки совпадают; фикс. ≤2 т 194,60/155,60, 2–35 т 340,55/272,30; PSC Centre 29,75/12,49; security 22,28/12,45; стоянка 3,70/т за 24 ч или часть после вычета 6 ч 15 мин (Art. 7 s.5) — полосы park_h верны. Не заведено (не ошибка): тариф Schiphol East (23,80/9,98), cargo-строка, ночное окно стоянки 23–06 не считается."
+}

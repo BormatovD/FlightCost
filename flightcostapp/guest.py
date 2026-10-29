@@ -34,6 +34,7 @@ import json
 import secrets
 import sqlite3
 import threading
+import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -167,12 +168,21 @@ class GuestDB:
         if not valid_key(key):
             return None
         w = ws_id(key)
+        # Отметка открытия — не чаще раза в минуту на место. Прежде каждый
+        # запрос страницы с местом (аэропорты, типы, курсы, расчёт) писал в
+        # базу мест и ждал записи на диск под общим замком.
+        now = time.monotonic()
+        seen = self.__dict__.setdefault("_touched", {})
         with self.lock:
+            if now - seen.get(w, -1e9) < 60:
+                return w
             row = self.db.execute("SELECT 1 FROM workspaces WHERE ws=?", (w,)).fetchone()
             if row is None:
+                seen.pop(w, None)
                 return None
             self.db.execute("UPDATE workspaces SET last_seen=? WHERE ws=?", (_now(), w))
             self.db.commit()
+            seen[w] = now
         return w
 
     def rotate(self, ws: str) -> str:
@@ -185,6 +195,8 @@ class GuestDB:
             self.db.execute("UPDATE workspaces SET ws=?, last_seen=? WHERE ws=?",
                             (nw, _now(), ws))
             self.db.commit()
+            # Старая ссылка перестаёт открывать сразу, а не через минуту.
+            self.__dict__.get("_touched", {}).pop(ws, None)
         return key
 
     def delete(self, ws: str) -> None:
@@ -192,6 +204,7 @@ class GuestDB:
             for t in ("gfacts", "gdocs", "workspaces"):
                 self.db.execute(f"DELETE FROM {t} WHERE ws=?", (ws,))
             self.db.commit()
+            self.__dict__.get("_touched", {}).pop(ws, None)
 
     def prune(self, idle_days: int = IDLE_DAYS, today: date | None = None) -> int:
         """Удаляет места, которые не открывали `idle_days`, и суточные
@@ -205,6 +218,7 @@ class GuestDB:
             for w in old:
                 for t in ("gfacts", "gdocs", "workspaces"):
                     self.db.execute(f"DELETE FROM {t} WHERE ws=?", (w,))
+                self.__dict__.get("_touched", {}).pop(w, None)
             self.db.execute("DELETE FROM ws_created WHERE day < ?", (counters,))
             self.db.commit()
         return len(old)

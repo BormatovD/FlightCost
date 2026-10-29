@@ -1,0 +1,9 @@
+{
+ "doc_ok": true,
+ "doc_note": "Gebührenreglement Version 3.9, gültig ab 1. Oktober 2026 — совпадает.",
+ "rules_checked": 23,
+ "rules_ok": 23,
+ "errors": [],
+ "unreachable": false,
+ "note": "Посадка pro Landung по классам MTOM 1–9, Tageslärm pro Landung 800/400/200/100, пассажир 18,20/7,00, security 11,30/6,10, PRM 0,90 — совпадают. Стоянка: §2.2.4 считает 'pro Minute' по ATA/ATD при часовой ставке Tabelle 8; per_hour с округлением вверх завышает неполный час; ночь 23:00–06:00 не считается — не выражено. Не заведены ночные/краевые надбавки (Tab. 3/4) и скидки за объём."
+}

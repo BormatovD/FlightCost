@@ -1,0 +1,1288 @@
+{
+ "icao": "EDDB",
+ "valid_from": "2026-04-01",
+ "source": "Flughafen Berlin Brandenburg GmbH, Entgeltordnung BER, gültig ab 01.04.2025, genehmigt 17.01.2025; ставки столбца ab/from 01.04.2026",
+ "source_url": "https://corporate.berlin-airport.de/content/dam/corporate/no-language/geschaeftspartner/entgelte/entgeltordnung-ber.pdf",
+ "publisher": "Flughafen Berlin Brandenburg GmbH (FBB), утверждается MIL Brandenburg по §19b LuftVG",
+ "checked_at": "2026-10-29",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 17.14,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 0-2 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 28.6,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     2,
+     5.7
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 2-5.7 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 38.99,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     5.7,
+     10
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 5.7-10 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 61.27,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     15
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 10-15 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 117.19,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     15,
+     20
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 15-20 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 195.18,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     20,
+     27
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 20-27 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 239.74,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 27-40 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 278.95,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 40-60 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 301.23,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 60-80 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 373.64,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 80-150 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 429.45,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.1.1 Masseabhängiges Lande- und Startentgelt, полоса MTOM 150-650 т, столбец ab 01.04.2026; плоская сумма за каждую посадку и каждый взлёт"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 10.71,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     2
+    ]
+   },
+   "source_note": "§1.1.2, ВС до 2000 кг — плоская ставка за событие, ab 01.04.2026"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 42.85,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 1,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 1, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 42.85,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 1,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 1, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 53.56,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 2,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 2, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 53.56,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 2,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 2, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 66.42,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 3,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 3, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 66.42,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 3,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 3, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 85.7,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 4,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 4, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 85.7,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 4,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 4, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 112.48,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 5,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 5, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 112.48,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 5,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 5, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 235.67,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 6,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 6, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 235.67,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 6,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 6, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 321.37,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 7,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 7, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 321.37,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 7,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 7, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 546.32,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 8,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 8, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 546.32,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 8,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 8, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1606.84,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 9,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 9, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1606.84,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 9,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 9, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 3213.68,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 10,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 10, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 3213.68,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 10,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 10, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 8034.19,
+   "events": "landing",
+   "currency": "EUR",
+   "when": {
+    "noise_cat": 11,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 11, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 8034.19,
+   "events": "takeoff",
+   "currency": "EUR",
+   "when": {
+    "noise_cat_dep": 11,
+    "mtow_t": [
+     2,
+     650
+    ]
+   },
+   "source_note": "§1.1.2 Lärmklasse 11, ab 01.04.2026, je Flugereignis. Класс определяется ИЗМЕРЕННЫМ Lmax на трёх точках (Anhang 1) отдельно для посадки и взлёта; справочная таблица типов (Anhang 1) в извлечённом тексте отсутствует, класс не назначен. Ночные надбавки +100…+500% (22:00-05:59) не заведены — словарь знает только night без полос"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 194.96,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 0-10 т, ab 01.04.2026: 27.85/41.78/55.7/69.63 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×27.85+2×41.78, час 2 = 3×41.78+3×55.7, час 3 = 6×69.63), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 97.48,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 0-10 т, ab 01.04.2026: 27.85/41.78/55.7/69.63 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×27.85+2×41.78, час 2 = 3×41.78+3×55.7, час 3 = 6×69.63), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 125.34,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 0-10 т, ab 01.04.2026: 27.85/41.78/55.7/69.63 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×27.85+2×41.78, час 2 = 3×41.78+3×55.7, час 3 = 6×69.63), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -417.78,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 0-10 т, ab 01.04.2026: 27.85/41.78/55.7/69.63 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×27.85+2×41.78, час 2 = 3×41.78+3×55.7, час 3 = 6×69.63), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 224.98,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 10-27 т, ab 01.04.2026: 32.14/48.21/64.27/80.34 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×32.14+2×48.21, час 2 = 3×48.21+3×64.27, час 3 = 6×80.34), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 112.46,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 10-27 т, ab 01.04.2026: 32.14/48.21/64.27/80.34 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×32.14+2×48.21, час 2 = 3×48.21+3×64.27, час 3 = 6×80.34), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 144.6,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 10-27 т, ab 01.04.2026: 32.14/48.21/64.27/80.34 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×32.14+2×48.21, час 2 = 3×48.21+3×64.27, час 3 = 6×80.34), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -482.04,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 10-27 т, ab 01.04.2026: 32.14/48.21/64.27/80.34 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×32.14+2×48.21, час 2 = 3×48.21+3×64.27, час 3 = 6×80.34), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 254.94,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 27-40 т, ab 01.04.2026: 36.42/54.63/72.84/91.05 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×36.42+2×54.63, час 2 = 3×54.63+3×72.84, час 3 = 6×91.05), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 127.47,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 27-40 т, ab 01.04.2026: 36.42/54.63/72.84/91.05 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×36.42+2×54.63, час 2 = 3×54.63+3×72.84, час 3 = 6×91.05), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 163.89,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 27-40 т, ab 01.04.2026: 36.42/54.63/72.84/91.05 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×36.42+2×54.63, час 2 = 3×54.63+3×72.84, час 3 = 6×91.05), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -546.3,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 27-40 т, ab 01.04.2026: 36.42/54.63/72.84/91.05 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×36.42+2×54.63, час 2 = 3×54.63+3×72.84, час 3 = 6×91.05), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 277.46,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 40-60 т, ab 01.04.2026: 39.64/59.45/79.27/99.09 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×39.64+2×59.45, час 2 = 3×59.45+3×79.27, час 3 = 6×99.09), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 138.7,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 40-60 т, ab 01.04.2026: 39.64/59.45/79.27/99.09 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×39.64+2×59.45, час 2 = 3×59.45+3×79.27, час 3 = 6×99.09), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 178.38,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 40-60 т, ab 01.04.2026: 39.64/59.45/79.27/99.09 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×39.64+2×59.45, час 2 = 3×59.45+3×79.27, час 3 = 6×99.09), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -594.54,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 40-60 т, ab 01.04.2026: 39.64/59.45/79.27/99.09 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×39.64+2×59.45, час 2 = 3×59.45+3×79.27, час 3 = 6×99.09), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 299.94,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 60-80 т, ab 01.04.2026: 42.85/64.27/85.7/107.12 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×42.85+2×64.27, час 2 = 3×64.27+3×85.7, час 3 = 6×107.12), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 149.97,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 60-80 т, ab 01.04.2026: 42.85/64.27/85.7/107.12 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×42.85+2×64.27, час 2 = 3×64.27+3×85.7, час 3 = 6×107.12), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 192.81,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 60-80 т, ab 01.04.2026: 42.85/64.27/85.7/107.12 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×42.85+2×64.27, час 2 = 3×64.27+3×85.7, час 3 = 6×107.12), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -642.72,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 60-80 т, ab 01.04.2026: 42.85/64.27/85.7/107.12 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×42.85+2×64.27, час 2 = 3×64.27+3×85.7, час 3 = 6×107.12), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 322.42,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 80-150 т, ab 01.04.2026: 46.06/69.09/92.13/115.16 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×46.06+2×69.09, час 2 = 3×69.09+3×92.13, час 3 = 6×115.16), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 161.24,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 80-150 т, ab 01.04.2026: 46.06/69.09/92.13/115.16 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×46.06+2×69.09, час 2 = 3×69.09+3×92.13, час 3 = 6×115.16), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 207.3,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 80-150 т, ab 01.04.2026: 46.06/69.09/92.13/115.16 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×46.06+2×69.09, час 2 = 3×69.09+3×92.13, час 3 = 6×115.16), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -690.96,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 80-150 т, ab 01.04.2026: 46.06/69.09/92.13/115.16 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×46.06+2×69.09, час 2 = 3×69.09+3×92.13, час 3 = 6×115.16), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 344.94,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 150-650 т, ab 01.04.2026: 49.28/73.91/98.55/123.19 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×49.28+2×73.91, час 2 = 3×73.91+3×98.55, час 3 = 6×123.19), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 0 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 172.44,
+   "threshold": 1.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 150-650 т, ab 01.04.2026: 49.28/73.91/98.55/123.19 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×49.28+2×73.91, час 2 = 3×73.91+3×98.55, час 3 = 6×123.19), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 1 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": 221.76,
+   "threshold": 2.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 150-650 т, ab 01.04.2026: 49.28/73.91/98.55/123.19 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×49.28+2×73.91, час 2 = 3×73.91+3×98.55, час 3 = 6×123.19), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 2 ч"
+  },
+  {
+   "code": "parking",
+   "base": "per_hour_above",
+   "rate": -739.14,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.2 Positionsgrundentgelt, MTOM 150-650 т, ab 01.04.2026: 49.28/73.91/98.55/123.19 EUR за начатые 10 мин в интервалах до 40/41-90/91-120/121-180 мин. Шаг 10 мин в словаре не выражается: разложено в почасовые ступени per_hour_above (час 1 = 4×49.28+2×73.91, час 2 = 3×73.91+3×98.55, час 3 = 6×123.19), точно на целых часах, внутри часа завышает до начатого часа; ступень сверх 3 ч — снятие почасовой ставки после третьего часа, дальше суточный Abstellentgelt"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 196.36,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     10
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 0-10 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 288.33,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 10-27 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 334.81,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 27-40 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 368.74,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 40-60 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 387.38,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 60-80 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 399.46,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 80-150 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking",
+   "base": "per_day_above",
+   "rate": 405.24,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ]
+   },
+   "source_note": "§1.2 Abstellentgelt ab 4. Stunde je angefangene 24 Stunden, MTOM 150-650 т, ab 01.04.2026"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 118.02,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 19.67 EUR je 10 Minuten Verweilzeit, MTOM 10-27 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -118.02,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     10,
+     27
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 19.67 EUR je 10 Minuten Verweilzeit, MTOM 10-27 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 127.86,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 21.31 EUR je 10 Minuten Verweilzeit, MTOM 27-40 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -127.86,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     27,
+     40
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 21.31 EUR je 10 Minuten Verweilzeit, MTOM 27-40 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 131.7,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 21.95 EUR je 10 Minuten Verweilzeit, MTOM 40-60 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -131.7,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     40,
+     60
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 21.95 EUR je 10 Minuten Verweilzeit, MTOM 40-60 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 136.2,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 22.7 EUR je 10 Minuten Verweilzeit, MTOM 60-80 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -136.2,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     80
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 22.7 EUR je 10 Minuten Verweilzeit, MTOM 60-80 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 142.86,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 23.81 EUR je 10 Minuten Verweilzeit, MTOM 80-150 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -142.86,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     80,
+     150
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 23.81 EUR je 10 Minuten Verweilzeit, MTOM 80-150 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": 152.64,
+   "threshold": 0.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 25.44 EUR je 10 Minuten Verweilzeit, MTOM 150-650 т, ab 01.04.2026; ×6 в час, только первые три часа"
+  },
+  {
+   "code": "parking_pier",
+   "base": "per_hour_above",
+   "rate": -152.64,
+   "threshold": 3.0,
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     150,
+     650
+    ],
+    "stand": "pier"
+   },
+   "source_note": "§1.2 Brückenzuschlag 25.44 EUR je 10 Minuten Verweilzeit, MTOM 150-650 т, ab 01.04.2026; ×6 в час, только первые три часа (снятие после 3 ч)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 7.64,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local",
+    "dest": "schengen"
+   },
+   "source_note": "§1.3.1 Passagiergrundentgelt, originäre Zusteiger innerhalb Schengen, ab 01.04.2026"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.06,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local",
+    "dest": "eu_non_schengen"
+   },
+   "source_note": "§1.3.1, originäre Zusteiger außerhalb Schengen, ab 01.04.2026 — одна ставка на все ступени вне Шенгена"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.06,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local",
+    "dest": "europe_non_eu"
+   },
+   "source_note": "§1.3.1, originäre Zusteiger außerhalb Schengen, ab 01.04.2026 — одна ставка на все ступени вне Шенгена"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.06,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "local",
+    "dest": "intercontinental"
+   },
+   "source_note": "§1.3.1, originäre Zusteiger außerhalb Schengen, ab 01.04.2026 — одна ставка на все ступени вне Шенгена"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 6.41,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "§1.3.1, nachgewiesene Transferpassagiere zu allen Flugzielen, ab 01.04.2026"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.43,
+   "currency": "EUR",
+   "when": {
+    "pax_type": "transit"
+   },
+   "source_note": "§1.3.1, nachgewiesene Transitpassagiere zu allen Flugzielen, ab 01.04.2026"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 36.42,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     0,
+     60
+    ]
+   },
+   "source_note": "§1.4 Schallschutzentgelt, fester Anteil bis 60.000 kg MTOM, за каждую посадку и каждый взлёт, ab 01.04.2026"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_movement",
+   "rate": 72.84,
+   "events": "movement",
+   "currency": "EUR",
+   "when": {
+    "mtow_t": [
+     60,
+     650
+    ]
+   },
+   "source_note": "§1.4 Schallschutzentgelt, fester Anteil über 60.000 kg MTOM, ab 01.04.2026"
+  },
+  {
+   "code": "noise_program",
+   "base": "per_pax_per_movement",
+   "rate": 0.54,
+   "currency": "EUR",
+   "source_note": "§1.4 Schallschutzentgelt, variabler Anteil je Passagier an Bord bei Landung und Start, ab 01.04.2026; грузовая часть 0,54/100 кг не заведена"
+  }
+ ],
+ "scales": {
+  "noise_cat": 11,
+  "noise_cat_dep": 11
+ },
+ "map_node": "src_airport_tariff",
+ "not_applicable": {
+  "security": "Сбор за авиабезопасность в Германии — федеральная Luftsicherheitsgebühr, в Entgeltordnung FBB её нет",
+  "emission": "§1.1.3 1,61 EUR за кг NOx-эквивалента за цикл LTO — требует данных двигателя, по шагу 4 не заводится",
+  "waiting_area": "§1.3.2 Warteraumentgelt за вылет по пирсу (Main 192,82 / South 160,68 / North 85,70 EUR) — от типа не зависит, не заведено",
+  "gh_infra": "§3 (центральная инфраструктура) и §4.1 PRM: извлечённый текст PDF обрывается на §1.5.2, ставок не видно — пропуск, не ноль"
+ }
+}

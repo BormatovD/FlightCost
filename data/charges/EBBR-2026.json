@@ -1,0 +1,882 @@
+{
+ "icao": "EBBR",
+ "valid_from": "2026-04-01",
+ "source": "Brussels Airport Company, Charges and Fees, Effective as from 1 April, 2026 (на сайте: valid 1 Apr 2026 – 31 Mar 2027); регулируемый период 01.04.2023-31.03.2028 (решение регулятора D-2022-02-L)",
+ "source_url": "https://media.brusselsairport.be/bruweb/default/0001/40/34f6ba3e5b0acff181dd2df3f7ac74a89e0b8e42.pdf",
+ "publisher": "Brussels Airport Company (BAC); надзор — Service de Régulation / Regulatory Body for Railways and Brussels Airport (regul.be)",
+ "checked_at": "2026-10-29",
+ "map_node": "src_airport_tariff",
+ "next_edition": "2027-04-01",
+ "scales": {
+  "noise_cat": 8
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 2064.0,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 1,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R1 = 10; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 51.6,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 1,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R1 = 10; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 9030.0,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 1,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R1 = 10; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1238.4,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 2,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R2 = 6; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 30.96,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 2,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R2 = 6; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 5418.0,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 2,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R2 = 6; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 412.8,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 3,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R3 = 2; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 10.32,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 3,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R3 = 2; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1806.0,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 3,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R3 = 2; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 247.68,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 4,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R4 = 1.2; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 6.192,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 4,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R4 = 1.2; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 1083.6,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 4,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R4 = 1.2; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 206.4,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 5,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R5 = 1; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 5.16,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 5,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R5 = 1; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 903.0,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 5,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R5 = 1; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 165.12,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 6,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R6 = 0.8; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 4.128,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 6,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R6 = 0.8; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 722.4,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 6,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R6 = 0.8; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 123.84,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 7,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R7 = 0.6; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 3.096,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 7,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R7 = 0.6; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 541.8,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 7,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R7 = 0.6; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 103.2,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 8,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R8 = 0.5; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.58,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 8,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R8 = 0.5; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 451.5,
+   "events": "movement",
+   "when": {
+    "cargo": false,
+    "noise_cat": 8,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U passenger flights 5.16, E категории R8 = 0.5; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 880.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 1,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R1 = 10; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 22.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 1,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R1 = 10; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 3850.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 1,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R1 = 10; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 528.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 2,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R2 = 6; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 13.2,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 2,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R2 = 6; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 2310.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 2,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R2 = 6; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 176.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 3,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R3 = 2; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 4.4,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 3,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R3 = 2; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 770.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 3,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R3 = 2; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 105.6,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 4,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R4 = 1.2; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.64,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 4,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R4 = 1.2; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 462.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 4,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R4 = 1.2; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 88.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 5,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R5 = 1; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 2.2,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 5,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R5 = 1; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 385.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 5,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R5 = 1; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 70.4,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 6,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R6 = 0.8; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.76,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 6,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R6 = 0.8; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 308.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 6,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R6 = 0.8; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 52.8,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 7,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R7 = 0.6; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.32,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 7,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R7 = 0.6; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 231.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 7,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R7 = 0.6; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 44.0,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 8,
+    "mtow_t": [
+     0,
+     40
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R8 = 0.5; W = 40 т при MTOW ≤40 т (ставка = U×E×40). D = 1 (день) — ночные коэффициенты по QC не моделируются"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 1.1,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 8,
+    "mtow_t": [
+     40,
+     175
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R8 = 0.5; W = сертифицированный MTOW 40-175 т; за каждую посадку и каждый взлёт; D = 1"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 192.5,
+   "events": "movement",
+   "when": {
+    "cargo": true,
+    "noise_cat": 8,
+    "mtow_t": [
+     175,
+     999
+    ]
+   },
+   "source_note": "Landing and take-off charges: [U]×[W]×[E]×[D], U cargo flights 2.2, E категории R8 = 0.5; W = 175 т при MTOW ≥175 т (ставка = U×E×175); D = 1"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 23.5,
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Passenger charge: Originating passenger € 23.50 per departing passenger"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 12.49,
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "Passenger charge: Transfer passenger € 12.49 per departing passenger (Transit € 0.00)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 8.87,
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "Security charge 8.87 EUR, originating и transfer"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 8.87,
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "Security charge 8.87 EUR, originating и transfer (транзит, покидающий борт, тоже платит — не заведено)"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 1.37,
+   "source_note": "PRM charge: эталонная ставка 1.37 EUR за вылетающего (вкл. транзит); 1.18/1.77 при доле предуведомлений вне 63-73% не заведены"
+  },
+  {
+   "code": "gh_infra_pax",
+   "base": "per_pax_per_movement",
+   "rate": 0.29,
+   "events": "movement",
+   "when": {
+    "cargo": false
+   },
+   "source_note": "Ground handling fee (с 01.01.2026), passenger flights: 0.29 EUR за пассажира — вылет, прилёт и трансфер"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_movement",
+   "rate": 11.95,
+   "events": "movement",
+   "when": {
+    "cargo": false
+   },
+   "source_note": "Ground handling fee, passenger flights: € 11.95 per movement (departing and arriving)"
+  },
+  {
+   "code": "gh_infra",
+   "base": "per_movement",
+   "rate": 9.56,
+   "events": "movement",
+   "when": {
+    "cargo": true
+   },
+   "source_note": "Ground handling fee, cargo flights: 9.56 EUR за движение (0.32 за 100 кг груза не заведено)"
+  },
+  {
+   "code": "cup",
+   "base": "per_departing_pax",
+   "rate": 0.5217,
+   "when": {
+    "pax_type": "local"
+   },
+   "source_note": "CUP fee: € 0.5217 per local departing passenger"
+  },
+  {
+   "code": "cup",
+   "base": "per_departing_pax",
+   "rate": 0.2918,
+   "when": {
+    "pax_type": "transfer"
+   },
+   "source_note": "CUP fee: € 0.2918 per departing transfer passenger as of 1st of April 2026"
+  },
+  {
+   "code": "security_state",
+   "base": "per_departing_pax",
+   "rate": 0.26,
+   "when": {
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "Charges from third parties, BCAA charge: 0.26 EUR (январь 2026) за отправляемого и трансферного пассажира"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "rate": 0.95,
+   "threshold": 2,
+   "events": "turnaround",
+   "when": {
+    "cargo": false,
+    "mtow_t": [
+     0,
+     100
+    ]
+   },
+   "source_note": "Parking charge: Fee = € 0.95 x MTOW x # hours; MTOW <100 т — первые 2 ч бесплатно, с 3-го часа; начатый час — полный; ночь 23:00-05:59 не тарифицируется — не моделируется. Граница 100 т: документ «below 100» / «≥100», интервал схемы (lo,hi] относит ровно 100 т к нижней полосе"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "rate": 0.95,
+   "threshold": 4,
+   "events": "turnaround",
+   "when": {
+    "cargo": false,
+    "mtow_t": [
+     100,
+     999
+    ]
+   },
+   "source_note": "Parking charge: ≥100 т MTOW — первые 4 ч бесплатно"
+  },
+  {
+   "code": "parking",
+   "base": "per_tonne_hour_above",
+   "rate": 0.27,
+   "threshold": 0,
+   "events": "turnaround",
+   "when": {
+    "cargo": true,
+    "park_h": [
+     8,
+     240
+    ]
+   },
+   "source_note": "Parking charge, cargo: Fee = € 0.27 x MTOW x # hours, первые 8 ч не тарифицируются, с 9-го часа считается весь период"
+  }
+ ]
+}

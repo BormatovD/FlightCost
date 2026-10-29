@@ -1,0 +1,9 @@
+{
+ "doc_ok": true,
+ "doc_note": "Swedavia Airport Charges & Conditions of Services, 'Valid from 1 January 2026' (v1.1) — совпадает",
+ "rules_checked": 10,
+ "rules_ok": 10,
+ "errors": [],
+ "unreachable": false,
+ "note": "Все ставки Arlanda совпадают (118/137 SEK/т, мин. 750, макс. 26 550/30 825; 91/55; PRM 8.4; CHC 3.3; ramp 4.1/т за вылет; security 46). Мелочь вне списка ошибок: у ramp_infra нет round_mtow 'nearest_tonne', хотя документ округляет MTOW до ближайших 1000 кг (как у взлётного). 'Other flights' в документе не определены — сведены к cargo:true (допущение). Признак 'за взлёт' явно не назван. Цитаты k3-027..k3-036 подтверждаются."
+}

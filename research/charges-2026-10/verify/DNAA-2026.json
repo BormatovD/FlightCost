@@ -1,0 +1,16 @@
+{
+ "doc_ok": true,
+ "doc_note": "Страница FAAN без даты действия (в метаданных modified 05.03.2023); valid_from = дата проверки — это не дата документа. Ставки и формулы совпадают.",
+ "rules_checked": 9,
+ "rules_ok": 8,
+ "errors": [
+  {
+   "rule": "passenger/per_departing_pax/flight INTL — 100 USD",
+   "file": "100 USD на любой международный вылет, включая Западную Африку",
+   "doc": "100 USD — non West African countries; 80 USD — West African countries",
+   "fix": "в when добавить other: {not: [ИКАО аэропортов ЭКОВАС]} и отдельное правило 80 USD с other: [тот же список] (ключ other есть в схеме)"
+  }
+ ],
+ "unreachable": false,
+ "note": "Посадка 0.00909/0.01364 USD/кг и 0.25/0.375 NGN/кг, PSC 2000 NGN, CUTE 1.4 USD, телетрап 40/50 USD — совпадают; цитаты k9-045…051 совпадают. Сомнения: CUTE «Total Chargeable Passenger» — не обязательно только вылетающие (возможно, занижено вдвое); единица телетрапа не указана; «Weight of aircraft» не обязательно MTOW. Стоянка не заведена — ок, отражено в source."
+}

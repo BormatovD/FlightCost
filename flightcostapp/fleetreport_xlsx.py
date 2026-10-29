@@ -90,6 +90,11 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
     a = rep["assume"]
     ok = sorted([t for t in rep["types"] if t.get("status") == "ok"], key=lambda t: t["rank"])
     ctx = rep.get("context") or {}
+    # «Мой парк» (решение 221): борты и частоты — заданные на витрине, и
+    # формулы книги их не подбирают заново. Прежде книга всегда подбирала
+    # парк под долю рынка, и 20 бортов на экране становились 38 в Excel.
+    fleet = a.get("mode") == "fleet"
+    freq_of = {t["icao"]: {p["key"]: p["freq"] for p in t["plan"]["pairs"]} for t in ok}
 
     # ── Допущения ───────────────────────────────────────────────────────
     A = wb.active
@@ -103,6 +108,13 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
     A["A3"] = ("Синий — ввод; чёрный — формула; зелёный — ссылка на другой лист; серый — "
                "коэффициенты плеча из расчётного ядра. Жёлтым — главные рычаги.")
     A["A3"].font = F_NOTE
+    if fleet:
+        inp = ctx.get("inputs") or {}
+        A["A4"] = ("Режим «Мой парк»: борты каждого типа и частоты — как на витрине сети "
+                   f"(частоты заданы на {len(inp.get('freqs') or {})} парах, остальные — поровну на "
+                   "остаток часов). Доля, эластичность, нижняя граница частоты и резерв в этом "
+                   "режиме не участвуют — они для режима «Доля рынка».")
+        A["A4"].font = F_B
     rows = [
         ("Наша доля потока при рыночной цене", a["share"], PCT, True,
          "доля нынешнего потока каждой пары"),
@@ -111,7 +123,8 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
          "ДОПУЩЕНИЕ: доля × цена^(−эластичность); данных об отклике нет"),
         ("Потолок доли", a["share_cap"], PCT, False, "больше — уже не «отжать», а занять рынок"),
         ("Доля после отклика на цену", "=MIN(B5*B6^(-B7),B8)", PCT, False, "формула"),
-        ("Плановая загрузка", a["lf_target"], PCT, True, "под неё подбираются частоты"),
+        ("Загрузка" if fleet else "Плановая загрузка", a["lf_target"], PCT, True,
+         "пассажиров на рейс — эта доля кресел" if fleet else "под неё подбираются частоты"),
         ("Рейсов туда-обратно в неделю, не меньше", a["min_freq"], "0", True,
          "реже — не регулярная линия"),
         ("Резерв парка", a["reserve"], PCT, False, "доля от эксплуатационного парка, не меньше борта"),
@@ -145,6 +158,8 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
     A["A21"].font = F_B
     head = ["Тип", "Кресел", "Лизинг, EUR/мес на борт", "ТОиР, EUR/ч", "ТОиР, EUR/цикл",
             "Экипаж, EUR/ч", "Экипаж, EUR/цикл", "Налёт борта, ч/мес", "Происхождение ставок"]
+    if fleet:
+        head.append("Бортов, задано")
     for j, h in enumerate(head, start=1):
         c = A.cell(22, j, h)
         c.font, c.fill, c.alignment = F_B, FILL_HEAD, WRAP
@@ -157,17 +172,23 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
                 ", ".join(f"{k} — {PROV_RU.get(pv.get(x), pv.get(x))}" for k, x in
                           (("лизинг", "lease"), ("налёт", "util"), ("ТОиР", "maint"), ("экипаж", "crew")))]
         fmts = [None, "0", EUR, EUR, EUR, EUR, EUR, "0", None]
+        if fleet:
+            vals.append(t["plan"]["fleet"])
+            fmts.append("0")
         for j, (v, f) in enumerate(zip(vals, fmts), start=1):
             c = A.cell(i, j, v)
             if f:
                 c.number_format = f
             c.font = F_COEF if j == 2 else (F_NOTE if j == 9 else F_IN)
+            if j == 10:
+                c.fill = FILL_KEY
     A.column_dimensions["A"].width = 40
     A.column_dimensions["B"].width = 13
     A.column_dimensions["C"].width = 16
     for col in "DEFGH":
         A.column_dimensions[col].width = 14
     A.column_dimensions["I"].width = 60
+    A.column_dimensions["J"].width = 12
 
     # ── лист каждого типа ───────────────────────────────────────────────
     used = {"Допущения", "Сводка", "Доступность", "Пояснения"}
@@ -176,11 +197,14 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
         tp = TypePlan(t["icao"], results[t["icao"]])
         S = wb.create_sheet(_sheet_name(t["icao"], used))
         r0 = type_row[t["icao"]]
-        LEASE, MFH, MFC, CFH, CFC, UTIL = (f"Допущения!${c}${r0}" for c in "CDEFGH")
+        LEASE, MFH, MFC, CFH, CFC, UTIL, NGIVEN = (f"Допущения!${c}${r0}" for c in "CDEFGHJ")
         S["A1"] = f"{t['name']} — объём, рейсы, борты"
         S["A1"].font = F_H
-        S["A2"] = ("Строка — плечо (направление). Поток пары можно вписать или поправить: пустой "
-                   "поток — пара не летается. Серым справа — коэффициенты ядра.")
+        S["A2"] = (("Строка — плечо (направление). Частоты (синие, у первого плеча пары) — как на "
+                    "витрине; их можно менять: 0 — пара не летается. Серым справа — коэффициенты ядра.")
+                   if fleet else
+                   ("Строка — плечо (направление). Поток пары можно вписать или поправить: пустой "
+                    "поток — пара не летается. Серым справа — коэффициенты ядра."))
         S["A2"].font = F_NOTE
         H = 4
         for j, (h, w) in enumerate(COLS, start=1):
@@ -237,13 +261,17 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
                     # рейсы подобраны по этому пределу (колонка K).
                     32: f'=IF(J{r}<{LFT}*I{r},J{r}/I{r},"")',
                 }
+                if fleet:
+                    row[5] = f"=SUMPRODUCT(O{pr0}:O{pr1},N{pr0}:N{pr1})"
+                    row[13] = freq_of[t["icao"]].get(p["key"], 0) if r == pr0 else f"=M{pr0}"
+                    row[15] = f"=MIN({LFT}*I{r},J{r})"
                 fm = {4: NUM0, 5: NUM0, 6: "0", 7: NUM0, 8: "0.00", 9: "0", 10: "0", 11: NUM1,
                       12: "0.00", 13: "0", 14: NUM1, 15: NUM1, 16: PCT, 17: EUR2, 18: EUR2,
                       21: NUM0, 22: NUM3, 31: NUM0, 32: PCT}
                 for j, v in row.items():
                     c = S.cell(r, j, v)
                     c.number_format = fm.get(j, EUR)
-                    if j == 4 and r == pr0 or j == 17:
+                    if j == 4 and r == pr0 or j == 17 or (fleet and j == 13 and r == pr0):
                         c.font = F_IN
                     elif j in (6, 8, 9, 10, 31):
                         c.font = F_COEF
@@ -285,6 +313,11 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
             ("Рейсов туда-обратно в неделю", f"=SUMPRODUCT({rng('M')}/{rng('F')})", "0"),
             ("Налёт борта в эксплуатации, ч/мес", f"=IF(B{tr + 2}>0,B{tr + 1}/B{tr + 2},0)", NUM0),
         ]
+        if fleet:
+            lines[1] = ("Бортов нужно по налёту", lines[1][1], "0")
+            lines[2] = ("Запас бортов (минус — не хватает)", f"=B{tr + 4}-B{tr + 2}", "0")
+            lines[3] = ("Бортов всего (задано)", f"={NGIVEN}", "0")
+            lines[14] = ("Налёт борта, ч/мес", f"=IF(B{tr + 4}>0,B{tr + 1}/B{tr + 4},0)", NUM0)
         for k, (lab, fml, fmt) in enumerate(lines, start=1):
             S.cell(tr + k, 1, lab).font = F_B if k in (4, 6) else F_CALC
             c = S.cell(tr + k, 2, fml)
@@ -302,11 +335,14 @@ def build_xlsx(rep: dict, results: dict) -> bytes:
     V = wb.create_sheet("Сводка", 0)
     V["A1"] = "Отчёт по парку — сводка"
     V["A1"].font = F_H
-    V["A2"] = ("Один объём перевозок на все типы; рейсы, борты и деньги — у каждого свои. "
-               "Все числа — ссылки на листы типов и пересчитываются от «Допущений».")
+    V["A2"] = (("Борты и частоты — как на витрине сети; деньги, загрузка и налёт — у каждого типа "
+                "свои. Все числа — ссылки на листы типов и пересчитываются от «Допущений».") if fleet else
+               ("Один объём перевозок на все типы; рейсы, борты и деньги — у каждого свои. "
+                "Все числа — ссылки на листы типов и пересчитываются от «Допущений»."))
     V["A2"].font = F_NOTE
     meas = [("Наш объём, пасс./мес", "vol", NUM0), ("Рейсов туда-обратно в неделю", "freq", "0"),
-            ("Бортов в эксплуатации", "n_op", "0"), ("Резерв, бортов", "spare", "0"),
+            ("Бортов нужно по налёту" if fleet else "Бортов в эксплуатации", "n_op", "0"),
+            ("Запас бортов" if fleet else "Резерв, бортов", "spare", "0"),
             ("Бортов всего", "fleet", "0"), ("Загрузка средняя", "lf", PCT),
             ("Налёт борта, ч/мес", "util", NUM0),
             ("Выручка", "rev", EUR), ("Дистрибуция", "dist", EUR), ("Топливо", "fuel", EUR),

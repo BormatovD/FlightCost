@@ -272,10 +272,14 @@ def observed_frequency(store, as_of) -> tuple[dict, int]:
 
 # ── формирование сети ───────────────────────────────────────────────────
 
-def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=None):
+def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=None,
+         seats=None):
     kw = dict(aircraft=aircraft, as_of=as_of, month=month, overrides=overrides,
               operator=operator, util_mode="marginal", _trade=False, via=via,
               _ctx_scope=False)
+    if seats:
+        # Своя компоновка (кресел рейсом) — как положение «своя» на маршруте.
+        kw["seats"] = int(seats)
     r_full = econ(store, o, d, load_factor=1.0, **kw)
     seats = int(r_full.inputs["seats"])
     cap = int(r_full.max_pax) if r_full.max_pax else seats
@@ -316,12 +320,13 @@ def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=
 
 
 def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
-                    operator) -> Fleet:
+                    operator, seats=None) -> Fleet:
     """Ставка лизинга и типовой налёт — из разбора ядра в режиме «типовой
     по флоту», с их происхождением. Сеть не заводит своих констант."""
     r = econ(store, o, d, aircraft=aircraft, as_of=as_of, month=month,
              overrides=overrides, operator=operator, load_factor=0.8,
-             util_mode="fleet_average", _trade=False, _ctx_scope=False)
+             util_mode="fleet_average", _trade=False, _ctx_scope=False,
+             **({"seats": int(seats)} if seats else {}))
     lease, util = _step(r, "d_fleet"), _step(r, "v_util")
     if lease is None or util is None:
         raise RuntimeError("в разборе ядра нет шагов d_fleet / v_util — "
@@ -342,7 +347,7 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                  closures=None, econ=None, crossing_fn=None, airport_fn=None,
                  gc_nm=None, world_zones=None, detour_fn=None,
                  leg_cache: dict | None = None, detour_cache: dict | None = None,
-                 progress=None) -> list[Pair]:
+                 progress=None, seats=None) -> list[Pair]:
     """Все пары выбранных аэропортов с причиной, почему пара в сети или нет.
 
     `leg_cache` и `detour_cache` — словари вызывающего: плечо и обход
@@ -423,12 +428,12 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
         try:
             for o, d in ((x, y), (y, x)):
                 via = p.via if (o, d) == (x, y) else list(reversed(p.via))
-                lkey = (o, d, tuple(via), aircraft, as_of, month, operator, ov_key)
+                lkey = (o, d, tuple(via), aircraft, as_of, month, operator, ov_key, seats)
                 leg = leg_cache.get(lkey) if leg_cache is not None else None
                 if leg is None:
                     leg, _r = _leg(econ, store, o, d, aircraft=aircraft, as_of=as_of,
                                    month=month, overrides=overrides, operator=operator,
-                                   via=via or None)
+                                   via=via or None, seats=seats)
                     if leg_cache is not None:
                         leg_cache[lkey] = leg
                 leg = copy.deepcopy(leg)          # своё у каждой сети: цены накладываются
@@ -672,26 +677,40 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
         raise ValueError("в сети не осталось ни одной пары с ценой и правом летать")
 
     rt_h = {p.key: sum(l.block_h for l in p.legs) for p in live}
-    if freq:
-        f_of = {}
-        for p in live:
-            f = _lookup(freq, p.a, p.b, directional=False)
-            f_of[p.key] = int(f or 0)
-        idle = [k for k, f in f_of.items() if f == 0]
-        if idle:
-            warnings.append("частота не задана — пары не летаются: " + ", ".join(idle))
-    else:
-        H = fleet_n * util
-        f_eq = int(H // (WEEKS_PER_MONTH * sum(rt_h.values())))
-        if f_eq < 1:
+    # Заданные частоты закреплены; пары без своей частоты делят оставшиеся
+    # часы парка поровну (решение 221). Ноль — пара выключена человеком.
+    # Прежде пара без частоты при любой заданной молча выпадала из сети.
+    f_of, rest = {}, []
+    for p in live:
+        f = _lookup(freq, p.a, p.b, directional=False) if freq else None
+        if f is None:
+            rest.append(p)
+        else:
+            f_of[p.key] = max(0, int(f))
+    off = [k for k, f in f_of.items() if f == 0]
+    if off:
+        warnings.append("частота 0 — пары выключены: " + ", ".join(off))
+    if rest:
+        H = fleet_n * util - sum(f * WEEKS_PER_MONTH * rt_h[k] for k, f in f_of.items())
+        f_eq = int(max(H, 0) // (WEEKS_PER_MONTH * sum(rt_h[p.key] for p in rest)))
+        if f_eq < 1 and not f_of:
             raise ValueError(
                 f"{fleet_n} бортов при налёте {util:.0f} ч/мес не хватает даже на "
                 f"рейс в неделю на каждой из {len(live)} пар — задайте частоты "
                 f"вручную (--freq) или увеличьте парк")
-        f_of = {p.key: f_eq for p in live}
-        warnings.append(f"частоты не заданы — разложено поровну: {f_eq} рейсов в "
-                        f"неделю туда-обратно на каждой паре, сколько вывозит парк")
+        for p in rest:
+            f_of[p.key] = f_eq
+        if f_of.keys() - {p.key for p in rest}:
+            warnings.append(f"частоты без заданных — на остаток часов парка: {f_eq} рейсов "
+                            f"в неделю туда-обратно на {len(rest)} парах"
+                            + ("" if f_eq else " — часов не осталось, эти пары не летаются"))
+        else:
+            warnings.append(f"частоты не заданы — разложено поровну: {f_eq} рейсов в "
+                            f"неделю туда-обратно на каждой паре, сколько вывозит парк")
     flown = [(p, f_of[p.key]) for p in live if f_of[p.key] > 0]
+    if not flown:
+        raise ValueError("ни одна пара не летается: заданные частоты нулевые или заняли все "
+                         "часы парка — добавьте борты или уменьшите частоты")
     hours = sum(f * WEEKS_PER_MONTH * rt_h[p.key] for p, f in flown)
     if hours > fleet_n * util * 1.0001:
         warnings.append(f"налёт {hours / fleet_n:,.0f} ч/мес на борт выше принятого "

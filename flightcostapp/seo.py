@@ -124,6 +124,39 @@ T = {
         "type_card": ("Тип есть в каталоге карточкой: для расчёта не хватает опубликованных данных ({gaps}). "
                       "Как только они появятся в открытых источниках, тип станет доступен в калькуляторе."),
         "cta": "Посчитать маршрут на {icao} →",
+        "ed_btn": "Изменить и сохранить свой вариант",
+        "ed_h": "Свой вариант {icao}",
+        "ed_lead": "Копия типа со всеми характеристиками и расходом. Поменяйте то, что у вас иначе — кресла, массы, ставки, — и сохраните: вариант появится в калькуляторе и в сравнении сети. Хранится в вашем рабочем месте, никому не виден.",
+        "ed_key": "Код",
+        "ed_name": "Название",
+        "ed_engine": "Двигатель",
+        "ed_seats_max": "Кресел по сертификату",
+        "ed_seats_typical": "Кресел в типовой компоновке",
+        "ed_mtow": "Взлётная масса, т",
+        "ed_oew": "Масса пустого, т",
+        "ed_mlw": "Посадочная масса, т",
+        "ed_fuel": "Ёмкость баков, т",
+        "ed_rates": "Ставки эксплуатации, EUR — пусто: заготовка (серым)",
+        "ed_lease": "Лизинг в месяц",
+        "ed_hours": "Налёт, ч в месяц",
+        "ed_mfh": "ТОиР за час",
+        "ed_mfc": "ТОиР за цикл",
+        "ed_cfh": "Экипаж за час",
+        "ed_cfc": "Экипаж за вылет",
+        "ed_src": "Что изменено и почему (обязательно)",
+        "ed_src_ph": "например: компоновка 186 кресел, лизинг по предложению лизингодателя",
+        "ed_burn_same": "Расход — как у {analog} (тот же двигатель, множитель 1).",
+        "ed_burn_anchor": "Расход — по аналогу {analog} с якорем {icao}.",
+        "ed_save": "Сохранить вариант",
+        "ed_cancel": "Отмена",
+        "ed_need_ws": "Своё хранится в рабочем месте — оно ваше по секретной ссылке, без регистрации.",
+        "ed_make_ws": "Создать рабочее место и сохранить",
+        "ed_saved": "Сохранено: {key}.",
+        "ed_link": "Ссылка на ваше рабочее место — сохраните её, по ней вариант откроется на любом устройстве:",
+        "ed_calc": "Посчитать маршрут на нём →",
+        "ed_net": "Сравнить с {icao} в сети →",
+        "ed_fail": "Не сохранено:", "ed_seats_err": "Кресел в типовой компоновке больше, чем по сертификату — поправьте одно из двух.",
+        "ed_suggest": "Предложить в общий каталог — скоро: с источником по каждому изменённому полю.",
         "specs_h": "Характеристики", "col_param": "Параметр", "col_value": "Значение", "col_src": "Источник",
         "fleet_h": "Заготовка калькулятора",
         "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
@@ -211,6 +244,39 @@ T = {
         "type_card": ("This type is in the catalogue as a card only: published data needed for a calculation is "
                       "missing ({gaps}). It becomes available in the calculator once that data is published."),
         "cta": "Calculate a route on the {icao} →",
+        "ed_btn": "Edit and save your own variant",
+        "ed_h": "Your variant of the {icao}",
+        "ed_lead": "A copy of the type with all characteristics and fuel burn. Change what differs for you — seats, masses, rates — and save: the variant appears in the calculator and in network comparison. It is kept in your workspace and visible to no one else.",
+        "ed_key": "Code",
+        "ed_name": "Name",
+        "ed_engine": "Engine",
+        "ed_seats_max": "Certified seats",
+        "ed_seats_typical": "Seats in typical layout",
+        "ed_mtow": "Take-off mass, t",
+        "ed_oew": "Empty mass, t",
+        "ed_mlw": "Landing mass, t",
+        "ed_fuel": "Fuel capacity, t",
+        "ed_rates": "Operating rates, EUR — empty means the default estimate (grey)",
+        "ed_lease": "Lease per month",
+        "ed_hours": "Utilisation, h per month",
+        "ed_mfh": "MRO per hour",
+        "ed_mfc": "MRO per cycle",
+        "ed_cfh": "Crew per hour",
+        "ed_cfc": "Crew per departure",
+        "ed_src": "What changed and why (required)",
+        "ed_src_ph": "e.g. 186-seat layout, lease from a lessor's offer",
+        "ed_burn_same": "Fuel burn as the {analog} (same engine, factor 1).",
+        "ed_burn_anchor": "Fuel burn by the analogue {analog} with the {icao} anchor.",
+        "ed_save": "Save variant",
+        "ed_cancel": "Cancel",
+        "ed_need_ws": "Your own data lives in a workspace — it is yours via a secret link, no sign-up.",
+        "ed_make_ws": "Create a workspace and save",
+        "ed_saved": "Saved: {key}.",
+        "ed_link": "Link to your workspace — keep it, it opens your variant on any device:",
+        "ed_calc": "Calculate a route on it →",
+        "ed_net": "Compare with the {icao} in a network →",
+        "ed_fail": "Not saved:", "ed_seats_err": "More seats in the typical layout than certified — correct one of the two.",
+        "ed_suggest": "Suggesting it for the shared catalogue — coming soon, with a source for every changed field.",
         "specs_h": "Specifications", "col_param": "Parameter", "col_value": "Value", "col_src": "Source",
         "fleet_h": "Calculator defaults",
         "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
@@ -298,6 +364,39 @@ T = {
         "type_card": ("Dieser Typ steht nur als Karte im Katalog: für eine Berechnung fehlen veröffentlichte Daten "
                       "({gaps}). Sobald sie veröffentlicht sind, wird er im Rechner verfügbar."),
         "cta": "Strecke mit der {icao} berechnen →",
+        "ed_btn": "Ändern und eigene Variante speichern",
+        "ed_h": "Ihre Variante der {icao}",
+        "ed_lead": "Eine Kopie des Typs mit allen Kennwerten und dem Verbrauch. Ändern Sie, was bei Ihnen anders ist — Sitze, Massen, Sätze — und speichern Sie: die Variante erscheint im Rechner und im Netzvergleich. Sie liegt in Ihrem Arbeitsbereich und ist für niemanden sonst sichtbar.",
+        "ed_key": "Code",
+        "ed_name": "Name",
+        "ed_engine": "Triebwerk",
+        "ed_seats_max": "Zugelassene Sitze",
+        "ed_seats_typical": "Sitze in typischer Bestuhlung",
+        "ed_mtow": "Startmasse, t",
+        "ed_oew": "Leermasse, t",
+        "ed_mlw": "Landemasse, t",
+        "ed_fuel": "Tankinhalt, t",
+        "ed_rates": "Betriebssätze, EUR — leer heißt Schätzwert (grau)",
+        "ed_lease": "Leasing pro Monat",
+        "ed_hours": "Flugstunden pro Monat",
+        "ed_mfh": "Wartung je Stunde",
+        "ed_mfc": "Wartung je Zyklus",
+        "ed_cfh": "Crew je Stunde",
+        "ed_cfc": "Crew je Abflug",
+        "ed_src": "Was geändert wurde und warum (Pflicht)",
+        "ed_src_ph": "z. B. Bestuhlung 186 Sitze, Leasing laut Angebot",
+        "ed_burn_same": "Verbrauch wie {analog} (gleiches Triebwerk, Faktor 1).",
+        "ed_burn_anchor": "Verbrauch über Analogon {analog} mit dem Anker der {icao}.",
+        "ed_save": "Variante speichern",
+        "ed_cancel": "Abbrechen",
+        "ed_need_ws": "Eigene Daten liegen in einem Arbeitsbereich — er gehört Ihnen per geheimem Link, ohne Anmeldung.",
+        "ed_make_ws": "Arbeitsbereich anlegen und speichern",
+        "ed_saved": "Gespeichert: {key}.",
+        "ed_link": "Link zu Ihrem Arbeitsbereich — aufbewahren, damit öffnet sich die Variante auf jedem Gerät:",
+        "ed_calc": "Strecke damit berechnen →",
+        "ed_net": "Im Netz mit der {icao} vergleichen →",
+        "ed_fail": "Nicht gespeichert:", "ed_seats_err": "Mehr Sitze in der typischen Bestuhlung als zugelassen — bitte eines von beiden korrigieren.",
+        "ed_suggest": "Vorschlag für den gemeinsamen Katalog — bald, mit Quelle für jedes geänderte Feld.",
         "specs_h": "Technische Daten", "col_param": "Parameter", "col_value": "Wert", "col_src": "Quelle",
         "fleet_h": "Standardsätze des Rechners",
         "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
@@ -1068,6 +1167,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     cls = cls_of(entry)
     if entry.get("usable"):
         body.append(f'<a class="cta" href="{esc(calc_link(lang, cls, icao))}">{esc(t["cta"].format(icao=icao))}</a>')
+        if not icao.upper().startswith("USER:"):
+            body.append(type_editor(lang, icao, cls, info))
     else:
         gaps = by.get("calc_gaps", {}).get("text") or "—"
         body.append(f'<p class="dim">{esc(t["type_card"].format(gaps=gaps))}</p>')
@@ -1134,6 +1235,120 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
              [crumbs_ld([("FlightCost", f"{site()}/{lang}/"), (t["nav_types"], f"{site()}/{lang}/types"),
                          (name, site() + type_url(lang, icao))])])
     return shell(lang, f"/type/{quote(icao)}", h, "\n".join(body), on="types")
+
+
+# ── свой вариант типа со страницы типа (решение 231) ─────────────────────
+# Форма — над заготовкой `/api/aircraft/draft`: копия со всеми полями и
+# расходом (тот же двигатель или аналог с якорем исходного типа). На
+# странице правится то, что обычно у перевозчика иначе; остальное едет как
+# есть. Сохранение — `/api/aircraft/save` в рабочее место; места нет —
+# создаётся одной кнопкой и ссылка на него показывается.
+ED_FIELDS = (("seats_max", "ed_seats_max", "1"), ("seats_typical", "ed_seats_typical", "1"),
+             ("mtow_t", "ed_mtow", "0.1"), ("oew_t", "ed_oew", "0.1"), ("mlw_t", "ed_mlw", "0.1"),
+             ("fuel_capacity_t", "ed_fuel", "0.1"))
+ED_RATES = (("lease_eur_month", "ed_lease", "1000"), ("monthly_hours", "ed_hours", "10"),
+            ("maint_eur_per_fh", "ed_mfh", "10"), ("maint_eur_per_fc", "ed_mfc", "10"),
+            ("crew_eur_per_fh", "ed_cfh", "10"), ("crew_eur_per_fc", "ed_cfc", "10"))
+ED_STYLE = """<style>
+.ed{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:14px 0;background:var(--panel)}
+.ed[hidden]{display:none}.ed h3{margin:0 0 6px;font-size:16px;color:var(--ink2)}
+.ed .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 14px;margin:10px 0}
+.ed label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--dim)}
+.ed input{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:7px 9px;
+  font:14px var(--sans);font-variant-numeric:tabular-nums}
+.ed input:focus{border-color:var(--accent);outline:0}.ed input::placeholder{color:var(--faint)}
+.ed .sub{font-size:12.5px;color:var(--dim);margin:14px 0 0}
+.ed .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.ed button{background:var(--raise);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:8px 14px;
+  font:14px var(--sans);cursor:pointer}.ed button.pri{border-color:var(--accent);font-weight:600}
+.ed .msg{margin-top:10px;font-size:13.5px}.ed .msg.bad{color:var(--warn)}
+.ed .key{font:12.5px var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:5px 8px;
+  word-break:break-all;user-select:all;display:block;margin:6px 0}
+button.cta{background:none;cursor:pointer;font:inherit;font-weight:600;margin-left:8px}
+</style>"""
+
+
+def type_editor(lang: str, icao: str, cls: str, info: dict) -> str:
+    """Кнопка «Изменить и сохранить свой вариант» и форма под ней."""
+    t = T[lang]
+    fd = info.get("fleet_default") or {}
+
+    def inp(k, lab, step, ph=""):
+        return (f'<label>{esc(t[lab])}<input data-k="{k}" type="number" step="{step}" min="0"'
+                f'{f" placeholder={chr(34)}{ph}{chr(34)}" if ph != "" else ""}></label>')
+    fields = "".join(inp("f." + k, lab, st) for k, lab, st in ED_FIELDS)
+    rates = "".join(inp("r." + k, lab, st, "" if fd.get(k) is None else round(fd[k]))
+                    for k, lab, st in ED_RATES)
+    o, d = ROUTES[cls]
+    txt = {k: t[k] for k in ("ed_saved", "ed_link", "ed_calc", "ed_net", "ed_fail", "ed_need_ws", "ed_seats_err",
+                             "ed_make_ws", "ed_burn_same", "ed_burn_anchor")}
+    # Подписи источника своего типа — данные, а не интерфейс: они пишутся
+    # в факты по-русски, как у файлов каталога. В странице — экранированными
+    # (ensure_ascii), чтобы английская и немецкая страница не несли кириллицу.
+    src = {"source": "копия {icao} со страницы типа: {why}", "url": "собственное допущение",
+           "publisher": "автор рабочего места"}
+    cfg = json.dumps({"icao": icao, "lang": lang, "o": o, "d": d, "t": txt, "src": src},
+                     ensure_ascii=True).replace("</", "<\\/")
+    return (ED_STYLE
+            + f'<button class="cta" id="edopen" type="button">{esc(t["ed_btn"])}</button>'
+            f'<form class="ed" id="ed" hidden onsubmit="return false">'
+            f'<h3>{esc(t["ed_h"].format(icao=icao))}</h3><p class="dim">{esc(t["ed_lead"])}</p>'
+            f'<div class="g"><label>{esc(t["ed_key"])}<input data-k="icao" type="text"></label>'
+            f'<label>{esc(t["ed_name"])}<input data-k="name" type="text"></label>'
+            f'<label>{esc(t["ed_engine"])}<input data-k="engine" type="text"></label></div>'
+            f'<div class="g">{fields}</div><p class="sub">{esc(t["ed_rates"])}</p><div class="g">{rates}</div>'
+            f'<p class="sub" id="edburn"></p>'
+            f'<div class="g"><label style="grid-column:1/-1">{esc(t["ed_src"])}<input data-k="why" type="text" '
+            f'placeholder="{esc(t["ed_src_ph"])}"></label></div>'
+            f'<div class="btns"><button class="pri" id="edsave" type="button">{esc(t["ed_save"])}</button>'
+            f'<button id="edcancel" type="button">{esc(t["ed_cancel"])}</button></div>'
+            f'<p class="dim">{esc(t["ed_suggest"])}</p><div class="msg" id="edmsg"></div></form>'
+            f'<script type="application/json" id="edcfg">{cfg}</script>'
+            f'<script>{ED_JS}</script>')
+
+
+ED_JS = r"""(function(){
+var C=JSON.parse(document.getElementById('edcfg').textContent),T=C.t,F=document.getElementById('ed'),D=null;
+function $(k){return F.querySelector('[data-k="'+k+'"]')}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function msg(h,bad){var m=document.getElementById('edmsg');m.className='msg'+(bad?' bad':'');m.innerHTML=h}
+document.getElementById('edopen').onclick=async function(){
+  if(!D){D=await (await fetch('/api/aircraft/draft?icao='+encodeURIComponent(C.icao))).json();
+    if(D.error){F.hidden=false;msg(esc(T.ed_fail)+' '+esc(D.error),1);return}
+    $('icao').value=D.icao;$('name').value=D.name||'';$('engine').value=D.engine||'';
+    F.querySelectorAll('[data-k^="f."]').forEach(function(e){var v=(D.fields||{})[e.dataset.k.slice(2)];e.value=v==null?'':v});
+    F.querySelectorAll('[data-k^="r."]').forEach(function(e){var v=(D.fleet||{})[e.dataset.k.slice(2)];e.value=v==null?'':Math.round(v)});
+    var b=D.burn;document.getElementById('edburn').textContent=b?(b.same_engine?T.ed_burn_same:T.ed_burn_anchor)
+      .replace('{analog}',b.analog||C.icao).replace('{icao}',C.icao):'';}
+  F.hidden=false;this.hidden=true;$('why').focus()};
+document.getElementById('edcancel').onclick=function(){F.hidden=true;document.getElementById('edopen').hidden=false};
+async function save(){
+  var doc=JSON.parse(JSON.stringify(D)),why=$('why').value.trim();
+  if(!why){$('why').focus();msg(esc(T.ed_fail)+' '+esc($('why').closest('label').firstChild.textContent),1);return}
+  var sm=+$('f.seats_max').value,st=+$('f.seats_typical').value;
+  if(sm&&st&&st>sm){$('f.seats_typical').focus();msg(esc(T.ed_fail)+' '+esc(T.ed_seats_err),1);return}
+  doc.icao=$('icao').value.trim().toUpperCase();if(doc.icao.indexOf('USER:')!==0)doc.icao='USER:'+doc.icao;
+  doc.name=$('name').value.trim()||doc.name;doc.engine=$('engine').value.trim();
+  doc.fields=doc.fields||{};F.querySelectorAll('[data-k^="f."]').forEach(function(e){var k=e.dataset.k.slice(2);
+    if(e.value==='')delete doc.fields[k];else doc.fields[k]=+e.value});
+  var fl={};F.querySelectorAll('[data-k^="r."]').forEach(function(e){if(e.value!=='')fl[e.dataset.k.slice(2)]=+e.value});
+  if(Object.keys(fl).length){doc.fleet=fl;doc.fleet_source=why}else{delete doc.fleet;delete doc.fleet_source}
+  doc.source=C.src.source.replace('{icao}',C.icao).replace('{why}',why);doc.source_url=C.src.url;
+  doc.publisher=C.src.publisher;
+  var r=await (await fetch('/api/aircraft/save',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(doc)})).json();
+  if(r.need_workspace){msg(esc(T.ed_need_ws)+' <button type="button" id="edws" class="pri">'+esc(T.ed_make_ws)+'</button>',0);
+    document.getElementById('edws').onclick=async function(){
+      var w=await (await fetch('/api/ws/new',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})).json();
+      if(w.error){msg(esc(T.ed_fail)+' '+esc(w.error),1);return}
+      C.wskey=w.key;save()};return}
+  if(r.error){msg(esc(T.ed_fail)+' '+esc(r.error),1);return}
+  var q='/'+C.lang+'/calc?o='+C.o+'&d='+C.d+'&ac='+encodeURIComponent(r.icao);
+  var n='/'+C.lang+'/calc?o='+C.o+'&d='+C.d+'&ac='+encodeURIComponent(C.icao)+'&net=1&cmp='+encodeURIComponent(r.icao);
+  msg(esc(T.ed_saved.replace('{key}',r.icao))+(C.wskey?'<br>'+esc(T.ed_link)+'<span class="key">'+esc(location.origin+'/w/'+C.wskey)+'</span>':'')
+    +'<br><a href="'+q+'">'+esc(T.ed_calc)+'</a> · <a href="'+n+'">'+esc(T.ed_net.replace('{icao}',C.icao))+'</a>',0)}
+document.getElementById('edsave').onclick=save;
+})();"""
 
 
 # ── служебные файлы ────────────────────────────────────────────────────────

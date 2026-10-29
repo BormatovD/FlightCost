@@ -1,0 +1,16 @@
+{
+ "doc_ok": true,
+ "doc_note": "ANA, Regulated Charges 2026, «Valid from 1st June 2026» (Lisbon Group) — совпадает с valid_from 2026-06-01.",
+ "rules_checked": 19,
+ "rules_ok": 18,
+ "errors": [
+  {
+   "rule": "prm/per_departing_pax/when=null",
+   "file": "0,86 € без условия — начисляется и на прямой транзит",
+   "doc": "Charges Description: PRM следует правилам и освобождениям passenger service; «Passengers in direct transit through the airport» освобождены",
+   "fix": "when: {pax_type: [local, transfer]} (+ правило transit rate 0, как для passenger/security)"
+  }
+ ],
+ "unreachable": false,
+ "note": "Посадка: 8.46/10.10/11.82/9.00 и surcharge 0.27/0.32/0.37/0.28 разложены накопительно (приросты 1.64/1.72/−2.82 и 0.05/0.05/−0.09) — верно по «Amounts charged in each category are cumulative»; минимумы 398.36/12.57, events=landing («due for each landing operation») — ок. Пассажир 16.04/27.20 local, 12.52/20.98 transfer; Security 1.80; ANAC 1.76/3.67/7.13 — ок. Стоянка 0.4042 €/мин ×60=24.252 (≤45 т) и 0.0090 €/т·мин ×60=0.54 (>45 т); телетрап 3.64×15=54.6 за 15 мин + (4.73−3.64)×60=65.4 за час сверх 2 ч — ок. Не смоделировано (не ошибка): ночь 00:00–06:00 без оплаты стоянки, отсчёт стоянки с +10 мин, ставки стоянки после 24 ч, надбавка 94.57 за 15 мин; поминутная тарификация округляется до 15 мин/часа. Шаги extract k4-027…k4-031: цитаты найдены."
+}

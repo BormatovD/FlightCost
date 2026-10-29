@@ -1,0 +1,206 @@
+{
+ "icao": "DNAA",
+ "valid_from": "2026-10-29",
+ "source": "FAAN, страница Aeronautical Charges (единый перечень на сеть FAAN, без разбивки по аэропортам; дата действия на странице не указана — valid_from = дата проверки). НЕ ЗАВЕДЕНО: стоянка (0.00114 за кг×час междунар., 0.0315 внутр. — «chargeable parking hours» без определения бесплатного периода), стойки регистрации (7 USD/стойка/час), топливный сбор, PSC 80 USD для Западной Африки, чартерный PSC",
+ "source_url": "https://faan.gov.ng/aeronautical-charges/",
+ "publisher": "Federal Airports Authority of Nigeria (FAAN)",
+ "checked_at": "2026-10-29",
+ "certainty": "reading_unconfirmed",
+ "error_cost": 660.0,
+ "confirm_by": "FAAN schedule of charges с датой действия или AIP Nigeria GEN 4.1",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 9.09,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "night": false
+   },
+   "source_note": "FAAN Aeronautical Charges, LANDING RATE, INTERNATIONAL, столбец DAY: 0.00909 за кг (= 9,09 USD за тонну; перевод кг→т, не валюты). Формула «Weight Of Aircraft (Kg) X Landing Rate X Current Bar Rate» — ставка в USD, оплата в найре по курсу. Взимается за посадку (на странице не оговорено явно)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 13.64,
+   "currency": "USD",
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "night": true
+   },
+   "source_note": "там же, INTERNATIONAL, столбец NIGHT: 0.01364 за кг (= 13,64 USD/т)"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 250.0,
+   "currency": "NGN",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "night": false
+   },
+   "source_note": "там же, DOMESTIC, DAY: 0.25 за кг (= 250 NGN/т); формула без курса — ставка в найре"
+  },
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 375.0,
+   "currency": "NGN",
+   "events": "landing",
+   "when": {
+    "flight": "domestic",
+    "night": true
+   },
+   "source_note": "там же, DOMESTIC, NIGHT: 0.375 за кг (= 375 NGN/т)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 100.0,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": {
+     "not": [
+      "DGAA",
+      "DGSI",
+      "DGLE",
+      "DIAP",
+      "DIYO",
+      "DBBB",
+      "DXXX",
+      "DFFD",
+      "DFOO",
+      "DRRN",
+      "GABS",
+      "GOBD",
+      "GOOY",
+      "GOSS",
+      "GBYD",
+      "GGOV",
+      "GUCY",
+      "GFLL",
+      "GLRB",
+      "GVAC",
+      "GVNP",
+      "GVBA",
+      "GVSV"
+     ]
+    }
+   },
+   "source_note": "FAAN, Passenger Service Charge Per Head (INTERNATIONAL) = 100 USD for Non West African Countries; исправлено по проверке verify/DNAA: Западная Африка — отдельное правило 80 USD"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 80.0,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "other": [
+     "DGAA",
+     "DGSI",
+     "DGLE",
+     "DIAP",
+     "DIYO",
+     "DBBB",
+     "DXXX",
+     "DFFD",
+     "DFOO",
+     "DRRN",
+     "GABS",
+     "GOBD",
+     "GOOY",
+     "GOSS",
+     "GBYD",
+     "GGOV",
+     "GUCY",
+     "GFLL",
+     "GLRB",
+     "GVAC",
+     "GVNP",
+     "GVBA",
+     "GVSV"
+    ]
+   },
+   "source_note": "FAAN, Passenger Service Charge INTERNATIONAL: 80 USD for West African Countries. Список — крупные международные аэропорты стран ЭКОВАС и Кабо-Верде (не исчерпывающий)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 2000.0,
+   "currency": "NGN",
+   "when": {
+    "flight": "domestic"
+   },
+   "source_note": "FAAN, Passenger Service Charge DOMESTIC: N2,000 за пассажира (регулярные; чартер N5,000 — не заведён)"
+  },
+  {
+   "code": "terminal",
+   "base": "per_departing_pax",
+   "rate": 1.4,
+   "currency": "USD",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "FAAN, CUTE for International Operations: Total Chargeable Passenger x 1.4 Dollars; заведено за вылетающего (регистрация)"
+  },
+  {
+   "code": "boarding_bridge",
+   "base": "per_turnaround",
+   "rate": 40.0,
+   "currency": "USD",
+   "events": "turnaround",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "stand": "pier",
+    "mtow_t": [
+     0,
+     190
+    ]
+   },
+   "source_note": "FAAN, Boarding bridge: «If Weight of Aircraft Is Less than 190,000kg Charge 40 Dollars» × курс. Единица (за использование/час) не указана — заведено за обслуживание"
+  },
+  {
+   "code": "boarding_bridge",
+   "base": "per_turnaround",
+   "rate": 50.0,
+   "currency": "USD",
+   "events": "turnaround",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "stand": "pier",
+    "mtow_t": [
+     190,
+     650
+    ]
+   },
+   "source_note": "FAAN, Boarding bridge: свыше 190 000 кг — 50 Dollars"
+  }
+ ]
+}

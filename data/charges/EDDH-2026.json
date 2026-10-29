@@ -1,0 +1,370 @@
+{
+ "icao": "EDDH",
+ "valid_from": "2026-04-01",
+ "source": "Flughafen Hamburg GmbH, Flughafenentgelte, Stand 1. April 2026",
+ "source_url": "https://www.hamburg-airport.de/resource/blob/92528/dc96fabd699f26bc46eaad3fd5d52854/flughafenentgelte-april-2026-data.pdf",
+ "publisher": "Flughafen Hamburg GmbH",
+ "checked_at": "2026-10-29",
+ "scales": {
+  "noise_cat": 7
+ },
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 3.52,
+   "currency": "EUR",
+   "events": "movement",
+   "round_mtow": "ceil_tonne",
+   "source_note": "Entgeltordnung 1.1.4, Strahlturbinen-Luftfahrzeuge je angefangene 1.000 kg MTOM 3,52 EUR, «EUR pro Landung und pro Start». Скидки 1.1.5 (>250 т, −70%) и 1.1.6 (single-aisle дальность >8000 км на рейсах >5000 км, 2,82) не заведены — условие вне словаря"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 16.69,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 1
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 1, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 39.42,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 2
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 2, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 87.92,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 3
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 3, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 184.93,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 4
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 4, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 569.05,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 5
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 5, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 1917.81,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 6
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 6, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "noise",
+   "base": "per_movement",
+   "rate": 5784.88,
+   "currency": "EUR",
+   "events": "movement",
+   "when": {
+    "noise_cat": 7
+   },
+   "source_note": "1.1.8 Lärmzuschlag, Lärmklasse 7, pro Landung und pro Start, ВС >2 т. Класс по шуму, измеренному в Гамбурге (перечень типов в приложении не прочитан однозначно). Ночные надбавки 150–700% (1.1.9) не заведены"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.56,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "1.2.2, Inland / EU + IS/NO/CH/GB, für Zusteiger 11,56 EUR | пересадочные (смена ВС) — Zusteiger, по полной ставке (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.09,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "schengen",
+    "pax_type": "transit"
+   },
+   "source_note": "1.2.2, Inland / EU + IS/NO/CH/GB, für Transitfluggäste 8,09 EUR  | только транзит тем же бортом, §1.2.3 (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.56,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "1.2.2, Inland / EU + IS/NO/CH/GB, für Zusteiger 11,56 EUR | пересадочные (смена ВС) — Zusteiger, по полной ставке (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.09,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "eu_non_schengen",
+    "pax_type": "transit"
+   },
+   "source_note": "1.2.2, Inland / EU + IS/NO/CH/GB, für Transitfluggäste 8,09 EUR  | только транзит тем же бортом, §1.2.3 (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 11.56,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": [
+     "local",
+     "transfer"
+    ],
+    "other": [
+     "EGLL",
+     "EGKK",
+     "EGSS",
+     "EGGW",
+     "EGLC",
+     "EGCC",
+     "EGBB",
+     "EGPH",
+     "EGPF",
+     "EGGD",
+     "EGNX",
+     "EGGP",
+     "EGNT",
+     "EGPD",
+     "EGAA",
+     "EGAC",
+     "EGHI",
+     "EGNM",
+     "EGCN",
+     "EGSH",
+     "EGTE",
+     "EGHH",
+     "EGPK",
+     "EGPE",
+     "EGMC",
+     "EGJJ",
+     "EGJB"
+    ]
+   },
+   "source_note": "1.2.2: Великобритания в строке EU+IS/NO/CH/GB, 11,56. Список британских аэропортов неполный — заведён по крупным | пересадочные (смена ВС) — Zusteiger, по полной ставке (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 8.09,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "transit",
+    "other": [
+     "EGLL",
+     "EGKK",
+     "EGSS",
+     "EGGW",
+     "EGLC",
+     "EGCC",
+     "EGBB",
+     "EGPH",
+     "EGPF",
+     "EGGD",
+     "EGNX",
+     "EGGP",
+     "EGNT",
+     "EGPD",
+     "EGAA",
+     "EGAC",
+     "EGHI",
+     "EGNM",
+     "EGCN",
+     "EGSH",
+     "EGTE",
+     "EGHH",
+     "EGPK",
+     "EGPE",
+     "EGMC",
+     "EGJJ",
+     "EGJB"
+    ]
+   },
+   "source_note": "1.2.2: Великобритания, Transitfluggäste 8,09 | только транзит тем же бортом, §1.2.3 (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.71,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": [
+     "local",
+     "transfer"
+    ],
+    "other": {
+     "not": [
+      "EGLL",
+      "EGKK",
+      "EGSS",
+      "EGGW",
+      "EGLC",
+      "EGCC",
+      "EGBB",
+      "EGPH",
+      "EGPF",
+      "EGGD",
+      "EGNX",
+      "EGGP",
+      "EGNT",
+      "EGPD",
+      "EGAA",
+      "EGAC",
+      "EGHI",
+      "EGNM",
+      "EGCN",
+      "EGSH",
+      "EGTE",
+      "EGHH",
+      "EGPK",
+      "EGPE",
+      "EGMC",
+      "EGJJ",
+      "EGJB"
+     ]
+    }
+   },
+   "source_note": "1.2.2, außerhalb der EU, für Zusteiger 13,71 EUR | пересадочные (смена ВС) — Zusteiger, по полной ставке (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.59,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "europe_non_eu",
+    "pax_type": "transit",
+    "other": {
+     "not": [
+      "EGLL",
+      "EGKK",
+      "EGSS",
+      "EGGW",
+      "EGLC",
+      "EGCC",
+      "EGBB",
+      "EGPH",
+      "EGPF",
+      "EGGD",
+      "EGNX",
+      "EGGP",
+      "EGNT",
+      "EGPD",
+      "EGAA",
+      "EGAC",
+      "EGHI",
+      "EGNM",
+      "EGCN",
+      "EGSH",
+      "EGTE",
+      "EGHH",
+      "EGPK",
+      "EGPE",
+      "EGMC",
+      "EGJJ",
+      "EGJB"
+     ]
+    }
+   },
+   "source_note": "1.2.2, außerhalb der EU, für Transitfluggäste 9,59 EUR | только транзит тем же бортом, §1.2.3 (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 13.71,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": [
+     "local",
+     "transfer"
+    ]
+   },
+   "source_note": "1.2.2, außerhalb der EU, für Zusteiger 13,71 EUR | пересадочные (смена ВС) — Zusteiger, по полной ставке (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 9.59,
+   "currency": "EUR",
+   "events": "turnaround",
+   "when": {
+    "dest": "intercontinental",
+    "pax_type": "transit"
+   },
+   "source_note": "1.2.2, außerhalb der EU, für Transitfluggäste 9,59 EUR | только транзит тем же бортом, §1.2.3 (исправлено по проверке verify/EDDH)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 1.64,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "Sicherheitsentgelt 1,64 EUR je Fluggast an Bord beim Start"
+  },
+  {
+   "code": "prm",
+   "base": "per_departing_pax",
+   "rate": 0.76,
+   "currency": "EUR",
+   "events": "turnaround",
+   "source_note": "PRM-Entgelt 0,76 EUR je Fluggast an Bord beim Start"
+  }
+ ]
+}

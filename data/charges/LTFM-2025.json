@@ -1,0 +1,164 @@
+{
+ "icao": "LTFM",
+ "valid_from": "2025-01-01",
+ "source": "DHMİ, 2025 KÖİ Projeleri Ücret Tarifeleri (тариф для аэропортов ГЧП; копия на сайте İGA), действует до ввода новой редакции",
+ "source_url": "https://www.istairport.com/media/0zzls4ky/2025-koi-ucret-tarifeleri.pdf",
+ "publisher": "DHMİ Genel Müdürlüğü; оператор İGA Havalimanı İşletmesi A.Ş.",
+ "checked_at": "2026-10-29",
+ "certainty": "stale_edition",
+ "error_cost": 250.0,
+ "confirm_by": "İGA/DHMİ: опубликована ли редакция КÖİ 2026 (найдена только 2025, «до ввода новых тарифов»)",
+ "rules": [
+  {
+   "code": "landing",
+   "base": "per_tonne_mtow",
+   "rate": 12.9,
+   "events": "landing",
+   "round_mtow": "ceil_tonne",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     20,
+     650
+    ]
+   },
+   "source_note": "Bölüm 1, 2.a İstanbul uluslararası konma, полоса «0-2000 Konma Arası» (12,90; 2001–4000 — 12,36; 4001+ — 11,61: полосы по годовому числу посадок перевозчика, как скидка за объём не заведены). Масса вверх до тонны (3.a)"
+  },
+  {
+   "code": "landing",
+   "base": "per_movement",
+   "rate": 258.0,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "mtow_t": [
+     2,
+     20
+    ]
+   },
+   "source_note": "Bölüm 1, 3.a: ВС с MTOW 20 т и менее считаются как 20 т → 12,90 × 20 = 258,00 (выведено из ставки, отдельной строкой в документе нет)"
+  },
+  {
+   "code": "approach",
+   "base": "per_movement",
+   "rate": 72.28,
+   "events": "landing",
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ]
+   },
+   "source_note": "Bölüm 1, 2.b, İstanbul: yaklaşma 72,28 EUR за посадку. Светотехника 79,51 за посадку и взлёт не заведена — взимается по сезону и видимости"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 20.0,
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "pax_type": "local"
+   },
+   "source_note": "Bölüm 2, 2.a dış hat yolcu servis, «İstanbul 20,00», за вылетающего по направлению вылета"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 5.0,
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "certainty": "reading_unconfirmed",
+   "error_cost": 2220.0,
+   "confirm_by": "İGA/DHMİ: столбцы строки «İstanbul 20,00 5,00 3,00 2,00» в табл. 2.a КÖİ 2025",
+   "source_note": "Bölüm 2, 2.a: второе число строки «İstanbul 20,00» — транзит/трансфер 5,00 (сопоставление по порядку)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 3.0,
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "pax_type": "local"
+   },
+   "certainty": "reading_unconfirmed",
+   "error_cost": 148.0,
+   "confirm_by": "İGA/DHMİ: столбцы строки «İstanbul 20,00 5,00 3,00 2,00» в табл. 2.a КÖİ 2025",
+   "source_note": "Bölüm 2, 2.a: третье число строки — dış hat güvenlik 3,00 (по порядку)"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 2.0,
+   "when": {
+    "flight": [
+     "EEA",
+     "INTL"
+    ],
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "certainty": "reading_unconfirmed",
+   "error_cost": 148.0,
+   "confirm_by": "İGA/DHMİ: столбцы строки «İstanbul 20,00 5,00 3,00 2,00» в табл. 2.a КÖİ 2025",
+   "source_note": "Bölüm 2, 2.a: четвёртое число — безопасность dış/dış transit-transfer 2,00 (по порядку)"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 3.0,
+   "when": {
+    "flight": "domestic",
+    "pax_type": "local"
+   },
+   "source_note": "Bölüm 2, 2.b iç hat yolcu servis, İstanbul 3,00 EUR"
+  },
+  {
+   "code": "passenger",
+   "base": "per_departing_pax",
+   "rate": 1.0,
+   "when": {
+    "flight": "domestic",
+    "pax_type": [
+     "transfer",
+     "transit"
+    ]
+   },
+   "certainty": "reading_unconfirmed",
+   "error_cost": 296.0,
+   "confirm_by": "İGA/DHMİ: табл. 2.b КÖİ 2025",
+   "source_note": "Bölüm 2, 2.b iç hat transit/transfer 1,00 EUR"
+  },
+  {
+   "code": "security",
+   "base": "per_departing_pax",
+   "rate": 15.0,
+   "currency": "TRY",
+   "when": {
+    "flight": "domestic"
+   },
+   "source_note": "Bölüm 3.v: с 01.07.2025 внутренняя безопасность в Стамбуле 15,00 TL (в таблице осталось 8,60 — перебито п. v)"
+  }
+ ]
+}
