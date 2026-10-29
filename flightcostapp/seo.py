@@ -424,6 +424,8 @@ th{text-align:left;font-weight:600;color:var(--dim);font-size:12px;padding:8px 1
   background:var(--panel)}
 td{padding:7px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
 td.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.tx{white-space:normal;min-width:10ch;overflow-wrap:anywhere}
+th{white-space:normal}td a{overflow-wrap:anywhere}
 td.s{font-size:12px;color:var(--dim)}td.s a{color:var(--dim)}
 .guess{color:var(--guess)}
 .tag{font-size:11.5px;color:var(--faint);margin-left:6px}
@@ -444,7 +446,14 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .sil svg{max-width:100%;height:auto}.sil .lgd{font-size:12.5px;color:var(--dim)}
 .sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
 .sil .lgd i.o{border-top:2px dashed var(--dim)}
-@media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}header{padding:12px 16px}}
+@media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}header{padding:12px 16px}
+  /* Паспорт на телефоне: строка — сетка «параметр | значение», источник под ними. */
+  table.spec tr:first-child{display:none}
+  table.spec tr{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:7px 10px;
+    border-bottom:1px solid var(--line2)}
+  table.spec td{border:0;padding:0}table.spec td.tx{max-width:55vw}
+  table.spec td.s{grid-column:1/-1;padding-top:2px}
+  td,th{padding:7px 8px}}
 </style>"""
 
 
@@ -1036,11 +1045,14 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
         if val and not (lang != "ru" and CYR.search(val)):
             rows.append((labels[LI[lang]], val, _src(f, lang)))
     if rows:
-        body.append(f"<h2>{esc(t['specs_h'])}</h2><div class=tw><table><tr><th>{esc(t['col_param'])}</th>"
+        body.append(f"<h2>{esc(t['specs_h'])}</h2><div class=tw><table class=spec><tr><th>{esc(t['col_param'])}</th>"
                     f"<th class=r>{esc(t['col_value'])}</th><th>{esc(t['col_src'])}</th></tr>")
         for lab, val, (sl, su) in rows:
             src = f'<a href="{esc(su)}" rel="nofollow">{esc(sl)}</a>' if su else esc(sl)
-            body.append(f"<tr><td>{esc(lab)}</td><td class=r>{esc(val)}</td><td class=s>{src}</td></tr>")
+            # Числа — в строку и по правому краю; текст (производитель, двигатель,
+            # ввод в эксплуатацию) переносится, иначе длинная строка выдавливает таблицу вправо.
+            vcls = "r" if re.fullmatch(r"[\d\s.,−\-]+", val) else "r tx"
+            body.append(f"<tr><td>{esc(lab)}</td><td class='{vcls}'>{esc(val)}</td><td class=s>{src}</td></tr>")
         body.append("</table></div>")
     if entry.get("usable"):
         body.append(econ_block(lang, entry, by, econ, cls, types))
