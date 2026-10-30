@@ -1052,7 +1052,8 @@
   "свой": "eigener",
   "свой тип": "eigener Typ",
   "создать свой тип на основе этого и добавить в сравнение": "eigenen Typ auf dieser Basis anlegen und zum Vergleich hinzufügen",
-  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "Eine Airline-Simulation auf denselben Daten; ihre Einnahmen finanzieren das quelloffene FlightCost"
+  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "Eine Airline-Simulation auf denselben Daten; ihre Einnahmen finanzieren das quelloffene FlightCost",
+  "Исследования": "Recherchen"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -2107,6 +2108,7 @@
   "свой": "own",
   "свой тип": "own type",
   "создать свой тип на основе этого и добавить в сравнение": "create your own type based on this one and add it to the comparison",
-  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "An airline tycoon game on the same data; its revenue keeps the open-source FlightCost running"
+  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "An airline tycoon game on the same data; its revenue keeps the open-source FlightCost running",
+  "Исследования": "Research"
  }
 }

@@ -13,8 +13,8 @@
 Курсы валют в проверочной базе ПРИБЛИЗИТЕЛЬНЫЕ (только для коридора), в данные не идут.
 """
 import argparse, json, os, shutil, sys, tempfile
-GH = "/tmp/claude-0/-home-claude/b0fbc39f-7d96-5983-bd3c-73a271730072/scratchpad/gh3"
-BASE = "/tmp/claude-0/-home-claude/b0fbc39f-7d96-5983-bd3c-73a271730072/scratchpad/charges/check_base.db"
+GH = os.environ.get("FCA_REPO") or str(__import__("pathlib").Path(__file__).resolve().parents[3])
+BASE = os.environ.get("FCA_CHECK_DB", "check_base.db")   # копия рабочей базы со справочником
 sys.path.insert(0, GH)
 import yaml                                                    # noqa: E402
 from flightcostapp.store import Store, Fact                    # noqa: E402
@@ -31,7 +31,7 @@ FX = {"GBP": 0.855, "USD": 1.08, "INR": 93.0, "ZAR": 20.0, "EGP": 53.0, "KES": 1
 
 def base_db():
     if not os.path.exists(BASE):
-        shutil.copy(GH + "/../seo/full.db", BASE)
+        shutil.copy(os.environ.get("FCA_DB", GH + "/data/flightcost.db"), BASE)
         st = Store(BASE)
         st.commit_facts([Fact(domain="fx", key=c, valid_from="2026-01-01", value=v, unit="per_EUR",
                               source_id="fx_declared", extracted_by="check_only") for c, v in FX.items()])

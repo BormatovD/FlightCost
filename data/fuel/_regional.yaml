@@ -1,0 +1,192 @@
+# Сгенерировано research/fuel-2026-10/build_report.py — руками не править.
+method: 'Цена топлива «в крыло» = спот USGC × множитель региона аэропорта вылета (research/fuel-2026-10). Множители
+  — по одной точке или допущению на регион; уверенность — confidence. Решение 235. addon — надбавка к региональному
+  споту Platts на дату точки (решение 236): при свежем соотношении спота k = addon × r(сейчас).'
+built: '2026-10-30'
+unknown_k: 1.0
+regions:
+  north_america:
+    name: Северная Америка
+    k: 1.08
+    range:
+    - 1.04
+    - 1.18
+    confidence: средняя
+    prefixes:
+    - K
+    - C
+    - PA
+    - PH
+    - PG
+    - TJ
+  europe:
+    name: Европа
+    k: 1.1
+    range:
+    - 1.05
+    - 1.15
+    confidence: низкая
+    prefixes:
+    - GC
+    - LL
+    - B
+    - E
+    - L
+    addon: 1.125
+    platts: europe
+    ref_period:
+    - '2026-01-01'
+    - '2026-01-31'
+  middle_east:
+    name: Ближний Восток
+    k: 1.1
+    range:
+    - 0.9
+    - 1.2
+    confidence: низкая
+    prefixes:
+    - O
+    addon: 1.195
+    platts: middle_east
+    ref_period:
+    - '2024-09-01'
+    - '2026-02-27'
+  asia_oceania:
+    name: Азия и Океания
+    k: 1.1
+    range:
+    - 0.95
+    - 1.2
+    confidence: заглушка
+    prefixes:
+    - VH
+    - VM
+    - VT
+    - VV
+    - VD
+    - VL
+    - VY
+    - VG
+    - VN
+    - VR
+    - VC
+    - R
+    - Z
+    - W
+    - Y
+    - N
+    - A
+    - P
+    addon: 1.168
+    platts: asia
+    ref_period:
+    - '2024-09-01'
+    - '2026-02-27'
+  africa:
+    name: Африка
+    k: 1.2
+    range:
+    - 1.1
+    - 2.0
+    confidence: низкая
+    prefixes:
+    - D
+    - F
+    - G
+    - H
+    addon: 1.219
+    platts: africa
+    ref_period:
+    - '2024-09-01'
+    - '2026-02-27'
+  latam:
+    name: Латинская Америка
+    k: 1.22
+    range:
+    - 1.21
+    - 1.24
+    confidence: низкая
+    prefixes:
+    - M
+    - S
+    - T
+    addon: 1.214
+    platts: latam
+    ref_period:
+    - '2025-01-01'
+    - '2025-12-31'
+  kz_cis:
+    name: Казахстан и СНГ
+    k: 1.45
+    range:
+    - 1.39
+    - 1.49
+    confidence: низкая
+    prefixes:
+    - UA
+    - UT
+    - UB
+    - UG
+    - UK
+    - UM
+    - UC
+    - UD
+    addon: 1.483
+    platts: europe
+    ref_period:
+    - '2026-01-01'
+    - '2026-01-31'
+  india:
+    name: Индия
+    k: 1.47
+    range:
+    - 1.3
+    - 1.9
+    confidence: низкая
+    prefixes:
+    - VA
+    - VE
+    - VI
+    - VO
+    addon: 1.532
+    platts: asia
+    ref_period:
+    - '2026-05-01'
+    - '2026-05-31'
+  russia_centre:
+    name: Россия — Центр
+    k: 1.173
+    range:
+    - 1.092
+    - 1.546
+    confidence: низкая
+    prefixes:
+    - UU
+    - UL
+    - UW
+    - UR
+    - US
+    note: биржа ТС-1 без НДС × (1 + 0.285) + 2210 руб/т сбора, сентябрь 2026; демпфер не вычтен
+  russia_siberia:
+    name: Россия — Сибирь
+    k: 1.092
+    range:
+    - 1.092
+    - 1.546
+    confidence: низкая
+    prefixes:
+    - UN
+    - UI
+    - UO
+    note: биржа ТС-1 без НДС × (1 + 0.18) + 3758 руб/т сбора, сентябрь 2026; демпфер не вычтен
+  russia_far_east:
+    name: Россия — Дальний Восток
+    k: 1.546
+    range:
+    - 1.092
+    - 1.546
+    confidence: низкая
+    prefixes:
+    - UH
+    - UE
+    note: биржа ТС-1 без НДС × (1 + 0.68) + 4225 руб/т сбора, сентябрь 2026; демпфер не вычтен

@@ -1,0 +1,69 @@
+{
+ "carrier": "SY",
+ "name": "Sun Country Airlines",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "mixed: direct_expense + built_in_overhaul",
+  "detail": "10-K FY2025: текущее ТОиР, а также major maintenance собственных и всех арендованных планеров и двигателей в операционной аренде — expense as incurred. Для остального, т.е. собственных двигателей, — built-in overhaul: ресурс до первого капремонта (Initial Greentime) выделен в отдельный компонент PP&E. По сторонним договорам — расход по налёту.",
+  "lessor_reserves": "Депозит (Lessor Maintenance Deposits), если возвратим; при выполнении работ — в дебиторку; невозвратимое — расход в Aircraft Rent",
+  "evidence": [
+   "a2-136",
+   "a2-137",
+   "a2-138",
+   "a2-139",
+   "a2-140",
+   "a2-141",
+   "a2-142",
+   "a2-156"
+  ]
+ },
+ "engine_pbh": [
+  {
+   "engine": "не названо",
+   "types": [
+    "B738"
+   ],
+   "since": "не указано",
+   "booking": "расход по налёту («charged to expense based on fleet utilization»)",
+   "note": "В политике — «third-party maintenance agreements» без указания двигателя",
+   "evidence": [
+    "a2-140"
+   ]
+  }
+ ],
+ "fleet": [
+  {
+   "icao": "B738",
+   "count": 70,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a2-146",
+    "a2-147"
+   ]
+  }
+ ],
+ "fleet_note": "70 737NG всего: 47 пассажирских, 20 грузовых (сублизинг у Amazon), 3 сданы в аренду. Среди них есть 737-900ER (B739) — разбивка по подтипам не найдена.",
+ "cpa": {
+  "role": "грузовые перевозки для Amazon по A&R ATSA (ACMI-подобный договор)",
+  "who_pays_maintenance": "Тяжёлое ТОиР 20 грузовых ВС — pass-through, его возмещает Amazon (Sun Country — агент, учёт нетто в выручке). Линейное ТОиР грузовиков — Sun Country.",
+  "evidence": [
+   "a2-143",
+   "a2-144",
+   "a2-148",
+   "a2-149",
+   "a2-150"
+  ]
+ },
+ "gaps": [
+  "Возраст и собственность по типам",
+  "Разбивка 737-800/-900ER",
+  "Договор на CFM56-7B в 2025"
+ ],
+ "doubts": [
+  "Если грузовые 737-800 входят в B738 Form 41, тяжёлое ТОиР по ним в расходах отсутствует (возмещается Amazon) — ставка занижена"
+ ]
+}

@@ -176,13 +176,28 @@ class _Handler(BaseHTTPRequestHandler):
                                     default=str).encode("utf-8"),
                    "application/json; charset=utf-8")
 
-    def _public(self, body: bytes, ctype: str, code: int = 200) -> None:
-        """Страница для поисковика: кэш на час вместо no-store."""
+    def _public(self, body: bytes, ctype: str, code: int = 200, revalidate: bool = False) -> None:
+        """Страница для поисковика: кэш на час вместо no-store.
+
+        `revalidate` — для страниц, которые меняются без перезапуска сервера
+        (исследования: пересобрали статью или добавили перевод): браузер
+        переспрашивает каждый раз, а по ETag получает 304 без тела. Иначе
+        час после правки человек видел старую версию."""
+        import hashlib
         body = self._icons(body, ctype)
+        tag = '"' + hashlib.sha1(body).hexdigest()[:20] + '"'
+        if revalidate and code == 200 and self.headers.get("If-None-Match") == tag:
+            self.send_response(304)
+            self.send_header("ETag", tag)
+            self.end_headers()
+            return
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "public, max-age=3600")
+        self.send_header("Cache-Control", "public, max-age=0, must-revalidate" if revalidate
+                         else "public, max-age=3600")
+        if revalidate:
+            self.send_header("ETag", tag)
         self.end_headers()
         self.wfile.write(body)
 
@@ -234,7 +249,11 @@ class _Handler(BaseHTTPRequestHandler):
                 return False
             self._public(f.read_bytes(), ICONS[u.path])
             return True
-        if u.path in ("/about", "/types", "/calc"):
+        if u.path == "/research/feed.xml":
+            from .research import feed
+            self._public(feed().encode("utf-8"), "application/atom+xml; charset=utf-8")
+            return True
+        if u.path in ("/about", "/types", "/calc", "/research"):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True
         m = seo.LANG_PATH.match(u.path)
@@ -260,6 +279,17 @@ class _Handler(BaseHTTPRequestHandler):
         if tail in ("/types", "/types/"):
             self._public(seo.types_index(lang, ctx.seo_types()).encode("utf-8"), html_t)
             return True
+        if tail in ("/research", "/research/"):
+            from .research import index_page
+            self._public(index_page(lang).encode("utf-8"), html_t, revalidate=True)
+            return True
+        mr = re.match(r"^/research/([a-z0-9-]{1,61})/?$", tail)
+        if mr:
+            from .research import find, report_page
+            it = find(mr.group(1))
+            if it is not None:
+                self._public(report_page(lang, it).encode("utf-8"), html_t, revalidate=True)
+                return True
         mt = re.match(r"^/type/([A-Za-z0-9]{2,4})/?$", tail)
         if mt:
             icao = mt.group(1).upper()
@@ -433,9 +463,12 @@ class _Handler(BaseHTTPRequestHandler):
             # Языковые страницы — по виду, а не по адресу: страница типа одна
             # строка «/en/type», чтобы перебор адресов не раздувал таблицу.
             tail = (m.group(2) or "/").rstrip("/")
-            kind = {"": "/", "/calc": "/calc", "/about": "/about", "/types": "/types"}.get(tail)
+            kind = {"": "/", "/calc": "/calc", "/about": "/about", "/types": "/types",
+                    "/research": "/research"}.get(tail)
             if kind is None and tail.startswith("/type/"):
                 kind = "/type"
+            if kind is None and tail.startswith("/research/"):
+                kind = "/research/item"
             page = f"/{m.group(1)}{kind}".replace("//", "/") if kind else None
         v = getattr(self.server.ctx, "visits", None)
         if page and v is not None:

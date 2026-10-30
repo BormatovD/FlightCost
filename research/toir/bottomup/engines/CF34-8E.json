@@ -1,0 +1,100 @@
+{
+ "engine": "GE CF34-8E",
+ "aircraft": [
+  "E170",
+  "E75L",
+  "E75S"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  13.52,
+  14.05
+ ],
+ "thrust_note": "-8E5 13 520, -8E5A1 14 050 lb (AC No.72, пересказ)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 1800000,
+    "year": 2010,
+    "note": "23 вращающихся LLP; год в статье явно не указан (статья окт/нояб 2010)",
+    "evidence": [
+     "e1-137",
+     "e1-138"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "target все LLP",
+    "efc": 25000,
+    "evidence": [
+     "e1-137"
+    ]
+   },
+   {
+    "part": "HPT -8E5A1 (большинство деталей)",
+    "efc": 13000,
+    "note": "13 000–15 000; -8E5 15 000–18 000",
+    "evidence": [
+     "e1-137"
+    ]
+   }
+  ],
+  "escalation": {
+   "2010": 0.055
+  },
+  "escalation_notes": [
+   "AC No.72: LLP ~5.5%/год, детали до 8%/год (пересказ)"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efc": 12000,
+   "interval_efc_range": [
+    11000,
+    14000
+   ],
+   "interval_efh": 16500,
+   "ratio_fh_fc": 1.3,
+   "thrust": "-8E5/-8E5A1",
+   "cost_usd": 950000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "cost_note": "hot section; FH:FC E170/175 1.2–1.4",
+   "evidence": [
+    "e1-138"
+   ]
+  },
+  {
+   "which": "second",
+   "cost_usd": 1500000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "cost_note": "полная разборка, замена LLP отдельно",
+   "evidence": [
+    "e1-138"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh_total": 131,
+   "usd_per_efc_llp": 75,
+   "year": 2010,
+   "note": "сценарий 1; до $156–160/EFH",
+   "evidence": [
+    "e1-138"
+   ]
+  }
+ ],
+ "issues": [],
+ "gaps": [
+  "данные после 2010"
+ ],
+ "doubts": [
+  "цифры таблиц — пересказ WebFetch; текст и таблицы статьи расходятся"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

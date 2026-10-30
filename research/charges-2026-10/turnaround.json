@@ -1,0 +1,956 @@
+{
+ "method": "Контрольный оборот: рейс из Франкфурта (EDDF), A320 78 т, 148 пасс., июль; сборы аэропорта назначения за посадку, стоянку и вылет — расчётным ядром по файлам data/charges (bin/turnaround.py). Курсы валют — приблизительные, только для сравнения. Неофициальные данные (ТКП) не входят.",
+ "airports": {
+  "DAAG": {
+   "file": "DAAG-2013.json",
+   "eur": 145,
+   "parts": {
+    "landing": 145.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "DGAA": {
+   "file": "DGAA-2026.json",
+   "eur": 506,
+   "parts": {
+    "landing": 505.6
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "DNAA": {
+   "file": "DNAA-2026.json",
+   "eur": 14552,
+   "parts": {
+    "pax": 13895.6,
+    "landing": 656.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "DNMM": {
+   "file": "DNMM-2026.json",
+   "eur": 14552,
+   "parts": {
+    "pax": 13895.6,
+    "landing": 656.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "EBBR": {
+   "file": "EBBR-2026.json",
+   "eur": 5219,
+   "parts": {
+    "pax": 3790.5,
+    "security": 1351.3,
+    "other": 77.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "landing"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EDDB": {
+   "file": "EDDB-2026.json",
+   "eur": 2039,
+   "parts": {
+    "pax": 1130.7,
+    "landing": 908.0
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat",
+    "noise_cat_dep"
+   ]
+  },
+  "EDDF": {
+   "file": "EDDF-2026.json",
+   "eur": 6225,
+   "parts": {
+    "pax": 5270.7,
+    "landing": 669.5,
+    "security": 241.2,
+    "parking": 43.3
+   },
+   "from": "LEBL",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "EDDH": {
+   "file": "EDDH-2026.json",
+   "eur": 2615,
+   "parts": {
+    "pax": 1823.4,
+    "landing": 549.1,
+    "security": 242.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EDDL": {
+   "file": "EDDL-2026.json",
+   "eur": 3610,
+   "parts": {
+    "pax": 2742.4,
+    "landing": 624.7,
+    "security": 199.8,
+    "other": 43.1
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "EFHK": {
+   "file": "EFHK-2026.json",
+   "eur": 3453,
+   "parts": {
+    "pax": 1898.1,
+    "security": 1061.2,
+    "landing": 494.1
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "EGKK": {
+   "file": "EGKK-2026.json",
+   "eur": 5168,
+   "parts": {
+    "pax": 2793.8,
+    "other": 2374.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EGLL": {
+   "file": "EGLL-2025.json",
+   "eur": 3775,
+   "parts": {
+    "pax": 3775.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EHAM": {
+   "file": "EHAM-2025.json",
+   "eur": 7700,
+   "parts": {
+    "pax": 4403.0,
+    "security": 3297.4
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "landing"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EIDW": {
+   "file": "EIDW-2026.json",
+   "eur": 1610,
+   "parts": {
+    "pax": 1176.6,
+    "landing": 432.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "EKCH": {
+   "file": "EKCH-2026.json",
+   "eur": 5347,
+   "parts": {
+    "pax": 3275.5,
+    "security": 1389.5,
+    "landing": 681.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ENGM": {
+   "file": "ENGM-2026.json",
+   "eur": 2992,
+   "parts": {
+    "pax": 1252.3,
+    "security": 948.7,
+    "landing": 791.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "EPPO": {
+   "file": "EPPO-2026.json",
+   "eur": 1906,
+   "parts": {
+    "pax": 1906.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "landing"
+   ],
+   "missing_type_data": [
+    "ac_class"
+   ]
+  },
+  "ESSA": {
+   "file": "ESSA-2026.json",
+   "eur": 2815,
+   "parts": {
+    "pax": 1385.7,
+    "landing": 821.8,
+    "security": 607.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "FACT": {
+   "file": "FACT-2026.json",
+   "eur": 2688,
+   "parts": {
+    "pax": 2123.8,
+    "landing": 564.4
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "FAOR": {
+   "file": "FAOR-2026.json",
+   "eur": 2688,
+   "parts": {
+    "pax": 2123.8,
+    "landing": 564.4
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "GCLP": {
+   "file": "GCLP-2026.json",
+   "eur": 2492,
+   "parts": {
+    "pax": 1001.8,
+    "landing": 635.0,
+    "security": 590.5,
+    "other": 264.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "GCTS": {
+   "file": "GCTS-2026.json",
+   "eur": 2492,
+   "parts": {
+    "pax": 1001.8,
+    "landing": 635.0,
+    "security": 590.5,
+    "other": 264.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "HKJK": {
+   "file": "HKJK-2022.json",
+   "eur": 7058,
+   "parts": {
+    "pax": 6851.9,
+    "landing": 206.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LATI": {
+   "file": "LATI-2026.json",
+   "eur": 4190,
+   "parts": {
+    "pax": 2800.0,
+    "landing": 650.0,
+    "security": 592.0,
+    "other": 148.0
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LEAL": {
+   "file": "LEAL-2026.json",
+   "eur": 2492,
+   "parts": {
+    "pax": 1001.8,
+    "landing": 635.0,
+    "security": 590.5,
+    "other": 264.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LEBL": {
+   "file": "LEBL-2026.json",
+   "eur": 3606,
+   "parts": {
+    "pax": 2073.3,
+    "landing": 669.4,
+    "security": 590.5,
+    "other": 273.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LEMD": {
+   "file": "LEMD-2026.json",
+   "eur": 3838,
+   "parts": {
+    "pax": 2216.9,
+    "landing": 759.8,
+    "security": 590.5,
+    "other": 270.6
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LEMG": {
+   "file": "LEMG-2026.json",
+   "eur": 2492,
+   "parts": {
+    "pax": 1001.8,
+    "landing": 635.0,
+    "security": 590.5,
+    "other": 264.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LEPA": {
+   "file": "LEPA-2026.json",
+   "eur": 2492,
+   "parts": {
+    "pax": 1001.8,
+    "landing": 635.0,
+    "security": 590.5,
+    "other": 264.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LGAV": {
+   "file": "LGAV-2026.json",
+   "eur": 4494,
+   "parts": {
+    "pax": 2989.6,
+    "security": 740.0,
+    "landing": 480.5,
+    "other": 284.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LHBP": {
+   "file": "LHBP-2026.json",
+   "eur": 6446,
+   "parts": {
+    "pax": 4471.1,
+    "landing": 1004.6,
+    "security": 935.4,
+    "other": 34.8
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LIBR": {
+   "file": "LIBR-2026.json",
+   "eur": 2289,
+   "parts": {
+    "pax": 1752.3,
+    "landing": 217.2,
+    "security": 319.6
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LICJ": {
+   "file": "LICJ-2026.json",
+   "eur": 3120,
+   "parts": {
+    "pax": 2154.9,
+    "landing": 430.6,
+    "security": 534.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LIMC": {
+   "file": "LIMC-2026.json",
+   "eur": 3240,
+   "parts": {
+    "pax": 2764.6,
+    "security": 475.1
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "landing"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LIME": {
+   "file": "LIME-2026.json",
+   "eur": 2643,
+   "parts": {
+    "pax": 1687.2,
+    "landing": 664.6,
+    "security": 291.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LKPR": {
+   "file": "LKPR-2026.json",
+   "eur": 4784,
+   "parts": {
+    "pax": 4142.9,
+    "landing": 641.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "noise"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "LOWW": {
+   "file": "LOWW-2026.json",
+   "eur": 5648,
+   "parts": {
+    "pax": 3322.6,
+    "security": 1557.0,
+    "landing": 768.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "ramp_infra"
+   ],
+   "missing_type_data": [
+    "ac_group"
+   ]
+  },
+  "LPFR": {
+   "file": "LPFR-2026.json",
+   "eur": 2674,
+   "parts": {
+    "pax": 1497.8,
+    "landing": 649.7,
+    "security": 526.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LPPR": {
+   "file": "LPPR-2026.json",
+   "eur": 2585,
+   "parts": {
+    "pax": 1497.8,
+    "landing": 560.5,
+    "security": 526.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LPPT": {
+   "file": "LPPT-2026.json",
+   "eur": 3804,
+   "parts": {
+    "pax": 2501.2,
+    "landing": 775.9,
+    "security": 526.9
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LSZH": {
+   "file": "LSZH-2026.json",
+   "eur": 5826,
+   "parts": {
+    "pax": 3007.2,
+    "security": 1779.1,
+    "landing": 1039.4
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LTAI": {
+   "file": "LTAI-2026.json",
+   "eur": 2671,
+   "parts": {
+    "pax": 2220.0,
+    "landing": 451.4
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "LTFM": {
+   "file": "LTFM-2025.json",
+   "eur": 4482,
+   "parts": {
+    "pax": 2960.0,
+    "landing": 1078.5,
+    "security": 444.0
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "OTHH": {
+   "file": "OTHH-2026.json",
+   "eur": 3121,
+   "parts": {
+    "pax": 2824.4,
+    "landing": 296.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "parking_pier"
+   ],
+   "missing_type_data": [
+    "ac_class"
+   ]
+  },
+  "RJAA": {
+   "file": "RJAA-2026.json",
+   "eur": 3344,
+   "parts": {
+    "pax": 2206.5,
+    "security": 627.9,
+    "other": 414.5,
+    "parking": 94.5
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [
+    "landing"
+   ],
+   "missing_type_data": [
+    "noise_cat"
+   ]
+  },
+  "UAAA": {
+   "file": "UAAA-2026.json",
+   "eur": 1451,
+   "parts": {
+    "pax": 831.4,
+    "landing": 409.8,
+    "other": 137.4,
+    "security": 72.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "UIAA": {
+   "file": "UIAA-2026.json",
+   "eur": 2344,
+   "parts": {
+    "pax": 1455.1,
+    "landing": 476.2,
+    "security": 412.3
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "UIUU": {
+   "file": "UIUU-2025.json",
+   "eur": 926,
+   "parts": {
+    "landing": 459.8,
+    "security": 279.2,
+    "pax": 186.9
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ULLI": {
+   "file": "ULLI-2026.json",
+   "eur": 1898,
+   "parts": {
+    "pax": 795.5,
+    "landing": 563.7,
+    "security": 538.6
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "UNNT": {
+   "file": "UNNT-2026.json",
+   "eur": 1722,
+   "parts": {
+    "pax": 897.3,
+    "security": 432.7,
+    "landing": 391.6
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "URSS": {
+   "file": "URSS-2026.json",
+   "eur": 977,
+   "parts": {
+    "landing": 346.9,
+    "security": 320.2,
+    "pax": 310.0
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "USSS": {
+   "file": "USSS-2026.json",
+   "eur": 1066,
+   "parts": {
+    "landing": 500.8,
+    "security": 303.8,
+    "pax": 261.7
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "UUDD": {
+   "file": "UUDD-2025.json",
+   "eur": 1865,
+   "parts": {
+    "pax": 1043.8,
+    "landing": 459.8,
+    "security": 361.3
+   },
+   "from": "UUEE",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "UUEE": {
+   "file": "UUEE-2025.json",
+   "eur": 1587,
+   "parts": {
+    "pax": 924.6,
+    "landing": 631.0,
+    "security": 31.5
+   },
+   "from": "ULLI",
+   "scenario": "domestic_ru",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "VANM": {
+   "file": "VANM-2026.json",
+   "eur": 4337,
+   "parts": {
+    "pax": 2784.9,
+    "landing": 1551.6
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "VIDP": {
+   "file": "VIDP-2025.json",
+   "eur": 2191,
+   "parts": {
+    "pax": 1472.0,
+    "landing": 478.1,
+    "security": 240.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "VOBL": {
+   "file": "VOBL-2026.json",
+   "eur": 2948,
+   "parts": {
+    "pax": 2401.6,
+    "landing": 546.8
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "VOMM": {
+   "file": "VOMM-2026.json",
+   "eur": 1126,
+   "parts": {
+    "pax": 994.6,
+    "landing": 131.2
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZBAA": {
+   "file": "ZBAA-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZBAD": {
+   "file": "ZBAD-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZGGG": {
+   "file": "ZGGG-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZGSZ": {
+   "file": "ZGSZ-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZHCC": {
+   "file": "ZHCC-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZHHH": {
+   "file": "ZHHH-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZSAM": {
+   "file": "ZSAM-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZSPD": {
+   "file": "ZSPD-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZSSS": {
+   "file": "ZSSS-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  },
+  "ZUTF": {
+   "file": "ZUTF-2017.json",
+   "eur": 1982,
+   "parts": {
+    "pax": 1328.2,
+    "landing": 425.6,
+    "security": 227.7
+   },
+   "from": "EDDF",
+   "scenario": "from_fra",
+   "not_charged": [],
+   "missing_type_data": []
+  }
+ }
+}

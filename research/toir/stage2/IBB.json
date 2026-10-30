@@ -1,0 +1,35 @@
+{
+ "airline": "Binter Canarias",
+ "code": "IBB",
+ "currency": "EUR",
+ "unit": null,
+ "fiscal_year_end": "12-31",
+ "scope": {
+  "own_staff": "не раскрыто",
+  "lease_provisions": "не раскрыто",
+  "deferral": "не раскрыто",
+  "pbh": "с 2025: ATR GMA — ремонт компонентов на основе pay-by-hour, 5 лет, 26 ATR 72-600 (CANAIR, NAYSA); двигатели не упомянуты",
+  "evidence": [
+   "s3-079",
+   "s3-080",
+   "s3-086"
+  ]
+ },
+ "years": {
+  "undated": {
+   "fleet": {
+    "AT76": 26,
+    "E295": 16
+   },
+   "evidence": [
+    "s3-085"
+   ]
+  }
+ },
+ "gaps": [
+  "отчётность (cuentas anuales) в открытом доступе не найдена: строка ТО, налёт, политика (s3-087)"
+ ],
+ "doubts": [
+  "ТО выполняет дочерняя Binter Technic — расходы внутригрупповые"
+ ]
+}

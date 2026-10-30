@@ -1,0 +1,41 @@
+{
+ "airline": "Braathens Regional Airlines",
+ "code": "BRX",
+ "currency": "SEK",
+ "unit": null,
+ "fiscal_year_end": "12-31",
+ "scope": {
+  "own_staff": "не раскрыто",
+  "lease_provisions": "не раскрыто",
+  "deferral": "не раскрыто",
+  "pbh": "ATR GMA на компоненты (LRU repair/pool) с 01.01.2019 на 5 лет, продлён в 2025 на 5 лет; почасовые условия в источниках не указаны",
+  "evidence": [
+   "s3-103",
+   "s3-106"
+  ]
+ },
+ "years": {
+  "2019": {
+   "fleet": {
+    "AT76": 10
+   },
+   "note": "январь 2019, ATR 72-600",
+   "evidence": [
+    "s3-106"
+   ]
+  },
+  "2025": {
+   "fleet": {
+    "AT7x": 17
+   },
+   "note": "план на конец 2025 (14→17 ATR)",
+   "evidence": [
+    "s3-103"
+   ]
+  }
+ },
+ "gaps": [
+  "годовые отчёты не найдены: строка ТО, налёт, политика (s3-110)"
+ ],
+ "doubts": []
+}

@@ -1,0 +1,42 @@
+{
+ "engine": "LEAP-1B",
+ "aircraft": [
+  "B37M",
+  "B38M",
+  "B39M"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  25.0,
+  29.3
+ ],
+ "thrust_note": "EASA TCDS E.115: 11127–13041 daN (e1-171); ISTAT: MAX 8 25.0–27.9 klbf (e1-173); сайт CFM: max 28 000 lbf (e1-213)",
+ "llp": {
+  "shipset_list_price": [],
+  "limits_efc": [],
+  "escalation": {},
+  "escalation_notes": [
+   "предположительно как CFM в целом",
+   "CFM/GE: «double-digit increase on Nov. 1, 2022» и «high-single-digit spares price hikes in August» 2023 — запчасти в целом (e1-005..007, e1-118)",
+   "Aviation Week (2023): новые запчасти дорожают ~10%/год (e1-005); AW MRO 2025: стоимость SV растёт двузначно (e1-134)"
+  ]
+ },
+ "shop_visit": [],
+ "reserves": [],
+ "issues": [
+  "По AW (ноя-2024) ретрофит-кит долговечности для LEAP-1B ещё не выпущен (e1-219)",
+  "FAA AD на HPT stage 1 disk / CRS 6-10 spool (2023, 2025) — prorated цены (e1-112)",
+  "ISTAT/IBA 2025: сомнения в достижении стоимости жизненного цикла уровня CFM56 (e1-172)"
+ ],
+ "gaps": [
+  "каталог LLP и ресурсы LLP",
+  "интервалы SV",
+  "стоимость SV",
+  "резервы"
+ ],
+ "doubts": [
+  "в TCDS привязка рейтингов к моделям не извлечена; -1B21 может иметь меньшую тягу"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

@@ -1,0 +1,374 @@
+{
+ "c2-004": {
+  "status": "found",
+  "found_text": "with LTSA invoiced flying hour receipts of £4.6bn (2022: £3.6bn).",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-005": {
+  "status": "found",
+  "found_text": "LTSA engine flying hours (millions) | 13.5 | 3.0 | 16.5 | 25%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-006": {
+  "status": "found",
+  "found_text": "Total LTSA shop visits | 839 | 388 | 1,227 | 18%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-007": {
+  "status": "found",
+  "found_text": "…of which major shop visits | 368 | 363 | 731 | 27%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-010": {
+  "status": "found",
+  "found_text": "The airline pays an amount per engine flying hour (EFH).",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-011": {
+  "status": "found",
+  "found_text": "Approximately half of the LTSA contracts are “unbundled” for LLPs.",
+  "value_ok": true,
+  "note": "отличие только в типе кавычек"
+ },
+ "c2-012": {
+  "status": "found",
+  "found_text": "Under IFRS15, revenues and profits are recognised as costs are incurred.",
+  "value_ok": true,
+  "note": "вторая часть value (разница = net LTSA liability) — вывод собирателя, в цитате не содержится"
+ },
+ "c2-014": {
+  "status": "found",
+  "found_text": "LTSA invoiced flying hour receipts of £5.5bn (2023: £4.6bn)",
+  "value_ok": true,
+  "note": "во второй части страницы (offset 100000)"
+ },
+ "c2-015": {
+  "status": "found",
+  "found_text": "LTSA engine flying hours (millions) | 15.8 | 3.0 | 18.8 | 14%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-016": {
+  "status": "found",
+  "found_text": "Total LTSA shop visits | 903 | 410 | 1,313 | 7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-017": {
+  "status": "found",
+  "found_text": "…of which major shop visits | 430 | 384 | 814 | 11%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-018": {
+  "status": "found",
+  "found_text": "Underlying OE revenue grew by 16% in the year to £3.1bn and services revenue grew by 28% to £5.9bn.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-022": {
+  "status": "found",
+  "found_text": "with LTSA invoiced flying hour receipts of £6.0bn (2024: £5.5bn)",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-023": {
+  "status": "found",
+  "found_text": "LTSA engine flying hours (millions) | 17.0 | 3.0 | 20.0 | +6%",
+  "value_ok": true,
+  "note": "в quote записан только заголовок строки; числа value сверены с таблицей"
+ },
+ "c2-024": {
+  "status": "found",
+  "found_text": "Of the total shop visits, 517 were large engine major shop visits (2024: 430).",
+  "value_ok": true,
+  "note": "всего SV 1 440 (2024: 1 313) — по ответу инструмента"
+ },
+ "c2-025": {
+  "status": "found",
+  "found_text": "Underlying OE revenue grew by 3% in the year to £3.2bn and services revenue grew by 21% to £7.2bn.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-032": {
+  "status": "found",
+  "found_text": "fixed price per engine hour/cycle contracts, where a flat rate based on engine hours/cycles used is charged",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-033": {
+  "status": "found",
+  "found_text": "For the year ended December 31, 2024, approximately 77% of our revenue was derived from customers ... with whom we have long-term agreements",
+  "value_ok": true,
+  "note": "инструмент вернул предложение двумя частями из-за лимита"
+ },
+ "c2-036": {
+  "status": "found",
+  "found_text": "with the largest engine platform accounting for over 10% of our Engine Services revenue",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-037": {
+  "status": "found",
+  "found_text": "Approximately 9,000 shop visits and engine overhauls are anticipated in 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-041": {
+  "status": "found",
+  "found_text": "39 modules sold in Q1’23 to 10 unique customers",
+  "value_ok": true,
+  "note": "слайд 8 Aerospace Products"
+ },
+ "c2-042": {
+  "status": "found",
+  "found_text": "$85.1mm Revenue generating $27.4mm Adj. EBITDA in Q1’23",
+  "value_ok": true,
+  "note": "85.1/39 ≈ 2.18 млн — корректно как верхняя граница (выручка включает не только модули)"
+ },
+ "c2-044": {
+  "status": "found",
+  "found_text": "Aerospace products revenue primarily consists of the transaction price related to the sale of CFM56-5B",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-045": {
+  "status": "found",
+  "found_text": "Aerospace products revenue also consists of engine management service contracts",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-048": {
+  "status": "found",
+  "found_text": "We refurbished 228 CFM56 modules this quarter across our 3 facilities",
+  "value_ok": true,
+  "note": "источник — сторонний агрегатор транскриптов (roic.ai)"
+ },
+ "c2-049": {
+  "status": "found",
+  "found_text": "bringing our total for the year to 757 modules.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-052": {
+  "status": "found",
+  "found_text": "Aerospace products revenue: Q4 2025 456,139; Q4 2024 342,095; FY2025 1,600,456; FY2024 1,079,821 (in thousands)",
+  "value_ok": true,
+  "note": "в quote — только заголовок строки; числа сверены"
+ },
+ "c2-053": {
+  "status": "found",
+  "found_text": "Generated FY2025 Aerospace Products Adjusted EBITDA of $671.3 million, an annual increase of 76% versus FY 2024",
+  "value_ok": true,
+  "note": "671.3/1600.5 ≈ 41.9% — вывод о марже ~42% корректен (Adj. EBITDA, не GAAP)"
+ },
+ "c2-059": {
+  "status": "found",
+  "found_text": "GTF MRO revenue accounted for 41% of total MRO revenue across the business.",
+  "value_ok": true,
+  "note": "вторичный источник (Leeham News)"
+ },
+ "c2-062": {
+  "status": "found",
+  "found_text": "inducted over 1,300 shop visits network-wide, including at its joint ventures",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-066": {
+  "status": "found",
+  "found_text": "(in m €) FY 2023 FY 2024 Change / Revenues 4,225 5,066 20%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-071": {
+  "status": "found",
+  "found_text": "Under most of our engine and aircraft leases, the lessee makes monthly maintenance reserve payments to us based on the asset’s usage and management’s estimate of maintenance costs.",
+  "value_ok": true,
+  "note": "'under most' — не все договоры"
+ },
+ "c2-072": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, 56 of our leases comprising approximately 20% of the net book value of our on-lease assets do not provide for any monthly maintenance reserve payments to be made by lessees.",
+  "value_ok": true,
+  "note": "в quote обрезан хвост 'to be made by lessees' — смысл не меняется"
+ },
+ "c2-074": {
+  "status": "found",
+  "found_text": "Maintenance reserve revenue increased by $18.1 million, or 8.4%, to $232.0 million for 2025 from $213.9 million for 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-075": {
+  "status": "found",
+  "found_text": "generated $187.5 million of short-term maintenance revenues for 2025 compared to $174.5 million for 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-076": {
+  "status": "found",
+  "found_text": "During 2025, the Company recognized $44.5 million of long-term maintenance revenue compared to $39.4 million for 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-077": {
+  "status": "found",
+  "found_text": "363 engines, 20 aircraft, one marine vessel and other leased parts and equipment",
+  "value_ok": true,
+  "note": "в разделе Balance Sheet, а не Highlights"
+ },
+ "c2-078": {
+  "status": "found",
+  "found_text": "Average portfolio utilization increased to 84.9% for 2025, compared to 82.9%",
+  "value_ok": true,
+  "note": "utilization — средняя за год, не на дату"
+ },
+ "c2-083": {
+  "status": "found",
+  "found_text": "Billings collected on these contracts were $9.9 billion and $8.6 billion during the years ended December 31, 2025 and 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-084": {
+  "status": "found",
+  "found_text": "based on the utilization of the asset (e.g., per hour of usage) and contractual payment terms are based on either periodic billing schedules or upon the occurrence of a maintenance event",
+  "value_ok": true,
+  "note": "биллинг либо по графику, либо по событию ТО — не только 'по налёту'; value упрощает"
+ },
+ "c2-085": {
+  "status": "found",
+  "found_text": "installed base of approximately 50,000 commercial and 30,000 military engines, including parked aircraft",
+  "value_ok": true,
+  "note": "включая двигатели на стоящих на хранении ВС"
+ },
+ "c2-088": {
+  "status": "found",
+  "found_text": "[LTSAs ...] represent approximately 40% of our services revenue",
+  "value_ok": true,
+  "note": "подлежащее — LTSAs (по ответу инструмента; полное предложение >125 симв.)"
+ },
+ "c2-092": {
+  "status": "found",
+  "found_text": "increasing PW1100G-JM shop visit output by approximately 26% year over year in 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-098": {
+  "status": "found",
+  "found_text": "The agreement is valued at $160 million U.S. at list price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-099": {
+  "status": "found",
+  "found_text": "has signed an eight-year Rate Per Flight Hour (RPFH) agreement to support is fleet of 16 CFM56-7B engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-100": {
+  "status": "found",
+  "found_text": "has signed an eight-year Rate Per Flight Hour (RPFH) agreement to support is fleet of 16 CFM56-7B engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-103": {
+  "status": "found",
+  "found_text": "The agreement, which includes spare engines, is valued at nearly $500 million U.S. at list price.",
+  "value_ok": true,
+  "note": "стоимость по прейскуранту, включая запасные двигатели"
+ },
+ "c2-104": {
+  "status": "found",
+  "found_text": "signed a nine-year Rate Per Flight Hour (RPFH) maintenance agreement to support 128 CFM56-7B engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-105": {
+  "status": "found",
+  "found_text": "signed a nine-year Rate Per Flight Hour (RPFH) maintenance agreement to support 128 CFM56-7B engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-106": {
+  "status": "found",
+  "found_text": "including providing lease engines, transportation, and material services.",
+  "value_ok": true,
+  "note": "фрагмент начала фразы ('complete engine maintenance and support') инструмент обрезал; хвост совпадает дословно"
+ },
+ "c2-109": {
+  "status": "found",
+  "found_text": "The agreement, which is valued at approximately $1.3 billion U.S. at list price, also covers five spare engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-110": {
+  "status": "found",
+  "found_text": "Agreement covers 45 LEAP-1A engines. ... also covers five spare engines.",
+  "value_ok": true,
+  "note": "5 запасных подтверждено; число ВС (20 A320neo) в возвращённых фрагментах не проверено"
+ },
+ "c2-113": {
+  "status": "found",
+  "found_text": "valued at approximately $3.9 billion over its 18-year term",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-114": {
+  "status": "found",
+  "found_text": "signed a Rate per Flight Hour (RPFH) agreement with CFM to support at total of 172 LEAP-1A engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-121": {
+  "status": "found",
+  "found_text": "The agreement is valued at approximately $500 million U.S. at list price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-122": {
+  "status": "found",
+  "found_text": "...the airline's future fleet of at least 15 leased Airbus A320neo aircraft.",
+  "value_ok": true,
+  "note": "≥30 установленных двигателей — вывод (2 на ВС), без учёта запасных"
+ },
+ "c2-123": {
+  "status": "found",
+  "found_text": "Colorful Guizhou Airlines has signed a Memorandum of Understanding for a 12-year Rate-Per-Flight-Hour Agreement.",
+  "value_ok": true,
+  "note": "это MoU, а не подписанный договор"
+ },
+ "c2-126": {
+  "status": "found",
+  "found_text": "The agreement is valued at $800 million U.S. at list price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-127": {
+  "status": "found",
+  "found_text": "Zhejiang Loong Air has signed a 12-year Rate-Per-Flight-Hour Agreement with CFM International for 40 LEAP-1A engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-133": {
+  "status": "found",
+  "found_text": "revenue in the MRO business segment climbed by 12% in the 2025 financial year to EUR 8,049m (previous year: EUR 7,183m).",
+  "value_ok": true,
+  "note": ""
+ },
+ "c2-134": {
+  "status": "found",
+  "found_text": "It generates almost half of Lufthansa Technik's revenue and is set to be a strong growth driver over the next few years.",
+  "value_ok": true,
+  "note": "'It' = Engine Services unit; ≈€4bn — расчёт собирателя от выручки сегмента 8 049 млн, в тексте суммы нет"
+ },
+ "c2-135": {
+  "status": "found",
+  "found_text": "Lufthansa Technik serviced some 5,100 aircraft under long-term component contracts at the end of the 2025 financial year.",
+  "value_ok": true,
+  "note": ""
+ }
+}

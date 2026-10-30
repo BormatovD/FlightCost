@@ -61,6 +61,148 @@ def _tcz_map() -> dict:
     return val
 
 
+# Оценка сборов аэропорта без тарифа — по региону (решение 234). Медианы
+# контрольного оборота A320 по тарифам с документом; файл собирает
+# research/charges-2026-10/bin/regional.py. Форма прежняя (9,5·MTOW +
+# 11·пасс. за оборот аэропорта), уровень — множитель региона k.
+REGIONAL_PATH = Path(__file__).resolve().parents[1] / "data" / "charges" / "_regional.yaml"
+_REG_CACHE: dict = {}
+APT_EST_MTOW, APT_EST_PAX = 9.5, 11.0
+
+
+def regional_charge_k(icao: str) -> tuple[float, str, dict]:
+    """(k, код региона, запись региона) для аэропорта без тарифа.
+
+    Нет файла — k = 1 («мир», прежняя оценка), и об этом говорит подпись."""
+    try:
+        mt = REGIONAL_PATH.stat().st_mtime
+    except OSError:
+        return 1.0, "none", {"name": "без региональной оценки", "n": 0}
+    hit = _REG_CACHE.get("v")
+    if not hit or hit[0] != mt:
+        import yaml
+        with open(REGIONAL_PATH, encoding="utf-8") as fh:
+            hit = (mt, yaml.safe_load(fh) or {})
+        _REG_CACHE["v"] = hit
+    doc = hit[1]
+    regs = doc.get("regions") or {}
+    for two in (True, False):
+        for code, r in regs.items():
+            for p in r.get("prefixes") or []:
+                if (len(p) == 2) == two and icao.upper().startswith(p):
+                    return float(r["k"]), code, r
+    w = doc.get("world") or {"k": 1.0, "name": "мир", "n": 0}
+    return float(w["k"]), "world", w
+
+
+# Цена топлива «в крыло» по региону аэропорта вылета (решение 235): спот USGC ×
+# множитель региона. Файл собирает research/fuel-2026-10/build_report.py.
+FUEL_REGIONAL_PATH = Path(__file__).resolve().parents[1] / "data" / "fuel" / "_regional.yaml"
+_FUEL_REG_CACHE: dict = {}
+
+
+def fuel_region_k(icao: str) -> tuple[float, str, dict]:
+    """(множитель к споту USGC, код региона, запись) для аэропорта заправки."""
+    try:
+        mt = FUEL_REGIONAL_PATH.stat().st_mtime
+    except OSError:
+        return 1.0, "none", {"name": "без региональной поправки", "confidence": "нет"}
+    hit = _FUEL_REG_CACHE.get("v")
+    if not hit or hit[0] != mt:
+        import yaml
+        with open(FUEL_REGIONAL_PATH, encoding="utf-8") as fh:
+            hit = (mt, yaml.safe_load(fh) or {})
+        _FUEL_REG_CACHE["v"] = hit
+    doc = hit[1]
+    for two in (True, False):
+        for code, r in (doc.get("regions") or {}).items():
+            for p in r.get("prefixes") or []:
+                if (len(p) == 2) == two and icao.upper().startswith(p):
+                    # Решение 236: множитель снят на свою дату; если есть свежее соотношение
+                    # регионального спота (локальный файл недельного агента, данные Platts),
+                    # k = addon × r(сейчас). Нет файла — статический k статьи.
+                    spot = _platts_ratios()
+                    if r.get("addon") and r.get("platts") and spot and spot["r"].get(r["platts"]):
+                        k = r["addon"] * spot["r"][r["platts"]]
+                        return k, code, {**r, "spot_as_of": spot["as_of"], "spot_ratio": spot["r"][r["platts"]]}
+                    return float(r["k"]), code, r
+    return float(doc.get("unknown_k", 1.0)), "unknown", {"name": "регион не определён", "confidence": "нет"}
+
+
+PLATTS_LOCAL_PATH = Path(__file__).resolve().parents[1] / "data" / "fuel" / "_platts.local.json"
+RU_DAMPER_PATH = Path(__file__).resolve().parents[1] / "data" / "fuel" / "_ru_damper.yaml"
+INDIA_ATF_PATH = Path(__file__).resolve().parents[1] / "data" / "fuel" / "_india_atf.yaml"
+
+
+def india_domestic_atf(icao: str, as_of) -> dict | None:
+    """Цена ATF для внутреннего рейса из аэропорта Индии, ₹ за килолитр (решение 236): цена IOCL
+    по Дели с налогами ÷ (1 + VAT Дели) × (1 + VAT штата вылета на дату). Нет файла — None."""
+    try:
+        mt = INDIA_ATF_PATH.stat().st_mtime
+    except OSError:
+        return None
+    hit = _FUEL_REG_CACHE.get("india")
+    if not hit or hit[0] != mt:
+        import yaml
+        with open(INDIA_ATF_PATH, encoding="utf-8") as fh:
+            hit = (mt, yaml.safe_load(fh) or {})
+        _FUEL_REG_CACHE["india"] = hit
+    doc = hit[1]
+    day = str(as_of)[:10]
+    st = (doc.get("vat") or {}).get(icao.upper())
+    pct, state, known = doc.get("default_vat_pct", 18), "штат не заведён", False
+    if st:
+        for per in st["periods"]:
+            if str(per.get("from", "0000")) <= day <= str(per.get("to", "9999")):
+                pct, state, known = per["pct"], st.get("state"), True
+                break
+    base = doc["delhi_domestic_inr_kl"] / (1 + doc["delhi_vat_pct_at_price"] / 100)
+    return {"inr_kl": base * (1 + pct / 100), "vat_pct": pct, "state": state, "known": known,
+            "month": str(doc.get("month")), "delhi": doc["delhi_domestic_inr_kl"]}
+
+
+def ru_fuel_compensation(as_of) -> tuple[float, str, float] | None:
+    """(руб/т всего, месяц, демпфер руб/т): демпфер последнего опубликованного месяца не позже
+    `as_of` + возврат акциза сверх уплаченного (решение 236). Нет файла — None."""
+    try:
+        mt = RU_DAMPER_PATH.stat().st_mtime
+    except OSError:
+        return None
+    hit = _FUEL_REG_CACHE.get("damper")
+    if not hit or hit[0] != mt:
+        import yaml
+        with open(RU_DAMPER_PATH, encoding="utf-8") as fh:
+            hit = (mt, yaml.safe_load(fh) or {})
+        _FUEL_REG_CACHE["damper"] = hit
+    doc = hit[1]
+    cut = str(as_of)[:7]
+    months = sorted(m for m in (doc.get("months") or {}) if m <= cut)
+    if not months:
+        return None
+    m = months[-1]
+    d = float(doc["months"][m]["damper_rub_t"])
+    return d + float(doc.get("excise_refund_rub_t", 0)), m, d
+
+
+def _platts_ratios() -> dict | None:
+    """Соотношение спота регионов к Северной Америке за последние недели (решение 236)."""
+    try:
+        mt = PLATTS_LOCAL_PATH.stat().st_mtime
+    except OSError:
+        return None
+    hit = _FUEL_REG_CACHE.get("platts")
+    if not hit or hit[0] != mt:
+        import json as _json
+        try:
+            d = _json.loads(PLATTS_LOCAL_PATH.read_text(encoding="utf-8"))
+            val = {"as_of": d.get("as_of"), "r": d.get("ratio_to_north_america") or {}}
+        except (OSError, ValueError):
+            val = None
+        hit = (mt, val)
+        _FUEL_REG_CACHE["platts"] = hit
+    return hit[1]
+
+
 @dataclass
 class Aircraft:
     """Физика и лётные данные типа. Приходят из справочника, не из кода.
@@ -293,6 +435,9 @@ class Result:
     # «не присваивалось». Механизм, написанный против тихого недосчёта,
     # отказал бы по своей же схеме (решение 67).
     charge_gaps: dict | None = None
+    # Часть статьи, стоящая на оценке, при провенансе всей статьи «derived»:
+    # сборы, когда тариф есть только у одного конца (решение 234).
+    cost_default_part: dict | None = None
     # Строки сборов по обоим концам, ключ `ИКАО/код`. Нужны отдельно от
     # трассировки: сверяться с подписью шага — та же связка ключа с
     # подписью, из-за которой ломалась карта.
@@ -338,8 +483,8 @@ class Result:
         результату вообще можно верить."""
         if not self.cost_total:
             return 0.0
-        risky = sum(v for k, v in self.cost.items()
-                    if self.cost_prov.get(k) == "default")
+        risky = sum(v if self.cost_prov.get(k) == "default" else (self.cost_default_part or {}).get(k, 0.0)
+                    for k, v in self.cost.items())
         return risky / self.cost_total
 
     @property
@@ -907,6 +1052,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
         else "плоская оценка", node="v_block")
 
     fuel_prov, fuel_src = "input", "задана ключом --fuel"
+    fuel_mult = None             # (множитель, регион), если цена собрана из спота
     if fuel_eur_per_kg is None:
         # Цена собирается из трёх величин, и ни одна не константа в коде.
         # Прежний вариант делил на литры в БАРРЕЛЕ и на плотность 0,8, а
@@ -926,19 +1072,67 @@ def route_economics(store: Store, origin: str, destination: str, *,
                 "нет актуальной цены топлива — взято 0.78 EUR/kg (нет: "
                 + ", ".join(missing) + ")")
         else:
-            fuel_eur_per_kg = usd_gal / GALLON_L / rho / usd_eur
+            spot_eur = usd_gal / GALLON_L / rho / usd_eur
+            # Спот Мексиканского залива — не цена в крыло. Множитель региона
+            # аэропорта вылета (там заправляются) переводит его в цену в баке:
+            # региональный спот, доставка, заправка (решение 235). Множители
+            # стоят на одной точке или допущении на регион и в кризис ошибаются
+            # до 20 % (региональный спот меняется местами) — это говорит
+            # предупреждение, а часть сверх спота при низкой уверенности идёт
+            # в долю «выдуманного».
+            fk, fcode, freg = fuel_region_k(a["icao"])
+            fuel_eur_per_kg = spot_eur * fk
+            fuel_mult = (fk, freg)
+            # Индия, внутренний рейс (решение 236): цена IOCL с налогами (акциз и VAT штата
+            # вылета) вместо множителя, который снят для международных рейсов без налогов.
+            ind = (india_domestic_atf(a["icao"], as_of)
+                   if fcode == "india" and a.get("country") == "IN" and b.get("country") == "IN" else None)
+            inr_eur = store.value("fx", "INR", as_of) if ind else None
+            if ind and inr_eur:
+                fuel_eur_per_kg = ind["inr_kl"] / 1000 / rho / inr_eur
+                fuel_mult = (fuel_eur_per_kg / spot_eur, {**freg, "confidence": "средняя" if ind["known"] else "низкая"})
+                rec(G3, "Цена ATF, Индия, внутренний рейс", "IOCL Дели ÷ (1 + VAT Дели) × (1 + VAT штата) ÷ плотность ÷ курс",
+                    f"{ind['delhi']:,.0f} ₹/кл ({ind['month']}) → {ind['state']}, VAT {ind['vat_pct']} % → "
+                    f"{ind['inr_kl']:,.0f} ₹/кл / {rho:.3f} / {inr_eur:.2f}", fuel_eur_per_kg, "EUR/кг", "derived",
+                    "цена IOCL для внутренних авиакомпаний с акцизом 11 % и VAT; заменяет спот × множитель "
+                    "(он снят для международных рейсов без налогов); решение 236"
+                    + ("" if ind["known"] else "; VAT штата не заведён — взято 18 %"), node="v_fprice")
+            # Демпфер (решение 236): российский эксплуатант, заправка в России — государство
+            # возвращает демпфер месяца и акциз сверх уплаченного. Иностранный перевозчик не
+            # получает. Эксплуатант — из условий начисления (`operator`); по умолчанию
+            # российский, если рейс вылетает из России.
+            ru_op = (cctx.get(a["icao"], {}) or {}).get("operator") or "national"
+            comp = ru_fuel_compensation(as_of) if fcode.startswith("russia") and ru_op == "national" else None
+            rub_eur = store.value("fx", "RUB", as_of) if comp else None
+            if comp and rub_eur:
+                gross = fuel_eur_per_kg
+                fuel_eur_per_kg = max(gross - comp[0] / rub_eur / 1000, 0.0)
+                rec(G3, "Демпфер и возврат акциза", "(демпфер месяца + 2 800 × 1,08) руб/т ÷ курс",
+                    f"({comp[2]:,.0f} + {comp[0] - comp[2]:,.0f}) / {rub_eur:.2f} / 1000 = "
+                    f"{gross - fuel_eur_per_kg:.3f} EUR/кг; без него {gross:.3f}",
+                    gross - fuel_eur_per_kg, "EUR/кг", "derived",
+                    f"демпфер за {comp[1]} (расчёт Рейтер по формуле НК); только российский эксплуатант, "
+                    f"заправка в России; иностранный — `operator: foreign` в условиях начисления. Решение 236",
+                    node="v_fprice")
+                warnings.append(
+                    f"цена топлива в {a['icao']} — за вычетом демпфера за {comp[1]} и возврата акциза "
+                    f"({comp[0]:,.0f} руб/т): без них {gross:.3f} EUR/кг; демпфер меняется от месяца к месяцу "
+                    f"от 0 до ~58 тыс. руб/т")
             fuel_prov = "store"
+            spot_txt = (f"; региональный спот на {freg['spot_as_of']}: {freg['addon']:.3f} × {freg['spot_ratio']:.3f}"
+                        if freg.get("spot_as_of") else "")
             fuel_src = (f"EIA spot/USGC {usd_gal:.3f} USD/gal, плотность "
-                        f"{rho:.3f} кг/л, курс {usd_eur:.4f} USD/EUR")
-            # Спот Мексиканского залива — НЕ цена европейского маршрута и
-            # не цена в крыло. Разница к Северо-Западной Европе публикуется
-            # по подписке, стоимость заправки — договор перевозчика.
-            # 19,1% себестоимости стоят теперь на одном измеренном и одном
-            # недостающем слагаемом, и молчать об этом нельзя.
+                        f"{rho:.3f} кг/л, курс {usd_eur:.4f} USD/EUR; × {fk:.2f} — "
+                        f"«в крыло», {freg.get('name')} (уверенность: {freg.get('confidence')}){spot_txt}")
+            rec(G3, "Множитель «в крыло»", "регион аэропорта вылета"
+                + (" × сдвиг регионального спота" if spot_txt else ""),
+                f"{a['icao']} → {freg.get('name')}{spot_txt}", fk, "×", "default" if freg.get("confidence") in
+                ("низкая", "заглушка", "нет") else "derived",
+                "спот USGC → цена в баке: региональный спот + доставка + заправка; research/fuel-2026-10, решение 235",
+                node="v_fprice")
             warnings.append(
-                "цена топлива — спот Мексиканского залива без европейского "
-                "дифференциала и без стоимости заправки в крыло: занижена "
-                "на неизвестную величину")
+                f"цена топлива — спот Мексиканского залива × {fk:.2f} ({freg.get('name')}, уверенность "
+                f"{freg.get('confidence')}): в кризис региональный спот расходится до 20 %; своя цена — ключом --fuel")
     rec(G3, "Цена топлива", "из справочника или заглушка",
         f"{fuel_eur_per_kg:.3f}", fuel_eur_per_kg, "EUR/кг", fuel_prov, fuel_src,
         node="v_fprice",
@@ -1113,7 +1307,10 @@ def route_economics(store: Store, origin: str, destination: str, *,
         "пассажир на рейсе — целый: округление к ближайшему (решение 229)", node="v_pax")
 
     # Сборы аэропорта считаются построчно по правилам из хранилища. Нет
-    # правил — ярус 3, грубая параметрика с явной пометкой «оценка».
+    # правил — ярус 3: оценка оборота этого аэропорта по региону (решение
+    # 234), с явной пометкой «оценка». Оценка ставится на КАЖДЫЙ конец без
+    # тарифа: раньше, если тариф был только у одного, второй не начислялся
+    # вовсе — рейс в аэропорт без тарифа выходил дешевле любого настоящего.
     #
     # Считаются ОБА конца. Раньше начислялся только аэропорт прилёта, и
     # пассажирский сбор — почти везде он берётся с вылетающего — падал на
@@ -1130,6 +1327,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # спрашивает, и предупреждение было бы ложным.
     # (условия из `--set` сведены выше, сразу после разбора контекста)
     apt_any = False
+    apt_est: dict[str, float] = {}       # оценка оборота аэропорта без тарифа, EUR
+    apt_est_txt: list[str] = []
     for ap, other in ((a, b), (b, a)):
         load_report: dict = {}
         rules_ = load_rules(store, ap["icao"], as_of, report=load_report)
@@ -1148,9 +1347,15 @@ def route_economics(store: Store, origin: str, destination: str, *,
                   "близнецы могут означать только дефект, и расчёт будет "
                   "отказывать (решения 45 и 80)")
         if not rules_:
+            k_r, reg_code, reg = regional_charge_k(ap["icao"])
+            est = k_r * (APT_EST_MTOW * ac.mtow_t + APT_EST_PAX * pax)
+            apt_est[ap["icao"]] = est
+            apt_est_txt.append(f"{ap['icao']}: {k_r:.2f} · ({APT_EST_MTOW} · {ac.mtow_t} + "
+                               f"{APT_EST_PAX} · {pax:.0f}) = {est:,.0f} — {reg.get('name')}")
             warnings.append(
-                f"нет тарифа для {ap['icao']} — сборы по параметрике "
-                f"(ярус 3; разброс между режимами регулирования до 20 раз)")
+                f"нет тарифа для {ap['icao']} — сборы оценкой по региону «{reg.get('name')}» "
+                f"(×{k_r:.2f} к прежней параметрике; тарифов в выборке региона — {reg.get('n', 0)}; ярус 3, "
+                f"внутри региона аэропорты расходятся в разы)")
             continue
         apt_any = True
         # Узел карты для каждой статьи берётся у ФАКТА, а не ставится
@@ -1371,6 +1576,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
 
     # ---------- статьи затрат ----------
     cost, prov = {}, {}
+    default_part: dict = {}    # часть статьи на выдуманном при провенансе derived (решение 234)
 
     def item(name, value, p, formula, subst, src="", *, node, ref=None):
         # Ключ и ПОДПИСЬ — разные вещи (решение 27). `name` английский:
@@ -1385,6 +1591,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
     item("fuel", fuel_kg * fuel_eur_per_kg,
          "default" if fuel_prov == "default" else "derived",
          "масса · цена", f"{fuel_kg:.0f} · {fuel_eur_per_kg:.3f}", node="c_fuel")
+    # Надбавка «в крыло» сверх спота при низкой уверенности — оценка (решение 235).
+    if fuel_mult and fuel_mult[1].get("confidence") in ("низкая", "заглушка") and fuel_mult[0] > 1:
+        default_part["fuel"] = fuel_kg * fuel_eur_per_kg * (1 - 1 / fuel_mult[0])
     item("enroute", nav_cost, nav_prov, "Σ по зонам маршрута",
          "  ".join(f"{z} {nm:.0f}nm" for z, nm in
                    sorted(zones.items(), key=lambda kv: -kv[1])), node="c_nav")
@@ -1400,18 +1609,26 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # оборот — они сверяются с калькулятором аэропорта (эталон Франкфурта);
     # делится только сумма, и делится явно. Допущение: обратный рейс с той
     # же загрузкой — то же, что и у топлива.
+    est_rot = sum(apt_est.values())
     if apt_any:
-        rot = sum(apt_lines.values())
+        rot = sum(apt_lines.values()) + est_rot
         item("airport_charges",
              rot / LEGS_PER_ROTATION,
-             "derived", "Σ строк тарифа обоих аэропортов за оборот ÷ 2 рейса",
-             f"{len(apt_lines)} статей; оборот {rot:,.0f} EUR ÷ {LEGS_PER_ROTATION}",
-             node="c_apt")
+             "derived", ("Σ строк тарифа обоих аэропортов за оборот ÷ 2 рейса" if not apt_est else
+                         "(Σ строк тарифа + оценка аэропорта без тарифа) за оборот ÷ 2 рейса"),
+             f"{len(apt_lines)} статей"
+             + (f" + оценка {est_rot:,.0f} ({'; '.join(apt_est_txt)})" if apt_est else "")
+             + f"; оборот {rot:,.0f} EUR ÷ {LEGS_PER_ROTATION}",
+             ("оценка второго конца — по региону, решение 234" if apt_est else ""), node="c_apt")
+        # Часть статьи — оценка: в долю «выдуманного» идёт именно она.
+        if apt_est:
+            default_part["airport_charges"] = est_rot / LEGS_PER_ROTATION
     else:
-        item("airport_charges", 9.5 * ac.mtow_t + 11.0 * pax, "default",
-             "тариф · MTOW + сбор · пассажиры",
-             f"9.5 · {ac.mtow_t} + 11.0 · {pax:.0f}",
-             "обе константы выдуманы, см. предупреждение выше", node="c_apt")
+        item("airport_charges", est_rot / LEGS_PER_ROTATION, "default",
+             "Σ оценок оборота по региону: k · (9,5 · MTOW + 11 · пасс.) ÷ 2 рейса",
+             "; ".join(apt_est_txt) + f"; ÷ {LEGS_PER_ROTATION}",
+             "форма выдумана, уровень — медиана тарифов региона (решение 234); см. предупреждение выше",
+             node="c_apt")
     # Терминальный сбор аэронавигации. Отдельно от аэропортовых сборов:
     # это плата за диспетчерское обслуживание захода и в районе аэродрома,
     # взимает провайдер аэронавигации, а не оператор аэропорта. Начисляется
@@ -1592,7 +1809,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
 
     res = Result(origin.upper(), destination.upper(), ac.icao, dist, block_h,
                  fuel_kg, cost, be_fare, be_lf, warnings=warnings,
-                 trace=trace, cost_prov=prov,
+                 trace=trace, cost_prov=prov, cost_default_part=default_part,
                  inputs={"load_factor": load_factor, "fare_eur": fare_eur,
                          "seats": seats, "as_of": as_of, "pax": pax,
                          "origin_name": a["name"], "dest_name": b["name"],

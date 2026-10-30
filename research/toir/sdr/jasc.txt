@@ -1,0 +1,3379 @@
+    FEDERAL AVIATION ADMINISTRATION
+JOINT AIRCRAFT SYSTEM/COMPONENT CODE
+         TABLE AND DEFINITIONS
+
+
+
+
+      INFORMATION LAST UPDATED
+
+           October 27, 2008
+
+
+
+
+            PREPARED BY
+
+
+
+   FEDERAL AVIATION ADMINISTRATION
+      FLIGHT STANDARDS SERVICE
+    REGULATORY SUPPORT DIVISION
+AVIATION DATA SYSTEMS BRANCH, AFS-620
+
+ MIKE MONRONEY AERONAUTICAL CENTER
+    OKLAHOMA CITY, OKLAHOMA 73125
+   JOINT AIRCRAFT SYSTEM/COMPONENT
+              CODE TABLE
+
+                                  PREFACE
+
+The Joint Aircraft System/Component (JASC) Code Table is a modified version of the
+Air Transport Association of America (ATA), Specification 100 code. It was developed
+by the FAA's, Regulatory Support Division (AFS-600).
+
+Over the years, the JASC code format of the ATA Spec 100 code has gained
+widespread industry acceptance. In a harmonized effort, the FAA’s counterparts in
+Australia and Canada have adopted the JASC code with only a few exceptions. Some
+Canadian aircraft manufacturers have also adopted this new standard.
+
+This code table is constructed by using the new JASC code four (4) digit format, along
+with an abbreviated code title. The abbreviated titles have been modified in some
+cases to clarify the intended use of the accompanying code. This table can be used
+as a quick reference chart, to assist in the coding and review of aircraft structures or
+systems data (i.e., Service Difficulty Report (SDR), Accident/Incident Report (AID)).
+
+The current coding scheme used in the JASC code was introduced in May 1991, for
+the technical classification of SDR’s. Its predecessor, the FAA aircraft
+system/component code, is a similar but more complex eight-digit code, which was
+developed over 25 years ago. It was constructed around the computer technology of
+that period. It consisted of a four-digit numerical code plus a four-digit alpha character
+code to make data retrieval possible. Since that time, computer technology has
+advanced many folds. Reducing the code from eight to four characters simplifies
+coding, and in some cases, makes JASC coding match the ATA Specification 100 first
+three digits, which are used to identify aircraft systems. The ATA code does not
+reference the fourth digit, so it is free to be used for identifying components.
+
+The JASC code aircraft structural section has increased due to problems inherent with
+aging aircraft. As an example, FAA code 5301 SXBD was expanded to 20 items due
+to the high rate of reporting in this area for the year 1989 (8021 reports were
+received). In some instances, there was very little reporting and codes were combined
+into other systems if the safety impact was not significant. The overall reduction in
+codes has been from 568 FAA codes to 488 JASC codes, with the significant increase
+being in the structural area as stated earlier.
+
+The JASC code divides the engine section into two code groups to separate the
+turbine and reciprocating engines. The codes for the turbine engines are in JASC
+code Chapter 72, Turbine/Turboprop Engine. The codes for the reciprocating engines
+are now exclusively found in JASC code Chapter 85, Reciprocating Engine.
+The other major deviation from ATA Spec 100 is in ATA section 2730, specifically
+involves the stall warning system. Early technology (primarily on smaller aircraft)
+directly linked the sensing of flight attitude to one of the components that furnished the
+means of manually controlling the flight attitude characteristics (elevator). Today,
+most large transport category aircraft utilize electronic units to sense the change in the
+environmental condition called stall, and use the data to influence navigation. ATA
+section 3410, Flight Environment Data, includes high-speed warning in its code
+definition. Stall warning (low speed) is the reciprocal term of high speed warning, so
+its filing under the same code appears more logical. Thus, with the JASC code it was
+decided to move the stall warning system to Chapter 34 under the separate JASC
+code 3418, Stall Warning System.
+
+The FAA is continuing to pursue worldwide involvement from operators and
+manufacturers in addressing the need for international standardization of aircraft
+system/component codes.          The ultimate goal is to develop a universal
+aircraft/component numbering standard which can be used in the manufacturer’s
+maintenance manual, wiring diagram manual, system manuals and illustrated parts
+catalog. This harmonized standard must be a usable standard for the aircraft
+manufacturers, air carrier operators and the general aviation community.
+
+We welcome comments and feedback regarding the possible forming of working
+groups to achieve this long range consideration of possibly harmonizing the ATA
+Specification 100 code and the JASC code.
+                                        TABLE OF CONTENTS
+CODE
+TABLE...........................................................................................................................1-6
+
+System/Code/Titles                                                                                                      Page #
+
+AIRCRAFT ............................................................................................................7
+ 11 Placards and Markings ................................................................................7
+ 12 Servicing .......................................................................................................7
+ 14 Hardware.......................................................................................................7
+ 18 Helicopter Vibration .....................................................................................8
+
+AIRFRAME SYSTEMS .........................................................................................8
+ 21 Air Conditioning ...........................................................................................8
+ 22 Auto Flight ..................................................................................................10
+ 23 Communications ........................................................................................11
+ 24 Electrical Power .........................................................................................13
+ 25 Equipment/Furnishings .............................................................................15
+ 26 Fire Protection............................................................................................17
+ 27 Flight Controls............................................................................................17
+ 28 Fuel..............................................................................................................20
+ 29 Hydraulic Power .........................................................................................22
+ 30 Ice and Rain Protection .............................................................................24
+ 31 Instruments.................................................................................................24
+ 32 Landing Gear ..............................................................................................26
+ 33 Lights ..........................................................................................................29
+ 34 Navigation ...................................................................................................30
+ 35 Oxygen ........................................................................................................35
+ 36 Pneumatic ...................................................................................................35
+ 37 Vacuum .......................................................................................................36
+ 38 Water/Waste................................................................................................36
+ 45 Central Maintenance System (CMS) .........................................................37
+ 49 Airborne Auxiliary Power...........................................................................37
+ 51 Standard Practices/Structures..................................................................38
+ 52 Doors...........................................................................................................39
+ 53 Fuselage......................................................................................................41
+ 54 Nacelles/Pylons ..........................................................................................43
+ 55 Stabilizers ...................................................................................................44
+ 56 Windows .....................................................................................................46
+ 57 Wings ..........................................................................................................47
+
+PROPELLER/ROTOR SYSTEMS ......................................................................49
+ 61 Propellers/Propulsors................................................................................49
+ 62 Main Rotor ..................................................................................................50
+ 63 Main Rotor Drive.........................................................................................51
+ 64 Tail Rotor ....................................................................................................52
+TABLE OF CONTENTS CONT’D
+
+ 65 Tail Rotor Drive ..........................................................................................52
+ 67 Rotors Flight Control .................................................................................53
+
+POWERPLANT SYSTEM ...................................................................................54
+ 71 Powerplant..................................................................................................54
+ 72 Turbine/Turboprop Engine ........................................................................55
+ 73 Engine Fuel and Control............................................................................56
+ 74 Ignition ........................................................................................................58
+ 75 Air ................................................................................................................59
+ 76 Engine Controls .........................................................................................60
+ 77 Engine Indicating .......................................................................................60
+ 78 Engine Exhaust. .........................................................................................62
+ 79 Engine Oil ...................................................................................................62
+ 80 Starting .......................................................................................................63
+ 81 Turbocharging............................................................................................64
+ 82 Water Injection ...........................................................................................64
+ 83 Accessory Gearboxes ...............................................................................65
+ 85 Reciprocating Engine ................................................................................65
+
+
+ JASC CODE FEEDBACK INFORMATION.......................................................66
+                   JOINT AIRCRAFT
+                 SYSTEM/COMPONENT
+                     CODE TABLE
+
+JASC/ TITLE
+ 11 PLACARDS AND MARKINGS                    2216   AUTOPILOT TRIM SERVO
+                                             2220   SPEED-ATTITUDE CORRECT. SYSTEM
+ 1100   PLACARDS AND MARKINGS                2230   AUTO THROTTLE SYSTEM
+                                             2250   AERODYNAMIC LOAD ALLEVIATING
+                                             2297   AUTOFLIGHT SYSTEM WIRING
+ 12 SERVICING
+                                             23 COMMUNICATIONS
+ 1210   FUEL SERVICING
+ 1220   OIL SERVICING
+ 1230   HYDRAULIC FLUID SERVICING            2300   COMMUNICATIONS SYSTEM
+ 1240   COOLANT SERVICING                    2310   HF COMMUNICATION SYSTEM
+                                             2311   UHF COMMUNICATION SYSTEM
+                                             2312   VHF COMMUNICATION SYSTEM
+ 14 HARDWARE                                 2320   DATA TRANSMISSION AUTO CALL
+                                             2330   ENTERTAINMENT SYSTEM
+ 1400   MISCELLANEOUS HARDWARE               2340   INTERPHONE/PASSENGER PA SYSTEM
+ 1410   HOSES AND TUBES                      2350   AUDIO INTEGRATING SYSTEM
+ 1420   ELECTRICAL CONNECTORS                2360   STATIC DISCHARGE SYSTEM
+ 1430   FASTENERS                            2370   AUDIO/VIDEO MONITORING
+ 1497   MISCELLANEOUS WIRING                 2397   COMMUNICATION SYSTEM WIRING
+
+
+ 18 HELICOPTER VIBRATION                     24 ELECTRICAL POWER
+
+ 1800   HELICOPTER VIB/NOISE ANALYSIS        2400   ELECTRICAL POWER SYSTEM
+ 1810   HELICOPTER VIBRATION ANALYSIS        2410   ALTERNATOR-GENERATOR DRIVE
+ 1820   HELICOPTER NOISE ANALYSIS            2420   AC GENERATION SYSTEM
+ 1897   HELICOPTER VIBRATION SYSTEM WIRING   2421   AC GENERATOR-ALTERNATOR
+                                             2422   AC INVERTER
+                                             2423   PHASE ADAPTER
+ 21 AIR CONDITIONING                         2424   AC REGULATOR
+                                             2425   AC INDICATING SYSTEM
+ 2100   AIR CONDITIONING SYSTEM              2430   DC GENERATING SYSTEM
+ 2110   CABIN COMPRESSOR SYSTEM              2431   BATTERY OVERHEAT WARN. SYSTEM
+ 2120   AIR DISTRIBUTION SYSTEM              2432   BATTERY/CHARGER SYSTEM
+ 2121   AIR DISTRIBUTION FAN                 2433   DC RECTIFIER/CONVERTER
+ 2130   CABIN PRESSURE CONTROL SYSTEM        2434   DC GENERATOR-ALTERNATOR
+ 2131   CABIN PRESSURE CONTROLLER            2435   STARTER-GENERATOR
+ 2132   CABIN PRESSURE INDICATOR             2436   DC REGULATOR
+ 2133   PRESSURE REGUL/OUTFLOW VALVE         2437   DC INDICATING SYSTEM
+ 2134   CABIN PRESSURE SENSOR                2440   EXTERNAL POWER SYSTEM
+ 2140   HEATING SYSTEM                       2450   AC POWER DISTRIBUTION SYSTEM
+ 2150   CABIN COOLING SYSTEM                 2460   DC POWER/DISTRIBUTION SYSTEM
+ 2160   CABIN TEMPERATURE CONTROL SYSTEM     2497   ELECTRICAL POWER SYSTEM WIRING
+ 2161   CABIN TEMPERATURE CONTROLLER
+ 2162   CABIN TEMPERATURE INDICATOR
+ 2163   CABIN TEMPERATURE SENSOR
+                                             25 EQUIPMENT/FURNISHINGS
+ 2170   HUMIDITY CONTROL SYSTEM
+ 2197   AIR CONDITIONING SYSTEM WIRING       2500   CABIN EQUIPMENT/FURNISHINGS
+                                             2510   FLIGHT COMPARTMENT EQUIPMENT
+                                             2520   PASSENGER COMPARTMENT EQUIPMENT
+ 22 AUTO FLIGHT                              2530   BUFFET/GALLEYS
+                                             2540   LAVATORIES
+ 2200   AUTO FLIGHT SYSTEM                   2550   CARGO COMPARTMENTS
+ 2210   AUTOPILOT SYSTEM                     2551   AGRICULTURAL SPRAY SYSTEM
+ 2211   AUTOPILOT COMPUTER                   2560   EMERGENCY EQUIPMENT
+ 2212   ALTITUDE CONTROLLER                  2561   LIFE JACKET
+ 2213   FLIGHT CONTROLLER                    2562   EMERGENCY LOCATOR BEACON
+ 2214   AUTOPILOT TRIM INDICATOR             2563   PARACHUTE
+ 2215   AUTOPILOT MAIN SERVO                 2564   LIFE RAFT
+2565   ESCAPE SLIDE                          2920   HYDRAULIC SYSTEM, AUXILIARY
+2570   ACCESSORY COMPARTMENT                 2921   HYDRAULIC ACCUMULATOR, AUXILIARY
+2571   BATTERY BOX STRUCTURE                 2922   HYDRAULIC FILTER, AUXILIARY
+2572   ELECTRONIC SHELF SECTION              2923   HYDRAULIC PUMP, AUXILIARY
+2597   EQUIP/FURNISHING SYSTEM WIRING        2925   HYDRAULIC PRESSURE RELIEF, AUXILIARY
+                                             2926   HYDRAULIC RESERVOIR, AUXILIARY
+                                             2927   HYDRAULIC PRESSURE REGULATOR, AUX.
+26 FIRE PROTECTION                           2930   HYDRAULIC INDICATING SYSTEM
+                                             2931   HYDRAULIC PRESSURE INDICATOR
+2600   FIRE PROTECTION SYSTEM                2932   HYDRAULIC PRESSURE SENSOR
+2610   DETECTION SYSTEM                      2933   HYDRAULIC QUANTITY INDICATOR
+2611   SMOKE DETECTION                       2934   HYDRAULIC QUANTITY SENSOR
+2612   FIRE DETECTION                        2997   HYDRAULIC POWER SYSTEM WIRING
+2613   OVERHEAT DETECTION
+2620   EXTINGUISHING SYSTEM
+2621   FIRE BOTTLE, FIXED                    30 ICE AND RAIN PROTECTION
+2622   FIRE BOTTLE, PORTABLE
+2697   FIRE PROTECTION SYSTEM WIRING         3000   ICE/RAIN PROTECTION SYSTEM
+                                             3010   AIRFOIL ANTI/DE-ICE SYSTEM
+                                             3020   AIR INTAKE ANTI/DE-ICE SYSTEM
+27 FLIGHT CONTROLS                           3030   PITOT/STATIC ANTI-ICE SYSTEM
+                                             3040   WINDSHIELD/DOOR RAIN/ICE REMOVAL
+2700   FLIGHT CONTROL SYSTEM                 3050   ANTENNA/RADOME ANTI-ICE/DE-ICE SYSTEM
+2701   CONTROL COLUMN SECTION                3060   PROP/ROTOR ANTI-ICE/DE-ICE SYSTEM
+2710   AILERON CONTROL SYSTEM                3070   WATER LINE ANTI-ICE SYSTEM
+2711   AILERON TAB CONTROL SYSTEM            3080   ICE DETECTION
+2720   RUDDER CONTROL SYSTEM                 3097   ICE/RAIN PROTECTION SYSTEM WIRING
+2721   RUDDER TAB CONTROL SYSTEM
+2722   RUDDER ACTUATOR                       31 INSTRUMENTS
+2730   ELEVATOR CONTROL SYSTEM
+2731   ELEVATOR TAB CONTROL SYSTEM
+2740   STABILIZER CONTROL SYSTEM             3100   INDICATING/RECORDING SYSTEM
+2741   STABILIZER POSITION INDICATING        3110   INSTRUMENT PANEL
+2742   STABILIZER ACTUATOR                   3120   INDEPENDENT INSTRUMENTS (CLOCK, ETC.)
+2750   TE FLAP CONTROL SYSTEM                3130   DATA RECORDERS (FLT/MAINT)
+2751   TE FLAP POSITION IND. SYSTEM          3140   CENTRAL COMPUTERS (EICAS)
+2752   TE FLAP ACTUATOR                      3150   CENTRAL WARNING
+2760   DRAG CONTROL SYSTEM                   3160   CENTRAL DISPLAY
+2761   DRAG CONTROL ACTUATOR                 3170   AUTOMATIC DATA
+2770   GUST LOCK/DAMPER SYSTEM               3197   INSTRUMENT SYSTEM WIRING
+2780   LE SLAT CONTROL SYSTEM
+2781   LE SLAT POSITION IND. SYSTEM          32 LANDING GEAR
+2782   LE SLAT ACTUATOR
+2797   FLIGHT CONTROL SYSTEM WIRING
+                                             3200   LANDING GEAR SYSTEM
+                                             3201   LANDING GEAR/WHEEL FAIRING
+28 FUEL                                      3210   MAIN LANDING GEAR
+                                             3211   MAIN LANDING GEAR ATTACH SECTION
+2800   AIRCRAFT FUEL SYSTEM                  3212   EMERGENCY FLOTATION SECTION
+2810   FUEL STORAGE                          3213   MAIN LANDING GEAR STRUT/AXLE/TRUCK
+2820   ACFT FUEL DISTRIB. SYSTEM             3220   NOSE/TAIL LANDING GEAR
+2821   ACFT FUEL FILTER/STRAINER             3221   NOSE/TAIL LANDING GEAR ATTACH SECTION
+2822   FUEL BOOST PUMP                       3222   NOSE/TAIL LANDING GEAR STRUT/AXLE
+2823   FUEL SELECTOR/SHUT-OFF VALVE          3230   LANDING GEAR RETRACT/EXTEND SYSTEM
+2824   FUEL TRANSFER VALVE                   3231   LANDING GEAR DOOR RETRACT SECTION
+2830   FUEL DUMP SYSTEM                      3232   LANDING GEAR DOOR ACTUATOR
+2840   ACFT FUEL INDICATING SYSTEM           3233   LANDING GEAR ACTUATOR
+2841   FUEL QUANTITY INDICATOR               3234   LANDING GEAR SELECTOR
+2842   FUEL QUANTITY SENSOR                  3240   LANDING GEAR BRAKE SYSTEM
+2843   FUEL TEMPERATURE INDICATOR            3241   BRAKE ANTI-SKID SECTION
+2844   FUEL PRESSURE INDICATOR               3242   BRAKE
+2897   FUEL SYSTEM WIRING                    3243   MASTER CYLINDER/BRAKE VALVE
+                                             3244   TIRE
+                                             3245   TIRE TUBE
+29 HYDRAULIC POWER                           3246   WHEEL/SKI/FLOAT
+                                             3250   LANDING GEAR STEERING SYSTEM
+2900   HYDRAULIC POWER SYSTEM                3251   STEERING UNIT
+2910   HYDRAULIC SYSTEM, MAIN                3252   SHIMMY DAMPER
+2911   HYDRAULIC POWER ACCUMULATOR, MAIN     3260   LANDING GEAR POSITION AND WARNING
+2912   HYDRAULIC FILTER, MAIN                3270   AUXILIARY GEAR (TAIL SKID)
+2913   HYDRAULIC PUMP, (ELECT/ENG), MAIN     3297   LANDING GEAR SYSTEM WIRING
+2914   HYDRAULIC HANDPUMP, MAIN
+2915   HYDRAULIC PRESSURE RELIEF VLV, MAIN
+2916   HYDRAULIC RESERVOIR, MAIN
+2917   HYDRAULIC PRESSURE REGULATOR, MAIN
+33 LIGHTS                                      3700   VACUUM SYSTEM
+                                               3710   VACUUM DISTRIBUTION SYSTEM
+                                               3720   VACUUM INDICATING SYSTEM
+3300   LIGHTING SYSTEM                         3797   VACUUM SYSTEM WIRING
+3310   FLIGHT COMPARTMENT LIGHTING
+3320   PASSENGER COMPARTMENT LIGHTING
+3330   CARGO COMPARTMENT LIGHTING              38 WATER/WASTE
+3340   EXTERIOR LIGHTING
+3350   EMERGENCY LIGHTING                      3800   WATER AND WASTE SYSTEM
+3397   LIGHT SYSTEM WIRING                     3810   POTABLE WATER SYSTEM
+                                               3820   WASH WATER SYSTEM
+                                               3830   WASTE DISPOSAL SYSTEM
+34 NAVIGATION                                  3840   AIR SUPPLY (WATER PRESS. SYSTEM)
+                                               3897   WATER/WASTE SYSTEM WIRING
+3400   NAVIGATION SYSTEM
+3410   FLIGHT ENVIRONMENT DATA
+3411   PITOT/STATIC SYSTEM                     45 CENTRAL MAINT. SYSTEM
+3412   OUTSIDE AIR TEMP. IND./SENSOR
+3413   RATE OF CLIMB INDICATOR                 4500   CENTRAL MAINT. COMPUTER
+3414   AIRSPEED/MACH INDICATOR                 4597   CENTRAL MAINT. SYSTEM WIRING
+3415   HIGH SPEED WARNING
+3416   ALTIMETER, BAROMETRIC/ENCODER           49 AIRBORNE AUXILIARY POWER
+3417   AIR DATA COMPUTER
+3418   STALL WARNING SYSTEM
+3420   ATTITUDE AND DIRECTION DATA SYSTEM      4900   AIRBORNE APU SYSTEM
+3421   ATTITUDE GYRO AND IND. SYSTEM           4910   APU COWLING/CONTAINMENT
+3422   DIRECTIONAL GYRO AND IND. SYSTEM        4920   APU CORE ENGINE
+3423   MAGNETIC COMPASS                        4930   APU ENGINE FUEL AND CONTROL
+3424   TURN AND BANK/RATE OF TURN INDICATOR    4940   APU START/IGNITION SYSTEM
+3425   INTEGRATED FLT. DIRECTOR SYSTEM         4950   APU BLEED AIR SYSTEM
+3430   LANDING AND TAXI AIDS                   4960   APU CONTROLS
+3431   LOCALIZER/VOR SYSTEM                    4970   APU INDICATING SYSTEM
+3432   GLIDE SLOPE SYSTEM                      4980   APU EXHAUST SYSTEM
+3433   MICROWAVE LANDING SYSTEM                4990   APU OIL SYSTEM
+3434   MARKER BEACON SYSTEM                    4997   APU SYSTEM WIRING
+3435   HEADS UP DISPLAY SYSTEM
+3436   WIND SHEAR DETECTION SYSTEM             51 STANDARD PRACTICES/STRUCTURES
+3440   INDEPENDENT POS. DETERMINING SYSTEM
+3441   INERTIAL GUIDANCE SYSTEM                5100   STANDARD PRACTICES/STRUCTURES
+3442   WEATHER RADAR SYSTEM                    5101   AIRCRAFT STRUCTURES
+3443   DOPPLER SYSTEM                          5102   BALLOON REPORTS
+3444   GROUND PROXIMITY SYSTEM
+3445   AIR COLLISION AVOIDANCE SYSTEM (TCAS)
+3446   NON RADAR WEATHER SYSTEM                52 DOORS
+3450   DEPENDENT POSITION DETERMINING SYS
+3451   DME/TACAN SYSTEM                        5200   DOORS
+3452   ATC TRANSPONDER SYSTEM                  5210   PASSENGER/CREW DOORS
+3453   LORAN SYSTEM                            5220   EMERGENCY EXITS
+3454   VOR SYSTEM                              5230   CARGO/BAGGAGE DOORS
+3455   ADF SYSTEM                              5240   SERVICE DOORS
+3456   OMEGA NAVIGATION SYSTEM                 5241   GALLEY DOORS
+3457   GLOBAL POSITIONING SYSTEM               5242   E/E COMPARTMENT DOORS
+3460   FLT MANAGE. COMPUTING HARDWARE SYS      5243   HYDRAULIC COMPARTMENT DOORS
+3461   FLT MANAGE. COMPUTING SOFTWARE SYS      5244   ACCESSORY COMPARTMENT DOORS
+3497   NAVIGATION SYSTEM WIRING                5245   AIR CONDITIONING COMPART. DOORS
+                                               5246   FLUID SERVICE DOORS
+35 OXYGEN                                      5247   APU DOORS
+                                               5248   TAIL CONE DOORS
+                                               5250   FIXED INNER DOORS
+3500   OXYGEN SYSTEM                           5260   ENTRANCE STAIRS
+3510   CREW OXYGEN SYSTEM                      5270   DOOR WARNING SYSTEM
+3520   PASSENGER OXYGEN SYSTEM                 5280   LANDING GEAR DOORS
+3530   PORTABLE OXYGEN SYSTEM                  5297   DOOR SYSTEM WIRING
+3597   OXYGEN SYSTEM WIRING
+
+                                               53 FUSELAGE
+36 PNEUMATIC
+                                               5300   FUSELAGE STRUCTURE (GENERAL)
+3600   PNEUMATIC SYSTEM                        5301   AERIAL TOW EQUIPMENT
+3610   PNEUMATIC DISTRIBUTION SYSTEM           5302   ROTORCRAFT TAIL BOOM
+3620   PNEUMATIC INDICATING SYSTEM             5310   FUSELAGE MAIN, STRUCTURE
+3697   PNEUMATIC SYSTEM WIRING                 5311   FUSELAGE MAIN, FRAME
+                                               5312   FUSELAGE MAIN, BULKHEAD
+37 VACUUM                                      5313   FUSELAGE MAIN, LONGERON/STRINGER
+                                               5314   FUSELAGE MAIN, KEEL
+5315   FUSELAGE MAIN, FLOOR BEAM               5700   WING STRUCTURE
+5320   FUSELAGE MISCELLANEOUS STRUCTURE        5710   WING, MAIN FRAME STRUCTURE
+5321   FUSELAGE FLOOR PANEL                    5711   WING SPAR
+5322   FUSELAGE INTERNAL MOUNT STRUCTURE       5712   WING, RIB/BULKHEAD
+5323   FUSELAGE INTERNAL STAIRS                5713   WING, LONGERON/STRINGER
+5324   FUSELAGE FIXED PARTITIONS               5714   WING, CENTER BOX
+5330   FUSELAGE MAIN, PLATE/SKIN               5720   WING MISCELLANEOUS STRUCTURE
+5340   FUSELAGE MAIN, ATTACH FITTINGS          5730   WING, PLATES/SKINS
+5341   FUSELAGE, WING ATTACH FITTINGS          5740   WING, ATTACH FITTINGS
+5342   FUSELAGE, STABILIZER ATTACH FITTINGS    5741   WING, FUSELAGE ATTACH FITTINGS
+5343   LANDING GEAR ATTACH FITTINGS            5742   WING, NAC/PYLON ATTACH FITTINGS
+5344   FUSELAGE DOOR HINGES                    5743   WING, LANDING GEAR ATTACH FITTINGS
+5345   FUSELAGE EQUIPMENT ATTACH FITTINGS      5744   WING, CONT. SURFACE ATTACH FITTINGS
+5346   POWERPLANT ATTACH FITTINGS              5750   WING, CONTROL SURFACES
+5347   SEAT/CARGO ATTACH FITTINGS              5751   AILERONS
+5350   AERODYNAMIC FAIRINGS                    5752   AILERON TAB STRUCTURE
+5397   FUSELAGE WIRING                         5753   TRAILING EDGE FLAPS
+                                               5754   LEADING EDGE DEVICES
+                                               5755   SPOILERS
+54 NACELLES/PYLONS                             5797   WING SYSTEM WIRING
+
+5400   NACELLE/PYLON STRUCTURE
+5410   NACELLE/PYLON, MAIN FRAME               61 PROPELLERS/PROPULSORS
+5411   NACELLE/PYLON, FRAME/SPAR/RIB
+5412   NACELLE/PYLON, BULKHEAD/FIREWALL        6100   PROPELLER SYSTEM
+5413   NACELLE/PYLON, LONGERON/STRINGER        6110   PROPELLER ASSEMBLY
+5414   NACELLE/PYLON, PLATE SKIN               6111   PROPELLER BLADE SECTION
+5415   NACELLE/PYLON, ATTACH FITTINGS          6112   PROPELLER DE-ICE BOOT SECTION
+5420   NACELLE/PYLON MISCELLANEOUS STRUCT.     6113   PROPELLER SPINNER SECTION
+5497   NACELLE/PYLON SYSTEM WIRING             6114   PROPELLER HUB SECTION
+                                               6120   PROPELLER CONTROLLING SYSTEM
+                                               6121   PROPELLER SYNCHRONIZER SECTION
+55 STABILIZERS                                 6122   PROPELLER GOVERNOR
+                                               6123   PROPELLER FEATHERING/REVERSING
+5500   EMPENNAGE STRUCTURE                     6130   PROPELLER BRAKING
+5510   HORIZONTAL STABILIZER STRUCTURE         6140   PROPELLER INDICATING SYSTEM
+5511   HORIZONTAL STABILIZER, SPAR/RIB         6197   PROPELLER/PROPULSORS SYSTEM WIRING
+5512   HORIZONTAL STABILIZER, PLATE/SKIN
+5513   HORIZONTAL STABILIZER, TAB STRUCTURE
+5514   HORIZ STAB MISCELLANEOUS STRUCTURE      62 MAIN ROTOR
+5520   ELEVATOR STRUCTURE
+5521   ELEVATOR, SPAR/RIB STRUCTURE            6200   MAIN ROTOR SYSTEM
+5522   ELEVATOR, PLATES/SKIN STRUCTURE         6210   MAIN ROTOR BLADES
+5523   ELEVATOR, TAB STRUCTURE                 6220   MAIN ROTOR HEAD
+5524   ELEVATOR MISCELLANEOUS STRUCTURE        6230   MAIN ROTOR MAST/SWASHPLATE
+5530   VERTICAL STABILIZER STRUCTURE           6240   MAIN ROTOR INDICATING SYSTEM
+5531   VERTICAL STABILIZER, SPAR/RIB STRUCT.   6297   MAIN ROTOR SYSTEM WIRING
+5532   VERTICAL STABILIZER, PLATES/SKIN
+5533   VENTRAL STRUCTURE
+5534   VERT. STAB. MISCELLANEOUS STRUCTURE
+                                               63 MAIN ROTOR DRIVE
+5540   RUDDER STRUCTURE
+5541   RUDDER, SPAR/RIB                        6300   MAIN ROTOR DRIVE SYSTEM
+5542   RUDDER, PLATE/SKIN                      6310   ENGINE/TRANSMISSION COUPLING
+5543   RUDDER, TAB STRUCTURE                   6320   MAIN ROTOR GEARBOX
+5544   RUDDER MISCELLANEOUS STRUCTURE          6321   MAIN ROTOR BRAKE
+5550   EMPENNAGE FLT. CONT., ATTACH FITTING    6322   ROTORCRAFT COOLING FAN SYSTEM
+5551   HORIZONTAL STABILIZER, ATTACH FITTING   6330   MAIN ROTOR TRANSMISSION MOUNT
+5552   ELEVATOR/TAB, ATTACH FITTINGS           6340   ROTOR DRIVE INDICATING SYSTEM
+5553   VERT. STAB., ATTACH FITTINGS            6397   MAIN ROTOR DRIVE SYSTEM WIRING
+5554   RUDDER/TAB, ATTACH FITTINGS
+5597   STABILIZER SYSTEM WIRING                64 TAIL ROTOR
+56 WINDOWS                                     6400   TAIL ROTOR SYSTEM
+                                               6410   TAIL ROTOR BLADES
+5600   WINDOW/WINDSHIELD SYSTEM                6420   TAIL ROTOR HEAD
+5610   FLIGHT COMPARTMENT WINDOWS              6440   TAIL ROTOR INDICATING SYSTEM
+5620   PASSENGER COMPARTMENT WINDOWS           6497   TAIL ROTOR SYSTEM WIRING
+5630   DOOR WINDOWS
+5640   INSPECTION WINDOWS                      65 TAIL ROTOR DRIVE
+5697   WINDOW SYSTEM WIRING
+                                               6500   TAIL ROTOR DRIVE SYSTEM
+57 WINGS                                       6510   TAIL ROTOR DRIVE SHAFT
+                                               6520   TAIL ROTOR GEARBOX
+6540   TAIL ROTOR DRIVE INDICATING SYSTEM    75 AIR
+6597   TAIL ROTOR DRIVE SYSTEM WIRING
+                                             7500   ENGINE BLEED AIR SYSTEM
+67 ROTORS FLIGHT CONTROL                     7510   ENGINE ANTI-ICING SYSTEM
+                                             7520   ENGINE COOLING SYSTEM
+6700   ROTORCRAFT FLIGHT CONTROL             7530   COMPRESSOR BLEED CONTROL
+6710   MAIN ROTOR CONTROL                    7531   COMPRESSOR BLEED GOVERNOR
+6711   TILT ROTOR FLIGHT CONTROL             7532   COMPRESSOR BLEED VALVE
+6720   TAIL ROTOR CONTROL SYSTEM             7540   BLEED AIR INDICATING SYSTEM
+6730   ROTORCRAFT SERVO SYSTEM               7597   ENGINE BLEED AIR SYSTEM WIRING
+6797   ROTORS FLIGHT CONTROL SYSTEM WIRING
+                                             76 ENGINE CONTROLS
+71 POWERPLANT
+                                             7600   ENGINE CONTROLS
+7100   POWERPLANT SYSTEM                     7601   ENGINE SYNCHRONIZING
+7110   ENGINE COWLING SYSTEM                 7602   MIXTURE CONTROL
+7111   ENGINE COWL FLAPS                     7603   POWER LEVER
+7112   ENGINE AIR BAFFLE SECTION             7620   ENGINE EMERGENCY SHUTDOWN SYSTEM
+7120   ENGINE MOUNT SECTION                  7697   ENGINE CONTROL SYSTEM WIRING
+7130   ENGINE FIRESEALS
+7160   ENGINE AIR INTAKE SYSTEM              77 ENGINE INDICATING
+7170   ENGINE DRAINS
+7197   POWERPLANT SYSTEM WIRING
+                                             7700   ENGINE INDICATING SYSTEM
+                                             7710   POWER INDICATING SYSTEM
+72 TURBINE/TURBOPROP ENGINE                  7711   ENGINE PRESSURE RATIO (EPR)
+                                             7712   ENGINE BMEP/TORQUE INDICATING
+7200   ENGINE (TURBINE/TURBOPROP)            7713   MANIFOLD PRESSURE (MP) INDICATING
+7210   TURBINE ENGINE REDUCTION GEAR         7714   ENGINE RPM INDICATING SYSTEM
+7220   TURBINE ENGINE AIR INLET SECTION      7720   ENGINE TEMP. INDICATING SYSTEM
+7230   TURBINE ENGINE COMPRESSOR SECTION     7721   CYLINDER HEAD TEMP (CHT) INDICATING
+7240   TURBINE ENGINE COMBUSTION SECTION     7722   ENG. EGT/TIT INDICATING SYSTEM
+7250   TURBINE SECTION                       7730   ENGINE IGNITION ANALYZER SYSTEM
+7260   TURBINE ENGINE ACCESSORY DRIVE        7731   ENGINE IGNITION ANALYZER
+7261   TURBINE ENGINE OIL SYSTEM             7732   ENGINE VIBRATION ANALYZER
+7270   TURBINE ENGINE BYPASS SECTION         7740   ENGINE INTEGRATED INSTRUMENT SYSTEM
+7297   TURBINE ENGINE SYSTEM WIRING          7797   ENGINE INDICATING SYSTEM WIRING
+
+
+73 ENGINE FUEL AND CONTROL                   78 ENGINE EXHAUST
+
+7300   ENGINE FUEL AND CONTROL               7800   ENGINE EXHAUST SYSTEM
+7310   ENGINE FUEL DISTRIBUTION              7810   ENGINE COLLECTOR/TAILPIPE/NOZZLE
+7311   ENGINE FUEL/OIL COOLER                7820   ENGINE NOISE SUPPRESSOR
+7312   FUEL HEATER                           7830   THRUST REVERSER
+7313   FUEL INJECTOR NOZZLE                  7897   ENGINE EXHAUST SYSTEM WIRING
+7314   ENGINE FUEL PUMP
+7320   FUEL CONTROLLING SYSTEM               79 ENGINE OIL
+7321   FUEL CONTROL/TURBINE ENGINES
+7322   FUEL CONTROL/RECEIPROCATING ENGINES
+7323   TURBINE GOVERNOR                      7900   ENGINE OIL SYSTEM (AIRFRAME)
+7324   FUEL DIVIDER                          7910   ENGINE OIL STORAGE (AIRFRAME)
+7330   ENGINE FUEL INDICATING SYSTEM         7920   ENGINE OIL DISTRIBUTION (AIRFRAME)
+7331   FUEL FLOW INDICATING                  7921   ENGINE OIL COOLER
+7332   FUEL PRESSURE INDICATING              7922   ENGINE OIL TEMP. REGULATOR
+7333   FUEL FLOW SENSOR                      7923   ENGINE OIL SHUTOFF VALVE
+7334   FUEL PRESSURE SENSOR                  7930   ENGINE OIL INDICATING SYSTEM
+7397   ENGINE FUEL SYSTEM WIRING             7931   ENGINE OIL PRESSURE
+                                             7932   ENGINE OIL QUANTITY
+                                             7933   ENGINE OIL TEMPERATURE
+74 IGNITION                                  7997   ENGINE OIL SYSTEM WIRING
+
+7400   IGNITION SYSTEM                       80 STARTING
+7410   IGNITION POWER SUPPLY
+7411   LOW TENSION COIL
+7412   EXCITER                               8000   ENGINE STARTING SYSTEM
+7413   INDUCTION VIBRATOR                    8010   ENGINE CRANKING
+7414   MAGNETO/DISTRIBUTOR                   8011   ENGINE STARTER
+7420   IGNITION HARNESS (DISTRIBUTION)       8012   ENGINE START VALVES/CONTROLS
+7421   SPARK PLUG/IGNITER                    8097   ENGINE STARTING SYSTEM WIRING
+7430   IGNITION/STARTER SWITCHING
+7497   IGNITION SYSTEM WIRING
+                                             81 TURBOCHARGING
+                                        8300   ACCESSORY GEARBOXES
+8100   EXHAUST TURBINE SYSTEM (RECIP)   8397   ACCESSORY GEARBOX SYSTEM WIRING
+8110   POWER RECOVERY TURBINE (RECIP)
+8120   EXHAUST TURBOCHARGER             85 RECIPROCATING ENGINE
+8197   TURBOCHARGING SYSTEM WIRING
+                                        8500   ENGINE (RECIPROCATING)
+82 WATER INJECTION                      8510   RECIPROCATING ENGINE FRONT SECTION
+                                        8520   RECIPROCATING ENGINE POWER SECTION
+                                        8530   RECIPROCATING ENGINE CYLINDER SECTION
+8200   WATER INJECTION SYSTEM           8540   RECIPROCATING ENGINE REAR SECTION
+8297   WATER INJECTION SYSTEM WIRING    8550   RECIPROCATING ENGINE OIL SYSTEM
+                                        8560   RECIPROCATING ENGINE SUPERCHARGER
+83 ACCESSORY GEARBOXES                  8570   RECIPROCATING ENGINE LIQUID COOLING
+                                        8597   RECIPROCATING ENGINE SYSTEM WIRING
+SYSTEM CODES - TITLE
+DEFINITIONS
+
+AIRCRAFT
+
+11 - Placards and Markings
+
+1100 Placards and Markings
+For reports on all placards, decals, and markings installed by the manufacturer including those required
+by government regulations. The report should include the system or component involved. The aircraft
+make and model is required. The location of the item is essential for a meaningful report. Such
+information should be extracted from the text and entered in the proper data fields (Example: Item =
+placard; location = entrance door; part condition = missing. Text= the "closed and locked" decal is
+missing from the main passenger entrance door).
+
+12 - Servicing
+
+1210 Fuel Servicing
+For reports indicating a problem relating to any type of aviation fuel. The general instructions are not
+applicable to any particular system.
+
+1220 Oil Servicing
+For reports indicating a problem relating to aviation lubricating oil. The general instructions are not
+applicable to any particular system.
+
+1230 Hydraulic Fluid Servicing
+For reports which indicate a problem with any type of hydraulic fluid. The general instructions are not
+applicable to any particular system.
+
+1240 Coolant Servicing
+For reports indicating a problem with any type of engine coolant used in aircraft. The general
+instructions are not applicable to any particular system.
+
+14 - Hardware
+
+1400 Miscellaneous Hardware
+
+For miscellaneous parts that are not associated with an installed aircraft component or system. Use this
+code when there is insufficient information to file in a more specific JASC 1400 series code.
+
+1410 Hoses and Tubes
+For reports indicating a problem with any aircraft or engine hose or that are not associated a specific
+aircraft system.
+
+1420 Electrical Connectors
+For reports indicating a problem with any aircraft or engine electrical connector that is not associated a
+specific aircraft system.
+
+1430 Fasteners
+
+For reports indicating a problem with any aircraft or engine fastener that is not associated a specific
+aircraft system. Typical parts are generic AN bolts, nuts, rivets, etc.
+
+1497 Miscellaneous Wiring
+
+For reports indicating a problem with any aircraft or engine wiring that is not associated a specific aircraft
+system.
+
+18 - Helicopter Vibration
+
+1800 Helicopter Vibration/Noise Analysis
+The units and components enabling operators to monitor and diagnose vibration and noise levels in
+order to identify imbalance, damage, or misalignment in helicopter components.
+
+1810 Helicopter Vibration Analysis
+For reports of equipment necessary to monitor, measure, diagnose, and locate sources of vibration in
+dynamic and structural components.
+
+1820 Helicopter Noise Vibration
+For reports of equipment necessary to monitor, measure, diagnose and locate sources of noise in
+dynamic and structural components.
+
+1897 Helicopter Vibration System Wiring
+For reports indicating a problem with wiring used on equipment necessary to monitor, measure,
+diagnose and locate sources of noise in dynamic and structural components.
+
+AIRFRAME SYSTEMS
+
+21 - Air Conditioning
+
+2100 Air Conditioning System
+For miscellaneous parts that cannot be associated with specific air conditioning, pressurization, or
+distribution codes. Examples are lines, hoses, etc., with no reference to the specific using system on the
+incoming report. Also, for those units and components furnishing a means of pressurizing, heating,
+cooling, moisture controlling, filtering, and treating the air used to ventilate areas of the fuselage within
+the pressure vessel.
+
+2110 Cabin Compressor System
+The system and its controls supplying compressed air to the cabin. For reported problems with the
+compressor unit and not the associated system. Related entries should include the component
+manufacturer's make, model, and the specific defective part by name and part number. Typical parts
+are controls and indicating systems related to the compressors, wiring, etc.
+
+
+
+8
+2120 Air Distribution System
+The system used to induct and distribute air. Does not include valves that are a part of the temperature
+control, pressurization, or the distribution fan. Typical parts are equipment rack cooling systems, ozone
+converters, scoops, ducting, inlets, check valves, wiring, etc.
+
+2121 Air Distribution Fan
+For reports pertaining to the fan/blower including associated motor which distributes air within the
+confine for comfort or equipment cooling. Typical parts are bearing, bushing, motor, etc.
+
+2130 Cabin Pressure Control System
+For reports of miscellaneous system components or parts other than the controller, indicator, sensor,
+regulator, or outflow valves. Typical parts are amplifier, switch, electrical connector, etc.
+
+2131 Cabin Pressure Controller
+For the reports pertaining to the controller units only and not for the system. The defective part should
+be identified by the part name and part number whenever possible.
+
+2132 Cabin Pressure Indicator
+For reports of the cabin pressurization system, pressure indicators, and associated system parts.
+
+2133 Pressure Regulator/Outflow Valve
+For reports of outflow/dump valves and associated parts such as linkage, filter, diaphragm, etc.
+
+2134 Cabin Pressure Sensor
+The units and systems, which measure differential, pressure and transmit a signal. Typical parts are
+pressure switch, transducer, etc.
+
+2140 Heating System
+The units and systems supplying heated air to the cockpit or cabin. Includes the heat source (heater),
+controlling aspects, and temperature sensors/indicators. Typical parts are fuel pump, filter, plumbing,
+circuitry, relay, heat exchanger, igniter, etc.
+
+2150 Cabin Cooling System
+The units and systems supplying cooled air to the cockpit or cabin. Does not include the temperature
+control and indicating system. Typical parts are flow valve, relay, condenser, ram air sensor, heat
+exchanger, cooling turbine, air cycle machine, etc.
+
+2160 Cabin Temperature Control System
+The units and circuitry other than the control unit which are used for controlling the temperature of the air
+in the cockpit and cabin. Typical parts are control valves, thermal sensing devices, switches, amplifiers,
+and wiring.
+
+2161 Cabin Temperature Controller
+
+
+
+                                                                                                            9
+For reports of the parts within the cabin temperature control unit. A typical entry would only reference
+the "control unit" if specific part numbers are not available.
+
+2162 Cabin Temperature Indicator
+For reports of the indicators, lamps and associated circuitry which indicates the air temperature in the
+cabin.
+
+2163 Cabin Temperature Sensor
+For reports of the sensors and associated circuitry sensing the temperature of the air in the cabin and
+relays a signal to the indicator.
+
+2170 Humidity Control System
+For reports of system parts that control humidity. Typical parts are bag, sock, filter, moisture separator,
+etc.
+
+2197 Air Conditioning System Wiring
+For reports indicating a problem with wiring specific to the Air Conditioning System.
+
+22 - Auto Flight
+
+2200 Auto Flight System
+The units and components that furnish a means of automatically controlling flight of the aircraft.
+Includes those units and components controlling direction, heading, attitude, altitude, and speed. Use
+this code when there is insufficient information to file in a more specific JASC 2200 series code.
+
+2210 Autopilot System
+For reports of miscellaneous parts associated with the autopilot system used for controlling attitude and
+direction. Typical parts are yaw damper, cable, switch, sensor, relay, etc. The major components such
+as computer, servo, and controller are to be filed in the specific JASC 2200 series code.
+
+2211 Autopilot Computer
+For reports pertaining to the autopilot computer only. Typical parts are resistor, circuit board, capacitor,
+or power supply, etc.
+
+2212 Altitude Controller
+The units transmitting output information signals to automatically maintain a predetermined altitude, rate
+of climb, or descent. Does not include the connecting system parts such as the sensor switch. The
+controller make and model should be included.
+
+2213 Flight Controller
+The command unit of an autopilot system. It is manually operated to generate signals which cause the
+aircraft to climb, dive, or perform coordinated turns. The controller make and model should be included.
+
+2214 Autopilot Trim Indicator
+
+
+10
+The instrument and associated circuitry that indicates the trim position selected by the pilot.
+
+2215 Autopilot Main Servo
+The unit mechanically connected to primary flight control actuating mechanisms, which is used to
+mechanically reposition control surfaces in accordance with electrical or pneumatic signals from a
+controller.
+
+2216 Autopilot Trim Servo
+The units mechanically connected to flight control cables, etc., for making minor corrections in aircraft
+attitude or direction.
+
+2220 Speed-Attitude Correction System
+The system which automatically maintains safe flight conditions by correcting for effects of speed and
+out-of-trim conditions by such means as automatic trim, mach trim, or speed stability and mach feel.
+This includes sensing, computing, actuating, indicating, internal monitoring, warning devices, etc.
+
+2230 Auto Throttle System
+The system that automatically controls the position of the throttles to properly manage engine power
+during all phases of flight/attitude. This includes engaging, sensing, computing, amplifying, controlling,
+actuating and warning devices. Typical parts are amplifiers, computers, servos, limit switches, clutches,
+gearboxes, warning lights, etc.
+
+2250 Aerodynamic Load Alleviating
+The system that automatically corrects and provides for gust loading/upset, aerodynamic augmentation,
+alleviation, suppression, ride control, etc. This includes sensing, computing, actuating, indicating,
+internal monitoring, warning devices, etc.
+
+2297 Auto Flight System Wiring
+For reports indicating a problem with wiring specific to the Autoflight/Auto Pilot System.
+
+23 - Communications
+
+2300 Communications System
+The units and components furnishing a means of communicating from one part of the aircraft to another
+and between the aircraft or ground stations, includes voice, data, continuous wave (C-W)
+communicating components, passenger announcement systems, intercom, inflight telephones, and tape
+reproducers-record player. Use this code when insufficient information is reported to file in a more
+specific JASC 2300 series code. Also for reports of units or parts common to more than one
+communication system.
+
+2310 HF Communications System
+The system parts and circuitry including the receiver, transmitter, and antenna used exclusively in the
+high frequency (HF) communications.
+
+2311 UHF Communications System
+
+
+
+                                                                                                            11
+The system parts and circuitry including the receiver, transmitter, and antenna used exclusively for ultra
+high frequency (UHF) communications.
+
+2312 VHF Communications System
+The system parts and circuitry including the receiver, transmitter, and antenna used exclusively for very
+high frequency (VHF) communications.
+
+2320 Data Transmission Auto Call
+The system components and parts which presents data derived from pulse coded transmissions.
+Includes "selective calling" (SELCAL), "aircraft communications addressing and reporting system"
+(ACARS), teleprinter, etc.
+
+2330 Entertainment System
+For reports on passenger entertainment system or components such as amplifier, cassette recorder
+player, control panel, speaker, video equipment, etc.
+
+2340 Interphone/Passenger Announcement (PA) System
+For reports on the interphone/passenger announcement (PA) system, including the amplifier used for
+communication by flight and ground personnel to communicate between areas on the aircraft.
+
+2350 Audio Integrating System
+For reports of the system components and parts including the control panel and amplifier which controls
+output of communications and navigation receivers into flight crew headphones and speakers. Also
+includes output from microphones into communications transmitters. Typical parts are microphones,
+cockpit speakers, and headphones, etc.
+
+2360 Static Discharge System
+The parts dissipating static electricity. Does not include bonding straps on engine or airframe used to
+assure paths for DC current, which are filed in JASC code 2430. Typical parts are wick, bonding strap,
+etc.
+
+2370 Audio/Video Monitoring
+For reports on installations that record or monitor crew or passenger conversation or movement for
+security or safety purposes. Includes voice recorder, television, monitor, etc.
+
+2397 Communications System Wiring
+For reports indicating a problem with wiring specific to the Communications Systems.
+
+24 - Electrical Power
+
+2400 Electrical Power System
+The electrical units and components that generate, control, and supply AC/DC electrical power for other
+systems through the secondary busses. For reports on electric power generating system parts and
+circuitry other than major components reported with insufficient information to file in a specific JASC
+2400 series code. Typical parts are circuit breaker, relay, connector, resistor, wire bundles, switches,
+etc.
+
+12
+2410 Alternator-Generator Drive
+For reports on alternator and generator drives mounted on reciprocating "opposed" type engines. Does
+not include alternator cases. Typical parts are bracket, pulley, belt, link, idler pulley, bolt, drive shaft and
+gears that stay with the alternator. Also for reports on constant speed drive (CSD) unit mounted on
+turbine engines to drive alternating current (AC) producing alternators at a predetermined and constant
+RPM. Typical parts are shaft seal, shaft, etc.
+
+2420 AC Generation System
+For reports of system parts other than the alternator, regulator, AC inverter or phase adapter generating
+an alternating current for aircraft which incorporate an alternating current electrical system. Used
+primarily with large, turbine engine powered aircraft. Does not include the using systems.
+
+2421 AC Generator-Alternator
+The engine driven component that generates alternating current (AC) for aircraft with AC electrical
+systems. Does not include AC alternators on light piston-engine power aircraft with direct current (DC)
+electrical systems. Does not include single units used for both engine starting and electric power
+generating. Typical parts are bearing, shaft, housing, and integrated drive generator (IDG) which
+contains both AC and DC generators.
+
+2422 AC Inverter
+The component which converts direct current to alternating current.
+
+2423 Phase Adapter
+The component used to change the alternating current (AC) phase of output for specific using
+equipment.
+
+2424 AC Regulator
+The component that regulates the AC voltage from the alternator-generator to maintain a set voltage
+output for the using systems (i.e., generator control unit).
+
+2425 AC Indicating System
+The equipment indicating, voltage, current flow, and system faults in the AC power systems.
+
+2430 DC Generating System
+The system parts and circuitry other than the generator/alternator and DC generation system regulator
+used to generate a direct current (DC); or from an alternator, the output of which is rectified to DC.
+Typical parts are relay, switch, connector, terminal, sensor, reverse current relay, etc. Such systems are
+more prevalent on light single and twin-engine aircraft.
+
+2431 Battery Overheat Warning System
+The system parts that sense and warn/indicate of a battery overtemperature condition. Typical parts are
+sensor, lamp, gauge, etc.
+
+2432 Battery/Charger System
+
+
+
+                                                                                                              13
+The component providing a source of DC voltage and current flow independent of rotating generators
+and alternators. Typical parts are battery charger, cell, case, post, etc.
+
+2433 DC Rectifier/Converter
+The component which converts AC current for the using systems.
+
+2434 DC Generator-Alternator
+The engine driven component generating a direct current (DC) or a rectified alternating current for
+aircraft with DC electrical systems. For reports of alternators on light aircraft with piston engines. Does
+not include mounting brackets, drive belts and pulleys external to the unit. Typical parts are bearing,
+housing, coupling, fan, capacitor, drive, brush, seal, clutch, armature and bell, shaft, field winding, case
+bolt, ground stud, etc.
+
+2435 Starter-Generator
+The single component used for both engine starting and direct current generation on turbine engines.
+Typical parts are bearing, shaft, brush, fan, retainer ring, armature, brush, housing, end bell, terminal,
+etc.
+
+2436 DC Regulator
+The component that regulates direct current voltage from a generator or alternator.
+
+2437 DC Indicating System
+The equipment indicating voltage, current flow, and system faults in the DC power systems.
+
+2440 External Power System
+The electrical system within the aircraft which is used to connect external power to the aircraft's electrical
+system. Does not include the external power supply units. Typical parts are receptacle, switch, indicator
+lamp, etc.
+
+2450 AC Power Distribution System
+The electrical system providing for connection of AC power to using systems. Does not include the
+using system. Typical parts are main and secondary system buss, circuit breaker, limiter, jumper, load
+meter switch, etc.
+
+2460 DC Power Distribution System
+The electrical system which provides for connection of DC power to using systems. Does not include
+using system. Typical parts are main and secondary system buss, circuit breaker, buss tie breaker,
+limiter, jumper, load motor switch, etc.
+
+2497 Electrical Power System Wiring
+For reports indicating a problem with wiring specific to the Electrical Power Systems not
+reportable in the Power Distribution Systems.
+
+25 - Equipment/Furnishings
+
+2500 Cabin Equipment/Furnishings
+
+14
+The removable items of equipment and furnishings mounted or contained in the flight, passenger, cargo,
+accessory compartments, and areas described in other JASC 2500 series codes shown below. Does
+not include structure or equipment assigned specifically to other JASC codes.
+
+2510 Flight Compartment Equipment
+The removable equipment and furnishings within the cockpit or crew station of a general nature and not
+specifically covered in other JASC 2500 series codes. Typical parts are seats, shoulder harnesses,
+take-up harness reels, seat belts, sun visors, panels, map case, attach brackets and hardware, etc.
+
+2520 Passenger Compartment Equipment
+The removable equipment and furnishings within the cabin of a general nature and not specifically
+covered in other JASC codes. Typical parts are seats, seat belts, hat rack, coat closet, panel, including
+passenger comfort items such as personal blankets, pillows, etc.
+
+2530 Buffet/Galleys
+For reports pertaining to any of the galley equipment. Typical parts are hot plate, coffeepot, food carts,
+ovens, tray, pad, relay, switch, connector, dispenser, etc.
+
+2540 Lavatories
+The units and associated systems and parts located in lavatories. Does not include wash basins and
+other waste disposal items in JASC code 3830. Typical parts are trash containers, dispensers, etc.
+
+2550 Cargo Compartments
+The compartments for the storage of baggage and cargo including external mounted pods. Does not
+include the exterior door, hinges and latches which are filed in JASC code 5230. Typical parts are tie
+downs, restraint nets, and equipment for loading and unloading cargo (includes external load handling
+equipment).
+
+2551 Agricultural Spray System
+For reports of aerial application equipment such as hopper, tank, spray nozzle, boom, pump, bracket,
+valve.
+
+2560 Emergency Equipment
+The components, parts, and systems carried for emergency use other than those specifically referenced
+in other JASC 2500 series codes. Does not include fire extinguishes, oxygen equipment, and flashlight.
+Flashlights are filed under JASC code 3350. Escape slide girt bars are filed under this code.
+
+2561 Life Jacket
+For reports of defective parts of life jackets used for flotation of individual persons. Include the life jacket
+make and model in the report if available.
+
+2562 Emergency Locator Beacon
+The components transmitting an electronic signal on an emergency frequency to assist in locating a
+crashed aircraft. Typical parts are impact switch, antenna, battery pack, etc.
+
+
+
+                                                                                                             15
+2563 Parachute
+For the reporting of defective parts of parachutes used for reducing landing roll distance as well as for
+personnel jumping. The parachute make and model is beneficial if available.
+
+2564 Life Raft
+The inflatable component which provides emergency flotation for two or more persons in event of
+ditching in water. Typical parts are bottle, valve, oral pump, etc.
+
+2565 Escape Slide
+The inflatable component which enables rapid evacuation from an aircraft cabin to ground level during
+emergencies on the ground. The slide should be identified by make and model if possible and should
+include location. Typical parts are valve, bottle, inflation handle, mount brackets, door, latch, etc.
+
+2570 Accessory Compartment
+The compartments for the housing of various components or accessories with insufficient information to
+file in a more specific JASC 2500 series code.
+
+2571 Battery Box Structure
+The structure supporting, vents, and provides overboard draining for aircraft batteries. Typical parts are
+vent cap, drain tube, insulator, cover, etc.
+
+2572 Electronic Shelf Section
+The shelves and attaching parts supporting the electronic equipment within the fuselage. Does not
+include the equipment used for equipment cooling such as fans, and blower motors.
+
+2597 Equipment/Furnishings Wiring
+For reports indicating a problem with wiring specific to the Equipment/Furnishing Systems.
+
+26 - Fire Protection
+
+2600 Fire Protection System
+The fixed and portable units and components which detect and indicate fire or smoke, and store and
+distribute fire extinguishing agent to all protected areas of the aircraft. For reports of a general nature
+with insufficient information to file in a more specific JASC 2600 series code.
+
+2610 Detection System
+The system used to sense and indicate the presence of overheat or fire in all protected areas.
+Reporting the specific location of the defective part is essential. Use this code when there is insufficient
+information to file in a more specific JASC 2610 series code.
+
+2611 Smoke Detection
+The system used to sense and indicate the presence of smoke in all protected areas of the aircraft.
+Reporting the specific location of a defective part is essential. Typical parts are detector, sensor, wiring,
+relay, amplifier, test circuit, etc.
+
+
+
+16
+2612 Fire Detection
+The system used to sense and indicate the presence of fire in all protected areas of the aircraft. Typical
+parts are detector, sensor, wiring, relay, amplifier, test circuit, etc. Reporting the specific location of a
+defective part is essential.
+
+2613 Overheat Detection
+The system used to sense and indicate the presence of an overheat condition in all protected areas of
+the aircraft. Reporting the specific location of a defective part is essential. Typical parts are detector,
+sensor, wiring, relay, amplifier, test circuit, etc.
+
+2620 Extinguishing System
+For reports of the components and parts other than the fixed or portable bottles used to extinguish fire.
+Typical parts are valve, squib, control module, switch, tubing, etc.
+
+2621 Fire Bottle, Fixed
+The fixed fire bottle and associated parts that store extinguishing agent under pressure. Typical parts
+are bottle, cartridge, and bracket.
+
+2622 Fire Bottle, Portable
+The portable fire extinguishes mounted within the flight compartment and cabin.
+
+2697 Fire Protection System Wiring
+For reports indicating a problem with wiring specific to the Fire Protection System.
+
+27 - Flight Controls
+
+2700 Flight Control System
+The units and components furnishing a means of manually controlling the flight attitude characteristics of
+the aircraft. Also includes the functioning and maintenance aspects of the flaps, spoilers and other
+control surfaces, but does not include the structure, which is covered in the Structures JASC Chapters
+55 or 57. Use this code for reports of flight control problems of a general nature involving two or more
+systems, or that contain insufficient information to file in a more specific JASC 2700 series code. An
+example would be a cable defect reported without reference to the using system or an interconnect
+between two systems. Does not include rotorcraft flight controls, which are covered in the JASC Rotor
+Chapter 67. Typical parts are hydraulic boost system, controls, mounting brackets, etc.
+
+2701 Control Column Section
+The component and associated parts mounted onto the control wheel, which transmits motion from the
+cockpit to connecting cables, pushrods, etc., to actuate the aileron and elevator, stabilator, ruddervator
+control surfaces. Includes control sticks in aircraft not equipped with control wheels. Typical parts are
+bearing, socket, guide, bushing, pulley bracket, sprocket, chain, stops, etc.
+
+2710 Aileron Control System
+The system components and parts from the control column to the aileron surface that cause actuation
+(deflection). Includes manual and power assisted systems but does not include the autopilot actuation
+mechanism which is filed in JASC Chapter 22. Also includes brackets for the support or attachment of
+
+
+                                                                                                              17
+pulleys, pushrods, and bellcranks. Does not include control surface hinges or structure filed in JASC
+code 5700. Typical parts are actuator, valve, rod end, pulley, cable, bellcrank, turnbuckle, stops, etc.
+
+2711 Aileron Tab Control System
+The system components and parts controlling movement and position of the trim tab on the aileron.
+Includes the cockpit control. Typical parts are jackscrew, cable, pulley, turnbuckle, stops, etc.
+
+2720 Rudder Control System
+The system components and parts from the cockpit pedals to the rudder surface which cause
+movement. Includes manual and power assisted systems other than the actuator and autopilot
+actuating mechanism. Also includes brackets for the support or attachment of pulleys, pushrods, and
+bellcranks. Does not include control surface hinges or structure (filed in JASC code 5540) or the yaw
+dampers (filed in JASC code 2210). Typical parts are cable, rod end, turnbuckle, bolt, pedal, spring,
+torque tube, control valve, stops, etc.
+
+2721 Rudder Tab Control System
+The system components and parts of the rudder trim control system, from the cockpit control to the
+rudder that causes deflection. Does not include hinges or structure, which are filed in JASC code 5543,
+or the yaw dampers, which are filed in JASC code 2210. Typical parts are actuator, actuator bracket,
+cable, pulley, chain, rod end, bellcrank, etc.
+
+2722 Rudder Actuator
+The system components and parts which actuate the rudder. Typical parts are motor, actuator, actuator
+bracket, jackscrew, rod-end, seals, etc.
+
+2730 Elevator Control System
+The system components and parts including actuator from the control column to the elevators that cause
+movement. Includes control-actuating mechanism for "ruddervators" installed on "V" tail aircraft. Does
+not include hinges, structure, and balance weights filed in JASC code 5520, or the autopilot servo in
+JASC code 2216. Typical parts are torque tube, cable, rod end, stops, actuator, feel computer, bracket,
+control valve, bob weight, etc.
+
+2731 Elevator Tab Control System
+The system components and parts from the cockpit trim control to the elevator, ruddervator or stabilator
+tab, which controls position and movement. Includes the manual and electrical trim system parts. Does
+not include the hinges or structure, which are filed in JASC code 5520, the balance weights in JASC
+code 5520, or the autopilot servo in JASC code 2216. Typical parts are jackscrew, cable, actuator,
+sensor, motor, chain, sprocket, indicator, etc.
+
+2740 Stabilizer Control System
+The system components and parts from the cockpit control to the stabilizer, except the actuator which
+controls position of the horizontal stabilizer for pitch trim (usually found on high performance turbine
+powered aircraft). Also for stabilator control systems on aircraft utilizing a single horizontal tail surface
+for both the stabilizer and elevator. Does not include structure in JASC code 5511. Typical parts are
+cable, bellcrank, pulley, control valve, indicator, etc.
+
+2741 Stabilizer Position Indicating
+
+
+18
+The system components and parts that sense, transmit, and indicate relative position of movable
+stabilizers for purpose of pitch trim. Typical parts are indicators, transmitters, etc.
+
+2742 Stabilizer Actuator
+The component which actuates the horizontal stabilizer to infinite angles of incidence to provide pitch
+trim. Includes both manual and power assist types. Typical parts are actuator, actuator bracket, clutch,
+motor, seal, etc.
+
+2750 Trailing Edge Flap Control System
+The system components and parts, except the actuator and position indicator which controls position
+and movement of wing trailing edge flaps. Does not include the structure, carriage, fittings, tracks and
+rollers which are filed in JASC code 5753; or the motor or actuator which causes movement of the flaps
+and are filed in JASC code 2752. Typical parts are control valve, switch, flow limiter, cable, torque tube,
+transmission, jackscrew, bypass valve, limit switch, return spring, buss cable, etc.
+
+2751 Trailing Flap Position Indicating System
+The system components and parts that sense, transmit and indicate trailing edge flap position relative to
+the wing surface. Typical parts are indicator, transmitter, position module, asymmetry switch, and
+comparator, etc.
+
+2752 Trailing Edge Flap Actuator
+The component which actuates the trailing edge flaps. Typical parts are motor, actuator, seal,
+jackscrew, rod end, actuator support fittings, etc.
+
+2760 Drag Control System
+The system components and parts other than actuator which controls position, movement, and indicate
+relative position of drag device and variable aerodynamic surfaces on the wing includes speed brake
+systems. Does not include structure and hinges filed in JASC code 5755. Typical parts are valve, hose,
+push rod, line, cable, indicator.
+
+2761 Drag Control Actuator
+The components that actuates spoiler and speed brake surfaces on the wing for speed and lift reducing
+purposes. Typical parts are seal, rod end bearing, rod end, etc.
+
+2770 Gust Lock Damper System
+The system and components protecting flight control surfaces from movement and damage by wind
+gusts while the aircraft is on the ground. Includes cockpit controlled surface locks common in light
+aircraft and independent hydraulic gust damper units mounted at each flight control surface on large jet
+powered aircraft. Does not include the dampening feature of the flight control power boost systems,
+which are filed with the specific control system (i.e., rudder damper). Typical parts are damper, cylinder,
+seal, rod end, lock pin cable, etc.
+
+2780 Leading Edge Slat Control System
+The system components and parts except the actuator and position indicating system that controls the
+position and movement of the wing leading edge devices used for lift augmenting. Does not include the
+structure, hinges, and parts that do not cause movement of the surface filed in JASC code 5754.
+
+
+
+                                                                                                         19
+Typical parts are leading edge flaps, variable opening wing slots, priority valve, switch, cable, pulley,
+actuator bracket, torque shaft, regulator, etc.
+
+2781 Leading Edge Slat Position Indicating System
+The transmitter, indicator, warning lamps, and associated circuitry providing relative position information
+of wing leading edge devices to the flight crew.
+
+2782 Leading Edge Slat Actuator
+The component causing movement of the wing leading edge device control surfaces. Does not include
+related system or position indicating. Typical parts are actuator, actuator bracket, seal, etc.
+
+2797 Flight Control System Wiring
+For reports indicating a problem with wiring specific to the Flight Control Systems.
+
+28 - Fuel
+
+2800 Aircraft Fuel System
+The units and components storing and delivering fuel to the engine. Includes the integral tank leak
+detection and sealing. Does not include the structure of integral, tip fuel tanks, fuel cell backing boards
+covered in the structures JASC Chapters 53 and 57, or the fuel flow rate sensing, transmitting, or
+indicating systems which are covered in JASC Chapter 73. Use this code for fuel system reports with
+insufficient information to file in a more specific JASC 2800 series code. This code is also used to report
+problems involving two or more aircraft fuel system JASC codes.
+
+2810 Fuel Storage
+The portion of the fuel system used for the storage of fuel. Does not include defects in the wing primary
+structure of integral tanks. Typical parts are removable metal tank, tip tank, header tank, bladder fuel
+cell, tank interconnect lines, vent line, vent valve, drain valve, filler cap, filler neck, check valve, vent
+tube, cap seal, filler adapter, outlet fitting, screen, fueling panel, tank strap, sealant, etc.
+
+2820 Aircraft Fuel Distribution System
+The portion of the aircraft fuel system other than selector valves, transfer valves, electric motor driven
+pumps used to distribute fuel from the tank outlet to the powerplant quick disconnect or up to the strainer
+unit. Includes the engine primer equipment, the switch that senses failure of a system pump, and the
+switch that automatically activates the boost pump. Typical parts are line, fitting, primer, nozzle, primer
+pump, actuating linkage for the fuel selector/shutoff valve, etc.
+
+2821 Aircraft Fuel Filter/Strainer
+The component that filters unmetered fuel upstream of the engine fuel control/carburetor. Does not
+include the engine fuel metered control system filters (filed in JASC code 7300). Typical parts are
+screen, housing, bowl, gasket, plunger, stand pipe, etc.
+
+2822 Fuel Boost Pump
+The electric motor/engine driven pumps providing fuel under pressure to the engine fuel
+control/carburetor for starting and emergency use. Includes parts of the pump, associated motor, and
+electrical circuitry/switch. Does not include pressure switch indicating system. Typical parts are
+housing, seal, motor, brush, bearing, connector, and fuel transfer pump, etc.
+
+
+20
+2823 Fuel Selector/Shut-Off Valve
+The component and associated controls and position indication units which provides for specific tank
+selection or shutting off flow to the engine. Typical parts are housing, rotor, handle, guard, seat, seal,
+selector valve, shutoff valve, spring, etc.
+
+2824 Fuel Transfer Valve
+The component and associated control linkage which provides for the transfer of fuel between tanks for
+crossfeeding to alternate engine fuel systems. Typical parts are, seal, housing, rotor, handle, transfer
+valve, etc.
+
+2830 Fuel Dump System
+The system and components that provide for the jettison of fuel overboard during flight. Typical parts
+are valve, switch, dump chute, etc.
+
+2840 Fuel Indicating System
+For general reports pertaining to the aircraft fuel indicating systems, but with no specific reference to the
+transmitter (tank unit) or indicator. Does not include engine fuel pressure reports, which are filed in
+JASC code 7332, or flow indication system in JASC code 7331. Typical parts are circuit breaker,
+connector, pressure switch, indicator lights, dripstick, etc.
+
+2841 Fuel Quantity Indicator
+The indicator and low level warning system used to indicate the quantity of fuel in the tanks. Typical
+parts are indicator, lamp, bulb, etc.
+
+2842 Fuel Quantity Sensor
+The tank unit which measures and transmits a quantity level signal to the cockpit indicator. Typical parts
+are transmitter, float switch, probe, sensor, totalizer, tank unit float, gasket, etc.
+
+2843 Fuel Temperature Indicator
+The tank unit which measures the temperature of fuel in the tanks.
+
+2844 Fuel Pressure Indicator
+The tank unit which measures the pressure of fuel in the tanks. Typical parts are the pressure switch
+and indicator lights, etc.
+
+2897 Fuel System Wiring
+For reports indicating a problem with wiring specific to the Fuel System.
+
+29 - Hydraulic Power
+
+2900 Hydraulic Power System
+The units and components that furnish hydraulic fluid under pressure to a common point (manifold) for
+re-distribution to other defined systems. For miscellaneous system parts other than components listed
+
+
+
+                                                                                                             21
+under other specific JASC Chapter 29 codes. Also, for reports of units or parts common to two or more
+components.
+
+2910 Hydraulic System, Main
+The portion of the main system which is used to store and deliver hydraulic fluid to the using system.
+Includes all hydraulic systems other than those designated emergency or standby. Does not include the
+supply valves to the using systems. Typical parts are tanks, accumulators, valves, pumps, levers,
+cables, line, hose, relief, shutoff vales, check valves, wiring, switches, external connectors, etc.
+
+2911 Hydraulic Power Accumulator, Main
+The component that provides for pressure surges to maintain a constant pressure in the system.
+Typical parts are accumulator, seal, end cap, air valve, etc.
+
+2912 Hydraulic Filter, Main
+The component which filters sediment from the hydraulic fluid in the main system. Typical parts are
+seal, gasket, housing, element, packing, etc.
+
+2913 Hydraulic Pump (Electric/Engine), Main
+The component that provides hydraulic fluid pressure to using systems but does not include the using
+systems. Includes power packs incorporating integral pumps, electric motors, and solenoids used in
+certain light aircraft models. Also includes pumps such as those used in flight control systems on large
+aircraft. Typical parts are pump, motor, shaft, brush, solenoid, case, power pack, seal, switch, etc.
+
+2914 Hydraulic Handpump, Main
+The manually actuated pump for emergency system pressure. Typical parts are handle, lever, seal, etc.
+
+2915 Hydraulic Pressure Relief Valve, Main
+The unit which relieves system relief pressure at a preset pressure. Typical parts are seal, spring,
+housing, relief valve, etc.
+
+2916 Hydraulic Reservoir, Main
+The component which stores hydraulic fluid. Typical parts are reservoir, filler cap, filler neck, sight
+gauge, seal, etc.
+
+2917 Hydraulic Pressure Regulator, Main
+The unit that maintains a preset operating system pressure to the using systems. Typical parts are
+regulator, seal, case, etc.
+
+2920 Hydraulic System, Auxiliary
+The portion of the main system which is classified as auxiliary, emergency, or standby, and which is
+used to supplement or take the place of the main hydraulic fluid to the using system. Does not include
+the supply valves to the using systems. Typical parts are tank, accumulator, valve, pump, lever, cables,
+switch, plumbing, wiring, external connectors, and miscellaneous auxiliary system parts other than those
+listed in JASC codes 2921 through 2934.
+
+2921 Hydraulic Accumulator, Auxiliary
+
+22
+The component which provides for pressure surge to maintain a constant pressure in the auxiliary
+system. Typical parts are accumulator, seal, end cap and air valve, etc.
+
+2922 Hydraulic Filter, Auxiliary
+The component which filters sediment from the hydraulic fluid in the auxiliary system. Typical parts are
+seal, gasket, housing, element, and packing, etc.
+
+2923 Hydraulic Pump, Auxiliary
+The component which provides hydraulic fluid pressure to the using auxiliary system. Typical parts are
+pump, motor, shaft, brushes, case, seal, switches, etc.
+
+2925 Hydraulic Pressure Relief, Auxiliary
+The unit which relieves auxiliary system pressure. Typical parts are seal, spring, housing, relief valve,
+etc.
+
+2926 Hydraulic Reservoir, Auxiliary
+The unit which stores auxiliary hydraulic fluid. Typical parts are reservoir, filler cap, filler neck, sight
+gauge, etc.
+
+2927 Hydraulic Pressure Regulator, Auxiliary
+The unit that maintains a preset operating system pressure to the using auxiliary hydraulic system.
+Typical parts are regulator, seal, case, etc.
+
+2930 Hydraulic Indicating System
+For reports of hydraulic pressure and quantity indicating system parts other than the indicator or sensor
+or for parts common to both pressure and quantity systems.
+
+2931 Hydraulic Pressure Indicator
+The instrument and associated low pressure warning system that registers system pressure. Typical
+parts are indicator, warn lamp, bulb, etc.
+
+2932 Hydraulic Pressure Sensor
+The components that sense system pressure and transmit a signal to the cockpit indicator or low
+pressure warning lamp. Typical parts are transmitter, pressure switch, sensor, etc.
+
+2933 Hydraulic Quantity Indicator
+The instrument and associated low level warning system which registers reservoir fluid quantity. Typical
+parts are indicator, lamp, bulb, sight gage, etc.
+
+2934 Hydraulic Quantity Sensor
+The components that sense the fluid level and low level warning and transmit a signal to the quantity
+indicator. Typical parts are transmitter, sensor, float switch, etc.
+
+2997 Hydraulic Power System Wiring
+
+
+                                                                                                               23
+For reports indicating a problem with wiring specific to the Hydraulic Power System.
+
+30 - Ice and Rain Protection
+
+3000 Ice/Rain Protection System
+The units and components which provide a means of preventing or disposing of formation of ice and rain
+on various parts of the aircraft. Includes miscellaneous items with insufficient information to file in a
+specific JASC 3000 series code. Does not include the basic windshield panel.
+
+3010 Airfoil Anti/De-ice System
+The system components and parts including the boots, which provide for wing and empennage leading
+edge ice prevention or removal. Does not include ducts upstream of the airfoil control/selector valves.
+Typical parts are timer, valve, switch, hose, flow valve, duct, duct coupling, thermostat, etc.
+
+3020 Air Intake Anti/De-Ice System
+The system and components that eliminate or prevent the formation of ice in or around air intakes such
+as turbine engine cowling. Does not include engine anti-icing reports filed in JASC code 7510. Includes
+the electrically heated boot at the air intake lips.
+
+3030 Pitot/Static Anti-Ice System
+The heating elements in the pitot-static pick up heads to eliminate or prevent the formation of ice. Does
+not include defects with the pitot or static systems. Typical parts are element, switch, wiring, etc.
+
+3040 Windshield/Door Rain/Ice Removal
+The system and components which is used to clear, eliminate or prevent the formation of rain, ice or
+Typical parts are motor, actuator, wiper blade, hydraulic converter, shaft, line, switch, the electrical
+heating portion of heated glass panels, control units, alcohol deice system lines, tanks, pumps, valves,
+etc.
+
+3050 Antenna/Radome Anti-Ice/De-Ice System
+The system which is used to eliminate or prevent the formation of ice on antennas and radomes.
+
+3060 Propeller/Rotor Anti-Ice/De-Ice System
+The system components and parts which are used to eliminate or prevent the formation of ice on
+propellers and rotors. Includes electrically heated systems, and alcohol spray systems. Does not
+include the system parts on the rotating portion of the propeller which are filed in JASC code 6112 or the
+heating mats on the rotating portion of the rotor in JASC code 6210 or code 6410. Typical parts are
+brush block, timer, switch, relay, harness, terminal block, etc.
+
+3070 Water Line Anti-Ice System
+The system that is used for prevention of ice in water supply and drain lines.
+
+3080 Ice Detection
+The system which is used to detect and indicate the formation of ice. Typical parts are panel, detector,
+etc.
+
+
+
+24
+3097 Ice/Rain Protection System Wiring
+For reports indicating a problem with wiring specific to the Ice/Rain Protection System.
+
+31 - Instruments
+
+3100 Indicating/Recording System
+The pictorial coverage of all instrument panels and controls. Procedural coverage of those systems,
+which give visual or aural warning of conditions in systems which record, store, or compute data from
+unrelated systems. Includes the system or units which integrate indicating instruments into a central
+display system not related to any specific system.
+
+3110 Instrument Panel
+The removable cockpit instrument and control panels. Includes the mounting hardware and shock
+absorbing devices.
+
+3120 Independent Instruments
+The units which measures time, logs elapsed time of operation, or measures acceleration/deceleration
+forces. Typical parts are hour meter, pressure switch, line, etc.
+
+3130 Data Recorders (Flight/Maintenance)
+The unit which continuously records critical flight, aircraft and powerplant system data, such as attitude,
+air speed, altitude, engine power, etc., to be used in the event of a crash. Includes the system and parts
+that provide a source of power and inputs, from various sources critical to flight, to flight data recorder.
+Typical parts are spool rod, magazine, etc.
+
+3140 Central Computers
+The systems and components used for computing data from a number of different sources without a
+preponderance of functions in any one system, for call up on a display. Includes integrated instrument
+systems such as engine, airplane power and central warning indicators when combined into a central
+display. Typical parts are "digital core avionic system" (DCAS), "engine indications and crew alerting
+system" (EICAS), stored checklist, emergency procedures, company regulations, etc.
+
+3150 Central Warning
+The panels and associated circuitry which warn of potential problems in two or more independent or
+related systems. Warnings can be either audible or visual. Typical parts are annunciator panel, relay,
+lamp, PC board, diode, throttle microswitch, etc.
+
+3160 Central Display
+The systems and components which give visual display of conditions in unrelated systems.
+
+3170 Automatic Data
+The systems and components used for collating and computing data from unrelated systems and
+transmitting the same automatically. Includes "aircraft to satellite data relay" (ASDAR) system and
+components.
+
+3197 Instrument System Wiring
+
+                                                                                                          25
+For reports indicating a problem with wiring specific to the Instrument Systems.
+
+32 - Landing Gear
+
+3200 Landing Gear System
+The units and components which furnish a means of supporting and steering the aircraft on the ground
+or water, and make it possible to retract and store the landing gear in flight. Includes the functioning and
+maintenance aspects of the landing gear doors, but does not include the door structure, which is
+covered in JASC Chapter 52. Use this code for general landing gear reports with insufficient information
+for filing in a more specific JASC 3200 series code.
+
+3201 Landing Gear/Wheel Fairing
+The wheel fairings and attaching parts. Typical parts are bracket, fender, fairing, etc. The fairing
+location such as "nose wheel" should be shown in the "Part Location" field.
+
+3210 Main Landing Gear
+The miscellaneous parts of the main landing gear system which cannot be directly associated with a
+specific main gear code, such as attachment, emergency flotation or strut, axle, truck, etc. This code is
+not to be used for the retraction/extension system or the doors. Landing gear location, left or right
+should be referenced in the "Part Location" field.
+
+3211 Main Landing Gear Attach Section
+The parts and assemblies, which attach the main landing gear to the airframe, structure. An entry in the
+"Part Location" field should include a reference to "left or right" gear. Typical parts are fitting, bolt, U-
+bolt, casting, supports, attaching hardware, etc.
+
+3212 Emergency Flotation Section
+The helicopter inflatable floats and attaching parts which permit emergency landings on water. The float
+make and model, as well as the aircraft make and model should be included in the report. Typical parts
+are float valve, hose, bracket, cylinder, etc.
+
+3213 Main Landing Gear Strut/Axle/Truck
+The main landing gear components and parts such as struts, axles, trucks which support the aircraft on
+the ground or water. Typical parts are shock device, torque link, beam and skid/shock device on
+rotorcraft.
+
+3220 Nose/Tail Landing Gear
+The miscellaneous parts of the nose or tail gear system which cannot be directly associated with a
+specific nose/tail gear code such as attachment, struts, axles, etc. This code is not to be used for
+extension/retraction mechanism, steering/dampening system, or doors.
+
+3221 Nose/Tail Landing Gear Attach Section
+The parts and assemblies that attach the nose/tail gear to the airframe structure. Applicable to fixed or
+retractable type landing gear.
+
+3222 Nose/Tail Landing Gear Strut/Axle
+
+26
+The nose gear component parts such as shock struts and axles, which support the aircraft on the
+ground. Torque links are included but steering/shimmy dampening systems and units are excluded.
+
+3230 Landing Gear Retraction/Extension System
+The miscellaneous parts of the retraction and extension systems other than actuators, and door
+actuating mechanism. Location, such as nose, right or left main should be referenced in the "Part
+Location" field unless the defective part is common to all locations. Typical parts are leveling cylinders,
+centering system, actuator brackets, bungees, emergency extension system parts, uplocks/downlocks,
+uplock/downlock actuator, drag braces, etc.
+
+3231 Landing Gear Door Retract Section
+The nose and main landing gear door actuating system parts other than the actuator. Excludes door
+structure and hinges, which are to be filed in JASC code 5280. Typical parts are bellcrank, rod,
+sequence valve, latch, lines, hoses, etc.
+
+3232 Landing Gear Door Actuator
+The actuating units that open and close the landing gear doors. Position on the aircraft (nose, left, or
+right main) should be shown in the "Part Location" field.
+
+3233 Landing Gear Actuator
+The actuating units which retract and extend the nose or main gear. This includes electric motors,
+hydraulic cylinders but not self-contained electric motor driven hydraulic pumps such as power packs,
+which are filed in JASC code 2913. Specify “main gear” or “nose gear” in the Location data field.
+
+3234 Landing Gear Selector
+The selector valves, switches, or control levers used to direct a power source to actuators for gear
+retraction and extension.
+
+3240 Landing Gear Brake System
+The brake system miscellaneous parts other than the brake assembly, master cylinder, power valve and
+anti-skid system. Includes the pressure source and associated system for emergency brake actuation,
+and brake anti-ice system. Typical parts are line, hose, fitting, park brake valve, gauge, etc.
+
+3241 Brake Anti-Skid Section
+The system units and parts that automatically control brake pressure during landing roll to prevent tire
+skidding. Typical parts are transducer, control box, valve, etc.
+
+3242 Brake
+The parts of the brake unit mounted at the wheels only. The position on the aircraft should be shown in
+the "Part Location" field. Typical parts are disc, cylinder, lining, seal, rotor, housing, etc.
+
+3243 Master Cylinder/Brake Valve
+The units that provide a power source for cylinder-power brake actuation. Does not include connecting
+lines to brake units, which are filed in JASC code 3240. Typical parts are seal, piston, housing, etc.
+
+
+
+                                                                                                           27
+3244 Tire
+For reports of tire defects and failures. Include the manufacturer size and defect location in text.
+Identify the location of the tire in the "Part Location" field (i.e., nose, right main landing gear, "NLG", or
+"RT MLG").
+
+3245 Tire Tube
+For reports of defective wheel tire tubes. Include the manufacturer name, tube type and size.
+
+3246 Wheel/Ski/Float
+For reports of defective wheels, skis or seaplane floats and associated parts such as bearings, dust
+seals, bolts. The "Part Name" field should not refer to a part of the wheel which is defective such as
+"rim" or "half" that does not have separate part numbers. Such entries should be placed in the text.
+Identify the location of the wheel in the "Part Location" field (i.e., nose, right main landing gear, "NLG,"or
+"RT MLG"). The wheel, ski or float make, model, and part number should also be included in the report.
+
+3250 Landing Gear Steering System
+The miscellaneous system parts other than the actuator, which provide for aircraft directional control on
+the ground. Includes main gear steering systems. Does not include wheel-braking systems. Typical
+parts are, cable, rod end, collar, line, valve, accumulator, etc.
+
+3251 Steering Unit
+The actuator which turn the wheel(s) by a power source for controlling direction of movement on the
+ground. Typical parts are cylinder, seal, etc.
+
+3252 Shimmy Damper
+The devices mounted on steerable wheel forks to reduce shimmy. Typical parts are seal, spring,
+housing, etc.
+
+3260 Landing Gear Position and Warning
+The system parts which provide indication and warning of the landing gear position. Includes gear
+safety switches which prevent inadvertent actuation such as squat or air/ground sensor. Typical parts
+are relay, switch bracket, lamp, horn, uplock switch, downlock switch, in transit switch, etc.
+
+3270 Auxiliary Gear (Tail Skid)
+The devices such as tail skids on tricycle gear aircraft used to stabilize the aircraft on the ground and to
+prevent ground contact damage. This code is also used for supplementary wheels on rotorcraft, skids
+for ground handling but not for skids or amphibian/seaplane floats, hull or associated retractable landing
+gear. This code is not for auxiliary or emergency landing gear extension systems which are filed in
+JASC code 3230.
+
+3297 Landing Gear System Wiring
+For reports indicating a problem with wiring specific to the Landing Gear System.
+
+33 - Lights
+
+3300 Lighting System
+
+28
+The units and components which provide for external and internal illumination. Includes light fixtures,
+switches and wiring. Does not include warning lights for individual systems. Use this code for reports of
+a general nature or for miscellaneous external and internal lamps, circuitry, switches, etc., with
+insufficient information to file in a specific JASC 3300 series code. Warning lights are filed in the
+individual JASC Chapter 33 code.
+
+3310 Flight Compartment Lighting
+The lighting systems and equipment including panel illumination other than inside individual instruments,
+master warning light systems such as annunciator panels, and associated dimming systems located in
+the flight compartment only. Typical parts are bulb, socket, switch, lamp, lens, relay, rheostat, resistor,
+ballast, etc.
+
+3320 Passenger Compartment Lighting
+The lighting systems in the passenger seating compartment, lavatories, buffet/galley compartments and
+cabin carry-on baggage/coat areas. Includes lamps for illumination of cabin, reading lamps, seat
+belt/no-smoking signs and passenger call systems. Does not include emergency lighting which is to be
+filed in JASC code 3350. Typical parts are ballast, switch, transformer, lamp, etc.
+
+3330 Cargo Compartment Lighting
+The lighting systems in the compartments used for storage of cargo, baggage, or aircraft system
+components which require servicing. Does not include electrical systems fire or smoke sensing. Typical
+parts are circuit breaker, lamp, lens, switch, etc.
+
+3340 Exterior Lighting
+The lighting systems for illumination outside the aircraft such as landing, taxi, position, wing illumination
+including the rotating beacon and strobe. Typical parts are switch, lamp, power supply, lens, circuit
+breaker, flasher unit, relay, motor, wheel well lights, brackets, etc.
+
+3350 Emergency Lighting
+The cabin, flight compartment, and exterior emergency lighting systems, which furnish illumination in
+event of electrical power failure. This includes batteries, lamps, and associated circuitry and parts for
+emergency exit lighting.
+
+3397 Light System Wiring
+For reports indicating a problem with wiring specific to the Lighting Systems.
+
+34 - Navigation
+
+3400 Navigation System
+The units and components which provide aircraft navigational information. For reports which are of a
+general nature relating to the navigation systems. Also, for reports on equipment utilized in the flight
+inspection of airways systems (excluding avionics equipment normally used for flight operations of the
+aircraft). Use this code for reports with insufficient information to file in a more specific JASC 3400 series
+code. Typical flight inspection equipment would be computers, recorders, nav comms, guidance
+equipment, etc.
+
+3410 Flight Environment Data
+
+                                                                                                            29
+The system which senses environmental conditions and uses the data to influence navigation.
+
+3411 Pitot/Static System
+The system which provides a source of ram or static air for distribution to using instruments and
+pressure differential units such as automatic landing gear extender, altimeter, airspeed and rate of climb.
+Does not include the using units, instruments, the anti-ice heating elements, or the associated circuitry
+and switches which are filed in JASC code 3030. Typical parts are air pick up heads, lines, fittings, drain
+valves, static port, selector valve, etc.
+
+3412 Outside Air Temperature Indicator/Sensor
+The unit mounted in the engine induction air intake to sense and transmit temperature to the cockpit
+indicator. Also for the sensors and instruments which measure and indicate the temperature of ambient
+air outside the aircraft. Includes associated circuitry and related parts. Typical parts are sensor,
+indicator, case, etc.
+
+3413 Rate of Climb Indicator
+The instrument which senses and indicates the rate of climb or descent of an aircraft. Does not include
+the associated static system. Includes the instantaneous vertical speed indicator (IVSI).
+
+3414 Airspeed/Mach Indicator
+The instrument which measures and indicates speed of the aircraft. Does not include the Doppler
+indicator which are filed in JASC code 3443.
+
+3415 High Speed Warning
+The system components and parts, including the computer which sense, transmit and provide warning
+when operating air speed limits are exceeded. Typical parts are transducer, stall warning detector,
+switch, vane, horn, lamp, warning unit computer, module, etc.
+
+3416 Altimeter, Barometric/Encoder
+Altimeters and barometric encoders used to measure and indicate altitude. Also includes the unit which
+senses and alerts to a change in a preselected altitude. Does not include the Ground Proximity Systems
+and radio/radar altimeters which are filed in JASC codes 3444. Typical parts are dial, case, pointer,
+spring, etc.
+
+3417 Air Data Computer
+The computer and its integral parts which receives data from various environmental sensing systems,
+computes this data, and makes it available to the various navigation systems. Does not include external
+hardware such as cables, mounting racks, remote switches, etc., which are filed in JASC code 3410.
+
+3418 Stall Warning System
+The system components and parts, including the computer which sense, transmit and provide aural,
+visual and stick shaker warning of an aircraft in an impending flight stall condition. Typical parts are
+transducer, stall warning detector, switch, vane, horn, lamp, stick shaker, heater element, warning unit
+computer, module, etc.
+
+3420 Attitude and Direction Data System
+
+
+30
+The system components and parts which use magnetic, gyroscopic, and inertia forces to indicate an
+aircraft attitude and direction. Use this code for reports with insufficient information to file in JASC codes
+3421 through 3425. Includes such items as the inertial reference system (IRS), etc.
+
+3421 Attitude Gyro and Indicating System
+The gyroscopic unit which supplies attitude information to the necessary systems; for instance, vertical
+reference outputs for use as roll and pitch data to the autopilot computer. Includes the instruments
+operating by the gyroscopic principle, driven by air flow or an electric motor. Typical parts are vertical
+gyro and the gyro horizon.
+
+3422 Directional Gyro and Indicating System
+The unit operating by gyroscopic principle and driven by airflow or an electric motor, which provides
+heading (direction) references relative to a preset heading in degrees of the compass. Also for the flux
+unit detector which senses the earth's magnetic field and uses this data to correct for gyro drift. Typical
+parts are gyro, rotor, bearing, etc.
+
+3423 Magnetic Compass
+The instrument which indicates the magnetic heading of an aircraft by self contained magnetized
+needles. Typical parts are compensator, adjusting screw, gasket, float, case, etc.
+
+3424 Turn and Bank/Rate of Turn Indicator
+The instrument actuated by gyroscopic forces and driven by air flow or electric motor to indicate both
+rate of turn and angle of bank.
+
+3425 Integrated Flight System
+The system which computes, interrogates, and continuously displays basic attitude, position, and
+steering information in order to maintain a particular course, heading, or attitude. Does not include flight
+management system components, which should be assigned to JASC code 3460. Typical parts are
+integrated flight annunciator, integrated flight comparator, integrated flight computer/amplifier, integrated
+flight control and integrated flight indicators (i.e., horizontal situation indicator (HSI), attitude and
+direction indicator (ADI), attitude direction unit (ADU), heading and direction indicator (HDI), radio
+direction indicator (RDI), course direction indicator (CDI), flight director indicator (FDI), pictorial
+navigation indicator, flight command indicator, steering computer utilized in the integrated flight
+instrument systems, and other components such as cables, connectors, etc.
+
+3430 Landing and Taxi Aids
+The system providing guidance during approach, landing and taxiing. Includes such items as, ILS,
+paravisual director, ground guidance systems, markers, etc.
+
+3431 Localizer/VOR System
+The electronic portion of an instrument landing system (ILS) that indicates the centerline of the runway
+to the pilot. For reports on localizer/very high frequency omni range (VOR) systems. Typical parts are
+receiver, antenna, indicator, circuit breaker, switch, antenna coax, etc.
+
+3432 Glide Slope System
+
+
+
+
+                                                                                                             31
+The system which provides an instrument needle reference from an electronic signal radiated from a
+ground transmitter to enable the pilot to fly the proper glide path for landing under instrument
+meteorological conditions. Typical parts are circuit breaker, switch, receiver, antenna, indicator, etc.
+
+3433 Microwave Landing System
+The instrumental landing system operating in the microwave spectrum which provides lateral and vertical
+guidance to aircraft having compatible avionics equipment. Typical parts are receiver, antenna, control
+panel, etc.
+
+3434 Marker Beacon System
+The system which provides an aural and visual indication of passage over specified points on the glide
+path for landing under instrument meteorological conditions. NOTE: In instances where the control
+panel is an integral portion of the audio control panel, it would be filed in JASC code 2350. Typical parts
+are marker beacon antenna, receivers, visual/aural indication units, marker light, control panel, etc.
+
+3435 Heads Up Display System
+The flight instrument system that allows the pilot of an aircraft to watch the flight instruments while
+looking ahead of the aircraft. Includes the display screen which allows information to be visually
+presented to the pilot while looking through the windscreen or at the control panel.
+
+3436 Wind Shear Detection System
+The flight instrument system that allows the pilot to detect strong horizontal or vertical wind shift that acts
+at right angles to the direction the wind is blowing. Includes the outboard sensors, indicators, and the
+warning system which notifies the pilot of the appropriate corrective action maneuver to take.
+
+3440 Independent Position Determining System
+The system which provides information to determine position and is primarily independent of ground
+installations. Use this code for reports of a general nature or for reports containing insufficient
+information to file in a more specific code identified in JASC codes 3441 through 3446. Typical parts are
+star tracker, sextants/octants, etc.
+
+3441 Inertial Guidance System
+The navigation system which relies upon gyro platforms and accelerometers for its operation. Includes
+the control panel for the inertial navigation system; the instruments which receives their signal from the
+Inertial Navigation Unit (INU); and the unit containing the inertial platform and digital computer portion of
+the system. Use this JASC code for hardware components which do not have specific JASC codes
+assigned to them or when a system malfunction or failure occurs but the exact cause is not known.
+Typical parts are mode selector unit (MSU), control display unit (CDU), remote display unit (RDU), etc.
+
+3442 Weather Radar System
+The system components and parts which transmits and receives a signal independent of ground
+facilities to determine the relative position of adverse weather cells. Typical parts are transceiver,
+antenna, control panel for the weather avoidance radar system, accessory synchronizers, servo
+amplifier, scope, etc.
+
+3443 Doppler System
+
+
+
+32
+The airborne radar system which utilizes the Doppler effect to measure and display ground speed, drift
+angle, cross track, etc.
+
+3444 Ground Proximity System
+The system which detects and alerts flight crew to potential terrain hazards. Includes the antenna which
+transmits and receives an electronic signal for the radio altimeter equipment used for terrain-to-aircraft
+distance. Also includes the component which interprets a radio signal reflected back to a receiver to
+determine distance from the nearest terrain; and the component which process the warning computer
+input signals from various sources in order to determine if and when the crew should be alerted of a
+terrain hazard.
+
+3445 Air Collision Avoidance System
+The system which provides information to determine aircraft position and is primarily independent of
+ground installations (i.e., traffic alert and collision avoidance system - TCAS). Use this code only if the
+specific system creating the problem cannot be established. Typical parts are collision avoidance
+monitoring units, etc.
+
+3446 Non Radar Weather System
+The non radar weather system and components which sense the electrostatic charges accumulated
+around a storm cell in order to "map out" that cell on an indicator.
+
+3450 Dependent Position Determining System
+The system which provides information to determine position and is mainly dependent on ground
+installations. Use this code for reports of a general nature or for those with insufficient information to file
+in a more specific JASC code identified in JASC codes 3451 through 3457.
+
+3451 DME/TACAN System
+The systems which measures time-to-station, ground speed, and distance to a known transmitter
+location by transmitting and receiving electronic pulse signals (i.e., distance measuring equipment -
+DME; ultra high frequency tactical air navigational aid - TACAN). Typical parts are antenna, control unit,
+transceiver, coaxial cables, etc.
+
+3452 ATC Transponder System
+The air traffic control (ATC) system which receives coded signals from a ground station and transmits a
+coded reply for altitude reporting and identification purposes. Typical parts are transponder, antenna,
+control unit, transceiver, coaxial connecting cables, etc.
+
+3453 Long-Range Navigation (LORAN) System
+The radio navigation system and associated components and parts which provides for long range
+navigation (LORAN) enroute when operating on signals from ground based master and slave
+transmitting stations. Typical parts are antenna, coupler, CPU, receiver, indicator, etc.
+
+3454 Visual Omnirange (VOR) System
+The radio navigation system in the very high frequency (VHF) band used for determining position
+relative to a ground transmitter and permits selection of an infinite number of magnetic courses for
+navigation to a transmitter (i.e., visual omnirange - VOR system). Typical parts are receiver, antenna,
+control panel, etc.
+
+
+                                                                                                              33
+3455 Automatic Direction Finder (ADF) System
+The low frequency band system which receives a signal from a non-directional radio beacon to
+determine relative position from the beacon location (i.e., automatic direction finder - ADF system).
+Typical parts are antenna, control unit, receiver, coaxial cables, etc.
+
+3456 Omega Navigation System
+The low frequency navigation system which provides for system geographical location of the aircraft on
+a worldwide basis when operating on signals from ground-based OMEGA and VHF transmitting stations.
+Typical parts are antenna, control unit or receiver, coaxial connecting cable, remote switches,
+connectors, etc.
+
+3457 Global Positioning System
+The systems which are mainly dependent upon signals from ground transmitters or orbital satellites for
+their operations; systems such as VOR, ADF, DME, etc. Use this JASC code when there is insufficient
+information to assign one of the specific using system codes. Typical parts are antenna, control unit or
+receiver, coaxial connecting cable, remote switches, connectors, etc.
+
+3460 Flight Management Computing Hardware System
+The hardware systems which combines navigational data to compute or manage the aircraft's
+geographical position or theoretical flight path. Typical parts are course computers, flight management
+computers, performance data computers, and associated control display units, warning annunciators,
+etc.
+
+3461 Flight Management Computing Software System
+The software system which combines navigational data to compute or manage the aircraft's
+geographical position or theoretical flight path.
+
+3497 Navigation System Wiring
+For reports indicating a problem with wiring specific to the Navigation Systems.
+
+35 - Oxygen
+
+3500 Oxygen System
+The units and components which store, regulate, and deliver breathing oxygen to the passengers and
+crew. Typical parts are bottles, relief valves, shut-off valves, outlets, regulators, masks, walk-around
+bottles, etc.
+
+3510 Crew Oxygen System
+The portion of the main system which furnishes oxygen to the crew.
+
+3520 Passenger Oxygen System
+The portion of the main system which furnishes oxygen to the passengers.
+
+3530 Portable Oxygen System
+
+
+34
+The equipment attached to the portable bottle to regulate and dispense breathing oxygen, including the
+storage bottle for the portable oxygen system.
+
+3597 Oxygen System Wiring
+For reports indicating a problem with wiring specific to the Oxygen System.
+
+36 - Pneumatic
+
+3600 Pneumatic System
+The units and components which deliver large volumes of compressed air from a power source to
+connecting points for other systems such as air conditioning, pressurization, deicing, etc.
+
+3610 Pneumatic Distribution System
+Components and parts other than the regulator and shutoff valves delivering large volumes of
+compressed air from a power source to the control valves of using systems such as conditioning,
+pressurization. Doesn't include engine and airfoil anti-icing/deicing systems. Typical parts are regulator
+valve, actuator, duct, ducts valves, manifold, clamp, flow venturi, bellows, wye duct, check valve.
+
+3620 Pneumatic Indicating System
+The system components and parts which sense, transmit, and indicate the temperature and pressure of
+air in the distribution system other than the pressure indicator or sensor. Includes the instrument which
+indicates air pressure in the pneumatic distributing systems. Does not include the using systems.
+
+3697 Pneumatic System Wiring
+For reports indicating a problem with wiring specific to the Pneumatic System.
+
+37 - Vacuum
+
+3700 Vacuum System
+The units and components used to generate, deliver, and regulate negative air pressure. Use this code
+for general reports of the pressure/vacuum system with insufficient information to file in a more specific
+JASC 3700 series code.
+
+3710 Vacuum Distribution System
+The system components and parts, including the pump, regulator, oil separator or indication system,
+which are used to distribute low volume, negative pressure air (suction) to systems such as gyroscopic
+flight instruments, cabin rate controller, etc.; and to distribute low volume, positive pressure air to
+systems such as air foil deicer boots. Does not include the using systems. Typical parts are pump,
+filter, regulator, lines, manifold, check valves, element, etc.
+
+3720 Vacuum Indicating System
+The system components and parts including which indicates negative air pressure in the vacuum lines.
+Includes the indicator and warning systems. Typical parts are the vacuum indicator and associated
+lines.
+
+3797 Vacuum System Wiring
+
+
+                                                                                                          35
+For reports indicating a problem with wiring specific to the Vacuum System.
+
+38 - Water/Waste
+
+3800 Water and Waste System
+The fixed units and components which store and deliver fresh water. Also includes those fixed
+components which store and furnish a means of removal of water and waste. Use this code for reports
+with insufficient information to file in a more specific JASC 3800 series code. This code is also used for
+reports common to two or more systems.
+
+3810 Potable Water System
+The system which is used to store and deliver fresh drinking water.
+
+3820 Wash Water System
+The system which is used to store and deliver wash water.
+
+3830 Waste Disposal System
+The system and components used for the disposal of water and waste. Includes wash basins, water
+closets, flush systems and collection tanks. Typical parts are valve, flush motor, lines, timer, etc.
+
+3840 Air Supply (Water Pressure System)
+The system which provides the pressure to distribute potable water to the lavatories, etc. Typical parts
+are pump, motor, lines, etc.
+
+3897 Water/Waste System Wiring
+For reports indicating a problem with wiring specific to the Water/Waste System.
+
+45 - Central Maintenance System (CMS)
+
+4500 Central Maintenance Computer
+The unit, components and associated systems which interface with other airplane systems and provides
+a convenient way of communicating system problems to aircraft maintenance personnel. The system
+contains checkout and fault isolation procedures using a central computer to locate a single system or
+component malfunction. Typical parts are computer, storage devices, controls, display, etc.
+
+4597 Central Maintenance System Wiring
+For reports indicating a problem with wiring specific to the Central Maintenance System.
+
+49 - Airborne Auxiliary Power
+
+4900 Airborne Auxiliary Power Unit (APU) System
+The airborne auxiliary power units (APU) installed on aircraft for the purpose of generating and supplying
+a single type or combination of auxiliary electric, hydraulic, pneumatic or other power. Does not include
+generators, alternators, hydraulic pumps, etc., or their connecting systems which supply and deliver
+power to their respective aircraft systems. Use this code for reports of a general nature with insufficient
+
+
+36
+information to file in a specific JASC 4900 series code, or for reports which involve two or more APU
+systems. An entry "APU" is acceptable if no specific part is reported. The APU as well as aircraft make
+and model should be reported if known.
+
+4910 APU Cowling/Containment
+The system of cowling and other components used to cover the auxiliary power unit, and contain any
+broken parts in the event of an external failure.
+
+4920 APU Core Engine
+For reports of basic engine defects such as compressor, turbine, cases other than specific systems
+shown in other APU sub-systems such as fuel, ignition, exhaust, starting and controls. The APU make
+and model should be included if available. Typical parts are turbine, bearing, seal, impeller, blade, case,
+burner can, etc.
+
+4930 APU Engine Fuel and Control
+The system and components which furnishes fuel from the aircraft tanks to the APU fuel control and
+associated injector nozzles. Including the unit which provides fuel at the proper pressure for fuel control
+operation; and the unit controlling and injecting metered fuel to the engine burner can section. Typical
+parts are shutoff valve, line, fitting, etc.
+
+4940 APU Start/Ignition System
+The system units used to start the APU engine. Including the unit which provides a power source to the
+igniter during the starting cycle. Typical parts are ignition unit, magneto, igniter, starter, etc.
+
+4950 APU Bleed Air System
+The system and components which provide and control a source of pressure and high volume of air for
+aircraft using systems such as engine starting, cabin air conditioning prior to starting engines. Typical
+parts are duct, bleed valve, clamp, seal, etc.
+
+4960 APU Controls
+The system components which electrically and manually control operation of the APU engine. Typical
+parts are relay, control box, etc.
+
+4970 APU Indicating System
+For general reports of APU operation indicating including the temperature indicator, tachometer
+generator or indicator (engine speed). Includes the instrument and associated warning system which
+sense, transmits, and indicates APU engine speed and temperatures to the flight crew.
+
+4980 APU Exhaust System
+The components and parts which collect and direct exhaust gasses from the APU turbine to the aircraft
+exterior. Includes the movable door fairing. Typical parts are nozzle, door, actuator, seal, clamp, and
+shield.
+
+4990 APU Oil System
+The system and components used for APU engine lubrication. Typical parts are filter, pump, relief valve,
+hose, line, etc.
+
+
+                                                                                                         37
+4997 APU System Wiring
+For reports indicating a problem with wiring specific to the APU System.
+
+51 - Standard Practices/Structures
+
+5100 Standard Practices/Structures
+The standard practices and general procedures for typical repairs applicable to more than one chapter
+that are not specifically covered under JASC Chapters 52 through 57.
+
+5101 Aircraft Structures
+For reports of aircraft structural problems of a general nature which affects two or more areas. Includes
+reports of lightning strikes which cannot be associated with a specific JASC code.
+
+5102 Balloon Reports
+For all balloon reports irrespective of location or component involved. Includes all airship reports
+irrespective of location or component involved. Also includes reports for water ballast. Typical parts are
+stitching, seam, fabric, burner, valve, handle, valve seat, manifold and burner fuel tank, etc.
+
+52 - Doors
+
+5200 Doors
+The removable units used for entrance or exit, and for enclosing other structure contained within the
+fuselage. Includes passenger and crew doors, cargo doors, emergency exits, etc. Electrical and
+hydraulic systems associated with door control are included as appropriate. Use this code for door
+reports of a general nature which affect two or more specific type of doors or are reported with
+insufficient information to file in a more specific JASC 5200 series code.
+
+5210 Passenger/Crew Doors
+For reports of cabin entrance doors. Does not include door frames, warning systems, or cabin
+emergency exit doors/hatches. Typical parts are hinges, actuators, latches, handle, seals, structure,
+spring, cable, bellcrank, skin, etc.
+
+5220 Emergency Exits
+For reports of emergency exit doors, windows and hatches. Typical parts are pan, hinge, latch, hook,
+etc.
+
+5230 Cargo/Baggage Doors
+For exterior doors used to gain access to cargo or baggage storage areas. Does not include door
+frames on fuselage, door warning or compartment interior furnishings. Typical parts are door structure,
+seal, hinge, latch, latch pin, handle, skin, etc.
+
+5240 Service Doors
+For reports pertaining to exterior doors used to gain access for servicing aircraft systems and
+equipment. Does not include the fluid service doors which are covered in JASC 5246.
+
+
+
+38
+5241 Galley Doors
+For reports pertaining to the galley door. Typical parts are hinges, structure, and the latch mechanism.
+
+5242 Electrical/Electronic Compartment Doors
+For reports pertaining to the electrical/electronic compartment doors. Typical parts are hinges, structure,
+and the latch mechanism.
+
+5243 Hydraulic Compartment Doors
+For reports pertaining to the hydraulic compartment doors. Typical parts are hinges, structure, and the
+latch mechanism.
+
+5244 Accessory Compartment Doors
+For reports pertaining to the accessory compartment doors. Typical parts are hinges, structure, and the
+latch mechanism.
+
+5245 Air Conditioning Doors
+For reports pertaining to doors used to gain access to the air conditioning compartment system and
+components. Typical parts are hinges, structure, and the latch mechanism.
+
+5246 Fluid Service Doors
+For reports of service doors used to gain access to fluid service areas, excluding compartment doors
+which are filed in JASC code 5243. Typical parts are hinges, structure, and the latch mechanism.
+
+5247 Auxiliary Power Unit (APU) Doors
+For reports of doors used to gain access for servicing the APU and components. Typical parts are
+hinges, structure, and the latch mechanism.
+
+5248 Tail Cone Doors
+For reports pertaining to the tail cone door. Typical parts are hinges, structure, and the latch
+mechanism.
+
+5250 Fixed Inner Doors
+For reports of doors within the fuselage in fixed partitions. Typical parts are structure, hinges, latches,
+lining but does not include doors in movable partitions.
+
+5260 Entrance Stairs
+For reports of cabin entrance stairs which operate in conjunction with but are not an integral part of
+entrance doors. Typical parts are structure, actuator, controls and handrails, step, cable, bungee, latch
+hook, latch, bracket, bellcrank, etc.
+
+5270 Door Warning System
+The system which is used to indicate to flight crews whether the exterior doors are closed and properly
+latched. Does not include the landing gear position warning indications which are covered in JASC code
+3260. Typical parts are switch, lamp, horn, relay, etc. The suspect door should be identified if known.
+
+
+                                                                                                              39
+5280 Landing Gear Doors
+For reports pertaining to the structural aspects of landing gear doors including hinges and seals on the
+wing, landing gear, and fuselage mounted doors. The door position on the aircraft or landing gear (i.e.,
+nose, right main outboard, etc.) should be shown in the part location field. Does not include the
+operating mechanism or position indicating or warning system which is filed in JASC codes 3231 or
+3260.
+
+5297 Door System Wiring
+For reports indicating a problem with wiring specific to the Door Systems.
+
+53 - Fuselage
+
+5300 Fuselage Structure (General)
+For reports of structural units and associated components and members which make up the
+compartments for crew, passengers, equipment, cargo, plus the structure of the envelope and gondola
+of airships.
+
+5301 Aerial Tow Equipment
+For reports of defective aerial tow equipment including the attachments on fuselage and release
+mechanism.
+
+5302 Rotorcraft Tail Boom
+For reports of the structure including exterior skin and truss framework of tail booms on rotorcraft.
+Includes attach fittings, etc., for tail boom and stabilizer surfaces. Typical parts are bulkhead, bracket,
+frame, frame tube, plate, etc.
+
+5310 Fuselage Main, Structure
+For general reports of fuselage structure defects which affect two or more related parts or are reported
+with insufficient information to file in a more specific JASC 5300 series code. Use of this code should be
+avoided if possible.
+
+5311 Fuselage Main, Frame
+For reports of the main fuselage frames. The associated attach fittings are covered in JASC code 5320.
+
+5312 Fuselage Main, Bulkhead
+For reports of the main fuselage bulkheads and the associated attach fittings.
+
+5313 Fuselage Main, Longeron/Stringer
+For reports of the main fuselage longerons/stringers.
+
+5314 Fuselage Main, Keel
+For reports of the main fuselage keel beams.
+
+5315 Fuselage Main, Floor Beam
+
+40
+For reports of the main fuselage floor beams.
+
+5320 Fuselage Miscellaneous Structure
+For reports of miscellaneous structure on the main fuselage structure which aids in the support of the
+primary structure. Includes such items as brackets, channels, stiffeners, clips, doublers, etc. Does not
+include movable partitions which are covered in JASC Chapter 25.
+
+5321 Fuselage Floor Panel
+For reports of the interior floor panels within the main fuselage structure.
+
+5322 Fuselage Internal Mounting Structure
+For reports of the internal mounting structure which aids in the support of the fuselage structure.
+
+5323 Fuselage Internal Stairs
+For reports of the internal stairs which are part of the fuselage structure.
+
+5324 Fuselage Fixed Partitions
+For reports of the fixed partitions which are part of the fuselage structure.
+
+5330 Fuselage Main, Plate/Skin
+For reports of the exterior covering of the fuselage including access covers.
+
+5340 Fuselage Main, Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of doors, wings, stabilizers, landing
+gear, engine and rotor pylons, and the support of equipment within the fuselage. For reports of fuselage
+attach fittings that can not be specifically identified in JASC codes 5341 through 5347.
+
+5341 Fuselage, Wing Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of the wings.
+
+5342 Fuselage, Stabilizer Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of the stabilizers
+
+5343 Fuselage, Landing Gear Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of the landing gear.
+
+5344 Fuselage, Door Hinge
+For reports of the fittings on the fuselage used for the attachment of the doors.
+
+5345 Fuselage, Equipment Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of equipment.
+
+5346 Fuselage, Powerplant Attach Fittings
+
+                                                                                                       41
+For reports of the fittings on the fuselage used for the attachment of the powerplant. (i.e., the center
+engine on tri-engine airplanes).
+
+5347 Fuselage, Seat/Cargo Attach Fittings
+For reports of the fittings on the fuselage used for the attachment of seats and cargo restraint
+mechanisms.
+
+5350 Aerodynamic Fairings
+For reports of all fixed and removable aerodynamic fairings between the fuselage and
+wing/flap/empennage/pylon/nacelle attach points, tail cones and radomes. Also includes the fairings on
+rotorcraft tail cones. Typical parts are tail, radome, fairing, stiffener, skin, screw, fillet, etc.
+
+5397 Fuselage Main, Bulkhead Fuselage wiring
+For reports indicating a problem with wiring specific to the Fuselage System.
+
+54 - Nacelles/Pylons
+
+5400 Nacelle/Pylon Structure
+For reports of structural units and associated components and members which furnish a means of
+mounting and housing the powerplant or rotor assembly. Includes the structure of powerplant cowling
+inclusive of the structural portion of the inlet whether or not integral with the aircraft. Structural portions
+of the exhaust system are excluded where they are not integral with the airframe. Use this code when
+there is insufficient information to file in a more specific JASC 5400 series code. NOTE: The use of this
+code should be avoided if possible as a reported defect is not likely to involve both pylon and nacelle.
+
+5410 Nacelle/Pylon, Main Frame
+For reports of the structure which houses and supports powerplants. Includes the firewall and all
+structure aft on multi-engine aircraft and firewalls on single engine aircraft. Does not include engine
+mounting or cowling.
+
+5411 Nacelle/Pylon, Frame/Spar/Rib
+For reports pertaining to the main frame, spar, or rib structure on the nacelles or pylons.
+
+5412 Nacelle/Pylon, Bulkhead/Firewall
+For reports pertaining to the bulkhead or firewall structure on the nacelles or pylons which houses and
+supports the powerplants. Does not include the engine mounting or cowling. Typical parts are firewall,
+bulkhead, skin, stringer, beam, splice plate, etc.
+
+5413 Nacelle/Pylon, Longeron/Stringer
+For reports pertaining to the longeron or stringer structure on the nacelles or pylons.
+
+5414 Nacelle/Pylon, Plate/Skin
+For reports pertaining to the plates or skins on the nacelles or pylons.
+
+5415 Nacelle/Pylon, Attach Fittings
+
+42
+For reports on the fittings on the nacelles/pylons used for the attachment to its connecting structure,
+powerplant, thrust reverser, and for the support of equipment within the
+nacelle/pylon.
+
+5420 Nacelle/Pylon Miscellaneous Structure
+For reports of miscellaneous structure on the nacelle/pylon structure which aids in the support of the
+primary structure. Includes such items as brackets, channels, stiffeners, doublers, clips, etc.
+
+5497 Nacelle/Pylon System Wiring
+For reports indicating a problem with wiring specific to the Nacelle/Pylon System.
+
+55 - Stabilizers
+
+5500 Empennage Structure
+The horizontal and vertical stabilizers include the structure of the elevator and rudder. For general
+reports of empennage structure which affect two or more surfaces or are reported with insufficient
+information to file in a more specific JASC 5500 series code. This code is also used for reports that
+pertain to flying wires.
+
+5510 Horizontal Stabilizer Structure
+For reports pertaining to the structural aspects of horizontal stabilizer and stabilators or canard. Includes
+fuselage and boom-to-surface attach fittings. Does not include actuating mechanism filed in JASC code
+2742.
+
+5511 Horizontal Stabilizer, Spar/Rib
+For specific reports of spars/ribs on the horizontal stabilizer.
+
+5512 Horizontal Stabilizer, Plate/Skin
+For specific reports of plates/skins on the horizontal stabilizer.
+
+5513 Horizontal Stabilizer, Tab Structure
+For reports pertaining to the structure and attachment of the tab surface mounted on movable stabilizers
+and stabilators. Includes hinge brackets and bearings/bushings. Does not include the actuating
+mechanism filed in JASC code 2740. Typical parts are hinge, skin, rib, spar, etc.
+
+5514 Horizontal Stabilizer Miscellaneous Structure
+For reports of miscellaneous structure on the horizontal stabilizer structure which aids in the support of
+the primary structure. Includes such items as brackets, channels, stiffeners, doublers, clips, etc.
+
+5520 Elevator Structure
+For reports pertaining to the structural aspects of the movable airfoil hinged to the horizontal stabilizer
+for longitudinal control. Includes the "ruddervator" on V-tail aircraft and balance weights. Does not
+include the stabilator structure which is filed in JASC code 5510 or the torque tubes which are filed
+under the actuating mechanism in JASC code 2730. Typical parts are hinge, hinge fittings, bearing,
+bolt, miscellaneous structure, etc.
+
+
+                                                                                                              43
+5521 Elevator, Spar/Rib
+For specific reports of spars/ribs on the elevator.
+
+5522 Elevator, Plate/Skin
+For specific reports of plates/skins on the elevator.
+
+5523 Elevator, Tab Structure
+For reports pertaining to the structure of elevator trim surfaces hinged to elevators and "ruddervators."
+Includes hinge fittings and associated bearings and bolts. Does not include actuating mechanism filed in
+JASC code 2731.
+
+5524 Elevator Miscellaneous Structure
+For reports of miscellaneous structure on the elevator structure which aids in the support of the primary
+structure. Includes such items as brackets, channels, stiffeners, doublers, clips, etc.
+
+5530 Vertical Stabilizer
+The structural aspects of the fixed vertical surface attached to the fuselage including the dorsal fin.
+
+5531 Vertical Stabilizer, Spar/Rib
+For specific reports of spars or ribs on the vertical stabilizer.
+
+5532 Vertical Stabilizer, Plate/Skin
+For specific reports of plates or skins on the vertical stabilizer.
+
+5533 Ventral Structure
+For reports pertaining to the ventral structure and skin of the ventral fin mounted on the lower, aft
+fuselage for added directional stability. Typical parts are skin, rib, rivet, and miscellaneous parts, etc.
+
+5534 Vertical Stabilizer Miscellaneous Structure
+For reports of miscellaneous structure on the vertical stabilizer structure which aids in the support of the
+primary structure. Includes such items as brackets, channels, stiffeners, doublers, clips, etc.
+
+5540 Rudder Structure
+For reports pertaining to the structural aspects of the vertical airfoil hinged to the vertical stabilizer. Does
+not include the actuators, actuator mechanism or mounting which are filed in JASC code 2720. Typical
+parts are hinge, hinge fittings, bearing, bolt, miscellaneous structure, etc.
+
+5541 Rudder, Spar/Rib
+For specific reports pertaining to spars or ribs on the rudder structure.
+
+5542 Rudder, Plate/Skin
+For specific reports pertaining to plates or skins on the rudder structure.
+
+
+44
+5543 Rudder, Tab Structure
+For reports pertaining to the structure of the movable surface hinged to the rudder surface for directional
+trim. Typical parts are skin, hinge fitting, spar, rib. The actuating mechanism is filed in JASC code
+2720.
+
+5544 Rudder Miscellaneous Structure
+For reports of miscellaneous structure on the rudder structure which aids in the support of the primary
+structure. Includes such items as brackets, channels, stiffeners, doublers, clips, etc.
+
+5550 Empennage Flight Control Surfaces, Attach Fittings
+For miscellaneous reports of fittings on the empennage structure which are used for the support of the
+flight control, but are not specifically addressed in JASC codes 5551 through 5554.
+
+5551 Horizontal Stabilizer, Attach Fittings
+For specific reports pertaining to the fittings on the horizontal stabilizer which are used to support
+equipment within the structure.
+
+5552 Elevator Tab, Attach Fittings
+For specific reports pertaining to the fittings on the elevator or elevator tab which are used to support
+equipment within the structure.
+
+5553 Vertical Stabilizer, Attach Fittings
+For specific reports pertaining to the fittings on the vertical stabilizer which are used to support
+equipment within the structure.
+
+5554 Rudder/Tab, Attach Fittings
+For specific reports pertaining to the fittings on the rudder or rudder tab, which are used to support
+equipment within the structure.
+
+5597 Stabilizer System Wiring
+For reports indicating a problem with wiring specific to the Stabilizer Systems.
+
+56 - Windows
+
+5600 Window/Windshield System
+For reports pertaining to the fuselage and crew compartment windows inclusive of windshields. For
+reports of cockpit and cabin window or windshield defects reported with insufficient information to file in
+a specific JASC 5600 series code.
+
+5610 Flight Compartment Windows
+For reports of all cockpit windows, cockpit overhead canopies, observation windows, and windshield
+panels in the flight compartment. Includes attachment and sliding feature of sliding windows. For
+cockpit windows including the breakage of electrically heated windshield panels
+
+
+
+
+                                                                                                            45
+regardless of cause. Does not include the heating aspects associated circuitry of heated windshields,
+which is filed in JASC code 3040. Typical parts are windshield, sliding window, seal, frame, panel, latch,
+hinge, chin bubbles, etc.
+
+5620 Passenger Compartment Windows
+For reports of cabin mounted windows in the passenger compartments. Includes the inner and outer
+windows, frame attaching hardware, picture windows. Does not include the windows in the escape
+hatches which are filed in JASC code 5220.
+
+5630 Door Windows
+For reports of windows mounted in doors. Does not include emergency exit windows which are filed in
+JASC code 5220.
+
+5640 Inspection Windows
+For windows used for examining compartments and equipment in and about the aircraft such as door
+latches, and cargo bays.
+
+5697 Window System Wiring
+For reports indicating a problem with wiring specific to the Window System.
+
+57 - Wings
+
+5700 Wing Structure
+For reports pertaining to the center wing and outer wing structural units and associated components and
+members which support the aircraft in flight. This code should be used for general reports of the primary
+wing structure.
+
+5710 Wing Main, Frame Structure
+For general reports of wing structure defects which affect two or more related parts or are reported with
+insufficient information to file in a more specific 5700 JASC code. Does not include reports pertaining to
+fuel tank sealing which are filed in JASC code 2810. Excessive use of this code should be avoided if
+possible.
+
+5711 Wing Spar
+For reports pertaining to the spar in the wing structure.
+
+5712 Wing, Rib/Bulkhead
+For reports pertaining to the ribs/bulkhead in the wing structure.
+
+5713 Wing, Longeron/Stringer
+For reports pertaining to the longerons or stringers in the wing structure.
+
+5714 Wing, Center Box
+For reports pertaining to the center wing box structure.
+
+
+
+46
+5720 Wing Miscellaneous Structure
+For reports of the auxiliary or miscellaneous wing structure. Includes the secondary items used for
+attachment. Does not include reports for plates or skins. Typical parts are wing tip, clips, brackets,
+channels, angles, stiffeners, doublers, etc.
+
+5730 Wing, Plate/Skin
+For reports of the exterior covering of the wing including the access covers, tip tank fillets, or fairings.
+Includes the leading edge and trailing edge skin and wing mounted fuel compartment panels.
+
+5740 Wing, Attach Fittings
+The structure on the wing used for the attachment of fuselage, nacelle or pylon, and landing gear to the
+wing and for the support of equipment within the wing. Use this code for reports of wing attachments
+that can not be specifically identified in JASC codes 5741 through 5744. Does not include flight control
+or landing gear actuator support fittings which should be coded in the appropriate JASC 2700 or 3200
+series code.
+
+5741 Wing, Fuselage Attach Fittings
+The fittings on the wing used for attachment to the fuselage structure.
+
+5742 Wing, Nacelle/Pylon Attach Fittings
+The fittings on the wing used for attachment to the nacelle/pylon.
+
+5743 Wing, Landing Gear Attach Fittings
+The fittings on the wing used for attachment to the landing gear.
+
+5744 Wing, Control Surface Attach Fittings
+The fittings on the wing used for attachment to the control surface.
+
+5750 Wing, Control Surfaces
+For reports of a general nature involving the control surfaces which are attached to the wing.
+
+5751 Ailerons
+For reports pertaining to the structural aspects of the aileron mounted on the trailing edge of wing.
+Includes hinges, balance weights. Does not include operating mechanism which causes the surface to
+move which is filed in JASC code 2710. Typical parts are skin, rib, spar, hinge, bracket, bolt, bearing,
+bushing, balance weight, etc.
+
+5752 Aileron Tabs
+For reports pertaining to the structural aspects of the surface mounted at the trailing edge of the aileron
+for lateral trim. Does not include the operating mechanism filed in JASC code 2711. Typical parts are
+spar, skin, hinge, bracket, bolt, bearing, bushing.
+
+5753 Trailing Edge Flaps
+For reports pertaining to the structural aspects of the flap surface mounted on the trailing edge of the
+wing (includes fore, mid, and aft segments). Does not include the operating mechanism such as the
+
+                                                                                                               47
+actuators, brackets, hydraulic or electric motors. Typical parts are skin, rib, spar, flap track, roller, flap
+carriage, bearing, bolt, rivet, etc.
+
+5754 Leading Edge Devices
+For reports pertaining to the structural aspects of the wing leading edge device control surface. Includes
+hinge, brackets, bolts but does not include actuators or actuator mounting brackets which are filed in
+JASC code 2782. Typical parts are skin, rib, track, roller, bearing, carriage, etc.
+
+5755 Spoilers
+For reports pertaining to the structural aspects of the movable surface on the upper surface of the wing
+for drag and lift reducing functions. Does not include operating mechanism such as actuators, hoses,
+lines which are filed in JASC codes 2760 and 2761. Typical parts are skin, rib, gusset plate, spoiler and
+actuator support fittings.
+
+5797 Wing System Wiring
+For reports indicating a problem with wiring specific to the Wing Systems.
+
+PROPELLER/ROTOR SYSTEMS
+
+61 - Propeller/Propulsors
+
+6100 Propeller System
+The complete mechanical or electrical propeller, governor, alternators, pumps, motors those units and
+components external to or integral with the engine used to control the propeller blade angle. Includes
+the propulsor duct assemblies, aerodynamic fairing of mechanical components, stators, vectoring
+systems, etc. Use this code for reports with insufficient information to file in a more specific JASC 6100
+series code.
+
+6110 Propeller Assembly
+For reports of propeller assembly malfunctions excluding controlling aspects, with insufficient information
+to file in a more specific JASC 6100 series code, or for conditions which affect two or more parts of the
+propeller such as hub and blades. Includes the propeller retaining nut, etc.
+
+6111 Propeller Blade Section
+For reports of blade defects other than deice boots. Includes retaining clamps and blade pitch change
+actuating mechanism which rotates with the propeller. Typical parts are blade, clamp, link, motor,
+counterweight, bearing, etc.
+
+6112 Propeller Deice Boot Section
+For reports of defective deice/anti-ice system parts on the rotating parts of the propeller such as blades
+or spinner. Does not include the power source, controls or other non-rotating system parts in JASC
+code 3060. Typical parts are boot, cuff, heat element, slip ring, etc.
+
+6113 Propeller Spinner Section
+For reports of defective propeller spinner assemblies. Typical parts are shell, backplate, bulkhead,
+rivets, screw, nut plate, brackets, etc.
+
+
+48
+6114 Propeller Hub Section
+For reports of defective hubs which house and support the rotating blades. Includes the dome, but not
+the blade actuating mechanism filed in JASC code 6111 or the attachment to engine flange in JASC
+code 6110.
+
+6120 Propeller Controlling System
+For general reports of propeller speed controlling other than the governor unit or the synchronizer.
+Includes the controlling systems of propellers regardless of the propeller type. (Includes propeller
+regulator, negative torque switch, and the rigging mechanism). Also includes governor control linkage,
+levers, cable, and associated brackets from the cockpit to the governor; and the feather and
+unfeathering systems except the pump and accumulator. Typical parts are cable, bellcrank, lever, rod
+end, pressure switch, solenoid valve, beta switch, etc.
+
+6121 Propeller Synchronizer Section
+The unit which controls the synchronization of propellers on multi-engine aircraft. Typical parts are
+synchronizer actuator, computer, synchrophaser, control unit, etc.
+
+6122 Propeller Governor
+The unit which controls the propeller blade angle, but is limited to parts in and on the governor. Does
+not include airframe furnished control linkage from the cockpit which is filed in JASC code 6120. The
+component make and model should be included in the report as well as the number of the defective part.
+Typical parts are shaft, flyweight, governor, spring, arm, seal, beta valve, pilot valve, head, etc.
+
+6123 Propeller Feathering/Reversing
+The component and parts which store and deliver an energy charge for propeller feathering and
+unfeathering. Includes the pump and associated motor, switch, circuitry and plumbing which provides
+the force for feathering the propeller blades for stopping the engine's rotation. Does not include
+propeller feathering system components which are coded in JASC code 6120, such as lever rod end,
+adjustment screw, solenoid, valves, etc. Typical parts are pump, motor, switch, accumulator, air valve,
+seal, etc.
+
+6130 Propeller Braking
+The system components and parts which decrease run-down time or stop propeller rotation during
+engine power off conditions. This code is applicable to turboprop engines.
+
+6140 Propeller Indication System
+The system components and parts which indicates the operation or activation of propeller systems.
+Typical parts are switch, lamp, connector, harness, indicator, etc.
+
+6197 Propeller/Propulsor System Wiring
+For reports indicating a problem with wiring specific to the Propeller/Propulsor Systems.
+
+62 - Main Rotor
+
+6200 Main Rotor System
+
+
+
+                                                                                                          49
+For general reports of rotorcraft main rotor systems with insufficient information to file in a more specific
+JASC 6200 series code. Excessive use of this code should be avoided if possible.
+
+6210 Main Rotor Blades
+For reports of defective blades including attachment to the rotor head and heating mats on the blades
+for anti-icing. Also includes tilt rotor blades. Does not include the anti-icing system which is filed in
+JASC code 3060, or the rotor head which is filed in JASC code 6220. Typical parts are blade, attach
+bolt, bushing, etc.
+
+6220 Main Rotor Head
+The rotating assembly which supports the main rotor blades including blade folding system. Includes
+the swashplate if it is an integral part of the mast head assembly. Also includes the head mechanism on
+tilt rotor aircraft. Typical parts are sleeve, spindle, damper, fairing. Does not include the controlling
+aspects in JASC code 6710.
+
+6230 Main Rotor Mast/Swashplate
+The vertical shaft which supports the main rotor head. Typical parts are shaft, bearing, guide, mast,
+seal, swashplate, etc.
+
+6240 Main Rotor Indicating System
+The system used to indicate the operation or activation of the main rotor. Includes lights, gauges,
+switches, wiring, etc.
+
+6297 Main Rotor System Wiring
+For reports indicating a problem with wiring specific to the Main Rotor System.
+
+63 - Main Rotor Drive
+
+6300 Main Rotor Drive System
+For general reports of main rotor drive system with insufficient information to file in a more specific JASC
+sub-system code. Excessive use of this code should be avoided if possible.
+
+6310 Engine/Transmission Coupling
+The drive shaft between the engine and the main gearbox including the clutch and freewheel units (if
+applicable), and tilt rotor interconnect system. Typical parts are clutch, shaft, coupling, bearing, boot,
+seal, sync shaft, pulley, pulley bracket, belt, etc.
+
+6320 Main Rotor Gearbox
+The component which transmits engine power to rotary motion in the main rotor mast. Includes
+mechanical power take-off and accessory drives but does not include the accessories such as hydraulic
+pumps and alternators. Includes gearbox lubricating system. Typical parts are gearbox, case, shaft,
+gear, pump, seal, sun gear, etc.
+
+6321 Main Rotor Brake
+The system which reduces rundown time or stops rotor rotation during engine power off conditions.
+Typical parts are brake, caliper, lining, seal, check valve, etc.
+
+
+50
+6322 Rotorcraft Cooling Fan System
+The component which provides a cooling air flow to the rotorcraft piston engine cylinders, oil coolers,
+etc. Typical parts are fan, shroud, blade, impeller, duct, drive belt, stator, etc.
+
+6330 Main Rotor Transmission Mount
+The suspension system for the transmission mounting in airframe. Typical parts are suspension bars,
+isolation mount, etc.
+
+6340 Rotor Drive Indicating System
+The indicators, sensors/transmitters and associated systems which indicate operation or activation of
+rotor systems. Typical parts are tachometer, transmitter, circuit breaker, wiring harness, light, switch,
+indicator, needle, etc.
+
+6397 Main Rotor Drive System Wiring
+For reports indicating a problem with wiring specific to the Main Rotor Drive System.
+
+64 - Tail Rotor
+
+6400 Tail Rotor System
+For general reports of the rotorcraft tail rotor system reported with insufficient information to file in a
+more specific tail rotor system. Avoid excessive use of this code if possible.
+
+6410 Tail Rotor Blades
+For reports of defective tail rotor blades including heating mats for anti-icing but not the anti-icing system
+in JASC code 3060. Also includes attachment to rotor head. Typical parts are blade, attach bolt, etc.
+
+6420 Tail Rotor Head
+The rotating assembly which supports the tail rotor blades. Does not include the controlling aspects
+which are filed in JASC code 6720. Typical parts are trunnion, fairing, damper plate, shaft, hub, etc.
+
+6440 Tail Rotor Indicating System
+The indicators, sensors, transmitters, and associated systems which indicates operation or activation of
+the tail rotor system.
+
+6497 Tail Rotor System Wiring
+For reports indicating a problem with wiring specific to the Tail Rotor System.
+
+65 - Tail Rotor Drive
+
+6500 Tail Rotor Drive System
+For general reports of the tail rotor drive system reported with insufficient information to file in a more
+specific tail rotor drive system. Avoid excessive use of this code if possible.
+
+6510 Tail Rotor Drive Shaft
+
+                                                                                                              51
+The shafts, flexible couplings and bearings, etc., from the main rotor transmission to the tail rotor
+assembly. Typical parts shaft, coupling, bearing, hanger, etc.
+
+6520 Tail Rotor Gearbox
+The gearboxes which transmit engine power to the tail rotor. Includes intermediate gearboxes. Typical
+parts are case, seal, box, gear, spider gear, gearbox cowling and fairing, etc.
+
+6540 Tail Rotor Drive Indicating System
+The indicators, sensors, transmitters, and associated systems which indicates operation or activation of
+the tail rotor drive system.
+
+6597 Tail Rotor Drive System Wiring
+For reports indicating a problem with wiring specific to the Tail Rotor Drive System.
+
+67 - Rotors Flight Control
+
+6700 Rotorcraft Flight Control
+For general reports of rotorcraft control systems with insufficient information to file in a more specific
+6700 JASC series code; or for reports which affect both main and tail rotor control systems. Avoid
+excessive use of this code if possible.
+
+6710 Main Rotor Control
+The system components and parts other than the servo control system which control and indicates the
+attitude or the angle of attack of the main rotor blades. Typical parts are collective pitch lever, cyclic
+pitch stick, coupling and mixing units, and position indicators, etc.
+
+6711 Tilt Rotor Flight Control
+The system components and parts of the tilt rotor control system which controls the attitude of the
+aircraft by rotating the dual main rotor assembly through a 90-degree position. The zero or vertical
+position allows vertical takeoff and landing of the aircraft.
+
+6720 Tail Rotor Control System
+The components and system parts which control movement about the vertical axis. The directional
+control may be accomplished by changing the tail rotor blade angle, or by directed compressed air (i.e.,
+NOTAR systems). Includes tail rotor control pedals, cables, rods, bellcranks, associated support
+brackets, compressed air ducts, valves, etc.
+
+6730 Rotorcraft Servo System
+The system which ensures distribution of mechanical or electrical power to the rotor servo-control
+system. Includes systems used to monitor and indicate operation of the servo control system. Typical
+parts are pressure relief valves, electro valves, check valves, accumulators, etc.
+
+6797 Rotors Flight Control System Wiring
+For reports indicating a problem with wiring specific to the Rotors Flight Control System.
+
+
+
+52
+POWERPLANT SYSTEMS
+
+71 - Powerplant
+
+7100 Powerplant System
+For general reports concerning the powerplant package. Avoid the use of this code if enough
+information is provided to file in a more specific JASC 7100 series code.
+
+7110 Engine Cowling System
+The enclosure which houses engines for drag reducing and cooling. Includes attachment, structure and
+access doors. Does not include engine cylinder baffles of fire seals. Typical parts are latch, fastener,
+lockpin, hook, skin, nose cap, stud, access door, hinge, hinge pin, rivet, bracket, stiffener, etc.
+
+7111 Engine Cowl Flaps
+The flaps mounted in engine cowling for increased cooling air flow. Also includes the component which
+electrically or hydraulically actuates the cowl flaps. Typical parts are actuator, piston, seal, hinge
+bracket, skin, doubler, rod, rod end, lever, rivet, bolt, and flap, etc.
+
+7112 Engine Air Baffle Section
+For reports of baffles which direct cooling air flow to the engine cylinders and accessories. Does not
+include cylinder baffles certificated with the engine which are filed in JASC code 8530. Typical parts are
+baffle, shield, bracket, shroud, cooling ducts for starters, and generators, etc.
+
+7120 Engine Mount Section
+The structural framework which supports the engine on the nacelle, firewall or pylon. Typical parts are
+mount, bracket, fitting, shock mount, bolt, isolator, hanger, etc.
+
+7130 Engine Fireseals
+The fire-resistant partitions and seals mounted on or about the power package to isolate areas subject
+to fire. Does not include firewalls which are filed in JASC code 5412. Typical parts are shroud, bracket,
+etc.
+
+7160 Engine Air Intake System
+The portion of the powerplant system which directs airflow to the engine. Does not include integral
+structure with the airframe, which shall be included in the applicable structures JASC chapter. Typical
+parts are carburetor air heat doors, alternate air doors, linkages, controls, filter element, ducts, hose, air
+box, latch, seals, nose ring cowls, scoops, compressor fan cowls, compressor fan case, buried engine
+ducts, vortex generators, actuators, control handles, cables, wiring, plumbing, doors, warning systems,
+position indicators, etc.
+
+7170 Engine Drains
+The components and manifold assemblies which are used to drain off excess fluids from the powerplant
+and its accessories. Includes components that are integral parts of, or fitted to the powerplant cowling.
+Typical parts are drain line, manifold, flame arrestors, support brackets, etc.
+
+7197 Powerplant System Wiring
+
+
+                                                                                                             53
+For reports indicating a problem with wiring specific to the Powerplant System.
+
+72 - Turbine/turboprop Engine
+
+7200 Engine (Turbine/Turboprop)
+The units and components which are used to induce and convert fuel-air mixture into power, and
+transmit power to the propeller shaft (if any) and accessory drives. Full identification of the powerplant is
+required in all reports in JASC series codes 7200 through 8300 to increase the usability of the reports.
+Use this code for general reports concerning engine problems reported with insufficient information to
+file in a more specific JASC code. Includes reports pertaining to bird strikes to engines/cowling.
+
+7210 Turbine Engine Reduction Gear
+For reports pertaining to reduction gears, combining gearboxes, propeller drive shafts, and helicopter
+rotor shafts, which are used to transfer power from turboprop and turboshaft engines, to the propeller or
+helicopter rotor. Do not use this code for accessory devices attached to reduction gearboxes. Typical
+parts are shaft, gear, bearing, case, torque piston, transfer tube, chip detector, etc.
+
+7220 Turbine Engine Air Inlet Section
+The engine section through which air enters the compressor section. Typical parts are inlet case, inlet
+cone, inlet screen, guide vane, inlet scroll, etc.
+
+7230 Turbine Engine Compressor Section
+The engine section where incoming air is compressed. Includes the operation of variable stator blades,
+linkage to the various valves and sense lines. Typical parts are case, the rotating portion of the
+compressor, lines, fan blades, disc, bearing, seal, mount, carbon seal, disc tie bolts, shaft, static and
+variable stator blades, linkage, actuator, etc.
+
+7240 Turbine Engine Combustion Section
+The engine section in which fuel and air are mixed and burned. Typical parts are case, burner can, liner,
+vane ring, etc.
+
+7250 Turbine Section
+The engine section which contains the turbine disc and associated nozzles and cases. Typical parts are
+case, disc, blade, nozzle, bearing, bearing cover, power turbine, shaft, tie bolts, seals, etc.
+
+7260 Turbine Engine Accessory Drive
+The engine mounted gearbox which provides mechanical power takeoffs to drive accessories such as
+pumps, generators, chip detectors. Does not include the remote gearboxes which are filed in JASC
+code 8300.
+
+7261 Turbine Engine Oil System
+The system components and parts which provide lubricating oil pressure, circulation and scavenging
+throughout the engine. Does not include externally mounted storage tanks filed in JASC code 7910,
+coolers in JASC code 7921, or connecting lines in JASC code 7920. Typical parts are relief valve,
+fitting, seal, pump, screen, filter, seal, check valve, element, etc.
+
+7270 Turbine Engine Bypass Section
+
+54
+For the non-rotating portion of engine air flow ducting for the prime purpose of adding to engine thrust of
+turbo-jet engines. Does not include the rotating components such as blades. Typical parts are duct,
+skin, duct segment, etc.
+
+7297 Turbine Engine System Wiring
+For reports indicating a problem with wiring specific to the Turbine Engine System.
+
+73 - Engine Fuel and Control
+
+7300 Engine Fuel and Control
+For general reports of turbine or reciprocating engine fuel systems with insufficient information to file in a
+more specific JASC 7300 series code.
+
+7310 Engine Fuel Distribution
+For components and parts of the engine fuel system from the main quick disconnect fitting or airframe
+fuel system strainer to the fuel control unit. Does not include the controlling or metering aspects filed in
+JASC code 7322, or the primer systems in JASC code 2820 on reciprocating engines, or the engine fuel
+pumps, fuel heater, cooler, divider, or injector nozzle (turbine and piston engines). Typical parts are
+supply lines, hoses, fuel, filters on turbine engines, shutoff and solenoid valves, etc.
+
+7311 Engine Fuel/Oil Cooler
+The unit in which aircraft fuel flows to cool the turbine engine lubricating oil. Does not include the
+connecting lines.
+
+7312 Fuel Heater
+The unit which heats fuel flowing to the engine to prevent freezing of entrapped water. Does not include
+connecting lines or the heat source.
+
+7313 Fuel Injector Nozzle
+The unit which injects metered fuel into piston engine cylinders and burner cans in turbine engines.
+
+7314 Engine Fuel Pump
+For reports pertaining to engine fuel pumps. Typical parts are housing, spring, rocker, pump,
+diaphragm, shaft, seal, relief valve, regulator, coupling, etc.
+
+7320 Fuel Controlling System
+The system components or parts other than the fuel control, amplifier, computer, carburetor and
+indication systems which control and deliver metered fuel/air to engine cylinders or turbine engine burner
+cans. Typical parts are sense line, power and drain valve (P & D valve), drain valve, carburetor inlet
+temperature sensor, etc.
+
+7321 Fuel Control/Turbine Engines
+The components which electronically control metered fuel flow under infinite temperature, altitude, and
+barometric pressure conditions. This code is also to be used for turbine engines which utilize electronic
+and non-electronic fuel controls. Typical parts are computer, amplifier, sync box, CIT sensor, etc.
+
+
+                                                                                                            55
+7322 Fuel Control/Reciprocating Engines
+The component which meters fuel/air mixture for engine combustion on reciprocating engines. This
+code is to be used for fuel injection systems, carburetor systems or other mechanical fuel metering
+devices reciprocating engine. The typical parts are carburetor, fuel injector, float, diaphragm, bellows,
+shaft, venturi, control arm, throttle body, servo, discharge tube, bushing, needle, seat, accelerator pump,
+pin, bearings, etc.
+
+7323 Turbine Governor
+The component which controls the RPM of turbine engines. Typical parts are governor, shaft,
+overspeed limiter, topping governor, etc.
+
+7324 Fuel Divider
+The unit in metered fuel lines which directs fuel to individual cylinders or burner cans.
+
+7330 Engine Fuel Indicating System
+For reports of fuel temperature, flow rate, or pressure indicating and warning systems other than the
+indicators, sensors, and transmitters. Typical parts are line, hose, lamp, bulb, wiring harness, circuit
+breaker, etc.
+
+7331 Fuel Flow Indicating
+The instrument which indicates the flow rate of metered fuel to the engine. Does not include the
+transmitter. Typical parts are indicator, power supply, needle, dial, etc.
+
+7332 Fuel Pressure Indicating
+The instrument which indicates the pressure of fuel at the fuel control/carburetor as provided by the
+engine driven or motor driven pumps. Includes the pressure warning indicating lamps. Typical parts are
+indicator, bourdon tube, diaphragm, needle, case, etc.
+
+7333 Fuel Flow Sensor
+The unit and associated circuitry and parts which senses and transmits the rate of fuel flow to the
+cockpit indicator. Typical parts are transmitter, sensor, fitting, connector, transducer, etc.
+
+7334 Fuel Pressure Sensor
+The units which sense and transmit to the cockpit indicator or indicator lamps, the pressure of fuel
+available at the engine fuel control/carburetor. Includes pressure switch and circuitry for warning
+indication. Typical parts are transducer, transmitter, switch, etc.
+
+7397 Engine Fuel System Wiring
+For reports indicating a problem with wiring specific to the Engine Fuel System.
+
+74 - Ignition
+
+7400 Ignition System
+
+
+
+56
+For general reports of ignition problems with insufficient information to file in a more specific JASC 7400
+series code.
+7410 Ignition Power Supply
+The units and components which generate, control, furnish or distribute an electrical current to ignite the
+fuel air mixture in cylinders of reciprocating engines or in the combustion chambers or thrust augmentors
+of turbine engines.
+
+7411 Low Tension Coil
+For reports of magneto coils used on select engines such as the Pratt & Whitney (PWA), Model R2800,
+to generate a low tension voltage to high tension voltage coil mounted at each engine cylinder. Not
+generally used on modern light aircraft reciprocating engines.
+
+7412 Exciter
+The unit used with turbine engine ignition systems for starting engines. Typical parts are exciter box,
+bracket, relay. The component make and model should be included.
+
+7413 Induction Vibrator
+The unit which provides a high tension spark to reciprocating engine spark plugs for starting.
+
+7414 Magneto/Distributor
+The components which generate and distribute a high voltage to spark plugs in reciprocating engines for
+fuel/air combustion. Typical parts are coil, breaker points, gear, bearing, contact finger, distributor block,
+frame, impulse coupling, condenser, rotor, cam, electrode, seal, etc.
+
+7420 Ignition Harness (Distribution)
+The high tension insulated wiring from the magneto to the spark plug in reciprocating engines which
+provides a spark for combustion. For turbine engine, the high tension leads to burner can igniters for
+used for starting. Typical parts are lead, shielding, sleeve, ignition cable, terminal, ferrule, etc.
+
+7421 Spark Plug/Igniter
+The part which provides the spark in the reciprocating engine cylinders or combustion chamber of
+turbine engines.
+
+7430 Ignition Switching
+The unit which provides a means of rendering the ignition power supply (magneto) inoperative. Also
+used to direct electrical current to the magneto switch. Does not include engine cranking which is
+covered in JASC code 8010. Typical parts are start button (only if associated with a ignition switching
+discrepancy), switch, back plate, contacts, etc.
+
+7497 Ignition System Wiring
+For reports indicating a problem with wiring specific to the Ignition System.
+
+75 - Air
+
+7500 Engine Bleed Air System
+
+
+                                                                                                           57
+For general reports of turbine engine compressor bleed air systems used to control the flow of air
+through the engine, cooling air systems, and heated air for engine anti-icing reported with insufficient
+information to file in a more specific JASC 7500 series code.
+
+7510 Engine Anti-Icing System
+The engine system components and parts used to eliminate and prevent the formation of ice. Includes
+the control valve and associated actuator, switch and circuitry which controls the flow of turbine engine
+compressor bleed air to the engine anti-icing system. Anti-icing reports pertaining to the powerplant
+cowling are filed in JASC code 3020. Typical parts are control valve, actuator, motor, switch, relay,
+circuit breaker, hose, manifold, coupling, fuel heat duct, fuel heat valve, etc.
+
+7520 Engine Cooling System
+The portion of the engine compressor bleed air system which is used to ventilate engine compartments
+and accessories. Does not include the engine bleed control valve which is filed in JASC code 7532.
+Typical parts are jet pumps, vortex generators, valve, actuator, and associated parts and circuitry used
+to control bleed air to engine accessory cooling systems.
+
+7530 Compressor Bleed Control
+The system except valve and governor which controls the flow of air through turbine engines. Typical
+parts are sense line, fittings, cables, sense line filter, speed sense valve, etc.
+
+7531 Compressor Bleed Governor
+The unit controlling relative position of the compressor bleed valve in turbine engines for air flow control.
+
+7532 Compressor Bleed Valve
+The component which releases air from turbine engine compressor sections for air flow control. Typical
+parts are bleed valve, actuator, check valve, etc.
+
+7540 Bleed Air Indicating System
+The systems which indicate temperature, pressure, control positions and warning indications of turbine
+engine compressor bleed air systems in turbine engines. Typical parts are transmitter, sensor, indicator,
+lamp, pressure switch, etc.
+
+7597 Engine Bleed Air System Wiring
+For reports indicating a problem with wiring specific to the Engine Bleed Air System.
+
+76 - Engine Controls
+
+7600 Engine Controls
+The controls which govern the operation of the engine. Includes units and components which are
+interconnected for emergency shutdown. For turboprop engines, includes linkages and controls to the
+coordinator or equivalent to the propeller governor, fuel control unit or other units being controlled. For
+reciprocating engines, includes controls for blowers. Does not include units or components which are
+specifically included in other chapters. For general reports of engine control problems with insufficient
+information to file in a more specific JASC 7600 series code.
+
+7601 Engine Synchronizing
+
+58
+The components providing for engine synchronization in multi-engine aircraft.
+
+7602 Mixture Control
+The control for adjusting fuel-air mixture in piston engines. Includes linkage from the cockpit lever to the
+carburetor or fuel injector servo but does not include the arm on mixture control shafts. Typical parts are
+cable, rod, bellcrank, rod end, housing, clamp and cockpit control lever/knob.
+
+7603 Power Lever
+The system which provides for control of carburetor or fuel injectors on piston engines; fuel controls or
+coordinator on turbine engines; and propeller regulator turboprop engines. Typical parts are cable, rod,
+rod end, bellcrank, bracket, clamp, actuator, shaft, shaft pin, knob, etc.
+
+7620 Engine Emergency Shutdown System
+The system which provides for rapid, complete shutoff of combustible fluids to the engine compartments
+during emergency procedures. Typical parts are cable, actuator, switch, lever, etc.
+
+7697 Engine Control System Wiring
+For reports indicating a problem with wiring specific to the Engine Control System.
+
+77 - Engine Indicating
+
+7700 Engine Indicating System
+For general reports of engine indicating system discrepancies with insufficient information to file in a
+more specific JASC 7700 series code. This code is also used for reports with multiple engine
+indications.
+
+7710 Power Indicating System
+For power indicating systems which directly or indirectly indicates power or thrust (i.e., brake mean
+effective pressure {BMEP}, engine pressure ratio {EPR}, RPM, etc.) but is not covered in JASC codes
+7711 through 7722.
+
+7711 Engine Pressure Ratio (EPR)
+The system which sense, measures, and indicates the engine pressure ratio (EPR) of an turbine engine.
+The system measures the difference between the compressor inlet pressure and the turbine discharge
+pressure. Typical parts are sensor, transducer, transmitter, probe, etc.
+7712 Engine BMEP/Torque Indicating
+The system that senses and measures brake mean effective pressure (BMEP) or engine torque in turbo-
+prop and piston engines. Does not include internal parts which are type certificated with the engine.
+Typical parts are indicator, line, sensor, transmitter, pressure switch, etc.
+
+7713 Manifold Pressure (MP) Indicating
+The reciprocating engine manifold pressure (MP) indicating system including the indicator and sensor.
+Typical parts are lines, hoses and fittings.
+
+7714 Engine RPM Indicating System
+
+
+                                                                                                           59
+The system including the indicator and sensor which indicates engine speed in revolutions per minute
+(RPM). Typical parts are, cable, connector, tachometer, tachometer generator, N1 indicator.
+
+7720 Engine Temperature Indicating System
+For general reports of the system components and parts which indicate engine temperature with
+insufficient information to file in a more specific JASC 7700 series code.
+
+7721 Cylinder Head Temperature (CHT) Indicating System
+The instruments which indicates temperature measured at reciprocating engine cylinder heads. Typical
+parts are indicator, case, dial, needle, thermocouple lead, sensor, and connector, etc.
+
+7722 Engine EGT/TIT Indicating System
+For reports of exhaust gas temperature (EGT) or turbine inlet temperature (TIT) temperature sensing
+and indicating. Includes the EGT indicators for both reciprocating and turbine engines; and the TIT for
+turbine engines. Typical parts are wiring, turbine outlet temperature (TOT) indicator, EGT indicator,
+probe, harness, terminal, connector, indicator, sensor, transducer, transmitter, etc.
+
+7730 Engine Ignition Analyzer System
+For general reports of reciprocating engine ignition analyzer system problems. Typical parts are the
+amplifier, wiring harness, and sensor, etc.
+
+7731 Engine Ignition Analyzer
+The unit which interprets and indicates by oscilloscope the condition of ignition systems on reciprocating
+engines.
+
+7732 Engine Vibration Analyzer
+For general reports of the engine vibration analyzer system indicating to the flight crew unusual engine
+vibration conditions. Typical parts are connector, harness, indicator, monitor, sensor, amplifier, etc.
+
+7740 Engine Integrated Instrument System
+The portion of the system which is an integrated concept that receives engine operating parameters and
+transmits them to a central processor for cockpit presentation. Typical parts are the display units,
+transmitters, receivers, computers, etc.
+
+7797 Engine Indicating System Wiring
+For reports indicating a problem with wiring specific to the Engine Indication System.
+
+78 - Engine Exhaust
+
+7800 Engine Exhaust System
+For general reports of engine exhaust system defects with insufficient information to file in a more
+specific JASC 7800 series code.
+
+7810 Engine Collector/Tailpipe/Nozzle
+
+
+
+60
+That portion of the system which collects the exhaust gases from the cylinders, turbines, or
+turbochargers and conducts them overboard. Includes variable vanes, or nacelle tailpipes used on
+turboprop powered aircraft and turbo-shaft powered rotorcraft. Typical parts are tailpipe, cone, nozzel,
+clamp eyebolt, duct, ejector, etc.
+
+7820 Engine Noise Suppressor
+For general reports of muffler system defects. The component used on reciprocating engines to reduce
+engine exhaust noise. Does not include the shroud over the muffler used to collect heated fresh air for
+cabin and carburetor heat filed in JASC code 2140. Includes the clover leaf shaped unit mounted on
+turbo-jet engine exhaust tailpipes for sound suppression. Typical parts are baffle, and flame tube, etc.
+
+7830 Engine Thrust Reverser
+The airframe furnished system and components mounted at turbo-jet engine exhaust tailpipes, or
+turbofan engine variable fan reverser components used to direct engine thrust forward for deceleration.
+Does not include the engine tailpipe. Typical parts are door, flex drive, relay, solenoid, switch, switch
+arm, bolt, valve, line, deploy line, rail, cable, actuator, actuator rod, connector plug, seal, support, fitting,
+shaft, link, nozzle, hose, etc.
+
+7897 Engine Exhaust System Wiring
+For reports indicating a problem with wiring specific to the Engine Exhaust System
+
+79 - Engine Oil
+
+7900 Engine Oil System (Airframe Furnished)
+For general reports of system units external to the engine which store and deliver engine lubricating oil
+to and from both turbine and reciprocating engines with insufficient information to file in a more specific
+JASC 7900 series code.
+
+7910 Engine Oil Storage (Airframe Furnished)
+The engine oil storage tank furnished by the airframe manufacturer. Includes attached parts such as
+filler caps, mount brackets, but excludes engine manufacturer furnished tanks, quantity indication
+systems, and distribution lines. Typical parts are tank, cap, seal, bracket, drain valve, etc.
+
+7920 Engine Oil Distribution (Airframe Furnished)
+The external oil system which distributes engine lubricating oil from the storage tanks to and from the
+engine. Does not include externally mounted units such as oil coolers, oil filters, shutoff valves. Typical
+parts are line, hose, coupling, fitting, clamp, etc.
+
+7921 Engine Oil Cooler
+The component and associated parts that cools engine lubricating oil. Includes brackets, outlet doors,
+scoops, ducts and louvers, but excludes the temperature regulator. Typical parts are cooler, duct,
+scoop, door, door actuator, etc.
+
+7922 Engine Oil Temperature Regulator
+The unit which is mounted on the airframe oil cooler or the engine for controlling engine lubricating oil
+temperature. Typical parts are thermostat, thermal valve, regulator, etc.
+
+
+                                                                                                               61
+7923 Engine Oil Shutoff Valve
+The component and associated controls which stop the flow of lubricating oil to the engine for
+emergency purposes.
+
+7930 Engine Oil Indicating System
+For general reports of engine oil pressure, temperature and quantity and those reports with insufficient
+information to file in a more specific JASC 7900 series code. Includes oil filter bypass switch, chip
+detector light, indicators, etc.
+
+7931 Engine Oil Pressure
+The instrument or warning lamp which indicates, senses, or transmits the pressure of engine lubricating
+oil available at the engine or when the pressure is improper for the conditions. This code is also used for
+discrepancies invloving oil pressure regulation. Typical parts are transducer, pressure switch,
+transmitter, pressure regulator, indicator, case, dial, needle, lamp, etc.
+
+7932 Engine Oil Quantity
+The instrument or warning lamp which senses or indicates the quantity of oil in supply tanks or warns of
+an insufficient quantity. Typical parts are transmitter, indicator, case, lamp, etc.
+
+7933 Engine Oil Temperature
+The instrument which senses and indicates temperature of engine oil. Typical parts are sensor,
+temperature bulb, case, indicator, needle, dial, etc.
+
+7997 Engine Oil System Wiring
+For reports indicating a problem with wiring specific to the Engine Oil System.
+
+80 - Starting
+
+8000 Engine Starting System
+The units, components and associated systems used for starting the engine. Includes electrical, inertia
+air or other starter systems. Does not include ignition systems which are covered in JASC Chapter 74,
+IGNITION.
+
+8010 Engine Cranking
+The portion of the system which is used to perform the cranking functions of the starting operation.
+Typical parts are plumbing, valve, wiring, start switch, relay, etc.
+
+8011 Engine Starter
+The component used for starting the engines. Includes parts which are separated from the engine
+during starter removals, but does not include parts within the engine. Does not include the starter-
+generator which is filed in JASC code 2435. Typical parts are brush, bearing, shaft, clutch, adaptor,
+backplate, housing, winding, terminal post, etc.
+
+8012 Engine Start Valves/Controls
+
+
+62
+The valves and controls used for starting engines.
+
+8097 Engine Starting System Wiring
+For reports indicating a problem with wiring specific to the Engine Starting System.
+
+81 - Turbocharging
+
+8100 Exhaust Turbine System (Reciprocating)
+For reports of exhaust turbine systems for reciprocating engines. Includes power recovery turbine
+assemblies and turbocharger units when external to the engine.
+
+8110 Power Recovery Turbine
+The turbines which extract energy from the exhaust gases and are coupled to the crankshaft on
+reciprocating engines. Includes the power recovery turbine unit when external to the engine. The drive
+shaft, coupling, and gears are filed in JASC code 8540.
+
+8120 Exhaust Turbocharger
+For reports of airframe or engine manufacturer furnished exhaust driven turbocharger systems including
+the turbocharger unit, density controller and waste gate valve. Does not include the tailpipe. Typical
+parts are clamp, coupling, rod end, bracket, hose, scroll, bearing, impeller, shaft, etc.
+
+8197 Turbocharger System Wiring
+For reports indicating a problem with wiring specific to the Turbocharger System.
+
+82 - Water Injection
+
+8200 Water Injection System
+The system components and parts which inject a water mixture into induction system of turbine and
+reciprocating engines. Typical parts are pump, switch, tank, valve, etc.
+
+8297 Water Injection System Wiring
+For reports indicating a problem with wiring specific to the Water Injkection System.
+
+83 - Accessory Gearboxes
+
+8300 Accessory Gearboxes
+The units and components which are remotely installed and connected to the engine by a drive shaft and
+which does not include those accessory drives which are bolted to and are immediately adjacent to the
+engine. The latter item should be filed in JASC code 7200. Does not include accessory drives bolted to
+and adjacent to engine which are normally filed in JASC code 7260.
+
+8397 Accessory Gearbox System Wiring
+For reports indicating a problem with wiring specific to the Accessory Gearbox.
+
+85 - Reciprocating Engine
+
+                                                                                                     63
+8500 Engine (Reciprocating)
+For general reports concerning reciprocating engine problems reported with insufficient information to
+file in a more specific JASC 8500 series code. Also for reports without reference to the applicable
+engine section or system. Typical reports would pertain to overtemperature, metal contamination,
+vibration, etc.
+
+8510 Reciprocating Engine Front Section
+For reports of the piston engine front cases which contain the propeller shaft, reduction gears, and
+accessory drive. Typical parts are propeller shaft, gear, bearing, bushing, case, seal, pinion gear.
+
+8520 Reciprocating Engine Power Section
+The section which contains the crankshaft, cam shaft, tappet guides, valve lifters, connecting rods, drive
+gears, etc. Does not include the push rods which are filed in the cylinder section in JASC code 8530 or
+rear case accessory drives. Typical parts are crankcase, crankshaft, cam ring, lifter, camshaft, cylinder
+stud, connecting rod, bolt, through bolt, cap, rod bolt, main bearing, rod bearing, etc.
+
+8530 Reciprocating Engine Cylinder Section
+For reports of engine cylinders and associated parts including the intake pipes and valve push
+rods/housing. Also includes the cylinder baffles furnished by the engine manufacturer for engine
+cooling. Does not include the connecting rods or cylinder flange hold down bolts/studs which are in filed
+JASC code 8520. Typical parts are piston, piston pin, exhaust valve, intake valve, valve guide, rocker
+arm, valve cover, cylinder, pushrod housing, intake pipe, piston pin plug, valve spring, rocker shaft,
+piston ring, oil drain lines, clamp, baffles, etc.
+
+8540 Reciprocating Engine Rear Section
+The case or section where accessories and associated engine drives are located. Includes the
+accessory pads, drives and drive seals but not the accessories. Does not include oil pump, filter or
+internal lubricating system which are filed in JASC code 8550. Typical parts are seal, gear, drive shaft,
+case, bearing, spacer. The power recovery turbine (PRT) drive shaft, coupling, and gears are also filed
+in this code.
+
+8550 Reciprocating Engine Oil System
+The components and parts that provide oil pressure and distribute lubricating oil within the engine.
+Includes the plumbing leading to and from the using external systems and components which utilize
+engine system oil for operation. Does not include the externally mounted oil system storage tanks and
+connecting lines which are filed in JASC code 7910, or the oil cooler lines, hoses, and drain valves in
+JASC code 7920. Typical parts are pressure and scavenge pump, impeller, housing, filter, air-oil
+separator, crankcase breather, screen, element, relief valve, drive gear, adapter, pan, dipstick, cap,
+propeller governor oil lines, etc.
+
+8560 Reciprocating Engine Supercharger
+The components and parts of the Supercharger system. Typical parts are case, impeller, rotors,
+bearings, seals, belts, pulleys or sprockets. Does not include gears in engine rear section.
+
+8570 Reciprocating Engine Liquid Cooling
+
+
+
+64
+The components and parts that provide cooling liquid to the engine. Includes the plumbing leading to
+and from the engine. Typical parts are radiator, hoses, pump, drive belt, pulleys, bearings, seals,
+overflow line, overflow tank, pressure cap, thermostat.
+
+8597 Engine System Wiring
+For reports indicating a problem with wiring specific to the Reciprocating Engine System.
+
+
+
+
+                                                                                                       65
+                                                                             Flight Standards Service
+
+                           JASC Code Feedback Information
+Please submit any written comments or recommendations for improving this manual or suggest new items or
+subjects to be added to it. Also, if you find an error, please tell us about it.
+
+TO:     Manager, Aviation Data Systems Branch AFS-620
+        PO Box 25082
+        Oklahoma City, OK 73125-5029
+
+(Please check all appropriate line items)
+
+ An error (procedural or typographical) has been noted in paragraph _______ on page ______.
+
+ Recommend paragraph _______ on page _______ be changed as follows:
+(attach separate sheet if necessary)
+
+
+
+
+ In a future change to this manual, please include coverage on the following subject:
+(Briefly describe what you want added)
+
+
+
+
+ Other comments:
+
+
+
+
+ I would like to discuss the above. Please contact me.
+
+Submitted by:_____________________________________________ Date:________________
+
+Telephone Number:_________________________________ Routing Symbol:______________
+
+
+
+
+66
+

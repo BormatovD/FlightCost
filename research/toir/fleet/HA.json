@@ -1,0 +1,60 @@
+{
+ "carrier": "HA",
+ "fleet": [
+  {
+   "icao": "B712",
+   "count": 19,
+   "avg_age_y": 24.2,
+   "as_of": "2026-07",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-080"
+   ]
+  },
+  {
+   "icao": "A332",
+   "count": 34,
+   "avg_age_y": 12.5,
+   "as_of": "2026-07",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-080"
+   ],
+   "note": "«Airbus A330» 34 = 24 A330-200 + 10 A330-300F (грузовые, Amazon); возраст общий по семейству"
+  },
+  {
+   "icao": "A21N",
+   "count": 18,
+   "avg_age_y": 7.6,
+   "as_of": "2026-07",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-080"
+   ]
+  },
+  {
+   "icao": "B789",
+   "count": 5,
+   "avg_age_y": 1.5,
+   "as_of": "2026-07",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-080"
+   ],
+   "note": "787-9 группы Alaska Air Group; к какому сертификату (Hawaiian/Alaska) относятся — не указано"
+  }
+ ],
+ "gaps": [
+  "Hawaiian отдельного 10-K за 2025 не подаёт; данные — со страницы флота Alaska Air Group (июль 2026), не на 31.12.2025",
+  "Item 2 10-K Alaska Air Group FY2025 недоступен (обрезка текста)",
+  "Собственность/лизинг не найдены"
+ ]
+}

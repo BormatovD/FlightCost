@@ -1,0 +1,28 @@
+{
+ "airline": "Loganair",
+ "code": "LOG",
+ "currency": "GBP",
+ "unit": null,
+ "fiscal_year_end": "03-31",
+ "scope": {
+  "own_staff": "не раскрыто",
+  "lease_provisions": "не раскрыто",
+  "deferral": "не раскрыто",
+  "pbh": "не найдено",
+  "evidence": []
+ },
+ "years": {
+  "2024": {
+   "note": "FY до 31.03.2024; последний SF34 выведен в январе 2024; 36 ВС",
+   "evidence": [
+    "s3-090"
+   ]
+  }
+ },
+ "gaps": [
+  "отчётность Loganair Limited (SC170072) на Companies House недоступна через WebFetch (provenance) — s3-093, s3-096"
+ ],
+ "doubts": [
+  "парк смешанный (SF34/ATR/E145/DHC-6/BN-2) — ставку по типу не выделить"
+ ]
+}

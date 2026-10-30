@@ -181,6 +181,62 @@ class SeoHttp(unittest.TestCase):
             self.assertTrue(b.get("same_engine") or b.get("anchor_trip_kg") or b.get("anchor_kg_per_h"),
                             "копия без калибровки расхода")
 
+    def test_research_pages(self):
+        """Решение 233: лента исследований, отчёт с шапкой сайта, Atom, sitemap."""
+        from flightcostapp.research import items
+        its = items()
+        self.assertTrue(its, "в research/index.yaml нет опубликованных отчётов")
+        slug = its[0]["slug"]
+        for lg in ("ru", "en", "de"):
+            st, body, _ = self.get(f"/{lg}/research")
+            self.assertEqual(st, 200)
+            self.assertIn(f'href="/{lg}/research/{slug}"', body)
+            st, body, _ = self.get(f"/{lg}/research/{slug}")
+            self.assertEqual(st, 200)
+            self.assertIn('class="sh"', body, "шапка сайта на странице отчёта")
+            self.assertIn(f'rel="canonical" href="', body)
+            self.assertEqual(body.count('rel="icon"'), 3)
+        self.assertEqual(self.get("/ru/research/nope")[0], 404)
+        self.assertEqual(self.get("/ru/research/..%2Fetc")[0], 404)
+        st, body, _ = self.get("/research/feed.xml")
+        self.assertEqual(st, 200)
+        self.assertIn("<feed", body)
+        st, body, _ = self.get("/sitemap.xml")
+        self.assertIn(f"/ru/research/{slug}", body)
+        st, body, _ = self.get("/ru/")
+        self.assertIn(f"/ru/research/{slug}", body, "свежее исследование на главной")
+
+    def test_research_translations(self):
+        """Статья на языке страницы, если перевод есть (report.<язык>.html), и переключатель валюты."""
+        from flightcostapp.research import find
+        it = find("toir")
+        self.assertEqual(it["langs"], ["ru", "en", "de"])
+        for lg, word in (("ru", "ТОиР"), ("en", "Aircraft maintenance"), ("de", "Flugzeugwartung")):
+            st, body, _ = self.get(f"/{lg}/research/toir")
+            self.assertEqual(st, 200)
+            self.assertIn(f'<html lang="{lg}"', body)
+            self.assertIn(word, body)
+            self.assertIn('class="curbar"', body)
+            self.assertIn('class="mny"', body)
+        body = self.get("/en/research")[1]
+        card = body[body.index('href="/en/research/toir"'):].split("</a>")[0]
+        self.assertNotIn("report in Russian", card)
+
+    def test_research_calc_marker(self):
+        """У каждой публикации — маркер связи с расчётом (STYLE.md): в ленте и в самой статье."""
+        import yaml
+        from flightcostapp import research
+        doc = yaml.safe_load(research.INDEX.read_text(encoding="utf-8"))
+        for it in doc["items"]:
+            self.assertIn(it.get("calc"), research.CALC, f"{it['slug']}: нет маркера calc")
+            self.assertTrue(all((it.get("calc_note") or {}).get(lg) for lg in ("ru", "en", "de")), it["slug"])
+            rep = (research.ROOT / it["report"]).read_text(encoding="utf-8")
+            self.assertIn('class="calcrow"', rep, f"{it['slug']}: маркер не вшит в статью — пересобрать")
+        for lg in ("ru", "en", "de"):
+            body = self.get(f"/{lg}/research")[1]
+            self.assertIn('class="cm"', body)
+            self.assertIn('class="rleg"', body)
+
     def test_types_index(self):
         st, body, _ = self.get("/en/types")
         self.assertEqual(st, 200)

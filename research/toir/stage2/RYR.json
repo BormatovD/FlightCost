@@ -1,0 +1,293 @@
+{
+ "airline": "Ryanair Holdings plc (группа: Ryanair DAC, Buzz, Malta Air, Ryanair UK, Lauda)",
+ "code": "RYR",
+ "currency": "EUR",
+ "unit": "млн",
+ "fiscal_year_end": "03-31",
+ "scope": {
+  "own_staff": "не раскрыто (в FY24 рост ТОиР объяснён в т.ч. 'engineering pay increases' — часть оплаты инженеров, видимо, в строке ТОиР или это подрядчики)",
+  "lease_provisions": "резерв по условиям возврата арендованных бортов начисляется по налёту: часть — в RoU-актив и сразу в амортизацию, остаток (нормальный износ) — в P&L; по комментариям 6-K 'lease handback costs' сидят в строке Maintenance, materials and repairs. Арендованных мало (26–29 A320 Lauda + единичные B737)",
+  "deferral": "собственные (≈95% парка): built-in overhaul — часть стоимости ВС относится на 'service potential' (состояние двигателей и планера) и амортизируется 8–12 лет; последующие тяжёлые формы планера и двигателей капитализируются и амортизируются — в строке ТОиР их НЕТ (они в Depreciation). Сумма амортизации компоненты ТО не найдена",
+  "pbh": "не найдено; капремонт двигателей и ротаблов — у подрядчиков (с 2026 договор с CFM на материалы — вне периода)",
+  "evidence": [
+   "s1-046",
+   "s1-047",
+   "s1-048",
+   "s1-049",
+   "s1-050",
+   "s1-051",
+   "s1-052",
+   "s1-053",
+   "s1-019",
+   "s1-040",
+   "s1-006",
+   "s1-028",
+   "s1-348"
+  ]
+ },
+ "years": {
+  "2016": {
+   "maint": 130.3,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "B737_total": 341
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": 609501,
+   "sector_km": null,
+   "sector_miles": null,
+   "util_h_day": null,
+   "evidence": [
+    "s1-035",
+    "s1-036",
+    "s1-056"
+   ]
+  },
+  "2017": {
+   "maint": 141.0,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "B737_total": 383
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": 675482,
+   "sector_km": null,
+   "sector_miles": null,
+   "util_h_day": null,
+   "evidence": [
+    "s1-035",
+    "s1-031",
+    "s1-036",
+    "s1-056"
+   ]
+  },
+  "2018": {
+   "maint": 148.3,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "B737_total": 431
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": 725044,
+   "sector_km": null,
+   "sector_miles": null,
+   "util_h_day": null,
+   "evidence": [
+    "s1-031",
+    "s1-033",
+    "s1-056"
+   ]
+  },
+  "2019": {
+   "maint": 190.9,
+   "block_h": 1484827,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 455,
+    "A320": 16
+   },
+   "avg_age": null,
+   "sector_h": 1.88,
+   "departures": 789771,
+   "sector_km": 1246,
+   "sector_miles": 774,
+   "util_h_day": 9.02,
+   "evidence": [
+    "s1-027",
+    "s1-029",
+    "s1-059",
+    "s1-060",
+    "s1-061",
+    "s1-346"
+   ]
+  },
+  "2020": {
+   "maint": 256.4,
+   "block_h": 1557833,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 440,
+    "A320": 26
+   },
+   "avg_age": null,
+   "sector_h": 1.89,
+   "departures": 823897,
+   "sector_km": 1225,
+   "sector_miles": 761,
+   "util_h_day": 9.11,
+   "evidence": [
+    "s1-027",
+    "s1-039",
+    "s1-029",
+    "s1-059",
+    "s1-060",
+    "s1-061",
+    "s1-346"
+   ]
+  },
+  "2021": {
+   "maint": 206.7,
+   "block_h": 396625,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 422,
+    "A320": 29
+   },
+   "avg_age": null,
+   "sector_h": 1.94,
+   "departures": 204828,
+   "sector_km": 1249,
+   "sector_miles": 776,
+   "util_h_day": 2.37,
+   "evidence": [
+    "s1-039",
+    "s1-054",
+    "s1-041",
+    "s1-004",
+    "s1-346"
+   ]
+  },
+  "2022": {
+   "maint": 255.7,
+   "block_h": 1194076,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 471,
+    "A320": 29
+   },
+   "avg_age": null,
+   "sector_h": 1.92,
+   "departures": 620524,
+   "sector_km": 1242,
+   "sector_miles": 772,
+   "util_h_day": 6.88,
+   "evidence": [
+    "s1-023",
+    "s1-054",
+    "s1-024",
+    "s1-025",
+    "s1-004",
+    "s1-346"
+   ]
+  },
+  "2023": {
+   "maint": 373.7,
+   "block_h": 1778974,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 509,
+    "A320": 28
+   },
+   "avg_age": null,
+   "sector_h": 1.88,
+   "departures": 946643,
+   "sector_km": 1233,
+   "sector_miles": 766,
+   "util_h_day": 9.4,
+   "evidence": [
+    "s1-023",
+    "s1-018",
+    "s1-024",
+    "s1-025",
+    "s1-004",
+    "s1-346"
+   ]
+  },
+  "2024": {
+   "maint": 414.9,
+   "block_h": 1918984,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 557,
+    "B38M": 146,
+    "B738": 411,
+    "A320": 27
+   },
+   "avg_age": null,
+   "sector_h": 1.88,
+   "departures": 1022400,
+   "sector_km": 1255,
+   "sector_miles": 780,
+   "util_h_day": 9.38,
+   "evidence": [
+    "s1-018",
+    "s1-014",
+    "s1-020",
+    "s1-021",
+    "s1-004",
+    "s1-346"
+   ]
+  },
+  "2025": {
+   "maint": 476.2,
+   "block_h": 2090590,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 587,
+    "B38M": 176,
+    "B738": 411,
+    "A320": 26
+   },
+   "avg_age": null,
+   "sector_h": 1.88,
+   "departures": 1109300,
+   "sector_km": 1260,
+   "sector_miles": 783,
+   "util_h_day": 9.57,
+   "evidence": [
+    "s1-014",
+    "s1-009",
+    "s1-016",
+    "s1-345",
+    "s1-004",
+    "s1-346"
+   ]
+  },
+  "2026": {
+   "maint": 552.6,
+   "block_h": 2179926,
+   "hours_kind": "derived",
+   "fleet": {
+    "B737_total": 621,
+    "B38M": 210,
+    "B738": 411,
+    "A320": 26
+   },
+   "avg_age": null,
+   "sector_h": 1.89,
+   "departures": 1151800,
+   "sector_km": 1271,
+   "sector_miles": 790,
+   "util_h_day": 9.48,
+   "evidence": [
+    "s1-009",
+    "s1-011",
+    "s1-012",
+    "s1-063",
+    "s1-064",
+    "s1-065",
+    "s1-346"
+   ]
+  }
+ },
+ "gaps": [
+  "средний возраст парка — не найден (Item 4 20-F недоступен через WebFetch)",
+  "блок-часы в абсолюте не раскрыты; определение 'Average Daily Flight Hour Utilization' (Glossary, Appendix A) не прочитано",
+  "FY16–FY18: длина сектора и утилизация не взяты (таблица FY2019 20-F извлечена со сдвигом столбцов)",
+  "разбивка B738/B38M до FY24 не найдена (8200 поставляются с 2021)",
+  "Ryanair DAC отдельно (только B737) — отчётность не найдена; использована группа"
+ ],
+ "doubts": [
+  "группа включает 26–29 A320 Lauda (≈4–6% парка) — ставка не чисто B737",
+  "block_h derived = утилизация × средний парк на начало/конец FY × 365; если утилизация считается по операционному (не полному) парку, налёт завышен на долю резерва",
+  "строка ТОиР не содержит тяжёлых форм и двигателей собственного парка (deferral) — сопоставима только с Form 41 перевозчиков с deferral или после добавления амортизации ТО",
+  "FY20 рост из-за 'scheduled engine maintenance' — часть двигательных событий всё же в расходе (видимо, арендованные/Lauda)",
+  "FY22–FY24 частично искажены задержками Boeing (компенсации) — см. FY25 комментарий"
+ ]
+}

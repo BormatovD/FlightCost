@@ -1,0 +1,129 @@
+# Исследования на сайте (страница /<язык>/research). Порядок — PROCESS.md. Новое — строкой сверху:
+# папка в research/, отчёт HTML в ней, подписи на трёх языках. Отчёт
+# публикуется как есть, сервер добавляет только шапку сайта и метаданные.
+# calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
+# planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
+items:
+  - slug: fuel-2026-10
+    date: 2026-10-30
+    draft: true                    # новая структура статьи + Россия, ждёт моделирования
+    report: fuel-2026-10/report.html
+    calc: in_calc
+    calc_note:
+      ru: "В расчёте: цена «в крыло» по региону вылета со сдвигом регионального спота, демпфер России, цены IOCL для внутренних рейсов Индии (решения 235–236)."
+      en: "In the calculator: the into-plane price by departure region with the regional spot shift, Russia's damper, IOCL prices for India's domestic flights (decisions 235–236)."
+      de: "Im Rechner: Preis ins Flugzeug nach Abflugregion mit Verschiebung des regionalen Spots, Russlands Dämpfer, IOCL-Preise für Indiens Inlandsflüge (Entscheidungen 235–236)."
+    lang: ru
+    title:
+      ru: "Сколько стоит авиатопливо в разных регионах"
+      en: "What jet fuel costs in different regions"
+      de: "Was Kerosin in verschiedenen Regionen kostet"
+    lede:
+      ru: >-
+        В спокойное время спот по регионам расходится с американским на ±5–9 %, в шок 2026 года — до ±20 %; главная разница — в цене «в крыло»: от ×1,08 в США до ×1,2
+        в Африке и ×1,45 в Казахстане. Индия и Россия — особые случаи. Поправка для калькулятора с уверенностью по регионам.
+      en: >-
+        In calm times regional spot prices are within ±5–9 % of the US, in the 2026 shock up to ±20 %; the main difference is in the into-plane price: from ×1.08
+        in the US to ×1.2 in Africa and ×1.45 in Kazakhstan. India and Russia are special cases. A regional correction
+        for the calculator, with confidence levels.
+      de: >-
+        In ruhigen Zeiten liegen regionale Spotpreise ±5–9 % um den US-Preis, im Schock 2026 bis ±20 %; der Hauptunterschied liegt im Preis ins Flugzeug: von ×1,08
+        in den USA bis ×1,2 in Afrika und ×1,45 in Kasachstan. Indien und Russland sind Sonderfälle. Eine regionale
+        Korrektur für den Rechner mit Konfidenz.
+    tags:
+      ru: [топливо, регионы, налоги, SAF]
+      en: [fuel, regions, taxes, SAF]
+      de: [Kerosin, Regionen, Steuern, SAF]
+  - slug: hothigh-2026-10
+    date: 2026-10-30
+    draft: true                    # теория закрыта; ждём числа по типам от владельца
+    report: hothigh-2026-10/report.html
+    calc: planned
+    calc_note:
+      ru: "Сейчас калькулятор нагрузку из-за жары и высоты не снимает — поправка предложена."
+      en: "The calculator does not yet reduce payload for heat and altitude — a correction is proposed."
+      de: "Der Rechner reduziert die Zuladung bei Hitze und Höhe noch nicht — eine Korrektur wird vorgeschlagen."
+    lang: ru
+    title:
+      ru: "Жара и высота: сколько пассажиров самолёт не довезёт"
+      en: "Heat and altitude: how many passengers an aircraft cannot carry"
+      de: "Hitze und Höhe: wie viele Passagiere ein Flugzeug nicht mitnehmen kann"
+    lede:
+      ru: >-
+        Почему в жару и на высокогорье самолёт берёт меньше: порог по температуре, потом 0,4–0,6 % взлётной массы на
+        градус. Дели в мае — около 8 пассажиров на рейсе, загруженном до предела. Простая поправка для калькулятора и
+        честно — где данных нет.
+      en: >-
+        Why aircraft carry less in heat and at altitude: a temperature threshold, then 0.4–0.6 % of take-off mass per
+        degree. Delhi in May costs about 8 passengers on a flight loaded to the limit. A simple correction for the
+        calculator — and where data are missing.
+      de: >-
+        Warum Flugzeuge bei Hitze und in der Höhe weniger mitnehmen: eine Temperaturschwelle, danach 0,4–0,6 % der
+        Startmasse pro Grad. Delhi im Mai kostet rund 8 Passagiere auf einem voll ausgelasteten Flug. Eine einfache
+        Korrektur für den Rechner — und wo Daten fehlen.
+    tags:
+      ru: [взлётная масса, жара, высокогорье, Индия]
+      en: [take-off mass, heat, high altitude, India]
+      de: [Startmasse, Hitze, Hochlage, Indien]
+  - slug: toir
+    date: 2026-10-30
+    report: toir/report.html
+    calc: on_input
+    calc_note:
+      ru: "Ставки ТОиР задаются в карточке типа (за час и за цикл); статья — ориентир при вводе, полоса Form 41 уже рядом с заготовкой."
+      en: "Maintenance rates are entered in the type card (per hour and per cycle); the article is a guide for input, the Form 41 band is already shown."
+      de: "Instandhaltungssätze stehen in der Typkarte (pro Stunde und pro Zyklus); der Artikel hilft bei der Eingabe, das Form-41-Band ist schon sichtbar."
+    lang: ru                       # язык самого отчёта
+    title:
+      ru: "ТОиР: сколько стоит и как быстро дорожает"
+      en: "Aircraft maintenance: what it costs and how fast it gets dearer"
+      de: "Flugzeugwartung: was sie kostet und wie schnell sie teurer wird"
+    lede:
+      ru: >-
+        Растёт ли ТОиР в 2–3 раза быстрее инфляции? Каталог запчастей — да (6–9 % в год), фактические затраты — нет:
+        +3,0 % против +2,6 % у инфляции. Почему производители двигателей живут сервисом, почему расчёт по каталогу
+        в 1,5–2,5 раза выше отчётности и ставки ТОиР 53 типов по Form 41.
+      en: >-
+        Does maintenance get dearer two to three times faster than inflation? The parts catalogue does (6–9 % a year);
+        actual costs do not: +3.0 % against +2.6 % inflation. Why engine makers live on aftermarket, why catalogue-based
+        estimates run 1.5–2.5× above reported costs, and maintenance rates for 53 types from Form 41.
+      de: >-
+        Steigen die Wartungskosten zwei- bis dreimal schneller als die Inflation? Der Teilekatalog ja (6–9 % pro Jahr),
+        die tatsächlichen Kosten nicht: +3,0 % gegenüber +2,6 % Inflation. Warum Triebwerkshersteller vom Service leben,
+        warum Katalogrechnungen 1,5–2,5-mal über den berichteten Kosten liegen, und Wartungssätze für 53 Typen aus Form 41.
+    tags:
+      ru: [ТОиР, Form 41, двигатели, инфляция]
+      en: [maintenance, Form 41, engines, inflation]
+      de: [Wartung, Form 41, Triebwerke, Inflation]
+    sources: "BTS Form 41 (P-5.2, T-2, B-43), BLS PPI WPS5541 и CPI-U, отчёты GE, Safran, Rolls-Royce, RTX, MTU"
+  - slug: charges-2026-10
+    date: 2026-10-29
+    report: charges-2026-10/report.html
+    calc: in_calc
+    calc_note:
+      ru: "Все тарифы из статьи уже в данных: для этих аэропортов расчёт идёт по документу."
+      en: "All tariffs in the article are already in the data: these airports are calculated from the document."
+      de: "Alle Tarife des Artikels sind bereits in den Daten: diese Flughäfen werden nach dem Dokument berechnet."
+    lang: ru
+    title:
+      ru: "Сколько стоит прилететь: сборы 68 аэропортов"
+      en: "What it costs to land: charges at 68 airports"
+      de: "Was die Landung kostet: Entgelte an 68 Flughäfen"
+    lede:
+      ru: >-
+        Все тарифы аэропортов, которые есть в калькуляторе, — из опубликованных документов: Европа, Россия, Китай,
+        Индия, Африка, Залив. Оборот A320 из Франкфурта — от 145 EUR в Алжире до 14 552 EUR в Лагосе; в Европе
+        1,6–7,7 тыс. EUR. Для аэропорта без тарифа калькулятор теперь берёт медиану его региона.
+      en: >-
+        Every airport tariff in the calculator, from published documents: Europe, Russia, China, India, Africa, the
+        Gulf. An A320 turnaround from Frankfurt costs from EUR 145 in Algiers to EUR 14,552 in Lagos; EUR 1.6–7.7k in
+        Europe. For an airport without a tariff the calculator now uses its regional median.
+      de: >-
+        Alle Flughafentarife im Rechner, aus veröffentlichten Dokumenten: Europa, Russland, China, Indien, Afrika,
+        Golfregion. Ein A320-Umlauf ab Frankfurt kostet von 145 EUR in Algier bis 14 552 EUR in Lagos; in Europa
+        1,6–7,7 Tsd. EUR. Für Flughäfen ohne Tarif nutzt der Rechner jetzt den Median der Region.
+    tags:
+      ru: [сборы аэропортов, Европа, Россия, Китай, Индия, Африка]
+      en: [airport charges, Europe, Russia, China, India, Africa]
+      de: [Flughafenentgelte, Europa, Russland, China, Indien, Afrika]
+    sources: "опубликованные тарифы операторов аэропортов, регуляторов (AERA, ACSA, FAAN) и AIP GEN 4.1"

@@ -1,0 +1,45 @@
+{
+ "engine": "GEnx-1B",
+ "aircraft": [
+  "B788",
+  "B789",
+  "B78X"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": null,
+ "llp": {
+  "shipset_list_price": [],
+  "limits_efc": [],
+  "escalation": {
+   "2022": {
+    "rate": ">=0.10",
+    "note": "GE/CFM, 1 Nov 2022, 'double-digit'",
+    "evidence": [
+     "e2-093"
+    ]
+   },
+   "2023": {
+    "rate": "~0.07-0.09",
+    "note": "GE/CFM, Aug 2023, 'high-single-digit'",
+    "evidence": [
+     "e2-094"
+    ]
+   }
+  }
+ },
+ "shop_visit": [],
+ "reserves": [],
+ "issues": [
+  "Durability upgrades при SV: новая жаровая труба, HPT stage 1 blade phase 1/2, в тяжёлых условиях — новые сопловые аппараты/бандажи [e2-081]",
+  "GE (2025): GEnx подходит к массовым первым SV [e2-208]"
+ ],
+ "gaps": [
+  "Цена комплекта LLP, ресурсы LLP, интервал и стоимость SV, ставки резервов — не найдены в открытых источниках (AC 102/118/122, ISTAT Jetrader 2021, AviationPros 2014, GE) [e2-192]",
+  "Тяга модификаций не подтверждена первоисточником в этой сессии"
+ ],
+ "doubts": [
+  "Обобщённые оценки Air Cargo Week 2026 (LLP стек широкофюзеляжного $8–12 млн, SV $3–5 млн без LLP) — не по типу, SV-оценка выглядит заниженной против GE90 2012 [e2-196]"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

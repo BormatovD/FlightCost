@@ -1,0 +1,89 @@
+{
+ "engine": "GE CF34-10E",
+ "aircraft": [
+  "E190",
+  "E195"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  16.96,
+  18.82
+ ],
+ "thrust_note": "take-off 16 960–18 820 lb (AC No.72, пересказ)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 1530000,
+    "year": 2010,
+    "note": "17 вращающихся LLP; + неподвижные: корпус КС $448k, задняя рама $273k",
+    "evidence": [
+     "e1-137",
+     "e1-138"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "target все LLP",
+    "efc": 25000,
+    "evidence": [
+     "e1-137"
+    ]
+   },
+   {
+    "part": "HPC 4-9 spool (лимитирующий)",
+    "efc": 13000,
+    "evidence": [
+     "e1-137"
+    ]
+   }
+  ],
+  "escalation": {
+   "2010": 0.055
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efc": 13000,
+   "interval_efh": 19500,
+   "ratio_fh_fc": 1.5,
+   "thrust": "средние рейтинги; высокие ~10 000 EFC",
+   "cost_usd": 950000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "evidence": [
+    "e1-138"
+   ]
+  },
+  {
+   "which": "second / overhaul",
+   "cost_usd": 1500000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "evidence": [
+    "e1-138"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh_total": 123,
+   "usd_per_efc_llp": 64,
+   "year": 2010,
+   "note": "сценарий 1; до $146–152/EFH",
+   "evidence": [
+    "e1-138"
+   ]
+  }
+ ],
+ "issues": [],
+ "gaps": [
+  "данные после 2010"
+ ],
+ "doubts": [
+  "цифры таблиц — пересказ WebFetch"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

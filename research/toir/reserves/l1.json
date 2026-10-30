@@ -1,0 +1,668 @@
+{
+ "items": [
+  {
+   "aircraft": "A321",
+   "engine": "CFM56-5B",
+   "component": "engine_pr",
+   "value": 291,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >1.5–2; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-089",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "CFM56-5B",
+   "component": "engine_pr",
+   "value": 249,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >2–3; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-089",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "CFM56-5B",
+   "component": "engine_pr",
+   "value": 335,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >1–1.5; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-089",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "V2533-A5",
+   "component": "engine_pr",
+   "value": 320,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >1.5–2; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-090",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "V2533-A5",
+   "component": "engine_pr",
+   "value": 270,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >2–3; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-090",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "V2533-A5",
+   "component": "engine_pr",
+   "value": 387,
+   "unit": "USD/EFH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "FH/FC >1–1.5; цены янв-2020; harsh env >30% → +50%; минимум 80 FH/40 FC в мес; срок 96 мес",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-090",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "CFM56-5B",
+   "component": "llp",
+   "value": 195,
+   "unit": "USD/EFC",
+   "year": 2020,
+   "escalation": null,
+   "conditions": "LLP индексируются по прейскуранту OEM",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-087",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "V2533-A5",
+   "component": "llp",
+   "value": 215,
+   "unit": "USD/EFC",
+   "year": 2020,
+   "escalation": null,
+   "conditions": "LLP индексируются по прейскуранту OEM",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-088",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": null,
+   "component": "airframe",
+   "value": 13500,
+   "unit": "USD/month",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "6Y check",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-083",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": null,
+   "component": "airframe",
+   "value": 9000,
+   "unit": "USD/month",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "12Y check (в сумме с 6Y = 22,500/мес)",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-084",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": null,
+   "component": "landing_gear",
+   "value": 4170,
+   "unit": "USD/month",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "overhaul",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-085",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "A321",
+   "engine": "APS3200",
+   "component": "apu",
+   "value": 50,
+   "unit": "USD/FH",
+   "year": 2020,
+   "escalation": 0.03,
+   "conditions": "за лётный час ВС, не за APU-час; GTC36-300 — 40 USD/FH",
+   "context": "Vallair Solutions → Global Crossing Airlines, LOI 13–15.10.2020 на 10×A321-200 (P2F/pax), MSN 827–1241 (≈1998–2000 г.в.), SEC S-1/A 2021 EX-10.5",
+   "evidence": [
+    "l1-086",
+    "l1-091"
+   ],
+   "source_grade": "contract_loi"
+  },
+  {
+   "aircraft": "B738",
+   "engine": "CFM56-7B26",
+   "component": "engine_pr",
+   "value": 226,
+   "unit": "USD/EFH",
+   "year": 2013,
+   "escalation": null,
+   "conditions": "ВСЕГО: SV+LLP+QEC(25)+unsched(15); 1.9 EFH/EFC; -7B24 201–202, -7B27 245, -7B20/22 193/204",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.87 (2013)",
+   "evidence": [
+    "l1-027",
+    "l1-028",
+    "l1-026",
+    "l1-029"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B738",
+   "engine": "CFM56-7B",
+   "component": "llp",
+   "value": 126,
+   "unit": "USD/EFC",
+   "year": 2013,
+   "escalation": null,
+   "conditions": "один сценарий замены LLP; 1.9 EFH/EFC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.87 (2013)",
+   "evidence": [
+    "l1-030"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B738",
+   "engine": "CFM56-7B26",
+   "component": "engine_pr",
+   "value": 195,
+   "unit": "USD/EFH",
+   "year": 2010,
+   "escalation": null,
+   "conditions": "диапазон 170–221 на двигатель, вкл. LLP; 1.95 FH/FC, 3300 FH/год",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.70 (2010)",
+   "evidence": [
+    "l1-035"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B738",
+   "engine": null,
+   "component": "airframe",
+   "value": 67.5,
+   "unit": "USD/FH",
+   "year": 2010,
+   "escalation": null,
+   "conditions": "base checks 65–70 USD/FH; ≈18–19 тыс USD/мес при 3300 FH/год; без покраски/интерьера (с ними 100–105)",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.70 (2010)",
+   "evidence": [
+    "l1-032"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B738",
+   "engine": null,
+   "component": "landing_gear",
+   "value": 18,
+   "unit": "USD/EFC",
+   "year": 2010,
+   "escalation": null,
+   "conditions": "за цикл ВС",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.70 (2010)",
+   "evidence": [
+    "l1-033"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B738",
+   "engine": null,
+   "component": "apu",
+   "value": 22,
+   "unit": "USD/EFC",
+   "year": 2010,
+   "escalation": null,
+   "conditions": "за цикл ВС; SV APU $200k без LLP",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.70 (2010)",
+   "evidence": [
+    "l1-034"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A320",
+   "engine": "CFM56-5B",
+   "component": "llp",
+   "value": 169,
+   "unit": "USD/EFC",
+   "year": 2020,
+   "escalation": null,
+   "conditions": "прейскурант 2020, 100% использования ресурса — нижняя граница",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.128 (2020)",
+   "evidence": [
+    "l1-044"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A320",
+   "engine": null,
+   "component": "airframe",
+   "value": 128,
+   "unit": "USD/FH",
+   "year": 2006,
+   "escalation": null,
+   "conditions": "base checks, 1-й цикл (2-й ~150); ≈30 тыс USD/мес при 2800 FH/год",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.44 (2006)",
+   "evidence": [
+    "l1-177"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A320",
+   "engine": null,
+   "component": "apu",
+   "value": 44,
+   "unit": "USD/EFC",
+   "year": 2006,
+   "escalation": null,
+   "conditions": "за цикл ВС; LG 19 USD/FC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.44 (2006)",
+   "evidence": [
+    "l1-178"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": "CF34-8E5",
+   "component": "engine_pr",
+   "value": 91,
+   "unit": "USD/EFH",
+   "year": 2009,
+   "escalation": null,
+   "conditions": "SV без LLP, 3 SV; 1.28 FH/FC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.64 (2009)",
+   "evidence": [
+    "l1-131"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": "CF34-8E5",
+   "component": "llp",
+   "value": 80,
+   "unit": "USD/EFC",
+   "year": 2009,
+   "escalation": null,
+   "conditions": "с учётом stub life",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.64 (2009)",
+   "evidence": [
+    "l1-130"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": "CF34-8E",
+   "component": "engine_pr",
+   "value": 76,
+   "unit": "USD/EFH",
+   "year": 2010,
+   "escalation": null,
+   "conditions": "сценарий 1 (89 и 107 в сценариях 2–3); 1.35 EFH/EFC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.72 (2010)",
+   "evidence": [
+    "l1-122"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": "CF34-8E",
+   "component": "llp",
+   "value": 76,
+   "unit": "USD/EFC",
+   "year": 2010,
+   "escalation": 0.055,
+   "conditions": "72–90 по сценариям; LLP +5.5%/год",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.72 (2010)",
+   "evidence": [
+    "l1-123",
+    "l1-125"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E190",
+   "engine": "CF34-10E",
+   "component": "llp",
+   "value": 64,
+   "unit": "USD/EFC",
+   "year": 2010,
+   "escalation": 0.055,
+   "conditions": "сценарий 1 (61–77); всего с SV 123 USD/EFH",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.72 (2010)",
+   "evidence": [
+    "l1-124",
+    "l1-125"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": null,
+   "component": "airframe",
+   "value": 79,
+   "unit": "USD/FH",
+   "year": 2009,
+   "escalation": null,
+   "conditions": "base checks E-Jets; ≈15 тыс USD/мес при 2300 FH/год",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.64 (2009)",
+   "evidence": [
+    "l1-127"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": null,
+   "component": "landing_gear",
+   "value": 10,
+   "unit": "USD/EFC",
+   "year": 2009,
+   "escalation": null,
+   "conditions": "E170/175; E190/195 — 18 USD/FC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.64 (2009)",
+   "evidence": [
+    "l1-128"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "E75L",
+   "engine": "APS2300",
+   "component": "apu",
+   "value": 22,
+   "unit": "USD/APUH",
+   "year": 2009,
+   "escalation": null,
+   "conditions": "0.8 APUH/FH",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.64 (2009)",
+   "evidence": [
+    "l1-129"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A333",
+   "engine": "Trent 700",
+   "component": "engine_pr",
+   "value": 325,
+   "unit": "USD/EFH",
+   "year": 2008,
+   "escalation": null,
+   "conditions": "ВСЕГО SV+LLP при 3.0 EFH/EFC (235 при 6.7)",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.57 (2008)",
+   "evidence": [
+    "l1-170"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A333",
+   "engine": "Trent 700",
+   "component": "llp",
+   "value": 420,
+   "unit": "USD/EFC",
+   "year": 2008,
+   "escalation": null,
+   "conditions": "",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.57 (2008)",
+   "evidence": [
+    "l1-169"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A333",
+   "engine": null,
+   "component": "airframe",
+   "value": 145,
+   "unit": "USD/FH",
+   "year": 2008,
+   "escalation": null,
+   "conditions": "base checks, medium-haul 3750 FH/год ≈ 45 тыс USD/мес (long-haul 130)",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.57 (2008)",
+   "evidence": [
+    "l1-171"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A333",
+   "engine": null,
+   "component": "landing_gear",
+   "value": 72,
+   "unit": "USD/EFC",
+   "year": 2008,
+   "escalation": null,
+   "conditions": "medium-haul; long-haul 129",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.57 (2008)",
+   "evidence": [
+    "l1-172"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A333",
+   "engine": null,
+   "component": "apu",
+   "value": 18,
+   "unit": "USD/FH",
+   "year": 2008,
+   "escalation": null,
+   "conditions": "medium-haul, за FH ВС",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.57 (2008)",
+   "evidence": [
+    "l1-173"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B77W",
+   "engine": "GE90-115B",
+   "component": "engine_pr",
+   "value": 341.5,
+   "unit": "USD/EFH",
+   "year": 2012,
+   "escalation": null,
+   "conditions": "333–350 SV при 8.5 EFH/EFC; всего с LLP ~483",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.84 (2012)",
+   "evidence": [
+    "l1-167"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "B77W",
+   "engine": "GE90-115B",
+   "component": "llp",
+   "value": 432,
+   "unit": "USD/EFC",
+   "year": 2012,
+   "escalation": null,
+   "conditions": "",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.84 (2012)",
+   "evidence": [
+    "l1-166"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "AT76",
+   "engine": "PW127E/F",
+   "component": "engine_pr",
+   "value": 142.5,
+   "unit": "USD/EFH",
+   "year": 2006,
+   "escalation": null,
+   "conditions": "140–145 вкл. всё; 0.8 FH/FC",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.49 (2006/07)",
+   "evidence": [
+    "l1-175"
+   ],
+   "source_grade": "industry_estimate"
+  },
+  {
+   "aircraft": "A320",
+   "engine": "V2500-A5",
+   "component": "engine_pr",
+   "value": 80000,
+   "unit": "USD/month",
+   "year": 2019,
+   "escalation": null,
+   "conditions": "резервы PR+LLP вместе при краткосрочной аренде запасного двигателя; налёт неизвестен",
+   "context": "Aircraft Commerce — отраслевая оценка стоимости ТО в форме резервов (не договорная ставка), No.125 (2019), рыночная ставка лизинга спарок",
+   "evidence": [
+    "l1-197"
+   ],
+   "source_grade": "industry_market"
+  },
+  {
+   "aircraft": "narrowbody",
+   "engine": null,
+   "component": "engine_pr",
+   "value": 125,
+   "unit": "USD/EFH",
+   "year": 2017,
+   "escalation": null,
+   "conditions": "иллюстрация",
+   "context": "Sassofia (2017) — гипотетический пример, узкофюзеляжный $45M, 300 FH/150 FC в мес; тип не назван",
+   "evidence": [
+    "l1-004"
+   ],
+   "source_grade": "illustration"
+  },
+  {
+   "aircraft": "narrowbody",
+   "engine": null,
+   "component": "airframe",
+   "value": 20000,
+   "unit": "USD/month",
+   "year": 2017,
+   "escalation": null,
+   "conditions": "6/12-year checks, иллюстрация",
+   "context": "Sassofia (2017) — гипотетический пример, узкофюзеляжный $45M, 300 FH/150 FC в мес; тип не назван",
+   "evidence": [
+    "l1-005"
+   ],
+   "source_grade": "illustration"
+  },
+  {
+   "aircraft": "narrowbody",
+   "engine": null,
+   "component": "landing_gear",
+   "value": 3000,
+   "unit": "USD/month",
+   "year": 2017,
+   "escalation": null,
+   "conditions": "иллюстрация",
+   "context": "Sassofia (2017) — гипотетический пример, узкофюзеляжный $45M, 300 FH/150 FC в мес; тип не назван",
+   "evidence": [
+    "l1-006"
+   ],
+   "source_grade": "illustration"
+  },
+  {
+   "aircraft": "narrowbody",
+   "engine": null,
+   "component": "apu",
+   "value": 9375,
+   "unit": "USD/month",
+   "year": 2017,
+   "escalation": null,
+   "conditions": "иллюстрация",
+   "context": "Sassofia (2017) — гипотетический пример, узкофюзеляжный $45M, 300 FH/150 FC в мес; тип не назван",
+   "evidence": [
+    "l1-007"
+   ],
+   "source_grade": "illustration"
+  }
+ ],
+ "gaps": [
+  "Willis Lease / WEST: ставки резервов за EFH и налёт двигателей не раскрыты (10-K FY2018, пресс-релиз FY2024, 8-K WEST VII, KBRA WEST VIII) — l1-186",
+  "ABS (AASET, MAPS, Thunderbolt, START, Castlelake, Sapphire, Horizon): OC не опубликованы, presale KBRA/Fitch/Moody's/S&P за логином — l1-205",
+  "Договоры в EDGAR: суммы резервов изъяты [***] во всех найденных, кроме LOI Vallair→GlobalX — l1-206",
+  "A320neo/A321neo (LEAP-1A, PW1100G), 737 MAX, A220, 787, A350: открытых ставок резервов нет, только прейскуранты LLP и качественный рост — l1-207",
+  "Годовые отчёты AerCap/Air Lease/Aircastle/FLY/Avolon: только совокупные maintenance rents — l1-208",
+  "CRJ, B752/B763, A321 heavy checks при US-налёте: нет данных"
+ ],
+ "doubts": [
+  "Единственная договорная точка — LOI (не финальный договор) на старые A321 (~1999–2000) под P2F; для молодых ВС ставки PR ниже на первом интервале",
+  "Значения Aircraft Commerce — расчёт стоимости ТО, а не договорные ставки; цены 2006–2013 требуют индексации к 2025 (LLP +5.5–6.9%/год по l1-125, l1-040; прочее ~3%/год по l1-020, l1-091)",
+  "Для некоторых позиций единица USD/FH или USD/EFC самолёта (airframe, LG, APU) вместо USD/month/USD/APUH из спецификации — пересчёт через налёт оставлен на потребителе",
+  "Табличные цитаты LOI GlobalX (l1-083, l1-084, l1-089, l1-090) могут отличаться пробелами/символами от источника (OCR, £ вместо ≤)",
+  "SpiceJet 737-700 MSN 36118: отсроченные резервы за Q1 2020 = 12×45,902 → ~184 тыс USD/мес всех резервов (l1-146) — не включено в items: неясно, вся ли сумма и есть ли проценты",
+  "WLFC 2024: выручка от резервов $213.9M на 354 двигателя (~$0.6M/двигатель/год, l1-063) — это признанная выручка, не ставка",
+  "Sassofia — иллюстрация без типа ВС, включена только для порядка величин"
+ ]
+}

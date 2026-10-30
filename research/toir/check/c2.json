@@ -1,0 +1,311 @@
+{
+ "items": [
+  {
+   "who": "Rolls-Royce (Civil Aerospace, TotalCare/LTSA)",
+   "kind": "provider",
+   "engine": "Trent (все) + BR7xx/Pearl (бизнес/региональные)",
+   "aircraft": "A330/A350/B787/A380/B777 + бизнес-джеты",
+   "amount_usd": 5704000000,
+   "amount_native": {
+    "value": 4600000000.0,
+    "unit": "GBP"
+   },
+   "period": "FY2023",
+   "covers": "счета, выставленные по налёту по LTSA (invoiced flying hour receipts); ~половина договоров без LLP (unbundled); не выручка IFRS15",
+   "denominator": {
+    "value": 16500000.0,
+    "unit": "EFH",
+    "how": "LTSA engine flying hours (millions), итог large + business aviation/regional из таблицы key operational metrics"
+   },
+   "rate": {
+    "value": 346,
+    "unit": "USD/EFH",
+    "how": "£4.6bn ÷ 16.5M EFH = £279/EFH × 1.24 USD/GBP (приблизительный среднегодовой курс, не из отчёта RR)"
+   },
+   "year": 2023,
+   "evidence": [
+    "c2-004",
+    "c2-005",
+    "c2-006",
+    "c2-007",
+    "c2-010",
+    "c2-011",
+    "c2-012",
+    "c2-026"
+   ]
+  },
+  {
+   "who": "Rolls-Royce (Civil Aerospace, TotalCare/LTSA)",
+   "kind": "provider",
+   "engine": "Trent (все) + BR7xx/Pearl (бизнес/региональные)",
+   "aircraft": "A330/A350/B787/A380/B777 + бизнес-джеты",
+   "amount_usd": 7040000000,
+   "amount_native": {
+    "value": 5500000000.0,
+    "unit": "GBP"
+   },
+   "period": "FY2024",
+   "covers": "счета, выставленные по налёту по LTSA (invoiced flying hour receipts); ~половина договоров без LLP (unbundled); не выручка IFRS15",
+   "denominator": {
+    "value": 18800000.0,
+    "unit": "EFH",
+    "how": "LTSA engine flying hours (millions), итог large + business aviation/regional из таблицы key operational metrics"
+   },
+   "rate": {
+    "value": 374,
+    "unit": "USD/EFH",
+    "how": "£5.5bn ÷ 18.8M EFH = £293/EFH × 1.28 USD/GBP (приблизительный среднегодовой курс, не из отчёта RR)"
+   },
+   "year": 2024,
+   "evidence": [
+    "c2-014",
+    "c2-015",
+    "c2-016",
+    "c2-017",
+    "c2-026"
+   ]
+  },
+  {
+   "who": "Rolls-Royce (Civil Aerospace, TotalCare/LTSA)",
+   "kind": "provider",
+   "engine": "Trent (все) + BR7xx/Pearl (бизнес/региональные)",
+   "aircraft": "A330/A350/B787/A380/B777 + бизнес-джеты",
+   "amount_usd": 7920000000,
+   "amount_native": {
+    "value": 6000000000.0,
+    "unit": "GBP"
+   },
+   "period": "FY2025",
+   "covers": "счета, выставленные по налёту по LTSA (invoiced flying hour receipts); ~половина договоров без LLP (unbundled); не выручка IFRS15",
+   "denominator": {
+    "value": 20000000.0,
+    "unit": "EFH",
+    "how": "LTSA engine flying hours (millions), итог large + business aviation/regional из таблицы key operational metrics"
+   },
+   "rate": {
+    "value": 396,
+    "unit": "USD/EFH",
+    "how": "£6.0bn ÷ 20.0M EFH = £300/EFH × 1.32 USD/GBP (приблизительный среднегодовой курс, не из отчёта RR)"
+   },
+   "year": 2025,
+   "evidence": [
+    "c2-022",
+    "c2-023",
+    "c2-024",
+    "c2-026"
+   ]
+  },
+  {
+   "who": "FTAI Aviation (Aerospace Products)",
+   "kind": "provider",
+   "engine": "CFM56-5B/-7B",
+   "aircraft": "A320ceo/B737NG",
+   "amount_usd": 1600456000,
+   "period": "FY2025",
+   "covers": "выручка Aerospace Products: продажи отремонтированных модулей и двигателей CFM56 + договоры управления двигателями",
+   "denominator": {
+    "value": 757,
+    "unit": "modules",
+    "how": "«total for the year to 757 modules» (refurbished) — транскрипт Q4 2025"
+   },
+   "rate": {
+    "value": 2114000,
+    "unit": "USD/module",
+    "how": "1600.456M ÷ 757; верхняя граница цены модуля (Q4 2025: 456.1M ÷ 228 ≈ $2.0M). Не в USD/EFH: нужен межремонтный интервал"
+   },
+   "year": 2025,
+   "evidence": [
+    "c2-044",
+    "c2-045",
+    "c2-048",
+    "c2-049",
+    "c2-052",
+    "c2-054"
+   ]
+  },
+  {
+   "who": "MTU Aero Engines (Commercial Maintenance)",
+   "kind": "provider",
+   "engine": "смесь: V2500, GTF, CFM56, LEAP, GE90, GEnx, CF34 и др.",
+   "aircraft": "смесь",
+   "amount_usd": null,
+   "amount_native": {
+    "value": 4225000000.0,
+    "unit": "EUR"
+   },
+   "period": "FY2023",
+   "covers": "вся выручка коммерческого MRO (вкл. лизинг двигателей, продажи запчастей)",
+   "denominator": {
+    "value": 1300,
+    "unit": "shop visits",
+    "how": "«inducted over 1,300 shop visits network-wide, including at its joint ventures» (2023)"
+   },
+   "rate": {
+    "value": 3250000,
+    "unit": "EUR/shop visit",
+    "how": "4225M ÷ 1300 — очень грубо, числитель и знаменатель с разным периметром"
+   },
+   "year": 2023,
+   "evidence": [
+    "c2-062",
+    "c2-066",
+    "c2-067"
+   ]
+  },
+  {
+   "who": "Willis Lease Finance",
+   "kind": "provider",
+   "engine": "смесь (CFM56, LEAP, V2500, PW100, CF34, широкофюзеляжные)",
+   "aircraft": "смесь",
+   "amount_usd": 231980000,
+   "period": "FY2025",
+   "covers": "maintenance reserve revenue: short-term $187.5M (по мере налёта) + long-term $44.5M (при возврате двигателя); вкл. 20 ВС; ~20% аренд без резервов",
+   "denominator": {
+    "value": 304,
+    "unit": "engine-years",
+    "how": "≈(354+363)/2 двигателей × 84.9% средней загрузки портфеля"
+   },
+   "rate": {
+    "value": 763000,
+    "unit": "USD/engine-year",
+    "how": "232.0M ÷ ~304; EFH не раскрыт"
+   },
+   "year": 2025,
+   "evidence": [
+    "c2-071",
+    "c2-072",
+    "c2-074",
+    "c2-075",
+    "c2-076",
+    "c2-077",
+    "c2-078",
+    "c2-079"
+   ]
+  },
+  {
+   "who": "Comair Ltd (ЮАР) — CFM RPFH",
+   "kind": "contract",
+   "engine": "CFM56-7B",
+   "aircraft": "B738",
+   "amount_usd": 160000000,
+   "period": "8 лет с 2018, по прейскуранту",
+   "covers": "RPFH, полный объём ТОиР двигателей; LLP — не уточнено",
+   "denominator": {
+    "value": 128,
+    "unit": "engine-years",
+    "how": "16 двигателей × 8 лет (верхняя граница: если все двигатели в договоре весь срок)"
+   },
+   "rate": {
+    "value": 1250000,
+    "unit": "USD/engine-year",
+    "how": "160M ÷ 128; при допущении 2500–3000 EFH/год ≈ $417–500/EFH (налёт — допущение)"
+   },
+   "year": 2018,
+   "evidence": [
+    "c2-098",
+    "c2-099",
+    "c2-100",
+    "c2-101"
+   ]
+  },
+  {
+   "who": "Alaska Airlines — CFM RPFH",
+   "kind": "contract",
+   "engine": "CFM56-7B",
+   "aircraft": "B738/B739",
+   "amount_usd": 500000000,
+   "period": "9 лет с 2017, по прейскуранту",
+   "covers": "полный ТОиР + подменные двигатели, транспорт, материалы; LLP — не уточнено",
+   "denominator": {
+    "value": 1152,
+    "unit": "engine-years",
+    "how": "128 двигателей × 9 лет (верхняя граница: если все двигатели в договоре весь срок)"
+   },
+   "rate": {
+    "value": 434028,
+    "unit": "USD/engine-year",
+    "how": "500M ÷ 1152; при допущении 2500–3000 EFH/год ≈ $145–174/EFH (налёт — допущение)"
+   },
+   "year": 2017,
+   "evidence": [
+    "c2-103",
+    "c2-104",
+    "c2-105",
+    "c2-106",
+    "c2-107"
+   ]
+  },
+  {
+   "who": "Colorful Guizhou Airlines — CFM RPFH",
+   "kind": "contract",
+   "engine": "LEAP-1A",
+   "aircraft": "A20N",
+   "amount_usd": 500000000,
+   "period": "12 лет с 2019, по прейскуранту",
+   "covers": "гарантия стоимости ТОиР за EFH; LLP — не уточнено",
+   "denominator": {
+    "value": 360,
+    "unit": "engine-years",
+    "how": "≥15 A320neo × 2 двигателя × 12 лет (запасные не указаны) (верхняя граница: если все двигатели в договоре весь срок)"
+   },
+   "rate": {
+    "value": 1388889,
+    "unit": "USD/engine-year",
+    "how": "500M ÷ 360; при допущении 2500–3000 EFH/год ≈ $463–556/EFH (налёт — допущение)"
+   },
+   "year": 2019,
+   "evidence": [
+    "c2-121",
+    "c2-122",
+    "c2-123",
+    "c2-124"
+   ]
+  },
+  {
+   "who": "Zhejiang Loong Air — CFM RPFH",
+   "kind": "contract",
+   "engine": "LEAP-1A",
+   "aircraft": "A20N/A21N",
+   "amount_usd": 800000000,
+   "period": "12 лет с 2019, по прейскуранту",
+   "covers": "гарантия стоимости ТОиР за EFH; LLP — не уточнено",
+   "denominator": {
+    "value": 480,
+    "unit": "engine-years",
+    "how": "40 двигателей × 12 лет (верхняя граница: если все двигатели в договоре весь срок)"
+   },
+   "rate": {
+    "value": 1666667,
+    "unit": "USD/engine-year",
+    "how": "800M ÷ 480; при допущении 2500–3000 EFH/год ≈ $556–667/EFH (налёт — допущение)"
+   },
+   "year": 2019,
+   "evidence": [
+    "c2-126",
+    "c2-127",
+    "c2-128"
+   ]
+  }
+ ],
+ "gaps": [
+  "StandardAero: в S-1 и 10-K FY2024 нет выручки по платформам в USD (только «largest platform >10% of Engine Services revenue»), нет числа SV и средней выручки на SV; есть договоры «fixed price per engine hour/cycle» без ставок (c2-032..c2-038)",
+  "GE Aerospace: LTSA billings collected $9.9bn (2025), но число двигателей под LTSA и EFH не раскрыты — пары нет (c2-083..c2-089)",
+  "RTX/Pratt & Whitney: выручка/биллинг EngineWise, число покрытых двигателей, цены SV GTF не раскрыты; 10-K через WebFetch — только Item 1/1A (c2-090..c2-094)",
+  "MTU: число SV по типам и выручка по типам не найдены; пресс-релиз MTU Maintenance 2025 недоступен (сайт на техобслуживании)",
+  "Lufthansa Technik: Engine Services ≈ половина €8.0bn, но число SV и двигателей под договорами не раскрыто; компонентные 5100 ВС — не двигатели",
+  "AFI KLM E&M, ST Engineering, AAR: подходящих пар не найдено (документы не открывались — поиск не дал первоисточников с SV/EFH)",
+  "FTAI: цена полного SV CFM56 и ставка «за час» MRA (700 двигателей) не раскрыты",
+  "Rolls-Royce: разбивка invoiced receipts на large engine и business aviation не раскрыта; EFH по CFM56/V2500 у RR нет (RR вышел из IAE)",
+  "SEC EDGAR browse-страница StandardAero заблокирована (permission request not answered)"
+ ],
+ "doubts": [
+  "RR — двигатели Trent (широкофюзеляжные, 53–97 тыс. фунтов), не сопоставимы напрямую с CFM56/V2500; при этом это фактически выставленные счета за EFH — хороший верхний ориентир: ≈$350–400/EFH для двигателей в 2–3 раза мощнее",
+  "RR: курс USD/GBP (1.24/1.28/1.32) — приблизительные среднегодовые, не из отчёта; ~половина договоров без LLP → полная стоимость выше",
+  "RR 2025: числа EFH в таблице (17.0/3.0/20.0) получены пересказом таблицы WebFetch, дословно — только заголовок строки",
+  "Договоры CFM — по прейскуранту (list price), номинал с эскалацией за весь срок; фактические цены ниже; число двигатель-лет — верхняя граница → ставка занижена/завышена в разные стороны",
+  "CFM56-7B: разброс Comair $1.25M vs Alaska $0.43M на двигатель-год (×3) — вероятно, разный объём/фаза жизненного цикла; одна точка не годится",
+  "LEAP-1A list-price $1.4–1.7M/двигатель-год при 3000 EFH ≈ $460–560/EFH — близко к оценке «жизненного цикла» 550–870 на блок-час для ВС (2 двигателя → $920–1100/BH по прейскуранту!), что говорит о том, что list price сильно выше фактических расходов",
+  "FTAI: выручка/модуль включает продажи целых двигателей и договоры управления; 'refurbished' ≠ 'sold'",
+  "Republic Airways LEAP-1A (2011): $3.9bn/172 двиг./18 лет ≈ $1.26M/двиг.-год — отклонён (договор на непоставленный парк, заказ не реализован)"
+ ]
+}

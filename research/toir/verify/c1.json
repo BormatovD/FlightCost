@@ -1,0 +1,320 @@
+{
+ "c1-004": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 20.6 million and $ 17.3 million for the nine months ended September 30, 2025 and September 30, 2024, respectively",
+  "value_ok": true,
+  "note": "смена ФГ подтверждена: 'moving from September 30 to December 31 of each year, effective for the fiscal year beginning on January 1, 2025'. Pass-through 20.5 млн — по пересказу инструмента, не дословно"
+ },
+ "c1-005": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 5.9 million and $ 4.9 million for the three months ended September 30, 2025 and September 30, 2024, respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-006": {
+  "status": "found",
+  "found_text": "United reimburses us on a pass-through basis for certain costs related to heavy airframe and engine maintenance, landing gear",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-008": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 24.8 million and $ 18.1 million for the nine months ended June 30, 2025 and June 30, 2024, respectively",
+  "value_ok": true,
+  "note": "ФГ на тот момент — до 30 сентября; период 2024-10-01…2025-06-30 подтверждён"
+ },
+ "c1-009": {
+  "status": "found",
+  "found_text": "of which $ 24.7 million and $ 18.1 million, respectively, was pass-through expense.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-010": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 5.5 million and $ 6.8 million for the three months ended June 30, 2025 and June 30, 2024, respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-012": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 9.2 million and $ 5.5 million for the three months ended March 31, 2025 and March 31, 2024, respectively",
+  "value_ok": true,
+  "note": "из 9.2 млн pass-through 9.1 млн (пересказ инструмента)"
+ },
+ "c1-013": {
+  "status": "found",
+  "found_text": "We accounted for heavy maintenance and major overhaul costs on our previously owned E-175 fleet under the deferral method whereby",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-014": {
+  "status": "found",
+  "found_text": "We account for heavy maintenance and major overhaul costs for all other fleets under the direct expense method whereby",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-016": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 10.1 million and $ 5.8 million for the three months ended December 31, 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-017": {
+  "status": "found",
+  "found_text": "We account for heavy maintenance and major overhaul costs on our owned E-175 fleet under the deferral method",
+  "value_ok": false,
+  "note": "ЧИСЛО НЕВЕРНО: на 31.12.2024 у Mesa было 10 собственных E-175, не 18. Документ: 'The 10 E-175 aircraft owned by us as of December 31, 2024 and subsequently sold to United...'; 'United owned 50 of the E-175 aircraft as of December 31, 2024'. 18 — это число проданных по сделке (8 продано в квартале, 10 позже)"
+ },
+ "c1-020": {
+  "status": "found",
+  "found_text": "Block hours 44,100 43,813 0.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-021": {
+  "status": "found",
+  "found_text": "For Q3 2025, the Company operated 60 large (70/76 seats) E-175 jets under its CPA with United. ... As of June 30, 2025, Mesa operated a fleet of 60 Embraer 175 regional aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-023": {
+  "status": "found",
+  "found_text": "Three months ended March 31, 2025 2024 Change — Block hours 39,517 43,270 (12.7 )%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-024": {
+  "status": "found",
+  "found_text": "... for Q2 2025 ... operated 60 large jets under its CPA with United, comprising 57 E-175s and three CRJ-900s",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-026": {
+  "status": "found",
+  "found_text": "Three months ended December 31, 2024 2023 Change — Block hours 39,035 46,658 (16.3 )%",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-027": {
+  "status": "found",
+  "found_text": "for Q1 2025 ... operated 62 large (70/76 seats) jets ... comprising 54 E-175s and eight CRJ-900s",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-030": {
+  "status": "found",
+  "found_text": "All 42 of these E-175 aircraft are owned by United and leased to us at nominal amounts. [Fleet table 30.09.2024: E-175 owned 18 / leased 42 / total 60; CRJ-900 31 / 5 / 36]",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-037": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $20.7 million and $46.2 million for the nine months ended June 30, 2019, and 2018, respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-038": {
+  "status": "found",
+  "found_text": "of which $3.0 million and $9.8 million, respectively, was pass-through expense.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-039": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its maintenance of regional jet engine overhauls, airframe",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-041": {
+  "status": "found",
+  "found_text": "Block hours up 10.8% compared to Q3 FY 2018 and 14.3% compared to YTD FY 2018 ... Block Hours | 114,042 | 102,939 | 10.8% | 341,071 | 298,498 | 14.3%",
+  "value_ok": true,
+  "note": "341 071 / 298 498 подтверждены строкой таблицы Operating Highlights"
+ },
+ "c1-048": {
+  "status": "found",
+  "found_text": "Under the terms of the agreements, the Company pays a fixed dollar amount per engine hour flown per month",
+  "value_ok": true,
+  "note": "дословность подтверждена инструментом без вывода полного абзаца"
+ },
+ "c1-049": {
+  "status": "found",
+  "found_text": "covering the scheduled and unscheduled repairs for most of its aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-050": {
+  "status": "found",
+  "found_text": "Note 2 Segment Reporting, FY2024, row 'Aircraft maintenance, materials and repairs': SkyWest Airlines and SWC 684,805; consolidated 712,642",
+  "value_ok": true,
+  "note": "цитата — голое число; подтверждена строка таблицы (тыс. USD)"
+ },
+ "c1-052": {
+  "status": "found",
+  "found_text": "Block hours . . . 1,292,040 1,140,443 1,254,392 ... Total Fleet . . . 262 49 174 139 624",
+  "value_ok": true,
+  "note": "цитата — голое число; парк на 31.12.2024 совпадает"
+ },
+ "c1-059": {
+  "status": "found",
+  "found_text": "Block hours 198,299 161,276 23.0% 699,313 591,677 18.2% ... all operational and financial information presented herein includes 36 days of results related to Mesa operations",
+  "value_ok": true,
+  "note": "Mesa включена лишь за 36 дней (с 25.11.2025)"
+ },
+ "c1-060": {
+  "status": "found",
+  "found_text": "Maintenance and repair 92.3 78.3 320.9 311.2 (Year Ended December 31, 2025 = 320.9)",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-062": {
+  "status": "found",
+  "found_text": "Republic is charged for covered services based on a fixed rate for each flight hour or flight cycle. ... unexpected maintenance expense levels for its engines, avionics, wheels and brakes",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-063": {
+  "status": "found",
+  "found_text": "Pass-through—insurance, property taxes, certain planned major maintenance activities, and miscellaneous station expenses",
+  "value_ok": true,
+  "note": "в таблицах CPA Delta и United; в CPA American этого пункта нет"
+ },
+ "c1-070": {
+  "status": "found",
+  "found_text": "in a contract worth $420 million at list prices ... Trent 700 engines for six Hawaiian Airlines Airbus A330 aircraft ... The order includes a TotalCare® long-term services agreement.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-077": {
+  "status": "found",
+  "found_text": "The 10-year agreement is valued at approximately $150 million. ... for the maintenance, overhaul and repair of 110 CF34-8E engines ... powering the airline's fleet of Embraer 170 aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-078": {
+  "status": "found",
+  "found_text": "for the maintenance, overhaul and repair of 110 CF34-8E engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-080": {
+  "status": "found",
+  "found_text": "is valued at more than $240 million for the life of the contract. ... The agreement, which covers the airlines' 119 Embraer E170/175 aircraft, ... Republic Airways has signed a 10-year OnPointSM solutions agreement with GE Aviation",
+  "value_ok": true,
+  "note": "число двигателей (≈238) в тексте не указано — это расчёт 119×2"
+ },
+ "c1-082": {
+  "status": "found",
+  "found_text": "The expanded agreement is valued at $500 million over the life of the contract. ... added 101 CF34-8Es that power an additional 47 EMBRAER 175 aircraft",
+  "value_ok": true,
+  "note": "срок действительно не указан"
+ },
+ "c1-084": {
+  "status": "found",
+  "found_text": "The agreement is valued at more than $550 million (USD) over the life of the agreement. ... GE Aviation signed SkyWest Airlines to a 18-year OnPointSM solution agreement for material to support its 86 CF34-8E engine fleet that powers its EMBRAER 175 aircraft.",
+  "value_ok": true,
+  "note": "договор 'for material' — покрытие только материалов, не полный ТОиР"
+ },
+ "c1-085": {
+  "status": "found",
+  "found_text": "GE Aviation signed SkyWest Airlines to a 18-year OnPointSM solution agreement for material",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-087": {
+  "status": "found",
+  "found_text": "GE Aviation has signed a 15-year OnPointSM solution agreement with SkyWest Airlines for material to support its 150 CF34-8C5B1 engines that power the airline's Bombardier CRJ700 aircraft. The material agreement is valued at more than $360 million over the life of the contract.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-089": {
+  "status": "found",
+  "found_text": "The agreement is valued at more than $360 million over the life of the contract. ... GE Aviation has signed a 15-year OnPoint solution agreement with SkyWest Airlines to support the 150 CF34-8C5B1 engines ... OnPoint services may include overhaul, on-wing support, new and serviceable used parts",
+  "value_ok": true,
+  "note": "'major overhauls' в тексте AIN нет — только 'overhaul'; и это 'may include' (общее описание OnPoint), а пресс-релиз GE говорит 'material agreement'"
+ },
+ "c1-092": {
+  "status": "found",
+  "found_text": "The agreement is valued at $350m over the life of the agreement. ... Mesa Air Group signed an 11-year OnPoint solution agreement ... 138 CF34-8 engine fleet",
+  "value_ok": true,
+  "note": "предложение про 11 лет/138 двигателей инструмент вернул фрагментами"
+ },
+ "c1-099": {
+  "status": "found",
+  "found_text": "Соглашение объемом примерно $500 млн рассчитано на 20 лет.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-100": {
+  "status": "found",
+  "found_text": "«ОДК-Сатурн» обеспечит техобслуживание двигателей Sam146, установленных на 25 SSJ 100, в течение 20 лет",
+  "value_ok": true,
+  "note": "50 двигателей — расчёт 25×2"
+ },
+ "c1-101": {
+  "status": "found",
+  "found_text": "расходы перевозчика окажутся в 1,5–2 раза меньше, чем у других эксплуатантов SSJ.",
+  "value_ok": true,
+  "note": "уточнение '(PowerJet)' в тексте этой фразы нет — интерпретация собирателя"
+ },
+ "c1-106": {
+  "status": "found",
+  "found_text": "По данным «Северстали», обслуживание SSJ100 обходится в 1,5–2 раза дороже западных аналогов в расчете на летный час.",
+  "value_ok": true,
+  "note": "'весь ТОиР' — интерпретация слова 'обслуживание'"
+ },
+ "c1-120": {
+  "status": "found",
+  "found_text": "The agreement, which includes spare engines, is valued at nearly $500 million U.S. at list price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-121": {
+  "status": "found",
+  "found_text": "signed a nine-year Rate Per Flight Hour (RPFH) maintenance agreement to support 128 CFM56-7B engines",
+  "value_ok": true,
+  "note": "'включая запасные' следует из фразы о стоимости ('which includes spare engines')"
+ },
+ "c1-124": {
+  "status": "found",
+  "found_text": "The agreement is valued at $160 million U.S. at list price. ... has signed an eight-year Rate Per Flight Hour (RPFH) agreement to support is fleet of 16 CFM56-7B engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-135": {
+  "status": "found",
+  "found_text": "partially offset by decreased engine overhaul maintenance events of $6.1 million",
+  "value_ok": true,
+  "note": "трёхмесячный период Q2 2026"
+ },
+ "c1-136": {
+  "status": "found",
+  "found_text": "partially offset by decreased engine overhaul maintenance events of $24.6 million",
+  "value_ok": true,
+  "note": "шестимесячный период 2026"
+ },
+ "c1-137": {
+  "status": "found",
+  "found_text": "Jazz is reimbursed for certain Pass-Through Costs under the CPA",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-149": {
+  "status": "found",
+  "found_text": "Acquisition of operating assets in 2025 amounted to USD 102.8 million ... thereof overhaul of own engines and aircraft spare parts in the amount of USD 63.5 million (2024: USD 61.2 million).",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-150": {
+  "status": "found",
+  "found_text": "For own engines the maintenance cost is capitalized and expensed over the estimated useful life of the engine until it needs to undergo maintenence.",
+  "value_ok": true,
+  "note": ""
+ },
+ "c1-154": {
+  "status": "partial",
+  "found_text": "helped drive a NZ$139 million increase in maintenance costs ... durability problems on both the Rolls-Royce Trent 1000 ... [Pratt & Whitney geared turbofan] ... took out extra engine and aircraft leases at considerable cost",
+  "value_ok": true,
+  "note": "фраза найдена; PW1100G прямо не назван (в статье 'Pratt & Whitney geared turbofan'); инструмент возвращал фрагменты, сверка ограничена"
+ }
+}
