@@ -465,13 +465,13 @@ def build() -> str:
     errl = e(", ".join(with_err))
     report = f"""<section><h2>{T("Как проверялось", "How it was checked", "Wie geprüft wurde")}</h2>
 <p>{T(f"В статье — все {found} тарифов аэропортов, заведённых в калькулятор по опубликованным документам. Неофициальные\n"
-      f"данные сообщества (таблица по российским аэропортам) участвуют в расчёте, но здесь не показываются: как они\n"
+      f"данные сообщества по российским аэропортам участвуют в расчёте, но здесь не показываются: как они\n"
       f"собраны, проверить нельзя.",
       f"The article covers all {found} airport tariffs entered into the calculator from published documents. "
-      f"Unofficial community data (the Russian airport-charges table of the Transport Clearing House, TKP) is used in the calculation but not "
+      f"Unofficial community data on Russian airports is used in the calculation but not "
       f"shown here: there is no way to check how it was collected.",
       f"Der Artikel enthält alle {found} Flughafentarife, die nach veröffentlichten Dokumenten im Rechner erfasst "
-      f"sind. Inoffizielle Community-Daten (die Tabelle russischer Flughafenentgelte der Transport-Clearingstelle TKP) gehen in die Berechnung "
+      f"sind. Inoffizielle Community-Daten zu russischen Flughäfen gehen in die Berechnung "
       f"ein, werden hier aber nicht gezeigt: Wie sie erhoben wurden, lässt sich nicht prüfen.")}</p>
 <ul><li>{T(
         f"<b>Октябрьская волна — {len(wave)} тарифов.</b> Девять агентов-исследователей по 51 аэропорту искали\n"
