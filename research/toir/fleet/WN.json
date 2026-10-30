@@ -1,0 +1,35 @@
+{
+ "carrier": "WN",
+ "fleet": [
+  {
+   "icao": "B38M",
+   "count": 300,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-071"
+   ]
+  },
+  {
+   "icao": "B737/B738",
+   "count": 503,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-070",
+    "a4-071"
+   ],
+   "note": "остаток: 803 всего минус 300 737-8; разбивки 737-700/737-800 в доступной части нет; это вычисление, не цифра из документа"
+  }
+ ],
+ "gaps": [
+  "Разбивка 737-700/737-800, собственность/лизинг и средний возраст по типам. Item 2 «Properties» 10-K FY2025 недоступен: WebFetch получает только первые ~106–124 тыс. символов (и HTML на sec.gov, и PDF на сайте IR, и зеркала), offset дальше этой границы не читает.",
+  "PDF 10-K на сайте IR перенаправляет на investors.southwest.com — запрос не разрешён"
+ ]
+}

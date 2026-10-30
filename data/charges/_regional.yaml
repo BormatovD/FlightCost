@@ -1,0 +1,151 @@
+# Сгенерировано research/charges-2026-10/bin/regional.py — руками не править.
+method: Медиана контрольного оборота A320 (78 т, 148 пасс., июль; из Франкфурта, для российских прейскурантов —
+  внутренний рейс из Шереметьева) по тарифам с документом, research/charges-2026-10. k = медиана / (9,5·78 + 11·148);
+  оценка оборота аэропорта без тарифа = k · (9,5·MTOW + 11·пасс.). Курсы — приблизительные. Решение 234.
+built: '2026-10-30'
+base_eur: 2369.0
+world:
+  name: Мир (вне регионов)
+  k: 1.104
+  median_eur: 2615
+  n: 61
+regions:
+  europe:
+    name: Европа
+    prefixes:
+    - GC
+    - B
+    - E
+    - L
+    k: 1.387
+    median_eur: 3286
+    n: 32
+    range_eur:
+    - 1610
+    - 6446
+    airports:
+    - EIDW
+    - EDDB
+    - LIBR
+    - GCLP
+    - GCTS
+    - LEAL
+    - LEMG
+    - LEPA
+    - LPPR
+    - EDDH
+    - LIME
+    - LTAI
+    - LPFR
+    - ESSA
+    - ENGM
+    - LICJ
+    - EFHK
+    - LEBL
+    - EDDL
+    - EGLL
+    - LPPT
+    - LEMD
+    - LATI
+    - LTFM
+    - LGAV
+    - LKPR
+    - EGKK
+    - EKCH
+    - LOWW
+    - LSZH
+    - EDDF
+    - LHBP
+  russia_cis:
+    name: Россия и СНГ
+    prefixes:
+    - U
+    k: 0.67
+    median_eur: 1587
+    n: 9
+    range_eur:
+    - 926
+    - 2344
+    airports:
+    - UIUU
+    - URSS
+    - USSS
+    - UAAA
+    - UUEE
+    - UNNT
+    - UUDD
+    - ULLI
+    - UIAA
+  india:
+    name: Индия
+    prefixes:
+    - VA
+    - VE
+    - VI
+    - VO
+    k: 1.085
+    median_eur: 2570
+    n: 4
+    range_eur:
+    - 1126
+    - 4337
+    airports:
+    - VOMM
+    - VIDP
+    - VOBL
+    - VANM
+  asia_gulf:
+    name: Азия и Ближний Восток
+    prefixes:
+    - O
+    - R
+    - Z
+    - VH
+    - VM
+    - VT
+    - VV
+    - VD
+    - VL
+    - VY
+    - VG
+    - VN
+    - VR
+    - VC
+    - W
+    k: 0.837
+    median_eur: 1982
+    n: 11
+    range_eur:
+    - 1982
+    - 3121
+    airports:
+    - ZBAA
+    - ZBAD
+    - ZGGG
+    - ZGSZ
+    - ZHCC
+    - ZHHH
+    - ZSAM
+    - ZSPD
+    - ZSSS
+    - ZUTF
+    - OTHH
+  africa:
+    name: Африка
+    prefixes:
+    - D
+    - F
+    - G
+    - H
+    k: 2.979
+    median_eur: 7058
+    n: 5
+    range_eur:
+    - 2688
+    - 14552
+    airports:
+    - FACT
+    - FAOR
+    - HKJK
+    - DNAA
+    - DNMM

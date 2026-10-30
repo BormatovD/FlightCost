@@ -1,0 +1,52 @@
+{
+ "airline": "Widerøe",
+ "code": "WIF",
+ "currency": "NOK",
+ "unit": "млн (Norwegian AR) / тыс. (Widerøe AS)",
+ "fiscal_year_end": "12-31",
+ "scope": {
+  "own_staff": "в Lønnskostnad (персонал), отдельной строки ТО нет",
+  "lease_provisions": "не раскрыто",
+  "deferral": "да: периодическое ТО с интервалом ≥3 лет и капремонт двигателей капитализируются и амортизируются до следующего события; с 2023 также C-check, шасси, APU; текущее ТО — расход (Widerøe AS 2023)",
+  "pbh": "не найдено",
+  "evidence": [
+   "s3-039",
+   "s3-040"
+  ]
+ },
+ "years": {
+  "2023": {
+   "maint": null,
+   "note": "агрегат 'Driftskostnader fly og bygninger' 1,327,811 тыс. NOK (2022: 1,229,228) — не ТО",
+   "evidence": [
+    "s3-040",
+    "s3-041"
+   ]
+  },
+  "2025": {
+   "maint": null,
+   "block_h": null,
+   "fleet": {
+    "DH8_classic(DH8A/DH8C)": 30,
+    "DH8D": 18,
+    "E290": 3
+   },
+   "sector_km": 275,
+   "departures": 120000,
+   "note": "departures — 'close to 120,000' flights (округлено); сектор 2024 = 276 км",
+   "evidence": [
+    "s3-049",
+    "s3-050"
+   ]
+  }
+ },
+ "gaps": [
+  "строка ТОиР не раскрыта ни в Widerøe AS 2023, ни в отчёте Norwegian 2025 (s3-051)",
+  "блок-часы, возраст парка",
+  "отчёты 2016–2022, 2024"
+ ],
+ "doubts": [
+  "Тяжёлое ТО капитализируется и выполняется внутригрупповым MRO (Widerøe Technical Services) — даже при наличии строки она не была бы полной",
+  "Значения парка и сектора — из пересказа WebFetch"
+ ]
+}

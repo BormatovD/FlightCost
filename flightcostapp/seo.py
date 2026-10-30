@@ -98,7 +98,7 @@ T = {
         "sil_lead": "Вид сверху в одном масштабе с соседями по классу.",
         "dev_burn": "Расход топлива — оценка разработчика FlightCost: {src}",
         "dev_field": "оценка разработчика",
-        "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_about": "О сервисе", "nav_data": "Данные",
+        "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_research": "Исследования", "nav_about": "О сервисе", "nav_data": "Данные",
         "nav_map": "Карта данных",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
         "about_desc": ("Что считает FlightCost, откуда берутся данные и насколько им можно верить. Открытый бесплатный "
@@ -219,7 +219,7 @@ T = {
         "sil_lead": "Top view at the same scale as its class neighbours.",
         "dev_burn": "Fuel burn is a FlightCost developer estimate: {src}",
         "dev_field": "developer estimate",
-        "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_about": "About", "nav_data": "Data",
+        "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_research": "Research", "nav_about": "About", "nav_data": "Data",
         "nav_map": "Data map",
         "about_title": "About: free airline flight cost calculator | FlightCost",
         "about_desc": ("What FlightCost calculates, where the data comes from and how far you can trust it. A free, "
@@ -340,7 +340,7 @@ T = {
         "sil_lead": "Draufsicht im gleichen Maßstab wie die Nachbarn der Klasse.",
         "dev_burn": "Treibstoffverbrauch ist eine Schätzung der FlightCost-Entwickler: {src}",
         "dev_field": "Schätzung der Entwickler",
-        "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_about": "Über", "nav_data": "Daten",
+        "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_research": "Recherchen", "nav_about": "Über", "nav_data": "Daten",
         "nav_map": "Datenkarte",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
         "about_desc": ("Was FlightCost berechnet, woher die Daten stammen und wie weit man ihnen trauen kann. "
@@ -572,7 +572,8 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 </style>"""
 
 
-NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("data", "/data", "nav_data"),
+NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("research", "/research", "nav_research"),
+       ("data", "/data", "nav_data"),
        ("map", "/map", "nav_map"), ("about", "/about", "nav_about"))
 LANG_LOCAL = ("data", "map")          # страницы с одним адресом на все языки
 
@@ -715,6 +716,14 @@ def landing(lang: str, sample: dict | None, canonical_root: bool = False) -> str
         body.append(f"<h2>{esc(t['sample_h'])}</h2><div class=sample><div class=cap>{esc(cap)}</div>"
                     + _kpis(lang, sample["e"])
                     + f'<a href="{esc(calc_link(lang, sample["cls"], sample["icao"]))}">{esc(t["sample_open"])}</a></div>')
+    from .research import TXT as RTX, _tr, human_date, items as r_items
+    last = r_items()[:1]
+    if last:
+        it = last[0]
+        body.append(f'<h2>{esc(RTX[lang]["h"])}</h2><a class="door" style="display:block" href="/{lang}/research/{it["slug"]}">'
+                    f'<span>{esc(human_date(it["date"], lang))}</span><b>{esc(_tr(it, "title", lang))}</b>'
+                    f'<span>{esc(_tr(it, "lede", lang))}</span></a>'
+                    f'<p><a href="/{lang}/research">{esc(RTX[lang]["h"])} →</a></p>')
     sec_h, items = a["sections"][0]
     body.append(f"<h2>{esc(t['what_h'])}</h2><ul>" + "".join(f"<li>{esc(x)}</li>" for x in items[:5]) + "</ul>"
                 f"<p class=dim>{esc(a['how'])}</p><p><a href=\"/{lang}/about\">{esc(t['more_about'])}</a></p>")
@@ -1380,9 +1389,15 @@ def robots() -> str:
             f"Sitemap: {site()}/sitemap.xml\n")
 
 
+def _research_tails() -> list[str]:
+    from .research import items
+    return [f"/research/{x['slug']}" for x in items()]
+
+
 def sitemap(types: list[dict]) -> str:
     """Все адреса с языковыми парами (xhtml:link) — так Google связывает версии."""
-    tails = ["/", "/calc", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
+    tails = (["/", "/calc", "/about", "/types", "/research"] + _research_tails()
+             + [f"/type/{quote(x['icao'])}" for x in public_types(types)])
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
@@ -1400,7 +1415,8 @@ def sitemap(types: list[dict]) -> str:
 
 def urls(types: list[dict]) -> list[str]:
     """Все адреса сайта для IndexNow."""
-    tails = ["/", "/calc", "/about", "/types"] + [f"/type/{quote(x['icao'])}" for x in public_types(types)]
+    tails = (["/", "/calc", "/about", "/types", "/research"] + _research_tails()
+             + [f"/type/{quote(x['icao'])}" for x in public_types(types)])
     return [f"{site()}/{lg}{tl}" for tl in tails for lg in LANGS] + [site() + p for p in ("/", "/data", "/map")]
 
 
@@ -1428,6 +1444,9 @@ a route is, or how two aircraft types compare on the same route or network.
 - [Aircraft types]({site()}/en/types): specifications with sources, a top-view drawing, the calculator's default
   lease, maintenance and crew rates, and the cost of a flight on a typical route from Frankfurt (Vienna, Barcelona
   or Beijing by class) for each type, e.g. [Airbus A320]({site()}/en/type/A320).
+- [Research]({site()}/en/research): what we found while collecting the data — e.g. how fast aircraft maintenance
+  costs grow against inflation, engine makers' aftermarket economics and maintenance rates by type; every number
+  with a source and a verified quote (reports in Russian).
 - [Data]({site()}/data): what the reference store contains, by source and licence.
 - [Data map]({site()}/map): where every input comes from.
 

@@ -1,0 +1,189 @@
+{
+ "engine": "PW4000-94/100",
+ "aircraft": [
+  "A306",
+  "A310",
+  "B744",
+  "B762",
+  "B763",
+  "MD11",
+  "A332",
+  "A333"
+ ],
+ "per_aircraft": 2,
+ "per_aircraft_by_type": {
+  "B744": 4,
+  "MD11": 3
+ },
+ "subtypes": {
+  "PW4000-94": [
+   "A306",
+   "A310",
+   "B744",
+   "B762",
+   "B763",
+   "MD11"
+  ],
+  "PW4000-100": [
+   "A332",
+   "A333"
+  ]
+ },
+ "thrust_klbf": [
+  68,
+  70
+ ],
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 3600000,
+    "year": 2007,
+    "note": "PW4000-94 (AC No.54); на с.12 — $3.5 млн",
+    "evidence": [
+     "e2-068"
+    ]
+   },
+   {
+    "usd": 4800000,
+    "year": 2008,
+    "note": "PW4000-100 (AC No.57); год каталога не указан",
+    "evidence": [
+     "e2-043"
+    ]
+   },
+   {
+    "usd": 5970000,
+    "year": 2010,
+    "note": "PW4000-100, 25 деталей, '2010 list price' (AC No.68)",
+    "evidence": [
+     "e2-046"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "PW4000-100 все LLP (uniform)",
+    "efc": 15000,
+    "evidence": [
+     "e2-043"
+    ]
+   }
+  ],
+  "escalation": {
+   "2008-2010": {
+    "rate": 0.115,
+    "note": "вывод из двух статей, сомнительно",
+    "evidence": [
+     "e2-213"
+    ]
+   }
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efh": 13500,
+   "interval_efc": 4500,
+   "ratio_fh_fc": 3.0,
+   "thrust": "PW4168 (A330)",
+   "cost_usd": 2500000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "evidence": [
+    "e2-048",
+    "e2-050"
+   ]
+  },
+  {
+   "which": "second",
+   "interval_efh": 11000,
+   "interval_efc": 3700,
+   "ratio_fh_fc": 3.0,
+   "thrust": "PW4168 (A330)",
+   "cost_usd": 4000000,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "evidence": [
+    "e2-049",
+    "e2-051"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": 19500,
+   "interval_efh_range": [
+    18000,
+    21000
+   ],
+   "interval_efc": 2750,
+   "interval_efc_range": [
+    2500,
+    3000
+   ],
+   "ratio_fh_fc": 6.5,
+   "thrust": "PW4168 (A330)",
+   "cost_usd": null,
+   "cost_year": 2010,
+   "includes_llp": false,
+   "evidence": [
+    "e2-050"
+   ]
+  },
+  {
+   "which": "typical overhaul",
+   "interval_efh": 17000,
+   "interval_efh_range": [
+    16000,
+    18000
+   ],
+   "interval_efc": null,
+   "ratio_fh_fc": null,
+   "thrust": "PW4000-94, long-haul",
+   "cost_usd": 2400000,
+   "cost_range_usd": [
+    2100000,
+    2700000
+   ],
+   "cost_year": 2007,
+   "includes_llp": false,
+   "note": "core restoration $1.8–2.3 млн",
+   "evidence": [
+    "e2-069",
+    "e2-071",
+    "e2-072"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh": 403,
+   "usd_per_efc_llp": 412,
+   "year": 2010,
+   "note": "PW4168 при 3.0 EFH/EFC, ИТОГО с LLP; при 6–7 EFH/EFC $240–285/EFH; LLP при полном использовании $398/EFC",
+   "evidence": [
+    "e2-047",
+    "e2-052"
+   ]
+  },
+  {
+   "usd_per_efh": 190,
+   "usd_per_efc_llp": 121,
+   "year": 2007,
+   "note": "PW4052/56 (767), ИТОГО; PW4158 A300 $563/EFH; PW4060/62 $160–170/EFH, LLP до $240/EFC",
+   "evidence": [
+    "e2-073",
+    "e2-074"
+   ]
+  }
+ ],
+ "issues": [],
+ "gaps": [
+  "Цены после 2010 не найдены; тяга -94 (52–62 klbf) первоисточником не подтверждена"
+ ],
+ "doubts": [
+  "Объединены две ветви (-94 и -100) по заданию — для расчёта разделять",
+  "Эскалация 11.5%/год 2008→2010 построена на статьях разных лет с неясным охватом"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

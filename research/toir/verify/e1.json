@@ -1,0 +1,620 @@
+{
+ "e1-005": {
+  "status": "found",
+  "found_text": "The recent trend that has new engine spare-parts prices increasing around 10% per year seems set to continue",
+  "value_ok": true,
+  "note": "Статья от 31.10.2023."
+ },
+ "e1-006": {
+  "status": "found",
+  "found_text": "The hike came on the heels of a double-digit increase on Nov. 1, 2022.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-007": {
+  "status": "found",
+  "found_text": "Both GE and Safran, 50-50 partners in CFM International, pushed through high-single-digit spares price hikes in August",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-009": {
+  "status": "found",
+  "found_text": "These four groups have a 2020 list price of $4.2 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-010": {
+  "status": "found",
+  "found_text": "This compares to a list price of $2.55 million for the same 19 parts in the four modules in 2014",
+  "value_ok": true,
+  "note": "CAGR (4.2/2.55)^(1/6)-1 = 8.7% — расчёт верен."
+ },
+ "e1-011": {
+  "status": "found",
+  "found_text": "There are now three LLPs in the fan and LPC with certified life limits of 30,000EFC, and a list price of $543,200.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-012": {
+  "status": "found",
+  "found_text": "The LPT has six parts, and certified lives of 25,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-013": {
+  "status": "found",
+  "found_text": "...increase the lives of LLPs in the fan/LPC to 30,000EFC, in the HPC and HPT to 20,000EFC, and in the LPT to 25,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-014": {
+  "status": "found",
+  "found_text": "These have six and four parts, and have a total list price of $2.1 million (see table, page 35).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-015": {
+  "status": "found",
+  "found_text": "...the reserves that have to be paid for 2020 list prices for all 18 parts are $169 per EFC",
+  "value_ok": true,
+  "note": "В тексте '18 parts' при shipset 19 деталей (e1-009/010) — проверить, какой набор имеется в виду."
+ },
+ "e1-016": {
+  "status": "found",
+  "found_text": "Engines powering the A319 and A320 can all generally achieve long removal intervals up to their LLP life limits",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-017": {
+  "status": "found",
+  "found_text": "Removal interval - EFC 18,000-20,000 10,000-12,000 8,000-10,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-018": {
+  "status": "found",
+  "found_text": "Removal interval - EFC 8,000-11,000 6,000-8,000 6,000-7,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-019": {
+  "status": "found",
+  "found_text": "“We are actually seeing high-rated -5Bs coming for their first SV after just 8,000-9,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-020": {
+  "status": "found",
+  "found_text": "The cost elements of materials and parts repairs will thus total about $4.3 million (see table, page 42).",
+  "value_ok": true,
+  "note": "Включение LLP $2.1 млн в $4.3 млн из фрагмента напрямую не видно; по таблице LLP идёт отдельной строкой — интерпретацию стоит перепроверить."
+ },
+ "e1-021": {
+  "status": "found",
+  "found_text": "The cost of providing all other new parts is in region of $2.4 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-022": {
+  "status": "found",
+  "found_text": "A new shipset of HPT blades, for all 80 blades, is about $1.2 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-023": {
+  "status": "found",
+  "found_text": "This will take the total for new airfoils and airfoil repairs to about $3.4 million (see table, page 42).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-027": {
+  "status": "found",
+  "found_text": "The list price for a full set of LLPs for non-Tech Insertion engines was $1.5 million in 2005.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-028": {
+  "status": "found",
+  "found_text": "This had risen to $1.8 million by 2008, accounted for by $356,000 for the parts in the fan/booster,",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-029": {
+  "status": "found",
+  "found_text": "...are a total of $2.52 million for a complete shipset, a 40% increase on the 2008 list price.",
+  "value_ok": true,
+  "note": "Привязка к Tech Insertion и году не подтверждена фрагментом; в value это оговорено."
+ },
+ "e1-030": {
+  "status": "found",
+  "found_text": "CFMI's target life limits were 30,000EFC for LLPs in the fan/booster module,",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-031": {
+  "status": "found",
+  "found_text": "Some parts were limited to lives as short as 16,300EFC, and others to 23,900EFC.",
+  "value_ok": true,
+  "note": "Принадлежность к ЛПТ -7B26/27 из фрагмента не видна."
+ },
+ "e1-032": {
+  "status": "found",
+  "found_text": "The fleetwide average EFH:EFC ratio is 1.9EFH, so $ reserves are $153-205 per EFH (see tables, pages 52 & 54).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-033": {
+  "status": "found",
+  "found_text": "Planned shop visit engine maintenance reserves based on 1.9EFH per EFC. [таблица, $/EFH: -7B20 193 (SV 153); -7B22 193/204; -7B24 202 (SV 162); -7B26 226 (SV 186); -7B27 245 (SV 205); unscheduled 25, QEC 15]",
+  "value_ok": false,
+  "note": "ОШИБКА пересчёта: $308/EFC = только SV-компонент 162×1.9; для итога $202/EFH было бы ~$384/EFC. Включение LLP в таблицу фрагментом не подтверждено (компоненты: SV + unscheduled + QEC)."
+ },
+ "e1-035": {
+  "status": "found",
+  "found_text": "Engine Life Limited Parts Pricing Continues to Rise – $4m for CFM56-7 (25.11.2019)",
+  "value_ok": true,
+  "note": "Только заголовок; тело статьи за пейволлом."
+ },
+ "e1-038": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: запрос разрешения на URL не получил ответа (PROVENANCE_REQUIRED)."
+ },
+ "e1-043": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED (разрешение на URL не получено)."
+ },
+ "e1-044": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED (разрешение на URL не получено)."
+ },
+ "e1-047": {
+  "status": "found",
+  "found_text": "the first LEAP shop visits might not become widespread until engines reached 10,000 or more cycles, ... seven to 10 years of service before major overhaul intervention",
+  "value_ok": true,
+  "note": "WebFetch вернул отрывки (лимит 125 симв.); слова цитаты совпадают."
+ },
+ "e1-050": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-051": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-055": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-059": {
+  "status": "found",
+  "found_text": "The 2022 price for these three parts was about $0.85 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-060": {
+  "status": "found",
+  "found_text": "On the basis of an annual increase of 6.9%, the 2023 list price for the three parts would be $0.91 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-061": {
+  "status": "found",
+  "found_text": "The 2022 list price for these parts was $1.93 million.",
+  "value_ok": true,
+  "note": "LPT — 8 деталей."
+ },
+ "e1-062": {
+  "status": "found",
+  "found_text": "Their 2022 list price was about $1.52 million, and will increase to $1.62 million for 2023",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-063": {
+  "status": "found",
+  "found_text": "The 2022 list price for these parts was about $1.28 million, and will rise to $1.37 million if increased by 6.9%.",
+  "value_ok": true,
+  "note": "HPT — 5 деталей."
+ },
+ "e1-065": {
+  "status": "found",
+  "found_text": "All three parts have a target life of 30,000EFC for all seven thrust ratings. ... Despite these target lives, the fan disc has a lower life limit. This has been 26,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-066": {
+  "status": "found",
+  "found_text": "The seven parts have current life limits that are limited to 15,000EFC, and 10,200EFC in some cases.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-067": {
+  "status": "found",
+  "found_text": "The current life limits of these parts are 7,000-15,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-068": {
+  "status": "found",
+  "found_text": "CFM is targeting removal intervals of 25,000EFH or 16,000EFC",
+  "value_ok": true,
+  "note": "В полном предложении — после решения основных проблем надёжности."
+ },
+ "e1-069": {
+  "status": "found",
+  "found_text": "...the highest rated -1A33 should achieve an interval of 12,000-14,000EFC",
+  "value_ok": true,
+  "note": "Условно: если темп потери EGT margin как у CFM56-5B."
+ },
+ "e1-070": {
+  "status": "found",
+  "found_text": "...the CFM56-5B variants were achieving first removal intervals of 10,000EFH, or about 6,500EFC",
+  "value_ok": false,
+  "note": "Цифры верны, но это CFM56-5B в начальный период эксплуатации (до доработок), а не LEAP и не 'тяжёлые условия/высокая тяга' — контекст в value неверен."
+ },
+ "e1-072": {
+  "status": "found",
+  "found_text": "These have a 2019 list price of $4.57 million, which will escalate at an annual rate of more than 6%.",
+  "value_ok": true,
+  "note": "23 LLP подтверждено: 'The CFM LEAP-1A has a full shipset of 23 life limited parts (LLPs).'"
+ },
+ "e1-073": {
+  "status": "found",
+  "found_text": "The fan disk has a current life of 17,200 engine flight cycles (EFC).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-074": {
+  "status": "found",
+  "found_text": "Target lives for the 12 LLPs in the HPC and HPT are 20,000EFC for low thrust-rated variants,",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-075": {
+  "status": "found",
+  "found_text": "...the highest rated -1A33 would have a first removal interval of 7,000-8,000EFC...",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-076": {
+  "status": "found",
+  "found_text": "The second SV might be after a second removal interval of 11,000EFC, and a total time of 27,000EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-077": {
+  "status": "found",
+  "found_text": "The PW1100G has a full shipset of 29 LLPs, with a 2019 list price of $4.2 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-078": {
+  "status": "found",
+  "found_text": "List prices escalate at rates in excess of 6% per year.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-079": {
+  "status": "found",
+  "found_text": "...have target lives of 25,000EFC for all parts in the fan/LPC, HPC, and the LPT.",
+  "value_ok": true,
+  "note": "Перечень моделей PW1122G/24G/27G во фрагменте не виден (начало предложения обрезано)."
+ },
+ "e1-080": {
+  "status": "found",
+  "found_text": "Some of the current parts in the HPC and HPT will be restricted to lives as short as 6,000EFC and 7,700EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-081": {
+  "status": "found",
+  "found_text": "The first removal interval for the lower-rated variant at 27,000lbs thrust is expected to be about 12,500EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-082": {
+  "status": "found",
+  "found_text": "An interval of about 10,000EFC is likely to be possible for the highest-rated variants at 33,000lbs, the PW1133G.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-085": {
+  "status": "found",
+  "found_text": "The V2500 has 25 life limited parts (LLPs) in the four main modules. ... The fan and LPC have three parts; the HPC, four parts; the HPT, six; and the LPT, 12.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-086": {
+  "status": "found",
+  "found_text": "The 2013 list price for a complete shipset of parts is about $3 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-087": {
+  "status": "found",
+  "found_text": "All 25 parts have a uniform life of 20,000 engine flight cycles (EFC)",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-088": {
+  "status": "found",
+  "found_text": "first removal intervals of 7,000-7,500EFC for standard specification V2530-A5 and V2533-A5 engines",
+  "value_ok": true,
+  "note": "2-й интервал 5,000-5,500 EFC по таблице подтверждён; FH/FC не проверен."
+ },
+ "e1-089": {
+  "status": "found",
+  "found_text": "The standard V2527-A5 engine generally reaches an interval of 10,500EFC for its first removal",
+  "value_ok": true,
+  "note": "2-й интервал 8,500-9,500 EFC по таблице подтверждён."
+ },
+ "e1-090": {
+  "status": "found",
+  "found_text": "V2524-A5 and V2522-A5 engines achieve slightly longer intervals of about 11,500EFC",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-091": {
+  "status": "found",
+  "found_text": "The total cost of the shop visit will therefore be $2.3-2.5 million. The labour used will be 2,200-2,500MH. The labour rate for engine shops will be $85-100 per MH.",
+  "value_ok": true,
+  "note": "'без LLP' и '2.9 HP workscope' фрагментом не проверены."
+ },
+ "e1-092": {
+  "status": "found",
+  "found_text": "the total reserves for planned maintenance will therefore be $406-440 per EFC. This is equal to $204-245 per EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-093": {
+  "status": "found",
+  "found_text": "will take the reserve for all costs to about $600 per EFC. This is equal to $280-300 per EFH",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-101": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-102": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-104": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-118": {
+  "status": "found",
+  "found_text": "The hike came on the heels of a double-digit increase on Nov. 1, 2022.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-131": {
+  "status": "found",
+  "found_text": "A share of 81%, or $557B of requirements, relate to engine performance restoration shop visits, with the remaining 19% associated with the cost of replacing life limited parts (LLPs).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-132": {
+  "status": "found",
+  "found_text": "Over 95,400 engine restorations are expected over the period, [период — 2025-34]",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-134": {
+  "status": "found",
+  "found_text": "costs of shop visits increasing at double digit rates of inflation",
+  "value_ok": true,
+  "note": "Окружающий контекст WebFetch не вернул."
+ },
+ "e1-137": {
+  "status": "found",
+  "found_text": "The target, however, is a life of 25,000EFC for all LLPs. ... the other five parts have Chapter 5 life limits of 15,000-18,000EFC ... the other five are all short at 13,000-15,000EFC ... One part, the HPC 4-9 spool, has a short life limit of 13,000EFC",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-138": {
+  "status": "found",
+  "found_text": "they are based on 2010 engine shop-visit inputs. ... This will incur a shop visit cost in the region of $950,000. ... This will incur a cost of about $1.5 million. ... have costs of about $0.9 and $1.2 million ... total reserves are therefore equal to $123 per EFH ... $152 per EFH ... $130 [табл. $131] / $156 / $160 per EFH",
+  "value_ok": true,
+  "note": "Диапазоны в value собраны из нескольких сценариев (-8E/-10E); в целом согласуются с текстом."
+ },
+ "e1-144": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-145": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-148": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-152": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-153": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-158": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-163": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-164": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-165": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-167": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-171": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-173": {
+  "status": "found",
+  "found_text": "Basic engine thrust ratings for the MAX 8 and MAX 8 200 are 25,000-pound force (lbf) (LEAP-1B25), 26,400 lbf (LEAP-1B27)... [далее 27,900 lbf (LEAP-1B28)]",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-175": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-183": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-184": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-185": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-186": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-187": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-188": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-196": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-197": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-198": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-205": {
+  "status": "found",
+  "found_text": "Replace HPT 1st-stage hub ... 10 work-hours ×$85 per hour = $850 ... 56,000 56,850; Replace HPT 2nd-stage hub ... 62,000; Replace HPC IBR–7 ... 82,000; Replace HPC IBR–8 ... 93,000; Replace HPC rear hub ... 132,000",
+  "value_ok": true,
+  "note": "AD на PW1100G-JM/PW1400G-JM; это стоимость детали в оценке FAA, не каталог."
+ },
+ "e1-206": {
+  "status": "found",
+  "found_text": "Before accumulating 3,800 cycles since new (CSN) ... 3,800 FCs since last AUSI ... [Group 2] Before accumulating 2,800 CSN ... Before accumulating 7,000 CSN [Group 1] / 5,000 CSN [Group 2] or within 100 FCs after the effective date of this AD",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-210": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ },
+ "e1-212": {
+  "status": "found",
+  "found_text": "Max take-off thrust: 33,000 lbf",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-213": {
+  "status": "found",
+  "found_text": "Max take-off thrust (at sea level): 28,000 lbf",
+  "value_ok": true,
+  "note": "Часть value про TCDS 13041 daN здесь не проверялась (EASA недоступен)."
+ },
+ "e1-219": {
+  "status": "found",
+  "found_text": "In the case of the LEAP-1B engines, event modelling anticipates a 2025-2026 period to accomplish. Engines built in 2024 and earlier will require an update, but fielding and installations will not be fully completed until the end of 2026 since CFM has yet to field a retrofit kit.",
+  "value_ok": false,
+  "note": "Документ не говорит, что кит — для долговечности ТВД; в отчёте у LEAP-1B названы fuel nozzle и reverse bleed system retrofit, а проблема ТВД — у PW1000G. Также раздел на p.11, не p.13."
+ },
+ "e1-220": {
+  "status": "found",
+  "found_text": "generating $7.8B and $20B in annual demand respectively by 2034 [PW1000G и LEAP, overhauls]",
+  "value_ok": true,
+  "note": ""
+ },
+ "e1-231": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: PROVENANCE_REQUIRED."
+ }
+}

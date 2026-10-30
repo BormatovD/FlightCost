@@ -1,0 +1,137 @@
+{
+ "_": {
+  "by": "основной агент, по PDF, переданным владельцем 30.10.2026; цитаты найдены программно в тексте PDF"
+ },
+ "h2-002": {
+  "status": "found",
+  "found_text": "there is a temperature threshold above which the airplane cannot take off at its maximum weight and thus must be weight restricted",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-003": {
+  "status": "found",
+  "found_text": "PHX 38 47 53",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-004": {
+  "status": "found",
+  "found_text": "DEN N/A 30 37",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-005": {
+  "status": "found",
+  "found_text": "LGA N/A 31 33",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-006": {
+  "status": "found",
+  "found_text": "a 737-800 cannot take off at its maximum weight at any temperature because of the relatively short runways, and at DEN the runways are sufficiently long, but the required takeoff speed would exceed the maximum tire speed of 225 mph",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-007": {
+  "status": "found",
+  "found_text": "a 15 000 lb weight restriction represents approximately 30% of the payload capacity of the aircraft",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-008": {
+  "status": "found",
+  "found_text": "the 1000-, 10 000-, and 15 000-lb restrictions translate into 5, 52, and 79 passengers, respectively, that cannot be carried",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-009": {
+  "status": "found",
+  "found_text": "In real-world operations, cargo will likely be displaced before passengers",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-011": {
+  "status": "found",
+  "found_text": "Density altitude is pressure altitude corrected for nonstandard temperature.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-012": {
+  "status": "found",
+  "found_text": "The conditions that result in a high density altitude are high elevations, low atmospheric pressures, high temperatures, high humidity, or some combination of these factors.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-013": {
+  "status": "found",
+  "found_text": "Regardless of the actual altitude at which the aircraft is operating, it will perform as though it were operating at an altitude equal to the existing density altitude.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-014": {
+  "status": "found",
+  "found_text": "An increase in density altitude can produce a twofold effect on takeoff performance: 1. Greater takeoff speed 2. Decreased thrust and reduced net accelerating force",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-015": {
+  "status": "found",
+  "found_text": "Thus, the aircraft at altitude takes off at the same indicated airspeed (IAS) as at sea level, but because of the reduced air density, the TAS is greater.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-016": {
+  "status": "found",
+  "found_text": "For example, a 10 percent increase in takeoff gross weight would cause: • A 5 percent increase in takeoff velocity • At least a 9 percent decrease in rate of acceleration • At least a 21 percent increase in takeoff distance",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-017": {
+  "status": "found",
+  "found_text": "The most critical conditions of takeoff performance are the result of some combination of high gross weight, altitude, temperature, and unfavorable wind.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-019": {
+  "status": "found",
+  "found_text": "Lift and drag also vary directly with the density of the air.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-020": {
+  "status": "found",
+  "found_text": "Density is affected by several factors: pressure, temperature, and humidity.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-022": {
+  "status": "found",
+  "found_text": "must be determined in the selected configuration for take-off at each weight, altitude, and ambient temperature within the operational limits selected by the applicant",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-023": {
+  "status": "found",
+  "found_text": "The horizontal distance along the take-off path from the start of the take-off to the point at which the aeroplane is 11 m (35 ft) above the take-off surface, determined under CS 25.111 for a dry runway; or",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-024": {
+  "status": "found",
+  "found_text": "the steady gradient of climb may not be less than 2·4% for two-engined aeroplanes",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-026": {
+  "status": "found",
+  "found_text": "The maximum takeoff weight of a 737-800 is 174 200 lb.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ },
+ "h2-027": {
+  "status": "found",
+  "found_text": "A standard temperature lapse rate is one in which the temperature decreases at the rate of approximately 3.5 °F or 2 °C per thousand feet up to 36,000 feet.",
+  "value_ok": true,
+  "note": "сверено по PDF владельца"
+ }
+}

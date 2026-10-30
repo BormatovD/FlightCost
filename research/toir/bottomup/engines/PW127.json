@@ -1,0 +1,93 @@
+{
+ "engine": "PW127",
+ "aircraft": [
+  "AT43",
+  "AT45",
+  "AT46",
+  "AT72",
+  "AT75",
+  "AT76"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": null,
+ "power_shp": null,
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 290000,
+    "year": 2026,
+    "note": "НЕ каталог: кэп стоимости LLP-деталей в программе StandardAero PW100 Smart (PW127/B/E/F); год цен не указан, страница ©2026",
+    "evidence": [
+     "e2-121"
+    ]
+   }
+  ],
+  "limits_efc": [],
+  "escalation": {
+   "2022": {
+    "rate": "0.09-0.11",
+    "note": "каталог P&WC (по оценщику PW150)",
+    "evidence": [
+     "e2-109"
+    ]
+   }
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "overhaul (PW127M)",
+   "interval_efh": 14300,
+   "interval_efc": null,
+   "ratio_fh_fc": null,
+   "thrust": "PW127M",
+   "cost_usd": null,
+   "cost_year": null,
+   "includes_llp": null,
+   "note": "вывод: 20 000 / 1.4",
+   "evidence": [
+    "e2-114"
+   ]
+  },
+  {
+   "which": "overhaul (PW127XT)",
+   "interval_efh": 20000,
+   "interval_efc": null,
+   "ratio_fh_fc": null,
+   "thrust": "PW127XT-M",
+   "cost_usd": null,
+   "cost_year": null,
+   "includes_llp": null,
+   "evidence": [
+    "e2-113",
+    "e2-118"
+   ]
+  },
+  {
+   "which": "hot section inspection (parts cap)",
+   "interval_efh": null,
+   "interval_efc": null,
+   "ratio_fh_fc": null,
+   "thrust": "PW127/B/E/F",
+   "cost_usd": 643000,
+   "cost_year": 2026,
+   "includes_llp": false,
+   "note": "только запчасти (кэп), без труда; + PT pack $167 тыс.",
+   "evidence": [
+    "e2-121"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "PW127XT: −20% затрат на ТОиР против PW127M, 2 плановых события за 10 лет [e2-118]"
+ ],
+ "gaps": [
+  "Стоимость overhaul PW127M, интервал HSI, ресурсы LLP, ставки резервов — не найдены [e2-115, e2-119]"
+ ],
+ "doubts": [
+  "Интервал PW127M 14 300 ч — вывод из «+40%», не опубликован",
+  "Год цен StandardAero не указан"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

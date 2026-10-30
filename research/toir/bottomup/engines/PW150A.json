@@ -1,0 +1,56 @@
+{
+ "engine": "PW150A",
+ "aircraft": [
+  "DH8D"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": null,
+ "llp": {
+  "shipset_list_price": [],
+  "limits_efc": [],
+  "escalation": {
+   "2022": {
+    "rate": "0.09-0.11",
+    "note": "P&WC catalogue list prices, 'recent' на 1.10.2022",
+    "evidence": [
+     "e2-109"
+    ]
+   },
+   "assumption": {
+    "rate": 0.06,
+    "note": "допущение оценщика Fintech: LLP CLP +6%/год",
+    "evidence": [
+     "e2-110"
+    ]
+   }
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "overhaul",
+   "interval_efh": null,
+   "interval_efc": null,
+   "ratio_fh_fc": null,
+   "thrust": "PW150A",
+   "cost_usd": 2000000,
+   "cost_year": 2022,
+   "includes_llp": null,
+   "note": "'circa USD 2m'",
+   "evidence": [
+    "e2-109"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "Аренда $15–25 тыс./мес + резервы (2022) [e2-111]"
+ ],
+ "gaps": [
+  "Интервалы HSI/overhaul, цена комплекта LLP, ставки резервов — не найдены"
+ ],
+ "doubts": [
+  "Включены ли LLP в $2 млн — не указано"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

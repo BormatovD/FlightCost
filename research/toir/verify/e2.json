@@ -1,0 +1,608 @@
+{
+ "e2-007": {
+  "status": "found",
+  "found_text": "There are three elements of rotating parts, fan blades, and cases. A shipset of rotating LLPs has a list price of $6.5 million. These have target lives of 15,000EFC.",
+  "value_ok": true,
+  "note": "Год каталога (~2012) — по дате выпуска Issue 84, в тексте не указан."
+ },
+ "e2-008": {
+  "status": "found",
+  "found_text": "The third element is for engine cases. These have target lives of 40,000EFC, although the six parts have lives restricted to 6,780-25,380EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-009": {
+  "status": "found",
+  "found_text": "The costs for the first shop visit will be $6.0-6.5 million.",
+  "value_ok": true,
+  "note": "«без LLP» в тексте фрагмента явно не подтверждено."
+ },
+ "e2-010": {
+  "status": "found",
+  "found_text": "...costs for the second and third shop visits are expected to be $7.0-7.5 million each. The third shop visit could rise closer to $8.0 million.",
+  "value_ok": true,
+  "note": "Рядом: 3-й SV может приблизиться к $8.0 млн — value это не отражает."
+ },
+ "e2-011": {
+  "status": "found",
+  "found_text": "The subsequent second and third intervals are expected to be 2,000-2,200EFC and so 19,000-20,000EFH. At EFC times of 8.5EFH and 10.0EFH, this is equal to 25,000EFH and 30,000EFH.",
+  "value_ok": true,
+  "note": "В другом месте документа: 'mature removal intervals would settle down to 2,000-2,200EFC and 18,000-20,000EFH' — нижняя граница 18 000, а не 19 000."
+ },
+ "e2-012": {
+  "status": "found",
+  "found_text": "At EFC times of 8.5EFH and 10.0EFH, this is equal to 25,000EFH and 30,000EFH.",
+  "value_ok": true,
+  "note": "Привязка к 777-300ER и к 1-му интервалу — из контекста, не из самой фразы."
+ },
+ "e2-013": {
+  "status": "found",
+  "found_text": "Reserves for LLPs could therefore be limited to the rotating parts, with a reserve of $432 per EFC.",
+  "value_ok": true,
+  "note": "В документе также 'This would be equal to $432 per EFC' в абзаце о fan blades ($116,000, 30,000EFC) — то же число в другом контексте; стоит перепроверить, к чему именно относится $432."
+ },
+ "e2-022": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-023": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-024": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-025": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-026": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-027": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-028": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-029": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён."
+ },
+ "e2-031": {
+  "status": "found",
+  "found_text": "The list price for a full shipset is $4.8 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-032": {
+  "status": "found",
+  "found_text": "The Trent 700 series has LLPs with lives of 10,000EFC in the high pressure modules,",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-033": {
+  "status": "found",
+  "found_text": "...and 15,000EFC in the low and intermediate pressure modules.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-034": {
+  "status": "found",
+  "found_text": "First run intervals often average more than 20,000EFH, and can be up to 23,000EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-035": {
+  "status": "found",
+  "found_text": "The second removal interval is typically in excess of 16,000EFH, and can average 18,500EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-036": {
+  "status": "found",
+  "found_text": "The first shop visit will cost $2.5-2.7 million, and can often be higher.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-037": {
+  "status": "found",
+  "found_text": "The heavier second shop visit will be $3.7-4.0 million, so the total cost...",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-038": {
+  "status": "found",
+  "found_text": "On this basis, reserves for LLP replacement will be $420 per EFC, and $60-65 per EFH at an EFC time of 6.7EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-039": {
+  "status": "found",
+  "found_text": "This will be equal to a reserve of $170-180 per EFH when amortised over the interval of about 40,000EFH...",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-040": {
+  "status": "found",
+  "found_text": "Engines operated on EFC times of 3.0EFH will have first removal intervals of 16,000EFH, and second intervals of 15,000EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-041": {
+  "status": "found",
+  "found_text": "First and second shop visit costs will be $3.5 million and $5.7 million respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-042": {
+  "status": "found",
+  "found_text": "Once LLP reserves are accounted for, total reserves will be $325 per EFH (see first table, this page).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-043": {
+  "status": "found",
+  "found_text": "The PW4000-100 has a shipset of LLPs with uniform lives of 15,000EFC, and a list price of $4.8 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-044": {
+  "status": "found",
+  "found_text": "First shop visit workscopes average $2.5 million, while overhauls cost $3.5-4.3 million...",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-211": {
+  "status": "found",
+  "found_text": "...and the Trent 768/772 rated at 67,500lbs and 71,100lbs thrust.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-055": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-056": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-057": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-058": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-060": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-061": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-062": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-063": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-064": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-065": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-066": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-068": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-069": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-070": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-071": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-072": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-073": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-074": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-075": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-046": {
+  "status": "found",
+  "found_text": "The shipset of LLPs comprises 25 parts and has a 2010 list price of $5.97 million. If fully amortised over their full life limit, these LLPs would have a reserve of $398 per EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-047": {
+  "status": "found",
+  "found_text": "If fully amortised over their full life limit, these LLPs would have a reserve of $398 per EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-048": {
+  "status": "found",
+  "found_text": "The first shop visit would certainly involve work on the combustor and HPT modules. The typical cost would be $2.5 million.",
+  "value_ok": true,
+  "note": "Привязка к PW4168 @3.0 EFH/EFC — из контекста раздела."
+ },
+ "e2-049": {
+  "status": "found",
+  "found_text": "Where the following shop visit would be a full overhaul, the cost will be about $4.0 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-050": {
+  "status": "found",
+  "found_text": "Engine type | PW4168 | PW4168; EFH:EFC ratio | 3.0 | 6.0-7.0; First removal interval-FH/FC | 13,500/4,500 | 18,000-21,000/2,500-3,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-051": {
+  "status": "found",
+  "found_text": "Second removal interval-FH/FC | 11,000/3,700 | 15,000-18,000/2,100-3,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-052": {
+  "status": "found",
+  "found_text": "Total reserve-$/EFH | 403 | 240-285. ...The two reserves together at this EFC time of 3.0EFH are equal to $403 per EFH (see table, this page).",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-081": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-087": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-098": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-099": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-101": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-109": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-111": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-110": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-113": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-118": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-121": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-124": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-129": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-140": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-142": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-148": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-152": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-153": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-154": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-155": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-164": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-165": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-177": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-183": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-188": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-199": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-200": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-201": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-202": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-203": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-204": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-205": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-212": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch отклонён (запрос разрешения на URL не подтверждён)."
+ },
+ "e2-093": {
+  "status": "found",
+  "found_text": "The hike came on the heels of a double-digit increase on Nov. 1, 2022.",
+  "value_ok": true,
+  "note": "«≥10%» — интерпретация «double-digit»; ок."
+ },
+ "e2-094": {
+  "status": "found",
+  "found_text": "[GE and Safran] pushed through high-single-digit spares price hikes in August (статья от 31.10.2023; Safran CFO: 'We also benefited from the price increase we had on the 1st of August.')",
+  "value_ok": true,
+  "note": "Диапазон «≈7–9%» — оценка исследователя, в тексте числа нет."
+ },
+ "e2-132": {
+  "status": "found",
+  "found_text": "Ресурс самого двигателя продлен на 3000 полетных циклов",
+  "value_ok": true,
+  "note": "WebFetch вернул только начало предложения (лимит длины); продолжение «и в перспективе может быть увеличен дополнительно» и атрибуция «представителю Ростеха» не подтверждены."
+ },
+ "e2-133": {
+  "status": "found",
+  "found_text": "«Северсталь» рассчитывает, что к 2028 г. будет налажен серийный ремонт горячей части SaM146",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-137": {
+  "status": "found",
+  "found_text": "Полностью прекратились поставки запчастей для SaM146, техподдержка и ремонт двигателей",
+  "value_ok": true,
+  "note": "Статья Интерфакса от 30.03.2022. Вывод «рыночной цены SV нет» — интерпретация исследователя, не из текста."
+ },
+ "e2-174": {
+  "status": "found",
+  "found_text": "A significant challenge is the durability of the Stage 1 High Pressure Turbine (HPT) blade, ... (Kenneth Johnston, LEAP Programme Manager, Aero Norway; далее — о преждевременных съёмах в регионе MENA)",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-186": {
+  "status": "found",
+  "found_text": "Colorful Guizhou Airlines finalized a 12-year Rate-Per-Flight-Hour (RPFH) Agreement for the LEAP-1A engines ... fleet of up to 35 Airbus A320neo aircraft, along with five spare engines. ... The agreement is valued at approximately $1.0 billion U.S. at list price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-194": {
+  "status": "found",
+  "found_text": "| Widebody (GE90, Trent) | $3.0M – $8.0M+ | 90-180+ days | LLP stacks, larger scale | (costs exclude full LLP replacement, which can add $2M–$12M)",
+  "value_ok": true,
+  "note": "Вторичный агрегатор/блог, не первоисточник; стоимость без LLP."
+ },
+ "e2-196": {
+  "status": "found",
+  "found_text": "For instance, a full stack of LLPs for a wide-body engine can range from $8 million to $12 million.",
+  "value_ok": true,
+  "note": "Статья от 20.03.2026; вторичный источник без ссылки на каталог."
+ },
+ "e2-208": {
+  "status": "found",
+  "found_text": "the second shop visit for a widebody is 50% more intensive than the first shop visit.",
+  "value_ok": true,
+  "note": "«более интенсивный» трактован как ×1.5 по трудоёмкости/стоимости — допустимая, но интерпретация."
+ },
+ "e2-209": {
+  "status": "found",
+  "found_text": "So, if you look at GE90, about 70% of the engines have not gone through the second shop visit.",
+  "value_ok": true,
+  "note": ""
+ },
+ "e2-210": {
+  "status": "found",
+  "found_text": "And we also retrofitting all the LEAP-1A engines with the same durability kit when they come in for the shop visit.",
+  "value_ok": true,
+  "note": "Что kit = новые лопатки ТВД — из контекста, во фрагменте не указано."
+ }
+}

@@ -1,0 +1,7 @@
+{
+ "as_of": "2026-10-29",
+ "base": "EUR",
+ "rates": {"EUR": 1.0, "USD": 1.113, "CNY": 7.4144, "INR": 106.0345, "RUB": 90.2429},
+ "source": "ЕЦБ, справочные курсы 29.10.2026 (USD, CNY, INR); ЦБ РФ 26.10.2026 (RUB). Снимок для статей с диска; на сайте курс берётся с /api/fx, как у калькулятора.",
+ "urls": ["https://www.ecb.europa.eu/stats/shared/pdf/eurofxref.pdf", "https://www.cbr.ru/currency_base/daily/"]
+}

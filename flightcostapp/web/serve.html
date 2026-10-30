@@ -668,7 +668,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
-  <a class="legal" href="/types" id="typeslink">Типы ВС</a><a class="legal" href="/data">Данные</a>
+  <a class="legal" href="/types" id="typeslink">Типы ВС</a><a class="legal" href="/research" id="researchlink">Исследования</a><a class="legal" href="/data">Данные</a>
   <a class="legal" href="/map" id="maplink">Карта данных</a><a class="legal" href="/about" id="aboutlink">О сервисе</a>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a>
   <a class="legal" href="https://play.flightcost.app/" title="Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost">SkyBoss ↗</a></header>
@@ -964,7 +964,7 @@ function translateStatic(root) {
 }
 translateStatic(document.body);
 // «О сервисе» и «Типы ВС» — страницы на языке витрины (seo.py).
-for (const id of ["homelink", "aboutlink", "typeslink"]) {
+for (const id of ["homelink", "aboutlink", "typeslink", "researchlink"]) {
   const a = document.getElementById(id);
   if (a) a.setAttribute("href", `/${LANG}${a.getAttribute("href").replace(/^\/(ru|en|de)/, "")}`);
 }

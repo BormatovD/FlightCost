@@ -1,0 +1,151 @@
+{
+ "carrier": "DL",
+ "fleet": [
+  {
+   "icao": null,
+   "count": 1314,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-077"
+   ],
+   "note": "итог парка на 31.12.2025 (вкл. региональный), без разбивки"
+  },
+  {
+   "icao": "BCS1/BCS3",
+   "count": 86,
+   "avg_age_y": 4.7,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Airbus A220» — -100 и -300 вместе"
+  },
+  {
+   "icao": "A319",
+   "count": 57,
+   "avg_age_y": 24.4,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ]
+  },
+  {
+   "icao": "A320",
+   "count": 45,
+   "avg_age_y": 29.4,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ]
+  },
+  {
+   "icao": "A321/A21N",
+   "count": 226,
+   "avg_age_y": 5.2,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Airbus A321» — ceo и neo вместе"
+  },
+  {
+   "icao": "A332/A339",
+   "count": 81,
+   "avg_age_y": 11.3,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Airbus A330» — все варианты вместе (у Delta -200, -300, -900neo)"
+  },
+  {
+   "icao": "A359",
+   "count": 41,
+   "avg_age_y": 5.7,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Airbus A350»"
+  },
+  {
+   "icao": "B712",
+   "count": 77,
+   "avg_age_y": 24.6,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Boeing 717»"
+  },
+  {
+   "icao": "B738/B739/B3XM",
+   "count": 240,
+   "avg_age_y": 15.1,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Boeing 737 NG / Max» — все варианты вместе"
+  },
+  {
+   "icao": "B752/B753",
+   "count": 90,
+   "avg_age_y": 27.4,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Boeing 757»"
+  },
+  {
+   "icao": "B763/B764",
+   "count": 57,
+   "avg_age_y": 27.9,
+   "as_of": "2026-10-19 (дата снятия; на странице даты нет)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "evidence": [
+    "a4-048"
+   ],
+   "note": "airfleets: «Boeing 767»"
+  }
+ ],
+ "gaps": [
+  "Парк по типам и возраст на 31.12.2025 из первоисточника. Item 2 «Properties» 10-K FY2025 недоступен: WebFetch получает только первые ~106–124 тыс. символов (и HTML на sec.gov, и PDF на сайте IR, и зеркала), offset дальше этой границы не читает.",
+  "Релиз Q4 2025 (news.delta.com, PDF) таблицы флота больше не содержит",
+  "Агрегатор airfleets: семейства сгруппированы, дата не указана — счёт и возраст относятся к моменту снятия (окт. 2026), не к концу 2025; региональный парк (CRJ/E175) не охвачен"
+ ]
+}

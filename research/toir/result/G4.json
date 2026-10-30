@@ -1,0 +1,76 @@
+{
+ "carrier": "G4",
+ "name": "Allegiant Air (Allegiant Travel Company)",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "mixed: direct_expense + deferral",
+  "detail": "Текущее (не major) ТОиР — direct expense. Major maintenance планеров и двигателей — deferral: капитализируется и амортизируется в D&A до следующего события. В 4 кв. 2025 капитализировано 11.5 млн USD; план на 2026 — 80–90 млн при ТОиР в P&L за 2025 149.9 млн. Политика — из 10-K FY2024 (Financial_Report.xlsx).",
+  "lessor_reserves": "Не найдено; операционный лизинг только у 9 ВС — несущественно",
+  "evidence": [
+   "a2-113",
+   "a2-114",
+   "a2-115",
+   "a2-118",
+   "a2-119",
+   "a2-109"
+  ]
+ },
+ "engine_pbh": [],
+ "engine_note": "PBH не найден. CFM56-5B (A319/A320) — SR Technics, heavy shop visits, продление на 5 лет с 03.02.2025, модель оплаты не указана. Shop visits — major maintenance → капитализируются; это объясняет ≈3% двигателей в ТОиР Form 41.",
+ "engine_evidence": [
+  "a2-122",
+  "a2-123"
+ ],
+ "fleet": [
+  {
+   "icao": "A319",
+   "count": 28,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a2-117"
+   ]
+  },
+  {
+   "icao": "A320",
+   "count": 79,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a2-117"
+   ]
+  },
+  {
+   "icao": "B38M",
+   "count": 16,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a2-117"
+   ]
+  }
+ ],
+ "fleet_note": "A320 = 71 (180 мест) + 8 (177 мест); B38M = 737-8200. Источник — перепечатка пресс-релиза Q4 2025. На 01.02.2026 все ВС, кроме 9, собственные или в финансовом лизинге; 93 куплены подержанными.",
+ "cpa": {
+  "role": "не применимо",
+  "who_pays_maintenance": "сам",
+  "evidence": []
+ },
+ "gaps": [
+  "Средний возраст по типам",
+  "Собственные/лизинг по типам",
+  "Текст политики из 10-K FY2025 (xlsx FY2025 заблокирован)"
+ ],
+ "doubts": [
+  "Таблица флота взята из перепечатки пресс-релиза, а не с сайта Allegiant"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "carrier": "G7",
+ "name": "GoJet Airlines",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "unknown",
+  "detail": "Частная компания (Trans States Holdings), отчётности нет",
+  "lessor_reserves": "не найдено",
+  "evidence": []
+ },
+ "engine_pbh": [],
+ "fleet": [
+  {
+   "icao": "CRJ7",
+   "count": 57,
+   "avg_age_y": null,
+   "as_of": "2025-08 (Википедия)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "aggregator",
+   "note": "CRJ550 — 50-местная производная CRJ700, заказаны United (2019), эксплуатирует GoJet. CRJ200 у GoJet в указателях нет",
+   "evidence": [
+    "a3-098",
+    "a3-102",
+    "a3-103",
+    "a3-104"
+   ]
+  }
+ ],
+ "cpa": {
+  "role": "United Express (CPA с United)",
+  "who_pays_maintenance": "не найдено",
+  "evidence": []
+ },
+ "gaps": [
+  "Учётная политика, договоры по двигателям, кто платит ТОиР — всё не найдено",
+  "Объяснение двигателей 16 USD/ч — не найдено"
+ ],
+ "doubts": [
+  "Строка G7 CRJ2 в Form 41 (≈57,7 борта), по всей видимости, относится к CRJ550 (совпадает число бортов) — её нельзя сравнивать с CRJ200 других перевозчиков; тип ИКАО фактически CRJ7"
+ ]
+}

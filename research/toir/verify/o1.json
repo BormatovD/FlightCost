@@ -1,0 +1,626 @@
+{
+ "o1-003": {
+  "status": "found",
+  "found_text": "Equipment | $7,106 | $6,169 | $5,125",
+  "value_ok": true,
+  "note": "GE 10-K FY2024, CES segment table."
+ },
+ "o1-004": {
+  "status": "found",
+  "found_text": "Services | 19,775 | 17,686 | 13,688",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-005": {
+  "status": "found",
+  "found_text": "Segment profit margin | 26.2% | 23.7% | 22.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-006": {
+  "status": "found",
+  "found_text": "Revenue increased primarily due to higher spare parts volume, increased internal shop visit workscope, improved pricing [and favorable customer mix.]",
+  "value_ok": true,
+  "note": "Предложение продолжается 'and favorable customer mix'. Относится к выручке CES в целом (включая сервис); 'в т.ч. за счёт цены' следует."
+ },
+ "o1-008": {
+  "status": "found",
+  "found_text": "Segment profit | $7,055 | $5,643 | $4,164",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-011": {
+  "status": "unreachable",
+  "found_text": "",
+  "value_ok": null,
+  "note": "WebFetch: запрос разрешения на URL geaerospace.com (PDF транскрипта) не был подтверждён — документ не открыт, проверка невозможна."
+ },
+ "o1-014": {
+  "status": "found",
+  "found_text": "Equipment | $8,304 | $7,106 | $6,169",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-015": {
+  "status": "found",
+  "found_text": "Services | 25,010 | 19,775 | 17,686",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-016": {
+  "status": "found",
+  "found_text": "Segment profit | $8,861 | $7,055 | $5,643",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-017": {
+  "status": "found",
+  "found_text": "Segment profit margin | 26.6% | 26.2% | 23.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-018": {
+  "status": "found",
+  "found_text": "partially offset by the impact of higher install engine deliveries, inflation, higher growth investment",
+  "value_ok": true,
+  "note": "Текст подтверждает, что рост поставок install-двигателей частично снижал прибыль; вывод 'OE менее маржинально/убыточно' — интерпретация (помечена как косвенная)."
+ },
+ "o1-019": {
+  "status": "found",
+  "found_text": "aftermarket services business, which represents approximately 70% of revenue",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-020": {
+  "status": "found",
+  "found_text": "services representing 75% of total CES revenue",
+  "value_ok": true,
+  "note": "Проверка арифметикой: 25010/(25010+8304)=75,1% — согласуется."
+ },
+ "o1-023": {
+  "status": "found",
+  "found_text": "\"Tariffs and commodity inflation are just part of the equation with respect to thinking about price.\" (GE Aerospace CEO Larry Culp, interview with Reuters)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-025": {
+  "status": "found",
+  "found_text": "... an unfavorable business mix driven by negative LEAP margin",
+  "value_ok": true,
+  "note": "Цитата в документе со словом 'an' (partially offset by an unfavorable business mix...); полный контекст предложения инструментом не возвращён целиком."
+ },
+ "o1-026": {
+  "status": "found",
+  "found_text": "continued negative mix from commercial engines, primarily the CFM to LEAP engine transition",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-027": {
+  "status": "found",
+  "found_text": "increased price on commercial spare parts",
+  "value_ok": true,
+  "note": "Фраза есть; что это драйвер прибыли именно 2019 — по контексту раздела, дословно предложение целиком не получено."
+ },
+ "o1-028": {
+  "status": "found",
+  "found_text": "Equipment 12.8 | 11.5 | 10.2; Services 20.1 | 19.1 | 16.8; Total segment revenues 32.9 | 30.6 | 27.0; Segment profit 6.8 | 6.5 | 5.4; Segment profit margin 20.7% | 21.2% | 19.9% (2019|2018|2017, $ bn)",
+  "value_ok": true,
+  "note": "Цитата '20.7 %' — минимальная; все значения в value совпадают с таблицей."
+ },
+ "o1-031": {
+  "status": "found",
+  "found_text": "Propulsion | 4,565 | 7,311 | 5,222 | 8,430 (FY2023 OE, Services, FY2024 OE, Services, €m)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-032": {
+  "status": "found",
+  "found_text": "Operating margin stood at 20.6% of sales, up by 0.5pt",
+  "value_ok": true,
+  "note": "2023 = 20,1% выведено вычитанием; согласуется с o1-189 (2390/11876=20,1%)."
+ },
+ "o1-033": {
+  "status": "found",
+  "found_text": "The share of LEAP RPFH contracts increased in 2024 with no margin recognition.",
+  "value_ok": true,
+  "note": "Нулевая маржа RPFH подтверждается; часть value про высокую маржинальность запчастей CFM56 — интерпретация исследователя, в цитате её нет."
+ },
+ "o1-034": {
+  "status": "found",
+  "found_text": "As announced during the CMD’24, Safran will start recognizing profit for the LEAP-1A in 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-035": {
+  "status": "found",
+  "found_text": "Spare parts (in $) were up by 16.5%, with growth mainly attributable to CFM56 and high-thrust engines.",
+  "value_ok": true,
+  "note": "В value указано 'главным образом CFM56' — в тексте 'CFM56 and high-thrust engines'; незначительное сужение."
+ },
+ "o1-037": {
+  "status": "found",
+  "found_text": "more than 80% of the LEAP RPFH portfolio margin will be recognized after 2030.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-038": {
+  "status": "found",
+  "found_text": "Propulsion: Low twenties% each year (2024-2028) benefitting from a smooth CFM56-LEAP aftermarket transition",
+  "value_ok": true,
+  "note": "'~20–24%' — расшифровка 'low twenties', приемлемо; 'опора на послепродажку CFM56' — упрощение 'smooth CFM56-LEAP aftermarket transition'."
+ },
+ "o1-041": {
+  "status": "found",
+  "found_text": "delivered much less LEAP installed engine and a slightly higher spare engine (P. Bantegnie)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-042": {
+  "status": "found",
+  "found_text": "the ratio was clearly helping in terms of results in terms of EBIT (P. Bantegnie)",
+  "value_ok": true,
+  "note": "В цитате 'So' перед фразой инструментом не подтверждено, текст совпадает."
+ },
+ "o1-043": {
+  "status": "found",
+  "found_text": "more share visits and higher prices for both CFM56 and high-thrust engines (P. Bantegnie)",
+  "value_ok": true,
+  "note": "'share' — опечатка транскрипта вместо 'shop'."
+ },
+ "o1-046": {
+  "status": "found",
+  "found_text": "Propulsion 5,222 8,430 5,546 10,122 (FY2024 OE, Services, FY2025 OE, Services, €m)",
+  "value_ok": true,
+  "note": "Доля сервиса 10122/15668=64,6% — арифметика верна."
+ },
+ "o1-047": {
+  "status": "found",
+  "found_text": "The operating margin stood at 23.0% of revenue, up by 240 bps, supported by the strong civil aftermarket activity",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-048": {
+  "status": "found",
+  "found_text": "Spare parts revenue for civil engines (in USD) grew by 17.6%, driven primarily by the CFM56,",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-051": {
+  "status": "found",
+  "found_text": "In addition, customers (including the U.S. government and other governments) may purchase parts from suppliers other than the original equipment manufacturer, which affects spare parts sales.",
+  "value_ok": true,
+  "note": "Текст не называет PMA прямо; 'не-OEM запчасти (PMA)' — разумная интерпретация (включает и USM)."
+ },
+ "o1-053": {
+  "status": "found",
+  "found_text": "Adjusted ROS | 9.5% | 6.3% | 8.1% | 7.1% (Q4 2024 | Q4 2023 | FY2024 | FY2023); Sales FY2024 28,066",
+  "value_ok": true,
+  "note": "Продажи FY2024 $28066 млн подтверждены (reported = adjusted)."
+ },
+ "o1-060": {
+  "status": "found",
+  "found_text": "Adjusted: Sales $ 32,916 $ 28,066 17 %; Operating Profit $ 2,725 $ 2,281 19 %; ROS 8.3 % 8.1 % 20 bps",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-061": {
+  "status": "found",
+  "found_text": "The increase was driven by drop through on higher military and commercial aftermarket volume…",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-067": {
+  "status": "found",
+  "found_text": "Underlying OE revenue grew by 16% in the year to £3.1bn and services revenue grew by 28% to £5.9bn.",
+  "value_ok": true,
+  "note": "Доля сервиса 5,9/9,0=65,6% — верно."
+ },
+ "o1-068": {
+  "status": "found",
+  "found_text": "This was primarily driven by improved LTSA profit, higher shop visit volumes, and increased time and materials profit.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-069": {
+  "status": "found",
+  "found_text": "improved large engine OE profitability, both in installed and spare engines",
+  "value_ok": true,
+  "note": "Цитата в документе начинается без 'We expect' в возвращённом фрагменте (фрагмент более длинного предложения в Outlook). '(базово низкая/отрицательная)' — интерпретация, в тексте нет."
+ },
+ "o1-070": {
+  "status": "found",
+  "found_text": "implement value-based pricing; and drive contractual rigour.",
+  "value_ok": true,
+  "note": "Также p.25: 'value-based pricing on new and renewing contracts'."
+ },
+ "o1-073": {
+  "status": "found",
+  "found_text": "further progress in reducing average widebody OE loss, down 14% to £1.2m",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-074": {
+  "status": "found",
+  "found_text": "Average loss per widebody OE (£m) | 1.2 | 1.4",
+  "value_ok": true,
+  "note": "1,2 vs 1,4 = −14%, согласуется с o1-073."
+ },
+ "o1-077": {
+  "status": "found",
+  "found_text": "Civil Aerospace delivered an underlying operating margin of 20.5% (2024: 16.6%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-078": {
+  "status": "found",
+  "found_text": "...driven by stronger large engine aftermarket performance, contractual margin improvements and higher spare engine profitability.",
+  "value_ok": true,
+  "note": "Драйверов три; value упоминает только послепродажку — неполно, но не противоречит."
+ },
+ "o1-079": {
+  "status": "found",
+  "found_text": "In Civil Aerospace, we continued to increase the LTSA margins across our in-production widebody engines through improved commercial terms alongside operational improvements.",
+  "value_ok": true,
+  "note": "'давление на эксплуатантов' — интерпретация; в тексте также 'alongside operational improvements' (не только условия контрактов)."
+ },
+ "o1-080": {
+  "status": "found",
+  "found_text": "...contractual margin improvements and higher spare engine profitability.",
+  "value_ok": false,
+  "note": "Текст говорит лишь о РОСТЕ прибыльности запасных двигателей г/г, а не о том, что запасные прибыльнее установочных. Вывод value из цитаты не следует (хотя может быть верен по другим источникам, напр. o1-041/042)."
+ },
+ "o1-083": {
+  "status": "found",
+  "found_text": "The adjusted EBIT margin rose from 22.1% to 24.2%. ... In the OEM business, MTU generated adjusted revenue of €2.5 billion",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-084": {
+  "status": "found",
+  "found_text": "The adjusted EBIT margin increased from 7.8% in 2023 to 8.7% in 2024. ... adjusted revenue up 20% to €5.1 billion",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-085": {
+  "status": "found",
+  "found_text": "In the spare parts business, mature widebody and narrowbody engines were the main drivers of revenue growth.",
+  "value_ok": true,
+  "note": "Конкретные типы (V2500, CFM56-класс) в цитате не названы — пример исследователя."
+ },
+ "o1-088": {
+  "status": "found",
+  "found_text": "Organic revenue growth in the spare parts business should be in the high teens- to low twentypercent range in 2023.",
+  "value_ok": true,
+  "note": "Отличие только в дефисе (артефакт PDF). '~17–22%' — расшифровка формулировки; '(объём+цена)' — пояснение исследователя."
+ },
+ "o1-090": {
+  "status": "found",
+  "found_text": "Different share of GTF MRO",
+  "value_ok": false,
+  "note": "Это пункт-заголовок на слайде без направления эффекта. Утверждение, что GTF-ремонты менее маржинальны, из текста не следует (помечено 'косвенно', но опоры в цитате нет)."
+ },
+ "o1-094": {
+  "status": "found",
+  "found_text": "we've always been above inflation by 3 to 4 points (Safran CEO Olivier Andries, to analysts)",
+  "value_ok": true,
+  "note": "Высказывание CEO Safran; распространение на 'каталог CFM' — разумная интерпретация (CFM = JV Safran/GE)."
+ },
+ "o1-095": {
+  "status": "found",
+  "found_text": "We don't want to be abusive or to appear to be perceived to be abusive. (Olivier Andries)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-096": {
+  "status": "found",
+  "found_text": "We also benefited from the price increase we had on the 1st of August. (CFO Pascal Bantegnie)",
+  "value_ok": true,
+  "note": "Год 2023 — из контекста статьи (Q3 2023)."
+ },
+ "o1-097": {
+  "status": "found",
+  "found_text": "pushed through high-single-digit spares price hikes in August. ... The hike came on the heels of a double-digit increase on Nov. 1, 2022.",
+  "value_ok": true,
+  "note": "Текст автора статьи (S. Broderick) о GE и Safran, не прямая цитата руководства."
+ },
+ "o1-098": {
+  "status": "found",
+  "found_text": "The surge in third-quarter parts orders ahead of the price hike contributed to some eye-opening financial figures.",
+  "value_ok": true,
+  "note": "Вывод о предзакупке как способе обойти рост — интерпретация, но следует из текста."
+ },
+ "o1-102": {
+  "status": "found",
+  "found_text": "for sale at lower prices than those manufactured by OEMs",
+  "value_ok": true,
+  "note": "Фрагмент более длинного предложения (Item 1, Flight Support Group)."
+ },
+ "o1-103": {
+  "status": "found",
+  "found_text": "The competition is principally based on price and service to the extent that our parts are interchangeable.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-108": {
+  "status": "found",
+  "found_text": "safe and widely-accepted low-cost alternative to purchasing new OEM replacement parts",
+  "value_ok": true,
+  "note": "Ключевой фрагмент совпадает; начало 'we provide our customers with a' инструментом не воспроизведено дословно (лимит цитаты)."
+ },
+ "o1-111": {
+  "status": "found",
+  "found_text": "[USM] Supply constrained ... ~6% of material demand, compared to 10-15% pre-COVID",
+  "value_ok": true,
+  "note": "Числа совпадают; полная формулировка пункта инструментом передана частично."
+ },
+ "o1-112": {
+  "status": "found",
+  "found_text": "... PMA share ... typical 2% of mtrl spend",
+  "value_ok": true,
+  "note": "Ключевая фраза и число подтверждены; остальная формулировка ('Despite rising uptake, ... hasn't yet had any huge departure') передана инструментом пересказом — дословно не сверена."
+ },
+ "o1-113": {
+  "status": "found",
+  "found_text": "[DER Repairs] Adoption likely around 5-10% of material spend",
+  "value_ok": true,
+  "note": "Относится к DER, как и указано в value."
+ },
+ "o1-114": {
+  "status": "found",
+  "found_text": "MRO cost increases have outpaced ASK since 2019: 2024 vs 2019 MRO +24%, ASK +4%; 2025E vs 2019 MRO +40%, ASK +10%",
+  "value_ok": true,
+  "note": "Цитата 'MRO + 24% +40%' — склейка значений со слайда; числа совпадают."
+ },
+ "o1-115": {
+  "status": "found",
+  "found_text": "OEM part price escalations remain higher than pre-COVID levels",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-118": {
+  "status": "found",
+  "found_text": "In 2019, the total market for parts and materials was $52 billion, of which about nine percent, or $4.7 billion, were USM.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-121": {
+  "status": "found",
+  "found_text": "On average, a USM part can be 60 to 80 percent of the price of an OEM new part.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-126": {
+  "status": "found",
+  "found_text": "Careen said now is the chance to extend the used-parts access to main jet engine markets, stating that \"that is where the gold is, where the biggest challenge is.\"",
+  "value_ok": true,
+  "note": "Nick Careen, IATA SVP; контекст — расширение доступа к б/у запчастям на рынок основных двигателей. Вывод value — обобщение, но согласуется."
+ },
+ "o1-128": {
+  "status": "found",
+  "found_text": "court documents revealed that discounts of around 80% or more were given for the engines on the A380",
+  "value_ok": true,
+  "note": "Источник — судебные документы спора Rolls-Royce vs Pratt & Whitney (вторичный пересказ AirInsight); value корректно помечено 'непроверено'."
+ },
+ "o1-132": {
+  "status": "found",
+  "found_text": "2023-08-01 | 143.411",
+  "value_ok": true,
+  "note": "Серия WPS5541: PPI Aircraft Repair and Maintenance."
+ },
+ "o1-133": {
+  "status": "found",
+  "found_text": "2023-09-01 | 148.812",
+  "value_ok": true,
+  "note": "148,812/143,411 = +3,77% — верно. Связь со скачком каталога CFM 1 авг. — интерпретация исследователя."
+ },
+ "o1-134": {
+  "status": "found",
+  "found_text": "2022-12-01 | 138.818",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-135": {
+  "status": "found",
+  "found_text": "2023-12-01 | 150.480",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-136": {
+  "status": "found",
+  "found_text": "2024-12-01 | 158.065",
+  "value_ok": true,
+  "note": "FRED может ревизовать данные; значения на дату проверки совпадают."
+ },
+ "o1-141": {
+  "status": "found",
+  "found_text": "EFH rate escalation is calculated with reference to our spare catalogue price and/or to an agreed industry standard basket of costs, e.g., labour, energy, and raw materials prices.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-142": {
+  "status": "found",
+  "found_text": "...an agreed industry standard basket of costs, e.g., labour, energy, and raw materials prices.",
+  "value_ok": true,
+  "note": "Цитата 'industry standard basket of costs, e.g., labour, energy, and raw materials prices' совпадает."
+ },
+ "o1-143": {
+  "status": "found",
+  "found_text": "We raised the price of LLPs by 12% in 2023 and by a similar percentage in 2024.",
+  "value_ok": true,
+  "note": "'~+12% в 2024' — расшифровка 'similar percentage', приемлемо."
+ },
+ "o1-144": {
+  "status": "found",
+  "found_text": "When we sell an engine, we look at the total economic value of the Original Equipment (OE) sale, both installed and spare engines, and aftermarket contract.",
+  "value_ok": true,
+  "note": "'бритва и лезвия' — интерпретация, согласуется."
+ },
+ "o1-145": {
+  "status": "found",
+  "found_text": "... (OE) sale, both installed and spare engines, and aftermarket contract.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-146": {
+  "status": "found",
+  "found_text": "LTSAs have inflation-linked \"escalation\" mechanisms built in to mitigate the impact of inflation.",
+  "value_ok": true,
+  "note": "Это LTSA Rolls-Royce (TotalCare), обобщение на 'PBH-контракты' в целом шире текста."
+ },
+ "o1-150": {
+  "status": "found",
+  "found_text": "And in the coming years, from 60% to 70% of all LEAP engines should be covered by long-term contracts.",
+  "value_ok": true,
+  "note": "Прогноз ('should be'), а не текущая доля; value формулирует как факт — мелкая неточность."
+ },
+ "o1-151": {
+  "status": "found",
+  "found_text": "In these long-term contracts, covering 12 years on average, the fixed price per flight-hour is established with the customer from the outset.",
+  "value_ok": true,
+  "note": "Подтверждено: индексация в статье не упоминается."
+ },
+ "o1-152": {
+  "status": "found",
+  "found_text": "From a CFM56 MRO model known as \"Time and Material\"...",
+  "value_ok": true,
+  "note": "Продолжение 'based on the sale of spare parts and maintenance operations' инструментом не воспроизведено (лимит), но предложение начинается так же. '(основная масса ремонтов 2023)' — добавление исследователя."
+ },
+ "o1-155": {
+  "status": "found",
+  "found_text": "We strive to offset these items by price increases, operating improvements and other cost-saving initiatives ... through contractual provisions that allow us to pass along material and other cost increases to customers",
+  "value_ok": true,
+  "note": "Формулировка-стремление ('We strive to offset'), с оговоркой 'no assurance that we will be successful'; вывод 'доходит до эксплуатантов' сильнее текста — частично, ср. o1-156."
+ },
+ "o1-156": {
+  "status": "found",
+  "found_text": "Many of our contracts do not permit us to recover the entirety of increases in raw material prices, taxes or labor costs.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-157": {
+  "status": "found",
+  "found_text": "Our authorizations and licenses from OEMs often require that we purchase component parts from the OEMs",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-158": {
+  "status": "found",
+  "found_text": "OEMs maintain close commercial control of their authorized maintenance networks",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-161": {
+  "status": "found",
+  "found_text": "on the services side, we achieved breakeven last year in 2024 (Rahul Ghai, CFO)",
+  "value_ok": true,
+  "note": "Хвост 'and we expect a real improvement in services profitability' инструментом не воспроизведён. Относится к сервису LEAP (по контексту). 'в основном PBH' и вывод о CFM56 — интерпретация."
+ },
+ "o1-162": {
+  "status": "found",
+  "found_text": "that will more than double our losses on the 9X platform that we're experiencing this year. (Rahul Ghai)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-163": {
+  "status": "found",
+  "found_text": "pricing is improved as well over the launch pricing that we did earlier. (Rahul Ghai)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-164": {
+  "status": "found",
+  "found_text": "we expect LEAP profit dollars to be similar to what CFM56 is generating. (Rahul Ghai)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-167": {
+  "status": "found",
+  "found_text": "While buying a new aircraft may see more than a 50 percent discount on the airframe and engines compared to the quoted list price the same cannot be said when ordering a new spare engine thereafter.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-169": {
+  "status": "found",
+  "found_text": "Our list prices are typically 25-30% lower than OEMs’. (Wencor, Jason Caldwell)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-170": {
+  "status": "found",
+  "found_text": "A 30% discount on HPT blades is typical, which means a saving of about $200,000 per engine is possible (Chromalloy, Peter Howard)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-171": {
+  "status": "found",
+  "found_text": "up to 65% lower than those of the original equipment manufacturers",
+  "value_ok": true,
+  "note": "Хвост '(OEMs) for the same parts' инструментом не воспроизведён."
+ },
+ "o1-172": {
+  "status": "found",
+  "found_text": "The cost of new parts in engine shop visits is 60-70% of a total shop visit.",
+  "value_ok": true,
+  "note": "Источник 2009 г."
+ },
+ "o1-177": {
+  "status": "found",
+  "found_text": "Virtually all airlines pay catalog prices for some parts, and they usually receive discounts on the catalog price.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-178": {
+  "status": "found",
+  "found_text": "Discounts can vary from 5 to 40 percent, with deeper discounts resulting from high usage, dollar value of business, or long-term agreements.",
+  "value_ok": true,
+  "note": "GAO 1999 (NSIAD-00-22)."
+ },
+ "o1-179": {
+  "status": "found",
+  "found_text": "Airline officials said they pay full catalog prices on some sole-source items.",
+  "value_ok": true,
+  "note": "'типично LLP' — добавление исследователя, в тексте нет."
+ },
+ "o1-183": {
+  "status": "found",
+  "found_text": "higher volume, including heavier content, in large commercial engines and Pratt Canada",
+  "value_ok": true,
+  "note": "Цена как драйвер в документе не упоминается — подтверждает пометку value."
+ },
+ "o1-187": {
+  "status": "found",
+  "found_text": "Propulsion | 3,515 | 5,991 | 4,565 | 7,311 (FY2022 OE, Services, FY2023 OE, Services, €m)",
+  "value_ok": true,
+  "note": "Доли 63,0% и 61,6% — арифметика верна."
+ },
+ "o1-188": {
+  "status": "found",
+  "found_text": "...the growing share of LEAP RPFH contracts, recognized today at zero profit, weighed on margin growth.",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-189": {
+  "status": "found",
+  "found_text": "Propulsion recurring operating income reached €2,390 million, +39.8% (+35.2% organic). Revenue €11,876 million.",
+  "value_ok": true,
+  "note": "2390/11876 = 20,1% — верно."
+ },
+ "o1-192": {
+  "status": "found",
+  "found_text": "...the adjusted EBIT margin climbed from 24.2% to 30.4%. ... adjusted EBIT was up 43% to €873 million (2024: €612 million)",
+  "value_ok": true,
+  "note": ""
+ },
+ "o1-193": {
+  "status": "found",
+  "found_text": "The adjusted EBIT margin in 2025 was 8.0% compared with 8.7% ... adjusted revenue up 18% from €5.1 billion to €6.0 billion.",
+  "value_ok": true,
+  "note": "Хвост 'in the previous year' не возвращён инструментом (обрезка), смысл совпадает."
+ },
+ "o1-194": {
+  "status": "found",
+  "found_text": "Revenue in the OEM business grew by 14% to €2.9 billion",
+  "value_ok": true,
+  "note": "Скобка '(2024: €2.5 billion)' в возвращённом фрагменте не показана; согласуется с o1-083."
+ }
+}

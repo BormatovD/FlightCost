@@ -1,0 +1,110 @@
+{
+ "engine": "PW2000",
+ "aircraft": [
+  "B752",
+  "B753"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  37.0,
+  43.0
+ ],
+ "thrust_note": "по обозначениям PW2037…PW2043 (e1-214)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 4950000,
+    "year": 2013,
+    "note": "$4.9–5.0 млн; 25–30 LLP",
+    "evidence": [
+     "e1-183",
+     "e1-184"
+    ]
+   }
+  ],
+  "part_prices": [
+   {
+    "part": "HPT 1st-stage disk",
+    "usd": 730000,
+    "year": 2025,
+    "evidence": [
+     "e1-101"
+    ]
+   },
+   {
+    "part": "turbine hub",
+    "usd": 500000,
+    "year": 2025,
+    "evidence": [
+     "e1-102"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "HPT disks (лимитирующие)",
+    "efc": 15000,
+    "evidence": [
+     "e1-185"
+    ]
+   },
+   {
+    "part": "большинство прочих LLP",
+    "efc": 20000,
+    "evidence": [
+     "e1-185"
+    ]
+   }
+  ],
+  "escalation": {}
+ },
+ "shop_visit": [
+  {
+   "which": "typical (RTC PW2037)",
+   "interval_efh": 18000,
+   "interval_efc": 6500,
+   "ratio_fh_fc": 2.7,
+   "thrust": "PW2037 RTC",
+   "cost_usd": 2550000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "hot-section HM $2.3–2.8 млн; full overhaul $3.0–3.5 млн; non-RTC PW2037 ~11 000 EFH/4 250 EFC",
+   "evidence": [
+    "e1-186",
+    "e1-187"
+   ]
+  },
+  {
+   "which": "typical (RTC PW2040)",
+   "interval_efh": 15000,
+   "interval_efc": 5000,
+   "ratio_fh_fc": 3.0,
+   "thrust": "PW2040 RTC",
+   "cost_usd": null,
+   "evidence": [
+    "e1-186"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efc_total": 1200,
+   "year": 2013,
+   "note": "non-RTC $1100–1300/EFC; RTC $800–950/EFC",
+   "evidence": [
+    "e1-188"
+   ]
+  }
+ ],
+ "issues": [
+  "NPRM FAA 2025: инспекции/замена HPT 1st-stage disks и turbine hubs (e1-100)"
+ ],
+ "gaps": [
+  "каталог LLP после 2013"
+ ],
+ "doubts": [
+  "часть интервалов — по пересказу WebFetch"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

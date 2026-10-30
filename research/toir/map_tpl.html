@@ -1,0 +1,230 @@
+<title>Карта поиска ТОиР</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Рабочая тетрадь сверки: слева — вопрос, справа — цепочка источников до цитаты. Цвет — только состояние. */
+:root{
+ --bg:#f6f7f9; --panel:#ffffff; --ink:#17202b; --mute:#5b6676; --line:#dde2e8;
+ --accent:#1d5fa8; --ok:#1f7a4d; --warn:#b7701a; --bad:#b3372f; --soft:#eef2f7;
+ --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+ --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#11161d; --panel:#18202a; --ink:#e3e8ee; --mute:#97a3b3; --line:#2a3542;
+ --accent:#6aa7ec; --ok:#4fbf87; --warn:#e0a24f; --bad:#ec7a70; --soft:#1e2834; color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#11161d; --panel:#18202a; --ink:#e3e8ee; --mute:#97a3b3; --line:#2a3542;
+ --accent:#6aa7ec; --ok:#4fbf87; --warn:#e0a24f; --bad:#ec7a70; --soft:#1e2834; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:24px;margin:0 0 4px;text-wrap:balance}
+h2{font-size:18px;margin:28px 0 10px}
+.sub{color:var(--mute);max-width:75ch}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 14px}
+.tabs button{font:500 14px var(--f-body);border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 12px;border-radius:6px;cursor:pointer}
+.tabs button[aria-selected="true"]{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stats{display:flex;gap:18px;flex-wrap:wrap;color:var(--mute);font-size:13px}
+.stats b{color:var(--ink);font:500 15px var(--f-mono)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--mute);font-size:12px;position:sticky;top:0;background:var(--panel)}
+td.n{text-align:right;font:13px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:10px;border:1px solid currentColor;white-space:nowrap;margin:1px 2px 1px 0}
+.c-ok{color:var(--ok)} .c-warn{color:var(--warn)} .c-bad{color:var(--bad)} .c-mute{color:var(--mute)} .c-acc{color:var(--accent)}
+.car{background:var(--panel);border:1px solid var(--line);border-radius:8px;margin:0 0 12px}
+.car>summary{cursor:pointer;padding:10px 14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;list-style:none}
+.car>summary::-webkit-details-marker{display:none}
+.car>summary b{font-size:16px}
+.car .body{padding:0 14px 14px;display:grid;gap:12px}
+.q{border-top:1px solid var(--line);padding-top:10px}
+.q h3{font-size:13px;color:var(--mute);margin:0 0 6px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.concl{font-weight:500}
+.chain{margin:6px 0 0 0;padding-left:14px;border-left:2px solid var(--line);display:grid;gap:6px}
+.st{font-size:13.5px;min-width:0}
+.st .k{font:500 11px var(--f-mono);text-transform:uppercase;letter-spacing:.04em;margin-right:6px}
+.st .id{font:11px var(--f-mono);color:var(--mute);margin-right:6px}
+.st blockquote{margin:4px 0 2px;padding:6px 10px;background:var(--soft);border-radius:4px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.st a{color:var(--accent);overflow-wrap:anywhere}
+.st .note{color:var(--mute)}
+.k-search{color:var(--mute)} .k-open{color:var(--accent)} .k-extract{color:var(--ok)} .k-reject{color:var(--bad)}
+.k-infer{color:var(--warn)} .k-conclude{color:var(--ink)} .k-gap{color:var(--bad)}
+.tl{display:grid;gap:4px}
+.tl .st{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:6px 10px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;font-size:13px}
+select,input{font:14px var(--f-body);background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:5px 8px}
+.empty{color:var(--mute);padding:14px;border:1px dashed var(--line);border-radius:6px}
+.legend{font-size:12.5px;color:var(--mute);display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+ <h1>Карта поиска ТОиР</h1>
+ <div class="sub">Ставки ТОиР по отчётности перевозчиков США (BTS Form 41): этап 1 — 2025 год и учётная политика перевозчиков, затем панель 2006–2025 с возрастом каждого борта (Schedule B-43) и то, что о каждом перевозчике нашлось в открытых документах. Каждый вывод раскрывается до дословной цитаты и адреса. Отметка у цитаты — результат независимой проверки: другой агент открыл адрес и искал цитату буквально.</div>
+ <div class="stats" id="stats"></div>
+ <div class="tabs" role="tablist">
+  <button role="tab" id="t-types" aria-selected="true">Итог по типам</button>
+  <button role="tab" id="t-cur" aria-selected="false">Кривые по возрасту</button>
+  <button role="tab" id="t-car" aria-selected="false">Перевозчики</button>
+  <button role="tab" id="t-tl" aria-selected="false">Ход поиска</button>
+  <button role="tab" id="t-f41" aria-selected="false">Form 41 как есть</button>
+ </div>
+ <div class="legend">
+  <span><span class="k k-search">search</span> запрос</span><span><span class="k k-open">open</span> открыт документ</span>
+  <span><span class="k k-extract">extract</span> цитата</span><span><span class="k k-infer">infer</span> сопоставление</span>
+  <span><span class="k k-reject">reject</span> отброшено</span><span><span class="k k-gap">gap</span> не найдено</span>
+  <span><span class="chip c-ok">цитата найдена</span><span class="chip c-bad">не найдена</span><span class="chip c-mute">не проверялась</span></span>
+ </div>
+ <section id="p-types"></section>
+ <section id="p-cur" hidden></section>
+ <section id="p-car" hidden></section>
+ <section id="p-tl" hidden></section>
+ <section id="p-f41" hidden></section>
+</div>
+
+<script>
+const D=/*DATA*/null;
+const S=Object.fromEntries(D.steps.map(s=>[s.id,s]));
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ver=id=>{const v=D.verify[id]; if(!v) return '<span class="chip c-mute">не проверялась</span>';
+ const st=v.status||v; const vo=v.value_ok===false?`<span class="chip c-warn" title="${esc(v.note)}">вывод шире цитаты</span>`:"";
+ return vo+(st==="found"?'<span class="chip c-ok">цитата найдена</span>':st==="partial"?`<span class="chip c-warn" title="${esc(v.note)}">найдена частично</span>`:`<span class="chip c-bad" title="${esc(v.note)}">${st==="unreachable"?"адрес недоступен":"не найдена"}</span>`)};
+function step(s){
+ if(!s) return "";
+ let h=`<div class="st"><span class="k k-${esc(s.kind)}">${esc(s.kind)}</span><span class="id">${esc(s.id)}</span>`;
+ if(s.query) h+=`«${esc(s.query)}» `;
+ if(s.title||s.url) h+= s.url&&/^https?:/.test(s.url)?`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title||s.url)}</a> `:esc(s.title||s.url)+" ";
+ if(s.locator) h+=`<span class="note">· ${esc(s.locator)}</span>`;
+ if(s.kind==="extract"&&s.quote) h+=`<blockquote>${esc(s.quote)}</blockquote>${ver(s.id)}${D.verify[s.id]?.note?`<div class="note">проверка: ${esc(D.verify[s.id].note)}</div>`:""}`;
+ if(s.value) h+=` <b>→ ${esc(s.value)}</b>`;
+ if(s.note) h+=`<div class="note">${esc(s.note)}</div>`;
+ return h+"</div>";
+}
+// цепочка: от шагов-доказательств вниз по parents до источников
+function chain(ids,depth=0,seen=new Set()){
+ if(!ids||!ids.length||depth>8) return "";
+ let h='<div class="chain">';
+ for(const id of ids){ if(seen.has(id)) continue; seen.add(id); const s=S[id];
+  if(!s){h+=`<div class="st c-bad">ссылка на несуществующий шаг ${esc(id)}</div>`; continue}
+  h+=step(s);
+  const up=(s.parents||[]).filter(p=>S[p]&&["extract","infer","open","conclude"].includes(S[p].kind));
+  if(up.length) h+=chain(up,depth+1,seen);
+ }
+ return h+"</div>";
+}
+function evid(o){return o&&o.evidence&&o.evidence.length?chain(o.evidence):'<div class="st c-bad">ссылок на журнал нет</div>'}
+const fmt=x=>x==null?"—":Math.round(x).toLocaleString("ru-RU");
+
+function stats(){
+ const k={};D.steps.forEach(s=>k[s.kind]=(k[s.kind]||0)+1);
+ const ex=D.steps.filter(s=>s.kind==="extract"&&s.quote&&!String(s.id).startsWith("m0"));
+ const vf=ex.filter(s=>(D.verify[s.id]?.status||D.verify[s.id])==="found").length;
+ document.getElementById("stats").innerHTML=
+  `<span>шагов журнала <b>${D.steps.length}</b></span><span>запросов <b>${k.search||0}</b></span><span>документов <b>${k.open||0}</b></span>`+
+  `<span>цитат <b>${ex.length}</b></span><span>подтверждено проверкой <b>${vf}</b></span><span>отброшено <b>${k.reject||0}</b></span><span>пробелов <b>${k.gap||0}</b></span>`;
+}
+
+function pTypes(){
+ const el=document.getElementById("p-types"); const F=D.final, Fc=D.final_cpi;
+ if(!F){el.innerHTML='<div class="empty">Итог ещё не посчитан.</div>';return}
+ const ST={row:["c-ok","строка типа"],agg:["c-acc","в сумме по парку"],pending:["c-warn","ждёт 10-K"],unusable:["c-mute","нечем объяснить"]};
+ const cls=["узкофюзеляжные","широкофюзеляжные","региональные"];
+ const sc=F.status||{};
+ let h=`<p class="sub">Прямой ТОиР на блок-час, USD 2025, панель Form 41 за 2006–2025. Строки не выбрасываются: у каждой свой статус. <b>Строка типа</b> — разбивка по типам у перевозчика настоящая. <b>В сумме по парку</b> — перевозчик разнёс общую сумму по типам формулой; его ставки типов не используются, а общая сумма за год — используется: модель должна объяснить её как сумму по парку (ставка типа с учётом возраста × блок-часы). <b>Ждёт 10-K</b> — учёт искажает сумму (метод отсрочки, двигатели вне ТОиР у зрелого парка); вернётся после восстановления по 10-K. <b>Нечем объяснить</b> — нет возраста в B-43 и т. п.</p>
+ <div class="stats">${Object.entries(ST).map(([k,[c,l]])=>`<span><span class="chip ${c}">${l}</span> <b>${sc[k]||0}</b></span>`).join("")}<span>сумм по перевозчико-годам <b>${F.n_aggs}</b></span><span>эластичность по сектору <b>${F.e.toFixed(2)}</b></span><span>доживание: собственный парк <b>×${F.runout_owned.toFixed(2)}</b>, в аренде <b>×${F.runout_leased.toFixed(2)}</b></span></div>
+ <p class="sub"><b>Зрелый борт</b> — 12–13 лет, сектор типичный для класса (${Object.entries(F.sector_ref).map(([g,s])=>g+" "+s+" ч").join(", ")}), перевозчики на типе весят одинаково. <b>За жизненный цикл</b> — среднее по кривой возраста за 0–25 лет. Диапазон — 10–90% бутстрэпа по перевозчикам (${F.boot} повторов).</p>`;
+ for(const g of cls){
+  const ts=Object.values(F.types).filter(t=>t.cls===g&&(t.n_row+t.n_agg)>=3).sort((a,b)=>(b.n_row+b.n_agg)-(a.n_row+a.n_agg)); if(!ts.length) continue;
+  h+=`<h2>${g[0].toUpperCase()+g.slice(1)} · цикл = ${F.life[g].toFixed(2)} × зрелый</h2><div class="tbl"><table><thead><tr><th>Тип</th><th>Зрелый борт</th><th>10–90%</th><th>За цикл</th><th>CPI вместо PPI</th><th>Строк типа</th><th>В суммах</th><th>Ждут 10-K</th><th>Эксплуатанты</th><th>Возраст</th></tr></thead><tbody>`;
+  for(const x of ts){
+   const c=Fc?.types[x.icao];
+   h+=`<tr><td><b>${x.icao}</b>${x.young_only?' <span class="chip c-warn">только молодой парк</span>':""}${x.weak?' <span class="chip c-bad">мало строк типа</span>':""}</td><td class="n"><b>${fmt(x.mature)}</b></td><td class="n">${x.lo!=null?fmt(x.lo)+"–"+fmt(x.hi):"—"}</td><td class="n">${fmt(x.life)}</td><td class="n">${c?fmt(c.mature):"—"}</td><td class="n">${x.n_row}</td><td class="n">${x.n_agg}</td><td class="n">${x.n_pending}</td><td>${esc(x.operators.join(", "))}</td><td class="n">${x.age_lo!=null?x.age_lo.toFixed(1)+"–"+x.age_hi.toFixed(1):"—"}</td></tr>`;
+   h+=`<tr><td></td><td colspan="9"><details><summary class="c-acc" style="cursor:pointer">все строки — ${x.rows.length}</summary><div class="tbl"><table><thead><tr><th>Перевозчик</th><th>Год</th><th>Возраст</th><th>Бортов</th><th>Сектор, ч</th><th>Прямой, USD 2025/ч</th><th>Доживание</th><th>Статус</th></tr></thead><tbody>`+
+    x.rows.map(p=>`<tr><td>${esc(p.carrier)}</td><td class="n">${p.year}</td><td class="n">${p.age!=null?p.age.toFixed(1):"—"}</td><td class="n">${p.n??"—"}</td><td class="n">${p.sector_h??"—"}</td><td class="n">${fmt(p.rate)}</td><td>${p.runout?(p.leased>0.5?"да, аренда":"да, собств."):""}</td><td><span class="chip ${ST[p.status][0]}">${ST[p.status][1]}</span> <span class="note c-mute">${esc(p.why||"")}</span></td></tr>`).join("")+`</tbody></table></div></details></td></tr>`;
+  }
+  h+="</tbody></table></div>";
+ }
+ el.innerHTML=h;
+}
+
+function pCurves(){
+ const el=document.getElementById("p-cur"); const F=D.final; if(!F){el.innerHTML="";return}
+ const W=420,H=240,L=34,R=10,T=10,B=34, xs=a=>L+(a/26)*(W-L-R), ys=v=>T+(1-(v/1.8))*(H-T-B);
+ let h=`<p class="sub">Стоимость часа ТОиР в зависимости от возраста парка, доля от уровня зрелого борта (12–13 лет = 1). Получена моделью, где у каждого типа и каждого перевозчика свой уровень, а длина сектора учтена отдельно (шаги m1 во вкладке «Ход поиска»). Полоса — 10–90% бутстрэпа по перевозчикам. Пунктир — кривая RAND (2006), на которой стояла прежняя оценка. Точки — ступени, где не меньше 5 строк; дальше последнего наблюдения кривая для расчёта цикла держится на последнем значении.</p><div style="display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">`;
+ const rand=a=>a>=12?1:a>=6?Math.pow(1.035,a-12):0.8135*Math.pow(1.176,a-6);
+ for(const [g,sh] of Object.entries(F.shape)){
+  const bs=F.boot_shape[g]; const keys=Object.keys(sh).map(Number).sort((a,b)=>a-b).filter(k=>(F.nobs[g+"|"+k]||0)>=5);
+  let band="", line="", dots="";
+  const up=keys.filter(k=>bs[k]&&bs[k][1]!=null).map(k=>`${xs(k+1)},${ys(Math.min(bs[k][1],1.8))}`), dn=keys.filter(k=>bs[k]&&bs[k][0]!=null).reverse().map(k=>`${xs(k+1)},${ys(Math.max(bs[k][0],0))}`);
+  band=`<polygon points="${up.concat(dn).join(" ")}" fill="var(--accent)" opacity=".14"/>`;
+  line=`<polyline fill="none" stroke="var(--accent)" stroke-width="2.2" points="${keys.map(k=>`${xs(k+1)},${ys(sh[k])}`).join(" ")}"/>`;
+  dots=keys.map(k=>`<circle cx="${xs(k+1)}" cy="${ys(sh[k])}" r="3" fill="var(--accent)"><title>${k}–${k+1} лет: ${sh[k].toFixed(2)}, строк ${F.nobs[g+"|"+k]}</title></circle>`).join("");
+  const rl=`<polyline fill="none" stroke="var(--mute)" stroke-dasharray="4 4" stroke-width="1.4" points="${Array.from({length:27},(_,a)=>`${xs(a)},${ys(rand(a))}`).join(" ")}"/>`;
+  let ax=""; for(const v of [0,0.5,1,1.5]) ax+=`<line x1="${L}" x2="${W-R}" y1="${ys(v)}" y2="${ys(v)}" stroke="var(--line)"/><text x="${L-8}" y="${ys(v)+4}" text-anchor="end" font-size="11" fill="var(--mute)">${v}</text>`;
+  for(const a of [0,5,10,15,20,25]) ax+=`<text x="${xs(a)}" y="${H-B+18}" text-anchor="middle" font-size="11" fill="var(--mute)">${a}</text>`;
+  ax+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="var(--mute)">возраст парка, лет</text>`;
+  h+=`<div style="min-width:0"><h3 style="margin:0 0 4px;font-size:15px">${g} · за 0–25 лет ${F.life[g].toFixed(2)}</h3><div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Кривая возраста: ${g}">${ax}${band}${rl}${line}${dots}</svg></div></div>`;
+ }
+ el.innerHTML=h+"</div>";
+}
+
+const Q=[["accounting","Учётная политика ТОиР"],["policy_periods","Политика по годам, 2006–2025"],["engine_pbh","Двигатели: оплата за лётный час"],["fleet","Парк и возраст"],["fleet_a4","Парк и возраст (10-K, Item 2)"],["cpa","Договор с магистральной"]];
+function pCar(){
+ const el=document.getElementById("p-car"); const R=D.results;
+ const cars=[...new Set([...D.rows.map(r=>r.carrier),...Object.keys(R)])];
+ const flags={}; D.steps.filter(s=>s.agent==="m0"&&s.kind==="infer"&&s.carrier).forEach(s=>flags[s.carrier]=s);
+ let h="";
+ for(const c of cars){
+  const rs=D.rows.filter(r=>r.carrier===c&&r.aircraft>=1); const r=R[c];
+  if(!r&&!rs.length) continue;
+  const name=r?.name||rs[0]?.name||c;
+  let chips=""; if(r?.accounting?.policy) chips+=`<span class="chip c-acc">${esc(r.accounting.policy)}</span>`;
+  if(flags[c]) chips+=`<span class="chip c-warn">${esc(flags[c].value)}</span>`;
+  if(!r) chips+='<span class="chip c-mute">исследование не вернулось</span>';
+  if(r?.gaps?.length) chips+=`<span class="chip c-bad">пробелов ${r.gaps.length}</span>`;
+  h+=`<details class="car"><summary><b>${esc(c)}</b><span>${esc(name)}</span>${chips}</summary><div class="body">`;
+  if(rs.length){h+=`<div class="tbl"><table><thead><tr><th>Тип</th><th>бортов</th><th>сектор, ч</th><th>ТОиР, USD/блок-ч</th><th>прямой</th><th>накладные</th><th>планер</th><th>двигатели</th></tr></thead><tbody>`+
+   rs.map(x=>`<tr><td>${x.icao}</td><td class="n">${x.aircraft}</td><td class="n">${x.sector_h}</td><td class="n"><b>${fmt(x.total_bh)}</b></td><td class="n">${fmt(x.direct_bh)}</td><td class="n">${fmt(x.burden_bh)}</td><td class="n">${fmt(x.airframe_bh)}</td><td class="n">${fmt(x.engine_bh)}</td></tr>`).join("")+"</tbody></table></div>";}
+  if(flags[c]) h+=`<div class="q"><h3>Наблюдение по данным</h3>${step(flags[c])}</div>`;
+  if(r){
+   for(const [k,label] of Q){ const v=r[k]; if(v==null||(Array.isArray(v)&&!v.length)) continue;
+    h+=`<div class="q"><h3>${label}</h3>`;
+    if(Array.isArray(v)) v.forEach(o=>{h+=`<div class="concl">${esc(Object.entries(o).filter(([a])=>a!=="evidence").map(([a,b])=>`${a}: ${Array.isArray(b)?b.join(", "):b}`).join(" · "))}</div>`+evid(o)});
+    else h+=`<div class="concl">${esc(Object.entries(v).filter(([a])=>a!=="evidence").map(([a,b])=>`${a}: ${b}`).join(" · "))}</div>`+evid(v);
+    h+="</div>";}
+   if(r.gaps?.length) h+=`<div class="q"><h3>Не найдено</h3>${r.gaps.map(g=>`<div class="st c-bad">${esc(g)}</div>`).join("")}</div>`;
+   if(r.doubts?.length) h+=`<div class="q"><h3>Сомнения</h3>${r.doubts.map(g=>`<div class="st c-warn">${esc(g)}</div>`).join("")}</div>`;
+  }
+  h+="</div></details>";
+ }
+ el.innerHTML=h||'<div class="empty">Пока пусто.</div>';
+}
+
+function pTl(){
+ const el=document.getElementById("p-tl");
+ const agents=[...new Set(D.steps.map(s=>s.agent))];
+ const cars=[...new Set(D.steps.map(s=>s.carrier).filter(Boolean))].sort();
+ el.innerHTML=`<div class="filters"><label for="fa">Исполнитель</label><select id="fa">${agents.map(a=>`<option>${esc(a)}</option>`).join("")}</select>
+  <label for="fc">Перевозчик</label><select id="fc"><option value="">все</option>${cars.map(c=>`<option>${esc(c)}</option>`).join("")}</select>
+  <label for="fk">Шаг</label><select id="fk"><option value="">все</option>${["search","open","extract","infer","reject","conclude","gap"].map(c=>`<option>${c}</option>`).join("")}</select></div><div class="tl" id="tl"></div>`;
+ const draw=()=>{const a=fa.value,c=fc.value,k=fk.value;
+  const L=D.steps.filter(s=>s.agent===a&&(!c||s.carrier===c)&&(!k||s.kind===k));
+  document.getElementById("tl").innerHTML=L.map(step).join("")||'<div class="empty">Нет шагов под этот фильтр.</div>'};
+ const fa=document.getElementById("fa"),fc=document.getElementById("fc"),fk=document.getElementById("fk");
+ [fa,fc,fk].forEach(x=>x.onchange=draw); draw();
+}
+
+function pF41(){
+ const el=document.getElementById("p-f41");
+ const rs=[...D.rows].sort((a,b)=>a.icao.localeCompare(b.icao)||b.aircraft-a.aircraft);
+ el.innerHTML=`<p class="sub">Сырые ставки по парам «перевозчик × тип», 2025, только пассажирская компоновка. Как получены — шаги m0-001…m0-005 во вкладке «Ход поиска».</p><div class="tbl"><table><thead><tr><th>Тип</th><th>Перевозчик</th><th>кв.</th><th>бортов</th><th>сектор, ч</th><th>ТОиР</th><th>прямой</th><th>накладные</th><th>планер</th><th>двигатели</th></tr></thead><tbody>`+
+ rs.map(x=>`<tr><td>${x.icao}</td><td>${esc(x.carrier)} <span class="note c-mute">${esc(x.name.slice(0,28))}</span></td><td class="n">${x.quarters}</td><td class="n">${x.aircraft}</td><td class="n">${x.sector_h}</td><td class="n"><b>${fmt(x.total_bh)}</b></td><td class="n">${fmt(x.direct_bh)}</td><td class="n">${fmt(x.burden_bh)}</td><td class="n">${fmt(x.airframe_bh)}</td><td class="n">${fmt(x.engine_bh)}</td></tr>`).join("")+"</tbody></table></div>";
+}
+
+const tabs={"t-types":"p-types","t-cur":"p-cur","t-car":"p-car","t-tl":"p-tl","t-f41":"p-f41"};
+for(const [t,p] of Object.entries(tabs)) document.getElementById(t).onclick=()=>{
+ for(const [t2,p2] of Object.entries(tabs)){document.getElementById(t2).setAttribute("aria-selected",t2===t);document.getElementById(p2).hidden=t2!==t}};
+stats();pTypes();pCurves();pCar();pTl();pF41();
+</script>

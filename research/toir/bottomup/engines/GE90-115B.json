@@ -1,0 +1,127 @@
+{
+ "engine": "GE90-115B",
+ "aircraft": [
+  "B77W",
+  "B77L"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  110,
+  115
+ ],
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 6500000,
+    "year": 2012,
+    "note": "rotating LLP shipset; год каталога в тексте не указан, принят год публикации AC No.84 (окт/ноя 2012)",
+    "evidence": [
+     "e2-007"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "rotating LLPs (target life)",
+    "efc": 15000,
+    "evidence": [
+     "e2-007"
+    ]
+   },
+   {
+    "part": "static cases (target 40 000; текущие ограничения 6 780–25 380)",
+    "efc": 6780,
+    "evidence": [
+     "e2-008"
+    ]
+   }
+  ],
+  "escalation": {
+   "2022": {
+    "rate": ">=0.10",
+    "note": "GE/CFM, 1 Nov 2022, 'double-digit'",
+    "evidence": [
+     "e2-093"
+    ]
+   },
+   "2023": {
+    "rate": "~0.07-0.09",
+    "note": "GE/CFM, Aug 2023, 'high-single-digit'",
+    "evidence": [
+     "e2-094"
+    ]
+   }
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efh": 25000,
+   "interval_efc": 3000,
+   "ratio_fh_fc": 8.5,
+   "thrust": "115B (777-300ER)",
+   "cost_usd": 6250000,
+   "cost_range_usd": [
+    6000000,
+    6500000
+   ],
+   "cost_year": 2012,
+   "includes_llp": false,
+   "evidence": [
+    "e2-009",
+    "e2-012",
+    "e2-215"
+   ]
+  },
+  {
+   "which": "second/third",
+   "interval_efh": 19500,
+   "interval_efh_range": [
+    19000,
+    20000
+   ],
+   "interval_efc": 2100,
+   "interval_efc_range": [
+    2000,
+    2200
+   ],
+   "ratio_fh_fc": 8.5,
+   "thrust": "110B/115B",
+   "cost_usd": 7250000,
+   "cost_range_usd": [
+    7000000,
+    7500000
+   ],
+   "cost_year": 2012,
+   "includes_llp": false,
+   "evidence": [
+    "e2-010",
+    "e2-011"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh": null,
+   "usd_per_efc_llp": 432,
+   "year": 2012,
+   "note": "SV-резерв по таблице AC84 ~$333–350/EFH (не дословно проверено)",
+   "evidence": [
+    "e2-013"
+   ]
+  }
+ ],
+ "issues": [
+  "GE: 2-й SV широкофюзеляжного на ~50% тяжелее 1-го; ~70% парка GE90 ещё не прошли 2-й SV (2025) — рост затрат впереди [e2-208, e2-209]"
+ ],
+ "gaps": [
+  "Свежих (после 2012) открытых цен LLP и SV для GE90-115B не найдено; Visual Approach — платно [e2-206]"
+ ],
+ "doubts": [
+  "Цены 2012 года; индексация каталогом GE (≥10% в 2022, ~7–9% в 2023) обязательна",
+  "1-й интервал в EFC (~2 900–3 100) взят из таблицы AC84 по сводке WebFetch, не дословно",
+  "Широкие блог-оценки 2026 ($3–8 млн+ за perf. restoration GE90/Trent, Safe Fly) — aggregator, не использовать как базу [e2-194]"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

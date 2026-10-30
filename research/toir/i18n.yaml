@@ -1,0 +1,23 @@
+# Переводы строк из данных исследования (oem/o1.json и др.) для report.en.html и report.de.html.
+# Ключ — русская строка как в данных; сборщик печатает строки без перевода.
+"% ежегодного роста каталога GE/CFM, Safran и MTU в первоисточниках; данные CFM 2022–2023 — только из прессы":
+  en: "Annual catalogue increase of GE/CFM, Safran and MTU in primary sources; CFM data for 2022–2023 only from the press"
+  de: "Jährliche Katalogsteigerung von GE/CFM, Safran und MTU in Primärquellen; CFM-Daten 2022–2023 nur aus der Presse"
+"RTX/P&W: выручка commercial aftermarket и OE в $ (MD&A 10-K недоступен конвертеру) и каталожный рост P&W/IAE из первоисточника":
+  en: "RTX/P&W: commercial aftermarket and OE revenue in $ (the 10-K MD&A could not be converted) and P&W/IAE catalogue growth from a primary source"
+  de: "RTX/P&W: Umsatz Commercial Aftermarket und OE in $ (MD&A des 10-K nicht konvertierbar) und Katalogsteigerung P&W/IAE aus Primärquelle"
+"Rolls-Royce 2025: разбивка выручки OE/сервис в £":
+  en: "Rolls-Royce 2025: OE/service revenue split in £"
+  de: "Rolls-Royce 2025: Aufteilung des Umsatzes OE/Service in £"
+"кто заплатил каталожный рост 2023 со стороны перевозчиков США (10-K MD&A недоступны)":
+  en: "who among US carriers paid for the 2023 catalogue increase (10-K MD&A not available)"
+  de: "wer unter den US-Airlines die Katalogsteigerung 2023 bezahlt hat (MD&A der 10-K nicht verfügbar)"
+"методика BLS для PPI ремонта ВС (что именно котируется, учтены ли PBH и собственный ремонт авиакомпаний) не найдена":
+  en: "BLS methodology for the aircraft-repair PPI (what exactly is priced, whether PBH and airlines' in-house repair are included) not found"
+  de: "BLS-Methodik für den PPI der Flugzeugreparatur (was genau notiert wird, ob PBH und Eigenreparatur der Airlines enthalten sind) nicht gefunden"
+"раздельная маржа сервиса и OE ни одна компания (кроме убытка на двигатель у RR в 2019) не раскрывает":
+  en: "no company discloses separate service and OE margins (except Rolls-Royce's loss per engine in 2019)"
+  de: "kein Unternehmen weist getrennte Margen für Service und OE aus (außer dem Verlust je Triebwerk bei Rolls-Royce 2019)"
+"скидки крупным заказчикам/по PBH в судах и антимонопольных делах не найдены; свежих данных о скидках к каталогу нет (только GAO 1999)":
+  en: "discounts to large customers / under PBH not found in court or antitrust cases; no recent data on catalogue discounts (only GAO 1999)"
+  de: "Rabatte für Großkunden / bei PBH in Gerichts- und Kartellverfahren nicht gefunden; keine aktuellen Daten zu Katalograbatten (nur GAO 1999)"

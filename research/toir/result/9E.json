@@ -1,0 +1,59 @@
+{
+ "carrier": "9E",
+ "name": "Endeavor Air (Delta Air Lines)",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "direct_expense",
+  "detail": "Политика Delta (консолидированно, включая Endeavor): ТОиР в расход по мере выполнения, кроме power-by-the-hour — по фактическому налёту; модификации капитализируются. Политика FY2020 (более свежая недоступна).",
+  "lessor_reserves": "не найдено",
+  "evidence": [
+   "a3-188",
+   "a3-189",
+   "a3-190",
+   "a3-208"
+  ]
+ },
+ "engine_pbh": [],
+ "fleet": [
+  {
+   "icao": "CRJ9",
+   "count": 126,
+   "avg_age_y": null,
+   "as_of": "2025-12 (факт-шит)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a3-061"
+   ]
+  },
+  {
+   "icao": "CRJ7",
+   "count": 19,
+   "avg_age_y": null,
+   "as_of": "2025-12 (факт-шит)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a3-062"
+   ]
+  }
+ ],
+ "cpa": {
+  "role": "100% дочка Delta (Delta Connection)",
+  "who_pays_maintenance": "Не раскрыто. Delta 10-K: Delta TechOps обслуживает «mainline and regional aircraft» — возможно, часть ТОиР (двигатели) выполняется и учитывается на уровне Delta, а не в Form 41 Endeavor. Не подтверждено.",
+  "evidence": [
+   "a3-057",
+   "a3-058",
+   "a3-191"
+  ]
+ },
+ "gaps": [
+  "Объяснение двигателей 27–39 USD/ч и нулевых накладных — не найдено",
+  "Средний возраст и собств./аренда — 10-K Delta Item 2 недоступен"
+ ],
+ "doubts": [
+  "Низкие расходы на двигатели согласуются с гипотезой, что двигатели CF34 ремонтирует Delta TechOps за счёт Delta (прецедент: FlightGlobal 2002 про тогдашние дочки) — для 2025 не подтверждено"
+ ]
+}

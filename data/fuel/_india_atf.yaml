@@ -1,0 +1,243 @@
+# Сгенерировано research/fuel-2026-10/build_report.py; цену IOCL обновляет месячный агент.
+method: 'Внутренние рейсы из Индии: цена IOCL для внутренних авиакомпаний в Дели (с акцизом 11 % и VAT Дели) ÷ (1
+  + VAT Дели) × (1 + VAT штата аэропорта вылета). Международные рейсы — без VAT и акциза, множитель региона. Решение
+  236.'
+built: '2026-10-30'
+month: 2026-10
+delhi_domestic_inr_kl: 137000
+delhi_vat_pct_at_price: 7
+excise_pct: 11
+source:
+- https://hdfcsky.com/news/atf-prices-increased-by-around-rs-16-from-rs-121-per-litre-to-rs-137-per-litre
+- https://swarajyamag.com/news-brief/india-weighs-fresh-aviation-fuel-stabilisation-fund-after-june-scheme-lapses-unused-amid-price-surge
+default_vat_pct: 18
+vat:
+  VIDP:
+    periods:
+    - pct: 7
+      from: '2026-05-16'
+      to: '2026-11-15'
+    - pct: 25
+    state: Delhi
+    source:
+    - https://www.businesstoday.in/india/story/delhi-slashes-atf-vat-from-25-to-7-amid-rising-aviation-costs-airfare-concerns-531846-2026-05-16
+    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+  VABB:
+    periods:
+    - pct: 7
+      from: '2026-05-15'
+      to: '2026-11-14'
+    - pct: 18
+    state: Maharashtra
+    source:
+    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
+    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+  VAPO:
+    periods:
+    - pct: 7
+      from: '2026-05-15'
+      to: '2026-11-14'
+    - pct: 18
+    state: Maharashtra
+    source:
+    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
+    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+  VANM:
+    periods:
+    - pct: 7
+      from: '2026-05-15'
+      to: '2026-11-14'
+    - pct: 18
+    state: Maharashtra
+    source:
+    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
+    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+  VOMM:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 16
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VOCB:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 1
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VOMD:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 1
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VOTR:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 1
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VOTK:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 1
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VOSM:
+    periods:
+    - pct: 29
+      to: '2026-10-31'
+    - pct: 1
+      from: '2026-11-01'
+      to: '2027-10-31'
+    - pct: 29
+    state: Tamil Nadu
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+  VECC:
+    periods:
+    - pct: 25
+    state: West Bengal
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+    - https://comtax.wb.gov.in/notification/1126-FT_20240715.pdf
+  VOBL:
+    periods:
+    - pct: 18
+    state: Karnataka
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VOHS:
+    periods:
+    - pct: 16
+    state: Telangana
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+    - https://www.100knots.com/aviation-minister-urges-states-to-rationalise-vat-on-atf-in-1-4-range/
+  VAAH:
+    periods:
+    - pct: 5
+    state: Gujarat
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VOCI:
+    periods:
+    - pct: 1
+    state: Kerala
+    source:
+    - https://www.100knots.com/aviation-minister-urges-states-to-rationalise-vat-on-atf-in-1-4-range/
+  VOTV:
+    periods:
+    - pct: 1
+    state: Kerala
+    source:
+    - https://www.100knots.com/aviation-minister-urges-states-to-rationalise-vat-on-atf-in-1-4-range/
+  VOCL:
+    periods:
+    - pct: 1
+    state: Kerala
+    source:
+    - https://www.100knots.com/aviation-minister-urges-states-to-rationalise-vat-on-atf-in-1-4-range/
+  VOGO:
+    periods:
+    - pct: 18
+    state: Goa
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VOGA:
+    periods:
+    - pct: 18
+    state: Goa
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VILK:
+    periods:
+    - pct: 1
+    state: Uttar Pradesh
+    source:
+    - https://www.businesstoday.in/latest/corporate/story/high-atf-tax-in-delhi-vs-1-in-up-jewar-airport-launch-sparks-airline-cost-concerns-522806-2026-03-27
+  VIDX:
+    periods:
+    - pct: 1
+    state: Uttar Pradesh
+    source:
+    - https://www.businesstoday.in/latest/corporate/story/high-atf-tax-in-delhi-vs-1-in-up-jewar-airport-launch-sparks-airline-cost-concerns-522806-2026-03-27
+  VEBN:
+    periods:
+    - pct: 1
+    state: Uttar Pradesh
+    source:
+    - https://www.businesstoday.in/latest/corporate/story/high-atf-tax-in-delhi-vs-1-in-up-jewar-airport-launch-sparks-airline-cost-concerns-522806-2026-03-27
+  VIJP:
+    periods:
+    - pct: 26
+    state: Rajasthan
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VEGT:
+    periods:
+    - pct: 23.65
+    state: Assam
+    source:
+    - https://eparlib.nic.in/bitstream/123456789/1466201/1/AU1423.pdf
+  VOVZ:
+    periods:
+    - pct: 1
+    state: Andhra Pradesh
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+  VOTP:
+    periods:
+    - pct: 1
+    state: Andhra Pradesh
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+  VORY:
+    periods:
+    - pct: 1
+    state: Andhra Pradesh
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+  VOBZ:
+    periods:
+    - pct: 1
+    state: Andhra Pradesh
+    source:
+    - https://a2ztaxcorp.net/?p=40611
+  VOKU:
+    periods:
+    - pct: 1
+    state: Andhra Pradesh
+    source:
+    - https://a2ztaxcorp.net/?p=40611

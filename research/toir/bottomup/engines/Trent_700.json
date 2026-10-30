@@ -1,0 +1,187 @@
+{
+ "engine": "Trent 700",
+ "aircraft": [
+  "A332",
+  "A333"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  67.5,
+  71.1
+ ],
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 4800000,
+    "year": 2008,
+    "note": "AC No.57 'full shipset'; год каталога не указан",
+    "evidence": [
+     "e2-031"
+    ]
+   },
+   {
+    "usd": 6100000,
+    "year": 2012,
+    "note": "Group A $4.1 млн + Group B ~$2.0 млн (AC No.83)",
+    "evidence": [
+     "e2-199"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "HP modules (2008)",
+    "efc": 10000,
+    "evidence": [
+     "e2-032"
+    ]
+   },
+   {
+    "part": "LP/IP modules (2008)",
+    "efc": 15000,
+    "evidence": [
+     "e2-033"
+    ]
+   },
+   {
+    "part": "Group A LLPs, target (2012)",
+    "efc": 15000,
+    "evidence": [
+     "e2-200"
+    ]
+   }
+  ],
+  "escalation": {}
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efh": 21500,
+   "interval_efh_range": [
+    20000,
+    23000
+   ],
+   "interval_efc": null,
+   "ratio_fh_fc": 6.7,
+   "thrust": "768/772",
+   "cost_usd": 2600000,
+   "cost_range_usd": [
+    2500000,
+    2700000
+   ],
+   "cost_year": 2008,
+   "includes_llp": false,
+   "evidence": [
+    "e2-034",
+    "e2-036"
+   ]
+  },
+  {
+   "which": "second",
+   "interval_efh": 17000,
+   "interval_efh_range": [
+    16000,
+    18500
+   ],
+   "interval_efc": null,
+   "ratio_fh_fc": 6.7,
+   "thrust": "768/772",
+   "cost_usd": 3850000,
+   "cost_range_usd": [
+    3700000,
+    4000000
+   ],
+   "cost_year": 2008,
+   "includes_llp": false,
+   "evidence": [
+    "e2-035",
+    "e2-037"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": 16000,
+   "interval_efc": 5333,
+   "ratio_fh_fc": 3.0,
+   "thrust": "768/772",
+   "cost_usd": 3500000,
+   "cost_year": 2008,
+   "includes_llp": false,
+   "evidence": [
+    "e2-040",
+    "e2-041"
+   ]
+  },
+  {
+   "which": "second",
+   "interval_efh": null,
+   "interval_efc": null,
+   "ratio_fh_fc": 3.0,
+   "thrust": "768/772",
+   "cost_usd": 5700000,
+   "cost_year": 2008,
+   "includes_llp": false,
+   "evidence": [
+    "e2-041"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": null,
+   "interval_efc": 3350,
+   "interval_efc_range": [
+    2500,
+    4200
+   ],
+   "ratio_fh_fc": 3.0,
+   "thrust": "768/772",
+   "cost_usd": 4375000,
+   "cost_range_usd": [
+    4250000,
+    4500000
+   ],
+   "cost_year": 2012,
+   "includes_llp": false,
+   "note": "стоимость — при 2.5–3.5 EFH/EFC",
+   "evidence": [
+    "e2-201",
+    "e2-202"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh": 175,
+   "usd_per_efc_llp": 420,
+   "year": 2008,
+   "note": "SV-резерв $170–180/EFH при 6.7 EFH/EFC; всего с LLP $235/EFH; при 3.0 EFH/EFC всего $325/EFH",
+   "evidence": [
+    "e2-038",
+    "e2-039",
+    "e2-042"
+   ]
+  },
+  {
+   "usd_per_efh": null,
+   "usd_per_efc_llp": 374,
+   "year": 2012,
+   "note": "Group A $274 + Group B $100 /EFC",
+   "evidence": [
+    "e2-203"
+   ]
+  }
+ ],
+ "issues": [
+  "Слайд RR 2024 «Trent 7000 ToW >4 лет» относится к A330neo, не к Trent 700 [e2-099]"
+ ],
+ "gaps": [
+  "Свежие (после 2012) цены LLP/SV не найдены"
+ ],
+ "doubts": [
+  "Охват $4.8 млн (2008) неясен: если полный комплект — рост к 2012 ~6%/год; если только Group A — несопоставимо [e2-214]",
+  "Ресурс HP-модулей 10 000 EFC (2008) vs Group A target 15 000 EFC (2012) — разные базы/модификации",
+  "interval_efc для 3.0 EFH/EFC (5 333) — расчёт 16 000/3.0"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

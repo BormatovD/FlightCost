@@ -1,0 +1,472 @@
+{
+ "f1-003": {
+  "status": "found",
+  "found_text": "North America 39% 238.01 99.96 789.70",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-004": {
+  "status": "found",
+  "found_text": "Europe & CIS 28% 229.44 96.37 760.33",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-005": {
+  "status": "found",
+  "found_text": "Asia & Oceania 22% 206.79 86.85 686.13",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-006": {
+  "status": "found",
+  "found_text": "Middle East 5% 196.69 82.61 652.59",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-007": {
+  "status": "found",
+  "found_text": "Latin & Central America 4% 234.07 98.31 776.64",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-008": {
+  "status": "found",
+  "found_text": "Africa* 2% 220.68 92.68 731.61",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-009": {
+  "status": "found",
+  "found_text": "Jet Fuel Price 100% 226.11 94.97 749.95",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-010": {
+  "status": "found",
+  "found_text": "The Africa index was launched Jan. 2, 2025, carved out from the Middle East and Africa index.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-012": {
+  "status": "found",
+  "found_text": "North America 39% 212.47 89.24 704.97 237.2 ... Europe & CIS 28% 213.88 89.83 708.75 ... Asia & Oceania 22% 211.41 88.79 701.46 ... Middle East & Africa 7% 209.40 87.95 694.44 ... Latin & Central America 4% 212.23 89.14 704.17 ... Jet Fuel Price 100% 212.41 89.21 704.50",
+  "value_ok": true,
+  "note": "Все региональные $/mt из value подтверждены дословно (f1-043 опирался на пересказ — числа верны)."
+ },
+ "f1-013": {
+  "status": "found",
+  "found_text": "Middle East & Africa 7% 209.40 87.95 694.44",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-019": {
+  "status": "found",
+  "found_text": "The Aviation fuel price is the lowest in the Middle East at $164.72 and the highest in Europe at $192.38.",
+  "value_ok": true,
+  "note": "Дата недели (до 2026-09-11) — из того же текста (f1-020)."
+ },
+ "f1-020": {
+  "status": "partial",
+  "found_text": "According to the Jet Fuel Price Monitor, the global average aviation fuel price rose 6% from the previous week to $181.46/bbl [...] for the week ending September 11, 2026.",
+  "value_ok": true,
+  "note": "Цитата склеена: между \"$181.46/bbl\" и \"for the week ending\" в источнике есть пропущенная часть того же предложения. Числа и дата совпадают; отношения 1.060 и 0.908 верны."
+ },
+ "f1-022": {
+  "status": "found",
+  "found_text": "In the following week, the price went up by 58.4% to $157.41 on March 6, by 11.2% to $175 on March 13 ... went up by 3.6% to $99.40 on February 27",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-024": {
+  "status": "found",
+  "found_text": "...fuel that are 2.4 times higher than their North American counterparts",
+  "value_ok": true,
+  "note": "Статья 22.10.2024, но данные IATA — май 2023 (f1-031). 2.4 = 647/268; в самой странице IATA множитель 2.4 не приводится."
+ },
+ "f1-025": {
+  "status": "found",
+  "found_text": "on average, airlines in Africa pay 647 US cents for a gallon of aviation fuel.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-026": {
+  "status": "found",
+  "found_text": "That compares with 268cents for airlines in North America, 306 in the Middle-East, 388 in Europe,",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-027": {
+  "status": "found",
+  "found_text": "432 in Latin America, and 542 in Asia and Oceania.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-030": {
+  "status": "found",
+  "found_text": "Into-wing jet fuel price range by region, US cents per gallon (легенда графика: Regional product price, Average add-ons, Into-wing price range)",
+  "value_ok": true,
+  "note": "Подпись найдена. Вывод \"647/542/... вероятно верхние границы\" — гипотеза: пресса называет их \"on average\", а легенда содержит и average add-ons, и price range; из текста страницы не разрешается."
+ },
+ "f1-031": {
+  "status": "found",
+  "found_text": "Source: IATA'S Airline Survey for May 2023 uplift and S&P Global Commodity Insights",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-032": {
+  "status": "found",
+  "found_text": "The into-wing price is the all-inclusive cost an airline pays for fuel delivery to its aircraft.",
+  "value_ok": true,
+  "note": "Разложение \"спот региона + надбавки\" — из легенды графика (Regional product price / Average add-ons), не из этого предложения."
+ },
+ "f1-033": {
+  "status": "found",
+  "found_text": "Africa has the highest average into-wing fuel price globally, mainly due to limited supply competition, [предложение продолжается]",
+  "value_ok": true,
+  "note": "В источнике после \"competition\" запятая и продолжение; цитата обрезана — смысл не искажён."
+ },
+ "f1-034": {
+  "status": "found",
+  "found_text": "Jet fuel typically constitutes the largest operational cost for airlines, currently around 30% of total industry costs.",
+  "value_ok": true,
+  "note": "Страница от 18.10.2024."
+ },
+ "f1-038": {
+  "status": "found",
+  "found_text": "2026-01-30 2.184",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-039": {
+  "status": "found",
+  "found_text": "2024-11-15 2.022",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-040": {
+  "status": "found",
+  "found_text": "2026-09-04 4.082",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-041": {
+  "status": "found",
+  "found_text": "2026-02-27 2.469 ... 2026-03-20 4.038",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-047": {
+  "status": "found",
+  "found_text": "The global average jet fuel price last week rose 2.2% compared to the week before to $196.70/bbl.",
+  "value_ok": true,
+  "note": "Дата недели на странице не указана (подтверждено)."
+ },
+ "f1-049": {
+  "status": "found",
+  "found_text": "IATA data shows regional variation in jet fuel costs, with prices at $140 per barrel in Europe, $137 in North America, and $139 in Asia.",
+  "value_ok": true,
+  "note": "Статья 18.06.2026; дата недели не указана."
+ },
+ "f1-052": {
+  "status": "found",
+  "found_text": "we forecast an average jet fuel price of USD 152 per barrel in 2026—almost 70% higher than in 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-053": {
+  "status": "found",
+  "found_text": "If the disruption persists, average jet fuel crack spreads could rise above USD 57 per barrel in 2026...",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-056": {
+  "status": "found",
+  "found_text": "The cost per gallon of fuel in December 2025 ($2.32) was down 10 cents (4.2%) from November 2025 [...]",
+  "value_ok": true,
+  "note": "Ноябрьские $2.42 не видны во фрагменте, но следуют из 2.32+0.10."
+ },
+ "f1-057": {
+  "status": "found",
+  "found_text": "Airline fuel costs may be affected by hedging, contracts that allow airlines to limit exposure to future price changes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-059": {
+  "status": "found",
+  "found_text": "The cost per gallon of fuel in July 2025 ($2.34) was up 12 cents (5.5%) from June 2025 ($2.22)",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-063": {
+  "status": "found",
+  "found_text": "Most term contracts price as a differential to a market index — for example Platts Singapore + 0.12 USD/USG.",
+  "value_ok": true,
+  "note": "0.12 $/гал × ~332 гал/т ≈ 40 $/т — верно."
+ },
+ "f1-065": {
+  "status": "found",
+  "found_text": "Fuel Service Rate (FSR) ... Jet Fuel 1.42c/Litre (excl. GST*) ... valid from 1 July 2024 – 30 June 2025",
+  "value_ok": true,
+  "note": "Пересчёт ≈3.5 ц США/гал верен (при ~0.65 USD/AUD)."
+ },
+ "f1-068": {
+  "status": "found",
+  "found_text": "State-owned oil marketing companies increased ATF prices for international carriers by $76.55 per kilolitre, or 5.33%, taking the rate in Delhi to $1,511.86 per kl.",
+  "value_ok": true,
+  "note": "Пересчёт 572 ц/гал и ~1890 $/т (ρ=0.8) верен; действует с 1 мая 2026."
+ },
+ "f1-069": {
+  "status": "found",
+  "found_text": "This comes after a sharp increase in April, when ATF prices for domestic airlines were raised by 25% to ₹1,04,927.18 per kl.",
+  "value_ok": true,
+  "note": "Расхождение источников: ThePrint (01.04.2026, f1-071) пишет, что для внутренних а/к рост в апреле \"only 8.5 per cent\", Business Today — 25%."
+ },
+ "f1-071": {
+  "status": "found",
+  "found_text": "For them the prices have gone up by Rs 110,703.08 per kl, or 114.5 per cent, to Rs 207,341.22 per kl.",
+  "value_ok": false,
+  "note": "\"them\" — non-scheduled, adhoc и charter перевозчики (\"Domestic airlines will pay half of what other carriers such as non-scheduled, adhoc and charter would pay\"); про иностранные а/к сказано отдельно — \"would pay market rates\" (для них — долларовая цена f1-068). Пометка \"иностранные\" в value не подтверждается. Соотношение ~2× верно."
+ },
+ "f1-075": {
+  "status": "found",
+  "found_text": "VAT on ATF ranged from as low as 1 percent at airports covered under the UDAN",
+  "value_ok": true,
+  "note": "1% — для аэропортов UDAN, не общий минимум по штатам."
+ },
+ "f1-076": {
+  "status": "found",
+  "found_text": "as high as 25 to 29 percent at airports in certain high-revenue states",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-077": {
+  "status": "found",
+  "found_text": "approved a corresponding reduction in Delhi's ATF VAT rate from 25 percent to 7 percent",
+  "value_ok": true,
+  "note": "Дата: одобрено/последовало 17.05.2026, \"initial six-month period\" — близко к value."
+ },
+ "f1-078": {
+  "status": "found",
+  "found_text": "international carriers operating from Maharashtra airports were already exempt from VAT on ATF",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-079": {
+  "status": "found",
+  "found_text": "... accounts for approximately 35 to 40 percent of an airline’s total operating expenditure in India",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-081": {
+  "status": "found",
+  "found_text": "Tamil Nadu currently levies one of the highest VAT rates on ATF at 29 per cent, while Delhi imposes 25 per cent.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-082": {
+  "status": "found",
+  "found_text": "the revised VAT rate came into effect from May 15 and will remain applicable until November 14, 2026.",
+  "value_ok": true,
+  "note": "Дата 15.05–14.11.2026 относится к Махараштре (статья о ней), не к Дели (у Дели — с 17.05 на 6 мес.)."
+ },
+ "f1-084": {
+  "status": "found",
+  "found_text": "Airlines will, however, continue to pay an 11 per cent excise duty on ATF used for flying aircraft domestically.",
+  "value_ok": true,
+  "note": "Статья 08.07.2022 (обновл. 07.07.2023)."
+ },
+ "f1-087": {
+  "status": "found",
+  "found_text": "в размере 58.421,35 рубля за тонну против 38.297,35 рубля за тонну за август",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-088": {
+  "status": "found",
+  "found_text": "возросла по сравнению с августом на 22.552 рубля (+21,7%) до 126.263 рублей за тонну.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-089": {
+  "status": "found",
+  "found_text": "в сентябре достигла 157.179 рублей за тонну против 126.219 рублей за тонну",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-090": {
+  "status": "found",
+  "found_text": "Субсидия позволит авиаперевозчикам компенсировать 48,7% биржевой оптовой цены авиакеросина",
+  "value_ok": true,
+  "note": "Внутренняя несостыковка источника: 58 421/126 263 = 46.3%, а не 48.7% (вероятно, иная база). Цитата верна."
+ },
+ "f1-092": {
+  "status": "found",
+  "found_text": "составила 75.781 рубль за тонну против 78.919 рублей за тонну в декабре",
+  "value_ok": true,
+  "note": "Средняя оптовая цена СПбМТСБ за январь 2026."
+ },
+ "f1-093": {
+  "status": "found",
+  "found_text": "в январе выросла до 66.523 рублей за тонну с 64.099 рублей за тонну в декабре",
+  "value_ok": true,
+  "note": "Экспортная альтернатива (порты СЗФО), расчётная величина для демпфера."
+ },
+ "f1-097": {
+  "status": "found",
+  "found_text": "…цена авиатоплива достигла 121 864 руб. за тонну",
+  "value_ok": true,
+  "note": "Это цена торгов 20.08.2026 (один день), не среднемесячная."
+ },
+ "f1-099": {
+  "status": "found",
+  "found_text": "удалось снизить до уровня 930-1000 долларов за тонну авиакеросина",
+  "value_ok": true,
+  "note": "Статья 14.01.2026; заправка \"в крыло\" зарубежных перевозчиков."
+ },
+ "f1-100": {
+  "status": "found",
+  "found_text": "в то время как прежде в воздушных гаванях городов республиканского значения она составляла 1200 долларов.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-104": {
+  "status": "found",
+  "found_text": "at a maximum of N2,037 per litre in Abuja, with the product costing between N1,760 and N1,988 per litre in Lagos.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-105": {
+  "status": "found",
+  "found_text": "The regulator said the new pricing benchmark is based on Platts average prices recorded between April 17 and 23, 2026",
+  "value_ok": true,
+  "note": "Премия Dangote упоминается в статье — вывод value подтверждается."
+ },
+ "f1-109": {
+  "status": "found",
+  "found_text": "African carriers were already paying about 17 percent more for jet fuel than the global average before the war in Iran, [...] (AFRAA)",
+  "value_ok": true,
+  "note": "Статья 13.06.2026; база \"global average\" не определена."
+ },
+ "f1-110": {
+  "status": "found",
+  "found_text": "Fuel represents between 30 percent and 40 percent of airlines' operating costs.",
+  "value_ok": true,
+  "note": "Слова генсека AFRAA Abderahmane Berthe."
+ },
+ "f1-112": {
+  "status": "found",
+  "found_text": "Consequently, fuel expenses can represent up to 40% of an African airline's operating costs, markedly higher than the 25% typical in other regions.",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-115": {
+  "status": "found",
+  "found_text": "FY27 jet-fuel 80% hedged @ $668 met. tn. (CEO: \"80% of FY27 jet-fuel is hedged at approx. $67bbl – to April 2027\")",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-117": {
+  "status": "found",
+  "found_text": "Fuel and oil -4% 5,418.6 5,220.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-118": {
+  "status": "found",
+  "found_text": "Operating expenses before exceptional charge -6% 13,085.1 12,390.5",
+  "value_ok": true,
+  "note": "5418.6/13085.1 = 41.4%; FY25 5220.2/12390.5 = 42.1% — верно."
+ },
+ "f1-121": {
+  "status": "found",
+  "found_text": "Fuel Price (without hedge) (US$ per gallon) | 2.58 | 2.57 | 0.2% | 2.62 | 2.91 | -10.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-122": {
+  "status": "found",
+  "found_text": "Aircraft Fuel | -3,804,821 | — | -3,804,821 | -3,970,077 | -4.2% ; TOTAL OPERATING EXPENSES | -12,159,452 | 19,413 | -12,140,039 | -11,373,490 | 6.7%",
+  "value_ok": true,
+  "note": "31.3% верно (тыс. USD)."
+ },
+ "f1-129": {
+  "status": "found",
+  "found_text": "Meanwhile, the price of conventional aviation fuel during the year averaged at €640/t ($743.23/t).",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-130": {
+  "status": "found",
+  "found_text": "EASA calculated 2025 real index price for aviation biofuels in 2025 at €1,925/t ($2,235/t).",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-134": {
+  "status": "found",
+  "found_text": "Within the cost of materials and services, fuel expenses decreased by 7% to EUR 7,271m (previous year: EUR 7,785m).",
+  "value_ok": true,
+  "note": ""
+ },
+ "f1-135": {
+  "status": "found",
+  "found_text": "operating expenses for the Lufthansa Group rose by 4% in the 2025 financial year to EUR 40,799m (previous year: EUR 39,097m)",
+  "value_ok": true,
+  "note": "7271/40799 = 17.8% — верно."
+ },
+ "f1-140": {
+  "status": "found",
+  "found_text": "снижение топливных демпферных выплат (государственных субсидий для сглаживания цен на топливо) на 85%",
+  "value_ok": true,
+  "note": "Слова аналитика Т-Инвестиций Н. Степанова, не отчётность Аэрофлота."
+ },
+ "f1-142": {
+  "status": "found",
+  "found_text": "Aircraft fuel expenses drove this jump, skyrocketing 86 per cent to hit Rs 10,830 crore.",
+  "value_ok": true,
+  "note": "Квартал апр–июн 2026."
+ },
+ "f1-146": {
+  "status": "found",
+  "found_text": "Fuel accounted for 29% of operating costs compared to 31% in 2024-25.",
+  "value_ok": true,
+  "note": ""
+ },
+ "_regions": {
+  "North America": {
+   "ok": true,
+   "note": "1.08 и 1.04–1.18 пересчитаны по FRED: июнь 2.22/2.100=1.057, июль 2.34/2.243=1.043, нояб. 2.42/2.251=1.075, дек. 2.32/1.972=1.177. BTS — средняя по а/к США с хеджем, вкл. заправки за рубежом."
+  },
+  "Latin America": {
+   "ok": true,
+   "note": "Пересчитано: USGC 2025 среднее 52 нед. = 2.119, 4Q25 = 2.125 → 2.62/2.119=1.236, 2.58/2.125=1.214. Но это одна а/к (LATAM) — региональная представительность не доказана."
+  },
+  "Europe (EU/EEA/UK/CH)": {
+   "ok": false,
+   "note": "Из цитат следуют только спот Europe&CIS/USGC 1.051 (янв-2026), 1.058 (нояб-2024), ~1.12 (сент-2026, со сдвигом дат) и SAF +4% (0.02×(2235−743)/743). +3% into-plane — допущение без источника; итог 1.12 из evidence не выводится. Индекс Europe&CIS включает СНГ. Отметим: IATA NA-спот сам 1.09×USGC (янв-2026), т.е. Europe-спот ниже NA."
+  },
+  "CIS ex-Russia": {
+   "ok": true,
+   "note": "930–1000/669 = 1.39–1.49, 1200/669 = 1.79 — арифметика верна (332 гал/т подтверждается 789.70/99.96×42). Но одна страна (Казахстан, иностранные а/к); перенос на весь СНГ не подкреплён."
+  },
+  "Russia": {
+   "ok": true,
+   "note": "Множитель null обоснован. Отношения 1.14 / 0.80 / 0.43 пересчитаны верно. Источник сам заявляет 48.7%, тогда как 58 421/126 263 = 46.3%."
+  },
+  "Middle East": {
+   "ok": false,
+   "note": "Спот ME/USGC 0.90 (янв-2026), ME&A 1.04 (нояб-2024), ~0.96 (сент-2026). Центр 1.0 держится на допущении \"into-plane компенсирует\" — надбавка для региона не найдена. IATA into-wing (май 2023) ME 306 vs NA 268 = 1.14×NA, что при NA≈1.08×USGC даёт ~1.2×USGC — ближе к верху диапазона, а не к 1.0 (если эти цифры — средние)."
+  },
+  "Africa": {
+   "ok": false,
+   "note": "1.2 ≈ 1.17 × мировой спот (1.035×USGC) — правдоподобно, но база \"global average\" у AFRAA не определена (признано). Верх 2.4 — это множитель к into-wing NA, а не к USGC, и из данных мая 2023 (647/268); к USGC было бы ещё выше. Диапазон смешивает разные базы. Спот Africa/USGC = 1.01 (янв-2026)."
+  },
+  "South Asia — India": {
+   "ok": true,
+   "note": "Центр: 5.72/3.903 = 1.465 — верно (одна точка, кризис, междунар. рейсы Дели). Диапазон 1.3–1.9 цитатами не подкреплён (низ без источника, верх — допущение). Пометка \"Дели/Махараштра 7% до 14.11.2026\": дата 14.11 — только для Махараштры."
+  },
+  "Asia & Oceania (ex-India)": {
+   "ok": true,
+   "note": "Множитель null — честно. Спот 0.947 (янв-2026), 1.046 (нояб-2024) подтверждены. Верх диапазона 1.5 не выводится из evidence; f1-027 (Asia 542 vs NA 268 = 2.0×NA, май 2023) противоречил бы ему, если это средние."
+  }
+ }
+}

@@ -1,0 +1,392 @@
+{
+ "a5-004": {
+  "status": "found",
+  "found_text": "For 2005, basic and diluted earnings per share include $(3.27) per share and $(2.66) per share, respectively, for the $90.4 million, net of tax, cumulative effect of the change in accounting policy for major airframe and engine overhauls",
+  "value_ok": true,
+  "note": "Цитата без года; год 2005 следует из контекста сноски (c): она относится к колонке 2005 (в тексте 'For 2005, ...'). Период 2005 подтверждён, но самой цитатой — нет."
+ },
+ "a5-008": {
+  "status": "found",
+  "found_text": "Effective January 1, 2005, the Company changed its method of accounting for major airframe and engine overhauls",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-009": {
+  "status": "found",
+  "found_text": "from the capitalize and amortize method to the direct expense method.",
+  "value_ok": true,
+  "note": "Дата 2005 не в самой цитате, а в предыдущей фразе той же Note 2 (Effective January 1, 2005); период подтверждён контекстом."
+ },
+ "a5-010": {
+  "status": "found",
+  "found_text": "wrote off the net book value of its previously capitalized airframe and engine overhauls for all aircraft [in a charge totaling $144.7 million pre-tax]",
+  "value_ok": false,
+  "note": "Списание по 'all aircraft' на уровне Company; Horizon в Note 2 не упомянут (только 'the Company'; Horizon назван в Note 1 как дочерняя). 'Alaska и Horizon' прямо не следует, это вывод."
+ },
+ "a5-023": {
+  "status": "found",
+  "found_text": "The Company currently uses the direct expense method of accounting for planned major maintenance;",
+  "value_ok": true,
+  "note": "10-Q Q3 2007; 'currently' привязывает политику к 2007. Далее: поэтому FSP AUG AIR-1 влияния не окажет."
+ },
+ "a5-045": {
+  "status": "found",
+  "found_text": "overhaul of aircraft components, are charged to operating expense as incurred",
+  "value_ok": true,
+  "note": "Письмо SEC цитирует 10-K за год, закончившийся 31.12.2009; период FY2009 подтверждён."
+ },
+ "a5-046": {
+  "status": "found",
+  "found_text": "power-by-the-hour agreements, which are expensed based on contractual terms",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-049": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its regional jet engine overhauls",
+  "value_ok": false,
+  "note": "FY2011 (31.12.2011) подтверждён. Но 'включая ExpressJet и ASA' ни в цитате, ни в найденном абзаце не следует (это контекст исследователя)."
+ },
+ "a5-050": {
+  "status": "found",
+  "found_text": "The Company uses the \"deferral method\" of accounting for its Brasilia Turboprop engine overhauls",
+  "value_ok": true,
+  "note": "FY2011. Тип EMB-120 в тексте не назван — только 'Brasilia Turboprop'."
+ },
+ "a5-051": {
+  "status": "found",
+  "found_text": "wherein the overhaul costs are capitalized and depreciated to the next estimated overhaul event.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-052": {
+  "status": "found",
+  "found_text": "The costs of maintenance for airframe and avionics components, landing gear and normal recurring maintenance are expensed as incurred.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-054": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its regional jet engine overhauls wherein the expense is recorded when the overhaul event occurs.",
+  "value_ok": true,
+  "note": "FY2018 (31.12.2018). Brasilia и deferral в абзаце политики не упоминаются (подтверждено)."
+ },
+ "a5-061": {
+  "status": "found",
+  "found_text": "aircraft maintenance expense declined $3.8 million due to decreased scheduled heavy airframe maintenance checks",
+  "value_ok": true,
+  "note": "Q2 2015 (три месяца до 30.06.2015). Цитата говорит только о снижении расхода из-за меньшего числа тяжёлых форм; сама политика (direct_expense) не заявлена — вывод косвенный."
+ },
+ "a5-066": {
+  "status": "found",
+  "found_text": "Maintenance and repair costs for owned and leased flight equipment, including the overhaul of aircraft components,",
+  "value_ok": false,
+  "note": "Документ — отчётность за год, закончившийся 31.12.2009 (сравнительные 2008, 2007). Политика изложена в настоящем времени для FY2009; период 2007–2009 из цитаты не следует (подтверждён только 2009)."
+ },
+ "a5-067": {
+  "status": "found",
+  "found_text": "are charged to operating expense as incurred.",
+  "value_ok": true,
+  "note": "Подтверждён только FY2009."
+ },
+ "a5-068": {
+  "status": "found",
+  "found_text": "Maintenance and repair costs also include engine overhaul costs covered by cost-per-hour agreements,",
+  "value_ok": true,
+  "note": "FY2009."
+ },
+ "a5-069": {
+  "status": "found",
+  "found_text": "a majority of which are expensed on the basis of hours flown.",
+  "value_ok": true,
+  "note": "FY2009."
+ },
+ "a5-071": {
+  "status": "found",
+  "found_text": "The cost of maintenance and repairs, including the cost of minor replacements, is charged to expense as incurred,",
+  "value_ok": true,
+  "note": "FY2013 (31.12.2013), отчётность UCH/United. 'вкл. бывший Continental' в цитате не прозвучало; период 2013 подтверждён."
+ },
+ "a5-072": {
+  "status": "found",
+  "found_text": "except for costs incurred under our power-by-the-hour (“PBTH”) engine maintenance agreements.",
+  "value_ok": true,
+  "note": "FY2013."
+ },
+ "a5-074": {
+  "status": "found",
+  "found_text": "The cost of scheduled inspections and repairs and routine maintenance costs for all aircraft and engines",
+  "value_ok": true,
+  "note": "FY2011 подтверждён. 'AirTran с 2011' в цитате не сказано (AirTran упомянут только в соседнем предложении про PBH 717-200); начало консолидации в тексте не проверялось."
+ },
+ "a5-075": {
+  "status": "found",
+  "found_text": "charged to Maintenance materials and repairs expense as incurred",
+  "value_ok": true,
+  "note": "FY2011."
+ },
+ "a5-076": {
+  "status": "found",
+  "found_text": "The Company has “power-by-the-hour” agreements related to its Boeing 737-700 engines ... AirTran's Boeing 717-200 engines with external service providers",
+  "value_ok": true,
+  "note": "FY2011."
+ },
+ "a5-084": {
+  "status": "found",
+  "found_text": "We expect to incur additional maintenance costs during the third quarter related to an engine maintenance overhaul.",
+  "value_ok": true,
+  "note": "Q2 2015 10-Q. Политика явно не названа; direct_expense — косвенный вывод (расходы квартала растут из-за капремонта двигателя)."
+ },
+ "a5-099": {
+  "status": "found",
+  "found_text": "Maintenance and repair costs for owned and leased flight equipment are charged to operating expense as incurred",
+  "value_ok": true,
+  "note": "FY2012 (31.12.2012). Предложение в оригинале продолжается; есть исключение — контракты flight-hour maintenance (начисляются по условиям договора)."
+ },
+ "a5-101": {
+  "status": "found",
+  "found_text": "Regular airframe maintenance for owned and leased flight equipment is charged to expense as incurred...",
+  "value_ok": true,
+  "note": "FY2013. Цитата касается только планера (regular airframe maintenance); для двигателей — PBH-абзац."
+ },
+ "a5-102": {
+  "status": "found",
+  "found_text": "These costs are expensed as the related flight hours or cycles are incurred.",
+  "value_ok": true,
+  "note": "FY2013. 'двигатели, LRU' в найденном фрагменте прямо не проверены (сказано про соглашения с фиксированной оплатой за лётный час/цикл)."
+ },
+ "a5-104": {
+  "status": "found",
+  "found_text": "Maintenance and repair costs for owned and leased flight equipment, including the overhaul of aircraft components,",
+  "value_ok": true,
+  "note": "10-Q за Q1 2007 (31.03.2007)."
+ },
+ "a5-105": {
+  "status": "found",
+  "found_text": "are charged to operating expenses as incurred.",
+  "value_ok": true,
+  "note": "Q1 2007."
+ },
+ "a5-116": {
+  "status": "found",
+  "found_text": "has changed its method of accounting for scheduled airframe and inspection repairs for 737-300 and 737-500 aircraft from the deferral method to the direct expense method, effective January 1, 2006",
+  "value_ok": true,
+  "note": "Дата 01.01.2006 в цитате есть и подтверждена."
+ },
+ "a5-117": {
+  "status": "found",
+  "found_text": "Under the direct expense method, the cost of scheduled airframe and inspection repairs is expensed as incurred.",
+  "value_ok": true,
+  "note": "Q1 2006; период в value не задан."
+ },
+ "a5-118": {
+  "status": "found",
+  "found_text": "The Company’s 737-700 aircraft are already maintained under the MSG-3 program.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-119": {
+  "status": "found",
+  "found_text": "have been adjusted to apply the direct expense method retrospectively to all prior periods",
+  "value_ok": true,
+  "note": "Ссылка 'SFAS 154' в найденном фрагменте не проверялась (в 8-K сказано про SFAS 154)."
+ },
+ "a5-121": {
+  "status": "found",
+  "found_text": "Due to the change in the nature of the maintenance activities performed, [the Company began transitioning the maintenance program for performing planned airframe maintenance]",
+  "value_ok": false,
+  "note": "8-K от 11.08.2006. Причина — смена программы планового ТО планера 737-300/-500; упоминаний MSG-2/MSG-3/MSG в документе нет. 'MSG-2 -> MSG-3' не следует из цитаты (косвенно — из a5-118)."
+ },
+ "a5-128": {
+  "status": "found",
+  "found_text": "The Company accounts for major maintenance costs of its Airbus airframes and the related CFM engines [using the deferral method]",
+  "value_ok": true,
+  "note": "FY2019 (31.12.2019)."
+ },
+ "a5-129": {
+  "status": "found",
+  "found_text": "Under this method, the Company capitalizes the cost of major maintenance events",
+  "value_ok": true,
+  "note": "FY2019."
+ },
+ "a5-131": {
+  "status": "found",
+  "found_text": "Mesa currently uses the direct expense method of accounting for planned major maintenance;",
+  "value_ok": true,
+  "note": "10-Q/A за квартал, закончившийся 31.03.2007 (fiscal Q2 2007); 2007 подтверждён."
+ },
+ "a5-132": {
+  "status": "found",
+  "found_text": "Maintenance expense is recognized based upon the product of flight hours flown and the rate in effect for the period.",
+  "value_ok": false,
+  "note": "Фраза есть, но в абзацах про Delta Technical Operations MOU и GE (CRJ-200), а не про PWC. Атрибуция 'двигатели (PWC)' не подтверждена. Период — 10-Q/A 31.03.2007."
+ },
+ "a5-135": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its maintenance of regional jet engine overhauls, airframe,",
+  "value_ok": true,
+  "note": "10-Q за шесть месяцев до 31.03.2020; в политике deferral и E-175 не упомянуты."
+ },
+ "a5-136": {
+  "status": "found",
+  "found_text": "Our maintenance policy is determined by fleet when major maintenance is incurred.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-140": {
+  "status": "found",
+  "found_text": "[We account for] heavy maintenance and major overhaul costs on our owned E-175 fleet under the deferral method",
+  "value_ok": true,
+  "note": "10-Q за 31.03.2023."
+ },
+ "a5-141": {
+  "status": "found",
+  "found_text": "for all other fleets under the direct expense method",
+  "value_ok": true,
+  "note": "10-Q за 31.03.2023."
+ },
+ "a5-148": {
+  "status": "found",
+  "found_text": "The Company accounts for heavy maintenance and major overhaul costs on our owned E-175 fleet under the deferral method",
+  "value_ok": false,
+  "note": "10-Q за 31.03.2021: цитата есть. Но 'впервые в 10-Q за 31.03.2021' в тексте не сказано: документ не говорит, когда метод начат. Косвенно: остаток отложенных затрат $1.2 млн на 31.03.2021 против $0 на 30.09.2020 и отсутствие упоминания в 10-Q за 31.12.2020 (a5-152). Это вывод, не цитата."
+ },
+ "a5-152": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its maintenance of regional jet engine overhauls ... recognized when the maintenance work is completed, or over the repair period",
+  "value_ok": true,
+  "note": "10-Q за 31.12.2020. Deferral и E-175 в Note 2 действительно не упомянуты (отсутствие в тексте; проверка по первым 100 тыс. символов, где находится Note 2)."
+ },
+ "a5-159": {
+  "status": "found",
+  "found_text": "one planned heavy engine overhaul and a number of minor unplanned engine repairs",
+  "value_ok": false,
+  "note": "Q1 2007 (MD&A, Maintenance and repairs). Тип ВС (MD-80) в предложении не указан; direct_expense — косвенный вывод. Цитата подтверждена только фрагментом."
+ },
+ "a5-165": {
+  "status": "found",
+  "found_text": "as our first major maintenance event on our Airbus aircraft did not occur until June 2016",
+  "value_ok": true,
+  "note": "Q3 2017 10-Q; июнь 2016 подтверждён."
+ },
+ "a5-167": {
+  "status": "found",
+  "found_text": "the amortization of major maintenance for our Airbus aircraft in accordance with the deferral method of accounting",
+  "value_ok": true,
+  "note": "Q1 2017 10-Q. Год '2016+' в этой цитате отсутствует; начало следует из a5-168 (до Q2 2016 затрат не было). Для 2017 подтверждено."
+ },
+ "a5-168": {
+  "status": "found",
+  "found_text": "Prior to the second quarter 2016, we had not incurred any major maintenance costs on our Airbus aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-173": {
+  "status": "found",
+  "found_text": "We account for heavy maintenance under the deferral method.",
+  "value_ok": true,
+  "note": "Q1 2015 10-Q, MD&A, Depreciation and amortization (не критические политики и не примечания). 2015 подтверждён."
+ },
+ "a5-177": {
+  "status": "found",
+  "found_text": "expensed at the time of overhaul, consistent with your policy for non power-by-the-hour major maintenance activities",
+  "value_ok": true,
+  "note": "Письмо от 15.10.2012. Фраза принадлежит не Southwest, а сотрудникам SEC (абзац 'we continue to believe...' перед разделом Response); политика Southwest передана через 'your policy'. Т.е. утверждение стороннее, не самого эмитента."
+ },
+ "a5-185": {
+  "status": "found",
+  "found_text": "additional rent expense to cover the cost of major scheduled maintenance overhauls of these aircraft totaled $6,493,000",
+  "value_ok": true,
+  "note": "Сноска (2) к таблице контрактных обязательств; 'these aircraft' = 36 A319 и 2 A318 по оперлизингу; сумма за квартал, закончившийся 30.06.2007 ($6,640,000 за 30.06.2006); отнесена в maintenance expense. Период не в value."
+ },
+ "a5-188": {
+  "status": "found",
+  "found_text": "Amortization of heavy maintenance | 9,100 | 2,574 | 1,307 (2012 | 2011 | 2010), in thousands",
+  "value_ok": true,
+  "note": "Годы и значения совпадают (тыс. USD: 2010=1,307; 2011=2,574; 2012=9,100). Из строки амортизации следует наличие deferral в 2010 (вывод)."
+ },
+ "a5-194": {
+  "status": "found",
+  "found_text": "Aircraft maintenance costs increased primarily due to additional costs related to a rate adjustment for accruals for aircraft checks and additional rotable repairs.",
+  "value_ok": true,
+  "note": "FY, закончившийся 31.03.2006, Mesaba (рост 1.8% до $83.4 млн). Слово 'accrue-in-advance' в цитате нет: есть лишь 'accruals for aircraft checks'; тип метода — вывод."
+ },
+ "a5-197": {
+  "status": "found",
+  "found_text": "Under the FSP, Mesaba will be required to change its method of accounting for some planned maintenance activities for certain aircraft types.",
+  "value_ok": false,
+  "note": "Цитата есть, но 'accrue in advance' / 'запрещённый метод' в тексте не найдено; типы ВС не названы. Это вывод исследователя."
+ },
+ "a5-198": {
+  "status": "found",
+  "found_text": "The FSP will be effective for the Company beginning April 1, 2007 and requires retrospective application to all financial statements presented unless doing so is impractical.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a5-201": {
+  "status": "found",
+  "found_text": "Routine maintenance, airframe and engine overhauls are charged to expense as incurred or accrued when a contractual obligation exits, such as induction of an asset at a vendor for service...",
+  "value_ok": false,
+  "note": "Q2 2007 10-Q. Цитата обрезана перед оговоркой 'or accrued when a contractual obligation exists'. 'консолидирует Mesaba и Compass': Mesaba консолидирована лишь с 24.04.2007 (в документе), про Compass подтверждения нет."
+ },
+ "a5-202": {
+  "status": "found",
+  "found_text": "Modifications that enhance the operating performance or extend the useful lives of airframes or engines are capitalized and amortized over the remaining estimated useful life of the asset.",
+  "value_ok": true,
+  "note": "Q2 2007."
+ },
+ "a5-208": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method, which is in accordance with this pronouncement.",
+  "value_ok": true,
+  "note": "10-Q за Q3 2006 (30.09.2006). Названия дочерних (Chautauqua, Shuttle America, Republic Airline) — в Note 1, не в цитате."
+ },
+ "a5-209": {
+  "status": "found",
+  "found_text": "contractual rate increases on certain of our engines under a long-term maintenance agreement, ... reimbursed as pass-through expenses",
+  "value_ok": true,
+  "note": "Q3 2006; относится к самолётам 37-50 мест."
+ },
+ "a5-212": {
+  "status": "found",
+  "found_text": "All other maintenance charges are expensed as incurred under the direct expense method of accounting.",
+  "value_ok": true,
+  "note": "10-Q за Q1 2026. 'All other' = все, кроме PBH-договоров (двигатели и крупные компоненты планера)."
+ },
+ "a5-213": {
+  "status": "found",
+  "found_text": "Certain maintenance and repair activities, such as engine overhauls and heavy maintenance, qualify for reimbursement from our Partner Airlines under the pass-through provisions of our CPAs.",
+  "value_ok": true,
+  "note": "Q1 2026."
+ },
+ "a5-216": {
+  "status": "found",
+  "found_text": "to represent the Successor’s obligation to perform planned maintenance events paid for by the Predecessor on leased aircraft",
+  "value_ok": true,
+  "note": "Сноска (2); покупка Apollo 11.04.2018 (Successor с 11.04.2018, Predecessor до 10.04.2018) подтверждена в Basis of Presentation."
+ },
+ "a5-217": {
+  "status": "found",
+  "found_text": "is recognized as a reduction to Maintenance expense as reimbursable maintenance events are performed",
+  "value_ok": true,
+  "note": "Сноска (2). 'direct_expense' в сноске не заявлен, это интерпретация."
+ },
+ "a5-223": {
+  "status": "found",
+  "found_text": "consistent with the direct expense maintenance policy, we record maintenance expense on our CRJ200 engines as it is incurred.",
+  "value_ok": true,
+  "note": "Q1 2007 (31.03.2007) MD&A, Maintenance."
+ },
+ "a5-225": {
+  "status": "found",
+  "found_text": "Under certain of our maintenance agreements, we pay monthly charges based on either the number of flight hours flown or the number of landings",
+  "value_ok": true,
+  "note": "10-K FY2006, MD&A Maintenance, materials and repairs; какие именно договоры (двигатели/системы) — предшествующий текст про engine MRO и aircraft systems, но не в самой фразе."
+ },
+ "a5-227": {
+  "status": "found",
+  "found_text": "The increase is due primarily to a higher number of heavy maintenance and other one-time maintenance events",
+  "value_ok": true,
+  "note": "Q3 2007 (три месяца до 30.09.2007). Политика не названа, direct_expense — косвенный вывод."
+ }
+}

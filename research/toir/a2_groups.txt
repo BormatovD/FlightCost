@@ -1,0 +1,110 @@
+## 0 https://www.sec.gov/Archives/edgar/data/1498710/000162828026018265/flyy-20251231.htm
+a2-003 | Item 1, Maintenance and Repairs | We have entered into a long-term flight hour agreement for the majority of our current fleet with IAE and Pratt & Whitney |VAL: PBH двигателей: IAE (V2500, ceo) и Pratt & Whitney (PW1100G, neo) — для большинства парка
+a2-004 | Item 1, Fleet | As of December 31, 2025, our fleet consisted of 62 A320ceos, 19 A320neos, 29 A321ceos and 21 A321neos, |VAL: A320 62, A20N 19, A321 29, A21N 21 на 31.12.2025 (всего 131)
+a2-005 | Item 1, Fleet | and the average age of the fleet was approximately 8 years. |VAL: средний возраст всего парка ≈8 лет (по типам не дан)
+a2-006 | Item 1, Fleet | As of December 31, 2025, we owned 48 aircraft, of which 21 aircraft were financed through fixed-rate long-term debt |VAL: собственных 48
+a2-007 | Item 1, Fleet | As of December 31, 2025, we had 83 leased aircraft, of which 70 aircraft were financed under operating leases |VAL: в лизинге 83 (70 операционный)
+## 1 https://www.sec.gov/Archives/edgar/data/1498710/000149871025000008/save-20241231.htm
+a2-012 | Item 1, Pratt & Whitney (GTF) | The credits were accounted for as vendor consideration in accordance with ASC 705-20 |VAL: кредиты IAE/P&W за простой GTF — vendor consideration (уменьшают стоимость закупаемого у IAE)
+a2-013 | Item 1, Pratt & Whitney (GTF) | Pratt & Whitney agreed to issue us $150.6 million in credits related to the aircraft on ground |VAL: 150.6 млн USD кредитов P&W за AOG (2024)
+a2-014 | Item 1, Pratt & Whitney (GTF) | As of December 31, 2024, we recorded $122.2 million of credits as a reduction in the cost basis |VAL: 122.2 млн — в уменьшение стоимости активов (не в ТОиР)
+a2-015 | Item 1, Pratt & Whitney (GTF) | within maintenance, materials and repairs and aircraft rent. |VAL: 28.4 млн кредитов 2024 — в уменьшение статей ТОиР и аренды ВС
+a2-016 | Item 1, Fleet | the average age of the fleet was approximately 5.8 years |VAL: средний возраст парка на 31.12.2024 ≈5.8 года (213 ВС)
+## 2 https://www.sec.gov/Archives/edgar/data/1498710/000149871024000117/R30.htm
+a2-018 | Airframe and Engine Maintenance | The Company accounts for heavy maintenance and major overhaul under the deferral method whereby the cost of |VAL: deferral для тяжёлых форм и капремонта
+a2-019 | Airframe and Engine Maintenance | heavy maintenance and major overhaul is deferred and amortized until the earlier of the end of the useful life |VAL: амортизация до следующего события / конца аренды / конца срока службы
+a2-020 | Airframe and Engine Maintenance | Costs incurred for maintenance and repair under flight hour maintenance contracts, |VAL: договоры за лётный час
+a2-021 | Airframe and Engine Maintenance | are expensed based on contractual payment terms. |VAL: оплата за лётный час — в расход по условиям договора
+a2-022 | Airframe and Engine Maintenance | The Company outsources certain routine, non-heavy maintenance functions under contracts that require payment |VAL: формулировка политики относит flight-hour контракты к рутинному (не тяжёлому) ТОиР
+a2-023 | Airframe and Engine Maintenance | All other costs for routine maintenance of the airframes and engines are charged to expense as performed. |VAL: рутинное ТОиР — расход по факту
+## 3 https://s204.q4cdn.com/112592003/files/doc_financials/2025/q1/SAVE-2025-3-31-10Q-Final.pdf
+a2-025 | Note 4 Fresh Start Accounting, balance sheet adjustment (17) | Changes to deferred heavy maintenance, net are due to the write-off of $120.9 million of capitalized deferred heavy |VAL: при fresh start списано 120.9 млн капитализированного тяжёлого ТОиР собственных ВС
+a2-026 | Note 12 Leases | Supplemental rent, recorded within aircraft rent expense, is primarily made up of probable and estimable |VAL: supplemental rent (возвратные условия аренды) — в аренде ВС, не в ТОиР
+## 4 https://www.sec.gov/Archives/edgar/data/1670076/000167007626000020/fron-20251231.htm
+a2-035 | Item 1, Maintenance and Repairs | We have entered into long-term flight hour agreements for our engine overhaul services |VAL: PBH на капремонт двигателей (провайдер и тип двигателя не названы)
+a2-036 | Item 1, Fleet | consisting of 6 A320ceos, 89 A320neos, 21 A321ceos and 60 A321neos. |VAL: A320 6, A20N 89, A321 21, A21N 60 на 31.12.2025 (всего 176)
+a2-037 | Item 1, Fleet | all 176 aircraft in our fleet were financed under operating leases, |VAL: все 176 ВС в операционном лизинге, собственных 0
+a2-038 | Item 1, Fleet | the average aircraft age of our fleet was approximately five years. |VAL: средний возраст парка ≈5 лет (по типам не дан)
+## 5 https://www.sec.gov/Archives/edgar/data/1670076/000167007625000041/R32.htm
+a2-041 | Aircraft Maintenance | The Company accounts for heavy maintenance and major overhauls under the deferral method, whereby the cost of |VAL: deferral для тяжёлого ТОиР и капремонта
+a2-042 | Aircraft Maintenance | heavy maintenance and major overhauls is deferred and recorded as flight equipment and depreciated over the |VAL: капитализируется в flight equipment, амортизируется
+a2-043 | Aircraft Maintenance | lesser of the remaining lease term or the period until the next scheduled heavy maintenance event. |VAL: срок амортизации — до следующего события или конца аренды
+a2-044 | Aircraft Maintenance | For those contracts in which risk has not been determined to transfer to the service provider, the Company |VAL: для cost-per-hour договоров без передачи риска
+a2-045 | Aircraft Maintenance | initially records monthly payments as a deposit included in other assets on the Company's consolidated |VAL: ежемесячные платежи по налёту — депозит (не расход); событие ТОиР учитывается по политике (т.е. deferral)
+a2-046 | Aircraft Maintenance | recognized based on the contractual terms of the cost-per-hour arrangement. |VAL: при передаче риска — расход по условиям договора за час
+a2-047 | Maintenance Reserves, Supplemental Rent and Aircraft Maintenance Deposits | accounted for as maintenance deposits, to the extent they are expected to be recoverable, and are reflected |VAL: резервы лизингодателю — депозит, если возвратимы
+a2-048 | Maintenance Reserves, Supplemental Rent and Aircraft Maintenance Deposits | expensed as supplemental rent within aircraft rent in the Company's consolidated statements of operations. |VAL: невозвратимые резервы — supplemental rent в аренде ВС, не ТОиР
+a2-049 | Maintenance Reserves, Supplemental Rent and Aircraft Maintenance Deposits | As a result, none of the Company's current aircraft lessors require these payments to be held as collateral. |VAL: с 2024 резервы лизингодателям не платятся
+## 6 https://s21.q4cdn.com/257736825/files/doc_financials/2025/q2/0001670076-25-000152.pdf
+a2-051 | Note 6 Operating Leases | deposits of approximately $104 million. |VAL: лизингодатель вернул ~104 млн USD депозитов (1П 2024)
+a2-052 | MD&A, Depreciation and amortization | 2025, as compared to the three months ended June 30, 2024, primarily due to an increase in capitalized |VAL: рост амортизации — за счёт капитализированного ТОиР (подтверждает deferral в 2025)
+a2-053 | MD&A, Maintenance, materials and repairs | aircraft repairs and materials costs, partially offset by lower engine repair costs. |VAL: в 2025 расходы на ремонт двигателей снижались
+a2-054 | Note 13 Subsequent Events | This agreement also includes a long-term service contract for engine maintenance. |VAL: июль 2025: договор с P&W на PW1100G для 91 A321neo (поставки с 4 кв. 2026) + долгосрочный сервис двигателей
+## 7 https://www.rtx.com/news/news-center/2025/06/16/frontier-airlines-selects-rtxs-pratt-whitney-gtf-engines-to-power-91-airbus-a
+a2-056 | текст пресс-релиза | engine maintenance through a long-term EngineWise® Comprehensive service agreement |VAL: EngineWise Comprehensive (P&W) — для GTF, включая уже поставленные ВС; действует для будущих поставок с 2026
+## 8 https://www.sec.gov/Archives/edgar/data/1498710/000162828026018265/R56.htm
+a2-067 | строка таблицы | Utilization-based maintenance expense |VAL: в 2025 ≈ 88.5 млн USD (19 981 + 68 537 тыс.) — расход по налёту (flight-hour договоры) внутри ТОиР
+a2-068 | строка таблицы | Amortization of heavy maintenance |VAL: в 2025 ≈ 77.5 млн USD (21 074 + 56 440 тыс.) амортизации тяжёлого ТОиР — вне строки ТОиР; для сравнения ТОиР 2025 ≈ 207.1 млн
+a2-069 | строка таблицы | Deferred costs for heavy maintenance |VAL: в 2025 капитализировано ≈ 56.8 млн USD (26 700 + 30 100 тыс.)
+## 9 https://www.sec.gov/Archives/edgar/data/1158463/000115846326000007/jblu-20251231.htm
+a2-073 | Item 1, Maintenance | Some of our Airbus aircraft engines are serviced under fixed price flight hour agreements |VAL: часть двигателей Airbus — по фиксированной цене за лётный час
+a2-074 | Item 1, Maintenance | for the repair, overhaul, modification, and logistics, while others are covered under time and material contracts. |VAL: остальные двигатели — time & material
+a2-075 | Item 1, Maintenance | Many of our maintenance service agreements are based on a fixed cost per flight hour. |VAL: многие договоры ТОиР — фиксированная цена за лётный час
+a2-076 | Item 1, Pratt & Whitney | as of December 31, 2025, we had four aircraft grounded due to lack of engine availability. |VAL: 4 ВС на земле из-за GTF на 31.12.2025
+## 10 https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-2-Investor-Update-Q4-2025.pdf
+a2-078 | Fleet | As of December 31, 2025 JetBlue's operating fleet was comprised of 129 Airbus A320 aircraft, 100 Airbus A321, and 59 |VAL: A320 129, A321 (ceo+neo) 100, A220 59 на 31.12.2025; E190 уже выведены
+## 11 https://www.airfleets.net/ageflotte/JetBlue%20Airways.htm
+a2-081 | таблица возраста | 20.8 |VAL: A320 средний возраст 20.8 г. (агрегатор, 2026)
+## 12 https://www.aviationpros.com/engines-components/aircraft-engines/press-release/21148538/pratt-whitney-pratt-whitney-and-jetblue-sign-long-term-service-agreement-for-230-v2500-engines
+a2-085 | текст пресс-релиза | signed a 13-year EngineWise fixed-price agreement for 230 V2500 engines |VAL: V2500 (A320/A321ceo): EngineWise fixed-price, 13 лет (2020–2033)
+a2-086 | текст пресс-релиза | that power the airline's A320ceo family fleet. |VAL: охват — весь парк A320ceo family (A320, A321ceo)
+## 13 https://worldairlinenews.com/2018/04/05/jetblue-selects-pratt-and-whitney-geared-turbofan-gtf-engines-for-its-airbus-a320neo-aircraft/
+a2-090 | текст | The agreement also covers exclusive maintenance for JetBlue's fleet of 85 A320neo family aircraft |VAL: PW1100G (A20N/A21N): эксклюзивное ТОиР у P&W
+a2-091 | текст | The maintenance component of the agreement fixes the amount JetBlue pays per flight hour |VAL: PW1100G — оплата за лётный час, с 2018
+## 14 https://www.ch-aviation.com/news/139642-uss-jetblue-seeks-pratt-whitney-compensation
+a2-093 | текст | as a reduction to aircraft assets or as amortisation of maintenance expenses |VAL: компенсацию P&W JetBlue планировал учитывать как уменьшение стоимости ВС или как уменьшение (амортизацию) расходов на ТОиР — со слов CFO, апрель 2024
+## 15 https://www.sec.gov/Archives/edgar/data/1362468/000136246826000008/algt-20251231.htm
+a2-108 | Item 1, Aircraft Maintenance | We contract with FAA-approved outside organizations to provide major maintenance and component and |VAL: тяжёлое ТОиР, компоненты и двигатели — на аутсорсе; про PBH не сказано
+a2-109 | Item 1, Aircraft fleet | we own or finance lease all but nine of the aircraft in our operating fleet. |VAL: операционный лизинг — только 9 ВС; остальные собственные или финансовый лизинг
+a2-110 | Item 1, Aircraft fleet | of which 93 were acquired used and 29 were acquired new. |VAL: 93 куплены подержанными, 29 новыми (на 01.02.2026)
+## 16 https://www.sec.gov/Archives/edgar/data/1362468/000136246825000008/Financial_Report.xlsx
+a2-113 | Policies — Maintenance and repair | The Company accounts for all non-major maintenance and repair costs incurred for its fleet under the direct expense method. |VAL: текущее ТОиР — direct expense
+a2-114 | Policies — Maintenance and repair | The Company accounts for major maintenance costs of its airframes and engines using the deferral method. |VAL: тяжёлые формы планера и капремонт двигателей — deferral
+a2-115 | Policies — Maintenance and repair | Under this method, the Company capitalizes the cost of major maintenance events, which are amortized |VAL: капитализация, амортизация в D&A до следующего события
+## 17 https://lifestyle.kbew98country.com/story/54537/allegiant-travel-company-fourth-quarter-and-full-year-2025-financial-results/
+a2-117 | Fleet table, колонка 4Q25 | Boeing 737-8200 (190 seats) |VAL: B38M 16; A320 (180 мест) 71 + A320 (177 мест) 8 = 79; A319 28; итого 123 на 4К25
+a2-118 | Highlights | Fourth quarter deferred heavy maintenance expenditures were $11.5M |VAL: 4К25 капитализировано 11.5 млн USD тяжёлого ТОиР; deferral действует в 2025
+a2-119 | Guidance FY2026 | Capitalized deferred heavy maintenance (millions) |VAL: план 2026: 80–90 млн USD; ТОиР 2025 по P&L 149.9 млн USD — капитализированное сопоставимо с половиной расходов
+## 18 https://www.srtechnics.com/news/press-releases-blog-social-media/2025/sr-technics-announces-five-year-contract-renewal-with-allegiant-air-to-service-cfm56-5b-engines/
+a2-122 | текст | continue to provide heavy shop visit support for Allegiant's fleet of CFM56-5B engines |VAL: CFM56-5B (A319/A320): SR Technics, тяжёлые shop visits, 5 лет с 2025; модель оплаты не указана
+## 19 https://www.sec.gov/Archives/edgar/data/0001158463/000115846318000018/Financial_Report.xlsx
+a2-130 | Airframe and Engine Maintenance and Repair | Regular airframe maintenance for owned and leased flight equipment is charged to expense as incurred |VAL: direct_expense для планера
+a2-131 | Airframe and Engine Maintenance and Repair | These power by the hour agreements transfer certain risks, including cost risks, to the third-party service providers. |VAL: PBH с передачей ценового риска
+a2-132 | Airframe and Engine Maintenance and Repair | These costs are expensed as the related flight hours or cycles are incurred. |VAL: PBH — расход по налёту/циклам
+## 20 https://www.sec.gov/Archives/edgar/data/1743907/000174390726000032/R33.htm
+a2-136 | Airframe and Engine Maintenance | as well as major maintenance costs of owned airframes, all leased airframes, and engines acquired via operating leases, |VAL: тяжёлое ТОиР собственных и арендованных планеров и двигателей в операционной аренде — в расход по факту
+a2-137 | Airframe and Engine Maintenance | using the expense as incurred method. |VAL: direct_expense для перечисленного
+a2-138 | Use of Estimates | Significant areas of judgment relate to passenger revenue recognition, maintenance under the built-in overhaul method, |VAL: для прочего (собственные двигатели) — built-in overhaul
+a2-139 | Property & Equipment, таблица сроков | Engines – Initial Greentime (time remaining until the first scheduled major maintenance event) |VAL: у собственных двигателей ресурс до первого капремонта выделен в отдельный компонент и амортизируется
+a2-140 | Airframe and Engine Maintenance | Certain costs covered by third-party maintenance agreements are charged to expense based on fleet utilization, |VAL: по сторонним договорам — расход по налёту (тип/провайдер не названы)
+a2-141 | Lessor Maintenance Deposits | are reflected as Lessor Maintenance Deposits on the accompanying Consolidated Balance Sheets. |VAL: резервы лизингодателям — депозит, если возвратимы
+a2-142 | Lessor Maintenance Deposits | Lessor Maintenance Deposits deemed improbable of recovery are expensed as incurred |VAL: невозвратимые — расход в Aircraft Rent
+a2-143 | Revenue — A&R ATSA (Amazon) | Sun Country acts as the agent in providing the Heavy Maintenance and Fuel performance obligations, |VAL: тяжёлое ТОиР грузовых ВС Amazon — Sun Country как агент, Amazon возмещает по факту
+a2-144 | Revenue — A&R ATSA (Amazon) | Consumption of aircraft fuel and heavy maintenance are recognized in revenue, |VAL: тяжёлое ТОиР грузовиков — в выручке нетто (не в расходах ТОиР)
+## 21 https://www.sec.gov/Archives/edgar/data/1743907/000174390726000032/sncy-20251231.htm
+a2-146 | Item 1, Our Fleet | As of December 31, 2025, our fleet consisted of 70 Boeing 737-NG aircraft. |VAL: 70 737NG на 31.12.2025
+a2-147 | Item 1, Our Fleet | This includes 47 aircraft in the passenger fleet, 20 cargo operated aircraft through the A&R ATSA with Amazon |VAL: 47 пассажирских, 20 грузовых (Amazon), 3 сданы в аренду другим
+a2-148 | Item 1, Technical Operations | On our cargo aircraft, heavy maintenance is a pass-through expense to our customer, Amazon. |VAL: тяжёлое ТОиР грузовиков оплачивает Amazon
+a2-149 | Item 1, Cargo | All aircraft in our Cargo service are subleased directly from Amazon, |VAL: грузовые ВС — сублизинг у Amazon
+a2-150 | Item 1, Cargo | We are responsible for flying the aircraft under our air carrier certificate, crew, aircraft line maintenance |VAL: линейное ТОиР грузовиков — на Sun Country
+## 22 https://abndev.aviationbusinessnews.com/mro/breeze-completes-gtf-engine-order-and-mro-contract-with-pratt-whitney
+a2-162 | текст | with the manufacturer also supplying engine MRO services through a long-term ‘EngineWise’ agreement. |VAL: PW1500G (A220-300): долгосрочный EngineWise с 2021; цена за час прямо не названа
+## 23 https://skiesmag.com/press-releases/embraer-breeze-airways-announce-program-agreement/
+a2-165 | текст | full repair coverage for components and parts |VAL: E190/E195: компоненты по Flight Hour Pool Program Embraer (не двигатели)
+## 24 https://www.airdatanews.com/us-carrier-breeze-retires-last-embraer-e190-five-years-after-jets-launched-the-airline/
+a2-168 | текст | The larger Embraer variant disappeared from the Breeze fleet during 2025. |VAL: E195 выведены в 2025 (в январе 2025 было 10 E190 и 3 E195)
+a2-169 | текст | seven of the 12 A220s formerly operated by EgyptAir were placed with Breeze by lessor Azorra, |VAL: часть A220 — подержанные (ex-EgyptAir) в лизинге у Azorra; также sale-leaseback TrueNoord, лизинг JSA
+## 25 https://www.airdatanews.com/avelo-fleet-reduction-boeing-737-700/
+a2-177 | текст | The carrier currently operates eight 737-700s and 14 737-800s. |VAL: на начало января 2026 (≈ конец 2025): B737 8, B738 14
+## 26 https://www.lufthansa-technik.com/en/new-customer-avelo-airlines-d0d335165c246cc9
+a2-180 | текст | Lufthansa Technik will provide Avelo with Consumables and Expendables to support the new low-fare airline as it grows. |VAL: только расходные материалы; к двигателям/PBH не относится

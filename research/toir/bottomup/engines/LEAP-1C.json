@@ -1,0 +1,65 @@
+{
+ "engine": "LEAP-1C",
+ "aircraft": [
+  "C919"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  31,
+  31
+ ],
+ "llp": {
+  "shipset_list_price": [],
+  "limits_efc": [],
+  "escalation": {
+   "2022": {
+    "rate": ">=0.10",
+    "note": "GE/CFM, 1 Nov 2022, 'double-digit'",
+    "evidence": [
+     "e2-093"
+    ]
+   },
+   "2023": {
+    "rate": "~0.07-0.09",
+    "note": "GE/CFM, Aug 2023, 'high-single-digit'",
+    "evidence": [
+     "e2-094"
+    ]
+   }
+  }
+ },
+ "shop_visit": [
+  {
+   "which": "first (прокси LEAP-1A/1B)",
+   "interval_efh": null,
+   "interval_efc": 4000,
+   "interval_efc_range": [
+    2000,
+    6000
+   ],
+   "ratio_fh_fc": null,
+   "thrust": "LEAP-1A/1B",
+   "cost_usd": null,
+   "cost_year": 2024,
+   "includes_llp": null,
+   "evidence": [
+    "e2-188"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "LEAP: долговечность лопаток ТВД 1-й ступени, ранние съёмы в MENA [e2-174]",
+  "GE: durability kit ставится на LEAP-1A при SV; о LEAP-1C не сказано [e2-210]",
+  "Прокси PBH: CFM–Colorful Guizhou, 12-летний RPFH LEAP-1A (до 35 A320neo + 5 запасных) ≈ $1.0 млрд по каталогу (2019) [e2-186]"
+ ],
+ "gaps": [
+  "Прямых данных по ТОиР LEAP-1C (LLP, SV, PBH) не найдено [e2-181, e2-184]"
+ ],
+ "doubts": [
+  "Все интервалы — прокси с LEAP-1A/1B",
+  "Ставку $/EFH из сделки Guizhou выводить нельзя без допущений о числе двигателей и налёте"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

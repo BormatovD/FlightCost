@@ -1,0 +1,74 @@
+{
+ "carrier": "F9",
+ "fleet": [
+  {
+   "icao": "A320",
+   "count": 6,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": 0,
+   "leased": 6,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-065",
+    "a4-067"
+   ]
+  },
+  {
+   "icao": "A20N",
+   "count": 89,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": 0,
+   "leased": 89,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-065",
+    "a4-067"
+   ]
+  },
+  {
+   "icao": "A321",
+   "count": 21,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": 0,
+   "leased": 21,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-065",
+    "a4-067"
+   ]
+  },
+  {
+   "icao": "A21N",
+   "count": 60,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": 0,
+   "leased": 60,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-065",
+    "a4-067"
+   ]
+  },
+  {
+   "icao": null,
+   "count": 176,
+   "avg_age_y": 5.0,
+   "as_of": "2025-12-31",
+   "owned": 0,
+   "leased": 176,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-066",
+    "a4-067"
+   ],
+   "note": "весь парк: «approximately five years»; все в операционном лизинге"
+  }
+ ],
+ "gaps": [
+  "Средний возраст по типам: в 10-K только по всему парку"
+ ]
+}

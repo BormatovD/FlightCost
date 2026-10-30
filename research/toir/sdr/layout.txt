@@ -1,0 +1,375 @@
+Service Difficulty Reporting System (SDRS)                                                             October 1, 2021
+
+
+
+
+                                            Batch File Layout
+
+                                           Max.
+              Field Name        Format               Req'd.                         Comments
+                                          Length
+                                                              To use the following file format, the file must be
+                                                              pipe-delimited (|) and contain a total of 76 pipe
+      NOTE *                                                  characters. Each record should be on one line.
+                                                              Fields should not contain hard returns. Lines
+                                                              should NOT end with a pipe character.
+      Identifier                Alpha       3                 This field has fixed data used to identify record type.
+                                 Alpha-                       This field can contain the flight number or can be used
+  0   Flight Number                         6
+                                numeric                       to identify record length.
+                                                              User-defined unique identifier. Must begin with the
+                                                              first four alphanumeric characters of the
+                                                              submitter's certificate number. The next eight
+                                 Alpha-                X
+  1   OperatorControlNumber                17                 numbers represent the date when the SDR is
+                                numeric
+                                                              submitted in "yyyymmdd" format. The remaining
+                                                              numbers represent a submitter-designed numbering
+                                                              system.
+                                                              Enter the date the problem occurred. The date should
+                                                              be formatted as "mm/dd/yyyy" and cannot be more
+  2   DifficultyDate             Date                  X
+                                                              than five years old or a future date. The year must
+                                                              contain four digits.
+                                                              Designator of the operator of the aircraft. Required
+                                 Alpha-
+  3   OperatorDesignator                    4          X      unless Submitter Type = ''Z" (Non Cert International)
+                                numeric
+                                                              or SDR Type = "G"
+                                                              Designator of the company submitting the SDR. May
+                                 Alpha-
+  4   SubmitterDesignator                   4                 be different from the OperatorDesignator in the case
+                                numeric
+                                                              of Repair Stations.
+                                                              Must be a valid Submitter Type Code. Most
+  5   SubmitterTypeCode         Alpha       1          X
+                                                              commercial air carriers have a SubmitterType of "A".
+                                                              Combined with the ReceivingDistrictOffice Code to
+                                                              represent the FAA Region/District Office which
+                                                              certified this air carrier and which is responsible for
+                                 Alpha-
+  6   ReceivingRegionCode                   2                 monitoring the air carrier's activity (e.g., "GL09" is
+                                numeric
+                                                              district office "09" in the "Great Lakes" region). Must
+                                                              be a valid Region Code for the flight Standard Service
+                                                              (AFS) Region that is primarily responsible.
+                                                              Combined with the ReceivingRegion Code to
+                                                              represent the FAA Region/District Office which
+                                                              certified this air carrier and which is responsible for
+                                 Alpha-
+  7   ReceivingDistrictOffice               2                 monitoring the air carrier's activity (e.g., "GL09" is
+                                numeric
+                                                              district office "09" in the "Great Lakes" region). Must
+                                                              be a valid District Office Code for the FSDO, CMO, or
+                                                              IFO that is primarily responsible.
+                                                              Must be "G" or "A." "G" means that this is a
+                                                              General Aviation-related SDR; "A" means that
+  8   SDRType                   Alpha       1          X
+                                                              this is an Air Carrier-related SDR. No other values
+                                                              will be accepted.
+
+
+                                                   Page 1 of 8
+Service Difficulty Reporting System (SDRS)                                              October 1, 2021
+
+                                                   The Joint Aircraft System/Component (JASC) Code,
+  9   JASCCode             Numeric   4       X     previously known as "ATA" code. Must be a valid 4-
+                                                   digit code.
+ 10   NatureOfConditionA    Alpha    1       X     Must be a valid Nature of Condition Code.
+ 11   NatureOfConditionB    Alpha    1             If given, must be a valid Nature of Condition Code.
+ 12   NatureOfConditionC    Alpha    1             If given, must be a valid Nature of Condition Code.
+
+
+
+
+                                         Page 2 of 8
+Service Difficulty Reporting System (SDRS)                                                       October 1, 2021
+
+ 13   PrecautionaryProcedureA    Alpha    1        X     Must be a valid Precautionary Procedure Code.
+                                                         If given, must be a valid Precautionary Procedure
+ 14   PrecautionaryProcedureB    Alpha    1
+                                                         Code.
+                                                         If given, must be a valid Precautionary Procedure
+ 15   PrecautionaryProcedureC    Alpha    1
+                                                         Code.
+                                                         If given, must be a valid Precautionary Procedure
+ 16   PrecautionaryProcedureD    Alpha    1
+                                                         Code.
+ 17   StageOfOperationCode       Alpha    2        X     Must be a valid Stage of Operation Code.
+                                 Alpha-
+ 18   HowDiscoveredCode                   1        X     Must be a valid How Discovered Code.
+                                numeric
+                                                         Aircraft Registration Number. Do not include leading
+                                                         "N" for American-registered aircraft. The letters "I" and
+                                 Alpha-
+ 19   RegistryNNumber                     5              "O" should never appear in a valid American N-
+                                numeric
+                                                         Number. Enter as much of the registration number as
+                                                         possible for non-American-registered aircraft.
+                                 Alpha-                  Enter a valid FAA (SIT) Aircraft Make Code.
+ 20   AircraftMake                        15       X
+                                numeric                  AircraftMake is required.
+                                 Alpha-                  Enter a valid FAA (SIT) Aircraft Model Code.
+ 21   AircraftModel                       20
+                                numeric
+                                 Alpha-
+ 22   AircraftSerialNumber                12             Aircraft Serial Number
+                                numeric
+                                                         Total aircraft time in hours. Must be greater than or
+ 23   AircraftTotalTime         Numeric
+                                                         equal to zero.
+                                                         Total cycles on aircraft in hours. Must be greater than
+ 24   AircraftTotalCycles       Numeric
+                                                         or equal to zero.
+                                 Alpha-
+ 25   EngineMake                          15             Enter a valid FAA (SIT) Engine Make Code.
+                                numeric
+                                 Alpha-
+ 26   EngineModel                         20             Enter a valid FAA (SIT) Engine Model Code.
+                                numeric
+                                 Alpha-
+ 27   EngineSerialNumber                  12             Engine Serial Number
+                                numeric
+                                                         Total engine time in hours. Must be greater than or
+ 28   EngineTotalTime           Numeric
+                                                         equal to zero.
+                                                         Total cycles on engine in hours. Must be greater than
+ 29   EngineTotalCycles         Numeric
+                                                         or equal to zero.
+                                 Alpha-
+ 30   PropellerMake                       15             Enter a valid FAA (SIT) Propeller Make Code.
+                                numeric
+                                 Alpha-
+ 31   PropellerModel                      20             Enter a valid FAA (SIT) Propeller Model Code.
+                                numeric
+                                 Alpha-
+ 32   PropellerSerialNumber               12             Propeller Serial Number
+                                numeric
+                                                         Total propeller time in hours. Must be greater than or
+ 33   PropellerTotalTime        Numeric
+                                                         equal to zero.
+                                                         Total cycles on propeller in hours. Must be greater
+ 34   PropellerTotalCycles      Numeric
+                                                         than or equal to zero.
+                                                         Enter a valid FAA (SIT) Part Make (name of
+                                 Alpha-                  manufacturer) Code. Enter "UNK" if Part Make is
+ 35   PartMake                            15       X
+                                numeric                  unknown. PartMake or PartName is required if the
+                                                         PartNumber is entered.
+
+
+
+
+                                               Page 3 of 8
+Service Difficulty Reporting System (SDRS)                                               October 1, 2021
+
+                                                 Enter name of malfunctioning or detective part which
+                                                 generated reported problem (i.e. skin, rib, shaft,
+                                                 venturi, transistor, capacitor, etc.) Avoid colloquial
+                         Alpha-                  names. See the "JASC Code, Standard Part Name
+ 36   PartName                    24       X
+                        numeric                  and Condition" document on the Internet-SDR website
+                                                 (http://av-info.faa.gov/isdr) for a list of recommended,
+                                                 standardized part names. PartMake or PartName is
+                                                 required if the PartNumber is entered.
+
+
+
+
+                                       Page 4 of 8
+Service Difficulty Reporting System (SDRS)                                                    October 1, 2021
+
+                               Alpha-
+ 37   PartNumber                        24             Enter the part identifier assigned by the manufacturer.
+                              numeric
+                               Alpha-
+ 38   PartSerialNumber                  16             Enter serial number assigned by manufacturer.
+                              numeric
+                                                       Part Condition is required if PartMake or
+                               Alpha-                  PartName are entered. See the "JASC Code,
+ 39   PartCondition                     20       X
+                              numeric                  Standard Part Name and Condition" document for a
+                                                       list of recommended, standardized part conditions.
+                               Alpha-
+ 40   PartLocation                      20             Part Location
+                              numeric
+                                                       Total part time in hours. Must be greater than or
+ 41   PartTotalTime           Numeric
+                                                       equal to zero.
+                                                       Total cycles on part in hours. Must be greater than or
+ 42   PartTotalCycles         Numeric
+                                                       equal to zero.
+                                                       Time part has been in service since its most recent
+                                                       overhaul, repair or inspection. May not be greater than
+ 43   PartTimeSince           Numeric            X
+                                                       PartTotalTime. PartTimeSince is required if
+                                                       PartSinceCode is entered.
+                                                       Identifies whether the ComponentTimeSince indicates
+                                                       the time since the component was overhauled,
+                                                       inspected or repaired. If given, must be "O" for
+ 44   PartSinceCode            Alpha    1        X
+                                                       Overhaul, "R" for Repair, or "I" for Inspection.
+                                                       PartSinceCode is required if PartTimeSince is
+                                                       entered.
+                                                       Enter a valid FAA (SIT) Component Make (name of
+                                                       manufacturer) Code if Component Part Number is
+                               Alpha-
+ 45   ComponentMake                     15       X     entered. Enter "UNK" if component make is unknown.
+                              numeric
+                                                       ComponentMake or ComponentName is required
+                                                       if the ComponentPartNumber is entered.
+                               Alpha-                  Enter model number assigned by the component
+ 46   ComponentModel                    15
+                              numeric                  manufacturer.
+                                                       Enter the name given to the component by its
+                               Alpha-                  manufacturer. ComponentMake or
+ 47   ComponentName                     24       X
+                              numeric                  ComponentName is required if the
+                                                       ComponentPartNumber is entered.
+                               Alpha-
+ 48   ComponentPartNumber               24             Enter component manufacturer's part number.
+                              numeric
+                                                       Enter serial number assigned by component
+                               Alpha-
+ 49   ComponentSerialNumber             16             manufacturer. Do not repeat "Major Equipment
+                              numeric
+                                                       Identity" in this location.
+ 50   ComponentLocation        Alpha-   20             Component Location
+                              numeric
+                                                       Total component time in hours. Must be greater than
+ 51   ComponentTotalTime      Numeric
+                                                       or equal to zero.
+                                                       Total cycles on component. Must be greater than or
+ 52   ComponentTotalCycles    Numeric
+                                                       equal to zero.
+                                                       Time component has been in service since its most
+                                                       recent overhaul, repair or inspection. May not be
+ 53   ComponentTimeSince      Numeric            X     greater than ComponentTotalTime.
+                                                       ComponentTimeSince is required if
+                                                       ComponentSinceCode is entered.
+
+
+
+                                             Page 5 of 8
+Service Difficulty Reporting System (SDRS)                                           October 1, 2021
+
+                                                 Identifies whether the ComponentTimeSince indicates
+                                                 the time since the component was overhauled,
+                                                 inspected or repaired. If given, must be "O" for
+ 54   ComponentSinceCode   Alpha   1       X
+                                                 Overhaul, "R" for Repair, or "I" for Inspection.
+                                                 ComponentSinceCode is required if
+                                                 ComponentTimeSince is entered.
+
+
+
+
+                                       Page 6 of 8
+Service Difficulty Reporting System (SDRS)                                                     October 1, 2021
+
+                             Alpha-                   The number of the fuselage station at which an
+ 55   FuselageStationFrom             12
+                            numeric                   identified structural problem begins
+                             Alpha-                   The number of the fuselage station at which an
+ 56   FuselageStationTo               12
+                            numeric                   identified structural problem ends
+                             Alpha-                   The number of the stringer at which an identified
+ 57   StringerFrom                    12
+                            numeric                   structural problem begins
+                                                      The side of the aircraft on which an identified
+ 58   StringerFromSide       Alpha    1               structural problem begins. If given, must be "L" for
+                                                      Left or "R" for Right.
+                             Alpha-                   The number of the stringer at which an identified
+ 59   StringerTo                      12
+                            numeric                   structural problem ends
+                                                      The side of the aircraft on which an identified
+ 60   StringerToSide         Alpha    1               structural problem ends. If given, must be "L" for Left
+                                                      or "R" for Right.
+                             Alpha-                   The number of the wingstation at which an identified
+ 61   WingStationFrom                 12
+                            numeric                   structural problem begins
+                                                      The side of the aircraft on which an identified
+ 62   WingStationFromSide    Alpha    1               structural problem begins. If given, must be "L" for
+                                                      Left or "R" for Right.
+                             Alpha-                   The number of the wingstation at which an identified
+ 63   WingStationTo                   12
+                            numeric                   structural problem ends
+                                                      The side of the aircraft on which an identified
+ 64   WingStationToSide      Alpha    1               structural problem ends. If given, must be "L" for Left
+                                                      or "R" for Right.
+                             Alpha-                   The buttline measurement at which an identified
+ 65   ButtLineFrom                    12
+                            numeric                   structural problem begins
+                                                      The side of the aircraft on which an identified
+ 66   ButtLineFromSide       Alpha    1
+                                                      structural problem begins
+                             Alpha-                   The buttline measurement at which an identified
+ 67   ButtlineTo                      12
+                            numeric                   structural problem ends
+                                                      The side of the aircraft on which an identified
+ 68   ButtlineToSide         Alpha    1               structural problem ends. If given, must be "L" for Left
+                                                      or "R" for Right.
+                             Alpha-                   The waterline measurement at which an identified
+ 69   WaterLineFrom                   12
+                            numeric                   structural problem begins
+                             Alpha-                   The waterline measurement at which an identified
+ 70   WaterLineTo                     12
+                            numeric                   structural problem ends
+                                                      The length of the reported structural crack in inches. If
+                                                      given, must be greater than or equal to 0 and cannot
+ 71   CrackLength           Numeric   8,3
+                                                      have more than 5 digits before the decimal point or
+                                                      more than 3 digits after the decimal point.
+                                                      The number of structural cracks reported. If given,
+ 72   NumberOfCracks        Numeric   3               must be greater than or equal to 0 and less than or
+                                                      equal to 255.
+                                                      The severity of the corrosion being reported. If given,
+ 73   CorrosionLevel        Numeric   1
+                                                      must be "2" or "3".
+                             Alpha-
+ 74   StructuralOther                 20              Describe any "other" structural problem.
+                            numeric
+
+
+
+
+                                            Page 7 of 8
+Service Difficulty Reporting System (SDRS)                                                             October 1, 2021
+
+                                                               Should not contain more than 1500 characters.
+                                                               Whenever possible, describe conditions subsequent
+                                                               to, or leading up to, the reported problem: (a) Identify
+                                                               the cause for malfunction and emergency measures
+                                   Alpha-
+ 75   Discrepancy                                        X     executed. (b) Include compliance or noncompliance
+                                  numeric
+                                                               with Airworthiness Directives, Service bulletins, STC's,
+                                                               and PMA's. (c) Provide any significant facts you feel
+                                                               may help to reduce or eliminate recurrence (i.e.
+                                                               cycles, landings, and suggested changes).
+
+
+Sample record layout (for one record):
+
+*Note: Lines wrap below due to word processor. Each record should not contain ANY hard returns. There must
+be one hard return between each record.
+
+
+Identifier|FlightNumber|OperatorControlNumber|DifficultyDate|OperatorDesignator|SubmitterDesignator|SubmitterTypeCo
+de|ReceivingRegionCode|ReceivingDistrictOffice|SDRType|JASCCode|NatureOfConditionA|NatureOfConditionB|NatureO
+fConditionC|PrecautionaryProcedureA|PrecautionaryProcedureB|PrecautionaryProcedureC|PrecautionaryProcedureD|Sta
+geOfOperationCode|HowDiscoveredCode|RegistryNNumber|AircraftMake|AircraftModel|AircraftSerialNumber|AircraftTota
+lTime|AircraftTotalCycles|EngineMake|EngineModel|EngineSerialNumber|EngineTotalTime|EngineTotalCycles|Propeller
+Make|PropellerModel|PropellerSerialNumber|PropellerTotalTime|PropellerTotalCycles|PartMake|PartName|PartNumber|P
+artSerialNumber|PartCondition|PartLocation|PartTotalTime|PartTotalCycles|PartTimeSince|PartSinceCode|ComponentMa
+ke|ComponentModel|ComponentName|ComponentPartNumber|ComponentSerialNumber|ComponentLocation|Compone
+ntTotalTime|ComponentTotalCycles|ComponentTimeSince|ComponentSinceCode|FuselageStationFrom|FuselageStation
+To|StringerFrom|StringerFromSide|StringerTo|StringerToSide|WingStationFrom|WingStationFromSide|WingStationTo|Win
+gStationToSide|ButtLineFrom|ButtLineFromSide|ButtlineTo|ButtlineToSide|WaterLineFrom|WaterLineTo|CrackLength|Nu
+mberOfCracks|CorrosionLevel|StructuralOther|Discrepancy
+
+
+
+
+                                                    Page 8 of 8
+

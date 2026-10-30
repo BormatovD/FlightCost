@@ -1,0 +1,211 @@
+{
+ "engine": "CFM56-7B",
+ "aircraft": [
+  "B736",
+  "B737",
+  "B738",
+  "B739"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  20.6,
+  27.3
+ ],
+ "thrust_note": "по таблице AC No.87 (-7B20 20 600 … -7B27 27 300 lbf; таблица передана WebFetch, не дословно); CFM: семейство 18.5–32 klbf (e1-210)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 1500000,
+    "year": 2005,
+    "note": "non-Tech Insertion",
+    "evidence": [
+     "e1-027"
+    ]
+   },
+   {
+    "usd": 1800000,
+    "year": 2008,
+    "note": "",
+    "evidence": [
+     "e1-028"
+    ]
+   },
+   {
+    "usd": 2520000,
+    "year": 2013,
+    "note": "Tech Insertion; год каталога в статье не назван (статья апр/май 2013)",
+    "evidence": [
+     "e1-029"
+    ]
+   },
+   {
+    "usd": 4000000,
+    "year": 2019,
+    "note": "только заголовок Aircraft Value News (платный)",
+    "evidence": [
+     "e1-035"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "fan/booster LLP",
+    "efc": 30000,
+    "evidence": [
+     "e1-030"
+    ]
+   },
+   {
+    "part": "HPC/HPT LLP (target, лимитирующие)",
+    "efc": 20000,
+    "evidence": [
+     "e1-030"
+    ]
+   },
+   {
+    "part": "LPT LLP (target)",
+    "efc": 25000,
+    "evidence": [
+     "e1-030"
+    ]
+   },
+   {
+    "part": "часть LLP non-TI -7B26/-7B27",
+    "efc": 16300,
+    "evidence": [
+     "e1-031"
+    ]
+   }
+  ],
+  "escalation": {
+   "2005-2008_cagr": 0.063,
+   "2008-2013_cagr": 0.07,
+   "2013-2019_cagr": 0.08,
+   "2023": 0.12
+  },
+  "escalation_notes": [
+   "CAGR — собственный расчёт (e1-216)",
+   "~12% — Ishka 2023 (e1-044)",
+   "FTAI/MBA ~7%+ (e1-198)",
+   "CFM/GE: «double-digit increase on Nov. 1, 2022» и «high-single-digit spares price hikes in August» 2023 — запчасти в целом (e1-005..007, e1-118)",
+   "Aviation Week (2023): новые запчасти дорожают ~10%/год (e1-005); AW MRO 2025: стоимость SV растёт двузначно (e1-134)"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efh": 30400,
+   "interval_efc": 16000,
+   "ratio_fh_fc": 1.9,
+   "thrust": "-7B24 (24.2K)",
+   "cost_usd": 1725000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "core performance restoration $1.6–1.85 млн; EFH = EFC×1.9 (расчёт); далее 14 000 и 11 000 EFC",
+   "evidence": [
+    "e1-032",
+    "e1-033"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": 24700,
+   "interval_efc": 13000,
+   "ratio_fh_fc": 1.9,
+   "thrust": "-7B26 (26.3K)",
+   "cost_usd": null,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "далее 11 000 / 7 000 / 10 000 EFC",
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": 20900,
+   "interval_efc": 11000,
+   "ratio_fh_fc": 1.9,
+   "thrust": "-7B27 (27.3K)",
+   "cost_usd": null,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "далее 8 000 EFC ×4",
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "which": "full overhaul (all modules)",
+   "cost_usd": 3300000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "which": "typical CFM56 (FTAI)",
+   "interval_note": "раз в ~5 лет",
+   "cost_usd": 6800000,
+   "cost_year": 2023,
+   "includes_llp": true,
+   "evidence": [
+    "e1-196",
+    "e1-197"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh_total": 202,
+   "usd_per_efc_total": 384,
+   "thrust": "-7B24",
+   "year": 2013,
+   "note": "SV+LLP+unscheduled $25/EFH+QEC $15/EFH, при 1.9 EFH/EFC; исправлено по проверке verify/e1: $308/EFC — только SV (162×1.9), итогу $202/EFH соответствует ≈$384/EFC; вхождение LLP текстом не подтверждено",
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "usd_per_efh_total": 226,
+   "usd_per_efc_total": 353,
+   "thrust": "-7B26",
+   "year": 2013,
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "usd_per_efh_total": 245,
+   "usd_per_efc_total": 389,
+   "thrust": "-7B27",
+   "year": 2013,
+   "evidence": [
+    "e1-033"
+   ]
+  },
+  {
+   "usd_per_efh_total": 193,
+   "usd_per_efc_total": 291,
+   "thrust": "-7B20/-7B22",
+   "year": 2013,
+   "evidence": [
+    "e1-033"
+   ]
+  }
+ ],
+ "issues": [
+  "CFM внедрила более долговечную лопатку ТВД для CFM56 (поставлено >1700 комплектов к ноя-2025, e1-231)"
+ ],
+ "gaps": [
+  "каталог LLP 2020–2026 с годом (кроме заголовка $4 млн 2019)",
+  "стоимость SV без LLP после 2013 (кроме FTAI $6.8 млн с LLP)"
+ ],
+ "doubts": [
+  "значения резервов и интервалов из таблиц AC No.87 получены через пересказ WebFetch, построчно дословно не сверены",
+  "в тексте AC No.87 для -7B26/3 указано $215 per EFC, в таблице $332/EFC и $215/EFH"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

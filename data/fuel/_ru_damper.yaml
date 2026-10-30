@@ -1,0 +1,59 @@
+# Сгенерировано research/fuel-2026-10/build_report.py; новые месяцы дописывает месячный агент.
+method: 'Компенсация российскому эксплуатанту за тонну авиакеросина, заправленного в России: демпфер месяца + возврат
+  акциза сверх уплаченного (2 800 руб/т × 1,08 = 3 024). Демпфер — расчёт Рейтер по формуле НК, публикуется в начале
+  следующего месяца. Решение 236.'
+built: '2026-10-30'
+excise_refund_rub_t: 3024
+excise_evidence:
+- https://www.consultant.ru/document/cons_doc_LAW_52453/a679b8ba3c5bd6d586cc3c95ae60fe2086769c1b/
+- https://www.consultant.ru/law/podborki/vychety_aviacionnyj_kerosin/
+- https://ru.themoscowtimes.com/2026/10/06/dempfer-dlya-aviakerosina-v-rf-vyros-v-15-raza-v-senavg-raschyot-reyter-a207929
+months:
+  2024-06:
+    damper_rub_t: 13949
+    source: https://ru.themoscowtimes.com/2024/07/02/dempfer-dlya-aviakerosina-v-rf-po-itogam-iyunya-sostavil-13949-rubt-raschyot-reyter-a135636
+  2024-09:
+    damper_rub_t: 7819
+    source: https://ru.themoscowtimes.com/2024/10/03/dempfer-dlya-aviakerosina-v-rf-po-itogam-sentyabrya-sostavil-7819-rubt-raschyot-reyter-a143896
+  2025-01:
+    damper_rub_t: 15615
+    source: https://ru.themoscowtimes.com/2025/02/07/dempfer-dlya-aviakerosina-v-rf-vyros-na-97-v-yanvdek-do-15615-rubt-raschyot-reyter-a154588
+  2025-06:
+    damper_rub_t: 618
+    source: https://ru.themoscowtimes.com/2025/08/06/dempfer-dlya-aviakerosina-v-rf-za-iyul-vyros-vtroe-k-iyunyu-do-1981-rubt-raschyot-reyter-a170853
+  2025-07:
+    damper_rub_t: 1981.2
+    source: https://ru.themoscowtimes.com/2025/08/06/dempfer-dlya-aviakerosina-v-rf-za-iyul-vyros-vtroe-k-iyunyu-do-1981-rubt-raschyot-reyter-a170853
+  2025-10:
+    damper_rub_t: 2049.45
+    source: https://ru.themoscowtimes.com/2025/12/03/dempfer-dlya-aviakerosina-v-rf-za-noyabr-vyros-vdvoe-po-sravneniyu-s-oktyabrem-raschyot-reyter-a181726
+  2025-11:
+    damper_rub_t: 4386.2
+    source: https://ru.themoscowtimes.com/2025/12/03/dempfer-dlya-aviakerosina-v-rf-za-noyabr-vyros-vdvoe-po-sravneniyu-s-oktyabrem-raschyot-reyter-a181726
+  2026-01:
+    damper_rub_t: 0
+    source: https://ru.themoscowtimes.com/2026/04/09/dempfer-za-mart-kompensiruet-aviaperevozchikam-34-birzhevoy-tseny-kerosina-raschyot-reyter-a192232
+  2026-02:
+    damper_rub_t: 1779.7
+    source: https://ru.themoscowtimes.com/2026/04/09/dempfer-za-mart-kompensiruet-aviaperevozchikam-34-birzhevoy-tseny-kerosina-raschyot-reyter-a192232
+  2026-03:
+    damper_rub_t: 52097.5
+    source: https://ru.themoscowtimes.com/2026/04/09/dempfer-za-mart-kompensiruet-aviaperevozchikam-34-birzhevoy-tseny-kerosina-raschyot-reyter-a192232
+  2026-04:
+    damper_rub_t: 47833.5
+    source: https://ru.themoscowtimes.com/2026/05/07/dempfer-za-aprel-kompensiruet-aviaperevozchikam-59-birzhevoy-tseny-kerosina-raschyot-reyter-a194830
+  2026-05:
+    damper_rub_t: 27986.4
+    source: https://ru.themoscowtimes.com/2026/06/08/dempfer-dlya-aviakerosina-v-rf-za-may-upal-na-41-k-aprelyu-raschyot-reyter-a197602
+  2026-06:
+    damper_rub_t: 15100.8
+    source: https://ru.themoscowtimes.com/2026/07/07/dempfer-dlya-aviakerosina-v-rf-za-iyun-upal-vdvoe-k-mayu-raschyot-reyter-a200175
+  2026-07:
+    damper_rub_t: 27639.95
+    source: https://ru.themoscowtimes.com/2026/08/06/dempfer-dlya-aviakerosina-v-rf-vyros-v-18-raza-v-iyuliyun-raschyot-reyter-a202826
+  2026-08:
+    damper_rub_t: 38297.35
+    source: https://ru.themoscowtimes.com/2026/09/04/dempfer-dlya-aviakerosina-v-rf-vyros-v-14-raza-v-avgiyul-raschyot-reyter-a205344
+  2026-09:
+    damper_rub_t: 58421.35
+    source: https://ru.themoscowtimes.com/2026/10/06/dempfer-dlya-aviakerosina-v-rf-vyros-v-15-raza-v-senavg-raschyot-reyter-a207929

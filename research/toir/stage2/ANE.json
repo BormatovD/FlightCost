@@ -1,0 +1,53 @@
+{
+ "airline": "Air Nostrum",
+ "code": "ANE",
+ "currency": "EUR",
+ "unit": null,
+ "fiscal_year_end": "12-31",
+ "scope": {
+  "own_staff": "не раскрыто",
+  "lease_provisions": "не раскрыто",
+  "deferral": "не раскрыто",
+  "pbh": "не найдено (есть ATR GMA — по пресс-релизу ATR, не открыт)",
+  "evidence": []
+ },
+ "years": {
+  "2015": {
+   "departures": 75951,
+   "evidence": [
+    "s3-100"
+   ]
+  },
+  "2016": {
+   "departures": 76966,
+   "evidence": [
+    "s3-100"
+   ]
+  },
+  "2017": {
+   "fleet_plan": {
+    "AT76": 5,
+    "CRJ2": 10,
+    "CRJ9": 1,
+    "CRJX": 24
+   },
+   "evidence": [
+    "s3-101"
+   ]
+  },
+  "2018": {
+   "departures": 74779,
+   "fleet_total": 42,
+   "evidence": [
+    "s3-108"
+   ]
+  }
+ },
+ "gaps": [
+  "cuentas anuales не найдены: строка ТО, налёт, политика (s3-109)"
+ ],
+ "doubts": [
+  "Air Nostrum E&M ведёт ТО третьим лицам — смешение",
+  "парк смешанный CRJ/ATR"
+ ]
+}

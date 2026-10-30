@@ -1,0 +1,500 @@
+{
+ "a2-003": {
+  "status": "found",
+  "found_text": "a long-term flight hour agreement for the majority of our current fleet with IAE and Pratt & Whitney",
+  "value_ok": true,
+  "note": "Цитата подтверждена. Расшифровка V2500 (ceo)/PW1100G (neo) в самой цитате отсутствует — это вывод исследователя, не из текста."
+ },
+ "a2-004": {
+  "status": "found",
+  "found_text": "our fleet consisted of 62 A320ceos, 19 A320neos, 29 A321ceos and 21 A321neos",
+  "value_ok": true,
+  "note": "Сумма 62+19+29+21=131 верна."
+ },
+ "a2-005": {
+  "status": "found",
+  "found_text": "the average age of the fleet was approximately 8 years",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-006": {
+  "status": "found",
+  "found_text": "we owned 48 aircraft, of which 21 aircraft were financed through fixed-rate long-term debt",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-007": {
+  "status": "found",
+  "found_text": "we had 83 leased aircraft, of which 70 aircraft were financed under operating leases",
+  "value_ok": true,
+  "note": "48+83=131 согласуется с a2-004."
+ },
+ "a2-012": {
+  "status": "found",
+  "found_text": "The credits were accounted for as vendor consideration in accordance with ASC 705-20",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-013": {
+  "status": "found",
+  "found_text": "Pratt & Whitney agreed to issue us $150.6 million in credits related to the aircraft on ground",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-014": {
+  "status": "found",
+  "found_text": "we recorded $122.2 million of credits as a reduction in the cost basis of assets purchased from IAE",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-015": {
+  "status": "found",
+  "found_text": "we recorded $28.4 million of these credits on our consolidated statements of operations ... within maintenance, materials and repairs and aircraft rent.",
+  "value_ok": true,
+  "note": "Сама цитата — хвост предложения; сумма 28.4 в цитате отсутствует, но стоит в начале того же предложения. 122.2+28.4=150.6 сходится."
+ },
+ "a2-016": {
+  "status": "found",
+  "found_text": "the average age of the fleet was approximately 5.8 years",
+  "value_ok": true,
+  "note": "Число 213 ВС в цитате нет (не проверялось отдельно)."
+ },
+ "a2-018": {
+  "status": "found",
+  "found_text": "The Company accounts for heavy maintenance and major overhaul under the deferral method",
+  "value_ok": true,
+  "note": "WebFetch отдаёт только короткие дословные куски (лимит ~125 симв.); начало и смысл подтверждены."
+ },
+ "a2-019": {
+  "status": "found",
+  "found_text": "heavy maintenance and major overhaul is deferred and amortized until the earlier of the end of the useful life of the related asset, the end of the remaining lease term or the next scheduled heavy maintenance event",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-020": {
+  "status": "found",
+  "found_text": "Costs incurred for maintenance and repair under flight hour maintenance contracts, where labor and materials price risks have been transferred to the service provider,",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-021": {
+  "status": "found",
+  "found_text": "are expensed based on contractual payment terms",
+  "value_ok": true,
+  "note": "Подтверждено связкой с a2-020."
+ },
+ "a2-022": {
+  "status": "found",
+  "found_text": "The Company outsources certain routine, non-heavy maintenance functions under contracts that require payment on a utilization basis, primarily based on flight hours.",
+  "value_ok": true,
+  "note": "Цитата обрезана на 'require payment'; в документе продолжение 'on a utilization basis, primarily based on flight hours' — вывод value допустим."
+ },
+ "a2-023": {
+  "status": "found",
+  "found_text": "All other costs for routine maintenance of the airframes and engines are charged to expense as performed.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-025": {
+  "status": "found",
+  "found_text": "Changes to deferred heavy maintenance, net are due to the write-off of $120.9 million of capitalized deferred heavy",
+  "value_ok": true,
+  "note": "Value уточняет 'собственных ВС' — в обрезанной цитате не видно."
+ },
+ "a2-026": {
+  "status": "found",
+  "found_text": "Supplemental rent, recorded within aircraft rent expense, is primarily made up of probable and estimable",
+  "value_ok": true,
+  "note": "Часть про 'возвратные условия аренды' вне цитаты."
+ },
+ "a2-035": {
+  "status": "found",
+  "found_text": "long-term flight hour agreements for our engine overhaul services and an hour-by-hour basis agreement for component services.",
+  "value_ok": true,
+  "note": "Провайдер и тип двигателя в цитате не названы — как в value."
+ },
+ "a2-036": {
+  "status": "found",
+  "found_text": "consisting of 6 A320ceos, 89 A320neos, 21 A321ceos and 60 A321neos",
+  "value_ok": true,
+  "note": "6+89+21+60=176 верно."
+ },
+ "a2-037": {
+  "status": "found",
+  "found_text": "all 176 aircraft in our fleet were financed under operating leases",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-038": {
+  "status": "found",
+  "found_text": "average aircraft age of our fleet was approximately five years",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-041": {
+  "status": "found",
+  "found_text": "deferral method, whereby the cost of",
+  "value_ok": true,
+  "note": "Проверено короткими кусками (лимит инструмента)."
+ },
+ "a2-042": {
+  "status": "found",
+  "found_text": "is deferred and recorded as flight equipment and depreciated over the",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-043": {
+  "status": "found",
+  "found_text": "lesser of the remaining lease term or the period until the next scheduled heavy maintenance event",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-044": {
+  "status": "found",
+  "found_text": "For those contracts in which risk has not been determined to transfer to the service provider",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-045": {
+  "status": "found",
+  "found_text": "the Company initially records monthly payments as a deposit included in other assets",
+  "value_ok": true,
+  "note": "Часть value 'событие ТОиР учитывается по политике (т.е. deferral)' — вывод, не из цитаты."
+ },
+ "a2-046": {
+  "status": "found",
+  "found_text": "expense is recognized based on the contractual terms of the cost-per-hour arrangement",
+  "value_ok": true,
+  "note": "Условие 'при передаче риска' в цитате нет; логически это противоположная ветка. Приемлемо."
+ },
+ "a2-047": {
+  "status": "found",
+  "found_text": "accounted for as maintenance deposits, to the extent they are expected to be recoverable",
+  "value_ok": true,
+  "note": "Текст находится внутри раздела Aircraft Maintenance, отдельного заголовка нет (locator неточный)."
+ },
+ "a2-048": {
+  "status": "found",
+  "found_text": "expensed as supplemental rent within aircraft rent",
+  "value_ok": true,
+  "note": "Locator неточный, см. a2-047."
+ },
+ "a2-049": {
+  "status": "found",
+  "found_text": "none of the Company's current aircraft lessors require these payments to be held as collateral",
+  "value_ok": true,
+  "note": "Вступление 'As a result,' отдельно не подтверждено. Утверждение 'с 2024' в цитате нет; из a2-051 период 1П 2024 — разумно, но вывод."
+ },
+ "a2-051": {
+  "status": "partial",
+  "found_text": "the lessor disbursed back to the Company previously paid aircraft maintenance deposits of approximately $104 million.",
+  "value_ok": true,
+  "note": "Цитата в журнале — лишь хвост ('deposits of approximately $104 million.'); смысл подтверждён: период 6 мес. до 30.06.2024, лизингодатель не назван."
+ },
+ "a2-052": {
+  "status": "found",
+  "found_text": "2025, as compared to the three months ended June 30, 2024, primarily due to an increase in capitalized",
+  "value_ok": true,
+  "note": "Цитата подтверждена; вывод про deferral — интерпретация."
+ },
+ "a2-053": {
+  "status": "found",
+  "found_text": "aircraft repairs and materials costs, partially offset by lower engine repair costs",
+  "value_ok": true,
+  "note": "Это формулировка для 3 мес. (Q2 2025 vs Q2 2024); за 6 мес. сказано 'offset by lower engine repair costs'. Value 'в 2025 снижались' — слишком широко: речь о снижении относительно предыдущего периода при общем росте расходов."
+ },
+ "a2-054": {
+  "status": "found",
+  "found_text": "This agreement also includes a long-term service contract for engine maintenance. (preceding: ... to have their PW1100 Geared Turbo Fan (\"GTF\") engines power 91 Airbus A321neo aircraft)",
+  "value_ok": true,
+  "note": "Месяц 'июль 2025' и 'поставки с 4 кв. 2026' в проверенных кусках 10-Q не видел (4К26 — по пресс-релизу RTX от 16.06.2025)."
+ },
+ "a2-056": {
+  "status": "partial",
+  "found_text": "engine maintenance through a long-term EngineWise® Comprehensive service agreement",
+  "value_ok": false,
+  "note": "Фрагмент есть, но пресс-релиз не уточняет, охватывает ли соглашение уже поставленные ВС: 'including already delivered aircraft' относится к общему парку GTF (235), а не к сервису. Утверждение value про 'уже поставленные' и 'с 2026' не следует из текста."
+ },
+ "a2-067": {
+  "status": "found",
+  "found_text": "Utilization-based maintenance expense | 19,981 | 68,537 | 103,232 | 117,458 (USD thousands)",
+  "value_ok": true,
+  "note": "Строка и числа есть; заголовки столбцов перепутаны (объединённые ячейки, нет подписей Successor/Predecessor), поэтому сложение двух первых столбцов как 'всего 2025' — интерпретация (разумная: 1.01–12.03 + 13.03–31.12.2025). Проверка: 47,498+159,599=207,097 (ТОиР 2025 ≈207.1) сходится."
+ },
+ "a2-068": {
+  "status": "found",
+  "found_text": "Amortization of heavy maintenance | 21,074 | 56,440 | 113,522 | 79,768 (USD thousands)",
+  "value_ok": true,
+  "note": "Та же оговорка по столбцам. Утверждение 'вне строки ТОиР' из таблицы не следует."
+ },
+ "a2-069": {
+  "status": "found",
+  "found_text": "Deferred costs for heavy maintenance | 26,700 | 30,100 | 86,400 | 202,900 (USD thousands)",
+  "value_ok": false,
+  "note": "Строка есть, но то, что 26.7+30.1=56.8 млн — капитализация за 2025, по таблице не подтверждается: сопоставление столбцов с периодами неоднозначное, на странице нет подписей периодов; значения без символа $ в разных столбцах не гарантируют, что это потоки за период."
+ },
+ "a2-073": {
+  "status": "found",
+  "found_text": "Some of our Airbus aircraft engines are serviced under fixed price flight hour agreements",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-074": {
+  "status": "found",
+  "found_text": "for the repair, overhaul, modification, and logistics, while others are covered under time and material contracts.",
+  "value_ok": true,
+  "note": "Проверка по первым 100000 симв. документа."
+ },
+ "a2-075": {
+  "status": "found",
+  "found_text": "Many of our maintenance service agreements are based on a fixed cost per flight hour.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-076": {
+  "status": "found",
+  "found_text": "as of December 31, 2025, we had four aircraft grounded due to lack of engine availability.",
+  "value_ok": true,
+  "note": "Контекст: PW1100G и PW1500G (не только A320neo)."
+ },
+ "a2-078": {
+  "status": "found",
+  "found_text": "As of December 31, 2025 JetBlue's operating fleet was comprised of 129 Airbus A320 aircraft, 100 Airbus A321, and 59 Airbus A220 for a total of 288 aircraft.",
+  "value_ok": true,
+  "note": "E190 выведены — подтверждено в этом же документе (3К25)."
+ },
+ "a2-081": {
+  "status": "found",
+  "found_text": "Airbus A320 | 129 | 20.8 years | total 292 | 12.4 years",
+  "value_ok": true,
+  "note": "Дата данных на странице не указана; 'агрегатор, 2026' не подтверждено. В агрегаторе A220 = 63 против 59 у JetBlue (агрегатор расходится с отчётом, итог 292 против 288)."
+ },
+ "a2-085": {
+  "status": "found",
+  "found_text": "signed a 13-year EngineWise fixed-price agreement for 230 V2500 engines",
+  "value_ok": true,
+  "note": "Пресс-релиз от 31.07.2020; '2020–2033' — вывод (13 лет), точные даты не указаны."
+ },
+ "a2-086": {
+  "status": "found",
+  "found_text": "that power the airline's A320ceo family fleet",
+  "value_ok": true,
+  "note": "Охват 230 двигателей; 'A320, A321ceo' в цитате не названы."
+ },
+ "a2-090": {
+  "status": "found",
+  "found_text": "The agreement also covers exclusive maintenance for JetBlue's fleet of 85 A320neo family aircraft",
+  "value_ok": true,
+  "note": "Двигатель в статье — PW1100G-JM (GTF); 85 ВС, не весь A21N/A20N на сегодня."
+ },
+ "a2-091": {
+  "status": "found",
+  "found_text": "The maintenance component of the agreement fixes the amount JetBlue pays per flight hour",
+  "value_ok": true,
+  "note": "'с 2018' — год публикации/заключения; поставки с 2019."
+ },
+ "a2-093": {
+  "status": "found",
+  "found_text": "as a reduction to aircraft assets or as amortisation of maintenance expenses",
+  "value_ok": true,
+  "note": "ch-aviation от 25.04.2024, говорит CFO Ursula Hurley; сумма компенсации не раскрыта."
+ },
+ "a2-108": {
+  "status": "found",
+  "found_text": "We contract with FAA-approved outside organizations to provide major maintenance and component and engine overhaul and repair",
+  "value_ok": true,
+  "note": "Цитата в журнале обрезана на 'component and'; продолжение 'engine overhaul and repair'. Отсутствие упоминания PBH в этом предложении — по первым 100000 символам, остаток не читался."
+ },
+ "a2-109": {
+  "status": "found",
+  "found_text": "As of February 1, 2026, we own or finance lease all but nine of the aircraft in our operating fleet.",
+  "value_ok": true,
+  "note": "Что оставшиеся 9 — именно операционный лизинг, в цитате не сказано (разумный вывод)."
+ },
+ "a2-110": {
+  "status": "found",
+  "found_text": "As of February 1, 2026, our operating fleet consists of 16 Boeing 737 MAX aircraft and 106 Airbus A320 series aircraft, of which 93 were acquired used and 29 were acquired new.",
+  "value_ok": true,
+  "note": "16+106=122=93+29."
+ },
+ "a2-113": {
+  "status": "found",
+  "found_text": "The Company accounts for all non-major maintenance and repair costs incurred for its fleet under the direct expense method.",
+  "value_ok": true,
+  "note": "Источник — Financial_Report.xlsx из 10-K за FY2024 (accession ...25-000008), а не за FY2025."
+ },
+ "a2-114": {
+  "status": "found",
+  "found_text": "The Company accounts for major maintenance costs of its airframes and engines using the deferral method.",
+  "value_ok": true,
+  "note": "Value уточняет 'тяжёлые формы планера и капремонт двигателей' — в цитате 'major maintenance'."
+ },
+ "a2-115": {
+  "status": "found",
+  "found_text": "Under this method, the Company capitalizes the cost of major maintenance events, which are amortized as a component of",
+  "value_ok": true,
+  "note": "Продолжение (вероятно 'depreciation and amortization') не приведено инструментом; 'в D&A до следующего события' не подтверждено дословно."
+ },
+ "a2-117": {
+  "status": "found",
+  "found_text": "Boeing 737-8200 (190 seats) 16; Airbus A320 (180 seats) 71; Airbus A320 (177 seats) 8; Airbus A319 (156 seats) 28; Total 123 (4Q25)",
+  "value_ok": true,
+  "note": "71+8=79; 16+79+28=123. Обозначение B38M для 737-8200 — интерпретация исследователя."
+ },
+ "a2-118": {
+  "status": "found",
+  "found_text": "Fourth quarter deferred heavy maintenance expenditures were $11.5M",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-119": {
+  "status": "found",
+  "found_text": "Capitalized deferred heavy maintenance (millions) — FY2026 guidance $80-90; 2025 Maintenance and repairs $149.9M",
+  "value_ok": true,
+  "note": "Цифры подтверждены; сравнение 'сопоставимо с половиной расходов' — интерпретация исследователя."
+ },
+ "a2-122": {
+  "status": "found",
+  "found_text": "continue to provide heavy shop visit support for Allegiant's fleet of CFM56-5B engines",
+  "value_ok": true,
+  "note": "Пресс-релиз от 03.02.2025, срок 5 лет; 'A319/A320' в цитате нет."
+ },
+ "a2-130": {
+  "status": "found",
+  "found_text": "Regular airframe maintenance for owned and leased flight equipment is charged to expense as incurred",
+  "value_ok": true,
+  "note": "Источник — отчёт JetBlue за FY2017 (accession ...18-000018), 2018 г.; политика устаревшая. В тексте есть исключение: обслуживание, покрытое long-term flight-hour соглашением."
+ },
+ "a2-131": {
+  "status": "found",
+  "found_text": "These power by the hour agreements transfer certain risks, including cost risks, to the third-party service providers.",
+  "value_ok": true,
+  "note": "Тот же старый отчёт FY2017."
+ },
+ "a2-132": {
+  "status": "found",
+  "found_text": "These costs are expensed as the related flight hours or cycles are incurred.",
+  "value_ok": true,
+  "note": "Тот же старый отчёт FY2017."
+ },
+ "a2-136": {
+  "status": "found",
+  "found_text": "as well as major maintenance costs of owned airframes, all leased airframes, and engines acquired via operating leases,",
+  "value_ok": true,
+  "note": "Предшествует: 'The Company accounts for non-major maintenance and repair costs incurred,'."
+ },
+ "a2-137": {
+  "status": "found",
+  "found_text": "using the expense as incurred method.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-138": {
+  "status": "found",
+  "found_text": "maintenance under the built-in overhaul method",
+  "value_ok": false,
+  "note": "Цитата подтверждена (раздел Use of Estimates, перечень областей суждения), но привязка к 'собственным двигателям' — вывод исследователя, в цитате её нет."
+ },
+ "a2-139": {
+  "status": "found",
+  "found_text": "Engines – Initial Greentime (time remaining until the first scheduled major maintenance event)",
+  "value_ok": true,
+  "note": "Строка таблицы сроков службы; 'амортизируется' — разумный вывод из таблицы."
+ },
+ "a2-140": {
+  "status": "found",
+  "found_text": "Certain costs covered by third-party maintenance agreements are charged to expense based on fleet utilization",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-141": {
+  "status": "found",
+  "found_text": "are reflected as Lessor Maintenance Deposits on the accompanying Consolidated Balance Sheets",
+  "value_ok": true,
+  "note": "Условие 'если возвратимы' не в этом фрагменте."
+ },
+ "a2-142": {
+  "status": "found",
+  "found_text": "Lessor Maintenance Deposits deemed improbable of recovery are expensed as incurred",
+  "value_ok": true,
+  "note": "'в Aircraft Rent' в этом фрагменте не показано."
+ },
+ "a2-143": {
+  "status": "found",
+  "found_text": "Sun Country acts as the agent in providing the Heavy Maintenance and Fuel performance obligations",
+  "value_ok": true,
+  "note": "'Amazon возмещает по факту' в цитате нет — вывод."
+ },
+ "a2-144": {
+  "status": "found",
+  "found_text": "Consumption of aircraft fuel and heavy maintenance are recognized in revenue",
+  "value_ok": true,
+  "note": "'нетто' в цитате отсутствует."
+ },
+ "a2-146": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, our fleet consisted of 70 Boeing 737-NG aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-147": {
+  "status": "found",
+  "found_text": "This includes 47 aircraft in the passenger fleet, 20 cargo operated aircraft through the A&R ATSA with Amazon and three aircraft that are currently on lease to unaffiliated airlines.",
+  "value_ok": true,
+  "note": "47+20+3=70."
+ },
+ "a2-148": {
+  "status": "found",
+  "found_text": "On our cargo aircraft, heavy maintenance is a pass-through expense to our customer, Amazon",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-149": {
+  "status": "found",
+  "found_text": "All aircraft in our Cargo service are subleased directly from Amazon",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-150": {
+  "status": "found",
+  "found_text": "We are responsible for flying the aircraft under our air carrier certificate, crew, aircraft line maintenance and insurance,",
+  "value_ok": true,
+  "note": ""
+ },
+ "a2-162": {
+  "status": "found",
+  "found_text": "with the manufacturer also supplying engine MRO services through a long-term 'EngineWise' agreement",
+  "value_ok": true,
+  "note": "Статья не называет год соглашения и не называет двигатель PW1500G напрямую (только 'GTF' и A220-300); 'с 2021' — вывод (первая поставка в 2021). Цена за час не названа — как в value."
+ },
+ "a2-165": {
+  "status": "found",
+  "found_text": "full repair coverage for components and parts",
+  "value_ok": true,
+  "note": "Pool Program Embraer от 04.05.2021 для E190/E195; двигатели в тексте не упоминаются — согласуется с value."
+ },
+ "a2-168": {
+  "status": "found",
+  "found_text": "The larger Embraer variant disappeared from the Breeze fleet during 2025.",
+  "value_ok": true,
+  "note": "Тот же источник: в январе 2025 — 10 E190 и 3 E195; последний E190 ушёл 07.09.2026."
+ },
+ "a2-169": {
+  "status": "found",
+  "found_text": "seven of the 12 A220s formerly operated by EgyptAir were placed with Breeze by lessor Azorra",
+  "value_ok": true,
+  "note": "TrueNoord (sale-leaseback, 3 A220-300) и Jackson Square Aviation (JSA) подтверждены в статье. Пять ex-EgyptAir на земле."
+ },
+ "a2-177": {
+  "status": "found",
+  "found_text": "The carrier currently operates eight 737-700s and 14 737-800s.",
+  "value_ok": true,
+  "note": "Статья от 07.01.2026."
+ },
+ "a2-180": {
+  "status": "found",
+  "found_text": "Lufthansa Technik will provide Avelo with Consumables and Expendables to support the new low-fare airline as it grows",
+  "value_ok": true,
+  "note": "Пресс-релиз от 22.04.2022 (устарел; тогда 8 ВС 737NG). Двигатели/PBH не упомянуты."
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "carrier": "NK",
+ "fleet": [
+  {
+   "icao": "A320",
+   "count": 62,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-061"
+   ]
+  },
+  {
+   "icao": "A20N",
+   "count": 19,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-061"
+   ]
+  },
+  {
+   "icao": "A321",
+   "count": 29,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-061"
+   ]
+  },
+  {
+   "icao": "A21N",
+   "count": 21,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-061"
+   ]
+  },
+  {
+   "icao": null,
+   "count": 131,
+   "avg_age_y": 8.0,
+   "as_of": "2025-12-31",
+   "owned": 48,
+   "leased": 83,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-062",
+    "a4-063",
+    "a4-064"
+   ],
+   "note": "весь парк: «approximately 8 years»; 83 в лизинге = 70 операционный + 13 failed sale-leaseback; по типам не разбито"
+  }
+ ],
+ "gaps": [
+  "Средний возраст и собственность/лизинг по типам. Item 2 «Properties» 10-K FY2025 недоступен: WebFetch получает только первые ~106–124 тыс. символов (и HTML на sec.gov, и PDF на сайте IR, и зеркала), offset дальше этой границы не читает."
+ ]
+}

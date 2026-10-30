@@ -1,0 +1,344 @@
+{
+ "l1-004": {
+  "status": "found",
+  "found_text": "Two-engine performance restoration: $1.875 million per visit at 15,000 hours = $125 per hour per engine",
+  "value_ok": true,
+  "note": "Статья от 21.04.2017"
+ },
+ "l1-005": {
+  "status": "found",
+  "found_text": "Airframe 6/12-year checks: circa $20,000 per month",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-006": {
+  "status": "found",
+  "found_text": "Landing Gear Overhaul at $350,000 at 10 years = $3,000 per month",
+  "value_ok": true,
+  "note": "350000/120 = 2917, в источнике округлено до 3000"
+ },
+ "l1-007": {
+  "status": "found",
+  "found_text": "APU Overhaul at $450,000 at four years = $9,375 per month",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-008": {
+  "status": "found",
+  "found_text": "Two-engine life limited parts: $2.25 million at 15,000 cycles = $150 per cycle",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-016": {
+  "status": "found",
+  "found_text": "the lessee makes monthly maintenance reserve payments to us based on the asset's usage",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-020": {
+  "status": "found",
+  "found_text": "Maintenance Compensation Escalation At Cost for LLPs, 3% for all else",
+  "value_ok": true,
+  "note": "Re-Published: February 20, 2020"
+ },
+ "l1-026": {
+  "status": "found",
+  "found_text": "Total reserves for base -7B20 and -7B22 engines are thus $193 and $204 per EFH",
+  "value_ok": true,
+  "note": "193 = 153 (SV+LLP при 1.9 EFH/EFC) + 25 + 15"
+ },
+ "l1-027": {
+  "status": "found",
+  "found_text": "Overall cost per EFH for the -7B26 is $226, rising to $245 per EFH for the -7B27.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-028": {
+  "status": "found",
+  "found_text": "Total reserves are marginally higher for the -7B24 at $201-202 per EFH",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-029": {
+  "status": "found",
+  "found_text": "These two main cost elements have to be added to by the cost of unscheduled visits and a budget for reserves for quick engine change (QEC) components and accessory parts. The reserves for these will be $25 and $15 per EFH.",
+  "value_ok": false,
+  "note": "Перепутаны статьи: по порядку перечисления и таблице $25 = unscheduled visits, $15 = QEC; в value наоборот (QEC 25, unsched 15). Сумма не меняется."
+ },
+ "l1-030": {
+  "status": "found",
+  "found_text": "Such a pattern does put LLP reserves at $126 per EFC, since fan/LPC and LPT parts will be scrapped early.",
+  "value_ok": true,
+  "note": "Сценарий полных overhaul ~20000 EFC для -7B20/-7B22"
+ },
+ "l1-032": {
+  "status": "found",
+  "found_text": "Amortised over the interval of 39,000FH for these seven checks, the reserve would be $65-70 per FH (see table, page 30).",
+  "value_ok": true,
+  "note": "Пересчёт 65-70×3300/12 = 17.9-19.3 тыс/мес верен"
+ },
+ "l1-033": {
+  "status": "found",
+  "found_text": "the reserve for landing gear maintenance is equal to $18 per FC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-034": {
+  "status": "found",
+  "found_text": "An APU shop visit costs $200,000, not including LLPs, so the APU maintenance reserve is $22 per FC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-035": {
+  "status": "found",
+  "found_text": "CFM56-7B26: 2 X $170-221 per EFH 340-442",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-036": {
+  "status": "found",
+  "found_text": "The 737NG's total maintenance costs are $909-1,128 per FH, depending on aircraft variant and engine model,",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-042": {
+  "status": "found",
+  "found_text": "The PW1100G has a full shipset of 29 LLPs, with a 2019 list price of $4.2 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-040": {
+  "status": "found",
+  "found_text": "The 2022 price for these three parts was about $0.85 million. On the basis of an annual increase of 6.9%, the 2023 list price for the three parts would be $0.91 million.",
+  "value_ok": true,
+  "note": "6.9% — по трём LLP модуля fan/LPC LEAP-1A (fan disk, shaft, LPC spool), не по всему шипсету"
+ },
+ "l1-044": {
+  "status": "found",
+  "found_text": "...the reserves that have to be paid for 2020 list prices for all 18 parts are $169 per EFC. (при допущении 'If all parts can achieve 100% life utilisation')",
+  "value_ok": true,
+  "note": "CFM56-5B; WebFetch отдал предложение частично (лимит цитаты)"
+ },
+ "l1-061": {
+  "status": "found",
+  "found_text": "Maintenance reserve revenue was $213.9 million, another record high in 2024, an increase of 60.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-062": {
+  "status": "found",
+  "found_text": "which represented 354 engines, 16 aircraft, one marine vessel and other leased parts and equipment.",
+  "value_ok": true,
+  "note": "WLFC, на 31.12.2024"
+ },
+ "l1-083": {
+  "status": "found",
+  "found_text": "6Y Check: $13,500 per month (Maintenance Reserves — Airframe)",
+  "value_ok": true,
+  "note": "WebFetch не дал дословную вёрстку таблицы; значение совпадает"
+ },
+ "l1-084": {
+  "status": "found",
+  "found_text": "12Y Check: $9,000 per month",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-085": {
+  "status": "found",
+  "found_text": "U$S 4,170 per Month",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-086": {
+  "status": "found",
+  "found_text": "APS 3200: $50 per flight hour; GTC36-300: $40 per flight hour",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-087": {
+  "status": "found",
+  "found_text": "Maintenance Reserves for each Engine LLPs will be US$ 195 per cycle per engine. (раздел CFM56-5B)",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-088": {
+  "status": "found",
+  "found_text": "Maintenance Reserves for each Engine LLPs will be US$ 215 per cycle per engine. (раздел IAE V2500)",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-089": {
+  "status": "found",
+  "found_text": "CFM56-5B MR per FH: <=1 $420; >1-1.5 $335; >1.5-2 $291; >2-3 $249; >3-4 $212; >4-5 $195",
+  "value_ok": true,
+  "note": "Цитата — фрагмент таблицы; все 6 значений совпадают"
+ },
+ "l1-090": {
+  "status": "found",
+  "found_text": "IAE V2500 MR per FH: <=1 $495; >1-1.5 $387; >1.5-2 $320; >2-3 $270; >3-4 $220; >4-5 $197",
+  "value_ok": true,
+  "note": "Все 6 значений совпадают"
+ },
+ "l1-091": {
+  "status": "found",
+  "found_text": "The above rates are quoted in January 2020 US Dollars and shall be adjusted on January 1st of each year by 3%",
+  "value_ok": true,
+  "note": "LLP — по росту каталожной цены производителя"
+ },
+ "l1-113": {
+  "status": "found",
+  "found_text": "MAINTENANCE RESERVE DISTRIBUTION: Airframe 25%, Landing Gear 2%, APU 3%, Engines 42%, Engine LLPs 28%",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-122": {
+  "status": "found",
+  "found_text": "Average reserves for these two shop visits over the combined interval will be in the region of $76 per EFH",
+  "value_ok": true,
+  "note": "89/107 в сц.2-3 — тоже только SV (итоги с LLP: 156/160)"
+ },
+ "l1-123": {
+  "status": "found",
+  "found_text": "LLP reserves over this interval will be $76 per EFC, based on current LLP list prices.",
+  "value_ok": true,
+  "note": "Диапазон 72-90 в сц.2-3 подтверждён"
+ },
+ "l1-124": {
+  "status": "found",
+  "found_text": "LLP reserves are $64 per EFC, so total reserves are therefore equal to $123 per EFH",
+  "value_ok": true,
+  "note": "сц.2-3: 146 и 152 подтверждены"
+ },
+ "l1-125": {
+  "status": "found",
+  "found_text": "LLP prices are escalated at a rate of about 5.5% per year",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-127": {
+  "status": "found",
+  "found_text": "so the reserve for these four checks will be about $79 per FH",
+  "value_ok": true,
+  "note": "79×2300/12 = 15.1 тыс/мес"
+ },
+ "l1-128": {
+  "status": "found",
+  "found_text": "A typical overhaul reserve is therefore $10 per FC (E-170/-175); ... $18 per FC (E-190/-195)",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-129": {
+  "status": "found",
+  "found_text": "This gives a reserve of $22 per APUH",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-130": {
+  "status": "found",
+  "found_text": "a more realistic LLP reserve would therefore be $80/EFC",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-131": {
+  "status": "found",
+  "found_text": "Over the three shop visits the cost per EFH will be $91/EFH.",
+  "value_ok": true,
+  "note": "Явно 'без LLP' не сказано; арифметика (2.4 млн/26500 EFH) подтверждает, что только SV"
+ },
+ "l1-135": {
+  "status": "found",
+  "found_text": "As a result, lessors are adjusting maintenance reserve assumptions to better reflect actual cost trends over the engine life cycle.",
+  "value_ok": true,
+  "note": "Слова цитируемого эксперта (Anca Mihalache), не вывод статьи; 'вверх' — интерпретация"
+ },
+ "l1-144": {
+  "status": "found",
+  "found_text": "Clause 2(e) of the Rent Deferral Agreement also provided that ... Maintenance Reserves due for January to March 2020 would be deferred",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-145": {
+  "status": "found",
+  "found_text": "... 12 monthly instalments of US$45,902 (в 2021 г.)",
+  "value_ok": true,
+  "note": "12×45,902 = 550,824"
+ },
+ "l1-166": {
+  "status": "found",
+  "found_text": "Reserves for LLPs could therefore be limited to the rotating parts, with a reserve of $432 per EFC.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-167": {
+  "status": "found",
+  "found_text": "A reserve of $333-350 per EFH for engines operated at 8.5EFH per EFC, and $325-330 per EFH for engines operated at 10.0EFH per EFC should therefore be budgeted for",
+  "value_ok": true,
+  "note": "Итог $483/EFH есть в источнике (табл. стр.16), но сам источник не сходится: 333-350 + LLP 51 = 384-401, а не 483; разница ~80-100 USD/EFH не расшифрована. Использовать 483 с осторожностью."
+ },
+ "l1-169": {
+  "status": "found",
+  "found_text": "On this basis, reserves for LLP replacement will be $420 per EFC, and $60-65 per EFH at an EFC time of 6.7EFH.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-170": {
+  "status": "found",
+  "found_text": "Once LLP reserves are accounted for, total reserves will be $325 per EFH",
+  "value_ok": true,
+  "note": "235 при 6.7 EFH/EFC подтверждено"
+ },
+ "l1-171": {
+  "status": "found",
+  "found_text": "The reserves for the checks would therefore be $145 per FH.",
+  "value_ok": true,
+  "note": "145×3750/12 = 45.3 тыс/мес"
+ },
+ "l1-172": {
+  "status": "found",
+  "found_text": "$72 per FC for medium-haul aircraft, and $129 per FC for long-haul aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-173": {
+  "status": "found",
+  "found_text": "This is equal to $18 per FH for aircraft used on medium-haul operations.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-175": {
+  "status": "found",
+  "found_text": "2 X PW127E/F: 2 X $140-145 per EFH 280-290",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-177": {
+  "status": "found",
+  "found_text": "the total reserve for these base checks is $128 per FH",
+  "value_ok": true,
+  "note": "128×2800/12 = 29.9 тыс/мес"
+ },
+ "l1-178": {
+  "status": "found",
+  "found_text": "$44 per FC for APU maintenance; $19 per FC for landing gear exchange and repair",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-190": {
+  "status": "found",
+  "found_text": "However, CFM56-7B monthly lease rates have grown the most from about $75,000 in 2019 to $100,000 in 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l1-197": {
+  "status": "found",
+  "found_text": "A further $80,000 per month has been charged for the maintenance reserves",
+  "value_ok": true,
+  "note": "На один двигатель V2500 (не на пару); слово 'спарка' в value вводит в заблуждение"
+ },
+ "l1-198": {
+  "status": "found",
+  "found_text": "Recently lease rates have climbed to $80,000 per month for just the engine.",
+  "value_ok": true,
+  "note": ""
+ }
+}

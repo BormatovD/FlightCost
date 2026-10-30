@@ -1,0 +1,374 @@
+{
+ "x1-014": {
+  "status": "found",
+  "found_text": "Amortization of major maintenance costs was $17.7 million for the nine months ended September 30, 2019",
+  "value_ok": true,
+  "note": "Документ по факту Form 10-Q за 3 кв. 2019 (имя файла в URL '10K.pdf'); число 17.7 и период 9 мес. 2019 совпадают."
+ },
+ "x1-016": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 111070 | 92575 | 86781 (Dec. 31, 2016 | 2015 | 2014)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-017": {
+  "status": "found",
+  "found_text": "Deferred major maintenance | -18857 | 0 | 0 (Dec. 31, 2016 | 2015 | 2014)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-018": {
+  "status": "found",
+  "found_text": "During 2016, the Company capitalized $18.9 million of costs for major maintenance with associated amortization expense ... and accumulated amortization of $1.5 million",
+  "value_ok": true,
+  "note": "Квота и суммы совпали; утверждение про MD-80 direct expense и первые события Airbus в 2016 в этом фрагменте не проверялось."
+ },
+ "x1-023": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 91713000 | 99015000 | 113481000 (Dec. 31, 2019 | 2018 | 2017)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-025": {
+  "status": "found",
+  "found_text": "Deferred major maintenance | 81133000 | 49622000 | 20687000 (2019 | 2018 | 2017)",
+  "value_ok": true,
+  "note": "Знак: в xlsx FY2019 значения положительные без минуса, как отмечено. Для FY2022-FY2024 знак отрицательный (отток) - в разных годах знак различается."
+ },
+ "x1-026": {
+  "status": "found",
+  "found_text": "During 2019 and 2018 , the Company capitalized $64.1 million and $34.2 million of costs for engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-027": {
+  "status": "found",
+  "found_text": "with associated amortization expense of $11.1 million and $4.5 million , respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-028": {
+  "status": "found",
+  "found_text": "During 2019 and 2018 , the Company capitalized $18.4 million and $15.5 million of costs for airframes",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-029": {
+  "status": "found",
+  "found_text": "with associated amortization expense of $14.9 million and $8.0 million , respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-030": {
+  "status": "found",
+  "found_text": "The Company accounts for major maintenance costs of its Airbus airframes and the related CFM engines using the deferral method.",
+  "value_ok": true,
+  "note": "Часть про MD-80 до 11.2018 в проверенном фрагменте не подтверждена."
+ },
+ "x1-034": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 72818 | 73897 | 81228 (Dec. 31, 2013 | 2012 | 2011)",
+  "value_ok": true,
+  "note": "Число и годы совпали (в таблице подпись 'Unaudited' в заголовке)."
+ },
+ "x1-035": {
+  "status": "found",
+  "found_text": "The Company accounts for aircraft maintenance activities under the direct expense method.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-037": {
+  "status": "found",
+  "found_text": "Maintenance and repairs 113481 | 111070 | 92575 (Dec. 31, 2017 | 2016 | 2015)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-038": {
+  "status": "found",
+  "found_text": "During 2017 and 2016, the Company deferred $20.7 million and $18.9 million of costs for major maintenance",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-039": {
+  "status": "found",
+  "found_text": "with associated amortization expense charged to depreciation and amortization of $6.7 million and $1.5 million , respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-041": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 63895 | 91713 | 99015 (Dec. 31, 2020 | 2019 | 2018)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-042": {
+  "status": "found",
+  "found_text": "During 2020 and 2019, the Company capitalized $12.8 million and $64.1 million of major maintenance costs for engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-043": {
+  "status": "found",
+  "found_text": "During 2020 and 2019, the Company capitalized $22.6 million and $18.4 million of major maintenance costs for airframes",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-045": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 117814 | 105943 | 63895 (Dec. 31, 2022 | 2021 | 2020)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-046": {
+  "status": "found",
+  "found_text": "Amortization expense related to major maintenance costs for engines was $21.5 million, $21.0 million, and 17.6 million",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-047": {
+  "status": "found",
+  "found_text": "Amortization expense related to major maintenance costs for airframes was $22.3 million, $21.1 million and $19.9 million",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-048": {
+  "status": "found",
+  "found_text": "During 2022 and 2021, the Company capitalized $4.1 million and $23.3 million of major maintenance costs for engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-049": {
+  "status": "found",
+  "found_text": "During 2022 and 2021, the Company capitalized $56.5 million and $39.0 million of major maintenance costs for airframes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-050": {
+  "status": "found",
+  "found_text": "Deferred major maintenance | -54675 | -59747 | -40352 (2022 | 2021 | 2020)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-052": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 125430 | 123802 | 117814 (Dec. 31, 2024 | 2023 | 2022)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-053": {
+  "status": "found",
+  "found_text": "Deferred major maintenance | -73331 | -67862 | -54675 (2024 | 2023 | 2022)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-054": {
+  "status": "found",
+  "found_text": "During 2024 and 2023, the Company capitalized $76.8 million and $68.5 million",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-055": {
+  "status": "found",
+  "found_text": "...was $65.8 million, $55.5 million, and $43.8 million for the years ended December 31, 2024, 2023, and 2022",
+  "value_ok": true,
+  "note": "Цитата в trace дословно найдена в конце предложения; начало предложения (aircraft retirement plan) инструмент передал сжато."
+ },
+ "x1-056": {
+  "status": "found",
+  "found_text": "These credits are generally applied as a reduction of the cost of each item acquired",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-059": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 60,579 | 52,938 | 41,465 | 25,764 | 19,482 (2010 | 2009 | 2008 | 2007 | 2006, in thousands)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-064": {
+  "status": "found",
+  "found_text": "Maintenance and repairs | 149,938 | 125,430 | 19.5 (Twelve Months Ended Dec 31, 2025 | 2024 | % change)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-065": {
+  "status": "found",
+  "found_text": "Fourth quarter deferred heavy maintenance expenditures were $11.5M",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-070": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 119000 | 83000 | 86000 (Dec. 31, 2021 | 2020 | 2019; header says $ in Thousands)",
+  "value_ok": true,
+  "note": "В заголовке xlsx стоит '$ in Thousands', значение 119000; в отчёте это млн (119). Расхождение единиц в источнике, интерпретация 119 млн корректна (подтверждается FY2023: 119 в млн)."
+ },
+ "x1-071": {
+  "status": "found",
+  "found_text": "the Company deferred $18 million, $9 million and $14 million of costs for heavy maintenance",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-072": {
+  "status": "found",
+  "found_text": "The Company accounts for heavy maintenance and major overhauls under the deferral method",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-073": {
+  "status": "found",
+  "found_text": "These agreements require monthly payments based upon utilization, such as flight hours, cycles and age of the aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-075": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 179 | 146 | 119 (2023 | 2022 | 2021, $ in millions)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-076": {
+  "status": "found",
+  "found_text": "the Company deferred $77 million, $40 million and $18 million of costs for heavy maintenance, respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-078": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 209 | 179 | 146 (2024 | 2023 | 2022, $ in millions)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-079": {
+  "status": "found",
+  "found_text": "During the years ended December 31, 2024, 2023 and 2022 the Company deferred $66 million, $77 million and $40 million of costs for heavy maintenance, respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-080": {
+  "status": "found",
+  "found_text": "The Company's deferred heavy maintenance balance, net was $126 million and $99 million as of December 31, 2024 and 2023, respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-081": {
+  "status": "found",
+  "found_text": "Depreciation and amortization | 72 | 50 | 45 (2024 | 2023 | 2022, $ millions)",
+  "value_ok": true,
+  "note": "D&A общий; сумм амортизации ТО отдельно нет, как и указано."
+ },
+ "x1-089": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 209 | 209 | —% (Year Ended Dec 31, 2025 | 2024 | % change, in millions)",
+  "value_ok": true,
+  "note": "2025 = 2024 = 209, подтверждено дословно '209 | 209 | —%'."
+ },
+ "x1-090": {
+  "status": "found",
+  "found_text": "other capital expenditures includes capitalized heavy maintenance (footnote e)",
+  "value_ok": true,
+  "note": "Фрагмент footnote (e) найден; полный текст инструмент не вернул, вывод 'отдельной суммы нет' допустим."
+ },
+ "x1-096": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 48 | 50 | 39 (2016 | 2015 | 2014)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-097": {
+  "status": "found",
+  "found_text": "a special charge of $43 million in 2015, primarily relating to aircraft maintenance obligations",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-099": {
+  "status": "found",
+  "found_text": "Year Ended December 31, 2018 | 2019 | 2020 -- Maintenance materials and repairs | 75 | 86 | 83",
+  "value_ok": true,
+  "note": "Порядок столбцов в источнике 2018, 2019, 2020 (не убывающий); 75/86/83 соответствуют годам. Это S-1 (2021), 2019-2020 совпадают с 10-K FY2021."
+ },
+ "x1-103": {
+  "status": "partial",
+  "found_text": "We have attempted to level our engine maintenance expenses by entering into a maintenance cost per hour agreement [with GE Engine Services, Inc.] (Frontier Airlines Holdings 10-K FY ended March 31, 2008)",
+  "value_ok": true,
+  "note": "Инструмент вернул начало предложения (до слов 'agreement'), GE Engine Services, Inc. подтверждён в том же предложении по ответу; документ - Frontier Airlines Holdings, 10-K FYE 31.03.2008. Периоды '2006-2008' и 'CFM56 A319/A320' в value не проверялись дословно."
+ },
+ "x1-111": {
+  "status": "found",
+  "found_text": "Maintenance | 40,095 | 27,416 | 35,286 (2021 | 2020 | 2019, thousands)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-112": {
+  "status": "found",
+  "found_text": "The Company applies the Built-in Overhaul method for significant maintenance costs of owned engines,",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-113": {
+  "status": "found",
+  "found_text": "These expenses are reported as a component of Depreciation and Amortization",
+  "value_ok": true,
+  "note": "Утверждение относится к FY2021 xlsx; сумма не раскрыта - корректно."
+ },
+ "x1-114": {
+  "status": "found",
+  "found_text": "the Company recognized $1,295, $1,402 and $12,263 respectively, of the contra-asset as a reduction to Maintenance expense",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-116": {
+  "status": "found",
+  "found_text": "Maintenance | 60588 | 46604 | 40095 (Dec. 31, 2023 | 2022 | 2021, thousands)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-117": {
+  "status": "found",
+  "found_text": "As of December 31, 2023 and 2022, the remaining balance of the contra-asset was $13,211.",
+  "value_ok": true,
+  "note": "Остаток 13,211 на 31.12.2023 и 2022 одинаков; вывод 'уменьшение ТОиР за 2023 = 0' - логический вывод из цитаты, не прямое утверждение."
+ },
+ "x1-119": {
+  "status": "found",
+  "found_text": "Maintenance | 68770 | 60588 | 46604 (2024 | 2023 | 2022, thousands)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-120": {
+  "status": "found",
+  "found_text": "Certain costs covered by third-party maintenance agreements are charged to expense based on fleet utilization",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-121": {
+  "status": "found",
+  "found_text": "These expenses are reported as a component of Maintenance expense on the accompanying Consolidated Statements of Operations.",
+  "value_ok": true,
+  "note": "Цитата найдена; привязка 'These expenses' осталась неоднозначной, как и отмечено."
+ },
+ "x1-122": {
+  "status": "found",
+  "found_text": "Maintenance Rights Asset Capitalized into Aircraft and Flight Equipment upon End of Lease | 5054 | 0 | 0 (2024 | 2023 | 2022)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-126": {
+  "status": "found",
+  "found_text": "Maintenance | 80,349 | 68,770 | 16.8 (2025 | 2024 | % change)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x1-129": {
+  "status": "found",
+  "found_text": "Maintenance (2) | 15,242 | 25,041 | 35,286 | 15,491 | 9,508 (9M 2020 | 9M 2019 | FY2019 | Apr11-Dec31 2018 successor | Jan1-Apr10 2018 predecessor)",
+  "value_ok": true,
+  "note": "Колонки в S-1: 9M 2020, 9M 2019, FY2019, Apr11-Dec31 2018, Jan1-Apr10 2018. Числа 2018 (15.491+9.508) и 2019 (35.286) совпали."
+ },
+ "x1-130": {
+  "status": "found",
+  "found_text": "Maintenance expense for the Successor periods is reduced due to recognizing a liability (or contra-asset).",
+  "value_ok": true,
+  "note": ""
+ }
+}

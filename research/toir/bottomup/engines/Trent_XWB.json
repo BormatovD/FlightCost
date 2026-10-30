@@ -1,0 +1,108 @@
+{
+ "engine": "Trent XWB",
+ "aircraft": [
+  "A359",
+  "A35K"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  84,
+  97
+ ],
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 9000000,
+    "year": 2019,
+    "note": "XWB-84, full LLP stack; в тексте '$9.0' без единицы; год каталога не указан, принят год публикации AC No.127",
+    "evidence": [
+     "e2-022"
+    ]
+   },
+   {
+    "usd": 10000000,
+    "year": 2019,
+    "note": "XWB-97, 'expected to be about'",
+    "evidence": [
+     "e2-023"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "HPC 4 disc, HPC 5-6 rear shaft (XWB-84, ранний лимит)",
+    "efc": 1850,
+    "evidence": [
+     "e2-024"
+    ]
+   },
+   {
+    "part": "IPT module LLPs (XWB-97, ранний лимит)",
+    "efc": 1800,
+    "evidence": [
+     "e2-025"
+    ]
+   }
+  ],
+  "escalation": {}
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efh": null,
+   "interval_efc": 3250,
+   "interval_efc_range": [
+    3000,
+    3500
+   ],
+   "ratio_fh_fc": null,
+   "thrust": "XWB-84",
+   "cost_usd": 7500000,
+   "cost_year": 2019,
+   "includes_llp": false,
+   "evidence": [
+    "e2-026",
+    "e2-027"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efh": null,
+   "interval_efc": 3000,
+   "interval_efc_range": [
+    2500,
+    3500
+   ],
+   "ratio_fh_fc": null,
+   "thrust": "XWB-97",
+   "cost_usd": 8000000,
+   "cost_range_usd": [
+    7500000,
+    8500000
+   ],
+   "cost_year": 2019,
+   "includes_llp": false,
+   "evidence": [
+    "e2-028",
+    "e2-029"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "XWB-97: ToW в тяжёлых (non-benign) условиях 18–24 мес., цель RR — удвоить к концу 2027 [e2-098]",
+  "XWB-97: ранний износ сопловых лопаток ТВД из-за CMAS (песок/пыль) [e2-021]",
+  "Ранние лимиты LLP (HPC/IPT ~1 800–1 850 циклов) ограничивали ToW, ожидалось повышение [e2-024, e2-025]"
+ ],
+ "gaps": [
+  "Ставки резервов/TotalCare $/EFH не найдены",
+  "Свежие (после 2019) цены LLP не найдены"
+ ],
+ "doubts": [
+  "includes_llp=false — предположение: AC127 не уточняет",
+  "Атрибуция интервала 2 500–3 500 EFC к XWB-97 — по положению в тексте",
+  "Интервалы в EFC без указания отношения EFH/EFC"
+ ],
+ "agent": "e2",
+ "checked_at": "2026-10-21"
+}

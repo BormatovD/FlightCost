@@ -1,0 +1,98 @@
+{
+ "l2-006": {
+  "status": "found",
+  "found_text": "“R” is a reserve rate in an agreed amount of USD285 excluding VAT for the first 45 hours and thereafter the rate of USD350 excluding VAT per hour",
+  "value_ok": true,
+  "note": "Beech 1900D; договор 24.11.2014, срок 12.01.2015–11.01.2016"
+ },
+ "l2-007": {
+  "status": "found",
+  "found_text": "“CR” cycle rate is an additional fee of USD15 excluding VAT levied on ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-009": {
+  "status": "found",
+  "found_text": "Those sums were later set out in an invoice dated 25 September 2009. The sums claimed totalled US$71,698.57 in respect of one aircraft and US$65,252.70 in respect of another aircraft.",
+  "value_ok": false,
+  "note": "По тексту это supplemental rent (срок 15.09.2009), а не rent+supplemental rent"
+ },
+ "l2-053": {
+  "status": "found",
+  "found_text": "He estimates that this would cost from US$3,114,305 to US$4,318,213",
+  "value_ok": true,
+  "note": "Оценка эксперта Mr Bull, EPR Engine 380 (ESN 892380); тип ВС 737-800 в п.28(c) не указан"
+ },
+ "l2-054": {
+  "status": "found",
+  "found_text": "...in the sum of US$1,992,779.06",
+  "value_ok": false,
+  "note": "Supplemental Rent, накопленная под EPR Engine 380 — подтверждено; 'с 2017' в п.28(c) не указано"
+ },
+ "l2-082": {
+  "status": "found",
+  "found_text": "and thereafter the rate of USD350 excluding VAT per hour",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-083": {
+  "status": "found",
+  "found_text": "“A” is a basic monthly lease fee of USD38,000 per month excluding VAT.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-084": {
+  "status": "found",
+  "found_text": "Save for the maintenance reserve items, Winter Castle would be liable for all charges incurred",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-107": {
+  "status": "found",
+  "found_text": "...по техническим резервам в размере 680,7 тысячи долларов",
+  "value_ok": true,
+  "note": "2 ВС, 31.07.2015–15.01.2016"
+ },
+ "l2-119": {
+  "status": "found",
+  "found_text": "being $30,545 per month, as set out in Clause 8 of the Novation Agreement",
+  "value_ok": true,
+  "note": "¶114 излагает требование истца, не вывод суда"
+ },
+ "l2-120": {
+  "status": "found",
+  "found_text": "in accordance with Article 5.5.1 of the Lease Agreement, that is $31,767 per month for 2019 and $33,037 per month for 2020",
+  "value_ok": true,
+  "note": "30545×1.04 = 31767, ×1.04 = 33037 — 4% подтверждается арифметикой; позиция истца"
+ },
+ "l2-121": {
+  "status": "found",
+  "found_text": "(The higher amount claimed for example for August 2018 is not recoverable because the Aircraft ... [not flown from November 2018])",
+  "value_ok": true,
+  "note": "Сумма $223,897 в ¶114 не названа, фигурирует в ¶89.3/¶167; связь с августом — вывод сборщика"
+ },
+ "l2-122": {
+  "status": "found",
+  "found_text": "...and is divided into several scheduled maintenance events, such as the Airframe 6-Year Check,",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-123": {
+  "status": "found",
+  "found_text": "Under Article 8.1 of the Novation Agreement, the parties agreed that Base Rent is $125,000 per month.",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-125": {
+  "status": "found",
+  "found_text": "At issue were outstanding base rent and maintenance payments on the A319 SX-BHN (msn 1612) and two CFM56-5B6/P engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "l2-141": {
+  "status": "found",
+  "found_text": "US$6,779,056.76 per NEO Aircraft — Mr Brown's conservative estimate of the cost of restoring the NEO Aircraft to a re-leasable condition (both: US$13,558,113.57)",
+  "value_ok": false,
+  "note": "Сумма и 'консервативная оценка' подтверждены; но в ¶100 нет ни типа A321neo, ни '2019 г. поставки', ни '2 лет эксплуатации' — это из других мест или домыслы; сумма включает parking/storage, re-registration, project mgmt, т.е. не чистое ТО"
+ }
+}

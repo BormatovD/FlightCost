@@ -1,0 +1,448 @@
+{
+ "agent": "r1",
+ "checked_at": "2026-10-20",
+ "task": "разведка открытых источников для bottom-up стоимости ТОиР",
+ "sources": [
+  {
+   "id": "faa_sdr_csv",
+   "block": [
+    "reliability_by_ata"
+   ],
+   "name": "FAA Service Difficulty Reports — annual CSV",
+   "url": "https://www.faa.gov/av-info/download_SDR",
+   "content": "~90 колонок: дата, оператор, JASC 4 знака, make/model ВС, N-номер, наработка ВС/двигателя, P/N, имя и состояние детали, PartTotalTime, PartTimeSince (O/R/I), структурные координаты, текст до 1500 симв.",
+   "types": "все ВС США (121/135/91), в т.ч. A320/737/E-Jet/CRJ/ATR",
+   "years": "1995–2026",
+   "access": "открыт, без регистрации",
+   "format": "CSV по годам; веб-поиск sdrs.faa.gov/Query.aspx",
+   "license": "US Gov public domain (работа федерального ведомства)",
+   "example": "AALA202401026428,01/01/2024,\"2024-01-02T14:33:12.733-05:00\",AALA,AALA,A,SW,23,A,3260,J,,,O,,,,CL,V,184US,AIRBUS,\"A320*\",",
+   "fitness": "средняя: годится для относительного распределения отказов по главам ATA и типам; НЕ для абсолютного MTBUR — в SDR попадают только отказы с влиянием на безопасность (14 CFR 121.703), отчётность неоднородна (GAO 1991). Поле PartTotalTime заполнено не всегда.",
+   "caveats": "curl через прокси сессии заблокирован (external.apic4e.faa.gov) — для выгрузки нужен разрешённый домен",
+   "evidence": [
+    "r1-013",
+    "r1-014",
+    "r1-016",
+    "r1-022",
+    "r1-025",
+    "r1-026"
+   ]
+  },
+  {
+   "id": "faa_sdr_layout",
+   "block": [
+    "reliability_by_ata"
+   ],
+   "name": "SDRS Batch File Layout / Field Instructions",
+   "url": "https://sdrs.faa.gov/Documents/Batch%20File%20Layout.pdf",
+   "content": "определения полей 0–75 записи SDR",
+   "types": "—",
+   "years": "актуальная",
+   "access": "открыт",
+   "format": "PDF",
+   "license": "US Gov",
+   "example": "41 PartTotalTime Numeric Total part time in hours. Must be greater than or equal to zero.",
+   "fitness": "справочник для парсинга",
+   "evidence": [
+    "r1-007",
+    "r1-008",
+    "r1-009",
+    "r1-010"
+   ]
+  },
+  {
+   "id": "bts_t2",
+   "block": [
+    "reliability_by_ata",
+    "normalization"
+   ],
+   "name": "BTS Form 41 T-2 (Traffic & Capacity by Aircraft Type)",
+   "url": "https://www.transtats.bts.gov/Fields.asp?gnoyr_VQ=FIH",
+   "content": "AirHours, AirHoursRamp, AircraftType (числовой код BTS), перевозчик, год/месяц, ASM, RPM, топливо",
+   "types": "парк перевозчиков США",
+   "years": "1990-е — н.в.",
+   "access": "открыт",
+   "format": "CSV через TranStats (динамические URL)",
+   "license": "US Gov",
+   "example": "—(поля по описанию aircraftdetective)",
+   "fitness": "высокая как знаменатель: налёт парка по типу для нормировки SDR на 1000 ч; стыковка кодов BTS ↔ FAA make/model вручную",
+   "evidence": [
+    "r1-029"
+   ]
+  },
+  {
+   "id": "jasc_table",
+   "block": [
+    "taxonomy"
+   ],
+   "name": "FAA JASC Code Table",
+   "url": "https://sdrs.faa.gov/documents/JASC_Code.pdf",
+   "content": "полная таблица 4-значных кодов JASC (≈ATA 100) с названиями, ~488 кодов",
+   "types": "все",
+   "years": "ред. 27.10.2008",
+   "access": "открыт",
+   "format": "PDF (табличный текст)",
+   "license": "US Gov",
+   "example": "4920 APU CORE ENGINE",
+   "fitness": "высокая: готовый справочник глав/секций ATA, им же кодированы SDR",
+   "evidence": [
+    "r1-003",
+    "r1-004",
+    "r1-005",
+    "r1-006"
+   ]
+  },
+  {
+   "id": "wiki_ata100",
+   "block": [
+    "taxonomy"
+   ],
+   "name": "Wikipedia — ATA 100",
+   "url": "https://en.wikipedia.org/wiki/ATA_100",
+   "content": "список глав ATA (2 знака), расширенный список помечен Out Of Date",
+   "types": "—",
+   "years": "—",
+   "access": "открыт",
+   "format": "HTML",
+   "license": "CC BY-SA (стандарт Wikipedia)",
+   "example": "ATA 49 | AIRBORNE AUXILIARY POWER",
+   "fitness": "только верхний уровень; полный iSpec 2200 платный (A4A)",
+   "evidence": [
+    "r1-031",
+    "r1-032",
+    "r1-033"
+   ]
+  },
+  {
+   "id": "casa_drs",
+   "block": [
+    "reliability_by_ata"
+   ],
+   "name": "CASA Defect Report Service (Австралия)",
+   "url": "https://www.casa.gov.au/index.php/resources-and-education/our-systems/defect-report-service",
+   "content": "сводки дефект-репортов",
+   "types": "ВС Австралии",
+   "years": "—",
+   "access": "поиск открыт, массовой выгрузки не заявлено",
+   "format": "веб-портал",
+   "license": "не проверена",
+   "example": "Use the online DRS portal to search and view defect report summaries.",
+   "fitness": "низкая для массовой обработки; дополнение к FAA SDR",
+   "evidence": [
+    "r1-035",
+    "r1-036"
+   ]
+  },
+  {
+   "id": "flightglobal_aps3200",
+   "block": [
+    "apu",
+    "reliability_by_component"
+   ],
+   "name": "FlightGlobal: Sundstrand boosts Airbus APU life (1999)",
+   "url": "https://www.flightglobal.com/sundstrand-boosts-airbus-apu-life/24661.article",
+   "content": "MTBUR APS3200",
+   "types": "A320",
+   "years": "1999",
+   "access": "открыт (архив)",
+   "format": "HTML",
+   "license": "копирайт FlightGlobal, цитирование",
+   "example": "The current mean time between unscheduled removal rates (MTBUR) for the APS 3200 worldwide is more than 7,700 flight hours.",
+   "fitness": "низкая-средняя: единичный исторический ориентир; современные PR производителей (Honeywell и др.) MTBUR не раскрывают",
+   "evidence": [
+    "r1-052",
+    "r1-048",
+    "r1-055"
+   ]
+  },
+  {
+   "id": "batik_pitot",
+   "block": [
+    "reliability_by_component"
+   ],
+   "name": "Ahmad et al. Pitot probe A320 Batik Air, JTS Jurnal Teknik 15(1) 2026",
+   "url": "https://jurnal.umt.ac.id/index.php/jt/en/article/view/16630/7945",
+   "content": "съёмы и налёт по двум P/N пито, MTBUR, removal rate /1000 FH",
+   "types": "A320",
+   "years": "07.2024–06.2025",
+   "access": "открыт",
+   "format": "PDF/HTML",
+   "license": "журнал OA (лицензия не проверена)",
+   "example": "P/N 0851MC has an MTBUR of 12,132.71 FH, nearly twice as high as P/N 0851HL, which stands at 5,661.93 FH.",
+   "fitness": "точечная: класс индонезийских вузовских работ с реальными данными операторов; в этой работе арифметическая ошибка (57 304/15 = 3 820 ч, а не 5 662) — пересчитывать из первичных чисел",
+   "evidence": [
+    "r1-131",
+    "r1-132",
+    "r1-133",
+    "r1-134"
+   ]
+  },
+  {
+   "id": "ac_free_pdfs",
+   "block": [
+    "engine",
+    "llp",
+    "landing_gear",
+    "airframe_checks",
+    "apu"
+   ],
+   "name": "Aircraft Commerce — PDF статей по прямым ссылкам wp-content",
+   "url": "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs1/General%20Articles/2020/128_MTCE.pdf",
+   "content": "анализы ТОиР по типам: интервалы и MH форм, shop visit двигателей, LLP list prices, шасси, ВСУ",
+   "types": "A320, 737, CFM56, V2500, PW4000 и др.",
+   "years": "2000–2020+ (выборочно)",
+   "access": "часть PDF открыта по прямым URL; полная библиотека — подписка ~$325/год",
+   "format": "PDF",
+   "license": "копирайт; цитирование с атрибуцией",
+   "example": "There are now three LLPs in the fan and LPC with certified life limits of 30,000EFC, and a list price of $543,200.",
+   "fitness": "высокая для крупных блоков (двигатели, LLP, шасси, формы планера) — лучший открытый источник, но цены с лагом 5–15 лет",
+   "evidence": [
+    "r1-064",
+    "r1-065",
+    "r1-066",
+    "r1-069",
+    "r1-112",
+    "r1-113",
+    "r1-114"
+   ]
+  },
+  {
+   "id": "srt_catalogue",
+   "block": [
+    "engine"
+   ],
+   "name": "SR Technics — Capabilities and Fixed Prices Catalogue CFM56-5B (2024, 2026)",
+   "url": "https://www.srtechnics.com/media/1npd5lil/cfm56-5b-sr-technics-capabilitiesprice-catalogue-03062026.pdf",
+   "content": "фикс. цены ремонта деталей двигателя по MPN/ремонтному пакету, USD, TAT, ATA",
+   "types": "CFM56-5B (есть и CFM56-7B — не проверено)",
+   "years": "действует до 31.12.2026",
+   "access": "открыт",
+   "format": "PDF таблица",
+   "license": "коммерческое предложение, GCBPR",
+   "example": "LOW PRESSURE TURBINE SHAFT - SLOTTED NUT | Package D 003 | BLENDING OF THE SLOT | 345 USD",
+   "fitness": "средняя: реальные текущие цены piece-part repair, но только труд и без частоты применения → нужен scrap/repair rate",
+   "evidence": [
+    "r1-072",
+    "r1-073",
+    "r1-074"
+   ]
+  },
+  {
+   "id": "lara_ajw",
+   "block": [
+    "engine"
+   ],
+   "name": "LARA (AJW): LEAP of faith, 2025",
+   "url": "https://www.ajw-group.com/storage/downloads/1751451168_article_lara_-_cfm_leap_engine_maintenance_04.25.pdf",
+   "content": "интервалы CFM56/LEAP, качественно о стоимости",
+   "types": "CFM56, LEAP",
+   "years": "2025",
+   "access": "открыт",
+   "format": "PDF",
+   "license": "копирайт",
+   "example": "Newer versions did even better, reaching over 14,000 hours and 10,000 flights",
+   "fitness": "средняя для интервалов, без цен",
+   "evidence": [
+    "r1-079",
+    "r1-080"
+   ]
+  },
+  {
+   "id": "avn_llp",
+   "block": [
+    "llp"
+   ],
+   "name": "Aircraft Value News — LLP pricing $4m CFM56-7 (2019)",
+   "url": "https://www.aircraftvaluenews.com/engine-life-limited-parts-pricing-continues-to-rise-4m-for-cfm56-7",
+   "content": "стоимость комплекта LLP",
+   "types": "CFM56-7B",
+   "years": "2019",
+   "access": "платно (видны заголовок и лид)",
+   "format": "HTML",
+   "license": "копирайт",
+   "example": "The cost of the life limited parts continues to be a major cost item for operators which has partially led to an increase in demand for spare engines.",
+   "fitness": "низкая: число только в заголовке",
+   "evidence": [
+    "r1-076",
+    "r1-077"
+   ]
+  },
+  {
+   "id": "iata_mcx",
+   "block": [
+    "calibration"
+   ],
+   "name": "IATA MCX/MCTF report (public version) FY2021–FY2024",
+   "url": "https://www.iata.org/contentassets/8437020db31a4717b70677d9b06b1a45/fy2024-mcx-report_public.pdf",
+   "content": "выборка авиакомпаний, $/FH, $/FC, $/ВС в среднем, доли сегментов (по OW); разбивка по типам — только участникам",
+   "types": "смешанный флот",
+   "years": "2021–2024",
+   "access": "открыт (public версия)",
+   "format": "PDF",
+   "license": "IATA copyright",
+   "example": "In 2024, the MCX fleet had a total of 2,703 aircraft, which represented 8% of the global fleet.",
+   "fitness": "калибровка сверху, не по системам",
+   "evidence": [
+    "r1-059",
+    "r1-060",
+    "r1-061"
+   ]
+  },
+  {
+   "id": "ow_arsa",
+   "block": [
+    "calibration"
+   ],
+   "name": "Oliver Wyman / ARSA Global Fleet & MRO Market — Executive Summary",
+   "url": "https://arsa.org/wp-content/uploads/2026/03/ARSA-OW-2026FleetMROMarketReport-ExecSum-2026.pdf",
+   "content": "рынок MRO по сегментам (двигатели/планер/компоненты/линейное) и регионам",
+   "types": "мировой флот",
+   "years": "2024–2026",
+   "access": "открыт",
+   "format": "PDF",
+   "license": "копирайт",
+   "example": "Global MRO demand was $136 billion in 2025, an 8% increase from $126 billion in 2024.",
+   "fitness": "калибровка долей блоков; по типам ВС нет",
+   "evidence": [
+    "r1-116",
+    "r1-117"
+   ]
+  },
+  {
+   "id": "mrbr_a320",
+   "block": [
+    "airframe_checks"
+   ],
+   "name": "A320 MRB Report Rev 25 (копия на sassofia.com)",
+   "url": "https://sassofia.com/wp-content/uploads/2024/11/Maintenance-Review-Board-Report-Airbus-A320.pdf",
+   "content": "задачи и интервалы (FH/FC/MO) по системам, зональные, структурные",
+   "types": "A318–A321",
+   "years": "Rev 25, 02.2022",
+   "access": "копия у третьей стороны",
+   "format": "PDF",
+   "license": "Airbus proprietary — правовой статус копии сомнителен",
+   "example": "INTERVAL CHANGED FROM: \"1500 FH OR 8 MO\", TO: \"3000 FH OR 12 MO\"",
+   "fitness": "интервалы задач есть, трудоёмкости нет (она в MPD, закрыт); использовать осторожно",
+   "evidence": [
+    "r1-107",
+    "r1-108",
+    "r1-109",
+    "r1-110"
+   ]
+  },
+  {
+   "id": "faa_ad_costs",
+   "block": [
+    "component_prices",
+    "labor"
+   ],
+   "name": "FAA Airworthiness Directives — раздел Costs of Compliance (Federal Register)",
+   "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-15/html/2025-17786.htm",
+   "content": "число бортов США, чел·ч × $85, стоимость деталей на борт по каждой AD",
+   "types": "все сертифицированные",
+   "years": "десятилетия; API federalregister.gov",
+   "access": "открыт",
+   "format": "HTML/XML/PDF",
+   "license": "US Gov",
+   "example": "2 work-hours x $85 per hour = $170",
+   "fitness": "средняя: массовый открытый источник цен деталей и MH, но про AD-работы, не про ротацию; ставка $85 нормативная",
+   "evidence": [
+    "r1-103",
+    "r1-104",
+    "r1-105"
+   ]
+  },
+  {
+   "id": "aeroflot_ssj_pbh",
+   "block": [
+    "rotables_pbh"
+   ],
+   "name": "Интерфакс: тендер Аэрофлота на PBH компонентов SSJ100 (2019)",
+   "url": "https://www.interfax.ru/business/672718",
+   "content": "НМЦ лотов, срок, число ВС",
+   "types": "SSJ100 (49 ВС)",
+   "years": "2019–2030",
+   "access": "открыт",
+   "format": "HTML",
+   "license": "копирайт СМИ",
+   "example": "Максимальная стоимость лота - $136,2 млн.",
+   "fitness": "низкая-средняя: ставку $/FH можно вывести только с допущением налёта; первоисточник — извещение по 223-ФЗ на zakupki.gov.ru (не поднят)",
+   "evidence": [
+    "r1-085",
+    "r1-086",
+    "r1-087"
+   ]
+  },
+  {
+   "id": "uzairways_apu_tender",
+   "block": [
+    "apu"
+   ],
+   "name": "Uzbekistan Airways — ТЗ на ремонт GTCP131-9A 2023–2028",
+   "url": "https://corp.uzairways.com/sites/default/files/inline-files/Technical%20Task%20in%20eng.%20APU%2010.07.23.pdf",
+   "content": "предмет, требования, оценочный бюджет ~$10 млн/5 лет, гарантия 18 мес/2500 ч",
+   "types": "A320/A321neo",
+   "years": "2023",
+   "access": "открыт",
+   "format": "PDF (OCR-скан)",
+   "license": "публичная тендерная документация",
+   "example": "Performing overhaul APU and unscheduled repairs of Honeywell GTCP131-9A",
+   "fitness": "ориентир бюджета ВСУ; число ВСУ и SV не указано",
+   "evidence": [
+    "r1-122",
+    "r1-123"
+   ]
+  },
+  {
+   "id": "aar_c40",
+   "block": [
+    "rotables_pbh",
+    "military"
+   ],
+   "name": "AAR C-40 CLS контракт NAVAIR (2020)",
+   "url": "https://www.aviationpros.com/aircraft-maintenance-technology/aircraft-technology/defense/press-release/21165864/aar-corp-aar-awarded-a-148m-contract-to-continue-c-40-contractor-logistics-support-with-naval-air-systems-command",
+   "content": "сумма пакетного CLS (компоненты, двигатели, тяжёлые формы)",
+   "types": "C-40A (737-700)",
+   "years": "2020",
+   "access": "открыт",
+   "format": "HTML",
+   "license": "PR",
+   "example": "$148,357,084 firm-fixed-price, indefinite-delivery/indefinite-quantity follow-on contract",
+   "fitness": "низкая: без разбивки и без числа ВС/лет в тексте; деталь — в USASpending по номеру контракта",
+   "evidence": [
+    "r1-092",
+    "r1-093"
+   ]
+  },
+  {
+   "id": "vamosc",
+   "block": [
+    "military"
+   ],
+   "name": "DoD VAMOSC (evamosc.osd.mil)",
+   "url": "https://evamosc.osd.mil/assets/docs/Portal Registration Instructions.pdf",
+   "content": "O&S затраты и надёжность по MDS",
+   "types": "C-40, P-8, KC-46 и др.",
+   "years": "—",
+   "access": "закрыт: регистрация госпользователей",
+   "format": "портал",
+   "license": "ограничен",
+   "example": "—",
+   "fitness": "недоступен",
+   "evidence": [
+    "r1-098",
+    "r1-100",
+    "r1-101"
+   ]
+  }
+ ],
+ "gaps": [
+  "абсолютные MTBUR/removal rate по P/N для A320/737/E-Jet/ATR — открытого массива нет",
+  "MPD (трудоёмкость задач и форм) — закрыт; Airbus 'Getting to grips with maintenance cost' — нет официальной открытой копии",
+  "ставки PBH (LHT TCS, AFI KLM) — в прессе не раскрываются",
+  "Росавиация, EASA, Transport Canada — статистики надёжности по типам не публикуют",
+  "zakupki.gov.ru и USASpending по конкретным лотам ремонта агрегатов — не подняты в этой разведке",
+  "LLP-каталоги CFM/IAE/P&W 2024–2026 — только в платных источниках (AVN, Aviation Week, AC подписка)",
+  "VAMOSC/AFTOC — доступ только DoD"
+ ]
+}

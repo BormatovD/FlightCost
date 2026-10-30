@@ -1,0 +1,65 @@
+{
+ "carrier": "OO",
+ "fleet": [
+  {
+   "icao": "E75L",
+   "count": 270,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-059",
+    "a4-060"
+   ],
+   "note": "в эксплуатации/по договорам 270"
+  },
+  {
+   "icao": "CRJ9",
+   "count": 51,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-059",
+    "a4-060"
+   ],
+   "note": "в эксплуатации 36, 5 сданы в аренду, 10 прочие"
+  },
+  {
+   "icao": "CRJ7",
+   "count": 178,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-059",
+    "a4-060"
+   ],
+   "note": "в таблице «CRJ700/CRJ550» сгруппированы (CRJ550 — переделанные CRJ700); в эксплуатации 123, 40 сданы в аренду, 15 прочие"
+  },
+  {
+   "icao": "CRJ2",
+   "count": 138,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-059",
+    "a4-060"
+   ],
+   "note": "в эксплуатации 58, SkyWest Charter 11, прочие 69 (резерв/на разборку)"
+  }
+ ],
+ "gaps": [
+  "Средний возраст и собственность/лизинг по типам: в Item 1 нет, Item 2 недоступен (обрезка на 109364 симв.)",
+  "Часть E175 принадлежит магистральным партнёрам (по CPA) — разбивки в доступной части нет"
+ ]
+}

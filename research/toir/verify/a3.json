@@ -1,0 +1,530 @@
+{
+ "a3-004": {
+  "status": "found",
+  "found_text": "As of December 31, 2025 , Republic had 311 regional jet aircraft as described in the following table.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-005": {
+  "status": "found",
+  "found_text": "| E170/175 | 311 | 193 | 11 | 107 | 13.0 | 65-76 seats |",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-006": {
+  "status": "found",
+  "found_text": "(1) Includes five spare and 31 aircraft that have been leased to another airline.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-007": {
+  "status": "found",
+  "found_text": "(3) Refers to Republic’s aircraft with leasing arrangements between Republic and the Partner Airlines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-008": {
+  "status": "found",
+  "found_text": "Republic is charged for covered services based on a fixed rate for each flight hour or flight cycle…",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-009": {
+  "status": "found",
+  "found_text": "Republic's heavy maintenance is performed by its vendors in Windsor, Ontario, Canada; Oklahoma City, OK; and Nashville, TN.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-010": {
+  "status": "found",
+  "found_text": "…such as qualifying maintenance activities, aircraft insurance, and property taxes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-011": {
+  "status": "found",
+  "found_text": "Pass-through—insurance, property taxes, certain planned major maintenance activities, and miscellaneous station expenses",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-012": {
+  "status": "found",
+  "found_text": "Pass-through—insurance, property taxes, certain cabin refurbishments, and miscellaneous station expenses",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-013": {
+  "status": "found",
+  "found_text": "newly acquired wholly-owned subsidiary Mesa Air Group, Inc.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-019": {
+  "status": "found",
+  "found_text": "approximately 93.0% of our code-share operating costs were reimbursable at pre-determined rates and 7.0% …",
+  "value_ok": true,
+  "note": "вторая половина предложения (7.0% directly reimbursed) подтверждена только пересказом WebFetch"
+ },
+ "a3-020": {
+  "status": "found",
+  "found_text": "aircraft maintenance costs may increase annually as our fleet ages at a higher rate than our pre-determined rates",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-021": {
+  "status": "found",
+  "found_text": "We also use third-party vendors for certain airframe and engine maintenance work.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-022": {
+  "status": "found",
+  "found_text": "SkyWest Leasing leased 40 CRJ700 aircraft, five CRJ900 aircraft and regional jet aircraft engines to third parties.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-028": {
+  "status": "found",
+  "found_text": "The Company uses the direct expense method of accounting for its regional jet engine overhauls.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-029": {
+  "status": "found",
+  "found_text": "The Company has engine services agreements with third-party vendors to provide long-term engine services covering the scheduled and unscheduled repairs for most of its aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-030": {
+  "status": "found",
+  "found_text": "Under the terms of the agreements, the Company pays a fixed dollar amount per engine hour flown on a monthly basis",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-031": {
+  "status": "found",
+  "found_text": "the third-party vendors will assume the responsibility to repair the engines at no additional cost to the Company",
+  "value_ok": null,
+  "note": "поле value в журнале пустое; цитата в документе есть"
+ },
+ "a3-032": {
+  "status": "found",
+  "found_text": "Maintenance costs under these contracts are recognized when the engine hour is flown",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-033": {
+  "status": "found",
+  "found_text": "The costs of maintenance for airframe and avionics components, landing gear and other recurring maintenance are expensed as incurred.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-050": {
+  "status": "found",
+  "found_text": "We've already serviced CF34 variants for over a decade, averaging over 100 annual shop visits. (Jack Arehart, Delta TechOps)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-056": {
+  "status": "found",
+  "found_text": "Endeavor Air, Inc., a wholly owned subsidiary of ours (\"Endeavor\");",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-057": {
+  "status": "found",
+  "found_text": "providing maintenance and engineering support for our fleet of mainline and regional aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-061": {
+  "status": "found",
+  "found_text": "MHI RJ CRJ-900: 126",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-062": {
+  "status": "found",
+  "found_text": "MHI RJ CRJ-700: 19",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-063": {
+  "status": "found",
+  "found_text": "operates 145 regional jets on 750 daily",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-066": {
+  "status": "found",
+  "found_text": "entire fleet of CF34-8E engines that power the 84 Embraer E175 aircraft",
+  "value_ok": true,
+  "note": "пояснение «в эксплуатации и заказанных» в тексте не проверено; 84 E175 подтверждено"
+ },
+ "a3-067": {
+  "status": "found",
+  "found_text": "The TrueChoice agreement covers the maintenance, repair and overhaul of the engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-068": {
+  "status": "found",
+  "found_text": "June 17, 2019 (дата релиза)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-074": {
+  "status": "found",
+  "found_text": "Pass-through revenue increased by $1.8 million, or 9.1%, driven primarily by higher maintenance pass-through expense",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-075": {
+  "status": "found",
+  "found_text": "the Company operated 67 large (70/76 seats) jets under its CPA with United, comprising 55 E-175s and twelve CRJ-900s",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-078": {
+  "status": "found",
+  "found_text": "We have delayed and/or deferred major spending on aircraft and engine maintenance",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-080": {
+  "status": "found",
+  "found_text": "United reimburses us on a pass-through basis for certain costs related to heavy airframe and engine maintenance, landing gear, auxiliary power units (\"APUs\") and component maintenance for the aircraft owned by United.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-081": {
+  "status": "found",
+  "found_text": "…heavy airframe and engine maintenance, landing gear, auxiliary power units (\"APUs\") and component maintenance for the aircraft owned by United.",
+  "value_ok": true,
+  "note": "предложение целиком: heavy airframe and engine maintenance, landing gear, APUs and component maintenance for the aircraft owned by United; «только» относится ко всему перечню"
+ },
+ "a3-082": {
+  "status": "found",
+  "found_text": "All 42 of these E-175 aircraft are owned by United and leased to us at nominal amounts.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-083": {
+  "status": "found",
+  "found_text": "As of September 30, 2024, we had 98 aircraft (owned and leased) consisting of the following (таблица: E-175 60; CRJ-700 2; CRJ-900 36; 55+12 по CPA, 24 CRJ-900 к продаже)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-084": {
+  "status": "found",
+  "found_text": "long-term maintenance contracts with AAR to provide fixed-rate parts procurement and component overhaul services",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-086": {
+  "status": "found",
+  "found_text": "E175 aircraft owned by United Airlines and operated by Mesa Airlines, Inc.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-089": {
+  "status": "found",
+  "found_text": "GE Aviation has signed a 15-year OnPointSM solution agreement with SkyWest Airlines (3 апреля 2012)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-090": {
+  "status": "found",
+  "found_text": "for material to support its 150 CF34-8C5B1 engines that power the airline's Bombardier CRJ700 aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-102": {
+  "status": "found",
+  "found_text": "The aircraft is based on the Canadian manufacturer’s CRJ700 platform.",
+  "value_ok": true,
+  "note": "платформа CRJ700 подтверждена; тип двигателя CF34-8C в цитате не назван"
+ },
+ "a3-103": {
+  "status": "found",
+  "found_text": "the new CRJs will be operated by United regional partner GoJet for at least 10 years",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-107": {
+  "status": "found",
+  "found_text": "CommuteAir currently operates 59 regional aircraft under a CPA with United that has a term through 2028",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-108": {
+  "status": "found",
+  "found_text": "owns a 40% minority ownership stake in CommuteAir",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-109": {
+  "status": "found",
+  "found_text": "Republic currently operates 66 regional aircraft under capacity purchase agreements",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-112": {
+  "status": "found",
+  "found_text": "operates over 200 daily flights using 59 ERJ145s on behalf of United Airlines",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-113": {
+  "status": "found",
+  "found_text": "Embraer will provide maintenance, repair and overhaul (MRO) services at its recently inaugurated …",
+  "value_ok": false,
+  "note": "цитата есть, но в тексте нет ни «ERJ145», ни даты «с 2025» в этом предложении: Embraer будет оказывать MRO в Форт-Уэрте, дата начала в статье не указана"
+ },
+ "a3-114": {
+  "status": "found",
+  "found_text": "CommuteAir also offers charter services using an Embraer E170 under its own brand",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-116": {
+  "status": "found",
+  "found_text": "With Rolls Royce AE 3007 jet engines, a 2,000-nautical mile range, a service ceiling of 37,000 feet",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-119": {
+  "status": "found",
+  "found_text": "agreed to provide up to 60 CRJ-200 regional jet aircraft for regional airline services for American",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-121": {
+  "status": "found",
+  "found_text": "Air Wisconsin's capacity purchase agreement with American Airlines will conclude in April 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-124": {
+  "status": "found",
+  "found_text": "As of December 31, 2024, Air Wisconsin owned a fleet of 63 CRJ-200 regional jets, manufactured by Bombardier, Inc., of which 45 were in service under the American capacity purchase agreement",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-125": {
+  "status": "found",
+  "found_text": "Air Wisconsin was responsible for certain customary costs relating to the flight operation and maintenance of the covered aircraft…",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-126": {
+  "status": "found",
+  "found_text": "including fuel, landing and air traffic control, changes to livery and branding, aircraft and passenger liability insurance, property taxes and systems support.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-127": {
+  "status": "found",
+  "found_text": "and the agreement terminated effective April 3, 2025",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-128": {
+  "status": "found",
+  "found_text": "on January 9, 2026, Harbor completed the last in a series of transactions pursuant to which it disposed of all of its aviation assets, including its membership interests in Air Wisconsin",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-130": {
+  "status": "found",
+  "found_text": "The normal cost of recurring maintenance is expensed when incurred except for planned major maintenance activities for",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-131": {
+  "status": "found",
+  "found_text": "engines where the deferral method of accounting is applied.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-135": {
+  "status": "found",
+  "found_text": "We regret to inform you that we are ceasing operations as of today, June 11, 2025,",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-136": {
+  "status": "found",
+  "found_text": "Silver filed for bankruptcy protection on Dec. 30, with plans to exit the process by the first quarter of 2025",
+  "value_ok": true,
+  "note": "год (2024) в цитате не указан; из контекста статьи (выход из процедуры в 1 кв. 2025) согласуется"
+ },
+ "a3-141": {
+  "status": "found",
+  "found_text": "StandardAero has signed an exclusive long-term contract with Silver Airways for Pratt & Whitney PW127M engine support.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-142": {
+  "status": "found",
+  "found_text": "entrusted StandardAero as its engine support provider for the next 15 years",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-143": {
+  "status": "found",
+  "found_text": "initial order for 20 ATR 42-600 aircraft leased from Nordic Aviation Capital",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-147": {
+  "status": "found",
+  "found_text": "Maintenance and repair costs for owned and leased flight equipment are charged to operating expense as incurred",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-148": {
+  "status": "found",
+  "found_text": "except costs incurred for maintenance and repair under certain power-by-the-hour maintenance agreements",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-149": {
+  "status": "found",
+  "found_text": "which are charged to operating expense based on contractual terms when an obligation exists.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-150": {
+  "status": "found",
+  "found_text": "The American Eagle carriers include our wholly-owned regional carriers as well as third-party regional carriers.",
+  "value_ok": false,
+  "note": "цитата («wholly-owned regional carriers») есть, но имена Envoy/PSA/Piedmont в найденном тексте не названы"
+ },
+ "a3-153": {
+  "status": "found",
+  "found_text": "Total Fleet | 270 | 51 | 178 | 138 | 637",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-154": {
+  "status": "found",
+  "found_text": "Aircraft in scheduled service or under contract | 270 | 36 | 123 | 58 | 487",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-164": {
+  "status": "found",
+  "found_text": "The cost of non-major scheduled inspections and repairs and routine maintenance costs …",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-165": {
+  "status": "found",
+  "found_text": "the cost of heavy maintenance and major overhaul is deferred and amortized",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-166": {
+  "status": "found",
+  "found_text": "the remaining deferred heavy maintenance balances were written off",
+  "value_ok": true,
+  "note": "«0 на 30.09.2025» в найденном фрагменте не проверено"
+ },
+ "a3-167": {
+  "status": "found",
+  "found_text": "heavy maintenance and major overhaul costs for all other fleets under the direct expense method",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-168": {
+  "status": "found",
+  "found_text": "where labor and materials price risks have been transferred to the service provider",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-169": {
+  "status": "found",
+  "found_text": "Engine overhaul expense totaled $ 20.6 million and $ 17.3 million",
+  "value_ok": true,
+  "note": "период «9 месяцев» взят из значения; суммы совпадают"
+ },
+ "a3-170": {
+  "status": "found",
+  "found_text": "of which $ 20.5 million and $ 17.8 million, respectively, was pass-through expense.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-171": {
+  "status": "found",
+  "found_text": "Airframe C-check expense totaled $ 19.6 million and $ 16.5 million",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-172": {
+  "status": "found",
+  "found_text": "of which $ 16.3 million and $ 12.5 million, respectively, was pass-through expense.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-173": {
+  "status": "found",
+  "found_text": "Mesa operated a fleet of 60 Embraer 175 (\"E-175\") regional aircraft with approximately 234 daily departures",
+  "value_ok": true,
+  "note": "уточнение «все — собственность United после продажи 18» из этой цитаты не следует (60 E175 подтверждено)"
+ },
+ "a3-177": {
+  "status": "found",
+  "found_text": "Pass-through charges are primarily recorded to revenues and the corresponding operating expense on a gross basis.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-178": {
+  "status": "found",
+  "found_text": "reimbursement from our Partner Airlines for direct expenses incurred such as qualifying maintenance activities, property taxes…",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-179": {
+  "status": "found",
+  "found_text": "long-term maintenance agreements (Note 8, Commitments and Contingencies, наряду с лизингом и закупочными обязательствами)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-181": {
+  "status": "found",
+  "found_text": "expanded its OnPointSM solution agreement for engine maintenance, repair and overhaul to its current fleet and",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-182": {
+  "status": "found",
+  "found_text": "added 101 CF34-8Es that power an additional 47 EMBRAER 175 aircraft. (15 июля 2014)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-184": {
+  "status": "found",
+  "found_text": "10-year OnPointSM solutions agreement … 119 Embraer E170/175 (31 июля 2007)",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-188": {
+  "status": "found",
+  "found_text": "Maintenance costs are expensed as incurred, except for costs incurred under power-by-the-hour contracts,",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-189": {
+  "status": "found",
+  "found_text": "which are expensed based on actual hours flown.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a3-190": {
+  "status": "found",
+  "found_text": "Modifications that enhance the operating performance or extend the useful lives of airframes or engines are capitalized",
+  "value_ok": true,
+  "note": ""
+ }
+}

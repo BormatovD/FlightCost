@@ -1,0 +1,67 @@
+[
+ {
+  "type": "A321",
+  "engine": "CFM56-5B",
+  "reserves_bh": 869,
+  "bottomup_bh": null,
+  "form41_bh": 189,
+  "form41_carriers": [
+   "B6",
+   "US"
+  ],
+  "source": "договорные ставки Vallair→Global X (LOI, янв. 2020), капремонт +3%/год по договору"
+ },
+ {
+  "type": "B738",
+  "engine": "CFM56-7B",
+  "reserves_bh": 599,
+  "bottomup_bh": [
+   544
+  ],
+  "form41_bh": 297,
+  "form41_carriers": [
+   "AA",
+   "AS",
+   "CO",
+   "DL",
+   "UA",
+   "WN"
+  ],
+  "source": "Aircraft Commerce 2013: всё вместе, включая LLP"
+ },
+ {
+  "type": "E75L",
+  "engine": "CF34-8E",
+  "reserves_bh": 461,
+  "bottomup_bh": [
+   697
+  ],
+  "form41_bh": 248,
+  "form41_carriers": [
+   "YX"
+  ],
+  "source": "Aircraft Commerce 2010, сценарий 1"
+ },
+ {
+  "type": "B77W",
+  "engine": "GE90-115B",
+  "reserves_bh": 1219,
+  "bottomup_bh": [
+   996
+  ],
+  "form41_bh": null,
+  "form41_carriers": null,
+  "source": "Aircraft Commerce 2012"
+ },
+ {
+  "type": "A333",
+  "engine": "Trent 700",
+  "reserves_bh": 1001,
+  "bottomup_bh": null,
+  "form41_bh": 272,
+  "form41_carriers": [
+   "DL"
+  ],
+  "source": "Aircraft Commerce 2008: всё вместе при 3,0 ч/цикл"
+ }
+]

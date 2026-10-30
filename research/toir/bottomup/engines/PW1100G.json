@@ -1,0 +1,136 @@
+{
+ "engine": "PW1100G",
+ "aircraft": [
+  "A19N",
+  "A20N",
+  "A21N"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  22.0,
+  33.0
+ ],
+ "thrust_note": "по обозначениям PW1122G-JM…PW1133G-JM (e1-214); AC: 27 000 lbf PW1127G, 33 000 lbf PW1133G (e1-081, e1-082)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 4200000,
+    "year": 2019,
+    "note": "29 LLP",
+    "evidence": [
+     "e1-077"
+    ]
+   }
+  ],
+  "part_prices": [
+   {
+    "part": "HPC 2nd stage rotor",
+    "usd": 312000,
+    "year": 2024,
+    "evidence": [
+     "e1-104"
+    ]
+   },
+   {
+    "part": "HPC 4th stage rotor",
+    "usd": 244000,
+    "year": 2024,
+    "evidence": [
+     "e1-104"
+    ]
+   },
+   {
+    "part": "HPT 1st/2nd-stage hub; HPC IBR-7/IBR-8; HPC rear hub",
+    "usd": [
+     56000,
+     62000,
+     82000,
+     93000,
+     132000
+    ],
+    "year": 2024,
+    "note": "оценка FAA в AD 2024-05-11; вероятно не каталог",
+    "evidence": [
+     "e1-205"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "fan/LPC, HPC, LPT (target PW1122G/24G/27G)",
+    "efc": 25000,
+    "evidence": [
+     "e1-079"
+    ]
+   },
+   {
+    "part": "часть HPC/HPT LLP (2019)",
+    "efc": 6000,
+    "note": "6 000–7 700 EFC",
+    "evidence": [
+     "e1-080"
+    ]
+   },
+   {
+    "part": "HPT 1st/2nd-stage hubs, HPC IBR-7/8, rear hub (порошковый металл, AD 2024-05-11)",
+    "efc": 5000,
+    "note": "ускоренная замена до 5 000 CSN (гр.2) / 7 000 CSN (гр.1)",
+    "evidence": [
+     "e1-206"
+    ]
+   }
+  ],
+  "escalation": {
+   "2019": 0.06
+  },
+  "escalation_notes": [
+   "AC 2019: «in excess of 6% per year» (e1-078) — нижняя граница"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first (ожидание 2019)",
+   "interval_efc": 12500,
+   "thrust": "PW1127G (27K)",
+   "cost_usd": null,
+   "evidence": [
+    "e1-081"
+   ]
+  },
+  {
+   "which": "first (ожидание 2019)",
+   "interval_efc": 10000,
+   "thrust": "PW1133G (33K)",
+   "cost_usd": null,
+   "evidence": [
+    "e1-082"
+   ]
+  },
+  {
+   "which": "AD-driven",
+   "interval_efc": 3800,
+   "note": "AUSI HPT hubs каждые ≤3 800 FC (гр.1) / ≤2 800 FC (гр.2) или на каждом HPT SV",
+   "cost_usd": null,
+   "evidence": [
+    "e1-206"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "Порошковая металлургия (2023): RTX списание $3 млрд, +600–700 внеплановых съёмов до 2026, ~350 A320neo на земле в год (e1-167)",
+  "Компенсации клиентам P&W $6–7 млрд за 2023–2026; ~$150 млн во 2К2026 (e1-163, e1-164) — снижают фактические затраты эксплуатантов",
+  "GTF Advantage: цель ×2 времени на крыле (e1-165)"
+ ],
+ "gaps": [
+  "стоимость SV",
+  "каталог LLP после 2019",
+  "ставки резервов",
+  "фактические интервалы"
+ ],
+ "doubts": [
+  "цены деталей в AD 2024-05-11 ($56–132k) несопоставимо ниже AD 2024-09104 ($244–312k)"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

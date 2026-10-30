@@ -1,0 +1,153 @@
+{
+ "engine": "LEAP-1A",
+ "aircraft": [
+  "A19N",
+  "A20N",
+  "A21N"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  23.0,
+  35.0
+ ],
+ "thrust_note": "по обозначениям LEAP-1A23…-1A35A (e1-214); сайт CFM: max 33 000 lbf (e1-212); MTU: LEAP 23–35 klbf (e1-175)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 4570000,
+    "year": 2019,
+    "note": "23 LLP",
+    "evidence": [
+     "e1-072"
+    ]
+   },
+   {
+    "usd": 5580000,
+    "year": 2022,
+    "note": "сумма модулей: fan/LPC 0.85 + LPT 1.93 + HPC 1.52 + HPT 1.28",
+    "evidence": [
+     "e1-059",
+     "e1-061",
+     "e1-062",
+     "e1-063",
+     "e1-064"
+    ]
+   },
+   {
+    "usd": 5970000,
+    "year": 2023,
+    "note": "прогноз AC при +6.9%",
+    "evidence": [
+     "e1-060",
+     "e1-064"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "fan/LPC (target)",
+    "efc": 30000,
+    "evidence": [
+     "e1-065"
+    ]
+   },
+   {
+    "part": "fan disk (2019 → 2022)",
+    "efc": 26000,
+    "note": "в 2019 — 17 200 EFC (e1-073)",
+    "evidence": [
+     "e1-065",
+     "e1-073"
+    ]
+   },
+   {
+    "part": "HPC (7 LLP)",
+    "efc": 15000,
+    "note": "иногда 10 200",
+    "evidence": [
+     "e1-066"
+    ]
+   },
+   {
+    "part": "HPT LLP (лимитирующие)",
+    "efc": 7000,
+    "note": "диапазон 7 000–15 000 (2022); target 20 000 для низкой тяги",
+    "evidence": [
+     "e1-067",
+     "e1-074"
+    ]
+   }
+  ],
+  "escalation": {
+   "2019-2022_cagr": 0.069,
+   "2023": 0.069
+  },
+  "escalation_notes": [
+   "AC: «annual increase of 6.9%» на 2023 (e1-060); 2019: «more than 6%» (e1-072); CAGR 2019→22 — расчёт (e1-217)",
+   "CFM/GE: «double-digit increase on Nov. 1, 2022» и «high-single-digit spares price hikes in August» 2023 — запчасти в целом (e1-005..007, e1-118)",
+   "Aviation Week (2023): новые запчасти дорожают ~10%/год (e1-005); AW MRO 2025: стоимость SV растёт двузначно (e1-134)"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first (CFM target)",
+   "interval_efh": 25000,
+   "interval_efc": 16000,
+   "ratio_fh_fc": 1.56,
+   "thrust": "средние рейтинги",
+   "cost_usd": null,
+   "cost_year": null,
+   "includes_llp": null,
+   "evidence": [
+    "e1-068"
+   ]
+  },
+  {
+   "which": "first (ожидание AC 2022)",
+   "interval_efc_range": [
+    12000,
+    14000
+   ],
+   "thrust": "-1A33",
+   "cost_usd": null,
+   "evidence": [
+    "e1-069"
+   ]
+  },
+  {
+   "which": "first (прогноз 2019)",
+   "interval_efc_range": [
+    7000,
+    8000
+   ],
+   "thrust": "-1A33",
+   "cost_usd": null,
+   "evidence": [
+    "e1-075"
+   ]
+  },
+  {
+   "which": "second (прогноз 2019)",
+   "interval_efc": 11000,
+   "cost_usd": null,
+   "evidence": [
+    "e1-076"
+   ]
+  }
+ ],
+ "reserves": [],
+ "issues": [
+  "Долговечность лопаток/ТВД в жарких и пыльных регионах; HPT durability kit сертифицирован FAA в дек-2024 (e1-052), к ноя-2025 >1200 kits (e1-051), заявлено ×2 время на крыле и паритет с CFM56 (e1-050, e1-055)",
+  "FAA AD на HPT stage 1 disk / CRS 6-10 spool (2023, 2025) — цены «pro-rated», не каталог (e1-112)"
+ ],
+ "gaps": [
+  "стоимость shop visit (PR/overhaul) — открытых данных нет",
+  "ставки резервов $/EFH и $/EFC",
+  "фактические средние интервалы до kit и после"
+ ],
+ "doubts": [
+  "фраза «first removal intervals of 10,000EFH, or about 6,500EFC» в AC No.145 — неясно, относится ли к LEAP-1A в тяжёлых условиях или к сравнению с -5B (e1-070)"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

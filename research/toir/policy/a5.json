@@ -1,0 +1,492 @@
+{
+ "US": [
+  {
+   "from": 2006,
+   "to": 2014,
+   "policy": "direct_expense",
+   "detail": "US Airways Group: 'currently uses the direct expense method of accounting for planned major maintenance' (10-Q Q3 2007). С 12.2013 — в AAG; политика AMR/AAG: ТОиР собственных и арендованных ВС в расход по мере выполнения, кроме части PBH-договоров (по условиям договора). Переходов не найдено; 10-K US Airways 2008–2013 инструменту недоступны.",
+   "evidence": [
+    "a5-023",
+    "a5-099",
+    "a5-231",
+    "a1-087"
+   ]
+  }
+ ],
+ "HP": [
+  {
+   "from": 2006,
+   "to": 2006,
+   "policy": "direct_expense",
+   "detail": "America West в составе US Airways Group (с 09.2005); политика группы — direct expense. Вывод косвенный.",
+   "evidence": [
+    "a5-023",
+    "a5-230"
+   ]
+  }
+ ],
+ "CO": [
+  {
+   "from": 2006,
+   "to": 2011,
+   "policy": "direct_expense",
+   "detail": "ТОиР собственных и арендованных ВС, включая капремонт компонентов, в расход по мере выполнения; капремонт двигателей по cost-per-hour договорам — в основном по налёту (FY2009, охватывает 2007–2009). 2010–2011 — в группе UAL: расход по мере выполнения, кроме PBTH двигателей (UAL/United Airlines Inc. FY2013). 2006 отдельно не процитирован.",
+   "evidence": [
+    "a5-066",
+    "a5-067",
+    "a5-068",
+    "a5-069",
+    "a5-071",
+    "a5-072"
+   ]
+  }
+ ],
+ "NW": [
+  {
+   "from": 2006,
+   "to": 2009,
+   "policy": "direct_expense",
+   "detail": "'Routine maintenance, airframe and engine overhauls are charged to expense as incurred'; модификации капитализируются (10-Q Q2 2007, после fresh-start). С 10.2008 — дочка Delta (тоже direct expense). Цитаты за 2006 до fresh-start нет.",
+   "evidence": [
+    "a5-201",
+    "a5-202"
+   ]
+  }
+ ],
+ "FL": [
+  {
+   "from": 2006,
+   "to": 2010,
+   "policy": "direct_expense",
+   "detail": "Косвенно: рост расходов ТОиР объясняется числом heavy maintenance событий (10-Q Q3 2007); договоры ТО с оплатой по налёту. Явная формулировка политики AirTran не получена (10-K/10-Q обрезаются до Note 1).",
+   "evidence": [
+    "a5-227",
+    "a5-225",
+    "a5-226"
+   ]
+  },
+  {
+   "from": 2011,
+   "to": 2012,
+   "policy": "direct_expense",
+   "detail": "В составе Southwest (с 05.2011): плановые формы и ремонты в расход по мере выполнения; PBH по двигателям 717-200 AirTran — расход по налёту.",
+   "evidence": [
+    "a5-074",
+    "a5-075",
+    "a5-076"
+   ]
+  }
+ ],
+ "VX": [
+  {
+   "from": 2009,
+   "to": 2013,
+   "policy": "unknown",
+   "detail": "Частная компания, отчётности нет.",
+   "evidence": []
+  },
+  {
+   "from": 2014,
+   "to": 2016,
+   "policy": "direct_expense",
+   "detail": "Косвенно: снижение расходов ТОиР из-за меньшего числа heavy airframe checks; капремонт двигателя ожидается в расходах ТОиР квартала (10-Q Q2 2015). Явной формулировки не видел.",
+   "evidence": [
+    "a5-061",
+    "a5-084",
+    "a5-085"
+   ]
+  },
+  {
+   "from": 2017,
+   "to": 2017,
+   "policy": "direct_expense",
+   "detail": "В группе Alaska (с 12.2016): ТОиР в расход по мере выполнения (политика группы).",
+   "evidence": [
+    "a5-009",
+    "a1-102"
+   ]
+  }
+ ],
+ "XE": [
+  {
+   "from": 2006,
+   "to": 2009,
+   "policy": "direct_expense",
+   "detail": "ExpressJet Holdings: ТОиР собственных и арендованных ВС, включая капремонт компонентов, в расход по мере выполнения; PBH — по условиям договора (цитата политики FY2009 в письме SEC 2010). PBH-договоры ≈70.8% затрат ТОиР (10-Q Q3 2006).",
+   "evidence": [
+    "a5-045",
+    "a5-046"
+   ]
+  },
+  {
+   "from": 2010,
+   "to": 2018,
+   "policy": "direct_expense",
+   "detail": "В составе SkyWest (через Atlantic Southeast; слияние ASA+ExpressJet 2011): direct expense для капремонта двигателей РС; договоры на двигатели CRJ700/ERJ145 (позже CRJ200/E175) — фиксированная ставка за час работы двигателя, расход по налёту; планер, авионика, шасси — по мере выполнения.",
+   "evidence": [
+    "a5-049",
+    "a5-052",
+    "a5-054"
+   ]
+  },
+  {
+   "from": 2019,
+   "to": 2019,
+   "policy": "unknown",
+   "detail": "С 01.2019 продан частной ManagementCo — отчётности нет.",
+   "evidence": []
+  }
+ ],
+ "OH_Comair": [
+  {
+   "from": 2006,
+   "to": 2011,
+   "policy": "direct_expense",
+   "detail": "Дочка Delta; консолидированная политика Delta — в расход по мере выполнения, кроме PBH (по фактическому налёту). Цитаты Delta только за FY2020/FY2024 — для 2006–2011 вывод косвенный.",
+   "evidence": [
+    "a5-232",
+    "a3-188",
+    "a1-025"
+   ]
+  }
+ ],
+ "CP_Compass": [
+  {
+   "from": 2010,
+   "to": 2010,
+   "policy": "direct_expense",
+   "detail": "До 07.2010 — дочка Delta (ранее Northwest): direct expense.",
+   "evidence": [
+    "a5-201"
+   ]
+  },
+  {
+   "from": 2010,
+   "to": 2019,
+   "policy": "unknown",
+   "detail": "С 07.2010 — частная Trans States Holdings, отчётности нет.",
+   "evidence": []
+  }
+ ],
+ "XJ_Mesaba": [
+  {
+   "from": 2006,
+   "to": 2007,
+   "policy": "accrue_in_advance (часть типов)",
+   "detail": "MAIR Holdings: начисление резерва на формы ТО заранее ('accruals for aircraft checks', FY2006); FSP AUG AIR-1 требует сменить метод 'for some planned maintenance activities for certain aircraft types' с 01.04.2007 ретроспективно. Какие типы — не раскрыто в доступной части.",
+   "evidence": [
+    "a5-194",
+    "a5-197",
+    "a5-198"
+   ]
+  },
+  {
+   "from": 2007,
+   "to": 2011,
+   "policy": "direct_expense",
+   "detail": "С 04.2007 — дочка Northwest (direct expense), затем Delta (2008+). Вывод по политике материнских компаний.",
+   "evidence": [
+    "a5-201"
+   ]
+  }
+ ],
+ "S5_Shuttle_America": [
+  {
+   "from": 2006,
+   "to": 2017,
+   "policy": "direct_expense",
+   "detail": "Republic Airways Holdings (консолидированно): 'The Company uses the direct expense method' (10-Q Q3 2006); в 2026 — 'expensed as incurred under the direct expense method', капремонт двигателей и тяжёлые формы возмещаются партнёрами по CPA. Промежуточные годы не процитированы; признаков смены нет.",
+   "evidence": [
+    "a5-208",
+    "a5-209",
+    "a5-212",
+    "a5-213"
+   ]
+  }
+ ],
+ "RP_Chautauqua": [
+  {
+   "from": 2006,
+   "to": 2014,
+   "policy": "direct_expense",
+   "detail": "Как Shuttle America — политика Republic Airways Holdings (direct expense 2006 и 2026).",
+   "evidence": [
+    "a5-208",
+    "a5-212"
+   ]
+  }
+ ],
+ "AA": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "ТОиР собственных и арендованных ВС в расход по мере выполнения; flight-hour/PBH договоры — по условиям договора при возникновении обязательства. Цитаты FY2012 (AMR) и FY2024 (AAG); 2006–2011 не процитировано, переходов не найдено.",
+   "evidence": [
+    "a5-099",
+    "a1-087"
+   ]
+  }
+ ],
+ "DL": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "В расход по мере выполнения, кроме PBH (по фактическому налёту). Цитаты только FY2020 и FY2024; поисковик находит ту же фразу в 10-K FY2009, FY2012–FY2015, но текст инструменту недоступен. Переходов не найдено.",
+   "evidence": [
+    "a3-188",
+    "a1-025",
+    "a5-234"
+   ]
+  }
+ ],
+ "UA": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "Расход по мере выполнения, кроме PBTH-договоров на двигатели (FY2013, FY2024). 2006–2012 для UAL не процитировано, переходов не найдено.",
+   "evidence": [
+    "a5-071",
+    "a5-072",
+    "a1-091"
+   ]
+  }
+ ],
+ "WN": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "ПЕРЕХОД с 01.01.2006: планерные формы (D-check) 737-300/-500 переведены с deferral на direct expense ретроспективно (смена MSG-2 -> MSG-3); 737-700 уже на MSG-3. Капремонт двигателей вне PBH — в расход при выполнении (CORRESP 2012); PBH (737-700, 717 AirTran) — по налёту.",
+   "evidence": [
+    "a5-116",
+    "a5-117",
+    "a5-118",
+    "a5-119",
+    "a5-121",
+    "a5-074",
+    "a5-075",
+    "a5-177",
+    "a1-096"
+   ]
+  }
+ ],
+ "AS": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "Переход deferral -> direct expense состоялся 01.01.2005 (до окна): списан капитализированный капремонт планеров и двигателей по всем ВС (144,7 млн USD до налогов). В окне 2006–2025 — direct expense.",
+   "evidence": [
+    "a5-008",
+    "a5-009",
+    "a5-010",
+    "a5-004",
+    "a1-102"
+   ]
+  }
+ ],
+ "HA": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "ТОиР собственных и арендованных ВС, включая капремонт компонентов, в расход по мере выполнения (10-Q Q1 2007; 10-K FY2023). С 2024 — группа Alaska (тоже direct expense).",
+   "evidence": [
+    "a5-104",
+    "a5-105",
+    "a1-111",
+    "a1-102"
+   ]
+  }
+ ],
+ "B6": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "Регулярное ТО планера в расход по мере выполнения, если не покрыто flight-hour договором; PBH (двигатели, LRU) — по налёту/циклам (FY2013, FY2017). 2006–2012 не процитировано.",
+   "evidence": [
+    "a5-101",
+    "a5-102",
+    "a2-130"
+   ]
+  }
+ ],
+ "OO": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense (джеты)",
+   "detail": "Капремонт двигателей РС — direct expense (2007: CRJ200; FY2011; FY2018); договоры на двигатели — фиксированная ставка за час, по налёту; планер/авионика/шасси — по мере выполнения.",
+   "evidence": [
+    "a5-223",
+    "a5-049",
+    "a5-052",
+    "a5-054"
+   ]
+  },
+  {
+   "from": 2006,
+   "to": 2015,
+   "policy": "deferral (только EMB-120 Brasilia)",
+   "detail": "Капремонт двигателей турбовинтовых Brasilia — deferral (FY2011); в FY2018 уже не упоминается (точный год вывода не установлен).",
+   "evidence": [
+    "a5-050",
+    "a5-051"
+   ]
+  }
+ ],
+ "YX": [
+  {
+   "from": 2006,
+   "to": 2025,
+   "policy": "direct_expense",
+   "detail": "Republic Airways Holdings: direct expense (2006 и 2026); капремонт двигателей и тяжёлые формы — pass-through к партнёрам по CPA; PBH-подобные договоры по фиксированной ставке за час/вылет.",
+   "evidence": [
+    "a5-208",
+    "a5-212",
+    "a5-213"
+   ]
+  }
+ ],
+ "YV": [
+  {
+   "from": 2006,
+   "to": 2020,
+   "policy": "direct_expense",
+   "detail": "'Mesa currently uses the direct expense method' (2007); на 31.03.2020 и 31.12.2020 — direct expense для двигателей, планера, шасси.",
+   "evidence": [
+    "a5-131",
+    "a5-135",
+    "a5-152"
+   ]
+  },
+  {
+   "from": 2021,
+   "to": 2025,
+   "policy": "mixed: deferral (собственные E175) + direct_expense (прочие)",
+   "detail": "ПЕРЕХОД в квартале янв.–мар. 2021: впервые в 10-Q на 31.03.2021 — deferral для owned E-175; объявления о смене принципа нет ('policy is determined by fleet when major maintenance is incurred'). В 2025 собственные E175 проданы United, остаток deferral списан.",
+   "evidence": [
+    "a5-148",
+    "a5-136",
+    "a5-153",
+    "a5-140",
+    "a3-165",
+    "a3-166",
+    "a3-167"
+   ]
+  }
+ ],
+ "NK": [
+  {
+   "from": 2006,
+   "to": 2009,
+   "policy": "unknown",
+   "detail": "Частная до IPO 2011; S-1 2010 недоступен в части примечаний.",
+   "evidence": []
+  },
+  {
+   "from": 2010,
+   "to": 2025,
+   "policy": "deferral",
+   "detail": "Тяжёлое ТО капитализируется и амортизируется (строка 'Amortization of heavy maintenance' за 2010–2012; 'We account for heavy maintenance under the deferral method' 2015; FY2023).",
+   "evidence": [
+    "a5-188",
+    "a5-173",
+    "a2-018"
+   ]
+  }
+ ],
+ "F9": [
+  {
+   "from": 2006,
+   "to": 2020,
+   "policy": "unknown",
+   "detail": "Явная политика не найдена (Frontier Airlines Holdings 2006–2009, Republic 2009–2013, Indigo 2013–2021). 2007: капремонт арендованных ВС покрывался доп. арендой по налёту (расход).",
+   "evidence": [
+    "a5-185"
+   ]
+  },
+  {
+   "from": 2021,
+   "to": 2025,
+   "policy": "deferral",
+   "detail": "Тяжёлое ТО и капремонт капитализируются и амортизируются (10-K FY2024). Год перехода (если был) не установлен.",
+   "evidence": [
+    "a2-041"
+   ]
+  }
+ ],
+ "G4": [
+  {
+   "from": 2006,
+   "to": 2018,
+   "policy": "direct_expense (MD-80/757, косвенно)",
+   "detail": "2007: капремонт двигателя MD-80 отражён в расходах ТОиР квартала; deferral описывается только для Airbus. Явной формулировки для MD-80/757 не видел.",
+   "evidence": [
+    "a5-159",
+    "a5-170"
+   ]
+  },
+  {
+   "from": 2016,
+   "to": 2025,
+   "policy": "deferral (Airbus и CFM) + direct_expense (текущее)",
+   "detail": "Major maintenance планеров Airbus и CFM — deferral; первое событие в 06.2016 (до Q2 2016 капитализированного ТО не было). Не major — direct expense (FY2025).",
+   "evidence": [
+    "a5-128",
+    "a5-129",
+    "a5-165",
+    "a5-167",
+    "a5-168",
+    "a2-113"
+   ]
+  }
+ ],
+ "SY": [
+  {
+   "from": 2006,
+   "to": 2018,
+   "policy": "unknown",
+   "detail": "До 04.2018 (Predecessor) — частная компания, отчётности нет.",
+   "evidence": []
+  },
+  {
+   "from": 2018,
+   "to": 2025,
+   "policy": "mixed: direct_expense + built_in_overhaul",
+   "detail": "С 04.2018 (Successor после покупки Apollo): события ТО арендованных ВС — через расход ТОиР со сторно контр-актива; FY2025: major maintenance собственных и арендованных планеров и двигателей в операционной аренде — expense as incurred, собственные двигатели — built-in overhaul.",
+   "evidence": [
+    "a5-216",
+    "a5-217",
+    "a2-136",
+    "a2-137",
+    "a2-138"
+   ]
+  }
+ ],
+ "_gaps": {
+  "US": "10-K US Airways FY2007–FY2013 и Financial_Report FY2013 обрезаются до политики ТОиР; каталог/Financial_Report FY2011 — отказ инструмента",
+  "FL": "явная политика AirTran 2006–2010: 10-Q 2006–2007, 10-K FY2006/FY2010 обрезаются до Note 1",
+  "VX": "явная политика: S-1 2014, 10-K FY2014/2015, 10-Q 2015 обрезаются; XBRL instance FY2015 — отказ; 2009–2013 частная",
+  "XE": "2019 — частная ManagementCo",
+  "OH_Comair": "собственной отчётности нет; цитаты Delta за 2006–2011 недоступны (10-Q/10-K обрезаются)",
+  "CP_Compass": "2010–2019 — частная Trans States Holdings",
+  "XJ_Mesaba": "типы ВС с accrue-in-advance не раскрыты в доступной части MAIR 10-K/10-Q",
+  "S5_Shuttle_America": "цитаты Republic за 2008–2024 не получены (10-K обрезаются, R-страниц в поиске нет)",
+  "RP_Chautauqua": "то же, что S5",
+  "DL": "цитаты за 2006–2019 недоступны",
+  "AA": "цитаты AMR за 2006–2011 не получены",
+  "UA": "цитаты UAL за 2006–2012 не получены (10-Q 2007 без политики)",
+  "B6": "цитаты за 2006–2012 не получены",
+  "NK": "до 2010 — частная; S-1 2010 обрезается",
+  "F9": "политика 2006–2020 и год перехода к deferral не найдены",
+  "G4": "явная формулировка политики для MD-80/757 не найдена",
+  "SY": "Predecessor до 04.2018 — нет отчётности",
+  "OO": "год прекращения deferral по Brasilia не установлен",
+  "_tool": "efts.sec.gov (полнотекстовый поиск EDGAR), каталоги EDGAR, investors.southwest.com — отказ инструмента; основные 10-K читаются только до ~125 тыс. знаков"
+ }
+}

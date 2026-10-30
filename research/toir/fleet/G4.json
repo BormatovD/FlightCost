@@ -1,0 +1,35 @@
+{
+ "carrier": "G4",
+ "fleet": [
+  {
+   "icao": "B38M",
+   "count": 16,
+   "avg_age_y": null,
+   "as_of": "2026-02-01",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-075"
+   ],
+   "note": "«16 Boeing 737 series aircraft» — подтип в цитате не назван; у Allegiant это 737 MAX (заказ 737-8-200/737-7) — код B38M по смыслу, не по тексту"
+  },
+  {
+   "icao": "A319/A320",
+   "count": 106,
+   "avg_age_y": null,
+   "as_of": "2026-02-01",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-075"
+   ],
+   "note": "«Airbus A320 series» = A319 и A320 вместе; все, кроме 9 ВС парка, в собственности/фин. лизинге"
+  }
+ ],
+ "gaps": [
+  "Данные на 31.12.2025 по типам (есть только на 01.02.2026), разбивка A319/A320, средний возраст. Item 2 «Properties» 10-K FY2025 недоступен: WebFetch получает только первые ~106–124 тыс. символов (и HTML на sec.gov, и PDF на сайте IR, и зеркала), offset дальше этой границы не читает.",
+  "агрегатор airfleets для Allegiant ранее заблокирован (a2-124)"
+ ]
+}

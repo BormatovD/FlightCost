@@ -1,0 +1,494 @@
+{
+ "x2-013": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 919 809 13.6 3,294 3,063 7.5",
+  "value_ok": true,
+  "note": "Релиз за 4 кв./год 2025; колонки Year Ended Dec 31: 2025 | 2024."
+ },
+ "x2-019": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 664 600 10.7 2,736 2,153 27.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-022": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 199 475 -58.1 858 1,794 -52.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-026": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs | 1316 | 858 | 1794",
+  "value_ok": true,
+  "note": "Формат xlsx: колонки Dec. 31, 2021 | 2020 | 2019; единицы млн USD."
+ },
+ "x2-034": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 434 479 (9.4) 1,767 1,856 (4.8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-037": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 448 399 12.3 1,749 1,651 5.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-041": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 415 431 (3.7) 1,779 1,821 (2.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-043": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 431 452 (4.6) 1,821 1,760 3.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-047": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 452 414 9.2 1,760 1,744 0.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-050": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 386 247 1,115 965",
+  "value_ok": true,
+  "note": "Таблица GAAP 'reflects UAL standalone results for periods prior to merger close': 1,115 (12M 2010) и 965 (12M 2009); в заголовке стоят 'Actual', годы выведены из контекста релиза. Вывод value (UAL с Continental с 01.10.2010) в проверенном фрагменте не подтверждался дословно, но заголовок таблицы это подтверждает."
+ },
+ "x2-051": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 386 380 1.6 % 1,496 1,540 (2.9 %)",
+  "value_ok": true,
+  "note": "Pro forma таблица: 2010 = 1,496; 2009 = 1,540, процентное изменение 1.6 % и (2.9 %) в источнике."
+ },
+ "x2-057": {
+  "status": "found",
+  "found_text": "Aircraft maintenance | 229 | 121 | 89 % | 620 | 488 | 27 %",
+  "value_ok": true,
+  "note": "Релиз за 4 кв./год 2024: колонки Twelve Months 2024 | 2023 (620 | 488). Утверждение 'с Hawaiian с 18.09.2024' в этом фрагменте не проверялось."
+ },
+ "x2-059": {
+  "status": "unreachable",
+  "found_text": "Aircraft maintenance 214 229 (7)% 912 620 47%",
+  "value_ok": true,
+  "note": "Адрес из trace не открылся (WebFetch: URL not in provenance set). Те же числа найдены в перепечатке пресс-релиза: https://finviz.com/news/284702/alaska-air-group-reports-fourth-quarter-and-full-year-2025-results : 'Aircraft maintenance 214 229 (7)% 912 620 47%' (колонки 2025 | 2024). Офиц. страница news.alaskaair.com/releases/... таблиц не содержит (они в PDF)."
+ },
+ "x2-062": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 93 92 1 % 424 364 16 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-065": {
+  "status": "found",
+  "found_text": "Aircraft maintenance | 321 | 437 | 435",
+  "value_ok": true,
+  "note": "xlsx: Dec. 31, 2020 | 2019 | 2018 -> 321 | 437 | 435. Четвёртая колонка в заголовке пустая (артефакт)."
+ },
+ "x2-067": {
+  "status": "found",
+  "found_text": "Aircraft maintenance | 96 | 115 | -17 | % | 437 | 435 | — | %",
+  "value_ok": true,
+  "note": "Релиз за 4 кв./год 2019: 12M 2019 = 437; 12M 2018 = 435."
+ },
+ "x2-072": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 120 73 64 % 391 270 45 %",
+  "value_ok": true,
+  "note": "Релиз за 2017: 12M 2017 = 391; 12M 2016 = 270. Утверждение про Virgin America с 14.12.2016 не проверялось."
+ },
+ "x2-075": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 71 63 13% 253 229 10%",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-080": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 60 61 (2)% 247 222 11%",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-082": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 50.4 54.1 216.5 223.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-084": {
+  "status": "found",
+  "found_text": "Aircraft maintenance 53.3 50.4 5.8 % 205.6 216.5 (5.0) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-089": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 306 | 307 | (0.3) | 1,227 | 1,353 | (9.3)",
+  "value_ok": true,
+  "note": "Релиз за 4 кв./год 2025: 2025 = 1,227; 2024 = 1,353."
+ },
+ "x2-092": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 351 | 228 | 53.9 | 1,188 | 852 | 39.4",
+  "value_ok": true,
+  "note": "URL содержит двойной слэш (sec.gov//Archives), но открывается."
+ },
+ "x2-095": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 208 | 153 | 35.9 | 854 | 750 | 13.9",
+  "value_ok": true,
+  "note": "Заголовок источника 'Condensed Consolidated Statement of Income (Loss)'."
+ },
+ "x2-098": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 307 | 292 | 5.1 | 1,223 | 1,107 | 10.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-101": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 243 | 244 | -0.4 | 1,001 | 1,045 | -4.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-104": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 276 244 13.1 1,005 978 2.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-108": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 238 270 (11.9) 1,080 1,132 (4.6)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-114": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 239 195 22.6 955 751 27.2",
+  "value_ok": true,
+  "note": "Утверждение 'AirTran со 02.05.2011' в этом фрагменте не проверялось."
+ },
+ "x2-117": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 195 162 20.4 751 719 4.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-120": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 193 185 4.1 791 628 26.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-123": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 142 98 44.3 654 591 10.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-126": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 153 97 58.0 626 441 42.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-128": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 97 137 (29.4) 441 619 (28.8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-131": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 128 155 (17.6) 625 622 0.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-133": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 136 119 14.3 563 490 14.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-136": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 113 98 15.1 418 432 (3.4)",
+  "value_ok": true,
+  "note": "Единицы млн USD."
+ },
+ "x2-140": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 62 48 29.7 227 172 32.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-144": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 80 62 27.3 338 227 48.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-156": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs 247,816 202,308 943,779 712,642",
+  "value_ok": true,
+  "note": "Единицы - тысячи USD; обе годовые цифры совпали."
+ },
+ "x2-158": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 202,308 | 190,271 | 712,642 | 673,453",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-161": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 137,679 | 213,302 | 644,157 | 817,803",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-164": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs 187,335 137,741 618,989 514,313",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-166": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 137,741 | 132,594 | 514,313 | 556,259",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-169": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs 145,996 144,584 579,463 569,306",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-171": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 144,584 | 142,891 | 569,306 | 604,863",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-174": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 170,875 | 149,259 | 686,381 | 659,869",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-177": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs 142,891 172,868 604,863 682,773",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-180": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs 183,591 148,482 712,926 487,466",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-183": {
+  "status": "found",
+  "found_text": "Aircraft maintenance, materials and repairs | 108,435 | 100,991 | 436,039 | 381,653",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-186": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 244296 | 236153 | 170048",
+  "value_ok": true,
+  "note": "xlsx Hawaiian Holdings (CIK 1172222), тыс. USD. Колонки Dec. 31, 2023 | 2022 | 2021."
+ },
+ "x2-187": {
+  "status": "found",
+  "found_text": "Engine overhaul costs covered by power-by-the-hour arrangements are paid and expensed as incurred",
+  "value_ok": true,
+  "note": "Предложение продолжается: under certain arrangements expensed on a straight-line basis based on hours flown; цитата в trace — его начало. Сумма не раскрыта, как отмечено."
+ },
+ "x2-193": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 121571 | 249772 | 239759",
+  "value_ok": true,
+  "note": "xlsx: Dec. 31, 2020 | 2019 | 2018."
+ },
+ "x2-196": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 58,187 | 62,069 | (6.3)% | 219,553 | 228,970 | (4.1)%",
+  "value_ok": true,
+  "note": "В колонках 2016 стоит пометка (a): ранний переход на ASU 2017-07 (перенос $20.3 млн за 12M из wages and benefits в other components of net periodic benefit cost); по сноске строка Maintenance не менялась. Значение 228,970 для 2016 - как в источнике."
+ },
+ "x2-201": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 57,617 43,387 32.8 % 225,619 203,387 10.9 %",
+  "value_ok": true,
+  "note": "Релиз за 2014: 12M 2014 = 225,619; 12M 2013 = 203,387."
+ },
+ "x2-203": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs 47,440 28,405 169,851 123,975",
+  "value_ok": true,
+  "note": "В заголовке 2011 помечен unaudited, 2010 audited; цифры совпали."
+ },
+ "x2-205": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 28,405 | 33,998 | 123,975 | 128,089",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-209": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 46,281 | 47,440 | (2.4 | )% | 183,552 | 169,851 | 8.1 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-212": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs | 224648 | 225619 | 203387",
+  "value_ok": true,
+  "note": "xlsx: Dec. 31, 2015 | 2014 | 2013 -> 224648 | 225619 | 203387; 2014 и 2013 совпадают с релизом x2-201."
+ },
+ "x2-217": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 528 626 (98) (16) % 2,432 2,616 (184) (7) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-220": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 572 508 64 13 % 2,432 1,982 450 23 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-223": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 386 417 (31) (7)% 1,401 1,751 (350) (20)%",
+  "value_ok": true,
+  "note": "Релиз за 2021: сравнение с 2019 (колонка 2020 отсутствует): 12M 2021 = 1,401; 12M 2019 = 1,751 - как в value."
+ },
+ "x2-225": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 204 417 (213) (51)% 822 1,751 (929) (53)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-228": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 626 572 54 9 % 2,616 2,432 184 8 %",
+  "value_ok": true,
+  "note": "Релиз за 2024: 2024 = 2,616; 2023 = 2,432; совпадает с x2-217/x2-220."
+ },
+ "x2-232": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs | 497 | 466 | 31 | 7 % | 1,992 | 1,823 | 169 | 9 %",
+  "value_ok": true,
+  "note": "Релиз за 2017 (до пересчёта 2018): 2017 = 1,992; 2016 = 1,823."
+ },
+ "x2-234": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 418 474 (56) (12)% 1,848 1,828 20 1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-237": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 341 377 (36) (10)% 1,575 1,591 (16) (1)%",
+  "value_ok": true,
+  "note": "Релиз за 2018: 2018 = 1,575; 2017 (recast) = 1,591."
+ },
+ "x2-238": {
+  "status": "found",
+  "found_text": "Note: The prior periods presented here have been recast to reflect adoption of certain new accounting standards.",
+  "value_ok": true,
+  "note": "Примечание 'The prior periods presented here have been recast to reflect adoption of certain new accounting standards' найдено. Числа 1992 -> 1591 подтверждены x2-232 и x2-237. Однако причина 'вероятно ASC 606 - затраты на стороннее ТО перенесены' - предположение, в примечании названы только 'certain new accounting standards'."
+ },
+ "x2-243": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 474 415 59 14% 1,828 1,852 (24) (1)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-245": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 1,765 1,569 196 12%",
+  "value_ok": true,
+  "note": "Релиз за 2011: годовая таблица 2011 = 1,765; 2010 = 1,569."
+ },
+ "x2-247": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 1,434 1,169 265 23%",
+  "value_ok": true,
+  "note": "Годовая таблица: 2009 = 1,434; 2008(1) = 1,169 (сноска (1) про Northwest не читалась)."
+ },
+ "x2-249": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs | 353 | 367 | (14) | (4)% | 1,955 | 1,765 | 190 | 11 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-257": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 875 | 735 | 19.1 | 3,265 | 2,684 | 21.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-259": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 596 | 331 | 79.5 | 1,979 | 1,585 | 24.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-261": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 635 | 550 | 15.3 | 2,380 | 2,050 | 16.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-263": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 968 971 (0.3) 3,844 3,794 1.3",
+  "value_ok": true,
+  "note": "Релиз за 2025: 12M 2025 = 3,844; 2024 = 3,794."
+ },
+ "x2-267": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 484 | 482 | 0.5 | 1,959 | 1,834 | 6.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "x2-269": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 437 523 (16.3) 1,889 2,051 (7.9)",
+  "value_ok": true,
+  "note": "Релиз за 2015: 2015 = 1,889; 2014 = 2,051."
+ },
+ "x2-274": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs | 328 | 290 | 13.2 | 1,260 | 1,158 | 8.8",
+  "value_ok": true,
+  "note": "Сноска (B): 'Reclassifications between various operating expense line items to conform the presentation of regional airline expenses.' Прошлые периоды (2012 = 1,158) реклассифицированы; 2013 = 1,260."
+ },
+ "x2-277": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 1,280 1,237 3.5",
+  "value_ok": true,
+  "note": "Годовая таблица AMR: 2009 = 1,280; 2008 = 1,237."
+ },
+ "x2-281": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 1,329 1,280 3.8",
+  "value_ok": true,
+  "note": "2010 = 1,329; 2009 = 1,280, изменение 3.8."
+ },
+ "x2-283": {
+  "status": "found",
+  "found_text": "Maintenance, materials and repairs 1,400 1,284 9.1",
+  "value_ok": true,
+  "note": "2012 = 1,400; 2011 = 1,284, изменение 9.1."
+ }
+}
