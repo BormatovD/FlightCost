@@ -1051,7 +1051,8 @@
   "Свой тип — кнопка «✎ свой» у строки: копия со всеми характеристиками и расходом, вы меняете кресла, массы и ставки; сохраняется в рабочем месте и сразу встаёт в сравнение. Ваши сохранённые типы находятся в поиске выше.": "Eigener Typ — Schaltfläche „✎ eigener“ in der Zeile: eine Kopie mit allen Kennwerten und dem Verbrauch; Sie ändern Sitze, Massen und Sätze; sie wird im Arbeitsbereich gespeichert und kommt sofort in den Vergleich. Ihre gespeicherten Typen finden Sie über die Suche oben.",
   "свой": "eigener",
   "свой тип": "eigener Typ",
-  "создать свой тип на основе этого и добавить в сравнение": "eigenen Typ auf dieser Basis anlegen und zum Vergleich hinzufügen"
+  "создать свой тип на основе этого и добавить в сравнение": "eigenen Typ auf dieser Basis anlegen und zum Vergleich hinzufügen",
+  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "Eine Airline-Simulation auf denselben Daten; ihre Einnahmen finanzieren das quelloffene FlightCost"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -2105,6 +2106,7 @@
   "Свой тип — кнопка «✎ свой» у строки: копия со всеми характеристиками и расходом, вы меняете кресла, массы и ставки; сохраняется в рабочем месте и сразу встаёт в сравнение. Ваши сохранённые типы находятся в поиске выше.": "Own type — the “✎ own” button on a row: a copy with all characteristics and fuel burn; you change seats, masses and rates; it is saved in your workspace and joins the comparison at once. Your saved types are found by the search above.",
   "свой": "own",
   "свой тип": "own type",
-  "создать свой тип на основе этого и добавить в сравнение": "create your own type based on this one and add it to the comparison"
+  "создать свой тип на основе этого и добавить в сравнение": "create your own type based on this one and add it to the comparison",
+  "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "An airline tycoon game on the same data; its revenue keeps the open-source FlightCost running"
  }
 }
