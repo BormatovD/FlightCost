@@ -1,0 +1,87 @@
+# Переводы строк из данных исследования (out/n1–n4.json, gaps) для report.en.html и report.de.html.
+# Ключ — русская строка как в данных; сборщик печатает строки без перевода.
+
+"IndiGo — цифра налёта в открытых материалах не найдена":
+  en: "IndiGo — no utilisation figure found in public materials"
+  de: "IndiGo — keine Auslastungszahl in öffentlichen Unterlagen gefunden"
+"Air Arabia, flydubai — нет цифр (только «лидер по налёту A320»)":
+  en: "Air Arabia, flydubai — no figures (only “A320 utilisation leader”)"
+  de: "Air Arabia, flydubai — keine Zahlen (nur „Spitzenreiter bei der A320-Auslastung“)"
+"Cebu Pacific, AirAsia Malaysia — нет цифр в доступных ops stats":
+  en: "Cebu Pacific, AirAsia Malaysia — no figures in the available operating statistics"
+  de: "Cebu Pacific, AirAsia Malaysia — keine Zahlen in den verfügbaren Betriebsstatistiken"
+"Emirates/Qatar/SIA не публикуют налёт в отчётах; Emirates — только IBA (вторично)":
+  en: "Emirates/Qatar/SIA do not publish utilisation in their reports; Emirates — only via IBA (secondary)"
+  de: "Emirates/Qatar/SIA veröffentlichen keine Auslastung in ihren Berichten; Emirates — nur über IBA (sekundär)"
+"Southwest 10-K 2024 и Spirit 10-K 2024 — таблица налёта не попала в доступный текст; для Southwest только Form 41 2019":
+  en: "Southwest 10-K 2024 and Spirit 10-K 2024 — the utilisation table was not in the accessible text; for Southwest only Form 41 2019"
+  de: "Southwest 10-K 2024 und Spirit 10-K 2024 — die Auslastungstabelle fehlte im zugänglichen Text; für Southwest nur Form 41 2019"
+"easyJet группа, Jet2 группа — только UK-AOC через CAA":
+  en: "easyJet group, Jet2 group — only the UK AOC via the CAA"
+  de: "easyJet-Gruppe, Jet2-Gruppe — nur das britische AOC über die CAA"
+"Ryanair — летний налёт группы не публикуется; прокси Ryanair UK":
+  en: "Ryanair — the group's summer utilisation is not published; Ryanair UK as a proxy"
+  de: "Ryanair — die Sommerauslastung der Gruppe wird nicht veröffentlicht; Ryanair UK als Näherung"
+"первичный текст Belobaba/Doganis/Holloway":
+  en: "primary text of Belobaba/Doganis/Holloway"
+  de: "Primärtext von Belobaba/Doganis/Holloway"
+"свежий (после 2001) первоисточник Ryanair с 25 мин":
+  en: "a recent (post-2001) primary Ryanair source for the 25-minute turnaround"
+  de: "eine aktuelle (nach 2001) Ryanair-Primärquelle für den 25-Minuten-Turnaround"
+"Boeing/Airbus airport planning — графики оборота не извлекаются":
+  en: "Boeing/Airbus airport planning — turnaround charts cannot be extracted"
+  de: "Boeing/Airbus Airport Planning — Turnaround-Diagramme lassen sich nicht auslesen"
+"EUROCONTROL Standard Inputs напрямую (редирект вне allowlist) — цифры только через HAW":
+  en: "EUROCONTROL Standard Inputs directly (redirect outside the allowlist) — figures only via HAW"
+  de: "EUROCONTROL Standard Inputs direkt (Weiterleitung außerhalb der Allowlist) — Zahlen nur über die HAW"
+"BER ночной режим":
+  en: "BER night regime"
+  de: "Nachtregelung BER"
+"W-ротация с цифрами; оборот ATR":
+  en: "W rotation with figures; ATR turnaround"
+  de: "W-Rotation mit Zahlen; ATR-Turnaround"
+"доля резерва, A-check ночью, сезонный размах — у n3":
+  en: "reserve share, overnight A-check, seasonal swing — covered by n3"
+  de: "Reserveanteil, A-Check über Nacht, saisonale Schwankung — in n3"
+"Прямые 'crews per aircraft' Ryanair/Wizz/easyJet не найдены в открытых отчётах":
+  en: "Direct “crews per aircraft” for Ryanair/Wizz/easyJet not found in public reports"
+  de: "Direkte Angaben „Crews pro Flugzeug“ für Ryanair/Wizz/easyJet in öffentlichen Berichten nicht gefunden"
+"Стоимость минуты задержки (EUROCONTROL Standard Inputs) — домен недоступен":
+  en: "Cost of a minute of delay (EUROCONTROL Standard Inputs) — domain unreachable"
+  de: "Kosten einer Verspätungsminute (EUROCONTROL Standard Inputs) — Domain nicht erreichbar"
+"OTP Ryanair из первоисточника не найден":
+  en: "Ryanair OTP from a primary source not found"
+  de: "Ryanair-Pünktlichkeit aus einer Primärquelle nicht gefunden"
+"MPD 737 MAX / A320neo с текущими интервалами не проверены":
+  en: "737 MAX / A320neo MPDs with current intervals not checked"
+  de: "MPD 737 MAX / A320neo mit aktuellen Intervallen nicht geprüft"
+"Количественные данные о ночёвках вне базы не найдены":
+  en: "No quantitative data on night-stops away from base found"
+  de: "Keine quantitativen Daten zu Übernachtungen außerhalb der Basis gefunden"
+"Нет публичного числового порога «своя станция против подрядчика» (по вылетам/ночёвкам) — только пример AA и качественные тексты.":
+  en: "No public numerical threshold for “own station vs contractor” (by departures/night-stops) — only the AA example and qualitative texts."
+  de: "Keine öffentliche Zahlenschwelle „eigene Station oder Dienstleister“ (nach Abflügen/Übernachtungen) — nur das AA-Beispiel und qualitative Texte."
+"Нет стоимости часа/суток AOG от первоисточника (IATA/OEM).":
+  en: "No primary-source (IATA/OEM) cost of an AOG hour or day."
+  de: "Keine Kosten je AOG-Stunde/-Tag aus einer Primärquelle (IATA/OEM)."
+"Ставки PBH ($/EFH) и TCS ($/FH) публично не раскрываются.":
+  en: "PBH ($/EFH) and TCS ($/FH) rates are not publicly disclosed."
+  de: "PBH- ($/EFH) und TCS-Sätze ($/FH) werden nicht öffentlich genannt."
+"Нет первоисточника с составом recommended on-board spares / fly-away kit для A320/737.":
+  en: "No primary source for the contents of recommended on-board spares / a fly-away kit for the A320/737."
+  de: "Keine Primärquelle zum Inhalt von Recommended On-board Spares / Fly-away-Kit für A320/737."
+"Текущие интервалы A-check в MPD A320neo/737 MAX не подтверждены первоисточником.":
+  en: "Current A-check intervals in the A320neo/737 MAX MPDs not confirmed by a primary source."
+  de: "Aktuelle A-Check-Intervalle im MPD A320neo/737 MAX nicht durch eine Primärquelle bestätigt."
+"Нормативная цитата о программе надёжности (EASA M.A.302/AMC) не получена — страницы закрыты или не читаются.":
+  en: "Regulatory quote on the reliability programme (EASA M.A.302/AMC) not obtained — pages closed or unreadable."
+  de: "Regulatorisches Zitat zum Zuverlässigkeitsprogramm (EASA M.A.302/AMC) nicht erhalten — Seiten geschlossen oder nicht lesbar."
+"Доли аутсорса и линейного ТО в публичной части IATA MCX нет.":
+  en: "The shares of outsourcing and line maintenance are not in the public part of IATA MCX."
+  de: "Anteile von Outsourcing und Linienwartung fehlen im öffentlichen Teil von IATA MCX."
+"По Аэрофлоту нет свежих публичных данных о резерве ВС, отложенных дефектах, регулярности по техпричинам и простоях из-за запчастей.":
+  en: "No recent public Aeroflot data on reserve aircraft, deferred defects, technical dispatch reliability or downtime due to spare parts."
+  de: "Keine aktuellen öffentlichen Aeroflot-Daten zu Reserveflugzeugen, zurückgestellten Mängeln, technischer Abflugzuverlässigkeit und Stillstand wegen Ersatzteilen."
+"GE TrueChoice не проверен (адрес вне разрешённого списка).":
+  en: "GE TrueChoice not checked (address outside the allowlist)."
+  de: "GE TrueChoice nicht geprüft (Adresse außerhalb der Allowlist)."
