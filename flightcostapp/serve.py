@@ -146,7 +146,17 @@ def result_json(res) -> dict:
 class _Handler(BaseHTTPRequestHandler):
     server_version = "fca"
 
+    @staticmethod
+    def _icons(body: bytes, ctype: str) -> bytes:
+        """Значок в каждую страницу: витрина, данные, карта, отчёт и Impressum
+        собираются разными путями, и у части из них значка не было — Safari
+        тогда ставил букву «F»."""
+        if ctype.startswith("text/html") and b'rel="icon"' not in body and b"</head>" in body:
+            body = body.replace(b"</head>", seo.ICON_LINKS.encode() + b"</head>", 1)
+        return body
+
     def _send(self, code: int, body: bytes, ctype: str) -> None:
+        body = self._icons(body, ctype)
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
@@ -168,6 +178,7 @@ class _Handler(BaseHTTPRequestHandler):
 
     def _public(self, body: bytes, ctype: str, code: int = 200) -> None:
         """Страница для поисковика: кэш на час вместо no-store."""
+        body = self._icons(body, ctype)
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
@@ -211,11 +222,17 @@ class _Handler(BaseHTTPRequestHandler):
             else:
                 self._public(seo.llms(types).encode(), "text/plain; charset=utf-8")
             return True
-        if u.path in ("/og.png", "/favicon.svg"):
-            f = WEB / u.path.lstrip("/")
+        # Значок — в трёх видах: SVG понимают Chrome и Firefox, Safari его не
+        # берёт и спрашивает /favicon.ico или PNG; iOS на главный экран —
+        # apple-touch-icon. Без ICO вкладка Safari показывала букву «F».
+        ICONS = {"/og.png": "image/png", "/favicon.svg": "image/svg+xml",
+                 "/favicon.ico": "image/x-icon", "/favicon-32.png": "image/png",
+                 "/apple-touch-icon.png": "image/png", "/apple-touch-icon-precomposed.png": "image/png"}
+        if u.path in ICONS:
+            f = WEB / u.path.lstrip("/").replace("-precomposed", "")
             if not f.is_file():
                 return False
-            self._public(f.read_bytes(), "image/png" if u.path.endswith(".png") else "image/svg+xml")
+            self._public(f.read_bytes(), ICONS[u.path])
             return True
         if u.path in ("/about", "/types", "/calc"):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)

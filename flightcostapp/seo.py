@@ -171,6 +171,7 @@ T = {
                "concept": "концепт"},
         "crumb_home": "FlightCost",
         "foot_open": "Открытый код (Apache 2.0)",
+        "foot_game": "Устали считать? SkyBoss — симулятор авиакомпании", "foot_game_t": "Игра на тех же данных; её доход поддерживает открытый FlightCost",
         "noscript": ("Для расчёта нужен JavaScript. О сервисе и справочник типов ВС доступны без него:"),
     },
     "en": {
@@ -291,6 +292,7 @@ T = {
                "concept": "concept"},
         "crumb_home": "FlightCost",
         "foot_open": "Open source (Apache 2.0)",
+        "foot_game": "Tired of spreadsheets? SkyBoss — an airline tycoon game", "foot_game_t": "A game on the same data; its revenue keeps the open-source FlightCost running",
         "noscript": "The calculator needs JavaScript. These pages work without it:",
     },
     "de": {
@@ -411,6 +413,7 @@ T = {
                "concept": "Konzept"},
         "crumb_home": "FlightCost",
         "foot_open": "Open Source (Apache 2.0)",
+        "foot_game": "Genug gerechnet? SkyBoss — eine Airline-Simulation", "foot_game_t": "Ein Spiel auf denselben Daten; seine Einnahmen finanzieren das quelloffene FlightCost",
         "noscript": "Der Rechner braucht JavaScript. Diese Seiten funktionieren ohne:",
     },
 }
@@ -480,12 +483,24 @@ def head(lang: str, title: str, desc: str, canonical: str, alts: list[tuple[str,
         f'<meta property="og:image" content="{site()}/og.png">',
         '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
         '<meta name="twitter:card" content="summary_large_image">',
-        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+        ICON_LINKS,
     ]
     for d in ld or []:
         parts.append('<script type="application/ld+json">'
                      + json.dumps(d, ensure_ascii=False).replace("</", "<\\/") + "</script>")
     return "\n".join(parts)
+
+
+# Значок — одной строкой на все страницы (сервер подставляет её и в те,
+# что собраны не здесь: данные, карта, отчёт, Impressum). `?v=` — сброс
+# кэша значков Safari: он запоминает и «значка нет» и не спрашивает снова,
+# сколько ни чистить историю; новый адрес он запрашивает заново. SVG —
+# первым, PNG и ICO — после: Safari берёт PNG, Chrome — SVG.
+ICON_V = "3"
+ICON_LINKS = (f'<link rel="icon" href="/favicon.svg?v={ICON_V}" type="image/svg+xml">'
+              f'<link rel="icon" href="/favicon-32.png?v={ICON_V}" type="image/png" sizes="32x32">'
+              f'<link rel="icon" href="/favicon.ico?v={ICON_V}" sizes="16x16 32x32 48x48">'
+              f'<link rel="apple-touch-icon" href="/apple-touch-icon.png?v={ICON_V}">')
 
 
 def app_ld(lang: str) -> dict:
@@ -532,6 +547,8 @@ td.s{font-size:12px;color:var(--dim)}td.s a{color:var(--dim)}
 .chips a:hover{border-color:var(--accent)}
 footer{border-top:1px solid var(--line);padding:16px 22px;font-size:12.5px;color:var(--dim)}
 footer a{color:var(--dim);margin-right:14px}
+footer a.game{float:right;margin-right:0}footer a.game:hover{color:var(--ink)}
+@media(max-width:640px){footer a.game{float:none;display:block;margin-top:8px}}
 details{margin:6px 0;border-bottom:1px solid var(--line2);padding:6px 0}summary{cursor:pointer;color:var(--ink2)}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
 .kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel)}
@@ -594,6 +611,11 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
     return out
 
 
+# Игра SkyBoss — на поддомене; ссылка ненавязчивая, в подвале: доход игры
+# оплачивает поддержку открытого приложения (решение 232).
+GAME_URL = "https://play.flightcost.app/"
+
+
 def shell(lang: str, path_tail: str, head_html: str, body: str, on: str = "") -> str:
     t = T[lang]
     return f"""<!doctype html>
@@ -605,7 +627,7 @@ def shell(lang: str, path_tail: str, head_html: str, body: str, on: str = "") ->
 {site_header(lang, on, path_tail)}
 <main>{body}</main>
 <footer><a href="{REPO}">GitHub — {esc(t["foot_open"])}</a><a href="/impressum">Impressum</a>
-<a href="/datenschutz">Datenschutz</a></footer>
+<a href="/datenschutz">Datenschutz</a><a class="game" href="{GAME_URL}" title="{esc(t["foot_game_t"])}">{esc(t["foot_game"])} ↗</a></footer>
 </body></html>"""
 
 
