@@ -4,6 +4,37 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: network-2026-10
+    date: 2026-10-30
+    #draft: true                    # большая статья, переведена; ждёт решения владельца о публикации
+    report: network-2026-10/report.html
+    calc: planned
+    calc_note:
+      ru: "Сейчас калькулятор берёт налёт 300 ч в месяц для любой сети; налёт по типу сети и экипажи от годовых часов — в очереди."
+      en: "The calculator currently assumes 300 h a month for any network; utilisation by network type and crews from annual hours are queued."
+      de: "Der Rechner nimmt derzeit 300 h im Monat für jedes Netz an; Auslastung nach Netztyp und Crews aus Jahresstunden folgen."
+    lang: ru
+    title:
+      ru: "Как построить сеть, чтобы самолёт летал больше"
+      en: "How to build a network so the aircraft flies more"
+      de: "Wie man ein Netz baut, damit das Flugzeug mehr fliegt"
+    lede:
+      ru: >-
+        Сколько на самом деле летают самолёты у «Победы», «Аэрофлота», Ryanair, Wizz, Volaris и других, почему пиковый день
+        — не средний год, как базы, длина плеча, оборот и экипажи решают, сколько часов выжмет самолёт, и как ТО, контракты,
+        станции и запчасти не дают ему стоять на земле.
+      en: >-
+        How much aircraft really fly at Pobeda, Aeroflot, Ryanair, Wizz, Volaris and others, why a peak day is not an
+        average year, how bases, sector length, turnaround and crews decide the hours, and how maintenance, contracts,
+        stations and spare parts keep the aircraft from sitting on the ground.
+      de: >-
+        Wie viel Flugzeuge bei Pobeda, Aeroflot, Ryanair, Wizz, Volaris und anderen wirklich fliegen, warum ein Spitzentag
+        kein Jahresmittel ist, wie Basen, Streckenlänge, Turnaround und Crews die Stunden bestimmen und wie Wartung,
+        Verträge, Stationen und Ersatzteile das Flugzeug vor dem Stillstand bewahren.
+    tags:
+      ru: [сеть, налёт, расписание, экипажи, ТОиР]
+      en: [network, utilisation, schedule, crews, maintenance]
+      de: [Netz, Auslastung, Flugplan, Crews, Wartung]
   - slug: fuel-2026-10
     date: 2026-10-30
     report: fuel-2026-10/report.html

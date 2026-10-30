@@ -1,0 +1,438 @@
+{
+ "n2-003": {
+  "status": "found",
+  "found_text": "We ensure that our turnarounds are quick (just 25 minutes) which means that we operate more flights (with more low fares) per aircraft, per day.",
+  "value_ok": true,
+  "note": "Источник 2001 г.; для текущего оборота Ryanair не первоисточник."
+ },
+ "n2-006": {
+  "status": "found",
+  "found_text": "... sechsstündiges Verbot von Flügen zwischen 23.00 und 05.00 Uhr ...",
+  "value_ok": true,
+  "note": "WebFetch вернул фрагмент без слова 'grundsätzliches' (обрезка по длине), ядро совпадает."
+ },
+ "n2-007": {
+  "status": "found",
+  "found_text": "bis zu 133 planmäßige Flugbewegungen in der Zeit zwischen 22.00 Uhr und 6.00 Uhr pro Nacht (im Jahresdurchschnitt)",
+  "value_ok": true,
+  "note": "'в среднем за ночь' подтверждается словами 'im Jahresdurchschnitt' в том же предложении."
+ },
+ "n2-010": {
+  "status": "found",
+  "found_text": "A curfew applies between 11pm and 6am at Sydney, Adelaide, Gold Coast and Essendon Fields Airports.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-020": {
+  "status": "found",
+  "found_text": "aircraft can be scheduled to minimize the amount of time they are on the ground.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-021": {
+  "status": "found",
+  "found_text": "Southwest now offers over 50 peak-day redeye flights during peak periods",
+  "value_ok": true,
+  "note": "Само утверждение о >50 red-eye верно; трактовка 'как способ поднять налёт' — интерпретация собирателя, в цитате её нет."
+ },
+ "n2-024": {
+  "status": "found",
+  "found_text": "The more restrictive period (23:30 - 06:00) is known as the Night Quota Period (NQP)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-025": {
+  "status": "found",
+  "found_text": "Heathrow is currently limited to 5,800 night flights a year: 3,250 in the summer season and 2,550 in the winter season;",
+  "value_ok": true,
+  "note": "В источнике 'night flights' (в NQP), а не все ночные движения 23:00–07:00."
+ },
+ "n2-026": {
+  "status": "found",
+  "found_text": "We also do not schedule any departures between 23:00 - 06:00. ... At Heathrow we do not currently have any scheduled departures between 22:40 - 06:00",
+  "value_ok": true,
+  "note": "Обе формулировки на странице есть; фактически действующее окно без вылетов — 22:40–06:00."
+ },
+ "n2-029": {
+  "status": "found",
+  "found_text": "Der reguläre Flugverkehr am Flughafen Zürich findet zwischen 06:00 und 23:30 Uhr statt.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-030": {
+  "status": "found",
+  "found_text": "Dabei gelten klare Einschränkungen: Starts dürfen bis 22:45 Uhr und Landungen bis 22:55 Uhr geplant werden.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-033": {
+  "status": "found",
+  "found_text": "Next year, the Amsterdam airport can allow 27,000 overnight flight movements, compared to 32,000 now",
+  "value_ok": true,
+  "note": "Это решение/план правительства (2024), не действующий факт; СМИ, не первоисточник."
+ },
+ "n2-034": {
+  "status": "found",
+  "found_text": "The government is also banning the loudest planes from using the airport overnight, between 11 p.m. and 7 a.m.",
+  "value_ok": true,
+  "note": "23–07 — период запрета для самых шумных ВС, а не общий ночной запрет AMS."
+ },
+ "n2-037": {
+  "status": "found",
+  "found_text": "Pour préserver le sommeil des riverains, il est en outre soumis à un strict couvre-feu entre 23h30 et 06h00 du matin.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-038": {
+  "status": "found",
+  "found_text": "il a vu son nombre de décollages et atterrissages plafonné à 250.000 par an depuis 1994",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-042": {
+  "status": "found",
+  "found_text": "[Strahlflugzeuge ... Kapitel 3 Bonusliste] dürfen planmäßig zwischen 6 und 22 Uhr starten und zwischen 6 und 23 Uhr landen.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-043": {
+  "status": "found",
+  "found_text": "[Home-Base-Carrier] dürfen verspätet bis 24 Uhr und zwischen 5 und 6 Uhr landen",
+  "value_ok": true,
+  "note": "Мелкая неточность: 'verspätet' относится только к посадкам до 24:00; посадки 05–06 — отдельная привилегия базовых перевозчиков, не опоздавшие рейсы."
+ },
+ "n2-044": {
+  "status": "found",
+  "found_text": "Für den Zeitraum zwischen 22 bis 23 Uhr dürfen täglich 33 Landungen koordiniert werden.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-049": {
+  "status": "found",
+  "found_text": "In addition, banking could result in inefficient aircraft utilisation, with aircraft waiting at spoke cities for the next bank.",
+  "value_ok": true,
+  "note": "Википедия — третичный источник."
+ },
+ "n2-050": {
+  "status": "found",
+  "found_text": "While costs may decrease, connection times are longer at a rolling hub.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-053": {
+  "status": "found",
+  "found_text": "implied a potential cost improvement through increased equipment utilization, lower required staffing levels",
+  "value_ok": true,
+  "note": "Тезис MIT: де-пикинг American Airlines в Chicago O'Hare (апрель 2002); 'implied a potential' — ожидаемый, не измеренный эффект."
+ },
+ "n2-054": {
+  "status": "found",
+  "found_text": "Average connection times increased by 6 minutes, and the average number of connections per arriving flight decreased by 2.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-057": {
+  "status": "found",
+  "found_text": "keeping the aircraft on the ground until the next peak period reduces aircraft utilization (block hours per day)",
+  "value_ok": true,
+  "note": "Скобка '(block hours per day)' WebFetch не вернул отдельно; основная фраза совпадает."
+ },
+ "n2-058": {
+  "status": "found",
+  "found_text": "Hub networks require that flights arrive from spoke cities within a prescribed time range",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-059": {
+  "status": "found",
+  "found_text": "Fly even off-peak flights to maintain frequency share and to position aircraft for peak flights at other cities",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-062": {
+  "status": "found",
+  "found_text": "Aircraft utilization depends on two parameters.",
+  "value_ok": true,
+  "note": "Abstract, p.3."
+ },
+ "n2-063": {
+  "status": "found",
+  "found_text": "In this equation the parameter U1 represents the operating time and U2 represents the block time supplement per flight cycle.",
+  "value_ok": true,
+  "note": "p.14 (разд.1.4), номера уравнения рядом нет; Eq.(2.29) находится на p.34 ('This means that (2.28) can be rewritten as'), её смысл U = U1·t_f/(t_f+U2) подтверждается по описанию."
+ },
+ "n2-064": {
+  "status": "found",
+  "found_text": "Table 2.10 Values for operation time: AEA (1989a) 3750",
+  "value_ok": true,
+  "note": "p.30"
+ },
+ "n2-065": {
+  "status": "found",
+  "found_text": "Table 2.10 Values for operation time: AEA (1989b) 4800",
+  "value_ok": true,
+  "note": "p.30"
+ },
+ "n2-066": {
+  "status": "found",
+  "found_text": "Table 2.5 Values for block time supplement: AEA (1989a) 0.750",
+  "value_ok": true,
+  "note": "p.24"
+ },
+ "n2-067": {
+  "status": "found",
+  "found_text": "Table 2.5: AEA (1989b) 0.420 ... 'AEA (1989b) assumes a t_taxi of 5 minutes, a T_TA of 90 minutes, and a t_... of 20 minutes for long-haul flights.'",
+  "value_ok": true,
+  "note": "Противоречие 0,42 ч vs 90 мин оборота подтверждается — оно в самом источнике; собиратель отметил корректно."
+ },
+ "n2-068": {
+  "status": "found",
+  "found_text": "In addition, AEA (1989a) assumes a taxi time of 15 minutes for short- and medium-haul flights.",
+  "value_ok": true,
+  "note": "p.19"
+ },
+ "n2-069": {
+  "status": "found",
+  "found_text": "Table 2.2 (heavy): Mean scheduled turnaround time 80 86 87 88 92",
+  "value_ok": true,
+  "note": "p.20"
+ },
+ "n2-070": {
+  "status": "found",
+  "found_text": "Table 2.2 (heavy): Mean actual turnaround time 86 92 94 96 97",
+  "value_ok": true,
+  "note": "p.20"
+ },
+ "n2-071": {
+  "status": "found",
+  "found_text": "Table 2.3 (medium): Mean scheduled turnaround time 48 48 48 48 49",
+  "value_ok": true,
+  "note": "p.21. Пояснение 'A320/737 и т.п.' и 'среднее по всем перевозчикам ЕС' — интерпретация собирателя."
+ },
+ "n2-072": {
+  "status": "found",
+  "found_text": "Table 2.3 (medium): Mean actual turnaround time 53 54 54 55 55",
+  "value_ok": true,
+  "note": "p.21"
+ },
+ "n2-073": {
+  "status": "found",
+  "found_text": "2015 2016 2017 2018 2019",
+  "value_ok": true,
+  "note": "Заголовки столбцов Table 2.2/2.3."
+ },
+ "n2-074": {
+  "status": "found",
+  "found_text": "Table 2.4: A319 A320 B737-700 B737-800 / Turnaround time [min] 30 40 32 38",
+  "value_ok": true,
+  "note": "p.22. 'минимальный оборот' — интерпретация; в таблице просто 'Turnaround time'."
+ },
+ "n2-075": {
+  "status": "found",
+  "found_text": "as well as airport restrictions such as night curfew and any other situations that limit an aircraft's flight time.",
+  "value_ok": true,
+  "note": "p.25"
+ },
+ "n2-076": {
+  "status": "found",
+  "found_text": "the relative aircraft utilization has its maximum at a flight time of 8 hours per cycle and falls afterwards.",
+  "value_ok": true,
+  "note": "p.36, Eq.(2.30)"
+ },
+ "n2-077": {
+  "status": "found",
+  "found_text": "Based on the Thorbeck's DOC method, the annual forced downtime is 2748.8 hours.",
+  "value_ok": true,
+  "note": "p.32. 8760−2748,8 = 6011,2 ч — арифметика верна."
+ },
+ "n2-082": {
+  "status": "found",
+  "found_text": "Average Daily Block Hour Utilization of Total Widebody Fleet (Dual Aisle) ... Total All Sectors ... 2017: 12.00, 2018: 12.47, 2019: 13.02, 2020: 6.22",
+  "value_ok": true,
+  "note": "2019 — максимум ряда 1995–2020 (обычно 11,5–12,5); как типовое значение 13,0 завышено."
+ },
+ "n2-084": {
+  "status": "found",
+  "found_text": "Average Daily Block Hour Utilization of Total Large Narrowbody Fleet (Seat Size 150+, Single Aisle); 2019: --sub Network 10.72; --sub ULCC 11.17; jetBlue 12.51; Spirit 12.24; Southwest 10.66; Allegiant 8.08; Total All Sectors 10.80",
+  "value_ok": true,
+  "note": "Все числа совпадают. Southwest 2019 (10,66) — год простоя 737 MAX, ниже обычных 11,3–11,5."
+ },
+ "n2-087": {
+  "status": "found",
+  "found_text": "Welle 1 (6:10-7:45)",
+  "value_ok": true,
+  "note": "Слайд 17."
+ },
+ "n2-088": {
+  "status": "found",
+  "found_text": "Welle 6 (21:00-22:45)",
+  "value_ok": true,
+  "note": "Слайд 17; волны 1–6: 6:10-7:45, 8:00-09:45, 10:45-13:15, 15:30-17:45, 19:15-21:00, 21:00-22:45 — вывод '6 волн, окно 06:10–22:45' верен."
+ },
+ "n2-089": {
+  "status": "found",
+  "found_text": "Min. Umsteigezeit 40 min. (MCT)",
+  "value_ok": true,
+  "note": "Слайд 18; также слайд 11 'ZRH 40'."
+ },
+ "n2-090": {
+  "status": "found",
+  "found_text": "Departures 11 Intercont- and 39 EU-routes",
+  "value_ok": true,
+  "note": "Слайд 18. Что это именно 'полуденная' волна, из полученного текста не проверено."
+ },
+ "n2-091": {
+  "status": "found",
+  "found_text": "Time zones and curfews determine long haul schedules.",
+  "value_ok": true,
+  "note": "Слайд 19 (в trace '~20')."
+ },
+ "n2-092": {
+  "status": "found",
+  "found_text": "LX066 09:50-15:35 ... Schedule ZRH-MIA-ZRH in Winter 2017/18",
+  "value_ok": true,
+  "note": "Слайд 19. На том же слайде есть вторая пара LX064 13:15-19:00 / LX065 20:45-11:00 — в trace не упомянута."
+ },
+ "n2-093": {
+  "status": "found",
+  "found_text": "LX067 17:55-08:05",
+  "value_ok": true,
+  "note": "Слайд 19. См. n2-092 про LX064/LX065."
+ },
+ "n2-094": {
+  "status": "found",
+  "found_text": "Long-Haul in Zurich is possible only with connection demand.",
+  "value_ok": true,
+  "note": "Слайд 11."
+ },
+ "n2-096": {
+  "status": "found",
+  "found_text": "KLM at Amsterdam is one of the better examples with three principal waves (0800-1000 hours, 1200–1400 and 1800–2000).",
+  "value_ok": true,
+  "note": "Источник 1998 г.; к нынешней волновой структуре AMS не применять."
+ },
+ "n2-101": {
+  "status": "found",
+  "found_text": "This would avoid disruption to the vast majority of first wave flights which depart Dublin between 6am and 7am",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-104": {
+  "status": "found",
+  "found_text": "Other Data (Fiscal Year ended March 31): Average Daily Flight Hour Utilization (hours) 2025: 9.57 | 2024: 9.38 | 2023: 9.40 | 2022: 6.88 | 2021: 2.37",
+  "value_ok": true,
+  "note": "Таблица называется 'Other Data', не 'Selected operating data' — неточность локатора, не значения. FY25 = год до 31.03.2025."
+ },
+ "n2-105": {
+  "status": "found",
+  "found_text": "Average Sector Length (miles) 2025: 783 | 2024: 780",
+  "value_ok": true,
+  "note": "См. n2-104 про название таблицы."
+ },
+ "n2-106": {
+  "status": "found",
+  "found_text": "serving short-haul, point-to-point routes from 93 bases to airports across Europe and North Africa",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-107": {
+  "status": "found",
+  "found_text": "Ryanair has seasonally grounded aircraft. [следующее предложение определяет зиму как November to March (inclusive)]",
+  "value_ok": true,
+  "note": "Месяцы ноябрь–март — из соседнего предложения."
+ },
+ "n2-110": {
+  "status": "found",
+  "found_text": "This analysis assumes that an aircraft accumulates 170FH per month, or 2,000FH per year.",
+  "value_ok": true,
+  "note": "Это допущение анализа ТО, не измеренный налёт. 2000/365 = 5,48 ч/сутки — верно."
+ },
+ "n2-111": {
+  "status": "found",
+  "found_text": "Most are operated as regional feeders, flying sectors of 35-50 minutes in most cases.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-112": {
+  "status": "found",
+  "found_text": "This is equal to 2,400FC per year.",
+  "value_ok": true,
+  "note": "2400/365 = 6,58 рейса/сутки — верно. Тоже допущение анализа."
+ },
+ "n2-114": {
+  "status": "found",
+  "found_text": "Typical rates of annual utilisation are about 1,800FH and 1,900FC.",
+  "value_ok": true,
+  "note": "Врезка о парке ATR. 1800/365 = 4,93 ч/сутки — верно."
+ },
+ "n2-119": {
+  "status": "found",
+  "found_text": "This simultaneously maximizes the utilization per used aircraft because the flight time is divided by as few aircraft as possible.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-123": {
+  "status": "found",
+  "found_text": "Loss of first departure typically makes entire based aircraft unviable; aircraft and crew redeployed to other bases; all rotations by that aircraft lost.",
+  "value_ok": true,
+  "note": "Table 3.3, LCC – Base; WebFetch указывает p.19 (в trace p.18 — вероятно печатная vs PDF-нумерация)."
+ },
+ "n2-124": {
+  "status": "found",
+  "found_text": "Programme economics depend on achieving two full rotations per aircraft per day.",
+  "value_ok": true,
+  "note": "Table 3.3, Leisure / Charter, Indicative Rationale."
+ },
+ "n2-125": {
+  "status": "found",
+  "found_text": "Shorter operational day; aircraft productivity and utilisation fall.",
+  "value_ok": true,
+  "note": "Table 3.2, строка 'Rotation length / aircraft utilisation' (p.17 по WebFetch)."
+ },
+ "n2-126": {
+  "status": "found",
+  "found_text": "Early-morning arrivals maximise same-day O&D value and rotation efficiency.",
+  "value_ok": true,
+  "note": "Table 3.1, Long-Haul Point-to-Point, p.14."
+ },
+ "n2-127": {
+  "status": "found",
+  "found_text": "Loss of early or late slots breaks double-rotation patterns; aircraft redeployed; day capacity drops sharply.",
+  "value_ok": true,
+  "note": "Table 3.3, Leisure / Charter."
+ },
+ "n2-130": {
+  "status": "found",
+  "found_text": "Taxi time (in and out) is together about 20 minutes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n2-137": {
+  "status": "infer_wrong",
+  "note": "По тексту HAW (разд.2.1, перечень обозначений) Eq.(2.29) U = U1·t_f/(t_f+U2) записана во ВРЕМЕНИ ПОЛЁТА t_f, результат — годовые лётные часы; U2 = такси + оборот. В trace сказано, что формула 'записана в блок-часах, t_b — блок рейса' при t_s = такси+оборот: подставлять блок-время при U2, уже включающем такси, — двойной учёт такси. Нужно либо t_f с U2=такси+оборот (лётные ч), либо t_b с t_s=только оборот (блок-ч). Структура формулы и константы (Table 2.5/2.10) — верны."
+ },
+ "n2-138": {
+  "status": "infer_ok",
+  "note": "Вывод корректен: n рейсов укладываются, если n·t_b+(n−1)·TAT ≤ W ⇔ n ≤ (W+TAT)/(t_b+TAT); для челнока n — чётное. Оговорка по входу: DUS 'bis 24 Uhr' (n2-043) — допуск для ОПОЗДАВШИХ посадок базовых перевозчиков, плановые посадки — до 23:00 (n2-042); для W в расписании использовать 23:00, иначе окно завышено на 1 ч. Также TAT=25 мин (Ryanair 2001) против среднего планового 48–49 мин для medium по EUROCONTROL — оптимистичная граница."
+ },
+ "n2-139": {
+  "status": "infer_ok",
+  "note": "Пересчёт (W=18, TAT=25 мин): 1,0→(18,417/1,417=13,0)→13→12 рейсов→12 ч; 1,5→9,61→8→12; 2,0→7,62→6→12; 2,5→6,31→6→15; 3,0→5,39→4→12; 3,5→4,70→4→14; 4,0→4,17→4→16. W=19: 1,5→10,13→10→15; 2,0→8,03→8→16; 4,0→4,40→4→16. Все числа верны. Для 1,0 ч частное ровно 13,0 — на границе, чувствительно к округлению. Ошибка в note: '16 ч достижимо только при W≥19 ч' противоречит собственной строке W=18, плечо 4,0 ч → 16 ч (4·4+3·25мин = 17,25 ч ≤ 18)."
+ },
+ "n2-140": {
+  "status": "infer_ok",
+  "note": "Числа совпадают с источниками: Ryanair FY25 9,57 лётных ч/сутки (20-F), US sub-ULCC 2019 11,17 ≈ 11,2 блок-ч. Сравнение корректно оговаривает разницу лётных/блок-часов."
+ },
+ "n2-141": {
+  "status": "infer_ok",
+  "note": "AEA 1989a: 3750·1,5/2,25 = 2500 ч/год = 6,85 ч/сут; 3750·3/3,75 = 3000 = 8,22 ч/сут → 6,8–8,2 верно. AI 1989 >2000 nm (U1=6566, U2=3,302): 6566·10/13,302 = 4936 ч/год = 13,52 ч/сут → 13,5 верно. Оговорка: результат формулы — лётные часы, а сравнивается с блок-часами Form 41 (10,8; 13,0); для коротких сетей разрыв в пользу вывода ('занижают') даже больше."
+ },
+ "n2-142": {
+  "status": "infer_ok",
+  "note": "Пересчёт при CET−6 = EST: LX066 09:50 CET → 15:35 EST (=21:35 CET) = 11:45; LX067 17:55 EST (=23:55 CET) → 08:05 CET = 8:10; сумма 19:55 = 19,92 блок-ч; цикл 09:50→08:05+1 = 22:15; оборот MIA 15:35→17:55 = 2:20, ZRH 08:05→09:50 = 1:45; 22:15+1:45 = 24:00, т.е. ≈19,9 блок-ч/сутки ('~20 ч/сутки') при ежедневном рейсе. Арифметика верна. Но на том же слайде 19 есть вторая пара LX064 13:15–19:00 / LX065 20:45–11:00 — допущение 'один борт на LX066/067' источником не подтверждается и, возможно, слайд сравнивает два варианта расписания; это в trace не отражено."
+ },
+ "n2-143": {
+  "status": "infer_wrong",
+  "note": "Числа ZRH (06:10–22:45, 6 волн) и сетевых 10,72 верны, но '11–12,5 у ULCC/LCC' — выборочно: в той же таблице 2019 Southwest (LCC) 10,66 — НИЖЕ сетевых 10,72, Allegiant (ULCC) 8,08; jetBlue (12,51) не ULCC. Данные Form 41 не показывают устойчивого превосходства LCC над сетевыми; механизм MIT качественный и верен, количественное сопоставление — нет."
+ }
+}
