@@ -6,7 +6,7 @@
 Читает ВСЕ файлы тарифов с документом (data/charges), проверку октябрьской волны
 (verify/), контрольный оборот A320 (turnaround.json — bin/turnaround.py) и перечень
 ненайденного (data/charges/_todo.yaml), пишет report.html, report.en.html, report.de.html.
-Неофициальные данные сообщества (ТКП, решение 227) в статью не входят.
+Неофициальные данные сообщества (решение 227) в статью не входят.
 Тексты — T(ru, en, de); строки из данных — i18n.yaml (Tr); деньги — money().
 
     python3 research/charges-2026-10/build_report.py      # из корня репозитория
@@ -465,7 +465,7 @@ def build() -> str:
     errl = e(", ".join(with_err))
     report = f"""<section><h2>{T("Как проверялось", "How it was checked", "Wie geprüft wurde")}</h2>
 <p>{T(f"В статье — все {found} тарифов аэропортов, заведённых в калькулятор по опубликованным документам. Неофициальные\n"
-      f"данные сообщества (таблица ТКП по российским аэропортам) участвуют в расчёте, но здесь не показываются: как они\n"
+      f"данные сообщества (таблица по российским аэропортам) участвуют в расчёте, но здесь не показываются: как они\n"
       f"собраны, проверить нельзя.",
       f"The article covers all {found} airport tariffs entered into the calculator from published documents. "
       f"Unofficial community data (the Russian airport-charges table of the Transport Clearing House, TKP) is used in the calculation but not "
