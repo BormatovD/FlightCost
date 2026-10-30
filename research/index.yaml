@@ -6,7 +6,6 @@
 items:
   - slug: fuel-2026-10
     date: 2026-10-30
-    draft: true                    # новая структура статьи + Россия, ждёт моделирования
     report: fuel-2026-10/report.html
     calc: in_calc
     calc_note:
