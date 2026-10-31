@@ -1,0 +1,818 @@
+{
+ "r1-006": {
+  "status": "found",
+  "found_text": "One is based on the so called s-curve, in which, all else equal, market shares are determined by frequency shares.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-007": {
+  "status": "found",
+  "found_text": "In contrast to the s-curve model, the schedule delay model depicts a more plausible relationship between market share and frequency share ... and accurately predicts observed patterns of supply side behavior.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-009": {
+  "status": "found",
+  "found_text": "fares are about 11% lower if at least one LCC is operating in the route",
+  "value_ok": true,
+  "note": "Данные: OAG Traffic Analyser (MIDT), внутриевропейские беспосадочные пары 2016–2019, только discount economy — value верно."
+ },
+ "r1-010": {
+  "status": "found",
+  "found_text": "yields a 21% reduction in the route's airfare",
+  "value_ok": true,
+  "note": "Эффект = вход нового перевозчика И то, что он LCC (сумма двух коэффициентов)."
+ },
+ "r1-011": {
+  "status": "found",
+  "found_text": "they reduce prices by about 14% in India",
+  "value_ok": true,
+  "note": "Ссылка на Wang et al. (2018), Китай и Индия — вторичная."
+ },
+ "r1-012": {
+  "status": "found",
+  "found_text": "Kwoka et al. (2016) finds that fares are 20% or more below competitors",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-016": {
+  "status": "found",
+  "found_text": "The S-Curve is the phenomenon by which airlines that achieve a frequency-share advantage attain disproportionately high market shares",
+  "value_ok": true,
+  "note": "Документ: Binggeli, Pompeo (McKinsey), IATA Analyst Viewpoint, сентябрь 2006."
+ },
+ "r1-017": {
+  "status": "found",
+  "found_text": "The S-Curve effect 'collapses' in markets where legacy carriers compete against LCCs (the largest segment, with 56% of the revenues in competitive markets) ... we analyzed point-to-point data in the US domestic market from DOT (2004)",
+  "value_ok": true,
+  "note": "Слово встречается один раз, контекст точно legacy vs LCC, США, DOT 2004. Рядом: 'still alive and in good shape' в рынках без LCC (42% выручки). Value подтверждено."
+ },
+ "r1-019": {
+  "status": "found",
+  "found_text": "Empirical studies have shown that the typical values of α range between 1.3 and 1.7 ... MS_i = FS_i^α / Σ_{j=1..n} FS_j^α (eq. 1)",
+  "value_ok": true,
+  "note": "Формула — ур. (1) раздела 2, есть в документе."
+ },
+ "r1-020": {
+  "status": "found",
+  "found_text": "A typical value suggested by literature is around 1.5.",
+  "value_ok": true,
+  "note": "Диапазон 1,3–1,7 — из r1-019, тот же документ."
+ },
+ "r1-024": {
+  "status": "found",
+  "found_text": "Route/Market Level: -1.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-025": {
+  "status": "found",
+  "found_text": "National Level: - 0.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-026": {
+  "status": "found",
+  "found_text": "Pan-National Level: -0.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-027": {
+  "status": "found",
+  "found_text": "Short haul: 1.1 (+10%).",
+  "value_ok": true,
+  "note": "Множитель Intra Europe 1.40 в документе есть (note исследователя подтверждена)."
+ },
+ "r1-029": {
+  "status": "found",
+  "found_text": "Without the advent of LCCs, \"there would have been substantial growth anyway\", says ERG director Dr Harry Bush.",
+  "value_ok": true,
+  "note": "«Почти так же» в value — усиление: в тексте «substantial growth anyway», без количественного сравнения."
+ },
+ "r1-030": {
+  "status": "found",
+  "found_text": "LCCs became a significant provider in the growing air travel market \"mostly by substitution,\" with most of that business taken from the charter travel market (Alex Plant, CAA ERG)",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-034": {
+  "status": "found",
+  "found_text": "the market grew by 44 percent because of the participation of Ryanair",
+  "value_ok": true,
+  "note": "Раздел 4.2.1 Genoa."
+ },
+ "r1-035": {
+  "status": "found",
+  "found_text": "took about 25 percent of British Airways' traffic",
+  "value_ok": true,
+  "note": "Genoa, 4.2.1. В quote добавлено «it also» — фрагмент полной фразы, WebFetch вернул только клаузу."
+ },
+ "r1-036": {
+  "status": "found",
+  "found_text": "These results can be interpreted as showing that Ryanair resulted in a 30 percent increase in the traffic on the route.",
+  "value_ok": true,
+  "note": "Pisa, 4.2.3."
+ },
+ "r1-037": {
+  "status": "found",
+  "found_text": "It can be seen that Ryanair increased the market by 26 percent whilst GO/easyJet added a further 24 percent.",
+  "value_ok": true,
+  "note": "Venice, 4.2.5."
+ },
+ "r1-038": {
+  "status": "found",
+  "found_text": "suggests the start up of Ryanair at STN expanded the total market by 10 percent",
+  "value_ok": true,
+  "note": "Stockholm, 4.2.4."
+ },
+ "r1-039": {
+  "status": "found",
+  "found_text": "incumbent's traffic might fall, be constant or even increase",
+  "value_ok": true,
+  "note": "Abstract."
+ },
+ "r1-041": {
+  "status": "found",
+  "found_text": "[DOT 1993, three California markets] \"average airfares dropped by 50 percent and traffic more than tripled\" after Southwest began service",
+  "value_ok": true,
+  "note": "Вторичный пересказ DOT 1993 в статье InsideFlyer; число и смысл совпадают."
+ },
+ "r1-042": {
+  "status": "found",
+  "found_text": "Demand increased by an average of 28%.",
+  "value_ok": true,
+  "note": "Контекст: 109 новых рынков Southwest, 2012–2015 (UVA Darden)."
+ },
+ "r1-043": {
+  "status": "found",
+  "found_text": "In 74 markets, fares dropped an average of at least 10% ... In 12 markets, fares increased",
+  "value_ok": true,
+  "note": "База — те же 109 рынков 2012–2015; note про 12 рынков подтверждена."
+ },
+ "r1-047": {
+  "status": "found",
+  "found_text": "increase fares modestly, by approximately 3.9%",
+  "value_ok": true,
+  "note": "Контекст: сокращение числа сетевых перевозчиков с двух до одного на паре аэропортов, агрегировано по рынку, взвешено по пассажирам (YE 2008-Q2)."
+ },
+ "r1-048": {
+  "status": "found",
+  "found_text": "raised fares by nearly 12% (vs. 3.9% today)",
+  "value_ok": true,
+  "note": "Данные 2000 г."
+ },
+ "r1-049": {
+  "status": "partial",
+  "found_text": "Table 1, Base Model YE 2008-Q2: Southwest non-stop presence on an airport pair — Lowers fares by 29.3%; Non-stop presence of an LCC other than Southwest on an airport pair — Lowers fares by 12.6%",
+  "value_ok": true,
+  "note": "В источнике «Lowers fares by 29.3%» — в quote пропущено «by». Число и смысл подтверждены. Для out: «−27…−29 %» и «−13…−18 %» = столбцы (1) base и (2) market weighted 2008 (27,2 и 17,6 %) — верно. Важно для r1-047: в base model 2→1 сетевых — «no effect»; 3,9 % — market weighted model."
+ },
+ "r1-050": {
+  "status": "partial",
+  "found_text": "Table 1: Southwest as a Potential Entrant on an airport pair — Lowers fares by 9.3%",
+  "value_ok": true,
+  "note": "В источнике «Lowers fares by 9.3%» — пропущено «by». Смысл верен."
+ },
+ "r1-051": {
+  "status": "partial",
+  "found_text": "Table 1: Non-Stop Presence by Southwest an Adjacent Airport Pair — Lowers fares by 12.7%",
+  "value_ok": true,
+  "note": "В источнике «Lowers fares by 12.7%» — пропущено «by». Смысл верен."
+ },
+ "r1-053": {
+  "status": "found",
+  "found_text": "One reason is that our results showed only modest fare effects from competition between legacy carriers (as opposed to competition from LCCs or ULCCs), which made fare increases from lost legacy competition correspondingly modest.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-054": {
+  "status": "found",
+  "found_text": "Recent unpublished work by Darin Lee and Ethan Singer shows that the number of competitors per market (weighted by passenger volume) has increased from 3.22 in 1993 to 3.39 in 2003 and to 3.48 in 2024.",
+  "value_ok": true,
+  "note": "«Позже» в value = 2003."
+ },
+ "r1-056": {
+  "status": "found",
+  "found_text": "fares fell 26% between August 2014 and August 2015 and then a further 4%",
+  "value_ok": true,
+  "note": "Bombay–Delhi, OAG Traffic Analyser; по тексту падали тарифы legacy-перевозчиков на паре (не средний тариф рынка). В out cases[6] — «при наращивании LCC», без оговорки про legacy."
+ },
+ "r1-060": {
+  "status": "found",
+  "found_text": "Passengers carried by domestic airlines during January-December 2025 were 1,669.46 lakh",
+  "value_ok": true,
+  "note": "1 669,46 лакха = 166,9 млн; против 1 613,31 лакха годом ранее."
+ },
+ "r1-061": {
+  "status": "found",
+  "found_text": "annual growth of 3.48 per cent",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-062": {
+  "status": "found",
+  "found_text": "saw its market share slump to 59.6 per cent in that month from 63.6 per cent in November.",
+  "value_ok": true,
+  "note": "59,6 — доля IndiGo в декабре 2025 (63,6 в ноябре); Air India Group 26,7 → 29,6 % — подтверждено тем же текстом. Цитата из одного числа — фактически partial по полноте, но значение верно."
+ },
+ "r1-064": {
+  "status": "found",
+  "found_text": "IndiGo closed the year with a 64% market share, higher than previous years 61.9%",
+  "value_ok": true,
+  "note": "Похоже на годовую долю 2025 (сравнение с 61,9 % прошлого года). Расходится с DGCA-месячными (63,6 ноя, 59,6 дек) — не противоречие, но «за год» не сказано явно."
+ },
+ "r1-065": {
+  "status": "found",
+  "found_text": "IndiGo crossed the 100 million domestic passengers mark for the first time in a calendar year",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-071": {
+  "status": "found",
+  "found_text": "CAG observed that up to UDAN-3, 52% (403) out of 774 awarded routes had not commenced operations.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-072": {
+  "status": "found",
+  "found_text": "Out of the 371 routes which had commenced operations, only about 30%, or 112 routes, had completed the full concession period of three years",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-073": {
+  "status": "found",
+  "found_text": "only 54 routes (7% of the 774 awarded routes) that connected 17 RCS Airports [sustained operations beyond the three-year concession period, as of March 2023]",
+  "value_ok": true,
+  "note": "54 — подмножество 112 отлетавших полный срок; 58 закрылись после окончания субсидии."
+ },
+ "r1-074": {
+  "status": "found",
+  "found_text": "About 60% of the total amount released or Rs. 3502 crores went to Alliance Air",
+  "value_ok": true,
+  "note": "₹3 502 крор — доля Alliance Air (≈60 %), не общая сумма; общая ≈₹5 800 крор (расчётно, в тексте нет). Период 2017-18 — 2022-23. Сомнение исследователя снимается."
+ },
+ "r1-076": {
+  "status": "found",
+  "found_text": "925 valid RCS routes have been awarded, out of which 663 have been operationalised, and 327 discontinued.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-077": {
+  "status": "found",
+  "found_text": "Half the routes have been discontinued and only a quarter remain self-sustainable at the end of the three-year subsidy period.",
+  "value_ok": true,
+  "note": "Относится к первой фазе UDAN."
+ },
+ "r1-078": {
+  "status": "found",
+  "found_text": "allocated Rs 28,840 crore to connect 120 new destinations ... over the next 10 years",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-079": {
+  "status": "found",
+  "found_text": "from three to five years",
+  "value_ok": true,
+  "note": "Слова Pushan Sharma (Crisil) о «extended and enhanced VGF support»."
+ },
+ "r1-080": {
+  "status": "found",
+  "found_text": "UDAN airports contributed a relatively small share to domestic passenger traffic in 2024-25 ... a mere 2-3% (Crisil Intelligence)",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-084": {
+  "status": "found",
+  "found_text": "An airport where demand significantly exceeds the airport capability.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-085": {
+  "status": "found",
+  "found_text": "An airport where there is potential for congestion during some periods of the day, week, or season.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-086": {
+  "status": "found",
+  "found_text": "200+ [Level 3 airports] / 160+ [Level 2 airports]",
+  "value_ok": true,
+  "note": "Число из инфоблока: 200+ — Level 3, 160+ — Level 2, в мире. Подтверждено."
+ },
+ "r1-088": {
+  "status": "found",
+  "found_text": "The schedule covers 46 airlines and 770 weekly international departure slots, [of which 265 are proposed to be temporarily discontinued]",
+  "value_ok": true,
+  "note": "Слоты T2. 265/770 = 34,4 %, а не 33 % — мелкое округление в value."
+ },
+ "r1-089": {
+  "status": "found",
+  "found_text": "The proposed cuts are linked to the redevelopment of Mumbai airport's Terminal 1.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-090": {
+  "status": "found",
+  "found_text": "using reduced capacity at Mumbai airport to require airlines to shift a specified share of their operations to Navi Mumbai",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-094": {
+  "status": "found",
+  "found_text": "airlines must use 80% of their allocated slots or risk losing them in the following years",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-096": {
+  "status": "found",
+  "found_text": "The vast majority of PSO routes operated in Europe are closed.",
+  "value_ok": true,
+  "note": "Определение closed: restrict access to one carrier and compensation is paid."
+ },
+ "r1-097": {
+  "status": "found",
+  "found_text": "Extending considerably the duration of the contract (more than five years) ... [example] would not invest $20–30m in a new 30-seater electric aircraft to only run a four-year PSO",
+  "value_ok": false,
+  "note": "Цитата есть, но «сейчас обычно ~4» не подтверждается: «four-year PSO» — гипотетический пример в разделе о «зелёных» PSO, типичного срока отчёт не называет. Ошибка перенесена в out (europe[1].explain: «контракты ~4 года»)."
+ },
+ "r1-099": {
+  "status": "found",
+  "found_text": "In case no air carrier is interested in operating the route on which the obligations have been imposed, the Member State concerned may restrict the access to the route to a single air carrier ... The selection of the operator must be made by public tender at Community level.",
+  "value_ok": true,
+  "note": "Ст. 16–18 Рег. 1008/2008 — подтверждено."
+ },
+ "r1-103": {
+  "status": "found",
+  "found_text": "The 2025 PSO budget of NOK 2.43 billion (≈ £183 million) supports 36 airports and 25 route packages",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-104": {
+  "status": "found",
+  "found_text": "On average, subsidy per passenger ranges between NOK 1,000–1,500 (£75–£115).",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-105": {
+  "status": "found",
+  "found_text": "As of 2024, it comprises 28 subsidised routes and 10 open routes that remain under obligation but are commercially viable.",
+  "value_ok": true,
+  "note": "Греция."
+ },
+ "r1-107": {
+  "status": "found",
+  "found_text": "According to IATA, 1,127 routes across the EU were cancelled in 2025, while 1,281 routes were added. ... 568 of the added routes were \"starts\" of services that had operated during the past decade ... This left the EU with a net gain of 154 routes, bringing the total number of routes in the network to 14,797.",
+  "value_ok": true,
+  "note": "Число значит именно отменённые маршруты ЕС в 2025 (по IATA). Неточность в value: 568 — не «возобновления» в строгом смысле, а «starts» сервисов, летавших в прошлом десятилетии (т. е. возобновления — да, близко)."
+ },
+ "r1-108": {
+  "status": "found",
+  "found_text": "grew by just 1 per cent ... the 1.5 per cent compound annual growth recorded over the past decade",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-109": {
+  "status": "infer_checked",
+  "found_text": "1127 / 14797 = 0,0762",
+  "value_ok": true,
+  "note": "Арифметика верна (7,6 %). База — сеть после изменений (конец 2025); к сети на начало года (14 643) было бы 7,7 %."
+ },
+ "r1-113": {
+  "status": "found",
+  "found_text": "QSI stands for Quality of Service Index.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-114": {
+  "status": "found",
+  "found_text": "it does not directly estimate traffic changes",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-115": {
+  "status": "found",
+  "found_text": "What about air fare? (response prediction)",
+  "value_ok": true,
+  "note": "Стоит в списке переменных, которые можно добавить в скоринг — подтверждает, что цена не входит в базовый QSI."
+ },
+ "r1-116": {
+  "status": "found",
+  "found_text": "Always start with the science, and then apply the art.",
+  "value_ok": true,
+  "note": "Веса типов ВС (narrow body 1, E170 0.7, CRJ200 0.5, turboprop 0.2) и тезис о плохом прогнозе первого беспосадочного рейса (рекомендован comparable-market) — в документе есть. Сама цитата value поддерживает лишь косвенно."
+ },
+ "r1-117": {
+  "status": "found",
+  "found_text": "Forecasting is not an exact science",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-119": {
+  "status": "found",
+  "found_text": "The models include variables describing the general economic activity and geographical characteristics of city-pairs",
+  "value_ok": true,
+  "note": "Конкурирующие аэропорты в радиусе 200 км — переменные расширенной модели, подтверждено."
+ },
+ "r1-120": {
+  "status": "found",
+  "found_text": "The sample contains 1228 city-pairs with 137 embracing cities, and 9,091,082 passengers.",
+  "value_ok": false,
+  "note": "Цитата и выборка (Германия ↔ 28 стран Европы, янв–авг 2004) верны, но R² в value неверен: табл. 3 (BM, 956 набл.) R² = 0,761; табл. 9 (EM, 1228 набл.) R² = 0,704. Правильно «0,70–0,76», а не «0,73–0,76». Ошибка перенесена в out (models[1].inputs)."
+ },
+ "r1-121": {
+  "status": "found",
+  "found_text": "airfare is omitted because appropriate data is unavailable",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-122": {
+  "status": "found",
+  "found_text": "The results emphasize that the gravity models should, if possible, be applied to homogeneous data sets.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-126": {
+  "status": "found",
+  "found_text": "Airport connectivity is defined as the sum of direct and indirect connectivity.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-127": {
+  "status": "found",
+  "found_text": "Hub connectivity is the key metric for any hub airport, big or small,",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-128": {
+  "status": "found",
+  "found_text": "based on data from SEO's NetScan connectivity model",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-129": {
+  "status": "found",
+  "found_text": "total air connectivity (direct plus indirect) is still -14% below prepandemic (2019) levels ... the continued performance gap between direct connectivity (-8%) and indirect connectivity (-17%) ... Hub connectivity remains -18% below its pre-pandemic (2019) level",
+  "value_ok": true,
+  "note": "−14 % — суммарная связность европейских аэропортов, июнь 2024 к июню 2019. Прямая −8, косвенная −17, хабовая −18 — подтверждены."
+ },
+ "r1-131": {
+  "status": "found",
+  "found_text": "through scheduled flights, available seat capacity, airlines, routes and seasonal patterns",
+  "value_ok": true,
+  "note": "Исследование Data Appeal и Mabrian; цены, поиски, бронирования упомянуты как дополняющие индикаторы."
+ },
+ "r1-132": {
+  "status": "found",
+  "found_text": "identify vulnerable routes, support airline negotiations",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-136": {
+  "status": "found",
+  "found_text": "The incentive scheme is valid until 31 March 2027.",
+  "value_ok": true,
+  "note": "Таблица на странице: ближнемагистральный круглогодичный 50/40/30 % на пассажирский и посадочный сборы; дальнемагистральный пассажирский 100/90/80/50/50 %, посадочный 80/70/60 %. Value верно."
+ },
+ "r1-137": {
+  "status": "found",
+  "found_text": "Applications for the incentive must be submitted at least one calendar month before the first flight.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-139": {
+  "status": "found",
+  "found_text": "discounts on airport charges and ground handling service fees of up to 50% over a three-year period",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-140": {
+  "status": "found",
+  "found_text": "completely abolish start-up aid for the launch of new air routes",
+  "value_ok": true,
+  "note": "Консультация 11.05–11.06.2026 подтверждена."
+ },
+ "r1-141": {
+  "status": "found",
+  "found_text": "airlines must bear the risks and costs associated with launching new routes themselves",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-145": {
+  "status": "found",
+  "found_text": "81,234 two-way passengers traveled between NCL's 50-mi. catchment and Madrid in the 12 months to the 2025 second quarter",
+  "value_ok": true,
+  "note": "111 PPDEW есть в статье."
+ },
+ "r1-146": {
+  "status": "found",
+  "found_text": "The data also reveals substantial leakage to competing airports. [LHR 13,624; STN 13,066; LGW 12,570; MAN 12,378; EDI 11,720; NCL 12,912 indirect, primarily connecting via Amsterdam and Heathrow]",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-147": {
+  "status": "found",
+  "found_text": "Ryanair last served the route between March 2017 and October 2018",
+  "value_ok": true,
+  "note": "Цитата из одного слова; полная фраза подтверждает value (2×/нед. 737-800, ≈756 кресел в обе стороны в неделю)."
+ },
+ "r1-149": {
+  "status": "found",
+  "found_text": "Air fares are not regulated by the Government.",
+  "value_ok": true,
+  "note": "Статья от 29.03.2022; ковидные коридоры тарифов упомянуты."
+ },
+ "r1-150": {
+  "status": "found",
+  "found_text": "DGCA has a Tariff Monitoring Unit that monitors airfares on certain routes on monthly basis",
+  "value_ok": true,
+  "note": "Вторая часть value («регулярной публикации рядов нет») из цитаты не следует — это вывод исследователя (absence of evidence)."
+ },
+ "r1-151": {
+  "status": "found",
+  "found_text": "airlines are free to fix reasonable tariff having regard to all relevant factors ... Air fare so established by the airlines is published on their respective website.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-153": {
+  "status": "found",
+  "found_text": "The data has been compiled by the tariff monitoring unit of the Directorate General of Civil Aviation (DGCA).",
+  "value_ok": true,
+  "note": "10 направлений (5 пар в обе стороны), неделя к неделе, статья 13.06.2023."
+ },
+ "r1-158": {
+  "status": "found",
+  "found_text": "Today, European low-cost carriers frequently apply route churn in their networks.",
+  "value_ok": true,
+  "note": "Факторы из аннотации подтверждены (длина, число кресел, спад, Восточная Европа, первичные аэропорты; также доля рынка, сезонность, возраст маршрута)."
+ },
+ "r1-163": {
+  "status": "found",
+  "found_text": "a reduction of almost 800,000 seats",
+  "value_ok": true,
+  "note": "24 маршрута, зима 2025/26; причины — сборы УВД и безопасности, налоги, аэропорты."
+ },
+ "r1-164": {
+  "status": "found",
+  "found_text": "a new Belgian aviation tax which will double the charge to €10 per passenger",
+  "value_ok": true,
+  "note": "20 маршрутов, ≈1 млн кресел (Брюссель, Шарлеруа), ≈22 % бельгийской ёмкости, зима 2026/27."
+ },
+ "r1-165": {
+  "status": "found",
+  "found_text": "Aena's monopoly approach to pricing is that small underused regional airports should charge similar rates",
+  "value_ok": true,
+  "note": "−1 млн кресел зимой 2025, −1,2 млн летом 2026, Тенерифе-Север — подтверждено."
+ },
+ "r1-166": {
+  "status": "found",
+  "found_text": "governments were reducing airport fees and lowering environmental taxes",
+  "value_ok": true,
+  "note": "Хорватия, Марокко, Италия, Швеция, Албания."
+ },
+ "r1-167": {
+  "status": "found",
+  "found_text": "This will represent a cut of around 22 per cent in Ryanair's Portuguese capacity.",
+  "value_ok": true,
+  "note": "Азоры: все 6 маршрутов с конца марта 2026, ≈400 тыс. пасс./год. Около 22 % фигурирует и для Бельгии (иная формулировка) — locator Portugal верен."
+ },
+ "r1-171": {
+  "status": "found",
+  "found_text": "a 10% sample of airline tickets from reporting carriers ... As of July 2025, carriers will begin reporting 40% of their tickets, rather than 10%.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-175": {
+  "status": "found",
+  "found_text": "All the fares were obtained from the internet using a web spider",
+  "value_ok": true,
+  "note": "Gaggero & Piga (2008), Airline Competition in the British Isles, раздел 2."
+ },
+ "r1-176": {
+  "status": "found",
+  "found_text": "an attempt to construct a fares' database at the European level",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-177": {
+  "status": "found",
+  "found_text": "to the extent that their increase by 10% leads to fares that are, respectively, about 2.6% and 3.5% higher.",
+  "value_ok": true,
+  "note": "2,6 % — эффект роста доли рынка на 10 % (относительно), 3,5 % — HHI; модели по парам городов UK–Ирландия (табл. 4, коэф. 0,26 и 0,35). Value верно; это эластичности, а не +10 п.п."
+ },
+ "r1-178": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Conclude логически следует из родителей: OAG (r1-009, коммерческий), скрейпинг (r1-175), отсутствие тарифов в гравитационной модели (r1-121), DB1B (r1-171), эпизодические данные DGCA (r1-150, r1-153). Оговорка: «нет открытых тарифов» — вывод из отсутствия, опирается на старые работы (2004, 2008) и не проверен напрямую (например, Eurostat/ONS price indices не искали)."
+ },
+ "r1-181": {
+  "status": "found",
+  "found_text": "Lack of information on true origin and destination (not covered by the legal act) is cited as weaknesses of this domain.",
+  "value_ok": true,
+  "note": "Раздел 12.2."
+ },
+ "r1-182": {
+  "status": "found",
+  "found_text": "Eurostat nevertheless disseminates airline information with EU or non-EU registered airline labels only.",
+  "value_ok": true,
+  "note": "Раздел 7.1."
+ },
+ "r1-183": {
+  "status": "found",
+  "found_text": "detailed information on airlines, which are sometimes considered as sensitive",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-187": {
+  "status": "found",
+  "found_text": "Between Dubai and 15 Indian cities there are no more than 66,000 seats allowed per week.",
+  "value_ok": true,
+  "note": "Соглашение 2014 г. подтверждено."
+ },
+ "r1-188": {
+  "status": "found",
+  "found_text": "Between Abu Dhabi and India that number drops to 50,000 seats.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-189": {
+  "status": "found",
+  "found_text": "India has so far resisted calls to increase the seats per week cap ... citing the need to protect its domestic carriers as they scale up international operations",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-191": {
+  "status": "found",
+  "found_text": "Landings of all kinds of flights are not permitted between 2300 (2200),and 0400 (0300).",
+  "value_ok": true,
+  "note": "Документ не поясняет, что время в скобках — UTC (это допущение исследователя). Запрет относится к ВС Chapter 3 «не маргинально» и Chapter 4. Квота шума 23–05 с лета 2002 подтверждена."
+ },
+ "r1-193": {
+  "status": "found",
+  "found_text": "will become permanent following a court ruling",
+  "value_ok": true,
+  "note": "Федеральный административный суд (Лейпциг), 04.04.2012."
+ },
+ "r1-197": {
+  "status": "found",
+  "found_text": "airfares would be capped at Rs 2,500 for half of the seats in flights travelling 476 -500 kilometre. This translates to around a one-hour journey.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-198": {
+  "status": "found",
+  "found_text": "bidding for a minimum of 50 per cent seats in the participating airline's flight",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-199": {
+  "status": "found",
+  "found_text": "has to bid for at least 9 seats and a maximum of 40 seats",
+  "value_ok": true,
+  "note": "Что это самолёты — вывод из следующей фразы о вертолётах (5–13 мест)."
+ },
+ "r1-201": {
+  "status": "found",
+  "found_text": "registered over 39,000 flights in 2024, translating to more than 100 daily flights operating in both directions",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-202": {
+  "status": "partial",
+  "found_text": "continue to operate under stringent capacity limitations, even as passenger traffic climbs steadily ... [table, AAI] Delhi ▼ 2.6%; Mumbai ▼ 0.2% (aircraft movements 2018–2025)",
+  "value_ok": true,
+  "note": "Цитата — фрагмент из 3 слов; цифры −2,6/−0,2 % из таблицы статьи подтверждены."
+ },
+ "r1-206": {
+  "status": "found",
+  "found_text": "the airfare on the Delhi to Mumbai route for May 3, shot up over 37 per cent",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-207": {
+  "status": "found",
+  "found_text": "the Delhi-Leh route witnessed a price jump to Rs 26,819, compared to the regular fare of Rs 4,772",
+  "value_ok": true,
+  "note": "26 819 / 4 772 = 5,62 — ×5,6 верно."
+ },
+ "r1-208": {
+  "status": "found",
+  "found_text": "The airline's share in the Indian aviation sector was at 6.9 per cent ... had a fleet size of 53 aircraft which traveled to 34 destinations",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-210": {
+  "status": "found",
+  "found_text": "with an annual passenger handling capacity of 20 million",
+  "value_ok": true,
+  "note": "Старт 25.12(.2025), 23 вылета в день, 08–20 ч в первый месяц — подтверждено."
+ },
+ "r1-213": {
+  "status": "found",
+  "found_text": "A casual look at the data suggests a problem, with over 60% of city-pairs being flown by just one airline.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-214": {
+  "status": "found",
+  "found_text": "In revenue or consumer spending terms they represent less than 20%. ... city-pair markets that generated more than two-thirds of intra-ECAA passenger revenues in 2018 [had three or more airlines]",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-215": {
+  "status": "found",
+  "found_text": "Airline markets are city-pairs – a flight from Dublin to Brussels is not a good substitute for one from London to Paris",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-217": {
+  "status": "found",
+  "found_text": "30% of routes operated by two or more airlines [2018, summer] vs 25% of routes operated by two or more airlines [2010]",
+  "value_ok": false,
+  "note": "Цифры верны, но привязка «на координируемых аэропортах ЕС» на странице не указана — говорится о маршрутах в Европе в целом (контекст документа — слотовые правила ЕС, но явного ограничения нет)."
+ },
+ "r1-218": {
+  "status": "found",
+  "found_text": "LCCs account for 40% of intra-european seat capacity",
+  "value_ok": true,
+  "note": "Год в документе не указан; источники слайда — Eurocontrol 2016 и ICF/ACI Europe 05.2018; «≈2017» — оценка."
+ },
+ "r1-222": {
+  "status": "found",
+  "found_text": "Airline costs are driven by fleet and flight schedule",
+  "value_ok": true,
+  "note": "Слайд «Measuring Route 'Profitability'»."
+ },
+ "r1-223": {
+  "status": "found",
+  "found_text": "such incremental analysis leads to a tendency to overlook potential displacement of other traffic",
+  "value_ok": true,
+  "note": "Слайд «Hub Impacts on Route Planning» (locator «Network effects» — неточный)."
+ },
+ "r1-224": {
+  "status": "found",
+  "found_text": "Allocation schemes are always subjective",
+  "value_ok": true,
+  "note": "Слайд «Approaches to Flight Profit Measurement»."
+ },
+ "r1-225": {
+  "status": "found",
+  "found_text": "Does not capture network effects, very important in most cases",
+  "value_ok": true,
+  "note": "Слайд «Approaches to Flight Profit Measurement»."
+ },
+ "r1-227": {
+  "status": "found",
+  "found_text": "The Seasonality Index (SI) is the difference between the highest and lowest monthly indices. ... indexed to each traffic zone's 2025 reference level (=100)",
+  "value_ok": true,
+  "note": ""
+ },
+ "r1-228": {
+  "status": "found",
+  "found_text": "resulting in a Seasonality Index (SI) of 88",
+  "value_ok": true,
+  "note": "Греция 88; Сев. Македония 83, Албания 79, Хорватия 74, Финляндия 13 — подтверждено."
+ },
+ "r1-232": {
+  "status": "found",
+  "found_text": "the sum of the squares of the market shares",
+  "value_ok": true,
+  "note": "Сноска 1."
+ },
+ "r1-233": {
+  "status": "found",
+  "found_text": "a post-merger HHI above 1,800 and a change in HHI of 100 is now considered highly concentrated ... the merger presumptively unlawful",
+  "value_ok": true,
+  "note": "Порог 1800 корректен для рынка (Guidelines 2023: HHI > 1800 = highly concentrated)."
+ },
+ "r1-234": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика: 64² = 4096, 27² = 729, сумма 4825 ≈ 4800 — верно. С 26,7 % → 4809; с 29,6 % → 4972. Это действительно оценка снизу (остальные ≈9 %: Akasa ~5, SpiceJet ~4 → ещё ≈40). Оговорки: 64 % IndiGo — годовая доля из Network Thoughts (не DGCA), 27 % Air India Group — месячные доли ноя/дек DGCA, не годовая; смешение периодов. Сам Network Thoughts пишет, что Air India Group потеряла 1,4 п.п. за год, но годовой доли в тексте нет. Вывод «HHI > 1800, высококонцентрированный» устойчив при любом выборе."
+ },
+ "r1-237": {
+  "status": "found",
+  "found_text": "How would I even know if a route, a base, makes sense if I don't know what it's going to cost me?",
+  "value_ok": true,
+  "note": "Eszter Rozsahegyi, Wizz Air."
+ },
+ "r1-238": {
+  "status": "found",
+  "found_text": "You need to sell me your catchment.",
+  "value_ok": true,
+  "note": "Wizz Air."
+ },
+ "r1-239": {
+  "status": "found",
+  "found_text": "The route eventually needs to stand on its own",
+  "value_ok": true,
+  "note": "Stephanie Wear, Edinburgh Airport."
+ },
+ "r1-240": {
+  "status": "found",
+  "found_text": "risk sharing with airports and destinations, and long-term partnerships",
+  "value_ok": true,
+  "note": "Описание требований Vueling автором статьи, не прямая речь."
+ }
+}

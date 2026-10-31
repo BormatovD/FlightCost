@@ -1,0 +1,746 @@
+{
+ "r2-003": {
+  "status": "found",
+  "found_text": "All passengers on a particular flight (with one flight number) counted once only and not repeatedly on each individual stage of that flight. All revenue and non-revenue passengers whose journey begins or terminates at the reporting airport and transfer passengers joining or leaving the flight at the reporting airport. Excludes direct transit passengers.",
+  "value_ok": true,
+  "note": "Раздел 3.4."
+ },
+ "r2-004": {
+  "status": "found",
+  "found_text": "All revenue and non-revenue passengers on board an aircraft during a flight stage.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-005": {
+  "status": "found",
+  "found_text": "follows the data collection deadlines (M+6 months, e.g. data for January 2022 should normally be available",
+  "value_ok": true,
+  "note": "Раздел 5."
+ },
+ "r2-006": {
+  "status": "found",
+  "found_text": "the final annual data are disseminated around 8-9 months after the reference period,",
+  "value_ok": true,
+  "note": "Раздел 14.1."
+ },
+ "r2-007": {
+  "status": "found",
+  "found_text": "The problem of double counting only appears when calculating the total number passengers but not for the total arrivals (respectively total departures), which corresponds to the sum of the arrivals (respectively departures) at each domestic airport.",
+  "value_ok": true,
+  "note": "Раздел 18.5. Там же: при расчёте итога по зеркальным парам Eurostat берёт только декларации вылета (departure declarations) — подтверждает подход r2-027."
+ },
+ "r2-008": {
+  "status": "found",
+  "found_text": "i.e. the airport routes for which both airports report the volume, since these constitute the routes where the problem of double counting occurs.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-009": {
+  "status": "found",
+  "found_text": "Airports with at least 1 500 000 passenger units per year shall transmit flight stage data, on flight origin destination data as well as aggregated airport data ... Airports with more than 150 000 passenger units and less than 1 500 000 passenger units per year shall transmit flight stage data, on flight origin destination data as well as aggregated airport data (Datasets A1, B1 and C1). ... Airports with between 15 000 and 150 000 passenger units per year shall transmit only aggregated airport data (Dataset C1).",
+  "value_ok": false,
+  "note": "Цитата верна, но вывод в value неверен: порог данных по сегментам/O&D — 150 000, а не 1,5 млн пасс.-единиц. Категории 2 (150 тыс.–1,5 млн) и 3 (≥1,5 млн) имеют одинаковые обязательства (A1, B1, C1, помесячно; «The two categories have the same level of reporting obligations»). Только агрегат — у кат. 1 (15–150 тыс.). Для рейтинга: покрытие пар шире, чем следует из value."
+ },
+ "r2-010": {
+  "status": "found",
+  "found_text": "Eurostat nevertheless disseminates airline information with EU or non-EU registered airline labels only.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-011": {
+  "status": "found",
+  "found_text": "As from 2003 the statistics on air transport are comparable over time,",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-012": {
+  "status": "found",
+  "found_text": "Overall accuracy of the data is good.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-015": {
+  "status": "found",
+  "found_text": "CAF_PAS | Commercial passenger air flights | Valid | 21.07.2014",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-018": {
+  "status": "found",
+  "found_text": "The total number of passenger seats available for sale on an aircraft operating a flight stage (see definition 1.3.1) between a pair of airports.",
+  "value_ok": true,
+  "note": "§1.3.5, Manual v14 (сент. 2017)."
+ },
+ "r2-019": {
+  "status": "found",
+  "found_text": "An air transport flight performed for the public transport of passengers and/or freight and mail, for remuneration and for hire.",
+  "value_ok": true,
+  "note": "§1.3.4."
+ },
+ "r2-020": {
+  "status": "found",
+  "found_text": "Traffic on a commercial air service (see definition 1.2.9) identified by a unique flight number subdivided by airport pairs in accordance with point of embarkation and point of disembarkation on that flight.",
+  "value_ok": true,
+  "note": "Фраза — в определении §1.4.1 (on flight origin and destination), а не в описании набора B1 в части I — локатор приблизителен, смысл тот же."
+ },
+ "r2-023": {
+  "status": "found",
+  "found_text": "Passengers seats available (departures)",
+  "value_ok": true,
+  "note": "Агрегатор allthatstats: 12 мер (на борту / перевезено / кресла / рейсы × итог/ARR/DEP). Коды PAS_BRD и т. п. на странице не указаны — сопоставление с кодами Eurostat сделано исследователем (верно по смыслу)."
+ },
+ "r2-024": {
+  "status": "found",
+  "found_text": "only those routes that are above the thresholds are disseminated in Eurobase tables.",
+  "value_ok": true,
+  "note": "Расшифровка ':' (ниже порога ИЛИ нет трафика) — интерпретация исследователя, в цитате нет."
+ },
+ "r2-025": {
+  "status": "found",
+  "found_text": "This dataset contains periodic flight stage data registered for airport-to-airport routes,",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-026": {
+  "status": "found",
+  "found_text": "Partial information at route level (airport-to-airport) is available in dissemination.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-027": {
+  "status": "found",
+  "found_text": "infer по r2-007, r2-008, r2-025, r2-020",
+  "value_ok": true,
+  "note": "Логика верна и согласуется с методикой Eurostat (для зеркальных пар берутся только декларации вылета). Уточнение: «одна сторона (ARR+DEP отчётчика)» — корректно для рынка пары при условии, что брать данные одной отчётной страны целиком."
+ },
+ "r2-031": {
+  "status": "found",
+  "found_text": "the tables for collection 'Detailed air transport by reporting country and routes' provide data on seats available",
+  "value_ok": true,
+  "note": "Раздел 3.1."
+ },
+ "r2-035": {
+  "status": "found",
+  "found_text": "Monthly City Pair wise Air Passenger Traffic Statistics for Scheduled Domestic Services for the year 2021",
+  "value_ok": true,
+  "note": "Список колонок на странице не виден — «без перевозчика» подтверждается только названием."
+ },
+ "r2-040": {
+  "status": "found",
+  "found_text": "Passengers carried by domestic airlines during January-September 2025 were 1233.70 lakhs as against 1184.93 lakhs during the corresponding period of the previous year",
+  "value_ok": true,
+  "note": "Рост 4,12 % в отчёте; 1233,70/1184,93 − 1 = 4,116 % — верно."
+ },
+ "r2-041": {
+  "status": "found",
+  "found_text": "The Traffic report is being prepared based on information received from scheduled domestic airlines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-042": {
+  "status": "partial",
+  "found_text": "MARKET SHARE OF SCHEDULED DOMESTIC AIRLINES (YEAR 2025) ... Sep ... Market Share 0.3 27.4 5.3 64.3 1.9 0.0 0.2 0.0 0.5",
+  "value_ok": true,
+  "note": "Цитата «64.3» неоднозначна: в документе два вхождения, оба в таблице на с. 3 — строка IstQtr («Market Share 0.6 26.5 4.8 64.3 3.2 0.0 0.1 0.0 0.4») и строка Sep (выше). Значение в value относится к Sep — верно. Колонки: Alliance Air 0.3, Air India Group 27.4, Akasa 5.3, IndiGo 64.3, SpiceJet 1.9, Fly Big 0.0, Fly91 0.2, IndiaOne 0.0, Star Air 0.5 (сумма 99,9). IndiGo сент. 2025 — 81,27 лакх — подтверждено. Текстовой фразы «64.3%» в документе нет."
+ },
+ "r2-045": {
+  "status": "found",
+  "found_text": "Domestic air traffic rose over 3 per cent to 16.69 crore in 2025 ... January-December 2025 were 1,669.46 lakh ... as against 1,613.31 lakh ... annual growth of 3.48 per cent",
+  "value_ok": true,
+  "note": "1669,46/1613,31 − 1 = 3,48 % — верно."
+ },
+ "r2-046": {
+  "status": "found",
+  "found_text": "saw its market share slump to 59.6 per cent in that month from 63.6 per cent in November",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-047": {
+  "status": "found",
+  "found_text": "In December, the market share of Air India Group and Akasa Air rose to 29.6 per cent and 5.2 per cent, respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-048": {
+  "status": "found",
+  "found_text": "SpiceJet also saw its market share rise to 4.3 per cent in December from 3.7 per cent in November 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-049": {
+  "status": "found",
+  "found_text": "According to the data, state-owned Alliance Air's market share remained unchanged at 0.4 per cent in December.",
+  "value_ok": true,
+  "note": "Контроль: дек. 59,6+29,6+5,2+4,3+0,4 = 99,1 %."
+ },
+ "r2-051": {
+  "status": "found",
+  "found_text": "IndiGo closed the year with a 64% market share, higher than previous years 61.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-052": {
+  "status": "found",
+  "found_text": "SpiceJet carried 46.73 lakh passengers in 2025",
+  "value_ok": true,
+  "note": "46,73/1669,46 лакх = 2,80 % — арифметика верна (знаменатель из r2-045)."
+ },
+ "r2-053": {
+  "status": "found",
+  "found_text": "Air India group lost 1.4% market share",
+  "value_ok": true,
+  "note": "«1.4%» в тексте — вероятно п.п.; value так и трактует."
+ },
+ "r2-056": {
+  "status": "found",
+  "found_text": "The DGCA's dashboard data has information on the number of passengers who travelled from and to different airports in India from 2015 till date. ... You can find destination and origin-wise monthly domestic and quarterly international data annually from 2015 onwards for",
+  "value_ok": true,
+  "note": "Гранулярность (внутр. помесячно / межд. поквартально) подтверждена соседней фразой."
+ },
+ "r2-059": {
+  "status": "found",
+  "found_text": "The busiest air route in India connecting the capital with financial capital will see an unprecedented 60 flights each way this December, as Air India adds another flight between the two cities.",
+  "value_ok": true,
+  "note": "Слов «daily/в день» в тексте нет; «(в день)» в value — интерпретация (по смыслу верная: 60 в месяц невозможны для DEL–BOM). Пометить как вывод, не цитату."
+ },
+ "r2-060": {
+  "status": "found",
+  "found_text": "IndiGo is the only airline to have presence on all 10 routes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-061": {
+  "status": "found",
+  "found_text": "The longest route amongst the top 10 routes in India sees a duopoly between Air India and IndiGo.",
+  "value_ok": true,
+  "note": "Маршрут — Delhi–Chennai (10-е место)."
+ },
+ "r2-065": {
+  "status": "found",
+  "found_text": "The data has been compiled by the tariff monitoring unit of the Directorate General of Civil Aviation (DGCA).",
+  "value_ok": true,
+  "note": "Статья 13.06.2023. Вывод «только через прессу/ответы парламенту» — интерпретация, из цитаты прямо не следует."
+ },
+ "r2-067": {
+  "status": "found",
+  "found_text": "Airfares are not subject to regulation by the Government",
+  "value_ok": true,
+  "note": "Lok Sabha unstarred Q 721, 04.12.2025. Оговорка «кроме Rule 135» в value из цитаты не следует (не проверял — в фрагменте нет)."
+ },
+ "r2-068": {
+  "status": "found",
+  "found_text": "monitors airfares on selected 78 routes on a random basis by using airlines websites on monthly basis",
+  "value_ok": true,
+  "note": "«ряд не публикуется» — вывод исследователя, в цитате нет."
+ },
+ "r2-069": {
+  "status": "found",
+  "found_text": "This covers about 27% of the domestic traffic.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-071": {
+  "status": "found",
+  "found_text": "average airfares on the Delhi-Mumbai route dropped 74 per cent on June 29 compared to June 6",
+  "value_ok": true,
+  "note": "Статья 30.06.2023."
+ },
+ "r2-074": {
+  "status": "found",
+  "found_text": "Up to 500 Km: Max fare Rs 7,500",
+  "value_ok": true,
+  "note": "Включают ли потолки налоги/UDF — в статье не сказано."
+ },
+ "r2-075": {
+  "status": "found",
+  "found_text": "500-1000 km: Max fare Rs 12,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-076": {
+  "status": "found",
+  "found_text": "1000-1500 km: Max fare: Rs 15,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-077": {
+  "status": "found",
+  "found_text": "Above 1500 km: Max fare: Rs 18,000",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-080": {
+  "status": "found",
+  "found_text": "The caps, introduced in December last year, will be lifted from March 23, 2026. ... The government had stepped in on December 6, 2025,",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-084": {
+  "status": "found",
+  "found_text": "Units: Index 2025=100, Not Seasonally Adjusted",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-085": {
+  "status": "found",
+  "found_text": "Jun 2026: 104.04",
+  "value_ok": true,
+  "note": "Ряд Jan 2020 – Jun 2026."
+ },
+ "r2-086": {
+  "status": "found",
+  "found_text": "Copyright, European Union: https://commission.europa.eu/legal-notice_en#copyright-notice",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-089": {
+  "status": "found",
+  "found_text": "Der Warenkorb des Preisindex für die Personenbeförderung im Luftverkehr, umfasst z. Zt. rund 44 Positionen, für die in 18 Berichtsstellen Preise für insgesamt 100 repräsentativ ausgewählte Flugrelationen (Preisrepräsentanten) monatlich erhoben werden.",
+  "value_ok": true,
+  "note": "Раздел 3.3; методика 2005. «Публикуется только индекс» — вывод исследователя, в цитате не сказано."
+ },
+ "r2-090": {
+  "status": "found",
+  "found_text": "die von Privatkunden nachgefragten wichtigsten Flugrelationen innerhalb Deutschlands und Europas sowie interkontinental.",
+  "value_ok": true,
+  "note": "Раздел 1.7."
+ },
+ "r2-094": {
+  "status": "found",
+  "found_text": "There are about 160+ Level 2 airports and 200+ Level 3 airports globally.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-095": {
+  "status": "found",
+  "found_text": "The complete list of Level 2 and Level 3 airports is provided in the WASG Annex 12.7.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-100": {
+  "status": "found",
+  "found_text": "Alicante — Elche, Barcelona — El Prat, Bilbao, Fuerteventura, Gran Canaria, Ibiza (Summer Season), Lanzarote, Adolfo Suárez Madrid — Barajas, Málaga — Costa del Sol, Menorca (Summer Season), Palma de Mallorca, Tenerife Sur and Valencia",
+  "value_ok": true,
+  "note": "Список Level 3 AESA целиком = 13 позиций (ALC, BCN, BIO, FUE, LPA, IBZ лето, ACE, MAD, AGP, MAH лето, PMI, TFS, VLC); r2-100…102 вместе покрывают его полностью, без пропусков."
+ },
+ "r2-101": {
+  "status": "found",
+  "found_text": "Lanzarote, Adolfo Suárez Madrid — Barajas, Málaga — Costa del Sol, Menorca (Summer Season),",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-102": {
+  "status": "found",
+  "found_text": "Menorca (Summer Season), Palma de Mallorca, Tenerife Sur and Valencia",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-103": {
+  "status": "found",
+  "found_text": "A Coruña, Almería, Asturias, Girona — Costa Brava, FG.L. Granada — Jaén, Ibiza (Winter Season), Jerez, La Palma, Menorca (Winter Season), Murcia — San Javier, Pamplona, Reus, San Sebastián, Santander, Seville and Tenerife Norte",
+  "value_ok": true,
+  "note": "Level 2 — 16 позиций, перечень в value совпадает. Мелочь: на странице «Murcia — San Javier»; код RMU (Корвера) в value — интерпретация, MJV закрыт с 2019."
+ },
+ "r2-105": {
+  "status": "found",
+  "found_text": "Nantes Atlantique (NTE/LFRS) is designated as Level 3 airport in Northern Summer Season, effective from the start of NS24. ... In Northern Winter Season, the airport will however remain as Level 2 airport.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-106": {
+  "status": "found",
+  "found_text": "EuroAirport (MLH, BSL, EAP/LFSB) is designated as Level 2 airport, effective from the start of NS24.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-109": {
+  "status": "found",
+  "found_text": "Berlin Brandenburg Bremen, Dresden, Düsseldorf, Erfurt, Frankfurt/Main, Hamburg, Hannover, Karlsruhe/Baden-Baden",
+  "value_ok": true,
+  "note": "В оригинале каждый пункт — отдельной нумерованной строкой; 17 аэропортов, § 1 Abs. 1 FHKV."
+ },
+ "r2-110": {
+  "status": "found",
+  "found_text": "Köln/Bonn, Leipzig/Halle, Memmingen, München, Münster/Osnabrück, Nürnberg, Saarbrücken, Stuttgart.",
+  "value_ok": true,
+  "note": "Подтверждено: § 1 не разделяет уровни; статус — по объявлению в Bundesanzeiger/NfL (Abs. 2)."
+ },
+ "r2-116": {
+  "status": "found",
+  "found_text": "IATA Designation: Level 3 ... Mon-Fri 06:30 – 22:00 UK Local Time.Sat 06:30 – 12:30 UK Local Time.Sun 12:30 – 22:00 UK Local Time.",
+  "value_ok": true,
+  "note": "LCY Level 3 подтверждено. Режим не только пн–пт: сб 06:30–12:30, вс 12:30–22:00 (закрыт с субботы днём до воскресенья) — для ограничений по ночи/выходным учесть."
+ },
+ "r2-118": {
+  "status": "found",
+  "found_text": "distribution of Night Movements and Night Noise Quota to comply with limitations on night operations set by Luton Council.",
+  "value_ok": true,
+  "note": "LTN: IATA Designation: Level 3; аэропорт открыт 24/7."
+ },
+ "r2-120": {
+  "status": "found",
+  "found_text": "Night Movements and Night Noise Quota to comply with limitations on night operations set by the UK Government.",
+  "value_ok": true,
+  "note": "LHR: IATA Designation: Level 3; открыт 24/7."
+ },
+ "r2-121": {
+  "status": "found",
+  "found_text": "Please note as per Airport Capacity Declarations Adhoc Slots will not be cleared between 0430 and 0800 UTC ... in both Summer and Winter seasons.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-125": {
+  "status": "found",
+  "found_text": "IATA Designation: Level 3 (effective 26th March 2017).",
+  "value_ok": true,
+  "note": "Ночная политика — Night Flying Policy по соглашению Birmingham Airport и Solihull Council; аэропорт 24/7."
+ },
+ "r2-128": {
+  "status": "found",
+  "found_text": "Dublin airport is open 24 hours a day, 7 days a week, year round",
+  "value_ok": true,
+  "note": "IATA Designation: Level 3; ночных правил на странице ACL нет — совпадает с оговоркой в value."
+ },
+ "r2-130": {
+  "status": "found",
+  "found_text": "Night Movements and Night Noise Quota to comply with limitations on night operations set by the UK Government.",
+  "value_ok": true,
+  "note": "LGW: Level 3, 24/7; новая редакция Local Rule 1 действует с Summer 2026 (согласована 30.05.2025) — подтверждено."
+ },
+ "r2-132": {
+  "status": "found",
+  "found_text": "Manchester airport is open 24 hours a day, 7 days a week, year round.",
+  "value_ok": true,
+  "note": "IATA Designation: Level 3."
+ },
+ "r2-134": {
+  "status": "found",
+  "found_text": "distribution of Night Movements and Night Noise Quota to comply with limitations on night operations",
+  "value_ok": true,
+  "note": "STN: Level 3, 24/7; лимиты — правительство UK."
+ },
+ "r2-136": {
+  "status": "found",
+  "found_text": "All operators flying into Warsaw F. Chopin airport during the night period (2200-0600 Local Time)",
+  "value_ok": true,
+  "note": "WAW: IATA Designation: Level 3; аэропорт формально 24/7, ночью — QC-лимиты."
+ },
+ "r2-137": {
+  "status": "found",
+  "found_text": "LHR/LGW/STN/LTN/LCY/MAN/BHX/DUB/WAW — на каждой карточке ACL поле «IATA Designation: Level 3» (BHX: «Level 3 (effective 26th March 2017).»)",
+  "value_ok": true,
+  "note": "infer: все 9 карточек открыты и проверены — вывод верен."
+ },
+ "r2-141": {
+  "status": "found",
+  "found_text": "sie werde ein Nachtflugverbot von 23 Uhr bis 5 Uhr verhängen, wenn dies rechtlich möglich sei.",
+  "value_ok": true,
+  "note": "Цитата — из заявления земельного правительства (2012); по тексту статьи BVerwG подтвердил запрет 23–05. Источник 2012 г., актуальность на 2026 не проверена (как и отмечено в r2-140)."
+ },
+ "r2-142": {
+  "status": "found",
+  "found_text": "Ab sofort dürfen zwischen 22 und 23 sowie 5 bis 6 Uhr darum nur noch 133 statt 150 Flüge stattfinden.",
+  "value_ok": true,
+  "note": "Статья: пересмотр, «wenn ihre Zahl künftig durchschnittlich 133 überschreite» — базис усреднения (ночь/год) не указан. В value «в сумме ≤133 (в среднем)» — допустимо; в первоисточнике (PFB) это среднегодовое за ночь."
+ },
+ "r2-145": {
+  "status": "found",
+  "found_text": "Night air traffic movements 8,839",
+  "value_ok": true,
+  "note": "Сезон W26: 25.10.2026–27.03.2027 (≈22 недели) — согласуется."
+ },
+ "r2-146": {
+  "status": "found",
+  "found_text": "Night movement: Departure or arrival with a runway time between 2200 – 0559 UTC (2300 – 0659 LT).",
+  "value_ok": true,
+  "note": "Местное время 23:00–06:59 указано для зимы (UTC+1) — верно для W26."
+ },
+ "r2-147": {
+  "status": "found",
+  "found_text": "Total air traffic movements 185,282",
+  "value_ok": true,
+  "note": "Цитата без числа; число 185 282 в value подтверждено той же строкой документа."
+ },
+ "r2-150": {
+  "status": "found",
+  "found_text": "Airports (Level3): BOM ... (Updated June 2026)",
+  "value_ok": true,
+  "note": "Mumbai International Airport (India), APACA NDB."
+ },
+ "r2-153": {
+  "status": "found",
+  "found_text": "The airport should be designated as Level 3 only if this analysis and consultation concludes that the demand for airport",
+  "value_ok": true,
+  "note": "MoCA «Guidelines for Slot Allocation», ред. май 2013; Section II п. 5 прямо ссылается на IATA WSG — вывод подтверждён."
+ },
+ "r2-156": {
+  "status": "found",
+  "found_text": "There are six Level 2 airports and four Level 3 airports which are shown in below table.",
+  "value_ok": true,
+  "note": "Документ 2020 г."
+ },
+ "r2-157": {
+  "status": "found",
+  "found_text": "Indira Gandhi International Airport (Delhi) | DEL | VIDP | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-158": {
+  "status": "found",
+  "found_text": "Chhatrapati Shivaji Maharaj International Airport (Mumbai) | BOM | VABB | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-159": {
+  "status": "found",
+  "found_text": "Chennai International Airport | MAA | VOMM | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-160": {
+  "status": "found",
+  "found_text": "Kempegowda International Airport, Bengaluru | BLR | VOBL | 2",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-161": {
+  "status": "found",
+  "found_text": "Rajiv Gandhi International Airport (Hyderabad) | HYD | VOHS | 2",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-162": {
+  "status": "found",
+  "found_text": "Netaji Subhas Chandra Bose International Airport (Kolkata) | CCU | VECC | 3",
+  "value_ok": true,
+  "note": "Прочие Level 2 по таблице: AMD, CCJ, JAI, TRV — подтверждено; итог 4×L3 (DEL, BOM, MAA, CCU) + 6×L2 (AMD, BLR, CCJ, HYD, JAI, TRV)."
+ },
+ "r2-165": {
+  "status": "found",
+  "found_text": "to restrict air traffic movements during the HIRO (High-Intensity Runway Operations) period from 46 to 44 per hour.",
+  "value_ok": true,
+  "note": "Мера по директиве AAI от 2 января (статья ~2024 г.); актуальность на 2026 не проверена."
+ },
+ "r2-166": {
+  "status": "found",
+  "found_text": "In the non-HIRO period, the air traffic movements were restricted to 42 from 44.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-167": {
+  "status": "found",
+  "found_text": "HIRO periods are from 0800- 1100 hours, 1700-2000 hours and 2115-2315 hours.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-169": {
+  "status": "found",
+  "found_text": "Delhi airport will not be able to add any additional flights between 07h00L and 22h00L this summer",
+  "value_ok": true,
+  "note": "Дата на странице не видна; год 2017 — по данным исследователя (не проверено)."
+ },
+ "r2-172": {
+  "status": "found",
+  "found_text": "While there are several 24-hour airports in India – including VIDP, VABB, VOBL, VOMM, and VECC",
+  "value_ok": true,
+  "note": "Дата статьи на странице не указана."
+ },
+ "r2-173": {
+  "status": "found",
+  "found_text": "At smaller airports across the country, night operating curfews are a fact of life.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-177": {
+  "status": "found",
+  "found_text": "As of 30.11.2025, 93 airports/heliports/ water-aerodromes have been operationalised ... through 651 Routes under the RCS-UDAN Scheme.",
+  "value_ok": true,
+  "note": "Rajya/Lok Sabha unstarred Q 3139, 18.12.2025."
+ },
+ "r2-178": {
+  "status": "found",
+  "found_text": "93 airports/heliports/ water-aerodromes have been operationalised",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-179": {
+  "status": "found",
+  "found_text": "The Modified UDAN Scheme to increase regional connectivity to 120 new destinations across the country ... is currently at the approval stage.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-181": {
+  "status": "found",
+  "found_text": "UDAN served over 1.56 crore passengers through 3.23 lakh flights",
+  "value_ok": true,
+  "note": "1,56 крор / 3,23 лакх = 15,6 млн / 323 тыс. ≈ 48,3 пасс./рейс — арифметика верна."
+ },
+ "r2-182": {
+  "status": "found",
+  "found_text": "the Government has disbursed more than Rs. 4,300 crore as Viability Gap Funding (VGF)",
+  "value_ok": true,
+  "note": "4 300 крор / 1,56 крор пасс. ≈ 2 756 INR/пасс. ≈ 2 800 — верно (нижняя граница «more than»)."
+ },
+ "r2-187": {
+  "status": "found",
+  "found_text": "only about 30%, or 112 routes, had completed the full concession period of three years",
+  "value_ok": true,
+  "note": "Знаменатель 371 начатый маршрут — в статье; 112/371 = 30,2 %; 774 − 403 = 371 — согласовано с r2-189."
+ },
+ "r2-188": {
+  "status": "found",
+  "found_text": "only 54 routes (7% of the 774 awarded routes) that connected 17 RCS Airports could sustain the operations beyond the concession period of three years, as of March 2023.",
+  "value_ok": true,
+  "note": "54/774 = 6,98 % ≈ 7 % — верно. 7 % — от ПРИСУЖДЁННЫХ (от начавших работу 371 → 14,6 %). Срез — март 2023 (аудит фаз 1–3, завершённых к марту 2021). В out/r2.json udan as_of «03.2021» для этой метрики неточен: выживаемость — на 03.2023."
+ },
+ "r2-189": {
+  "status": "found",
+  "found_text": "CAG observed that up to UDAN-3, 52% (403) out of 774 awarded routes had not commenced operations.",
+  "value_ok": true,
+  "note": "403/774 = 52,1 % — верно."
+ },
+ "r2-192": {
+  "status": "found",
+  "found_text": "923 routes were awarded under RCS-UDAN until October 2025 ... of which only 651 were operationalised",
+  "value_ok": true,
+  "note": "651/923 = 70,5 % ≈ 71 % — верно."
+ },
+ "r2-193": {
+  "status": "found",
+  "found_text": "123 could not complete their exclusive three year term",
+  "value_ok": true,
+  "note": "123/651 = 18,9 % ≈ 19 % — верно."
+ },
+ "r2-195": {
+  "status": "found",
+  "found_text": "(a): As on 10.07.2026, a total of 679 routes have been operationalised under the Regional Connectivity Scheme - Ude Desh ka Aam Nagrik (RCS-UDAN).",
+  "value_ok": true,
+  "note": "Rajya Sabha unstarred Q 907, к ответу 27.07.2026; данные на 10.07.2026."
+ },
+ "r2-196": {
+  "status": "found",
+  "found_text": "165 routes were discontinued before completion of the three-year VGF support tenure under the UDAN Scheme.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-197": {
+  "status": "found",
+  "found_text": "348 routes are currently operational.",
+  "value_ok": true,
+  "note": "348/679 = 51,3 % — верно. Замечание: 679 − 165 = 514, а работает 348 — ещё 166 маршрутов закрыты уже ПОСЛЕ окончания 3-летней VGF (или по иным причинам); т. е. «закрыто досрочно 165» занижает реальный отсев."
+ },
+ "r2-201": {
+  "status": "found",
+  "found_text": "the Prime Minister said the airfare for a one‑hour journey of 500 km has been capped at Rs. 2,500, which will be an all‑inclusive charge.",
+  "value_ok": true,
+  "note": "Отличие только в символе дефиса."
+ },
+ "r2-202": {
+  "status": "found",
+  "found_text": "The winning bidder gets three year exclusivity on the route so that the route can be matured and made profitable.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-203": {
+  "status": "found",
+  "found_text": "concessions by Central or/and State Governments and airport operators",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-208": {
+  "status": "found",
+  "found_text": "As of June 2014, the OpenFlights/Airline Route Mapper Route Database contains 67663 routes between 3321 airports on 548",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-209": {
+  "status": "found",
+  "found_text": "The current data is of historical value only.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-210": {
+  "status": "found",
+  "found_text": "The OpenFlights Airport, Airline, Plane and Route Databases are made available under the Open Database License.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-215": {
+  "status": "found",
+  "found_text": "Last year, 91 airlines offered regular services at Munich Airport.",
+  "value_ok": true,
+  "note": "ВНИМАНИЕ: по адресу «annual-traffic-report-2024.pdf» лежит «Annual Traffic Report 2025» (43,4 млн пасс. в 2025) — цифры относятся к 2025 г., а не к 2024."
+ },
+ "r2-216": {
+  "status": "found",
+  "found_text": "In total, flights were operated to 232 destinations in 72 countries",
+  "value_ok": true,
+  "note": "Таблица «Top destinations in passenger traffic 2025» — города без перевозчиков, подтверждено. Год — 2025 (см. r2-215)."
+ },
+ "r2-220": {
+  "status": "found",
+  "found_text": "Accordingly, the total count will be about 23,049 weekly flights, as per an analysis. ... During the 2025 summer schedule, there were 25,610 weekly flights ... the domestic flights summer schedule, which is from March 29 to October 24",
+  "value_ok": true,
+  "note": "23 049/25 610 − 1 = −10,0 % — согласуется с заголовком «down 10% YoY»."
+ },
+ "r2-221": {
+  "status": "found",
+  "found_text": "has put out the airline-wise domestic summer schedule for 2026 on its website",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-226": {
+  "status": "found",
+  "found_text": "does not show the end destination for the passenger, but merely the first leg if it is a multi leg journey",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-227": {
+  "status": "found",
+  "found_text": "Mumbai–Dubai–Mumbai: 615,884 passengers (3.18% of total international traffic)",
+  "value_ok": true,
+  "note": "ПЕРИОД НЕОДНОЗНАЧЕН: заголовок «Top 25 international sectors from India Q1-CY26», а первый абзац — «during the first quarter of financial year 2025–2026 (Q1-FY26)» (= апр–июн 2025). По дате публикации (21.05.2026) вероятнее янв–мар 2026, но в источнике противоречие — в out пометить."
+ },
+ "r2-228": {
+  "status": "found",
+  "found_text": "Delhi–Dubai–Delhi: 568,354 passengers (2.94%)",
+  "value_ok": true,
+  "note": "Та же неоднозначность периода (CY26 / FY26)."
+ },
+ "r2-229": {
+  "status": "found",
+  "found_text": "Delhi–London–Delhi: 441,641 passengers (2.28%)",
+  "value_ok": true,
+  "note": "Та же неоднозначность периода (CY26 / FY26)."
+ },
+ "r2-231": {
+  "status": "found",
+  "found_text": "The Director General of Civil Aviation (DGCA) releases both domestic and international air traffic reports every month.",
+  "value_ok": true,
+  "note": "Расходится с r2-056 (межд. по кварталам на дашборде): ежемесячные отчёты — агрегаты, межд. пары — поквартально."
+ },
+ "r2-235": {
+  "status": "found",
+  "found_text": "is licensed under the Creative Commons Attribution 4.0 International licence",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-236": {
+  "status": "found",
+  "found_text": "This means that you can re-use the content provided you acknowledge the source and indicate any changes you have made.",
+  "value_ok": true,
+  "note": "Условие также — указывать внесённые изменения."
+ },
+ "r2-239": {
+  "status": "found",
+  "found_text": "Pour préserver le sommeil des riverains, il est en outre soumis à un strict couvre-feu entre 23h30 et 06h00 du matin.",
+  "value_ok": true,
+  "note": ""
+ },
+ "r2-240": {
+  "status": "found",
+  "found_text": "il a vu son nombre de décollages et atterrissages plafonné à 250.000 par an depuis 1994",
+  "value_ok": true,
+  "note": "В тексте — потолок взлётов и посадок (движений) 250 000/год; в value «слотов» — по сути то же (лимит распределяемых слотов), но формально речь о движениях."
+ }
+}

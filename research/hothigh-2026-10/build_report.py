@@ -69,6 +69,56 @@ def chart():
                       yfmt=lambda v: n(max(v, 0), 0) + " %", x_every=1)
 
 
+B738 = json.loads((HERE / "out" / "b738_digitized.json").read_text(encoding="utf-8"))
+
+
+def chart738():
+    mt = B738["mtow_klb"] * LB
+    ser = []
+    for i, (nm, col) in zip((0, 2, 4), ((T("уровень моря", "sea level", "Meereshöhe"), "var(--sky)"),
+                                       (T("4 000 футов", "4,000 ft", "4.000 ft"), "var(--green)"),
+                                       (T("8 000 футов", "8,000 ft", "8.000 ft"), "var(--orange)"))):
+        pts = {int(d): (B738["tow_klb"][d]["9.5"][i] * LB if B738["tow_klb"][d]["9.5"][i] else mt)
+               for d in ("0", "15", "25", "35")}
+        ser.append((nm, col, pts, False))
+    return line_chart(ser, ylab=T("допустимая взлётная масса, т", "allowable take-off weight, t",
+                                  "zulässige Startmasse, t"), yfmt=lambda v: n(v, 0), x_every=1)
+
+
+A320D = json.loads((HERE / "out" / "a320_digitized.json").read_text(encoding="utf-8"))
+
+
+def _a320(pg, rw, h):
+    v = A320D[pg]["tow_klb"].get(rw, {}).get(h)
+    return v * LB if isinstance(v, (int, float)) else None
+
+
+def chart_temp():
+    """Только температура: высота 6 000 футов, полоса около 3 км."""
+    b = {int(d): B738["tow_klb"][d]["9.5"][3] * LB for d in ("0", "15", "25", "35")}
+    ser = [(T("737-800, полоса 2,9 км", "737-800, 2.9 km runway", "737-800, 2,9-km-Piste"), "var(--sky)", b, False),
+           (T("A320ceo CFM, 3,0 км", "A320ceo CFM, 3.0 km", "A320ceo CFM, 3,0 km"), "var(--green)",
+            {0: _a320("5", "10", "6"), 15: _a320("10", "10", "6")}, False),
+           (T("A320neo LEAP, 2,4 км", "A320neo LEAP, 2.4 km", "A320neo LEAP, 2,4 km"), "var(--orange)",
+            {0: _a320("7", "8", "6"), 15: _a320("12", "8", "6")}, True)]
+    return line_chart(ser, ylab=T("взлётная масса, т — высота 6 000 футов", "take-off weight, t — elevation 6,000 ft",
+                                  "Startmasse, t — Höhe 6.000 ft"), yfmt=lambda v: n(v, 0), x_every=1)
+
+
+def chart_alt():
+    """Только высота: при постоянном отклонении от стандарта."""
+    hs = (0, 2, 4, 6, 8, 10)
+    ser = [(T("737-800, +35 °C к стандарту", "737-800, standard +35 °C", "737-800, Standard +35 °C"), "var(--sky)",
+            {h: B738["tow_klb"]["35"]["9.5"][i] * LB for i, h in enumerate(hs)}, False),
+           (T("737-800, +25 °C", "737-800, +25 °C", "737-800, +25 °C"), "var(--aqua)",
+            {h: B738["tow_klb"]["25"]["9.5"][i] * LB for i, h in enumerate(hs) if B738["tow_klb"]["25"]["9.5"][i]},
+            True),
+           (T("A320ceo CFM, стандарт, 2,4 км", "A320ceo CFM, standard, 2.4 km", "A320ceo CFM, Standard, 2,4 km"),
+            "var(--green)", {h: _a320("5", "8", str(h)) for h in hs if h <= 8}, False)]
+    return line_chart(ser, ylab=T("взлётная масса, т", "take-off weight, t", "Startmasse, t"),
+                      yfmt=lambda v: n(v, 0), x_every=1)
+
+
 S = Sources(HERE)
 # Пример расчёта: A320, MTOW 78 т, 180 кресел, пассажир с багажом — 100 кг. Сейчас калькулятор
 # нагрузку из-за жары не снимает; поправка ниже — то, что предлагается добавить.
@@ -111,9 +161,9 @@ def build() -> str:
     hook = f"""<h1>{T("Жара и высота: сколько пассажиров самолёт не довезёт",
                     "Heat and altitude: how many passengers an aircraft cannot carry",
                     "Hitze und Höhe: wie viele Passagiere ein Flugzeug nicht mitnehmen kann")}</h1>
-<p class="meta">{T('''Исследование FlightCostApp, октябрь 2026 · черновик · как температура и высота аэродрома меняют расчёт
-рейса''', "FlightCostApp research, October 2026 · draft · how airfield temperature and elevation change the cost of a flight",
-                   "FlightCostApp-Recherche, Oktober 2026 · Entwurf · wie Temperatur und Höhe des Flugplatzes die Flugkosten "
+<p class="meta">{T('''Исследование FlightCostApp, октябрь 2026 · как температура и высота аэродрома меняют расчёт
+рейса''', "FlightCostApp research, October 2026 · how airfield temperature and elevation change the cost of a flight",
+                   "FlightCostApp-Recherche, Oktober 2026 · wie Temperatur und Höhe des Flugplatzes die Flugkosten "
                    "verändern")}</p>
 {calc_badge("hothigh-2026-10")}
 <div class="verdict">
@@ -137,12 +187,14 @@ def build() -> str:
         f"cost per passenger +{cost_up} % — but only on a flight loaded up to the weight limit",
         f"Kosten je Passagier +{cost_up} % — aber nur auf einem Flug, der bis zur Grenzmasse beladen ist")
         }{S.cite('h1-075')}</span></div>
-<div><b>{T("Опора узкая", "A narrow basis", "Schmale Grundlage")}</b><span>{T(
-        '''один тип (737-800) и три аэропорта; для турбовинтовых и высокогорья выше 2 100 м чисел
-нет''',
-        "one type (737-800) and three airports; there are no figures for turboprops or for high airfields above 2,100 m",
-        "ein Typ (737-800) und drei Flughäfen; für Turboprops und Hochlagen über 2.100 m gibt es keine Zahlen")
-        }</span></div></div>
+<div><b>{T("Графики производителей это подтверждают", "Manufacturer charts confirm it",
+           "Herstellerdiagramme bestätigen das")}</b><span>{T(
+        '''737-800: 0,26 % массы на градус до ISA+25 и около 0,5 % дальше; A320 до ISA+15 почти не теряет;
+высота — 1,2–2,1 % на каждые 1 000 футов''',
+        "737-800: 0.26 % of weight per degree up to ISA+25 and about 0.5 % beyond; the A320 loses almost nothing up to "
+        "ISA+15; elevation — 1.2–2.1 % per 1,000 ft",
+        "737-800: 0,26 % der Masse je Grad bis ISA+25 und etwa 0,5 % darüber; der A320 verliert bis ISA+15 fast nichts; "
+        "Höhe — 1,2–2,1 % je 1.000 ft")}{S.cite('h3-001', 'h3-005')}</span></div></div>
 <p class="lede">{T('''Сейчас калькулятор считает, что самолёт в любой день может взлететь с полной загрузкой. В жару и на
 высоте это не так: допустимая взлётная масса падает, и на длинном секторе с полным салоном часть пассажиров или груза
 приходится снять. Тогда те же затраты на рейс делятся на меньшее число пассажиров. Ниже — когда это происходит и на
@@ -287,7 +339,71 @@ def build() -> str:
       f"Rechercheur aus den drei Punkten des Artikels abgeleitet — im Artikel selbst stehen sie nicht{S.cite('h1-133')}. Die "
       f"Autoren rechnen dieselben 4,5 t in 52 Passagiere um — sie setzen 86 kg je Passagier mit Handgepäck an"
       f"{S.cite('h2-008')}; der Rechner nimmt 100 kg mit Gepäck, deshalb kommen bei uns weniger Passagiere heraus. In der "
-      f"Praxis wird zuerst Fracht ausgeladen{S.cite('h2-009')}.")}</p></section>"""
+      f"Praxis wird zuerst Fracht ausgeladen{S.cite('h2-009')}.")}</p>
+<h3>{T("Что показывают графики Airbus и Boeing", "What the Airbus and Boeing charts show",
+       "Was die Diagramme von Airbus und Boeing zeigen")}</h3>
+<p>{T(f'''Производители публикуют для планирования аэропортов графики: какую массу самолёт может поднять с полосы данной
+длины на данной высоте при стандартной температуре и в жару. Мы сняли с них числа для 737-800 (стандарт, +15, +25 и
++35 °C к стандарту){S.cite('h3-001')} и для A320ceo и A320neo (стандарт и +15 °C){S.cite('h3-005')}. График ниже —
+737-800 на полосе 2,9 км: на уровне моря масса начинает падать только после +25 °C к стандарту, то есть около 40 °C; на
+высоте 4 000 футов — уже после +15 °C, и за +25 °C падение ускоряется; на 8 000 футах ограничение есть уже в
+стандартный день.''',
+      f"For airport planning, manufacturers publish charts showing what weight the aircraft can lift from a runway of a "
+      f"given length at a given elevation, at standard temperature and in the heat. We read the figures off them for the "
+      f"737-800 (standard, +15, +25 and +35 °C above standard){S.cite('h3-001')} and for the A320ceo and A320neo (standard "
+      f"and +15 °C){S.cite('h3-005')}. The chart below is the 737-800 on a 2.9 km runway: at sea level the weight starts to "
+      f"fall only beyond +25 °C above standard, i.e. around 40 °C; at 4,000 ft already beyond +15 °C, and past +25 °C the "
+      f"drop speeds up; at 8,000 ft the weight is limited even on a standard day.",
+      f"Für die Flughafenplanung veröffentlichen die Hersteller Diagramme: welche Masse das Flugzeug von einer Piste "
+      f"gegebener Länge in gegebener Höhe bei Standardtemperatur und bei Hitze heben kann. Wir haben die Zahlen für die "
+      f"737-800 (Standard, +15, +25 und +35 °C über Standard){S.cite('h3-001')} und für A320ceo und A320neo (Standard und "
+      f"+15 °C){S.cite('h3-005')} abgelesen. Das Diagramm unten zeigt die 737-800 auf einer 2,9-km-Piste: auf Meereshöhe "
+      f"sinkt die Masse erst jenseits von +25 °C über Standard, also bei etwa 40 °C; auf 4.000 ft schon jenseits von +15 °C, "
+      f"und über +25 °C beschleunigt sich der Abfall; auf 8.000 ft ist die Masse schon an einem Standardtag begrenzt.")}</p>
+{chart738()}
+<details><summary>{T("Отдельно: только температура и только высота", "Separately: temperature only and elevation only",
+                     "Getrennt: nur Temperatur und nur Höhe")}</summary>
+{chart_temp()}
+<p class="small">{T("По горизонтали — на сколько градусов теплее стандарта; высота аэродрома одна — 6 000 футов. "
+                    "У A320 графики Airbus есть только для стандарта и +15 °C.",
+                    "Horizontal axis — degrees above standard; one airfield elevation — 6,000 ft. For the A320, Airbus "
+                    "charts exist only for standard and +15 °C.",
+                    "Waagerecht — Grad über Standard; eine Flugplatzhöhe — 6.000 ft. Für den A320 gibt es "
+                    "Airbus-Diagramme nur für Standard und +15 °C.")}</p>
+{chart_alt()}
+<p class="small">{T("По горизонтали — высота аэродрома, тыс. футов; температура относительно стандарта постоянна. 737-800 — "
+                    "полоса 2,9 км; при +25 °C на малой высоте масса выше максимальной взлётной, поэтому линия "
+                    "начинается с 4 000 футов.",
+                    "Horizontal axis — airfield elevation, thousand ft; the temperature relative to standard is constant. "
+                    "737-800 — 2.9 km runway; at +25 °C and low elevation the weight exceeds the maximum take-off weight, "
+                    "so the line starts at 4,000 ft.",
+                    "Waagerecht — Flugplatzhöhe in Tsd. ft; die Temperatur relativ zum Standard ist konstant. 737-800 — "
+                    "2,9-km-Piste; bei +25 °C und geringer Höhe liegt die Masse über der maximalen Startmasse, daher "
+                    "beginnt die Linie bei 4.000 ft.")}</p></details>
+<p class="small">{T("По горизонтали — на сколько градусов теплее стандартной атмосферы. 737-800, CFM56-7B27, сухая полоса 9 500 футов (2,9 км); масса не выше максимальной взлётной (79 т).",
+                    "Horizontal axis — degrees above the standard atmosphere. 737-800, CFM56-7B27, 9,500 ft (2.9 km) dry runway; weight capped at the maximum take-off weight (79 t).",
+                    "Waagerecht — Grad über der Standardatmosphäre. 737-800, CFM56-7B27, trockene 9.500-ft-Piste (2,9 km); Masse höchstens die maximale Startmasse (79 t).")}</p>
+<p>{T(f'''Из этих графиков получаются наклоны для расчёта. У 737-800 потеря допустимой массы — 0,26 % на градус от
+стандарта до +25 °C и 0,53 % (0,32–0,67) от +25 до +35 °C; каждые 1 000 футов высоты отнимают около 2,1 %
+{S.cite('h3-001', 'h3-004')}. Вторая цифра совпадает с наклоном, который исследователь вывел из статьи Coffel и Horton для Финикса,
+— 0,48–0,57 %: две независимые опоры сходятся. У A320 до +15 °C к стандарту масса почти не меняется — 0,05–0,15 % на
+градус, потому что тяга его двигателей держится до 45 °C; высота отнимает 1,2–1,4 % на 1 000 футов{S.cite('h3-005', 'h3-007')}.
+Выше +15 °C графиков Airbus нет, поэтому для жары за точкой излома у A320 берём наклон 737-800 — это допущение.''',
+      f"These charts give the slopes for the calculation. For the 737-800 the loss of allowable weight is 0.26 % per degree "
+      f"from standard to +25 °C and 0.53 % (0.32–0.67) from +25 to +35 °C; every 1,000 ft of elevation takes about 2.1 %"
+      f"{S.cite('h3-001', 'h3-004')}. The second figure matches the slope the researcher derived from Coffel and Horton for Phoenix — "
+      f"0.48–0.57 %: two independent bases agree. For the A320 the weight barely changes up to +15 °C above standard — "
+      f"0.05–0.15 % per degree, because its engines hold thrust up to 45 °C; elevation takes 1.2–1.4 % per 1,000 ft"
+      f"{S.cite('h3-005', 'h3-007')}. Airbus has no charts above +15 °C, so for heat beyond the kink point we use the 737-800 slope "
+      f"for the A320 — an assumption.",
+      f"Aus diesen Diagrammen ergeben sich die Steigungen für die Berechnung. Bei der 737-800 beträgt der Verlust an "
+      f"zulässiger Masse 0,26 % je Grad von Standard bis +25 °C und 0,53 % (0,32–0,67) von +25 bis +35 °C; je 1.000 ft Höhe "
+      f"gehen etwa 2,1 % verloren{S.cite('h3-001', 'h3-004')}. Die zweite Zahl stimmt mit der Steigung überein, die der Rechercheur "
+      f"aus Coffel und Horton für Phoenix abgeleitet hat — 0,48–0,57 %: zwei unabhängige Grundlagen stimmen überein. Beim "
+      f"A320 ändert sich die Masse bis +15 °C über Standard kaum — 0,05–0,15 % je Grad, weil seine Triebwerke den Schub bis "
+      f"45 °C halten; die Höhe kostet 1,2–1,4 % je 1.000 ft{S.cite('h3-005', 'h3-007')}. Oberhalb von +15 °C gibt es keine "
+      f"Airbus-Diagramme, daher nehmen wir für Hitze jenseits des Knickpunkts beim A320 die Steigung der 737-800 — eine "
+      f"Annahme.")}</p></section>"""
 
     m = D["model"]
     trs = "".join(f"<tr><td>{e(tr(r['case']))}</td><td class=r>{'—' if r['D0'] is None else 'ISA+' + str(r['D0'])}</td>"
@@ -323,15 +439,42 @@ def build() -> str:
 
     pax45 = round(pax(dl45))
     concl = f"""<section><h2>{T("Что меняем в калькуляторе", "What we change in the calculator", "Was wir im Rechner ändern")}</h2>
-<p class="formula">{T('''ΔISA = T<sub>жаркого месяца</sub> − (15 − 1,98 · h<sub>тыс. футов</sub>)<br>
-потеря взлётной массы, % = k · max(0, ΔISA − порог)<br>
-снять нагрузку = max(0, плановая взлётная масса − допустимая), в пассажирах — по 100 кг''',
-                      '''ΔISA = T<sub>hot month</sub> − (15 − 1.98 · h<sub>thousand ft</sub>)<br>
-take-off weight loss, % = k · max(0, ΔISA − threshold)<br>
-payload to offload = max(0, planned take-off weight − allowable), in passengers — 100 kg each''',
-                      '''ΔISA = T<sub>heißer Monat</sub> − (15 − 1,98 · h<sub>Tsd. ft</sub>)<br>
-Verlust an Startmasse, % = k · max(0, ΔISA − Schwelle)<br>
-auszuladende Zuladung = max(0, geplante Startmasse − zulässige), in Passagieren — je 100 kg''')}</p>
+<p class="formula">{T('''ΔISA = T<sub>жаркого месяца</sub> − (15 − 1,98 · h)<br>
+M<sub>доп</sub> = min( MTOW ; M<sub>ВПП</sub>(L) · [1 − a<sub>h</sub>·h − k<sub>1</sub>·min(ΔISA, D) − k<sub>2</sub>·max(0, ΔISA − D)] )<br>
+снять = max(0, M<sub>план</sub> − M<sub>доп</sub>);  пассажиров = снять ÷ 100 кг<br>
+себестоимость на пассажира = затраты рейса ÷ (N − пассажиров)''',
+                      '''ΔISA = T<sub>hot month</sub> − (15 − 1.98 · h)<br>
+M<sub>allow</sub> = min( MTOW ; M<sub>rwy</sub>(L) · [1 − a<sub>h</sub>·h − k<sub>1</sub>·min(ΔISA, D) − k<sub>2</sub>·max(0, ΔISA − D)] )<br>
+offload = max(0, M<sub>plan</sub> − M<sub>allow</sub>);  passengers = offload ÷ 100 kg<br>
+cost per passenger = flight cost ÷ (N − passengers)''',
+                      '''ΔISA = T<sub>heißer Monat</sub> − (15 − 1,98 · h)<br>
+M<sub>zul</sub> = min( MTOW ; M<sub>Piste</sub>(L) · [1 − a<sub>h</sub>·h − k<sub>1</sub>·min(ΔISA, D) − k<sub>2</sub>·max(0, ΔISA − D)] )<br>
+ausladen = max(0, M<sub>Plan</sub> − M<sub>zul</sub>);  Passagiere = ausladen ÷ 100 kg<br>
+Kosten je Passagier = Flugkosten ÷ (N − Passagiere)''')}</p>
+<div class="tw"><table class="txt"><tr><th>{T("Слагаемое", "Term", "Term")}</th><th>{T("Что это", "What it is", "Was es ist")}</th>
+<th>737-800</th><th>A320ceo/neo</th></tr>
+<tr><td>h</td><td>{T("высота аэродрома, тыс. футов", "airfield elevation, thousand ft", "Flugplatzhöhe, Tsd. ft")}</td><td>—</td><td>—</td></tr>
+<tr><td>M<sub>{T("ВПП", "rwy", "Piste")}</sub>(L)</td><td>{T("масса, которую полоса длиной L даёт у моря в стандартный день (график производителя)",
+"weight a runway of length L allows at sea level on a standard day (manufacturer chart)",
+"Masse, die eine Piste der Länge L auf Meereshöhe am Standardtag erlaubt (Herstellerdiagramm)")}</td>
+<td>{T("≈ 90 т при 2,9 км (продолжение графика: выше MTOW кривые обрезаны)", "≈ 90 t at 2.9 km (extrapolated: the curves are cut off above MTOW)", "≈ 90 t bei 2,9 km (extrapoliert: über MTOW sind die Kurven abgeschnitten)")}</td><td>{T("84 т при 3,0 км", "84 t at 3.0 km", "84 t bei 3,0 km")}</td></tr>
+<tr><td>a<sub>h</sub></td><td>{T("потеря на каждые 1 000 футов высоты", "loss per 1,000 ft of elevation", "Verlust je 1.000 ft Höhe")}</td>
+<td>2,1 %</td><td>1,2–1,4 %</td></tr>
+<tr><td>k<sub>1</sub></td><td>{T("потеря на градус до излома тяги", "loss per degree up to the thrust kink", "Verlust je Grad bis zum Schubknick")}</td>
+<td>0,26 %</td><td>0,05–0,15 %</td></tr>
+<tr><td>D</td><td>{T("излом: на сколько градусов теплее стандарта держится тяга", "kink: how many degrees above standard thrust holds",
+"Knick: bis wie viele Grad über Standard der Schub gehalten wird")}</td><td>+25 °C</td><td>{T("≈ +30 °C (45 °C у моря)", "≈ +30 °C (45 °C at sea level)", "≈ +30 °C (45 °C auf Meereshöhe)")}</td></tr>
+<tr><td>k<sub>2</sub></td><td>{T("потеря на градус после излома", "loss per degree beyond the kink", "Verlust je Grad nach dem Knick")}</td>
+<td>0,53 % (0,32–0,67)</td><td>{T("как у 737-800 — допущение", "as 737-800 — assumption", "wie 737-800 — Annahme")}</td></tr>
+<tr><td>M<sub>{T("план", "plan", "Plan")}</sub>, N</td><td>{T("плановая взлётная масса рейса и число кресел — уже есть в калькуляторе",
+"planned take-off weight of the flight and number of seats — already in the calculator",
+"geplante Startmasse des Flugs und Sitzzahl — schon im Rechner")}</td><td>—</td><td>—</td></tr></table></div>
+<p class="small">{T(f"Коэффициенты — с графиков Airbus и Boeing{S.cite('h3-001', 'h3-005')}; если длина полосы "
+                    "неизвестна, работает упрощённая таблица выше: один наклон k от порога.",
+                    f"Coefficients from the Airbus and Boeing charts{S.cite('h3-001', 'h3-005')}; if the runway length is "
+                    "unknown, the simplified table above applies: one slope k from the threshold.",
+                    f"Koeffizienten aus den Diagrammen von Airbus und Boeing{S.cite('h3-001', 'h3-005')}; ist die "
+                    "Pistenlänge unbekannt, gilt die vereinfachte Tabelle oben: eine Steigung k ab der Schwelle.")}</p>
 <ol><li>{mark('planned')}{T('''<b>Только когда рейс упирается в массу.</b> Калькулятор уже знает плановую взлётную массу; если она ниже
 допустимой с поправкой — ничего не меняется. Так что короткие рейсы жара не трогает.''',
         "<b>Only when the flight is weight-limited.</b> The calculator already knows the planned take-off weight; if it is "
@@ -383,14 +526,17 @@ auszuladende Zuladung = max(0, geplante Startmasse − zulässige), in Passagier
                      "Was fehlt und was zweifelhaft ist")}</summary><ul>{''.join(f'<li>{e(TR(x))}</li>' for x in D['gaps'])}
 {''.join(f'<li>{e(TR(x))}</li>' for x in doubts)}
 {''.join(f'<li>{e(TR(x))}</li>' for x in m['limits'])}</ul></details>
-<details><summary>{T("Что осталось до публикации", "What is left before publication",
-                     "Was bis zur Veröffentlichung noch fehlt")}</summary><ul>
-<li>{T('''Числа по типам: графики «взлётная масса — длина полосы — температура — высота» из документов Airbus (AC, раздел
-3-3) и Boeing (D6-58325-6) — ручной съём для A320, A321, 737-800.''',
-       "Figures by type: the “take-off weight — runway length — temperature — elevation” charts from the Airbus (AC, "
-       "section 3-3) and Boeing (D6-58325-6) documents — to be read off by hand for the A320, A321 and 737-800.",
-       "Zahlen nach Typ: die Diagramme „Startmasse — Pistenlänge — Temperatur — Höhe“ aus den Dokumenten von Airbus (AC, "
-       "Abschnitt 3-3) und Boeing (D6-58325-6) — von Hand ablesen für A320, A321 und 737-800.")}</li>
+<details><summary>{T("Документы", "Documents", "Dokumente")}</summary><ul>
+<li>{T('''Числа по типам сняты с графиков Airbus (A320ceo/neo, ISA и ISA+15) и Boeing (737-800, стандарт до +35 °C) —
+документы переданы владельцем 31.10.2026, журнал <code>trace/h3.jsonl</code>; оцифровка — <code>out/*_digitized.json</code>.
+Для A321, E-Jet и турбовинтовых графиков пока нет.''',
+       "Type figures were read off the Airbus (A320ceo/neo, ISA and ISA+15) and Boeing (737-800, standard to +35 °C) "
+       "charts — documents provided by the owner on 2026-10-31, log <code>trace/h3.jsonl</code>; digitised values in "
+       "<code>out/*_digitized.json</code>. There are no charts yet for the A321, E-Jets and turboprops.",
+       "Die Typzahlen wurden aus den Diagrammen von Airbus (A320ceo/neo, ISA und ISA+15) und Boeing (737-800, Standard bis "
+       "+35 °C) abgelesen — Dokumente vom Eigentümer am 31.10.2026 übergeben, Protokoll <code>trace/h3.jsonl</code>; "
+       "digitalisierte Werte in <code>out/*_digitized.json</code>. Für A321, E-Jets und Turboprops gibt es noch keine "
+       "Diagramme.")}</li>
 <li>{T('''Теория закрыта (FAA PHAK гл. 5 и 11, CS-25 Subpart B, журнальная версия Coffel &amp; Horton — переданы
 30.10.2026, журнал <code>trace/h2.jsonl</code>).''',
        "The theory is closed (FAA PHAK ch. 5 and 11, CS-25 Subpart B, the journal version of Coffel &amp; Horton — provided "

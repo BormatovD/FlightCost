@@ -1,0 +1,1022 @@
+{
+ "sources": [
+  {
+   "name": "Eurostat avia_par_<cc> (Air passenger transport between main airports of <country> and their main partner airports)",
+   "region": "Europe",
+   "what": "пассажиры на борту (PAS_BRD), перевезённые (PAS_CRD), кресла (ST_PAS), коммерческие пассажирские рейсы (CAF_PAS), каждое +_ARR/_DEP; без перевозчика (только метка EU/non-EU)",
+   "granularity": "пара аэропортов (reporting×partner, сегмент), месяц/квартал/год",
+   "period": "с 2003 г. сопоставимо; задержка ~M+6 (месяц), годовые финальные через 8–9 мес.",
+   "access": "бесплатно: Eurostat API/databrowser (в этой сессии закрыт прокси — значения не сняты)",
+   "license": "CC BY 4.0",
+   "url": "https://ec.europa.eu/eurostat/cache/metadata/en/avia_pa_esms.htm",
+   "ids": [
+    "r2-003",
+    "r2-004",
+    "r2-005",
+    "r2-006",
+    "r2-007",
+    "r2-008",
+    "r2-009",
+    "r2-010",
+    "r2-015",
+    "r2-018",
+    "r2-023",
+    "r2-024",
+    "r2-031",
+    "r2-235",
+    "r2-242"
+   ]
+  },
+  {
+   "name": "Eurostat Reference Manual on Air Transport Statistics v14",
+   "region": "Europe",
+   "what": "определения: seats available, commercial air flight, dataset B1 по парам аэропортов посадки/высадки",
+   "granularity": "методика",
+   "period": "сент. 2017",
+   "access": "бесплатно PDF",
+   "license": "CC BY 4.0",
+   "url": "https://ec.europa.eu/eurostat/documents/29567/3217334/Aviation%20Reference%20Manual%20(version%2014)/e2d532c6-a54a-465a-95e0-f62b76e7da4c",
+   "ids": [
+    "r2-018",
+    "r2-019",
+    "r2-020"
+   ]
+  },
+  {
+   "name": "Eurostat HICP CP0733 Passenger transport by air (зеркало FRED)",
+   "region": "Europe",
+   "what": "индекс цен авиаперевозок (потребительский), по странам и ЕС",
+   "granularity": "страна, месяц; не пара",
+   "period": "2020-01…2026-06 (база 2025=100)",
+   "access": "бесплатно (FRED / Eurostat prc_hicp_midx)",
+   "license": "© ЕС, повторное использование с указанием источника",
+   "url": "https://fred.stlouisfed.org/series/CP0733EUCCM086NEST",
+   "ids": [
+    "r2-084",
+    "r2-085",
+    "r2-086"
+   ]
+  },
+  {
+   "name": "Destatis VPI Personenbeförderung im Luftverkehr",
+   "region": "Europe (DE)",
+   "what": "индекс цен авиабилетов по ~100 маршрутам; публикуется только индекс (внутр./Европа/межконт.)",
+   "granularity": "группа направлений, месяц",
+   "period": "методика 2005 (актуальная не проверена)",
+   "access": "бесплатно (индекс)",
+   "license": "Datenlizenz DE (не проверено)",
+   "url": "https://www.statistischebibliothek.de/mir/servlets/MCRFileNodeServlet/DEMonografie_derivate_00000648/Qualitaetsbericht.Luftverkehr.Preisindex.2005.pdf",
+   "ids": [
+    "r2-089",
+    "r2-090"
+   ]
+  },
+  {
+   "name": "IATA WASG Annex 12.7 — список Level 2 / Level 3",
+   "region": "Global",
+   "what": "уровни координации аэропортов",
+   "granularity": "аэропорт, сезон",
+   "period": "текущий",
+   "access": "бесплатно xlsx (в сессии не разобран)",
+   "license": "IATA, условия не указаны",
+   "url": "https://www.iata.org/contentassets/4ede2aabfcc14a55919e468054d714fe/wasg-annex-12.7.xlsx",
+   "ids": [
+    "r2-094",
+    "r2-095",
+    "r2-096"
+   ]
+  },
+  {
+   "name": "AESA: Clasificación de los aeropuertos españoles",
+   "region": "Europe (ES)",
+   "what": "Level 3 / Level 2 аэропортов Испании",
+   "granularity": "аэропорт, сезон",
+   "period": "текущий",
+   "access": "бесплатно",
+   "license": "гос. сайт",
+   "url": "https://www.seguridadaerea.gob.es/en/ambitos/aeropuertos/franjas-horarias/clasificacion-de-los-aeropuertos-espanoles",
+   "ids": [
+    "r2-100",
+    "r2-101",
+    "r2-102",
+    "r2-103"
+   ]
+  },
+  {
+   "name": "ACL airport info pages",
+   "region": "Europe (UK/IE/PL)",
+   "what": "IATA level, ночные правила (local rules), часы работы",
+   "granularity": "аэропорт",
+   "period": "текущий (S26)",
+   "access": "бесплатно",
+   "license": "не указана",
+   "url": "https://www.acl-uk.org/airport-info-details/?aid=1",
+   "ids": [
+    "r2-116",
+    "r2-118",
+    "r2-120",
+    "r2-121",
+    "r2-125",
+    "r2-128",
+    "r2-130",
+    "r2-132",
+    "r2-134",
+    "r2-136",
+    "r2-137"
+   ]
+  },
+  {
+   "name": "COHOR (координатор Франции)",
+   "region": "Europe (FR)",
+   "what": "изменения уровней; Level 3 в меню сайта",
+   "granularity": "аэропорт, сезон",
+   "period": "NS24→",
+   "access": "бесплатно",
+   "license": "не указана",
+   "url": "https://www.cohor.org/en/2023/10/06/notification-of-airport-level-changes-for-nantes-atlantique-and-euroairport/",
+   "ids": [
+    "r2-105",
+    "r2-106"
+   ]
+  },
+  {
+   "name": "FHKV § 1 (Германия)",
+   "region": "Europe (DE)",
+   "what": "17 координируемых/фасилитируемых аэропортов без разделения уровней",
+   "granularity": "аэропорт",
+   "period": "действующая редакция",
+   "access": "бесплатно",
+   "license": "официальный текст закона",
+   "url": "https://www.gesetze-im-internet.de/fpkv/__1.html",
+   "ids": [
+    "r2-109",
+    "r2-110",
+    "r2-112"
+   ]
+  },
+  {
+   "name": "ACNL AMS Capacity Declaration W26/27",
+   "region": "Europe (NL)",
+   "what": "сезонная ёмкость, ночной лимит, часовые значения ВПП",
+   "granularity": "аэропорт, сезон, 20/60 мин",
+   "period": "W26 (25.10.2026–27.03.2027)",
+   "access": "бесплатно PDF",
+   "license": "не указана",
+   "url": "https://slotcoordination.nl/wp-content/uploads/2026/04/AMS-Capacity-Declaration-Winter-2026-2027-v1.0.pdf",
+   "ids": [
+    "r2-145",
+    "r2-146",
+    "r2-147"
+   ]
+  },
+  {
+   "name": "Отчёты аэропортов (пример: Munich Annual Traffic Report)",
+   "region": "Europe",
+   "what": "пассажиры по направлениям-городам, число перевозчиков/направлений; без разбивки по перевозчику на паре",
+   "granularity": "аэропорт×город, год",
+   "period": "2025",
+   "access": "бесплатно PDF",
+   "license": "не указана",
+   "url": "https://www.munich-airport.de/_b/0000000000000031515196bb67ed2d3f/annual-traffic-report-2024.pdf",
+   "ids": [
+    "r2-215",
+    "r2-216"
+   ]
+  },
+  {
+   "name": "OpenFlights routes.dat",
+   "region": "Global",
+   "what": "перевозчик×пара×тип ВС (без частот)",
+   "granularity": "маршрут",
+   "period": "июнь 2014 (устарел, 'historical value only')",
+   "access": "бесплатно",
+   "license": "ODbL",
+   "url": "https://openflights.org/data",
+   "ids": [
+    "r2-208",
+    "r2-209",
+    "r2-210"
+   ]
+  },
+  {
+   "name": "Wikipedia 'Airlines and destinations'",
+   "region": "Global",
+   "what": "перечень перевозчиков и направлений аэропорта, без частот; вторичный, правится добровольцами",
+   "granularity": "аэропорт×перевозчик×направление",
+   "period": "текущий (без гарантии)",
+   "access": "бесплатно (en.wikipedia в сессии закрыт, зеркала)",
+   "license": "CC BY-SA 4.0",
+   "url": "https://www.wikiwand.com/en/articles/BIAL",
+   "ids": [
+    "r2-212",
+    "r2-213"
+   ]
+  },
+  {
+   "name": "DGCA Monthly domestic traffic report",
+   "region": "India",
+   "what": "пассажиры, доли рынка, загрузка по авиакомпаниям; самоотчётность авиакомпаний",
+   "granularity": "авиакомпания, месяц (вся страна)",
+   "period": "2025 (сент. — копия PDF), ежемесячно",
+   "access": "бесплатно на dgca.gov.in (в сессии закрыт; использованы копии и PTI)",
+   "license": "не указана",
+   "url": "https://stockdiscovery.s3.amazonaws.com/india/company/6590/4105/DGCA-Sep25.pdf",
+   "ids": [
+    "r2-040",
+    "r2-041",
+    "r2-042"
+   ]
+  },
+  {
+   "name": "DGCA city-pair traffic (внутр. помесячно; межд. поквартально)",
+   "region": "India",
+   "what": "пассажиры по паре городов (сегмент), без авиакомпании",
+   "granularity": "пара городов, месяц/квартал",
+   "period": "с 2015 (зеркала Dataful/OpenCity); межд. Q1 2026 по пересказу",
+   "access": "бесплатно на dgca.gov.in (закрыт в сессии)",
+   "license": "не указана (зеркала — Factly ©)",
+   "url": "https://dataful.in/datasets/15137",
+   "ids": [
+    "r2-035",
+    "r2-056",
+    "r2-226",
+    "r2-227",
+    "r2-228",
+    "r2-229"
+   ]
+  },
+  {
+   "name": "DGCA airline-wise domestic schedule (summer/winter)",
+   "region": "India",
+   "what": "утверждённое расписание по авиакомпаниям — потенциально перевозчик×пара×частота (формат не проверен)",
+   "granularity": "рейс/сезон",
+   "period": "S26: 29.03–24.10.2026",
+   "access": "бесплатно на dgca.gov.in (не проверено)",
+   "license": "не указана",
+   "url": "https://www.millenniumpost.in/business/indian-airlines-to-operate-23k-weekly-domestic-flights-during-summer-schedule-down-10-yoy-653445",
+   "ids": [
+    "r2-220",
+    "r2-221",
+    "r2-224"
+   ]
+  },
+  {
+   "name": "Lok Sabha / Rajya Sabha answers (MoCA)",
+   "region": "India",
+   "what": "тарифы (TMU 78 маршрутов), статус UDAN",
+   "granularity": "агрегат",
+   "period": "12.2025, 07.2026",
+   "access": "бесплатно PDF",
+   "license": "парламентские документы",
+   "url": "https://eparlib.sansad.in/bitstream/123456789/3016307/1/AU721_SbZYPt.pdf",
+   "ids": [
+    "r2-067",
+    "r2-068",
+    "r2-069",
+    "r2-177",
+    "r2-178",
+    "r2-179",
+    "r2-195",
+    "r2-196",
+    "r2-197"
+   ]
+  },
+  {
+   "name": "APACA (schedule-coordination.jp): Asian Breeze 70 и NDB",
+   "region": "India",
+   "what": "уровни слотов аэропортов Индии",
+   "granularity": "аэропорт",
+   "period": "2020 (таблица); NDB BOM 06.2026, DEL 05.2026",
+   "access": "бесплатно PDF",
+   "license": "не указана",
+   "url": "https://www.schedule-coordination.jp/jpn/breeze/pdf/Asian Breeze 70.pdf",
+   "ids": [
+    "r2-150",
+    "r2-156",
+    "r2-157",
+    "r2-158",
+    "r2-159",
+    "r2-160",
+    "r2-161",
+    "r2-162"
+   ]
+  }
+ ],
+ "slots": [
+  {
+   "airport": "Madrid-Barajas",
+   "icao": "LEMD",
+   "level": "3",
+   "ids": [
+    "r2-101"
+   ]
+  },
+  {
+   "airport": "Barcelona-El Prat",
+   "icao": "LEBL",
+   "level": "3",
+   "ids": [
+    "r2-100"
+   ]
+  },
+  {
+   "airport": "Palma de Mallorca",
+   "icao": "LEPA",
+   "level": "3",
+   "ids": [
+    "r2-102"
+   ]
+  },
+  {
+   "airport": "Málaga",
+   "icao": "LEMG",
+   "level": "3",
+   "ids": [
+    "r2-101"
+   ]
+  },
+  {
+   "airport": "Alicante",
+   "icao": "LEAL",
+   "level": "3",
+   "ids": [
+    "r2-100"
+   ]
+  },
+  {
+   "airport": "Valencia",
+   "icao": "LEVC",
+   "level": "3",
+   "ids": [
+    "r2-102"
+   ]
+  },
+  {
+   "airport": "Bilbao",
+   "icao": "LEBB",
+   "level": "3",
+   "ids": [
+    "r2-100"
+   ]
+  },
+  {
+   "airport": "Gran Canaria",
+   "icao": "GCLP",
+   "level": "3",
+   "ids": [
+    "r2-100"
+   ]
+  },
+  {
+   "airport": "Tenerife Sur",
+   "icao": "GCTS",
+   "level": "3",
+   "ids": [
+    "r2-102"
+   ]
+  },
+  {
+   "airport": "Lanzarote",
+   "icao": "GCRR",
+   "level": "3",
+   "ids": [
+    "r2-101"
+   ]
+  },
+  {
+   "airport": "Fuerteventura",
+   "icao": "GCFV",
+   "level": "3",
+   "ids": [
+    "r2-100"
+   ]
+  },
+  {
+   "airport": "Ibiza",
+   "icao": "LEIB",
+   "level": "3 (лето) / 2 (зима)",
+   "ids": [
+    "r2-100",
+    "r2-103"
+   ]
+  },
+  {
+   "airport": "Menorca",
+   "icao": "LEMH",
+   "level": "3 (лето) / 2 (зима)",
+   "ids": [
+    "r2-102",
+    "r2-103"
+   ]
+  },
+  {
+   "airport": "Sevilla",
+   "icao": "LEZL",
+   "level": "2",
+   "ids": [
+    "r2-103"
+   ]
+  },
+  {
+   "airport": "Tenerife Norte",
+   "icao": "GCXO",
+   "level": "2",
+   "ids": [
+    "r2-103"
+   ]
+  },
+  {
+   "airport": "London Heathrow",
+   "icao": "EGLL",
+   "level": "3",
+   "ids": [
+    "r2-119",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "London Gatwick",
+   "icao": "EGKK",
+   "level": "3",
+   "ids": [
+    "r2-129",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "London Stansted",
+   "icao": "EGSS",
+   "level": "3",
+   "ids": [
+    "r2-133",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "London Luton",
+   "icao": "EGGW",
+   "level": "3",
+   "ids": [
+    "r2-117",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "London City",
+   "icao": "EGLC",
+   "level": "3",
+   "ids": [
+    "r2-115",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "Manchester",
+   "icao": "EGCC",
+   "level": "3",
+   "ids": [
+    "r2-131",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "Birmingham",
+   "icao": "EGBB",
+   "level": "3 (с S17)",
+   "ids": [
+    "r2-125"
+   ]
+  },
+  {
+   "airport": "Dublin",
+   "icao": "EIDW",
+   "level": "3",
+   "ids": [
+    "r2-127",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "Warsaw Chopin",
+   "icao": "EPWA",
+   "level": "3",
+   "ids": [
+    "r2-135",
+    "r2-137"
+   ]
+  },
+  {
+   "airport": "Nantes Atlantique",
+   "icao": "LFRS",
+   "level": "3 (лето) / 2 (зима)",
+   "ids": [
+    "r2-105"
+   ]
+  },
+  {
+   "airport": "EuroAirport Basel-Mulhouse",
+   "icao": "LFSB",
+   "level": "2",
+   "ids": [
+    "r2-106"
+   ]
+  },
+  {
+   "airport": "Paris CDG / Orly / Nice / Cannes / Figari",
+   "icao": "LFPG/LFPO/LFMN/LFMD/LFKF",
+   "level": "3 (по меню сайта COHOR, без цитаты)",
+   "ids": [
+    "r2-104"
+   ]
+  },
+  {
+   "airport": "Frankfurt / München / Düsseldorf / Berlin и ещё 13 аэропортов DE",
+   "icao": "EDDF/EDDM/EDDL/EDDB…",
+   "level": "2 или 3 — FHKV не разделяет",
+   "ids": [
+    "r2-109",
+    "r2-110",
+    "r2-112"
+   ]
+  },
+  {
+   "airport": "Delhi",
+   "icao": "VIDP",
+   "level": "3",
+   "ids": [
+    "r2-157"
+   ]
+  },
+  {
+   "airport": "Mumbai",
+   "icao": "VABB",
+   "level": "3",
+   "ids": [
+    "r2-158",
+    "r2-150"
+   ]
+  },
+  {
+   "airport": "Chennai",
+   "icao": "VOMM",
+   "level": "3",
+   "ids": [
+    "r2-159"
+   ]
+  },
+  {
+   "airport": "Kolkata",
+   "icao": "VECC",
+   "level": "3",
+   "ids": [
+    "r2-162"
+   ]
+  },
+  {
+   "airport": "Bengaluru",
+   "icao": "VOBL",
+   "level": "2 (данные 2020)",
+   "ids": [
+    "r2-160"
+   ]
+  },
+  {
+   "airport": "Hyderabad",
+   "icao": "VOHS",
+   "level": "2 (данные 2020)",
+   "ids": [
+    "r2-161"
+   ]
+  },
+  {
+   "airport": "Ahmedabad / Calicut / Jaipur / Trivandrum",
+   "icao": "VAAH/VOCL/VIJP/VOTV",
+   "level": "2 (данные 2020)",
+   "ids": [
+    "r2-162"
+   ]
+  }
+ ],
+ "night_restrictions": [
+  {
+   "airport": "Frankfurt",
+   "icao": "EDDF",
+   "rule": "запрет 23:00–05:00; 22–23 и 05–06 в сумме ≤133 рейса",
+   "ids": [
+    "r2-141",
+    "r2-142"
+   ]
+  },
+  {
+   "airport": "Amsterdam",
+   "icao": "EHAM",
+   "rule": "ночь 23:00–06:59 LT; W26 ≤8 839 ночных движений, всего 185 282 за сезон",
+   "ids": [
+    "r2-145",
+    "r2-146",
+    "r2-147"
+   ]
+  },
+  {
+   "airport": "Paris Orly",
+   "icao": "LFPO",
+   "rule": "комендантский час 23:30–06:00; ≤250 000 слотов/год",
+   "ids": [
+    "r2-239",
+    "r2-240"
+   ]
+  },
+  {
+   "airport": "London Heathrow/Gatwick/Stansted",
+   "icao": "EGLL/EGKK/EGSS",
+   "rule": "ночные движения и шумовая квота правительства UK; LHR разовые слоты не даются 04:30–08:00 UTC",
+   "ids": [
+    "r2-120",
+    "r2-121",
+    "r2-130",
+    "r2-134"
+   ]
+  },
+  {
+   "airport": "London Luton",
+   "icao": "EGGW",
+   "rule": "ночная квота Luton Council",
+   "ids": [
+    "r2-118"
+   ]
+  },
+  {
+   "airport": "London City",
+   "icao": "EGLC",
+   "rule": "пн–пт 06:30–22:00",
+   "ids": [
+    "r2-116"
+   ]
+  },
+  {
+   "airport": "Warsaw Chopin",
+   "icao": "EPWA",
+   "rule": "ночь 22–06, QC-лимит",
+   "ids": [
+    "r2-136"
+   ]
+  },
+  {
+   "airport": "Delhi/Mumbai/Bengaluru/Chennai/Kolkata",
+   "icao": "VIDP/VABB/VOBL/VOMM/VECC",
+   "rule": "24/7, ночного запрета нет; BOM — лимит 44 движ./ч в HIRO (08–11, 17–20, 21:15–23:15), 42 вне",
+   "ids": [
+    "r2-172",
+    "r2-165",
+    "r2-166",
+    "r2-167",
+    "r2-174"
+   ]
+  },
+  {
+   "airport": "малые аэропорты Индии",
+   "icao": "—",
+   "rule": "часто закрыты ночью",
+   "ids": [
+    "r2-173"
+   ]
+  }
+ ],
+ "fares": [
+  {
+   "region": "Europe",
+   "pair": "любая",
+   "value": null,
+   "note": "открытых средних тарифов по паре нет; только индексы HICP CP0733 (ЕС июнь 2026 = 104,04, 2025=100) и Destatis",
+   "ids": [
+    "r2-084",
+    "r2-085",
+    "r2-089",
+    "r2-091"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "любая",
+   "value": null,
+   "note": "открытого ряда средних тарифов по паре нет; DGCA TMU мониторит 78 маршрутов (~27% трафика), публикуется эпизодически и в % (напр., DEL–BOM −74% 29.06 к 06.06)",
+   "ids": [
+    "r2-065",
+    "r2-067",
+    "r2-068",
+    "r2-069",
+    "r2-071",
+    "r2-081"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "все внутр. (по дальности)",
+   "value": {
+    "<=500 km": 7500,
+    "500-1000 km": 12000,
+    "1000-1500 km": 15000,
+    ">1500 km": 18000
+   },
+   "unit": "INR, максимум (не средний)",
+   "note": "временный потолок 06.12.2025–22.03.2026; тарифы этого периода искажены регулированием",
+   "ids": [
+    "r2-074",
+    "r2-075",
+    "r2-076",
+    "r2-077",
+    "r2-080"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "UDAN RCS-места",
+   "value": 2500,
+   "unit": "INR за ~1 ч / 500 км (исходная редакция)",
+   "note": "потолок только на часть мест; индексация не проверена",
+   "ids": [
+    "r2-201"
+   ]
+  }
+ ],
+ "competition": [
+  {
+   "region": "Europe",
+   "source": "Eurostat avia_par",
+   "result": "перевозчика нет (только EU/non-EU); CAF_PAS = число рейсов на паре — прокси частоты всех перевозчиков вместе",
+   "ids": [
+    "r2-010",
+    "r2-015"
+   ]
+  },
+  {
+   "region": "Europe",
+   "source": "OpenFlights / Wikipedia / отчёты аэропортов",
+   "result": "OpenFlights 2014 — устарел; Wikipedia — без частот, вторичный; аэропорты — пассажиры по городам без перевозчиков",
+   "ids": [
+    "r2-208",
+    "r2-209",
+    "r2-213",
+    "r2-216",
+    "r2-217"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "DEL–BOM",
+   "carriers": "IndiGo, Air India (+ др.)",
+   "frequency": "~60 рейсов в каждую сторону в сутки (дек. 2025)",
+   "ids": [
+    "r2-059",
+    "r2-060"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "DEL–MAA",
+   "carriers": "Air India, IndiGo (дуополия)",
+   "frequency": null,
+   "ids": [
+    "r2-061"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "DEL–AMD, BOM–MAA",
+   "carriers": "4 перевозчика (имена в тексте не названы)",
+   "frequency": null,
+   "ids": [
+    "r2-058"
+   ]
+  },
+  {
+   "region": "India",
+   "pair": "BOM–DXB / DEL–DXB / DEL–LHR",
+   "passengers_Q1_2026": [
+    615884,
+    568354,
+    441641
+   ],
+   "note": "DGCA квартальные межд. пары (сегмент), по пересказу; перевозчиков нет",
+   "ids": [
+    "r2-227",
+    "r2-228",
+    "r2-229"
+   ]
+  }
+ ],
+ "udan": [
+  {
+   "metric": "маршрутов присуждено (до окт. 2025)",
+   "value": 923,
+   "ids": [
+    "r2-192"
+   ]
+  },
+  {
+   "metric": "маршрутов введено",
+   "value": 679,
+   "as_of": "10.07.2026",
+   "ids": [
+    "r2-195"
+   ]
+  },
+  {
+   "metric": "закрыто до конца 3-летней VGF",
+   "value": 165,
+   "as_of": "10.07.2026",
+   "ids": [
+    "r2-196"
+   ]
+  },
+  {
+   "metric": "работает сейчас",
+   "value": 348,
+   "as_of": "10.07.2026",
+   "ids": [
+    "r2-197"
+   ]
+  },
+  {
+   "metric": "аэропортов/вертодромов/гидроаэродромов",
+   "value": 93,
+   "as_of": "30.11.2025",
+   "ids": [
+    "r2-178"
+   ]
+  },
+  {
+   "metric": "пассажиров / рейсов за 9 лет",
+   "value": "15,6 млн / 323 тыс.",
+   "as_of": "10.2025",
+   "ids": [
+    "r2-181"
+   ]
+  },
+  {
+   "metric": "VGF выплачено",
+   "value": ">4 300 крор INR (≈2 800 INR/пасс., расчёт)",
+   "as_of": "10.2025",
+   "ids": [
+    "r2-182"
+   ]
+  },
+  {
+   "metric": "CAG (UDAN 1–3): не начались / выжили после VGF",
+   "value": "52% (403 из 774) / 54 маршрута (7%)",
+   "as_of": "03.2021",
+   "ids": [
+    "r2-187",
+    "r2-188",
+    "r2-189"
+   ]
+  },
+  {
+   "metric": "механизм",
+   "value": "3 года эксклюзивности + VGF + льготы; потолок тарифа части мест",
+   "ids": [
+    "r2-201",
+    "r2-202",
+    "r2-203"
+   ]
+  },
+  {
+   "metric": "вывод для рейтинга",
+   "value": "оценивать UDAN-пару без VGF; VGF — временный бонус",
+   "ids": [
+    "r2-204"
+   ]
+  },
+  {
+   "metric": "Modified UDAN (120 пунктов)",
+   "value": "на стадии утверждения (12.2025)",
+   "ids": [
+    "r2-179"
+   ]
+  }
+ ],
+ "india_shares": [
+  {
+   "period": "2025 (год)",
+   "airline": "IndiGo",
+   "share_pct": 64.0,
+   "ids": [
+    "r2-051"
+   ]
+  },
+  {
+   "period": "2025 (год)",
+   "airline": "SpiceJet",
+   "passengers_lakh": 46.73,
+   "share_pct_calc": 2.8,
+   "ids": [
+    "r2-052",
+    "r2-045"
+   ]
+  },
+  {
+   "period": "2025 (год)",
+   "airline": "Air India Group",
+   "share_change_pp": -1.4,
+   "ids": [
+    "r2-053"
+   ]
+  },
+  {
+   "period": "2025 (год)",
+   "airline": "рынок",
+   "passengers_crore": 16.69,
+   "growth_pct": 3.48,
+   "ids": [
+    "r2-045"
+   ]
+  },
+  {
+   "period": "2025-09",
+   "shares": {
+    "IndiGo": 64.3,
+    "Air India Group": 27.4,
+    "Akasa Air": 5.3,
+    "SpiceJet": 1.9,
+    "Star Air": 0.5,
+    "Alliance Air": 0.3,
+    "Fly91": 0.2
+   },
+   "ids": [
+    "r2-042"
+   ]
+  },
+  {
+   "period": "2025-12",
+   "shares": {
+    "IndiGo": 59.6,
+    "Air India Group": 29.6,
+    "Akasa Air": 5.2,
+    "SpiceJet": 4.3,
+    "Alliance Air": 0.4
+   },
+   "note": "декабрьский сбой IndiGo",
+   "ids": [
+    "r2-046",
+    "r2-047",
+    "r2-048",
+    "r2-049"
+   ]
+  }
+ ],
+ "gaps": [
+  {
+   "gap": "Значения Eurostat avia_par по парам не сняты (API/databrowser закрыты прокси; агрегаторы платные)",
+   "ids": [
+    "r2-016",
+    "r2-032",
+    "r2-232"
+   ]
+  },
+  {
+   "gap": "IATA WASG Annex 12.7 (xlsx) не разобран — полный список Level 2/3 не получен; DE без разделения уровней",
+   "ids": [
+    "r2-096",
+    "r2-112"
+   ]
+  },
+  {
+   "gap": "dgca.gov.in недоступен: первичные таблицы city-pair, отчёты и расписания — через копии/прессу; формат airline-wise расписания не проверен",
+   "ids": [
+    "r2-037",
+    "r2-224"
+   ]
+  },
+  {
+   "gap": "Открытых средних тарифов по паре нет ни в Европе, ни в Индии",
+   "ids": [
+    "r2-091",
+    "r2-081"
+   ]
+  },
+  {
+   "gap": "Европа: нет открытого 'перевозчик×пара×частота' (кроме ручного сбора по расписаниям)",
+   "ids": [
+    "r2-217"
+   ]
+  },
+  {
+   "gap": "Уровни слотов Индии — таблица 2020 г.; актуальность (BLR, HYD, новые NMI/DXN) не проверена",
+   "ids": [
+    "r2-155"
+   ]
+  },
+  {
+   "gap": "Годовые доли Air India Group и Akasa за 2025 в открытом тексте не найдены (только изменения)",
+   "ids": [
+    "r2-053"
+   ]
+  },
+  {
+   "gap": "Ночные ограничения FRA — источник 2012 г.; действие в 2026 не перепроверено",
+   "ids": [
+    "r2-140"
+   ]
+  }
+ ]
+}

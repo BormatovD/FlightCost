@@ -4,6 +4,34 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: routes-2026-11
+    date: 2026-11-01
+    draft: true                    # черновик на русском; перевод после правок владельца
+    report: routes-2026-11/report.html
+    calc: planned
+    calc_note:
+      ru: "Калькулятор показывает поток по паре; рейтинг пар и подсказки в режиме «Сеть» — в очереди."
+      en: "The calculator shows traffic on a pair; the pair rating and hints in Network mode are queued."
+      de: "Der Rechner zeigt das Aufkommen eines Paares; Rating und Hinweise im Netzmodus folgen."
+    lang: ru
+    title:
+      ru: "Какие маршруты привлекательны для авиакомпании: Европа и Индия"
+      en: "Which routes are attractive for an airline: Europe and India"
+      de: "Welche Strecken für eine Airline attraktiv sind: Europa und Indien"
+    lede:
+      ru: >-
+        Как авиакомпании и аэропорты оценивают маршрут, какие данные для этого открыты, и рейтинг пар Европы и Индии по
+        размеру рынка, росту и загрузке.
+      en: >-
+        How airlines and airports evaluate a route, which data are openly available, and a rating of European and Indian
+        pairs by market size, growth and load factor.
+      de: >-
+        Wie Airlines und Flughäfen eine Strecke bewerten, welche Daten offen sind, und ein Rating europäischer und
+        indischer Paare nach Marktgröße, Wachstum und Auslastung.
+    tags:
+      ru: [маршруты, рынок, рейтинг, Европа, Индия]
+      en: [routes, market, rating, Europe, India]
+      de: [Strecken, Markt, Rating, Europa, Indien]
   - slug: benchmarks-2026-10
     date: 2026-10-31
     report: benchmarks-2026-10/report.html
@@ -33,7 +61,6 @@ items:
       de: [Benchmarks, CASK, Rating, Airlines]
   - slug: network-2026-10
     date: 2026-10-30
-    draft: true                    # большая статья, переведена; ждёт решения владельца о публикации
     report: network-2026-10/report.html
     calc: planned
     calc_note:
@@ -93,7 +120,6 @@ items:
       de: [Kerosin, Regionen, Steuern, SAF]
   - slug: hothigh-2026-10
     date: 2026-10-30
-    draft: true                    # теория закрыта; ждём числа по типам от владельца
     report: hothigh-2026-10/report.html
     calc: planned
     calc_note:

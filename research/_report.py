@@ -222,7 +222,7 @@ code{font:12.5px var(--mono);color:var(--ink2)}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th{text-align:left;color:var(--dim);font-weight:600;font-size:12px;padding:7px 10px;border-bottom:1px solid var(--line);background:var(--panel)}
 td{padding:6px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
-td:first-child{white-space:nowrap}
+td:first-child{min-width:6.5em}
 td.r,th.r{text-align:right;white-space:nowrap}td.s{font-size:12px;color:var(--dim)}
 tr.dimrow td{color:var(--dim)}
 .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
