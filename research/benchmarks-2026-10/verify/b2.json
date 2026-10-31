@@ -1,0 +1,1568 @@
+{
+ "b2-003": {
+  "status": "found",
+  "found_text": "Passengers 200.2m 208.4m +4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-004": {
+  "status": "found",
+  "found_text": "Load Factor 94% 94% -",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-005": {
+  "status": "found",
+  "found_text": "Total operating revenues 8 +11% 15,544.3 13,948.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-006": {
+  "status": "found",
+  "found_text": "Scheduled revenues +14% 10,556.0 9,229.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-007": {
+  "status": "found",
+  "found_text": "Ancillary revenues +6% 4,988.3 4,718.7",
+  "value_ok": true,
+  "note": "10 556,0 + 4 988,3 = 15 544,3 = вся выручка — pax_revenue в out верно."
+ },
+ "b2-008": {
+  "status": "found",
+  "found_text": "Total operating expenses -6% 13,170.1 12,390.5",
+  "value_ok": true,
+  "note": "opex_ex_fuel 13 170,1 − 5 418,6 = 7 751,5 — арифметика верна."
+ },
+ "b2-009": {
+  "status": "found",
+  "found_text": "Fuel and oil -4% 5,418.6 5,220.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-010": {
+  "status": "found",
+  "found_text": "At March 31, 2026 the Group had an operating fleet of 621 (2025: 587) Boeing 737 and 26 (2025: 26) Airbus A320 aircraft.",
+  "value_ok": true,
+  "note": "621+26=647; 587+26=613. fleet_avg 630 = (613+647)/2 — оценка, не из отчёта."
+ },
+ "b2-011": {
+  "status": "found",
+  "found_text": "Ryanair has a team of 30,000 aviation professionals delivering",
+  "value_ok": true,
+  "note": "Округлённое число из текста."
+ },
+ "b2-013": {
+  "status": "found",
+  "found_text": "With a 4% increase in flights to over 1.1m last year, traffic grew by 4% to a new record of 208.4m passengers.",
+  "value_ok": true,
+  "note": "«over 1.1m» — нижняя граница; в out 1 100 000 помечено как округлённое."
+ },
+ "b2-016": {
+  "status": "found",
+  "found_text": "Number of aircraft at end of period* 262 231 13.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-017": {
+  "status": "found",
+  "found_text": "Equivalent aircraft 245.5 225.7 8.8%",
+  "value_ok": true,
+  "note": "Контроль: 245,5 × 9,6 ч × 365 ≈ 860 тыс. бч — согласуется с 861 653."
+ },
+ "b2-018": {
+  "status": "found",
+  "found_text": "Utilisation (block hours per aircraft per day) 9:36 9:51 (2.5)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-019": {
+  "status": "found",
+  "found_text": "Total block hours 861,653 812,673 6.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-020": {
+  "status": "found",
+  "found_text": "Revenue departures 337,405 314,448 7.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-021": {
+  "status": "found",
+  "found_text": "Average aircraft stage length (km) 1,717 1,749 (1.8)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-022": {
+  "status": "found",
+  "found_text": "Seat capacity 76,878,622 69,546,340 10.5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-023": {
+  "status": "found",
+  "found_text": "Total ASKs ('000 km) 132,030,723 121,670,679 8.5%",
+  "value_ok": true,
+  "note": "'000 km → 132 030,7 млн км; в out 132 030 723 000 верно."
+ },
+ "b2-024": {
+  "status": "found",
+  "found_text": "RPKs (revenue passenger kilometres) ('000 km) 119,877,458 111,143,998 7.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-025": {
+  "status": "found",
+  "found_text": "Number of passenger segments 69,747,746 63,403,320 10.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-026": {
+  "status": "found",
+  "found_text": "Passenger ticket revenue 4 3,161.4 2,917.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-027": {
+  "status": "found",
+  "found_text": "Ancillary revenue 4 2,530.0 2,350.6",
+  "value_ok": true,
+  "note": "3 161,4 + 2 530,0 = 5 691,4 = total revenue."
+ },
+ "b2-028": {
+  "status": "found",
+  "found_text": "Total revenue 4 5,691.4 5,267.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-029": {
+  "status": "found",
+  "found_text": "Fuel costs (1,764.0) (1,797.6)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-030": {
+  "status": "found",
+  "found_text": "Total operating expenses (5,551.7) (5,100.1)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-031": {
+  "status": "found",
+  "found_text": "Fuel consumption per block hour, however, was reduced by 1.5 per cent to 2.2 metric tonnes",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-032": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА (не из отчёта). 2,2 × 861 653 = 1 895 637 т ≈ 1,90 млн т; при 2,15–2,25 т/бч диапазон 1,85–1,94 млн т — арифметика верна."
+ },
+ "b2-033": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "76 878 622 / 337 405 = 227,85 → 227,9. Арифметика верна (вычислено из отчётных чисел)."
+ },
+ "b2-036": {
+  "status": "found",
+  "found_text": "Seats flown (millions) 104.0 100.4 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-037": {
+  "status": "found",
+  "found_text": "Passengers (millions) 93.4 89.7 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-038": {
+  "status": "found",
+  "found_text": "Available seat kilometres (ASK) (millions) 134,451 122,885 9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-039": {
+  "status": "found",
+  "found_text": "Revenue passenger kilometres (RPK) (millions) 122,021 111,615 9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-040": {
+  "status": "found",
+  "found_text": "Average sector length (kilometres) 1,293 1,223 6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-041": {
+  "status": "found",
+  "found_text": "Sectors (thousands) 576 559 3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-042": {
+  "status": "found",
+  "found_text": "Block hours (thousands) 1,268 1,182 7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-043": {
+  "status": "found",
+  "found_text": "Number of aircraft owned/leased at end of year 356 347 3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-044": {
+  "status": "found",
+  "found_text": "Average number of aircraft operated per day during year 305 291 5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-045": {
+  "status": "found",
+  "found_text": "Total revenue 5 10,106 - 10,106 9,309 - 9,309",
+  "value_ok": true,
+  "note": "В таблице есть столбцы headline/non-headline; числа совпадают."
+ },
+ "b2-046": {
+  "status": "found",
+  "found_text": "Passenger revenue 6,072 - 6,072 5,715 - 5,715",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-047": {
+  "status": "found",
+  "found_text": "Airline ancillary revenue 2,594 - 2,594 2,457 - 2,457",
+  "value_ok": true,
+  "note": "6 072 + 2 594 = 8 666 = Airline Revenue."
+ },
+ "b2-048": {
+  "status": "found",
+  "found_text": "Airline Revenue (£'m) 8,666 8,172 6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-049": {
+  "status": "found",
+  "found_text": "Headline airline EBIT costs ex fuel 5,930 5,516 (8)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-050": {
+  "status": "found",
+  "found_text": "Fuel costs (£'m) (677) (684) (2,253) (2,223) (1)%",
+  "value_ok": true,
+  "note": "В строке есть дополнительные столбцы (677)/(684) — другой период/колонка; годовые 2 253 / 2 223 совпадают."
+ },
+ "b2-051": {
+  "status": "found",
+  "found_text": "Headline EBIT (pence per ASK) 0.36 0.35",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-052": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "5 930 + 2 253 = 8 183; 8 666 − 8 183 = 483 ≈ 0,0036 £ × 134 451 млн = 484 — сверка сходится. Вычислено (headline-контур)."
+ },
+ "b2-053": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "104,0 млн / 576 тыс. = 180,56 → 180,6. Верно (оба числа округлены в отчёте, точность ~±0,2%)."
+ },
+ "b2-057": {
+  "status": "found",
+  "found_text": "with capacity increasing by 9.5% year-on-year and total income growing by 6.4% to INR 895,134 million.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-058": {
+  "status": "found",
+  "found_text": "Revenue from Operations increased by 5.1% to INR 849,619 million",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-059": {
+  "status": "found",
+  "found_text": "Total cost | 896,775 | 765,048 | +17.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-060": {
+  "status": "found",
+  "found_text": "Fuel cost | 253,892 | 261,973 | -3.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-061": {
+  "status": "found",
+  "found_text": "Capacity increased by 9.5% to 172.4 billion",
+  "value_ok": true,
+  "note": "В таблице строка подписана «ASK (billion)» — единица подтверждена."
+ },
+ "b2-062": {
+  "status": "found",
+  "found_text": "RPK (billion) | 145.5 | 135.4 | +7.5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-063": {
+  "status": "found",
+  "found_text": "Passengers increased by 4.0% to 123.4 million against a seat growth of 5.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-064": {
+  "status": "found",
+  "found_text": "Yield decreased by 1.7% to INR 5.06 and load factor decreased by 1.6pts to 84.4%",
+  "value_ok": true,
+  "note": "Контроль: 145,5/172,4 = 84,4%."
+ },
+ "b2-065": {
+  "status": "found",
+  "found_text": "As of 31st March 2026, fleet of 441 aircraft including 31 A320 CEOs (5 damp lease), 177 A320 NEOs, 172 A321 NEOs (4 damp lease), 1 A321XLR, 46 ATRs, 3 A321 freighters, 5 B737 (damp lease) and 6 B787 (damp lease)",
+  "value_ok": true,
+  "note": "Сумма = 441; в т.ч. 20 бортов damp lease и 3 грузовых."
+ },
+ "b2-066": {
+  "status": "found",
+  "found_text": "our 69,000 dedicated IndiGo team members for their extraordinary professionalism",
+  "value_ok": true,
+  "note": "Округлённое число."
+ },
+ "b2-067": {
+  "status": "found",
+  "found_text": "CASK ex fuel ex forex* (INR) | 3.00 | 2.89 | +3.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-068": {
+  "status": "found",
+  "found_text": "Net of finance income of INR 35,304 million and INR 31,119 million for year ended Mar’26 and Mar’25 respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-069": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 3,00 × 172,4 млрд = 517,2 млрд INR — арифметика верна. Оговорка: CASK со сноской * — за вычетом финдохода 35,3 млрд (b2-068), т.е. это не «чистый» opex ex fuel; CASK 3,00 округлён до 0,01 → ±0,9 млрд."
+ },
+ "b2-072": {
+  "status": "found",
+  "found_text": "Revenue Passengers Carried (000s) 3,935 3,444 14.3% 3,806 3.4% 14,853 13,467 10.3%",
+  "value_ok": true,
+  "note": "Цитата — последние столбцы (YTD) строки."
+ },
+ "b2-073": {
+  "status": "found",
+  "found_text": "RPMs (millions) 7,359 6,682 10.1% 7,249 1.5% 28,210 25,966 8.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-074": {
+  "status": "found",
+  "found_text": "ASMs (millions) 8,513 7,747 9.9% 8,238 3.3% 32,408 30,077 7.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-075": {
+  "status": "found",
+  "found_text": "Departures 41,942 37,596 11.6% 40,441 3.7% 159,197 146,607 8.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-076": {
+  "status": "found",
+  "found_text": "Block Hours 133,488 121,549 9.8% 128,263 4.1% 505,888 470,751 7.5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-077": {
+  "status": "found",
+  "found_text": "Average Stage Length (miles) 1,236 1,260 (1.9)% 1,243 (0.5)% 1,242 1,257 (1.2)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-078": {
+  "status": "found",
+  "found_text": "Fuel Gallons Consumed (millions) 98.6 91.2 8.1% 96.1 2.5% 377.5 354.5 6.5%",
+  "value_ok": true,
+  "note": "В out fuel_volume = 377 500 000 — в галлонах США (не тонны/литры); единицу нужно держать явно при сравнении."
+ },
+ "b2-079": {
+  "status": "found",
+  "found_text": "Average Aircraft Utilization (hours) 11.9 12.0 (0.9)% 11.9 (0.8)% 11.9 11.9 0.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-080": {
+  "status": "found",
+  "found_text": "Passenger revenue 913,623 834,758 9.4% 861,339 6.1% 3,431,253 3,293,362 4.2%",
+  "value_ok": true,
+  "note": "Тыс. USD."
+ },
+ "b2-081": {
+  "status": "found",
+  "found_text": "Total Operating Revenue 962,888 878,620 9.6% 913,149 5.4% 3,617,822 3,446,198 5.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-082": {
+  "status": "found",
+  "found_text": "Fuel 249,177 219,232 13.7% 236,809 5.2% 932,251 949,309 (1.8%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-083": {
+  "status": "found",
+  "found_text": "Total Operating Expense 753,300 674,871 11.6% 700,844 7.5% 2,798,862 2,693,247 3.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-084": {
+  "status": "found",
+  "found_text": "During the quarter, the Company took delivery of four Boeing 737 MAX 8 aircraft ... to end the year with a total fleet of 125 aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-085": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "32 408 × 1,609344 = 52 155,6 → 52 156; 28 210 × 1,609344 = 45 399,6 → 45 400. Перевод миль верен."
+ },
+ "b2-086": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "1 242 × 1,609344 = 1 998,8 → 1 999 км. Верно."
+ },
+ "b2-087": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 505 888 / 365 / 11,9 = 116,47 → 116,5. Арифметика верна; при утилизации 11,85–11,95 диапазон 116,0–117,0."
+ },
+ "b2-088": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 32 408 млн / (159 197 × 1 242) = 163,9. Арифметика верна; метод даёт средневзвешенную по плечу вместимость."
+ },
+ "b2-094": {
+  "status": "found",
+  "found_text": "Total operating revenues (millions) 3,038 3,142 (3.3%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-095": {
+  "status": "found",
+  "found_text": "Passenger revenues 2,883 3,010 (4.2%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-096": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (millions) (2) 36,118 33,990 6.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-097": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (millions) (2) 30,453 29,505 3.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-098": {
+  "status": "found",
+  "found_text": "Booked passengers (thousands) (2) 30,995 29,473 5.2%",
+  "value_ok": true,
+  "note": "Booked, не flown passengers."
+ },
+ "b2-099": {
+  "status": "found",
+  "found_text": "Departures (2) 188,848 173,209 9.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-100": {
+  "status": "found",
+  "found_text": "Block hours (2) 481,472 451,822 6.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-101": {
+  "status": "found",
+  "found_text": "Fuel gallons accrued (millions) 339.96 322.70 5.3%",
+  "value_ok": true,
+  "note": "Единица — галлоны США."
+ },
+ "b2-102": {
+  "status": "found",
+  "found_text": "Average daily aircraft utilization (block hours) 12.76 13.03 (2.1%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-103": {
+  "status": "found",
+  "found_text": "Aircraft at end of period 155 143 12",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-104": {
+  "status": "found",
+  "found_text": "Fuel expense 886 894 (0.9%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-105": {
+  "status": "found",
+  "found_text": "Total operating expenses (millions) 2,903 2,729 6.4%",
+  "value_ok": true,
+  "note": "В документе подпись с «(millions)» — те же числа."
+ },
+ "b2-106": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "36 118 × 1,609344 = 58 126,3; 30 453 × 1,609344 = 49 009,4. Верно."
+ },
+ "b2-107": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 481 472/365/12,76 = 103,4; (143+155)/2 = 149. Арифметика верна. В out fleet_avg = 149 без пометки «оценка» в quality — это среднее начала/конца, не отчётная величина; стоит пометить."
+ },
+ "b2-111": {
+  "status": "found",
+  "found_text": "ASK (million) | 12,460 | 12,330 | 1.1% | 50,908 | 46,292 | 10.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-112": {
+  "status": "found",
+  "found_text": "RPK (million) | 10,597 | 10,383 | 2.1% | 42,336 | 37,778 | 12.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-113": {
+  "status": "found",
+  "found_text": "Passengers (thousands) | 7,954 | 8,167 | -2.6% | 31,914 | 30,871 | 3.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-114": {
+  "status": "found",
+  "found_text": "Departures | 74,177 | 80,704 | -8.1% | 310,713 | 322,082 | -3.5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-115": {
+  "status": "found",
+  "found_text": "Block hours | 137,887 | 147,126 | -6.3% | 575,448 | 567,774 | 1.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-116": {
+  "status": "found",
+  "found_text": "Average stage length (km) | 1,285 | 1,242 | 3.4% | 1,288 | 1,183 | 8.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-117": {
+  "status": "found",
+  "found_text": "Fuel consumption (thousands of liters) | 351,231 | 352,164 | -0.3% | 1,427,847 | 1,324,982 | 7.8%",
+  "value_ok": true,
+  "note": "Единица — литры (1 427,8 млн л); в out fuel_volume 1 427 847 000 — литры, не тонны/галлоны."
+ },
+ "b2-118": {
+  "status": "found",
+  "found_text": "Full-time-equivalent employees | 14,674 | 15,343 | -4.4% | 14,674 | 15,343 | -4.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-119": {
+  "status": "found",
+  "found_text": "End of period operating passenger aircraft | 187 | 181 | 3.3% | 187 | 181 | 3.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-120": {
+  "status": "found",
+  "found_text": "Passenger revenue | 5,340.6 | 5,144.3 | 3.8% | 20,231.0 | 18,123.1 | 11.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-121": {
+  "status": "found",
+  "found_text": "Total operating revenue | 5,799.9 | 5,545.5 | 4.6% | 21,873.7 | 19,526.2 | 12.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-122": {
+  "status": "found",
+  "found_text": "Aircraft fuel | (1,379.4) | (1,362.7) | 1.2% | (5,710.3) | (5,583.5) | 2.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-123": {
+  "status": "found",
+  "found_text": "Total Operating Expenses | (4,379.6) | (4,306.9) | 1.7% | (18,232.5) | (16,018.5) | 13.8%",
+  "value_ok": true,
+  "note": "Сноска ¹ к отчёту: «Operating results were adjusted for non-recurring items totaling R$782.9 million in 4Q25» — adjusted подтверждено."
+ },
+ "b2-124": {
+  "status": "found",
+  "found_text": "Aircraft utilization (hours per day)² | 11.8 | 11.8 | -0.3% | 11.8 | 11.5 | 2.6% — ² Excludes Cessna aircraft and freighters.",
+  "value_ok": true,
+  "note": "Сноска ² прочитана: исключены Cessna и грузовые."
+ },
+ "b2-125": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 575 448/365/11,8 = 133,6 — арифметика верна. Ошибка в parents: указан b2-123 (opex) вместо b2-124 (утилизация). Сноска ² (без Cessna/грузовых) не объясняет разрыв со 187 полностью — оценка грубая."
+ },
+ "b2-126": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 50 908 млн / (310 713 × 1 288) = 127,2. Верно."
+ },
+ "b2-129": {
+  "status": "found",
+  "found_text": "Total ASK billions 13.3 11.5 15.7% 49.3 43.3 13.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-130": {
+  "status": "found",
+  "found_text": "Load Factor % 84.9 84.0 0.8 p.p. 83.7 82.9 0.8 p.p.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-131": {
+  "status": "found",
+  "found_text": "Pax on board millions 9.5 8.1 17.9% 34.5 30.0 14.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-132": {
+  "status": "found",
+  "found_text": "Departures thousand 63.7 55.3 15.3% 237.4 210.9 12.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-133": {
+  "status": "found",
+  "found_text": "Operational Utilization Rate (Block Hours)1,2 hours/day 11.2 10.9 3.3% 11.0 10.3 6.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-134": {
+  "status": "found",
+  "found_text": "Average Stage Length Km 1,158 1.154 0.3% 1,158 1.146 1.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-135": {
+  "status": "found",
+  "found_text": "Operational Fleet (End of Period) # 129 114 15 129 114 15",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-136": {
+  "status": "found",
+  "found_text": "Net Revenue R$ millions 6,101 5,519 10.5% 22,103 19,130 15.5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-137": {
+  "status": "found",
+  "found_text": "Passenger Transport R$ millions 5,591 4,997 11.9% 20,027 17,262 16.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-138": {
+  "status": "found",
+  "found_text": "Operating costs and expenses R$ millions 4,844 4,283 13.1% 18,741 16,110 16.3%",
+  "value_ok": true,
+  "note": "Из таблицы recurring costs."
+ },
+ "b2-139": {
+  "status": "found",
+  "found_text": "Operating costs and expenses (5,298) (6,516) (18.7%) (20,262) (19,326) 4.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-140": {
+  "status": "found",
+  "found_text": "Aviation fuel R$ millions 1,510 1,373 9.9% 5,719 5,329 7.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-141": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ВЫЧИСЛЕНО: 49,3 × 0,837 = 41,26 → 41,3 млрд. Верно; RPK в релизе действительно нет (проверено). Точность ограничена округлением ASK до 0,1 млрд (±0,2%)."
+ },
+ "b2-142": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 49,3 млрд / (237 400 × 1 158) = 179,3. Верно (ASK округлён → ±0,2%)."
+ },
+ "b2-143": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ГРУБАЯ ОЦЕНКА: 11,0 × 365 × 121 = 485,8 тыс. Арифметика верна; средний парк 121 — допущение (по краям 114/129 даёт 458–518 тыс., ±6%)."
+ },
+ "b2-147": {
+  "status": "found",
+  "found_text": "Passenger ASKs (millions) 170,812 157,931 8.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-148": {
+  "status": "found",
+  "found_text": "RPKs (millions) 144,110 133,138 8.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-149": {
+  "status": "found",
+  "found_text": "Passengers Transported (thousands) 87,414 82,007 6.6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-150": {
+  "status": "found",
+  "found_text": "Fuel Gallons Consumed (millions) 1,444 1,357 6.4%",
+  "value_ok": true,
+  "note": "Галлоны США; вкл. грузовые борта (как и отмечено)."
+ },
+ "b2-151": {
+  "status": "found",
+  "found_text": "Average Trip Length (km) 1.649 1.623 1.5%",
+  "value_ok": true,
+  "note": "Дальность перевозки пассажира, не плечо рейса — в out корректно вынесено в pax_haul_km."
+ },
+ "b2-152": {
+  "status": "found",
+  "found_text": "Total Number of Employees (average) 39,507 36,960 6.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-153": {
+  "status": "found",
+  "found_text": "TOTAL FLEET (end of the period) 371 410 422 451",
+  "value_ok": true,
+  "note": "Первый столбец плана парка; включает грузовые."
+ },
+ "b2-154": {
+  "status": "found",
+  "found_text": "Passenger 12,611,528 — 12,611,528 11,233,287 12.3%",
+  "value_ok": true,
+  "note": "Тыс. USD."
+ },
+ "b2-155": {
+  "status": "found",
+  "found_text": "Cargo 1,653,528 — 1,653,528 1,599,756 3.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-156": {
+  "status": "found",
+  "found_text": "TOTAL OPERATING REVENUE 14,494,990 — 14,494,990 13,033,712 11.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-157": {
+  "status": "found",
+  "found_text": "Aircraft Fuel (3,804,821) — (3,804,821) (3,970,077) (4.2%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-158": {
+  "status": "found",
+  "found_text": "TOTAL OPERATING EXPENSES (12,159,452) 19,413 (12,140,039) (11,373,490) 6.7%",
+  "value_ok": true,
+  "note": "12 159,5 — IFRS; adjusted 12 140,0."
+ },
+ "b2-163": {
+  "status": "found",
+  "found_text": "Total Revenue | 397,4 | 425,6 | 7% | 1.777,3 | 1.859,7 | 5% (столбцы: Q4 2024, Q4 2025, %, FY 2024, FY 2025, %)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-164": {
+  "status": "found",
+  "found_text": "Scheduled Services | 343,9 | 366,2 | 6% | 1544,4 | 1610,5 | 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-165": {
+  "status": "found",
+  "found_text": "Aircraft fuel | (82,1) | (88,0) | 7% | (372,1) | (369,0) | -1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-166": {
+  "status": "found",
+  "found_text": "EBITDA | 75,4 | 64,9 | -14% | 405,3 | 421,5 | 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-167": {
+  "status": "found",
+  "found_text": "Depreciation | (47,8) | (53,3) | 11% | (178,2) | (203,3) | 14%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-168": {
+  "status": "found",
+  "found_text": "EBIT | 27,6 | 11,6 | -58% | 227,1 | 218,2 | -4%",
+  "value_ok": true,
+  "note": "421,5 − 203,3 = 218,2 — согласовано."
+ },
+ "b2-169": {
+  "status": "found",
+  "found_text": "Total Passengers (‘000) | 3.740 | 4.071 | 9% | 16.325 | 17.284 | 6%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-170": {
+  "status": "found",
+  "found_text": "ASKs (in mil.) | 4.893 | 5.441 | 11% | 21.126 | 22.179 | 5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-171": {
+  "status": "found",
+  "found_text": "RPKs (in mil.) | 4.049 | 4.444 | 10% | 17.413 | 18.231 | 5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-172": {
+  "status": "found",
+  "found_text": "Total Sectors Flown | 28.643 | 31.091 | 9% | 128.021 | 134.371 | 5%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-173": {
+  "status": "found",
+  "found_text": "Total Block Hours | 49.469 | 53.896 | 9% | 216.940 | 225.350 | 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-174": {
+  "status": "found",
+  "found_text": "Average sector length (km) | 953 | 956 | 0% | 925 | 915 | -1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-175": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 1 859,7 − 218,2 = 1 641,5. Арифметика верна; строки итога расходов в релизе действительно нет. Если EBIT включает прочие опер. доходы, opex занижен на их величину."
+ },
+ "b2-176": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 22 179 млн / (134 371 × 915) = 180,4. Арифметика верна; для смешанного парка с ATR результат выглядит завышенным — средневзвешенная по плечу вместимость, а не средняя по рейсам."
+ },
+ "b2-180": {
+  "status": "found",
+  "found_text": "Number of aircraft at end of period* 51 49 4%",
+  "value_ok": true,
+  "note": "Строка из таблицы парка на той же стр. 23."
+ },
+ "b2-181": {
+  "status": "found",
+  "found_text": "Block hours 107 477 105 807 2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-182": {
+  "status": "found",
+  "found_text": "Flights 48 328 47 022 3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-183": {
+  "status": "found",
+  "found_text": "Utilization (block hours per aircraft per day) 7.67 7.46 3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-184": {
+  "status": "found",
+  "found_text": "Number of passengers ('000) 5 207 5 133 1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-185": {
+  "status": "found",
+  "found_text": "Seat capacity ('000) 6 919 6 755 2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-186": {
+  "status": "found",
+  "found_text": "Average aircraft stage length (km) 1 318 1 326 (1%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-187": {
+  "status": "found",
+  "found_text": "ASKs (million km) 9 121 8 958 2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-188": {
+  "status": "found",
+  "found_text": "RPKs (revenue passenger kilometers) (millions) 7 317 7 278 1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-189": {
+  "status": "found",
+  "found_text": "Total revenue 775 644 743 733 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-190": {
+  "status": "found",
+  "found_text": "Passenger revenue 593 267 571 998 4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-191": {
+  "status": "found",
+  "found_text": "ACMI lease revenue 157 468 146 871 7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-192": {
+  "status": "found",
+  "found_text": "CASK (€ cents) (7.01) (6.89) 2% — под заголовком «KPI without ACMI-out operations»; следующая строка «CASK normalized (€ cents) (6.94) (6.55) 6%»",
+  "value_ok": true,
+  "note": "7,01 — ненормализованный CASK без ACMI-out."
+ },
+ "b2-193": {
+  "status": "found",
+  "found_text": "Fuel (1.64) (1.77) (7%) — таблица «Normalized CASK by key cost categories (EUR cents)», итог «Normalized CASK (6.94)»",
+  "value_ok": true,
+  "note": "Локатор неточен: стр. 29, и это таблица нормализованного CASK (итог 6,94, не 7,01). Для топлива нормализация (ускоренная амортизация) роли не играет, значение годно."
+ },
+ "b2-194": {
+  "status": "found",
+  "found_text": "Total employee count reached 2 859, representing a 2.6% year-on-year increase.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-195": {
+  "status": "found",
+  "found_text": "CASK Represents the operating expenses (without ACMI-out related costs and claims compensations) divided by available seat kilometres",
+  "value_ok": true,
+  "note": "Цитата — только хвост определения, но смысл подтверждён."
+ },
+ "b2-196": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 7,01 c × 9 121 млн = 639,4 млн EUR; 1,64 c × 9 121 млн = 149,6 млн EUR — арифметика верна. Fuel-CASK взят из нормализованной таблицы (итог 6,94) — смешение баз несущественно для топлива. В parents b2-194 (сотрудники) вместо b2-193 (fuel CASK)."
+ },
+ "b2-197": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "775,644 − 157,468 = 618,2 — верно. Ошибка в parents: указаны b2-188/b2-190 вместо b2-189/b2-191."
+ },
+ "b2-198": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 107 477/365/7,67 = 38,4. Верно. Упомянутый средний ACMI-парк 14,1 подтверждён (стр. 19: «deployed on average 14.1 aircraft under ACMI arrangements»)."
+ },
+ "b2-199": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "6 919 тыс. / 48 328 = 143,2. Верно (вычислено из отчётных чисел)."
+ },
+ "b2-203": {
+  "status": "found",
+  "found_text": "Average number of employees number 103,101 100,290 3",
+  "value_ok": true,
+  "note": "Группа целиком."
+ },
+ "b2-206": {
+  "status": "found",
+  "found_text": "Revenue | in €m | 30,576 | 29,690 | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-207": {
+  "status": "found",
+  "found_text": "of which traffic revenue | in €m | 28,623 | 27,869 | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-208": {
+  "status": "found",
+  "found_text": "Operating expenses | in €m | 30,688 | 29,722 | 3",
+  "value_ok": true,
+  "note": "Opex > выручки при Adjusted EBIT 1 087 (строка T026 подтверждена) — сегментный EBIT включает прочие опер. доходы; для CASK opex сегмента годен, но маржа «revenue − opex» отрицательна."
+ },
+ "b2-209": {
+  "status": "found",
+  "found_text": "Employees as of 31 Dec | number | 66,128 | 65,172 | 1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-210": {
+  "status": "found",
+  "found_text": "Number of flights | number | 1,002,935 | 980,423 | 2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-211": {
+  "status": "found",
+  "found_text": "Passengers | thousands | 135,035 | 131,300 | 3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-212": {
+  "status": "found",
+  "found_text": "Available seat-kilometres | millions | 338,552 | 326,176 | 4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-213": {
+  "status": "found",
+  "found_text": "Revenue seat-kilometres | millions | 281,765 | 271,038 | 4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-214": {
+  "status": "found",
+  "found_text": "... the Passenger Airlines fleet had a total of 715 aircraft. (previous year: 713 aircraft)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-216": {
+  "status": "found",
+  "found_text": "Within the cost of materials and services, fuel expenses decreased by 7% to EUR 7,271m (previous year: EUR 7,785m).",
+  "value_ok": true,
+  "note": "Значение группы (вкл. Cargo) — верно помечено как верхняя граница."
+ },
+ "b2-217": {
+  "status": "found",
+  "found_text": "The result of price hedging was EUR -254m (previous year: EUR -139m).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-218": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА (верхняя граница): групповое топливо приписано сегменту — допущение, не отчётное значение сегмента."
+ },
+ "b2-219": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "338 552 млн / 1 002 935 = 337 561 кресло-км на рейс. Верно."
+ },
+ "b2-224": {
+  "status": "found",
+  "found_text": "Total operating revenue for Norwegian was NOK 30,092 million in 2025, an increase of 6 percent from NOK 28,344 million …",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-225": {
+  "status": "found",
+  "found_text": "Passenger revenue was NOK 24,905 million, compared to NOK 23,419 million in 2024",
+  "value_ok": true,
+  "note": "Сегмент Norwegian (у группы 31 742)."
+ },
+ "b2-226": {
+  "status": "found",
+  "found_text": "Total operating expenses, excluding aircraft lease, depreciation, and amortisation for Norwegian was NOK 23,506 million …",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-227": {
+  "status": "found",
+  "found_text": "Expenses for aviation fuel amounted to NOK 8,571 million, corresponding to 36 percent …",
+  "value_ok": true,
+  "note": "8 571/23 506 = 36,5% — согласовано. 23 506 − 8 571 = 14 935 — opex_ex_fuel_reported в out верен."
+ },
+ "b2-228": {
+  "status": "found",
+  "found_text": "Operating profit (EBIT) for Norwegian was NOK 3,159 million in 2025, compared to NOK 1,373 million in 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-229": {
+  "status": "found",
+  "found_text": "Norwegian had 23.1 million passengers in 2025, up 2 percent from 22.6 million in 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-230": {
+  "status": "found",
+  "found_text": "Production, measured in available seat kilometres (ASK), was 37,640 million kilometres, up 3 percent compared to 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-231": {
+  "status": "found",
+  "found_text": "Passenger traffic, measured by revenue passenger kilometres (RPK), was 32,305 million kilometres, up 4 percent from 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-232": {
+  "status": "found",
+  "found_text": "The average sector length was 1,322 kilometres, an increase of 2 percent from 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-233": {
+  "status": "found",
+  "found_text": "The Norwegian Group's fleet comprised of 146 aircraft at year-end, of which 95 aircraft constituted the Norwegian fleet",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-234": {
+  "status": "found",
+  "found_text": "Each aircraft was on average utilised 10.9 block hours per day during the year, down from 11.1 hours per day in 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-235": {
+  "status": "found",
+  "found_text": "Of these employees, 5,364 were employed by Norwegian, and 3,628 were employed by Widerøe",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-236": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 30 092 − 3 159 = 26 933 — верно; приближение, если EBIT включает прочие доходы/убытки. Полный ex-fuel 26 933 − 8 571 = 18 362 — верно."
+ },
+ "b2-237": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА низкого качества: 37 640 млн / (1 322 × 187) = 152,3 тыс. Арифметика верна; 187 кресел — допущение, не из отчёта."
+ },
+ "b2-238": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА (верхняя граница): 10,9 × 365 × 95 = 378,0 тыс. Верно; 95 — парк на конец года, средний не раскрыт."
+ },
+ "b2-241": {
+  "status": "found",
+  "found_text": "Total Revenue (€mn) 442 657 962 609 519 763 1,091 753 622 876 1,103 814 8% 2,670 3,126 3,414 9%",
+  "value_ok": true,
+  "note": "Последние столбцы — 2023/2024/2025 12M."
+ },
+ "b2-242": {
+  "status": "found",
+  "found_text": "Ancillary Revenue (€mn) 156 206 251 198 198 262 318 281 262 317 363 332 18% 810 1,060 1,275 20%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-243": {
+  "status": "found",
+  "found_text": "Passengers (mn) 6.3 7.9 9.7 8.1 8.1 9.4 10.5 9.5 9.0 10.7 12.2 11.3 19% 31.9 37.5 43.3 15%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-244": {
+  "status": "found",
+  "found_text": "Load Factor 84.4% 81.3% 87.7% 85.2% 87.2% 87.5% 89.1% 86.7% 86.1% 86.4% 89.2% 88.5% 1.7pp 84.8% 87.7% 87.7% 0.0pp",
+  "value_ok": true,
+  "note": "Определение LF в деке не дано."
+ },
+ "b2-245": {
+  "status": "found",
+  "found_text": "ASK (bn) 11.0 15.2 17.5 14.6 14.2 16.9 19.0 16.8 16.1 19.9 22.2 20.2 20% 58.2 66.8 78.3 17%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-246": {
+  "status": "found",
+  "found_text": "Avg. Fleet Size 98 99 103 107 107 106 110 115 118 121 129 128 12% 102 109 124 13%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-247": {
+  "status": "found",
+  "found_text": "Avg. Stage Length(km) 1,473 1,574 1,583 1,531 1,533 1,580 1,601 1,530 1,538 1,606 1,617 1,578 3% 1,546 1,563 1,587 2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-248": {
+  "status": "found",
+  "found_text": "CASK non-fuel (€c) 2.61 2.13 2.13 2.30 2.56 2.29 2.59 2.77 2.98 2.57 2.58 2.69 -3% 2.26 2.55 2.69 5%",
+  "value_ok": true,
+  "note": "2,69 c × 78,3 млрд = 2 106,3 млн; сверка: TOTAL COSTS 3 014 − Jet fuel 907 = 2 107 — сходится."
+ },
+ "b2-249": {
+  "status": "found",
+  "found_text": "Jet fuel 202 244 21% 873 907 4% (Costs (EURmn) | 2024 Q4 | 2025 Q4 | % | 2024 12M | 2025 12M | %)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-250": {
+  "status": "found",
+  "found_text": "TOTAL COSTS 666 788 18% 2,578 3,014 17%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-251": {
+  "status": "found",
+  "found_text": "Total 4 99 24 127 (Owned | Financial Lease | Operational Lease | Total, as of December 31, 2025)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-252": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 78,3 × 0,877 = 68,67 → 68,7. Арифметика верна; допущение LF = RPK/ASK не подтверждено документом (у Pegasus LF может быть посадочным — pax/seats)."
+ },
+ "b2-261": {
+  "status": "found",
+  "found_text": "Пассажиропоток, тыс. чел. | 4 016,2 | 4 008,4 | 0,2% | 55 340,3 | 55 289,0 | 0,1%",
+  "value_ok": true,
+  "note": "Таблица «Основные операционные показатели группы \"Аэрофлот\"» — контур группы. Источник вторичный (Интерфакс)."
+ },
+ "b2-262": {
+  "status": "found",
+  "found_text": "Пассажирооборот, млн пкм | 11 797,7 | 11 138,0 | 5,9% | 154 089,2 | 149 073,4 | 3,4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-263": {
+  "status": "found",
+  "found_text": "Предельный пассажирооборот, млн ккм | 13 414,6 | 12 968,1 | 3,4% | 170 875,2 | 166 332,3 | 2,7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-264": {
+  "status": "found",
+  "found_text": "Количество рейсов | 26 555 | 26 897 | -1,3% | 361 081 | 360 471 | 0,2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-265": {
+  "status": "found",
+  "found_text": "Налет по парку, часов | 83 089 | 78 943 | 5,3% | 1 061 914 | 1 028 238 | 3,3%",
+  "value_ok": true,
+  "note": "«Налёт по парку» — у Аэрофлота это лётные часы, не обязательно блок-часы; приравнивание к block_hours — допущение."
+ },
+ "b2-267": {
+  "status": "found",
+  "found_text": "Revenue increased by 5.3% to 902.26 billion rubles from 856.785 billion rubles,",
+  "value_ok": true,
+  "note": "Вторичный источник (AK&M)."
+ },
+ "b2-268": {
+  "status": "found",
+  "found_text": "Revenue from scheduled passenger services increased by 5.8% to RUB 844.4 billion,",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-269": {
+  "status": "found",
+  "found_text": "The cost of aviation fuel amounted to 303.8 billion rubles and remained at the level of the previous year.",
+  "value_ok": true,
+  "note": "О демпфере в заметке ничего нет — учтён ли он, не установлено."
+ },
+ "b2-275": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "170 875,2 млн / 361 081 = 473 232 ккм/рейс. Верно."
+ },
+ "b2-278": {
+  "status": "found",
+  "found_text": "Revenue increased by 1.9% to 3,106.2 million euros (3,048.8).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-279": {
+  "status": "found",
+  "found_text": "Number of passengers increased by 2.0% to 11.9 million (11.7**).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-280": {
+  "status": "found",
+  "found_text": "Available seat kilometres (ASK) increased by 2.7% to 39,306.6 million kilometres (38,259.3).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-281": {
+  "status": "found",
+  "found_text": "Comparable operating result was 60.1 million euros (151.4).",
+  "value_ok": true,
+  "note": "3 106,2 − 3 155,3 + прочие доходы ≈ 60,1 → прочие опер. доходы ≈ 109 млн."
+ },
+ "b2-283": {
+  "status": "found",
+  "found_text": "Passenger revenue 2,445.8 2,419.0 1.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-284": {
+  "status": "found",
+  "found_text": "Total 3,155.3 3,025.4 4.3",
+  "value_ok": true,
+  "note": "Годовая таблица comparable operating expenses."
+ },
+ "b2-285": {
+  "status": "found",
+  "found_text": "Fuel costs 878.9 893.0 -1.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-286": {
+  "status": "found",
+  "found_text": "Revenue passenger kilometres (RPK), million 7,325 7,140 2.6 30,227 29,000 4.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-287": {
+  "status": "found",
+  "found_text": "Flights, number 28,211 27,990 0.8 113,281 111,722 1.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-288": {
+  "status": "found",
+  "found_text": "Jet fuel total consumption, tonnes 253,544 253,562 0.0 1,049,263 1,031,296 1.7",
+  "value_ok": true,
+  "note": "Единица — тонны."
+ },
+ "b2-289": {
+  "status": "found",
+  "found_text": "Average number of employees 5,715 5,579 2.4 5,779 5,533 4.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-290": {
+  "status": "found",
+  "found_text": "CASK excluding fuel, cents/ASK 5.51 5.53 -0.3 5.51 5.24 5.2",
+  "value_ok": true,
+  "note": "5,51 c × 39 306,6 млн = 2 165,8 млн — арифметика out верна, но это ОЦЕНКА; прямой расчёт comparable opex − fuel = 3 155,3 − 878,9 = 2 276,4 (на ~110 млн больше) — определения CASK ex fuel и comparable opex расходятся."
+ },
+ "b2-291": {
+  "status": "found",
+  "found_text": "At the end of December, Finnair itself operated 55* aircraft, of which 26 were wide-body and 29 narrow-body aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-292": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "39 306,6 млн / 113 281 = 346 983 ≈ 347 тыс. Верно."
+ },
+ "b2-296": {
+  "status": "found",
+  "found_text": "Net passenger revenue 21,814 – 21,814 20,411 – 20,411",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-297": {
+  "status": "found",
+  "found_text": "Total Revenue 25,516 – 25,516 23,823 – 23,823",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-298": {
+  "status": "found",
+  "found_text": "Total Expenditure 23,404 (236) 23,168 21,316 (132) 21,184",
+  "value_ok": true,
+  "note": "Statutory 23 404, underlying 23 168."
+ },
+ "b2-299": {
+  "status": "found",
+  "found_text": "Fuel 5,724 – 5,724 5,003 – 5,003",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-300": {
+  "status": "found",
+  "found_text": "Passengers carried ‘000 55,945 55,901 0.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-301": {
+  "status": "found",
+  "found_text": "Revenue Passenger Kilometres (RPK) M 133,398 129,382 3.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-302": {
+  "status": "found",
+  "found_text": "Available Seat Kilometres (ASK) M 157,957 152,804 3.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-303": {
+  "status": "found",
+  "found_text": "Full-time equivalent employees FTE 29,175 28,239 3.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-304": {
+  "status": "found",
+  "found_text": "Barrels of fuel (‘000) ... Total fuel consumption 32,149 30,968 4% 3%",
+  "value_ok": true,
+  "note": "Единица — тыс. баррелей; в out fuel_volume = 32 149 000 (баррели) — единица отличается от других перевозчиков (тонны/галлоны/литры)."
+ },
+ "b2-305": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 32 149 тыс. × 158,987 л = 5 111,3 млн л; × 0,794 кг/л = 4,058 млн т ≈ 4,06. Арифметика верна; плотность — допущение."
+ },
+ "b2-309": {
+  "status": "found",
+  "found_text": "Operating revenue 7,016 6,755 261 3.9%",
+  "value_ok": true,
+  "note": "По WebFetch — слайд 28 (финансовый обзор), не 27 «income statement»; числа совпадают."
+ },
+ "b2-310": {
+  "status": "found",
+  "found_text": "Passenger revenue $6.1 billion, up 4.8% on prior year",
+  "value_ok": true,
+  "note": "Округлено до 0,1 млрд."
+ },
+ "b2-311": {
+  "status": "found",
+  "found_text": "Operating expenditure was $6.5 billion, an increase of 11.8 percent on the prior year,",
+  "value_ok": true,
+  "note": "Округлено до 0,1 млрд (±50 млн)."
+ },
+ "b2-312": {
+  "status": "found",
+  "found_text": "Fuel costs increased 17.1 percent in the year to $1,738 million,",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-313": {
+  "status": "found",
+  "found_text": "Passengers carried ('000s) 16,010 15,907 0.6%",
+  "value_ok": true,
+  "note": "По WebFetch — слайд 29, не 28."
+ },
+ "b2-314": {
+  "status": "found",
+  "found_text": "Available seat kilometres (ASKs, millions) 41,046 40,501 1.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-315": {
+  "status": "found",
+  "found_text": "Revenue passenger kilometres (RPKs, millions) 34,346 33,769 1.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-316": {
+  "status": "found",
+  "found_text": "fleet of 112 aircraft and around 11,700 employees globally.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-317": {
+  "status": "found",
+  "found_text": "offering more than 360 flights per day.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-318": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА (нижняя граница): 360 × 365 = 131 400; ASK/рейс 41 046 млн / 131 400 = 312 тыс. Арифметика верна; «более 360 в сутки» — маркетинговая округлённая цифра."
+ },
+ "b2-322": {
+  "status": "found",
+  "found_text": "Passengers carried 53.2m 53.7m -1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-323": {
+  "status": "found",
+  "found_text": "Available seat kms 356.0bn ASKMs 359.5bn ASKMs -1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-324": {
+  "status": "found",
+  "found_text": "Seat factor 78.4% 78.9% -0.5% pt",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-325": {
+  "status": "found",
+  "found_text": "Aircraft (number) 277 260 +17",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-326": {
+  "status": "found",
+  "found_text": "Employees at reporting date 74,980 69,465 +8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-328": {
+  "status": "found",
+  "found_text": "Emirates' total revenue for the financial year increased 2% to AED 130.9 billion (US$ 35.7 billion).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-329": {
+  "status": "found",
+  "found_text": "The airline's fuel bill decreased slightly to AED 31.2 billion (US$ 8.5 billion) compared to AED 32.6 billion",
+  "value_ok": true,
+  "note": ""
+ },
+ "b2-330": {
+  "status": "found",
+  "found_text": "Fuel accounted for 29% of operating costs compared to 31% in 2024-25.",
+  "value_ok": true,
+  "note": "Абсолютных операционных расходов в релизе нет; есть «Total operating costs increased by 2%»."
+ },
+ "b2-331": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ОЦЕНКА: 31,2/0,29 = 107,6 млрд AED; при доле 28,5–29,5% диапазон 105,8–109,5. Перекрёстная проверка: 32,6/0,31 = 105,2 × 1,02 = 107,3 — согласуется."
+ },
+ "b2-332": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "ВЫЧИСЛЕНО: 356,0 × 0,784 = 279,1 млрд. Верно (seat factor Emirates = RPK/ASK)."
+ }
+}

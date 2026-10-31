@@ -242,12 +242,30 @@ details{margin:8px 0}summary{cursor:pointer;color:var(--ink2)}
 
 
 
+# Таблицы на телефоне (владелец, 31.10.2026): на узком экране строка таблицы становится карточкой, каждое
+# значение — с подписью из заголовка столбца. Подписи расставляет скрипт по <th> (если у ячейки нет своего
+# data-l); таблица с классом nocards остаётся таблицей.
+TABLE_CSS = """table.txt td:first-child{white-space:normal;min-width:9em}td.nm{white-space:normal}
+@media(max-width:640px){table.cards,table.cards tbody,table.cards tr,table.cards td{display:block;width:auto}
+table.cards tr.hd{display:none}table.cards tr{border-bottom:1px solid var(--line);padding:8px 10px}
+table.cards td{border:0;padding:2px 0;white-space:normal!important;text-align:left!important}
+table.cards td:first-child{font-weight:600;color:var(--ink2)}
+table.cards td[data-l]::before{content:attr(data-l) ": ";color:var(--dim);font-size:12px;font-weight:400}
+.tw{overflow-x:visible}}"""
+TABLE_JS = """<script>document.querySelectorAll('.tw table:not(.nocards)').forEach(function(t){
+var rows=t.querySelectorAll('tr'),hd=null;for(var i=0;i<rows.length;i++){if(rows[i].querySelector('th')){hd=rows[i];break}}
+if(!hd||hd.children.length<3)return;t.classList.add('cards');hd.classList.add('hd');
+var L=[].map.call(hd.children,function(th){return th.textContent.replace(/\\s+/g,' ').trim()});
+rows.forEach(function(r){if(r===hd||r.querySelector('th'))return;[].forEach.call(r.children,function(td,j){
+if(j>0&&!td.hasAttribute('data-l')&&L[j])td.setAttribute('data-l',L[j])})})});</script>"""
+
+
 def page(title: str, body: str) -> str:
-    js = cur_js() if 'class="mny"' in body else ""
+    js = (cur_js() if 'class="mny"' in body else "") + TABLE_JS
     return (f'<!doctype html><html lang="{LANG}"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{e(title)}</title>'
-            f'<style>{css(inline_fonts=True)}{EXTRA}</style>{CUR_CSS}</head>'
+            f'<style>{css(inline_fonts=True)}{EXTRA}{TABLE_CSS}</style>{CUR_CSS}</head>'
             f'<body class="doc"><div class="wrap">{body}</div>{js}</body></html>')
 
 
