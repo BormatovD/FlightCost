@@ -1,0 +1,182 @@
+# Переводы строк из данных исследования (out/r1.json — narrative и gaps, out/r2.json — sources и gaps)
+# для report.en.html и report.de.html. Ключ — русская строка как её выводит сборщик (без меток [r1-…],
+# после поправок проверяющего); сборщик печатает строки без перевода.
+
+# --- r1.narrative ---
+"Когда авиакомпания решает, открывать ли маршрут, она прежде всего оценивает не самолёт, а рынок: сколько людей хотят попасть из одного города в другой. Важна именно пара городов, а не аэропортов — рейс Дублин–Брюссель не заменяет Лондон–Париж, но Станстед и Хитроу для лондонца взаимозаменяемы. Хорошая иллюстрация — Ньюкасл–Мадрид: прямого рейса нет, а между зоной охвата Ньюкасла и Мадридом за год летает 81 тыс. человек, по 12–14 тыс. из них уезжают в Хитроу, Станстед, Гатвик, Манчестер и Эдинбург. Ryanair, кстати, на этой паре уже был — с 2017 по 2018 год — и ушёл.":
+  en: "When an airline decides whether to open a route, it first assesses not the aircraft but the market: how many people want to travel from one city to another. What matters is the city pair, not the airport pair — a Dublin–Brussels flight does not substitute for London–Paris, but for a Londoner Stansted and Heathrow are interchangeable. A good illustration is Newcastle–Madrid: there is no direct flight, yet 81,000 people a year travel between Newcastle's catchment area and Madrid, and 12,000–14,000 of them each leave via Heathrow, Stansted, Gatwick, Manchester and Edinburgh. Ryanair, incidentally, has already been on this pair — from 2017 to 2018 — and left."
+  de: "Wenn eine Airline entscheidet, ob sie eine Strecke eröffnet, bewertet sie zuerst nicht das Flugzeug, sondern den Markt: wie viele Menschen von einer Stadt in eine andere wollen. Entscheidend ist das Städtepaar, nicht das Flughafenpaar — ein Flug Dublin–Brüssel ersetzt nicht London–Paris, aber für einen Londoner sind Stansted und Heathrow austauschbar. Ein gutes Beispiel ist Newcastle–Madrid: Es gibt keinen Direktflug, doch zwischen dem Einzugsgebiet von Newcastle und Madrid reisen 81.000 Menschen im Jahr, jeweils 12.000–14.000 davon weichen nach Heathrow, Stansted, Gatwick, Manchester und Edinburgh aus. Ryanair war übrigens schon auf diesem Paar — von 2017 bis 2018 — und hat es wieder verlassen."
+
+"Открытая статистика показывает только часть картины. Eurostat публикует пассажиров по паре аэропортов, но прямо признаёт, что истинного пункта отправления и назначения не видит, а авиакомпании раскрывает лишь как «из ЕС / не из ЕС». Значит, транзит через хаб попадает в статистику пары, а конкурентов на паре придётся восстанавливать по расписаниям. Тарифов по паре в Европе в открытом доступе нет: исследователи покупают данные OAG или собирают цены роботом с сайтов, и ещё в 2008 году призывали создать аналог американской базы DB1B, где открыта 10 %-я выборка билетов.":
+  en: "Open statistics show only part of the picture. Eurostat publishes passengers by airport pair but openly admits it does not see the true origin and destination, and it discloses airlines only as 'EU / non-EU'. So transfer traffic through a hub ends up in the pair statistics, and the competitors on a pair have to be reconstructed from schedules. Fares by pair are not openly available in Europe: researchers buy OAG data or scrape prices from websites, and as early as 2008 they called for a European counterpart to the US DB1B database, which publishes a 10 % sample of tickets."
+  de: "Offene Statistiken zeigen nur einen Teil des Bildes. Eurostat veröffentlicht Passagiere je Flughafenpaar, räumt aber ein, dass es den tatsächlichen Start- und Zielort nicht sieht, und weist Airlines nur als „EU / Nicht-EU“ aus. Umsteigeverkehr über ein Drehkreuz landet also in der Paarstatistik, und die Wettbewerber auf einem Paar müssen aus Flugplänen rekonstruiert werden. Tarife je Paar sind in Europa nicht offen verfügbar: Forscher kaufen OAG-Daten oder sammeln Preise per Crawler von Websites und forderten schon 2008 ein Gegenstück zur US-Datenbank DB1B, in der eine 10-%-Stichprobe der Tickets offenliegt."
+
+"Для пар, где рейсов пока нет, используют гравитационные модели: спрос растёт с населением, доходом и экономикой обоих концов и падает с расстоянием и временем в пути; учитываются и соседние аэропорты в радиусе 200 км. Такая модель на 1228 парах Германия–Европа объясняла от 70 до 76 % разброса, но цену в неё не включили — данных не было. Когда рынок уже обслуживается, доли перевозчиков считают по индексу качества QSI: беспосадочный рейс, удобное время и крупный самолёт дают больше баллов. Но QSI только делит существующий спрос и сам не прогнозирует его рост.":
+  en: "For pairs with no flights yet, gravity models are used: demand grows with population, income and the economy at both ends and falls with distance and travel time; neighbouring airports within 200 km are taken into account too. Such a model on 1,228 Germany–Europe pairs explained 70 to 76 % of the variation, but price was not included — there were no data. Where a market is already served, carrier shares are estimated with the quality of service index (QSI): a non-stop flight, a convenient time and a larger aircraft score more points. But QSI only splits existing demand; it does not forecast its growth."
+  de: "Für Paare ohne bisherige Flüge nutzt man Gravitationsmodelle: Die Nachfrage wächst mit Bevölkerung, Einkommen und Wirtschaftskraft beider Enden und sinkt mit Entfernung und Reisezeit; berücksichtigt werden auch Nachbarflughäfen im Umkreis von 200 km. Ein solches Modell erklärte auf 1.228 Paaren Deutschland–Europa 70 bis 76 % der Streuung, der Preis war jedoch nicht enthalten — es gab keine Daten. Ist ein Markt bereits bedient, werden die Anteile der Airlines mit dem Qualitätsindex QSI geschätzt: Nonstop-Flug, günstige Uhrzeit und größeres Flugzeug bringen mehr Punkte. QSI teilt aber nur die bestehende Nachfrage auf und prognostiziert ihr Wachstum nicht."
+
+"Рост рынка при входе нового, особенно дешёвого перевозчика называют стимуляцией. На маршрутах из Лондона приход Ryanair увеличивал рынок на 10–44 %, причём часть пассажиров он забирал у British Airways. В США на 109 новых рынках Southwest спрос вырос в среднем на 28 %. Ориентир для расчёта — эластичность: −1,4 на уровне маршрута, но лишь −0,8 на уровне страны. Разница — это переток: британский CAA пришёл к выводу, что без лоукостеров рынок страны вырос бы почти так же, а их рост во многом шёл за счёт чартеров.":
+  en: "Market growth when a new, especially low-cost, carrier enters is called stimulation. On routes from London, Ryanair's arrival grew the market by 10–44 %, partly by taking passengers from British Airways. In the US, demand on 109 new Southwest markets rose by 28 % on average. The benchmark for a calculation is elasticity: −1.4 at route level but only −0.8 at national level. The difference is diversion: the UK CAA concluded that without low-cost carriers the national market would have grown almost as much, and their growth came largely at the expense of charters."
+  de: "Marktwachstum beim Eintritt eines neuen, vor allem eines Billigfliegers, nennt man Stimulierung. Auf Strecken ab London vergrößerte der Markteintritt von Ryanair den Markt um 10–44 %, wobei ein Teil der Passagiere von British Airways kam. In den USA stieg die Nachfrage auf 109 neuen Southwest-Märkten im Schnitt um 28 %. Richtwert für eine Rechnung ist die Elastizität: −1,4 auf Streckenebene, aber nur −0,8 auf Landesebene. Der Unterschied ist Verlagerung: Die britische CAA kam zu dem Schluss, dass der Landesmarkt ohne Billigflieger fast genauso gewachsen wäre und deren Wachstum großteils zulasten der Charterflüge ging."
+
+"Обратная сторона стимуляции — падение доходности. В Европе в 2016–2019 годах тарифы на парах с лоукостером были примерно на 11 % ниже, а вход нового лоукостера давал около −21 %. В США беспосадочный Southwest снижал тариф пары на 27–29 %, даже его присутствие в обоих аэропортах без рейса на паре — на 9 %, а второй классический перевозчик — всего на ≈4 %. Работает и в обратную сторону: после ухода Go First в Индии цены на ближайшие рейсы Дели–Мумбаи выросли на 37 %, а на тонкой паре Дели–Лех — в несколько раз.":
+  en: "The flip side of stimulation is falling yield. In Europe in 2016–2019, fares on pairs with a low-cost carrier were about 11 % lower, and the entry of a new low-cost carrier meant around −21 %. In the US, a non-stop Southwest lowered the fare on a pair by 27–29 %, even its mere presence at both airports without a flight on the pair by 9 %, while a second legacy carrier cut it by only ≈4 %. It works the other way too: after Go First's exit in India, fares for near-term Delhi–Mumbai flights rose by 37 %, and on the thin Delhi–Leh pair they multiplied."
+  de: "Die Kehrseite der Stimulierung ist sinkender Ertrag. In Europa lagen die Tarife 2016–2019 auf Paaren mit einem Billigflieger rund 11 % niedriger, der Eintritt eines neuen Billigfliegers brachte etwa −21 %. In den USA senkte ein Southwest-Nonstopflug den Tarif eines Paares um 27–29 %, schon seine bloße Präsenz an beiden Flughäfen ohne Flug auf dem Paar um 9 %, ein zweiter Netzwerkcarrier dagegen nur um ≈4 %. Es wirkt auch umgekehrt: Nach dem Ausscheiden von Go First in Indien stiegen die Preise für kurzfristige Flüge Delhi–Mumbai um 37 %, auf dem dünnen Paar Delhi–Leh um ein Mehrfaches."
+
+"Частота рейсов — отдельное оружие. Классическая S-кривая говорит, что доля пассажиров растёт быстрее доли частот: доля = частоты в степени α, делённые на сумму таких же величин у всех, с α около 1,5. Однако ещё в 2006 году McKinsey показал, что там, где против классических перевозчиков стоит лоукостер, эффект почти исчезает — пассажир выбирает по цене. Поэтому в Европе и Индии, где лоукостеры занимают большую часть рынка, S-кривую стоит применять осторожно; альтернативная модель смотрит на то, насколько расписание далеко от желаемого времени вылета.":
+  en: "Frequency is a weapon of its own. The classic S-curve says that the passenger share grows faster than the frequency share: share = frequency to the power α divided by the sum of the same values for everyone, with α around 1.5. However, as early as 2006 McKinsey showed that where a low-cost carrier competes with legacy carriers, the effect almost disappears — passengers choose on price. So in Europe and India, where low-cost carriers hold most of the market, the S-curve should be applied with care; an alternative model looks at how far the schedule is from the desired departure time."
+  de: "Die Frequenz ist eine eigene Waffe. Die klassische S-Kurve besagt, dass der Passagieranteil schneller wächst als der Frequenzanteil: Anteil = Frequenz hoch α, geteilt durch die Summe derselben Werte aller Anbieter, mit α um 1,5. McKinsey zeigte jedoch schon 2006, dass der Effekt fast verschwindet, wo ein Billigflieger gegen Netzwerkcarrier antritt — der Passagier wählt nach Preis. In Europa und Indien, wo Billigflieger den Großteil des Marktes halten, sollte man die S-Kurve daher vorsichtig anwenden; ein alternatives Modell misst, wie weit der Flugplan von der gewünschten Abflugzeit entfernt ist."
+
+"Конкуренцию на паре принято мерить числом перевозчиков и индексом Херфиндаля–Хиршмана — суммой квадратов долей; выше 1800 рынок считается высококонцентрированным. Почти любая пара по этому критерию концентрирована. В Европе больше 60 % пар городов обслуживает один перевозчик, но на них приходится меньше 20 % выручки, а самые доходные пары имеют три и более перевозчиков. В Индии концентрирован весь рынок: IndiGo в 2025 году перевёз около 64 % внутренних пассажиров, а вместе с Air India Group это около 90 %.":
+  en: "Competition on a pair is usually measured by the number of carriers and by the Herfindahl–Hirschman index — the sum of squared shares; above 1,800 a market is considered highly concentrated. By this criterion almost any pair is concentrated. In Europe more than 60 % of city pairs are served by a single carrier, but they account for less than 20 % of revenue, and the most lucrative pairs have three or more carriers. In India the whole market is concentrated: in 2025 IndiGo carried about 64 % of domestic passengers, and together with Air India Group about 90 %."
+  de: "Wettbewerb auf einem Paar misst man üblicherweise an der Zahl der Airlines und am Herfindahl-Hirschman-Index — der Summe der quadrierten Anteile; über 1.800 gilt ein Markt als hoch konzentriert. Nach diesem Kriterium ist fast jedes Paar konzentriert. In Europa werden über 60 % der Städtepaare von nur einer Airline bedient, sie stehen aber für weniger als 20 % der Erlöse, und die ertragreichsten Paare haben drei oder mehr Anbieter. In Indien ist der gesamte Markt konzentriert: IndiGo beförderte 2025 rund 64 % der Inlandspassagiere, zusammen mit der Air India Group sind es rund 90 %."
+
+"Даже хороший рынок может быть закрыт инфраструктурой. В аэропортах уровня Level 3 спрос превышает пропускную способность, и без слота от координатора лететь нельзя; в ЕС слот сохраняют, только если используют его не менее чем на 80 %. В Мумбаи в 2026 году из 770 международных вылетных слотов в неделю 265 предложено временно снять из-за реконструкции терминала, а новый аэропорт Нави-Мумбаи с 20 млн пасс./год открылся в декабре 2025. Ночные запреты, как во Франкфурте с 23:00 до 04:00, сужают окно для рейсов, а для международных пар Индии действуют квоты по соглашениям — например, не более 66 тыс. кресел в неделю с Дубаем.":
+  en: "Even a good market can be closed off by infrastructure. At Level 3 airports demand exceeds capacity, and without a slot from the coordinator you cannot fly; in the EU a slot is kept only if it is used at least 80 % of the time. In Mumbai in 2026, it was proposed to temporarily withdraw 265 of 770 weekly international departure slots because of terminal reconstruction, and the new Navi Mumbai airport, with 20 million passengers a year, opened in December 2025. Night bans, such as Frankfurt's from 23:00 to 04:00, narrow the window for flights, and India's international pairs are subject to quotas under bilateral agreements — for example, no more than 66,000 seats a week with Dubai."
+  de: "Selbst ein guter Markt kann durch die Infrastruktur verschlossen sein. An Level-3-Flughäfen übersteigt die Nachfrage die Kapazität, und ohne Slot vom Koordinator darf man nicht fliegen; in der EU behält man einen Slot nur, wenn man ihn zu mindestens 80 % nutzt. In Mumbai sollten 2026 wegen des Terminalumbaus 265 von 770 wöchentlichen internationalen Abflugslots vorübergehend gestrichen werden, und der neue Flughafen Navi Mumbai mit 20 Mio. Passagieren im Jahr wurde im Dezember 2025 eröffnet. Nachtflugverbote wie in Frankfurt von 23:00 bis 04:00 Uhr verengen das Zeitfenster, und für Indiens internationale Paare gelten Kontingente aus Abkommen — etwa höchstens 66.000 Sitze pro Woche mit Dubai."
+
+"Аэропорты и консультанты публикуют свои метрики привлекательности. ACI EUROPE ежегодно считает прямую, косвенную и хабовую связность аэропортов; консультанты по туризму вроде Mabrian отслеживают кресла, перевозчиков, сезонность, цены и поисковый спрос; EUROCONTROL публикует индекс сезонности, по которому Греция (88) в семь раз сезоннее Финляндии (13). Но исходные данные этих индексов — коммерческие расписания и бронирования, открыты только итоговые цифры.":
+  en: "Airports and consultants publish their own attractiveness metrics. ACI EUROPE calculates direct, indirect and hub connectivity of airports every year; tourism consultants such as Mabrian track seats, carriers, seasonality, prices and search demand; EUROCONTROL publishes a seasonality index by which Greece (88) is seven times more seasonal than Finland (13). But the underlying data of these indices are commercial schedules and bookings; only the final figures are open."
+  de: "Flughäfen und Berater veröffentlichen eigene Attraktivitätskennzahlen. ACI EUROPE berechnet jährlich die direkte, indirekte und Hub-Konnektivität der Flughäfen; Tourismusberater wie Mabrian verfolgen Sitze, Airlines, Saisonalität, Preise und Suchnachfrage; EUROCONTROL veröffentlicht einen Saisonalitätsindex, nach dem Griechenland (88) siebenmal saisonaler ist als Finnland (13). Die Ausgangsdaten dieser Indizes sind jedoch kommerzielle Flugpläne und Buchungen; offen sind nur die Endwerte."
+
+"Деньги на запуск маршрута — отдельная тема. Аэропорты публикуют схемы скидок: в Вильнюсе новый круглогодичный маршрут три года получает скидку 50, 40 и 30 % на сборы. Правила ЕС 2014 года допускали стартовую помощь до 50 % сборов на три года, но проект новых правил 2026 года предлагает отменить её полностью. Лоукостеры чутко реагируют на налоги: в 2025–2026 годах Ryanair убрал около 800 тыс. кресел в Германии и около миллиона в Бельгии и перевёл самолёты в страны, где сборы снижают. Сами планировщики говорят: стимул — лишь инструмент, а маршрут в итоге должен окупаться сам.":
+  en: "Money for launching a route is a topic of its own. Airports publish incentive schemes: in Vilnius a new year-round route gets a 50, 40 and 30 % discount on charges over three years. The EU's 2014 guidelines allowed start-up aid of up to 50 % of charges for three years, but the 2026 draft of new guidelines proposes abolishing it altogether. Low-cost carriers react sharply to taxes: in 2025–2026 Ryanair removed about 800,000 seats in Germany and about a million in Belgium and moved aircraft to countries that are cutting charges. Planners themselves say an incentive is only a tool; in the end a route has to pay for itself."
+  de: "Geld für den Start einer Strecke ist ein eigenes Thema. Flughäfen veröffentlichen Rabattprogramme: In Vilnius erhält eine neue ganzjährige Strecke drei Jahre lang 50, 40 und 30 % Nachlass auf die Entgelte. Die EU-Leitlinien von 2014 erlaubten Anlaufbeihilfen bis 50 % der Entgelte für drei Jahre, der Entwurf neuer Leitlinien von 2026 schlägt jedoch vor, sie ganz abzuschaffen. Billigflieger reagieren empfindlich auf Steuern: 2025–2026 strich Ryanair rund 800.000 Sitze in Deutschland und rund eine Million in Belgien und verlegte Flugzeuge in Länder, die Abgaben senken. Die Planer selbst sagen: Ein Anreiz ist nur ein Werkzeug, am Ende muss sich die Strecke selbst tragen."
+
+"Социальные маршруты субсидирует государство. В ЕС это обязательства публичной службы (PSO): если коммерчески никто не летает, право на маршрут разыгрывается в тендере с эксклюзивом и компенсацией убытка; Норвегия тратит на это 2,43 млрд крон, или 1000–1500 крон на пассажира. В Индии схема UDAN ограничивает тариф 2500 рупий за час полёта на половине мест и доплачивает за 9–40 мест на рейс. Итог аудиторов отрезвляет: из 774 выданных маршрутов после окончания субсидии работали лишь 54 (7 %), поэтому трафик субсидируемых лет — плохое доказательство рынка.":
+  en: "Social routes are subsidised by the state. In the EU these are public service obligations (PSO): if nobody flies commercially, the right to the route is tendered with exclusivity and compensation for losses; Norway spends NOK 2.43 billion on this, or NOK 1,000–1,500 per passenger. In India the UDAN scheme caps the fare at INR 2,500 per flight hour on half the seats and pays for 9–40 seats per flight. The auditors' verdict is sobering: of 774 routes awarded, only 54 (7 %) were operating after the subsidy ended, so traffic from subsidised years is poor proof of a market."
+  de: "Soziale Strecken subventioniert der Staat. In der EU sind das gemeinwirtschaftliche Verpflichtungen (PSO): Fliegt kommerziell niemand, wird das Streckenrecht mit Exklusivität und Verlustausgleich ausgeschrieben; Norwegen gibt dafür 2,43 Mrd. Kronen aus, also 1.000–1.500 Kronen je Passagier. In Indien deckelt das Programm UDAN den Tarif auf 2.500 Rupien je Flugstunde für die Hälfte der Sitze und zahlt für 9–40 Sitze je Flug zu. Das Fazit der Rechnungsprüfer ist ernüchternd: Von 774 vergebenen Strecken liefen nach Ende der Subvention nur 54 (7 %) weiter — Verkehr aus subventionierten Jahren ist also ein schwacher Marktbeweis."
+
+"Наконец, маршруты в Европе живут недолго. В 2025 году в ЕС закрыли 1127 маршрутов и открыли 1281, из сети около 14,8 тыс. — то есть за год уходит порядка 7–8 %. Лоукостеры сознательно пробуют и закрывают направления; короткие и малоёмкие маршруты, пары первичных аэропортов и восточноевропейские рынки закрываются чаще, а сезонность и доля рынка тоже значимо влияют на риск закрытия. Для сетевых перевозчиков есть ещё одна ловушка: прибыль отдельного плеча зависит от субъективного распределения затрат и не видит вклада стыковочных пассажиров. Поэтому наш рейтинг честнее всего применять к маршрутам «точка–точка», а хабовые пары помечать отдельно.":
+  en: "Finally, routes in Europe are short-lived. In 2025 the EU closed 1,127 routes and opened 1,281 out of a network of about 14,800 — so roughly 7–8 % disappear each year. Low-cost carriers deliberately try out and close destinations; short and low-capacity routes, pairs of primary airports and Eastern European markets close more often, and seasonality and market share also significantly affect the risk of closure. Network carriers face one more trap: the profit of an individual sector depends on subjective cost allocation and does not see the contribution of connecting passengers. So our rating is most honestly applied to point-to-point routes, with hub pairs flagged separately."
+  de: "Schließlich leben Strecken in Europa nicht lange. 2025 wurden in der EU 1.127 Strecken eingestellt und 1.281 eröffnet, bei einem Netz von rund 14.800 — pro Jahr verschwinden also etwa 7–8 %. Billigflieger testen und schließen Ziele bewusst; kurze Strecken mit geringer Kapazität, Paare von Primärflughäfen und osteuropäische Märkte werden häufiger eingestellt, und auch Saisonalität und Marktanteil beeinflussen das Einstellungsrisiko deutlich. Für Netzwerkcarrier gibt es eine weitere Falle: Der Gewinn eines einzelnen Abschnitts hängt von der subjektiven Kostenverteilung ab und erfasst den Beitrag der Umsteigepassagiere nicht. Unser Rating passt daher am ehrlichsten auf Punkt-zu-Punkt-Strecken, Hub-Paare werden gesondert markiert."
+
+# --- r2.sources ---
+"Eurostat avia_par_<cc> (Air passenger transport between main airports of <country> and their main partner airports)":
+  en: "Eurostat avia_par_<cc> (Air passenger transport between main airports of <country> and their main partner airports)"
+  de: "Eurostat avia_par_<cc> (Air passenger transport between main airports of <country> and their main partner airports)"
+"пассажиры на борту (PAS_BRD), перевезённые (PAS_CRD), кресла (ST_PAS), коммерческие пассажирские рейсы (CAF_PAS), каждое +_ARR/_DEP; без перевозчика (только метка EU/non-EU)":
+  en: "passengers on board (PAS_BRD), carried (PAS_CRD), seats (ST_PAS), commercial passenger flights (CAF_PAS), each +_ARR/_DEP; no carrier (only an EU/non-EU label)"
+  de: "Passagiere an Bord (PAS_BRD), beförderte (PAS_CRD), Sitze (ST_PAS), kommerzielle Passagierflüge (CAF_PAS), jeweils +_ARR/_DEP; ohne Airline (nur Kennzeichen EU/Nicht-EU)"
+"пара аэропортов (reporting×partner, сегмент), месяц/квартал/год":
+  en: "airport pair (reporting × partner, segment), month/quarter/year"
+  de: "Flughafenpaar (meldend × Partner, Segment), Monat/Quartal/Jahr"
+"бесплатно: Eurostat API/databrowser":
+  en: "free: Eurostat API/databrowser"
+  de: "kostenlos: Eurostat-API/Databrowser"
+"Eurostat Reference Manual on Air Transport Statistics v14":
+  en: "Eurostat Reference Manual on Air Transport Statistics v14"
+  de: "Eurostat Reference Manual on Air Transport Statistics v14"
+"определения: seats available, commercial air flight, dataset B1 по парам аэропортов посадки/высадки":
+  en: "definitions: seats available, commercial air flight, dataset B1 by airport pairs of embarkation/disembarkation"
+  de: "Definitionen: seats available, commercial air flight, Datensatz B1 nach Flughafenpaaren des Ein-/Ausstiegs"
+"методика":
+  en: "methodology"
+  de: "Methodik"
+"бесплатно PDF":
+  en: "free PDF"
+  de: "kostenloses PDF"
+"Eurostat HICP CP0733 Passenger transport by air (зеркало FRED)":
+  en: "Eurostat HICP CP0733 Passenger transport by air (FRED mirror)"
+  de: "Eurostat HVPI CP0733 Passenger transport by air (FRED-Spiegel)"
+"индекс цен авиаперевозок (потребительский), по странам и ЕС":
+  en: "consumer price index for air passenger transport, by country and EU"
+  de: "Verbraucherpreisindex für Personenbeförderung im Luftverkehr, nach Ländern und EU"
+"страна, месяц; не пара":
+  en: "country, month; not a pair"
+  de: "Land, Monat; kein Paar"
+"бесплатно (FRED / Eurostat prc_hicp_midx)":
+  en: "free (FRED / Eurostat prc_hicp_midx)"
+  de: "kostenlos (FRED / Eurostat prc_hicp_midx)"
+"Destatis VPI Personenbeförderung im Luftverkehr":
+  en: "Destatis CPI Personenbeförderung im Luftverkehr"
+  de: "Destatis VPI Personenbeförderung im Luftverkehr"
+"индекс цен авиабилетов по ~100 маршрутам; публикуется только индекс (внутр./Европа/межконт.)":
+  en: "air fare price index over ~100 routes; only the index is published (domestic/Europe/intercontinental)"
+  de: "Flugpreisindex über ~100 Strecken; veröffentlicht wird nur der Index (Inland/Europa/Interkontinental)"
+"группа направлений, месяц":
+  en: "group of destinations, month"
+  de: "Zielgruppe, Monat"
+"бесплатно (индекс)":
+  en: "free (index)"
+  de: "kostenlos (Index)"
+"IATA WASG Annex 12.7 — список Level 2 / Level 3":
+  en: "IATA WASG Annex 12.7 — list of Level 2 / Level 3 airports"
+  de: "IATA WASG Annex 12.7 — Liste Level 2 / Level 3"
+"уровни координации аэропортов":
+  en: "airport coordination levels"
+  de: "Koordinierungsstufen der Flughäfen"
+"аэропорт, сезон":
+  en: "airport, season"
+  de: "Flughafen, Saison"
+"бесплатно xlsx":
+  en: "free xlsx"
+  de: "kostenlos, xlsx"
+"AESA: Clasificación de los aeropuertos españoles":
+  en: "AESA: Clasificación de los aeropuertos españoles"
+  de: "AESA: Clasificación de los aeropuertos españoles"
+"Level 3 / Level 2 аэропортов Испании":
+  en: "Level 3 / Level 2 of Spanish airports"
+  de: "Level 3 / Level 2 der spanischen Flughäfen"
+"бесплатно":
+  en: "free"
+  de: "kostenlos"
+"ACL airport info pages":
+  en: "ACL airport info pages"
+  de: "ACL airport info pages"
+"IATA level, ночные правила (local rules), часы работы":
+  en: "IATA level, night rules (local rules), opening hours"
+  de: "IATA-Level, Nachtregeln (local rules), Betriebszeiten"
+"аэропорт":
+  en: "airport"
+  de: "Flughafen"
+"COHOR (координатор Франции)":
+  en: "COHOR (French slot coordinator)"
+  de: "COHOR (Slotkoordinator Frankreichs)"
+"изменения уровней; Level 3 в меню сайта":
+  en: "level changes; Level 3 in the site menu"
+  de: "Stufenänderungen; Level 3 im Seitenmenü"
+"FHKV § 1 (Германия)":
+  en: "FHKV § 1 (Germany)"
+  de: "FHKV § 1 (Deutschland)"
+"17 координируемых/фасилитируемых аэропортов без разделения уровней":
+  en: "17 coordinated/facilitated airports without a split by level"
+  de: "17 koordinierte/flugplanvermittelte Flughäfen ohne Trennung nach Stufen"
+"ACNL AMS Capacity Declaration W26/27":
+  en: "ACNL AMS Capacity Declaration W26/27"
+  de: "ACNL AMS Capacity Declaration W26/27"
+"сезонная ёмкость, ночной лимит, часовые значения ВПП":
+  en: "seasonal capacity, night limit, hourly runway values"
+  de: "saisonale Kapazität, Nachtlimit, stündliche Pistenwerte"
+"аэропорт, сезон, 20/60 мин":
+  en: "airport, season, 20/60 min"
+  de: "Flughafen, Saison, 20/60 min"
+
+# --- gaps r1/r2 ---
+"Свежие (2018–2026) открытые оценки стимуляции трафика при входе LCC именно в Европе не найдены; по тарифам есть Gualini et al. 2024, по трафику — Pitfield 2005 и CAA 2006":
+  en: "No recent (2018–2026) open estimates of traffic stimulation from LCC entry specifically in Europe were found; for fares there is Gualini et al. 2024, for traffic Pitfield 2005 and CAA 2006"
+  de: "Aktuelle (2018–2026) offene Schätzungen der Verkehrsstimulierung durch LCC-Eintritt speziell in Europa wurden nicht gefunden; zu Tarifen gibt es Gualini et al. 2024, zum Verkehr Pitfield 2005 und CAA 2006"
+"Свежих открытых оценок показателя S-кривой для Европы/Индии нет; берём α≈1,3–1,7 из литературы":
+  en: "No recent open estimates of the S-curve exponent for Europe/India; we take α≈1.3–1.7 from the literature"
+  de: "Keine aktuellen offenen Schätzungen des S-Kurven-Exponenten für Europa/Indien; wir nehmen α≈1,3–1,7 aus der Literatur"
+"Доли перевозчиков по паре городов в Индии в найденных открытых источниках нет (только национальные); детализацию DGCA проверяет r2":
+  en: "Carrier shares by city pair in India are not in the open sources found (only national shares); DGCA detail was checked in r2"
+  de: "Airline-Anteile je Städtepaar in Indien sind in den gefundenen offenen Quellen nicht enthalten (nur national); DGCA-Detail wurde in r2 geprüft"
+"Числа по слотам Дели (пиковые движения в час, свободные слоты) — только за платным доступом":
+  en: "Slot figures for Delhi (peak movements per hour, free slots) are behind a paywall only"
+  de: "Slotzahlen für Delhi (Spitzenbewegungen je Stunde, freie Slots) gibt es nur kostenpflichtig"
+"Метрики OAG, Cirium, Mabrian и ASM проприетарны; открыты только итоговые индексы":
+  en: "OAG, Cirium, Mabrian and ASM metrics are proprietary; only the final indices are open"
+  de: "Die Kennzahlen von OAG, Cirium, Mabrian und ASM sind proprietär; offen sind nur die Endindizes"
+"IATA WASG Annex 12.7 (xlsx) не разобран — полный список Level 2/3 не получен; DE без разделения уровней":
+  en: "IATA WASG Annex 12.7 (xlsx) not parsed — no full Level 2/3 list; Germany without a split by level"
+  de: "IATA WASG Annex 12.7 (xlsx) nicht ausgewertet — keine vollständige Liste Level 2/3; Deutschland ohne Stufentrennung"
+"dgca.gov.in недоступен: первичные таблицы city-pair, отчёты и расписания — через копии/прессу; формат airline-wise расписания не проверен":
+  en: "dgca.gov.in was unreachable: primary city-pair tables, reports and schedules came via copies/press; the format of the airline-wise schedule was not checked"
+  de: "dgca.gov.in war nicht erreichbar: primäre Städtepaar-Tabellen, Berichte und Flugpläne über Kopien/Presse; Format des airline-weisen Flugplans nicht geprüft"
+"Открытых средних тарифов по паре нет ни в Европе, ни в Индии":
+  en: "No open average fares by pair in either Europe or India"
+  de: "Keine offenen Durchschnittstarife je Paar, weder in Europa noch in Indien"
+"Европа: нет открытого 'перевозчик×пара×частота' (кроме ручного сбора по расписаниям)":
+  en: "Europe: no open 'carrier × pair × frequency' data (except manual collection from schedules)"
+  de: "Europa: keine offenen Daten „Airline × Paar × Frequenz“ (außer manueller Erfassung aus Flugplänen)"

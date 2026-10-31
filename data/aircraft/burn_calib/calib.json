@@ -113,6 +113,34 @@
     "BTS Form 41, схема T-2, 2025 — https://www.transtats.bts.gov"
    ],
    "form41": "подтверждено: AC/A320 0,65 · F41/A320 0,63 (4 перевозчика)"
+  },
+  "A21N": {
+   "factor": 1.31,
+   "n": 27,
+   "range": [
+    1.22,
+    1.52
+   ],
+   "basis": "Aircraft Commerce №117 (2018), №123 (2019), №137 (2021): блочное топливо A321neo (LEAP-1A32 / PW1133G, 170–192 пасс.) на секторах 251–2 732 nm, 27 строк; медиана опубликовано ÷ openap = 1,31. Поляра openap — синоним A20N (своей у A21N нет); до 01.11.2026 тип считался плоской ставкой 2 400 кг/ч",
+   "sources": [
+    "https://aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/Flight%20Operations/2018/117_FLTOPS_A.pdf",
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2019/123_FLTOPS_A.pdf",
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2021/137_FLTOPS.pdf"
+   ],
+   "form41": "подтверждено: AC/A320 1,36 · F41/A320 1,30 (порядок типов, расхождение 4 %)"
+  },
+  "B39M": {
+   "factor": 1.12,
+   "n": 13,
+   "range": [
+    1.1,
+    1.2
+   ],
+   "basis": "Aircraft Commerce №137 (2021): блочное топливо 737 MAX 9 на секторах 483–2 732 nm, 13 строк; медиана опубликовано ÷ openap = 1,12. Поляра openap — синоним B38M (своей у B39M нет); до 01.11.2026 тип считался плоской ставкой 2 400 кг/ч",
+   "sources": [
+    "https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs/General%20Articles/2021/137_FLTOPS.pdf"
+   ],
+   "form41": "подтверждено: AC/A320 1,16 · F41/A320 1,07 (расхождение 8 %)"
   }
  }
 }

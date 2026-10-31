@@ -5,14 +5,14 @@
  "source": "Справочные ЛТХ Ту-214 (данные КАЗ/Туполев в пересказе GlobalSecurity и avia.tutu.ru); статус — ОАК, 06.2026",
  "source_url": "https://www.globalsecurity.org/military/world/russia/tu-204-specs.htm",
  "publisher": "GlobalSecurity.org (таблица ЛТХ Ту-204/214), avia.tutu.ru, ОАК",
- "checked_at": "2026-10-17",
+ "checked_at": "2026-11-01",
  "fields": {
   "mtow_t": 110.75,
   "oew_t": 59.0,
   "mlw_t": 93.0,
   "fuel_capacity_t": 35.71,
   "seats_max": 210,
-  "seats_typical": 164,
+  "seats_typical": 194,
   "span_m": 42.0,
   "length_m": 46.0,
   "cruise_mach": 0.79,
@@ -24,7 +24,9 @@
  "engine_mount": "wing",
  "burn": {
   "analog": "B752",
-  "note": "Ту-214 — аналог Boeing 757-200 по размерности (MTOW 110 т против 115 т, 164–210 мест) и поколению двигателя (ПС-90А ≈ PW2000/RB211-535). Опубликованного часового расхода от производителя не найдено."
+  "note": "Ту-214 — аналог Boeing 757-200 по размерности (MTOW 110 т против 115 т, 164–210 мест) и поколению двигателя (ПС-90А ≈ PW2000/RB211-535). Расход производителем не опубликован; якорь — справочный часовой расход (3,3–3,7 т/ч в открытых справочниках).",
+  "anchor_kg_per_h": 3700,
+  "anchor_source": "airlines-inform.ru, «Ту-214»: «Часовой расход топлива (кг) | 3 700», «Удельный расход топлива (г/пасс.-км) | 19.0» https://www.airlines-inform.ru/commercial-aircraft/tu-214.html (проверено 01.11.2026). Масса в источнике не названа — принята 0,85 MTOW. Сверка: непубличная таблица рейсового топлива по дальности (500–5 000 км), переданная владельцу, — расчёт с этим якорем при 194 пасс. расходится с ней на 1–2 % (1 000 км: 5,43 т против 5,37; 2 000 км: 9,66 против 9,70; 4 000 км: 18,6 против 19,0)"
  },
  "certainty": "exact",
  "meta": {
@@ -44,7 +46,7 @@
    "mlw_t": "GlobalSecurity; avia.tutu.ru (93,0 т)",
    "fuel_capacity_t": "GlobalSecurity: «Max fuel reserve» 35,71 т",
    "seats_max": "GlobalSecurity / avia.tutu.ru (210, экономкласс)",
-   "seats_typical": "airport-technology.com (164: 16 бизнес + 148 эконом)",
+   "seats_typical": "Red Wings, «Наш парк» (Ту-214 — вместимость 194 места, единственный коммерческий пассажирский эксплуатант): https://flyredwings.com/about/park/ (проверено 01.11.2026); прежде 164 (16 бизнес + 148 эконом, airport-technology.com)",
    "span_m": "GlobalSecurity; avia.tutu.ru",
    "length_m": "GlobalSecurity; avia.tutu.ru (46,0 м; airport-technology — 46,16 м)",
    "cruise_mach": "SKYbrary T204: крейсерское M 0,79 (TAS 450 уз) https://skybrary.aero/aircraft/t204",

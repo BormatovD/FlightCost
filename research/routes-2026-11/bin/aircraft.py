@@ -17,7 +17,7 @@ from flightcostapp.store import Store  # noqa: E402
 from flightcostapp import serve as S  # noqa: E402
 from flightcostapp.econ import route_economics  # noqa: E402
 
-NB = ["A20N", "A21N", "B38M", "B39M", "BCS3"]
+NB = ["A20N", "A21N", "B38M", "B39M", "BCS3", "E295"]
 WB = ["A359", "B789", "A21N"]
 RU = ["T204", "SU95", "MS21"]
 IN_ICAO = None
@@ -67,8 +67,13 @@ def main(db, top=30):
             if not a or not b:
                 continue
             ru = any(x[:1] == "U" for x in (a, b))
-            types = RU if ru else (WB if reg == "eul" else NB)
+            types = RU + ["A21N", "B38M"] if ru else (WB if reg == "eul" else NB)
             bst, res = best(st, c, a, b, types)
+            if ru:
+                # Лучший — только среди доступных российским перевозчикам; A321neo и 737 MAX 8 — для сравнения:
+                # на этих парах летают турецкие перевозчики.
+                ok = [x for x in res if x["type"] in RU and x["ok"] and x.get("fare")]
+                bst = min(ok, key=lambda x: x["fare"]) if ok else None
             out["pairs"][r["pair"]] = {"region": reg, "russia": ru, "best": bst, "all": res}
             print(reg, r["pair"], bst and (bst["type"], round(bst["fare"])), "| " + ", ".join(
                 f"{x['type']}:{round(x['fare']) if x.get('fare') and x['ok'] else 'нельзя'}" for x in res))

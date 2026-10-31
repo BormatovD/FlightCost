@@ -284,6 +284,14 @@ class BurnRef:
     anchor_trip_nm: float | None = None
     anchor_trip_pax: float | None = None
 
+    @property
+    def anchored(self) -> bool:
+        """Есть ли привязка: часовой якорь, якорь рейсом или тот же двигатель.
+        Якорь рейсом (решение 224) прежде не считался якорем в проверках
+        «нельзя»: тип только с рейсовым якорем отвечал «нет якоря»."""
+        return bool(self.same_engine or self.anchor_kg_per_h is not None
+                    or (self.anchor_trip_kg and self.anchor_trip_nm and self.anchor_trip_pax is not None))
+
 
 @dataclass
 class Airframe:
@@ -339,13 +347,41 @@ def _flow(icao: str):
     return ff
 
 
+# Типы, у которых в openap нет своей поляры сопротивления, и поляра, взятая
+# вместо неё (таблица синонимов самой openap: A21N → A20N, B39M → B38M).
+# Масса, тяга и двигатель остаются своими — заимствуется только поляра.
+POLAR_SYNONYM: dict[str, str] = {}
+
+
 @lru_cache(maxsize=64)
 def _flow_or_error(icao: str):
+    """Вычислитель или отказ. У A21N и B39M в openap нет поляры — прежде они
+    падали на плоскую ставку 2 400 кг/ч без набора и снижения (ошибка до 25 %
+    на коротких плечах), и самый массовый новый узкофюзеляжный считался
+    заглушкой. Теперь — поляра синонима той же библиотеки с собственными
+    массой и двигателем; уровень расхода выставляет поправка по
+    опубликованной эксплуатации (решение 225, `burn_calib`)."""
+    import warnings
     import openap
     try:
         return openap.FuelFlow(icao), None
     except Exception as exc:                           # noqa: BLE001
-        return None, exc
+        # Синоним — только для типа, который openap знает (масса, двигатель),
+        # но без поляры. Тип, которого нет вовсе (B77L), остаётся отказом:
+        # иначе он считался бы чужим самолётом целиком.
+        if not _known_to_openap(icao):
+            return None, exc
+        try:
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                ff = openap.FuelFlow(icao, use_synonym=True)
+            syn = next((str(x.message).split("synonym ")[-1].split(" ")[0]
+                        for x in w if "synonym" in str(x.message)), None)
+            if syn:
+                POLAR_SYNONYM[icao.upper()] = syn.upper()
+            return ff, None
+        except Exception:                              # noqa: BLE001
+            return None, exc
 
 
 class _Scaled:
@@ -433,7 +469,7 @@ def trip_fuel(icao: str, dist_nm: float, pax: float,
                             flow_of=ref.analog, scale=scale)
         r.tier = 4
         r.tier_note = f"аналог {ref.analog}, {how}" + (f"; {ref.note}" if ref.note else "")
-        if ref.anchor_kg_per_h is None and not ref.same_engine:
+        if not ref.anchored:
             # Решение 106: без якоря — «нельзя». Числа остаются в ответе,
             # чтобы было видно, что именно не привязано, но рейс невыполним.
             r.feasible.limit(
@@ -753,7 +789,7 @@ def payload_range(icao: str, seats: int | None = None, points: int = 9,
     # Тип без своей физики и без якоря отвечает «нельзя» (решение 106):
     # каждая точка кривой была бы невыполнимой, и диаграмма вышла бы из
     # нулей — правдоподобная картинка вместо отказа.
-    if ref is not None and ref.anchor_kg_per_h is None and not ref.same_engine:
+    if ref is not None and not ref.anchored:
         return {"error": (f"расход {icao} не привязан: назван аналог {ref.analog}, "
                           f"но нет якоря — диаграмма не строится (решение 106)")}
     if frame is not None:

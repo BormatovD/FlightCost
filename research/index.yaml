@@ -6,7 +6,6 @@
 items:
   - slug: routes-2026-11
     date: 2026-11-01
-    draft: true                    # черновик на русском; перевод после правок владельца
     report: routes-2026-11/report.html
     calc: planned
     calc_note:
@@ -20,14 +19,17 @@ items:
       de: "Welche Strecken für eine Airline attraktiv sind: Europa und Indien"
     lede:
       ru: >-
-        Как авиакомпании и аэропорты оценивают маршрут, какие данные для этого открыты, и рейтинг пар Европы и Индии по
-        размеру рынка, росту и загрузке.
+        Как авиакомпании и аэропорты оценивают маршрут, какие данные для этого открыты, рейтинг пар Европы и Индии по
+        размеру рынка, росту и загрузке, кто уже летает на верхних парах и каким самолётом входить — с калькулятором
+        «доля рынка → тип».
       en: >-
-        How airlines and airports evaluate a route, which data are openly available, and a rating of European and Indian
-        pairs by market size, growth and load factor.
+        How airlines and airports evaluate a route, which data are openly available, a rating of European and Indian
+        pairs by market size, growth and load factor, who already flies the top pairs and which aircraft to enter with —
+        with a "market share → type" calculator.
       de: >-
-        Wie Airlines und Flughäfen eine Strecke bewerten, welche Daten offen sind, und ein Rating europäischer und
-        indischer Paare nach Marktgröße, Wachstum und Auslastung.
+        Wie Airlines und Flughäfen eine Strecke bewerten, welche Daten offen sind, ein Rating europäischer und indischer
+        Paare nach Marktgröße, Wachstum und Auslastung, wer die Top-Paare schon fliegt und mit welchem Flugzeug man
+        einsteigt — mit einem Rechner „Marktanteil → Typ“.
     tags:
       ru: [маршруты, рынок, рейтинг, Европа, Индия]
       en: [routes, market, rating, Europe, India]

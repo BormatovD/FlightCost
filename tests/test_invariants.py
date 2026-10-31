@@ -138,6 +138,15 @@ class FuelTiers(unittest.TestCase):
         self.assertEqual(r.tier, 4)
         self.assertFalse(r.feasible.ok)
 
+    def test_trip_anchor_alone_is_enough(self):
+        """Якорь рейсом (решение 224) — полноценная привязка: без часового якоря
+        тип не должен отвечать «нет якоря», а множитель — сводить рейс к якорю."""
+        ref = self.fuel.BurnRef("B752", anchor_trip_kg=9000, anchor_trip_nm=1000, anchor_trip_pax=150)
+        r = self.fuel.trip_fuel("T214", 1000, 150, frame=self.t214, ref=ref)
+        self.assertTrue(r.feasible.ok, r.feasible)
+        from flightcostapp.fuel import payload_range
+        self.assertNotIn("error", payload_range("T214", 176, points=3, frame=self.t214, ref=ref))
+
     def test_same_engine_variant_needs_no_anchor(self):
         fr = self.fuel.airframe_from_openap("A320")
         fr.mtow_kg = 73500.0
@@ -149,6 +158,14 @@ class FuelTiers(unittest.TestCase):
         r = self.fuel.trip_fuel("ZZ99", 590, 148, frame=self.t214)
         self.assertEqual(r.tier, 0, "параметрика обязана называть себя ярусом 0")
         self.assertFalse(r.feasible.ok)
+
+    def test_type_without_polar_uses_synonym_not_flat_rate(self):
+        """A21N и B39M есть в openap без поляры: прежде — плоская ставка 2 400 кг/ч
+        без набора и снижения. Теперь поляра синонима (A20N, B38M) и свой планер."""
+        for t in ("A21N", "B39M"):
+            r = self.fuel.trip_fuel(t, 500, 150)
+            self.assertNotEqual(r.method, "empirical", t)
+            self.assertNotIn("плоская", r.note or "", t)
 
     def test_library_type_is_tier1(self):
         self.assertEqual(self.fuel.trip_fuel("A320", 590, 148).tier, 1)
