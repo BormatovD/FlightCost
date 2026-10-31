@@ -1,0 +1,1406 @@
+{
+ "researcher": "b3",
+ "region": "NorthAmerica",
+ "generated": "2026-10-30",
+ "conventions": "value — в единицах валюты (не млн); ask_km/rpk_km — кресло-/пасс-км; fuel_volume — тонны (галлон × 3,785 л × 0,8 кг/л); stage_km — км; CASM в центах валюты отчётности за ASM (не ASK). ids — шаги trace/b3.jsonl.",
+ "carriers": [
+  {
+   "code": "DL",
+   "name": "Delta Air Lines",
+   "region": "NorthAmerica",
+   "model": "network",
+   "period": "FY2025 (01.01–31.12.2025)",
+   "currency": "USD",
+   "scope": "Delta Air Lines, Inc. consolidated: mainline + региональные партнёры по capacity purchase (Endeavor — дочерняя; SkyWest, Republic — CPA); выручка и расходы включают сторонние продажи НПЗ Monroe (refinery) и MRO",
+   "values": {
+    "revenue": {
+     "value": 63364000000.0,
+     "ids": [
+      "b3-008"
+     ]
+    },
+    "pax_revenue": {
+     "value": 51768000000.0,
+     "ids": [
+      "b3-007"
+     ]
+    },
+    "opex": {
+     "value": 57542000000.0,
+     "ids": [
+      "b3-011"
+     ]
+    },
+    "fuel_cost": {
+     "value": 9819000000.0,
+     "ids": [
+      "b3-009"
+     ]
+    },
+    "fuel_volume": {
+     "value": 12926532,
+     "unit": "t",
+     "source_value": 4269000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-247"
+     ]
+    },
+    "ask_km": {
+     "value": 479656932480,
+     "ids": [
+      "b3-248"
+     ]
+    },
+    "rpk_km": {
+     "value": 401656856832,
+     "ids": [
+      "b3-249"
+     ]
+    },
+    "pax": {
+     "value": 200000000,
+     "ids": [
+      "b3-027"
+     ],
+     "approx": "«over 200 million customers» — округлено, нижняя граница"
+    },
+    "fleet_end": {
+     "value": 1314,
+     "ids": [
+      "b3-024"
+     ]
+    },
+    "employees": {
+     "value": 103000,
+     "ids": [
+      "b3-023"
+     ],
+     "basis": "FTE на 31.12.2025 (≈)"
+    },
+    "casm_reported": {
+     "value": 19.31,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-017"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 13.86,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-015",
+      "b3-016",
+      "b3-018",
+      "b3-019"
+     ],
+     "excludes": "топливо и налоги на него, сторонние продажи НПЗ (1,70¢), profit sharing (0,45¢)"
+    }
+   },
+   "notes": "Региональные (capacity purchase) включены: regional carrier expense 2 553 млн USD в opex; сноска 10-K к таблице топлива — включает регионалов. Revenue/opex содержат сторонние продажи НПЗ (≈1,70¢/ASM ≈ 5,07 млрд USD) — для CASK без топлива использовать CASM-Ex или вычесть. Рейсы, блок-часы, длина рейса, средний парк, кресла не публикуются в релизе; доступная часть 10-K (первые ~116 тыс. симв.) их не содержит.",
+   "completeness": "11/16"
+  },
+  {
+   "code": "AA",
+   "name": "American Airlines Group",
+   "region": "NorthAmerica",
+   "model": "network",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "AAG consolidated: mainline + regional (Envoy, Piedmont, PSA — дочерние; CPA-партнёры)",
+   "values": {
+    "revenue": {
+     "value": 54633000000.0,
+     "ids": [
+      "b3-032"
+     ]
+    },
+    "pax_revenue": {
+     "value": 49643000000.0,
+     "ids": [
+      "b3-031"
+     ]
+    },
+    "opex": {
+     "value": 53166000000.0,
+     "ids": [
+      "b3-035"
+     ]
+    },
+    "fuel_cost": {
+     "value": 10718000000.0,
+     "ids": [
+      "b3-033"
+     ]
+    },
+    "fuel_volume": {
+     "value": 13589664,
+     "unit": "t",
+     "source_value": 4488000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-250"
+     ]
+    },
+    "ask_km": {
+     "value": 481855296384,
+     "ids": [
+      "b3-251"
+     ]
+    },
+    "rpk_km": {
+     "value": 402809147136,
+     "ids": [
+      "b3-252"
+     ]
+    },
+    "pax": {
+     "value": 224000000,
+     "ids": [
+      "b3-048"
+     ],
+     "approx": "«approximately 224 million passengers»"
+    },
+    "fleet_end": {
+     "value": 1580,
+     "ids": [
+      "b3-049"
+     ],
+     "basis": "1 013 mainline + 567 regional"
+    },
+    "employees": {
+     "value": 139100,
+     "ids": [
+      "b3-040"
+     ],
+     "basis": "FTE на конец периода"
+    },
+    "casm_reported": {
+     "value": 17.76,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-038"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 14.12,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-041"
+     ],
+     "excludes": "топливо и net special items"
+    }
+   },
+   "notes": "Сноска релиза: операционная статистика включает mainline и regional (дочерние и CPA). Regional operating expenses 5 119 млн USD в opex. Рейсы, блок-часы, длина рейса не в релизе; Item 2/MD&A 10-K недоступны инструменту.",
+   "completeness": "11/16"
+  },
+  {
+   "code": "UA",
+   "name": "United Airlines Holdings",
+   "region": "NorthAmerica",
+   "model": "network",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "UAL consolidated: mainline + United Express (региональные по capacity purchase)",
+   "values": {
+    "revenue": {
+     "value": 59070000000.0,
+     "ids": [
+      "b3-054"
+     ]
+    },
+    "pax_revenue": {
+     "value": 53438000000.0,
+     "ids": [
+      "b3-053"
+     ]
+    },
+    "opex": {
+     "value": 54356000000.0,
+     "ids": [
+      "b3-057"
+     ]
+    },
+    "fuel_cost": {
+     "value": 11396000000.0,
+     "ids": [
+      "b3-055"
+     ]
+    },
+    "fuel_volume": {
+     "value": 14119564,
+     "unit": "t",
+     "source_value": 4663000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-253"
+     ]
+    },
+    "ask_km": {
+     "value": 531540573696,
+     "ids": [
+      "b3-254"
+     ]
+    },
+    "rpk_km": {
+     "value": 437128407936,
+     "ids": [
+      "b3-255"
+     ]
+    },
+    "pax": {
+     "value": 181053000,
+     "ids": [
+      "b3-058"
+     ]
+    },
+    "employees": {
+     "value": 113200,
+     "ids": [
+      "b3-065",
+      "b3-069"
+     ],
+     "basis": "headcount на 31.12.2025, не FTE"
+    },
+    "casm_reported": {
+     "value": 16.46,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-061"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 12.64,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-062",
+      "b3-063"
+     ],
+     "excludes": "топливо, profit sharing, спецстатьи, расходы стороннего бизнеса"
+    }
+   },
+   "notes": "Regional capacity purchase 2 693 млн USD в opex. Явной сноски о включении United Express в ASM в релизе нет; по практике UAL статистика consolidated (вкл. регионалов) — подтвердить по 10-K MD&A. Парк на конец года, рейсы, блок-часы, длина рейса — не найдены. Сотрудники — headcount (не FTE).",
+   "completeness": "11/16"
+  },
+  {
+   "code": "WN",
+   "name": "Southwest Airlines",
+   "region": "NorthAmerica",
+   "model": "LCC",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "Southwest Airlines Co. consolidated; без региональных партнёров",
+   "values": {
+    "revenue": {
+     "value": 28063000000.0,
+     "ids": [
+      "b3-077"
+     ]
+    },
+    "pax_revenue": {
+     "value": 25535000000.0,
+     "ids": [
+      "b3-076"
+     ]
+    },
+    "opex": {
+     "value": 27635000000.0,
+     "ids": [
+      "b3-079"
+     ]
+    },
+    "fuel_cost": {
+     "value": 5240000000.0,
+     "ids": [
+      "b3-078"
+     ]
+    },
+    "fuel_volume": {
+     "value": 6567732,
+     "unit": "t",
+     "source_value": 2169000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-256"
+     ]
+    },
+    "ask_km": {
+     "value": 289755949824,
+     "ids": [
+      "b3-257"
+     ]
+    },
+    "rpk_km": {
+     "value": 224411755392,
+     "ids": [
+      "b3-258"
+     ]
+    },
+    "pax": {
+     "value": 134110000,
+     "ids": [
+      "b3-080"
+     ],
+     "basis": "revenue passengers carried (O&D); enplaned — 168,3 млн"
+    },
+    "flights": {
+     "value": 1415822,
+     "ids": [
+      "b3-084"
+     ]
+    },
+    "fleet_avg": {
+     "value": 803,
+     "ids": [
+      "b3-091"
+     ],
+     "basis": "803 на конец 2024 и 2025 — среднее принято равным"
+    },
+    "seats_per_flight": {
+     "value": 161.2,
+     "ids": [
+      "b3-085"
+     ]
+    },
+    "stage_km": {
+     "value": 1255,
+     "ids": [
+      "b3-259"
+     ]
+    },
+    "employees": {
+     "value": 72790,
+     "ids": [
+      "b3-090"
+     ],
+     "basis": "active FTE на конец периода"
+    },
+    "casm_reported": {
+     "value": 15.35,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-086"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 12.32,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-087",
+      "b3-088"
+     ],
+     "excludes": "топливо, спецстатьи, profit sharing"
+    }
+   },
+   "notes": "Блок-часы в релизе не публикуются (gap). Pax — O&D passengers carried; для сравнения с enplanements других перевозчиков взять 168 334 тыс.",
+   "completeness": "15/16"
+  },
+  {
+   "code": "AS",
+   "name": "Alaska Air Group (Alaska + Hawaiian + Horizon)",
+   "region": "NorthAmerica",
+   "model": "network",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "Air Group consolidated: Alaska, Hawaiian (весь 2025), Horizon + SkyWest по CPA; FTE — без CPA",
+   "values": {
+    "revenue": {
+     "value": 14239000000.0,
+     "ids": [
+      "b3-098"
+     ]
+    },
+    "pax_revenue": {
+     "value": 12835000000.0,
+     "ids": [
+      "b3-097"
+     ]
+    },
+    "opex": {
+     "value": 13936000000.0,
+     "ids": [
+      "b3-101"
+     ]
+    },
+    "fuel_cost": {
+     "value": 2879000000.0,
+     "ids": [
+      "b3-099"
+     ]
+    },
+    "fuel_volume": {
+     "value": 3470088,
+     "unit": "t",
+     "source_value": 1146000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-260"
+     ]
+    },
+    "ask_km": {
+     "value": 149607836928,
+     "ids": [
+      "b3-261"
+     ]
+    },
+    "rpk_km": {
+     "value": 124096515840,
+     "ids": [
+      "b3-262"
+     ]
+    },
+    "pax": {
+     "value": 58627000,
+     "ids": [
+      "b3-102"
+     ]
+    },
+    "flights": {
+     "value": 543000,
+     "ids": [
+      "b3-110"
+     ],
+     "basis": "округлено до тыс."
+    },
+    "fleet_end": {
+     "value": 413,
+     "ids": [
+      "b3-111"
+     ]
+    },
+    "employees": {
+     "value": 31585,
+     "ids": [
+      "b3-109"
+     ],
+     "basis": "средн. FTE за год"
+    },
+    "casm_ex_reported": {
+     "value": 11.42,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-105",
+      "b3-106"
+     ],
+     "excludes": "топливо, расходы грузовых бортов (Amazon ATSA), спецстатьи"
+    },
+    "casm_reported": {
+     "value": 14.99,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-286"
+     ],
+     "basis": "рассчитан, не опубликован"
+    },
+    "fleet_avg": {
+     "value": 402.5,
+     "ids": [
+      "b3-287"
+     ],
+     "basis": "среднее начала и конца года"
+    }
+   },
+   "notes": "Статистика (кроме FTE) включает SkyWest по capacity purchase (сноска a); парк включает борта CPA. Галлоны — без грузовых рейсов Amazon ATSA, но opex их включает (freighter costs) — для fuel/RPK корректно, для CASM нет. Opex включает интеграционные спецстатьи Hawaiian. GAAP CASM не публикуется — рассчитан.",
+   "completeness": "13/16"
+  },
+  {
+   "code": "B6",
+   "name": "JetBlue Airways",
+   "region": "NorthAmerica",
+   "model": "hybrid",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "JetBlue Airways Corp. consolidated; без региональных партнёров",
+   "values": {
+    "revenue": {
+     "value": 9062000000.0,
+     "ids": [
+      "b3-118"
+     ]
+    },
+    "pax_revenue": {
+     "value": 8336000000.0,
+     "ids": [
+      "b3-117"
+     ]
+    },
+    "opex": {
+     "value": 9430000000.0,
+     "ids": [
+      "b3-120"
+     ]
+    },
+    "fuel_cost": {
+     "value": 2057000000.0,
+     "ids": [
+      "b3-119"
+     ]
+    },
+    "fuel_volume": {
+     "value": 2501128,
+     "unit": "t",
+     "source_value": 826000000.0,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-263"
+     ]
+    },
+    "ask_km": {
+     "value": 104618625408,
+     "ids": [
+      "b3-264"
+     ]
+    },
+    "rpk_km": {
+     "value": 86156231040,
+     "ids": [
+      "b3-265"
+     ]
+    },
+    "pax": {
+     "value": 39336000,
+     "ids": [
+      "b3-121"
+     ]
+    },
+    "flights": {
+     "value": 308985,
+     "ids": [
+      "b3-128"
+     ]
+    },
+    "fleet_avg": {
+     "value": 287,
+     "ids": [
+      "b3-130"
+     ]
+    },
+    "stage_km": {
+     "value": 2094,
+     "ids": [
+      "b3-266"
+     ]
+    },
+    "employees": {
+     "value": 19259,
+     "ids": [
+      "b3-131"
+     ],
+     "basis": "средн. FTE crewmembers"
+    },
+    "casm_reported": {
+     "value": 14.51,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-124"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 11.2,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-125",
+      "b3-126"
+     ],
+     "excludes": "топливо, неавиационные расходы, спецстатьи"
+    },
+    "seats_per_flight": {
+     "value": 161.7,
+     "ids": [
+      "b3-288"
+     ],
+     "basis": "рассчитано"
+    }
+   },
+   "notes": "Блок-часы не публикуются. Средний парк 287 включает борта, стоящие из-за двигателей PW GTF (A321neo/A220) — не уточнено.",
+   "completeness": "15/16"
+  },
+  {
+   "code": "F9",
+   "name": "Frontier Airlines (Frontier Group Holdings)",
+   "region": "NorthAmerica",
+   "model": "ULCC",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "Frontier Group Holdings consolidated; без региональных партнёров",
+   "values": {
+    "revenue": {
+     "value": 3724000000.0,
+     "ids": [
+      "b3-135"
+     ]
+    },
+    "pax_revenue": {
+     "value": 3598000000.0,
+     "ids": [
+      "b3-134"
+     ]
+    },
+    "opex": {
+     "value": 3873000000.0,
+     "ids": [
+      "b3-137"
+     ]
+    },
+    "fuel_cost": {
+     "value": 929000000.0,
+     "ids": [
+      "b3-136"
+     ]
+    },
+    "fuel_volume": {
+     "value": 1137096,
+     "unit": "t",
+     "source_value": 375527000,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-267"
+     ]
+    },
+    "ask_km": {
+     "value": 63977861376,
+     "ids": [
+      "b3-268"
+     ]
+    },
+    "rpk_km": {
+     "value": 50190611328,
+     "ids": [
+      "b3-269"
+     ]
+    },
+    "pax": {
+     "value": 33200000,
+     "ids": [
+      "b3-140"
+     ]
+    },
+    "flights": {
+     "value": 205622,
+     "ids": [
+      "b3-141"
+     ]
+    },
+    "block_hours": {
+     "value": 541304,
+     "ids": [
+      "b3-142"
+     ]
+    },
+    "fleet_avg": {
+     "value": 162,
+     "ids": [
+      "b3-144"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 209,
+     "ids": [
+      "b3-147"
+     ]
+    },
+    "stage_km": {
+     "value": 1479,
+     "ids": [
+      "b3-270"
+     ]
+    },
+    "employees": {
+     "value": 7656,
+     "ids": [
+      "b3-146"
+     ],
+     "basis": "FTE на конец периода"
+    },
+    "casm_reported": {
+     "value": 9.74,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-148"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 7.41,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-149"
+     ],
+     "excludes": "топливо и спецстатьи (adjusted; в 2025 спецстатей нет)"
+    }
+   },
+   "notes": "Полный набор. Утилизация 9,2 ч/сут (b3-150).",
+   "completeness": "16/16"
+  },
+  {
+   "code": "G4",
+   "name": "Allegiant Air (Allegiant Travel Co.)",
+   "region": "NorthAmerica",
+   "model": "ULCC",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "P&L — консолидированный (авиакомпания + курорт Sunseeker); операционная статистика — airline only, total system (scheduled + fixed fee/charter)",
+   "values": {
+    "revenue": {
+     "value": 2606579000,
+     "ids": [
+      "b3-154"
+     ],
+     "basis": "консолидировано, вкл. Sunseeker"
+    },
+    "pax_revenue": {
+     "value": 2324348000,
+     "ids": [
+      "b3-153"
+     ]
+    },
+    "opex": {
+     "value": 2569412000,
+     "ids": [
+      "b3-156"
+     ],
+     "basis": "консолидировано; airline-only ≈ 2 402 млн (b3-169)"
+    },
+    "fuel_cost": {
+     "value": 639731000,
+     "ids": [
+      "b3-155"
+     ]
+    },
+    "fuel_volume": {
+     "value": 760176,
+     "unit": "t",
+     "source_value": 251049000,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-271"
+     ]
+    },
+    "ask_km": {
+     "value": 34390928107,
+     "ids": [
+      "b3-272"
+     ]
+    },
+    "rpk_km": {
+     "value": 27274605279,
+     "ids": [
+      "b3-273"
+     ],
+     "basis": "только scheduled service; total system RPM не публикуется"
+    },
+    "pax": {
+     "value": 18737151,
+     "ids": [
+      "b3-157"
+     ]
+    },
+    "flights": {
+     "value": 137039,
+     "ids": [
+      "b3-159"
+     ]
+    },
+    "block_hours": {
+     "value": 327440,
+     "ids": [
+      "b3-160"
+     ]
+    },
+    "fleet_avg": {
+     "value": 124.8,
+     "ids": [
+      "b3-162"
+     ]
+    },
+    "stage_km": {
+     "value": 1427,
+     "ids": [
+      "b3-274"
+     ]
+    },
+    "employees": {
+     "value": 5616,
+     "ids": [
+      "b3-163"
+     ],
+     "basis": "FTE на конец периода"
+    },
+    "casm_reported": {
+     "value": 11.24,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-165"
+     ],
+     "basis": "airline only"
+    },
+    "casm_ex_reported": {
+     "value": 8.04,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-166",
+      "b3-168"
+     ],
+     "excludes": "топливо и спецстатьи (вкл. затраты на сделку с Sun Country), airline only"
+    },
+    "seats_per_flight": {
+     "value": 175.8,
+     "ids": [
+      "b3-289"
+     ],
+     "basis": "рассчитано"
+    },
+    "opex_airline": {
+     "value": 2402000000,
+     "ids": [
+      "b3-169"
+     ],
+     "basis": "CASM × ASM, без Sunseeker"
+    }
+   },
+   "notes": "Для CASK использовать airline-only (CASM 11,24¢ или opex ≈2 402 млн), а не консолидированный opex с курортом. RPK — только scheduled (ASK — total system) → load factor по total system завышать нельзя; scheduled LF 82,0 %. В 2025 г. объявлено слияние с Sun Country (спецстатьи).",
+   "completeness": "16/16"
+  },
+  {
+   "code": "SY",
+   "name": "Sun Country Airlines",
+   "region": "NorthAmerica",
+   "model": "leisure",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "Sun Country Airlines Holdings consolidated: scheduled + charter + грузовые рейсы для Amazon (20 грузовых бортов на конец года)",
+   "values": {
+    "revenue": {
+     "value": 1126769000,
+     "ids": [
+      "b3-174"
+     ]
+    },
+    "pax_revenue": {
+     "value": 923129000,
+     "ids": [
+      "b3-172"
+     ]
+    },
+    "opex": {
+     "value": 1026196000,
+     "ids": [
+      "b3-176"
+     ]
+    },
+    "fuel_cost": {
+     "value": 213480000,
+     "ids": [
+      "b3-175"
+     ]
+    },
+    "fuel_volume": {
+     "value": 256311,
+     "unit": "t",
+     "source_value": 84647000,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-275"
+     ]
+    },
+    "ask_km": {
+     "value": 12752211720,
+     "ids": [
+      "b3-276"
+     ]
+    },
+    "rpk_km": {
+     "value": 8630157090,
+     "ids": [
+      "b3-277"
+     ]
+    },
+    "pax": {
+     "value": 4205847,
+     "ids": [
+      "b3-179"
+     ]
+    },
+    "flights": {
+     "value": 55357,
+     "ids": [
+      "b3-177"
+     ],
+     "basis": "total system; включение грузовых рейсов не подтверждено"
+    },
+    "block_hours": {
+     "value": 155313,
+     "ids": [
+      "b3-178"
+     ],
+     "basis": "total system; включение грузовых не подтверждено"
+    },
+    "fleet_avg": {
+     "value": 43.9,
+     "ids": [
+      "b3-184"
+     ],
+     "basis": "только пассажирские"
+    },
+    "stage_km": {
+     "value": 1791,
+     "ids": [
+      "b3-278"
+     ]
+    },
+    "employees": {
+     "value": 3281,
+     "ids": [
+      "b3-185"
+     ],
+     "basis": "headcount на конец периода"
+    },
+    "casm_reported": {
+     "value": 12.95,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-186"
+     ],
+     "basis": "весь opex (вкл. грузовые) / пассажирские ASM — завышен"
+    },
+    "casm_ex_reported": {
+     "value": 8.17,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-187",
+      "b3-188"
+     ],
+     "excludes": "топливо, грузовые расходы (1,89¢), stock comp, спецстатьи, Sun Country Vacations, амортизация сдаваемых ВС, внеплановые двигатели"
+    }
+   },
+   "notes": "Грузовые операции (cargo revenue 155 млн) не создают ASM (b3-189), но их расходы в opex — CASM GAAP несопоставим; использовать Adjusted CASM. Пасс. загрузка total system не публикуется (scheduled LF 83,6 %). Объявлено слияние с Allegiant.",
+   "completeness": "15/16"
+  },
+  {
+   "code": "AC",
+   "name": "Air Canada",
+   "region": "NorthAmerica",
+   "model": "network",
+   "period": "FY2025",
+   "currency": "CAD",
+   "scope": "Air Canada consolidated: mainline, Air Canada Rouge, Air Canada Express (Jazz и др. по CPA), Air Canada Cargo, Air Canada Vacations",
+   "values": {
+    "revenue": {
+     "value": 22372000000.0,
+     "ids": [
+      "b3-193"
+     ]
+    },
+    "pax_revenue": {
+     "value": 19604000000.0,
+     "ids": [
+      "b3-194"
+     ]
+    },
+    "opex": {
+     "value": 21454000000.0,
+     "ids": [
+      "b3-195"
+     ]
+    },
+    "fuel_cost": {
+     "value": 4731000000.0,
+     "ids": [
+      "b3-196"
+     ]
+    },
+    "fuel_volume": {
+     "value": 4051649,
+     "unit": "t",
+     "source_value": 5064561000,
+     "source_unit": "L",
+     "ids": [
+      "b3-279"
+     ]
+    },
+    "ask_km": {
+     "value": 169261145856,
+     "ids": [
+      "b3-280"
+     ]
+    },
+    "rpk_km": {
+     "value": 143265412224,
+     "ids": [
+      "b3-281"
+     ]
+    },
+    "pax": {
+     "value": 45297000,
+     "ids": [
+      "b3-208"
+     ]
+    },
+    "flights": {
+     "value": 385700,
+     "ids": [
+      "b3-205"
+     ]
+    },
+    "fleet_end": {
+     "value": 353,
+     "ids": [
+      "b3-203"
+     ]
+    },
+    "stage_km": {
+     "value": 2992,
+     "ids": [
+      "b3-282"
+     ]
+    },
+    "employees": {
+     "value": 37000,
+     "ids": [
+      "b3-202"
+     ],
+     "basis": "средн. FTE за год"
+    },
+    "casm_reported": {
+     "value": 20.4,
+     "unit": "CAD¢/ASM",
+     "ids": [
+      "b3-200"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 14.7,
+     "unit": "CAD¢/ASM",
+     "ids": [
+      "b3-201",
+      "b3-211",
+      "b3-212"
+     ],
+     "excludes": "топливо, наземные пакеты Air Canada Vacations, грузовые борта, спецстатьи"
+    },
+    "seats_per_flight": {
+     "value": 146.7,
+     "ids": [
+      "b3-213"
+     ],
+     "basis": "seats dispatched / frequencies"
+    },
+    "fleet_avg": {
+     "value": 353.5,
+     "ids": [
+      "b3-290"
+     ],
+     "basis": "среднее начала и конца года"
+    }
+   },
+   "notes": "Статистика включает CPA-перевозчиков (сноска 4); capacity purchase fees 863 млн CAD в opex. Валюта CAD — перевод по среднему курсу 2025 делает сборщик. Opex включает Air Canada Vacations (наземные пакеты) и грузовые борта. Блок-часы не найдены (в 2025 MD&A нет строки utilization).",
+   "completeness": "15/16"
+  },
+  {
+   "code": "Y4",
+   "name": "Volaris (Controladora Vuela)",
+   "region": "NorthAmerica",
+   "model": "ULCC",
+   "period": "FY2025",
+   "currency": "USD",
+   "scope": "Volaris Mexico, Costa Rica, El Salvador; scheduled + charter",
+   "values": {
+    "revenue": {
+     "value": 3038000000.0,
+     "ids": [
+      "b3-225"
+     ]
+    },
+    "pax_revenue": {
+     "value": 2883000000.0,
+     "ids": [
+      "b3-226"
+     ]
+    },
+    "opex": {
+     "value": 2903000000.0,
+     "ids": [
+      "b3-227"
+     ]
+    },
+    "fuel_cost": {
+     "value": 886000000.0,
+     "ids": [
+      "b3-228"
+     ]
+    },
+    "fuel_volume": {
+     "value": 1029399,
+     "unit": "t",
+     "source_value": 339960000,
+     "source_unit": "US gal",
+     "ids": [
+      "b3-283"
+     ]
+    },
+    "ask_km": {
+     "value": 58126286592,
+     "ids": [
+      "b3-284"
+     ]
+    },
+    "rpk_km": {
+     "value": 49009352832,
+     "ids": [
+      "b3-285"
+     ]
+    },
+    "pax": {
+     "value": 30995000,
+     "ids": [
+      "b3-238"
+     ]
+    },
+    "flights": {
+     "value": 188848,
+     "ids": [
+      "b3-231"
+     ]
+    },
+    "block_hours": {
+     "value": 481472,
+     "ids": [],
+     "basis": "из data/benchmarks/Y4-2025.yaml (не перепроверено в b3)"
+    },
+    "fleet_end": {
+     "value": 155,
+     "ids": [
+      "b3-233"
+     ]
+    },
+    "casm_reported": {
+     "value": 8.04,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-236"
+     ]
+    },
+    "casm_ex_reported": {
+     "value": 5.58,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-237",
+      "b3-240"
+     ],
+     "excludes": "только топливо"
+    },
+    "fleet_avg": {
+     "value": 149,
+     "ids": [
+      "b3-234"
+     ],
+     "basis": "среднее начала и конца года"
+    }
+   },
+   "notes": "Галлоны «accrued». Средний парк ~149 (b3-234) — часть A320neo на земле из-за PW GTF: утилизация 12,76 ч/сут считается по бортам в эксплуатации. Стаж, сотрудники, кресла — не найдены.",
+   "completeness": "13/16"
+  },
+  {
+   "code": "NK",
+   "name": "Spirit Airlines (Spirit Aviation Holdings)",
+   "region": "NorthAmerica",
+   "model": "ULCC",
+   "period": "FY2025 (Predecessor 01.01–12.03 + Successor 13.03–31.12)",
+   "currency": "USD",
+   "scope": "Spirit Aviation Holdings; два банкротства (выход из ch.11 в марте 2025, повторное ch.11 в августе 2025), fresh-start accounting",
+   "values": {
+    "fleet_end": {
+     "value": 131,
+     "ids": [
+      "b3-216"
+     ]
+    },
+    "employees": {
+     "value": 9699,
+     "ids": [
+      "b3-217"
+     ],
+     "basis": "средн. FTE за 2025; на 31.12 — 7 482 активных (b3-218)"
+    },
+    "casm_reported": {
+     "value": 11.43,
+     "unit": "US¢/ASM",
+     "ids": [
+      "b3-219"
+     ]
+    }
+   },
+   "notes": "Неполные данные: доступна только часть 10-K (Item 1). Год искажён сокращением сети в процедуре банкротства — для рейтинга несопоставим, рекомендуется исключить или пометить.",
+   "completeness": "2/16"
+  },
+  {
+   "code": "WS",
+   "name": "WestJet",
+   "region": "NorthAmerica",
+   "model": "hybrid",
+   "period": "CY2025",
+   "currency": "CAD",
+   "scope": "WestJet (частная, Onex); охват группы не уточнён",
+   "values": {
+    "pax": {
+     "value": 22600000,
+     "ids": [
+      "b3-245"
+     ],
+     "approx": "«more than 22.6 million» (вторичный источник)"
+    },
+    "flights": {
+     "value": 215397,
+     "ids": [
+      "b3-245"
+     ]
+    }
+   },
+   "notes": "Финансовая отчётность не публикуется; только итоговые пассажиры и рейсы из СМИ со ссылкой на пресс-релиз WestJet.",
+   "completeness": "2/16"
+  }
+ ],
+ "gaps": [
+  {
+   "carrier": "DL",
+   "fields": [
+    "flights",
+    "block_hours",
+    "stage_km",
+    "seats_per_flight",
+    "fleet_avg",
+    "pax (точно)"
+   ],
+   "where": "релиз 4К25 (PDF), 10-K FY2025 (инструмент читает только Item 1–1A)",
+   "hint": "DOT Form 41 T-2/T-100 или MIT ADP"
+  },
+  {
+   "carrier": "AA",
+   "fields": [
+    "flights",
+    "block_hours",
+    "stage_km",
+    "seats_per_flight",
+    "fleet_avg",
+    "pax (точно)"
+   ],
+   "where": "8-K ex.99.1, 10-K FY2025 (Item 1)",
+   "hint": "DOT T-2; 10-K Item 2 (fleet) за пределами читаемой части"
+  },
+  {
+   "carrier": "UA",
+   "fields": [
+    "flights",
+    "block_hours",
+    "stage_km",
+    "seats_per_flight",
+    "fleet_avg/fleet_end",
+    "явная сноска о включении United Express в ASM"
+   ],
+   "where": "релиз mediaroom, 10-K FY2025 (Item 1)",
+   "hint": "10-K Item 2 / MD&A; DOT T-2"
+  },
+  {
+   "carrier": "WN",
+   "fields": [
+    "block_hours"
+   ],
+   "where": "8-K ex.99.1",
+   "hint": "DOT T-2"
+  },
+  {
+   "carrier": "AS",
+   "fields": [
+    "block_hours",
+    "stage_km",
+    "seats_per_flight",
+    "casm GAAP (рассчитан)"
+   ],
+   "where": "PDF релиза 4К25",
+   "hint": "10-K MD&A по сегментам; DOT T-2"
+  },
+  {
+   "carrier": "B6",
+   "fields": [
+    "block_hours",
+    "fleet_end"
+   ],
+   "where": "EX-99.1 PDF",
+   "hint": "10-K Item 2"
+  },
+  {
+   "carrier": "G4",
+   "fields": [
+    "RPM total system (есть только scheduled)"
+   ],
+   "where": "8-K ex.99.1"
+  },
+  {
+   "carrier": "SY",
+   "fields": [
+    "состав total system departures/block hours (грузовые?)",
+    "LF total system"
+   ],
+   "where": "8-K ex.99.1"
+  },
+  {
+   "carrier": "AC",
+   "fields": [
+    "block_hours"
+   ],
+   "where": "Annual Report 2025 MD&A (раздел 20 недоступен), релиз"
+  },
+  {
+   "carrier": "Y4",
+   "fields": [
+    "stage_km",
+    "employees",
+    "seats_per_flight",
+    "block_hours (взяты из Y4-2025.yaml без новой цитаты)"
+   ],
+   "where": "перепечатка релиза StockTitan"
+  },
+  {
+   "carrier": "NK",
+   "fields": [
+    "revenue",
+    "pax_revenue",
+    "opex",
+    "fuel_cost",
+    "fuel_volume",
+    "ask_km",
+    "rpk_km",
+    "pax",
+    "flights",
+    "block_hours",
+    "stage_km",
+    "seats_per_flight",
+    "casm_ex"
+   ],
+   "where": "10-K FY2025 (Item 1 только); 4К25-релиза нет",
+   "hint": "10-K MD&A (Predecessor+Successor суммировать); DOT Form 41"
+  },
+  {
+   "carrier": "MX",
+   "fields": [
+    "все"
+   ],
+   "where": "поиск — частная компания, отчётности нет",
+   "hint": "DOT Form 41 P-1.2 / T-2"
+  },
+  {
+   "carrier": "WS",
+   "fields": [
+    "все, кроме pax и flights"
+   ],
+   "where": "поиск — частная (Onex), отчётность не публикуется",
+   "hint": "Statistics Canada; Onex annual report (агрегат)"
+  },
+  {
+   "carrier": "VB",
+   "fields": [
+    "—"
+   ],
+   "where": "не исследовалась: Viva Aerobus у b2"
+  }
+ ]
+}

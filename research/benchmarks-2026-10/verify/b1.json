@@ -1,0 +1,734 @@
+{
+ "b1-004": {
+  "status": "found",
+  "found_text": "Stage-length adjusted CASM is calculated by multiplying CASM by a quotient, the numerator of which is the square root of the carrier's stage length and the denominator of which is the square root of the common stage length (1,000 miles).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-005": {
+  "status": "found",
+  "found_text": "the numerator of which is the square root of the carrier's stage length and the denominator of which is the square root of the common stage length (1,000 miles).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-006": {
+  "status": "found",
+  "found_text": "the denominator of which is the square root of the common stage length (1,000 miles).",
+  "value_ok": true,
+  "note": "Показатель 0,5 (квадратный корень) подтверждён текстом. Длина рейса для CASM — кресло-взвешенная: 'For CASM comparisons, stage length being utilized is a seat-weighted distance, or the average of the distances flown by each seat divided by total seats flown.'"
+ },
+ "b1-007": {
+  "status": "found",
+  "found_text": "generally there is a high negative correlation between PRASM and the average length of a passenger's trip",
+  "value_ok": true,
+  "note": "Сопроводительное письмо, с. 2. Формулы в этой цитате нет; формула корректировки RASM в том же документе: 'Length of haul adjusted RASM is calculated by multiplying RASM by a quotient, the numerator of which is the square root of ...' — тоже показатель 0,5."
+ },
+ "b1-008": {
+  "status": "found",
+  "found_text": "Because Virgin America's CASM includes aircraft rent, interest expense per ASM for interest associated with aircraft has been added to the stage-length adjusted CASM of each other carrier where appropriate.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-010": {
+  "status": "found",
+  "found_text": "The average distance flown, measure in statute miles, per aircraft departure.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-011": {
+  "status": "found",
+  "found_text": "Operating costs and revenues are significantly impacted by the distance flown",
+  "value_ok": true,
+  "note": "Встречается в SLA TRESM, SLA PRESM, SLA Passenger Yield. Формулы/показателя степени в глоссарии нет."
+ },
+ "b1-012": {
+  "status": "found",
+  "found_text": "... compare results as if all carriers fly the same missions",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-013": {
+  "status": "found",
+  "found_text": "Such revenues (or costs) are often excluded from RASM or CASM calculations to allow network carriers to be ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-014": {
+  "status": "found",
+  "found_text": "Sometimes, fuel or transport-related expenses are withheld from CASM calculations.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-015": {
+  "status": "found",
+  "found_text": "Airline financial data is filed with the BTS quarterly; traffic and employment numbers are filed monthly.",
+  "value_ok": true,
+  "note": "Шаг не используется в out/b1.json."
+ },
+ "b1-017": {
+  "status": "found",
+  "found_text": "Furthermore, each relevant metric has been stage-length adjusted with the formula displayed.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-020": {
+  "status": "found",
+  "found_text": "Note: Stage Length Adjustment formula: ((observed length of haul/base length of haul [15 carrier average])^.5) times respective carrier unit cost.",
+  "value_ok": true,
+  "note": "Показатель 0,5 подтверждён. Но ADP нормирует по 'length of haul' (в терминах DOT — средняя дальность перевозки пассажира), а не по stage length; в out/b1.json формула записана как SL_observed/SL_base — терминологическая неточность."
+ },
+ "b1-021": {
+  "status": "found",
+  "found_text": "Data Source: US DOT Form 41 via BTS, Schedules P6 & T2.",
+  "value_ok": true,
+  "note": "В narrative на этот шаг опирается утверждение 'ряды с 1995 года' — цитатой не подтверждается."
+ },
+ "b1-026": {
+  "status": "found",
+  "found_text": "SLA = CASM * ((SL/1000)^0.3333)",
+  "value_ok": true,
+  "note": "Exhibit 14, с. 16. Показатель 0,3333 подтверждён."
+ },
+ "b1-027": {
+  "status": "found",
+  "found_text": "... based on a standardized stage length of 1,000 miles.",
+  "value_ok": true,
+  "note": "с. 15"
+ },
+ "b1-028": {
+  "status": "found",
+  "found_text": "Direct costs include pilots, fuel, aircraft ownership, maintenance and insurance.",
+  "value_ok": true,
+  "note": "Exhibit 15, с. 17"
+ },
+ "b1-029": {
+  "status": "found",
+  "found_text": "Unless indicated otherwise, the revenues and costs provided are for mainline domestic operations only.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-030": {
+  "status": "found",
+  "found_text": "... which is the most recent US DOT (Form 41) data available.",
+  "value_ok": true,
+  "note": "Локатор: по WebFetch — с. 3, а не с. 4 (несущественно)."
+ },
+ "b1-035": {
+  "status": "found",
+  "found_text": "For the stage length adjusted aircraft and employee productivity analysis, the linear regression model is used to fit the curve between average stage length and various cost and productivity variables",
+  "value_ok": true,
+  "note": "Q. Jiang, MIT SM 2014. Метод: ACP_SLadj = E[...] × (1 + %error), E — по регрессии на средней длине выборки 1130 миль; ссылка на методику Tsoukalas (2007) подтверждена."
+ },
+ "b1-036": {
+  "status": "found",
+  "found_text": "The intent is to normalize these variables in order to compare results assuming all carriers fly the same mission.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-038": {
+  "status": "found",
+  "found_text": "Simply stated, longer stage lengths allow the fixed costs of each flight to be spread over more ASMs.",
+  "value_ok": true,
+  "note": "разд. 4.3; Tsoukalas, Belobaba, Swelbar (2008), JATM 14(4). Формулы/показателя степени в статье нет — подтверждено."
+ },
+ "b1-043": {
+  "status": "found",
+  "found_text": "Results are intended to be used to adjust reported costs so that conclusions about industry structure ...",
+  "value_ok": true,
+  "note": "Swan & Adler (2006), TR-E 42(2)."
+ },
+ "b1-044": {
+  "status": "found",
+  "found_text": "... based on cost regressions correctly account for differences in stage lengths and capacities.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-045": {
+  "status": "found",
+  "found_text": "A Cobb-Douglas cost function is also computed, providing elasticity parameters for both economies of density, ...",
+  "value_ok": true,
+  "note": "Значения эластичностей в аннотации нет."
+ },
+ "b1-050": {
+  "status": "found",
+  "found_text": "Stage-adjusted CASK = unadjusted CASK x (current stage length ÷ target stage length)0.5.",
+  "value_ok": true,
+  "note": "Сноска 1, McKinsey, 13.07.2017. Показатель 0.5 стоит сразу после скобки (надстрочный в оригинале) — 0,5 подтверждён. Цитата в trace обрезана до показателя, но запись значения верна."
+ },
+ "b1-051": {
+  "status": "found",
+  "found_text": "Adjusting for stage length is a common but crude industry work-around.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-052": {
+  "status": "found",
+  "found_text": "As we have noted before, seat densities explain half of all differences among the CASKs of long-haul flights.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-053": {
+  "status": "found",
+  "found_text": "The underlying network, for example, can play a misleading role in CASK's denominator.",
+  "value_ok": true,
+  "note": "Шаг не используется в out/b1.json."
+ },
+ "b1-054": {
+  "status": "found",
+  "found_text": "CASK neither gives companies deep insight into their costs nor identifies concrete levers to reduce them.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-064": {
+  "status": "found",
+  "found_text": "This table provides quarterly profit and loss statements for carriers with annual operating revenues of $20 million or more.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-065": {
+  "status": "found",
+  "found_text": "Financial information includes balance sheet, cash flow, employment, income statement, fuel cost and consumption, aircraft operating expenses, and operating expenses.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-067": {
+  "status": "found",
+  "found_text": "P-12(a) Fuel consumption by type of service and entity M (1) X X ... January 20 P-12(a) ...",
+  "value_ok": true,
+  "note": "Ежемесячно, срок 20-е число — подтверждено."
+ },
+ "b1-068": {
+  "status": "found",
+  "found_text": "P-5.2 Aircraft operating expenses Q NA X X",
+  "value_ok": true,
+  "note": "Ежеквартально, группы II и III — подтверждено."
+ },
+ "b1-070": {
+  "status": "found",
+  "found_text": "This data shall be reported separately by entity in which it was consumed.",
+  "value_ok": true,
+  "note": "Entities: Scheduled Domestic, Atlantic, Pacific, Latin American; нерегулярные — Domestic и International."
+ },
+ "b1-072": {
+  "status": "found",
+  "found_text": "This table summarizes the T-100 traffic data reported by U.S. air carriers.",
+  "value_ok": true,
+  "note": "Квартальность T-2 в цитате не видна (по описанию BTS T2 — сводка по типам ВС); несущественно."
+ },
+ "b1-073": {
+  "status": "found",
+  "found_text": "This database covers all U.S. carriers and foreign carriers with at least one point of service in the United States ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-075": {
+  "status": "found",
+  "found_text": "TOTAL AIRCRAFT OPERATING EXPENSE 7098.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-076": {
+  "status": "found",
+  "found_text": "Total Aircraft Hours (airborne) Z650",
+  "value_ok": true,
+  "note": "Блок-часов в бланке P-5.2 нет — вывод верен."
+ },
+ "b1-080": {
+  "status": "found",
+  "found_text": "In 2024, the MCX fleet had a total of 2,703 aircraft, which represented 8% of the global fleet.",
+  "value_ok": true,
+  "note": "с. 21 В narrative out/b1.json добавлено '28 авиакомпаний' — в цитате этого нет, но в документе подтверждено: 'FY2024 Data Highlight – 28 Airlines – 2,703 Aircraft' (с. 1), 'Twenty-eight (28) airlines contributed data to the FY2024 cycle.' (с. 21)."
+ },
+ "b1-081": {
+  "status": "found",
+  "found_text": "Maintenance Cost ($/FH) $1,522 Average Fleet Age 10.6",
+  "value_ok": true,
+  "note": "По WebFetch — с. 1, а не с. 3 (локатор неточен, число верно)."
+ },
+ "b1-082": {
+  "status": "found",
+  "found_text": "MRO spend represents an increasing share of airline expenses (11.5% in 2024 vs 10% in 2019).",
+  "value_ok": true,
+  "note": "По WebFetch — с. 19, а не с. 12."
+ },
+ "b1-083": {
+  "status": "found",
+  "found_text": "Cost Benchmark is not a science, and no existing normalization is available that allows any form of direct comparisons.",
+  "value_ok": true,
+  "note": "с. 6"
+ },
+ "b1-084": {
+  "status": "found",
+  "found_text": "No normalization has been applied for factors such as operational severity (e.g., hours-to-cycle ratio, utilization ...",
+  "value_ok": true,
+  "note": "с. 7; начало фразы подтверждено, хвост в скобках WebFetch обрезал"
+ },
+ "b1-085": {
+  "status": "found",
+  "found_text": "... exchange rate fluctuations can significantly affect benchmarking results",
+  "value_ok": true,
+  "note": "с. 7"
+ },
+ "b1-087": {
+  "status": "found",
+  "found_text": "This program is available to member airlines at no cost.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-088": {
+  "status": "found",
+  "found_text": "The MCX Program requires an annual data submission.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-089": {
+  "status": "found",
+  "found_text": "MCX data is always de-identified and aggregated during processing.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-093": {
+  "status": "found",
+  "found_text": "Interested airlines from around the world can join the program at no cost.",
+  "value_ok": false,
+  "note": "Бесплатность подтверждена; часть value 'результаты только участникам' на странице явно не сказана (участники получают доступ к анализам — это следует косвенно). Narrative: 'методика ACMG доступна только участникам' — на странице не подтверждено."
+ },
+ "b1-094": {
+  "status": "found",
+  "found_text": "... a comprehensive set of operational benchmark analysis including aircraft type cost and performance analysis",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-098": {
+  "status": "found",
+  "found_text": "Form EF, Financial Data - Commercial Air Carriers(XLS) ... Annual (Jan-Dec)",
+  "value_ok": true,
+  "note": "Платность доступа не проверяема по странице (как и отмечено в trace)."
+ },
+ "b1-100": {
+  "status": "found",
+  "found_text": "The revenues and expenses of airlines and their assets and liabilities are reported annually in Form EF.",
+  "value_ok": true,
+  "note": "разд. 2.2.1"
+ },
+ "b1-102": {
+  "status": "found",
+  "found_text": "... aims to bring aviation stakeholders the latest available inputs to perform cost-benefit analyses",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-103": {
+  "status": "found",
+  "found_text": "To do so, it gathers data from various EUROCONTROL teams, external sources and stakeholders.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-106": {
+  "status": "found",
+  "found_text": "Block hours are the common industry measure for presenting operating cost data and are used in this report.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-107": {
+  "status": "found",
+  "found_text": "Variable costs include all aircraft operating cost elements, except rentals, depreciation and insurance.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-113": {
+  "status": "found",
+  "found_text": "The credit rating agency announced that the revised methodology is expected to have a greater effect on industry sectors in which leases represent a large amount of the adjusted debt estimated by the credit rating agency, such as retail, airlines and shipping.",
+  "value_ok": true,
+  "note": "с. 26–27. Контекст — эффект методики рейтингового агентства в отраслях с большой арендой, а не прямо эффект МСФО 16; вывод 'авиакомпании среди наиболее затронутых' допустим, но опосредован. Подкрепляется таблицей с. 16 (b1-114)."
+ },
+ "b1-114": {
+  "status": "found",
+  "found_text": "Airlines | 50 | 526,763 | 151,549 | 28.8% | 119,384 | 22.7%  (cols: number of companies; total assets; undiscounted future payments for off balance sheet leases; /total assets; PV estimate; PV/total assets)",
+  "value_ok": true,
+  "note": "22,7% = PV внебалансовой аренды / активы — подтверждено."
+ },
+ "b1-115": {
+  "status": "found",
+  "found_text": "the FASB model is designed so that expenses related to those leases are reported typically on a straight-line basis",
+  "value_ok": true,
+  "note": "По WebFetch — с. 4."
+ },
+ "b1-116": {
+  "status": "found",
+  "found_text": "However, because of the limited information that was available, many others used techniques such as multiplying the annual lease expense by 8 in order to estimate, for example, financial leverage and the capital employed in operations.",
+  "value_ok": true,
+  "note": "с. 24"
+ },
+ "b1-119": {
+  "status": "found",
+  "found_text": "Ownership cost per seat has been significantly impacted by the adoption of IFRS 16.",
+  "value_ok": true,
+  "note": "easyJet Final Results, RNS 8269T, 19.11.2019"
+ },
+ "b1-120": {
+  "status": "found",
+  "found_text": "Dry lease costs have decreased from £152 million in 2018 to only £5 million in 2019.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-121": {
+  "status": "found",
+  "found_text": "Depreciation costs have increased from £199 million in 2018 to £484 million in 2019.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-122": {
+  "status": "found",
+  "found_text": "Net finance charges have increased by £22 million to £39 million in 2019.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-123": {
+  "status": "found",
+  "found_text": "Excluding the impact of the adoption of IFRS 15 and 16, headline cost per seat excluding fuel increased by 0.2%, and decreased by 0.5% at constant currency. / Headline cost per seat excluding fuel decreased by 0.4% to £43.26, and decreased by 0.8% at constant currency.",
+  "value_ok": true,
+  "note": "+0,2% без МСФО 15/16 и −0,4% в отчётности подтверждены — знак меняется. Формулы приведения к длине рейса в этом шаге нет (это шаг про МСФО 16)."
+ },
+ "b1-124": {
+  "status": "found",
+  "found_text": "This means that the prior year comparatives have not been restated.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-125": {
+  "status": "found",
+  "found_text": "Average sector length (kilometres) 1,105 (2019) 1,101 (2018)",
+  "value_ok": true,
+  "note": "1105 км подтверждено."
+ },
+ "b1-126": {
+  "status": "found",
+  "found_text": "Constant currency is calculated by comparing 2019 financial period performance translated at the 2018 ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-127": {
+  "status": "found",
+  "found_text": "The operation of easyJet's fuel and US Dollar hedging policy meant that the average effective fuel price movement saw an increase of 5.5% to an actual cost of £458 per tonne",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-131": {
+  "status": "found",
+  "found_text": "As of December 31, 2024, we did not have any fuel hedging contracts outstanding to hedge our fuel consumption.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-132": {
+  "status": "found",
+  "found_text": "Our current policy is not to enter into transactions to hedge our fuel consumption ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-133": {
+  "status": "found",
+  "found_text": "... we agree to pay predetermined fees to these airlines for operating an agreed-upon number of aircraft ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-135": {
+  "status": "found",
+  "found_text": "Ryanair's conservative jet-fuel hedging strategy (80% of FY27 jet-fuel is hedged at approx. $67bbl – to April 2027)",
+  "value_ok": true,
+  "note": "Релиз 18.05.2026."
+ },
+ "b1-136": {
+  "status": "found",
+  "found_text": "Operating costs (pre-exceptional) rose 6% to €13.09bn (+1% per pax).",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-137": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Логика верна (b1-127, b1-131, b1-135 подтверждены). Оговорка: сравниваются разные периоды — American на 31.12.2024 (0%), Ryanair — хедж на FY27 (релиз 18.05.2026); для иллюстрации допустимо."
+ },
+ "b1-141": {
+  "status": "found",
+  "found_text": "[lessor] will report both the traffic statistics for the flight operation and the associated operating revenues and expenses",
+  "value_ok": true,
+  "note": "Подлежащее — арендодатель (оператор, чей экипаж в operational control)."
+ },
+ "b1-142": {
+  "status": "found",
+  "found_text": "[lessee] will report, as transport-related, the revenues and expenses associated with the wet-lease of the aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-144": {
+  "status": "found",
+  "found_text": "The MRO segment is a leading global provider of maintenance, repair and overhaul services for civil and commercial aircraft ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-145": {
+  "status": "found",
+  "found_text": "The Logistics segment comprises the scheduled airfreight activities of the Lufthansa Cargo group.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-146": {
+  "status": "found",
+  "found_text": "Sales and revenue between reporting segments are based on arm's length prices.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-147": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Логика верна; все родительские цитаты (b1-133, b1-141, b1-142) подтверждены."
+ },
+ "b1-151": {
+  "status": "found",
+  "found_text": "This paper compares unit cost competitiveness of the world's 22 major airlines over the 1986-93 period.",
+  "value_ok": true,
+  "note": "Oum & Yu (1998), TR-A 32(6)."
+ },
+ "b1-152": {
+  "status": "found",
+  "found_text": "(e) exchange rate fluctuation has had considerable effects on the cost competitive position of Japan Airlines and Lufthansa.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-154": {
+  "status": "found",
+  "found_text": "... into the effects of differentials in size, output mix, input prices, stage length, ownership forms, and residual components",
+  "value_ok": true,
+  "note": "Oum & Yu (1996), CTRF."
+ },
+ "b1-155": {
+  "status": "found",
+  "found_text": "Overall, the input prices together have been a more important factor than productive efficiency ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-158": {
+  "status": "found",
+  "found_text": "Table 1 11 2 Aircraft Type and Utilisation Individual Airlines 2024 (CSV, 13 KB)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-159": {
+  "status": "found",
+  "found_text": "... annual standardised profit and loss accounts and balance sheets",
+  "value_ok": true,
+  "note": "Финансовых таблиц за 2024 на странице нет — подтверждено."
+ },
+ "b1-162": {
+  "status": "found",
+  "found_text": "Table 02 Revenue Expenses and Profits of Major UK Airlines 2001 2009 (PDF, 24 KB)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-167": {
+  "status": "found",
+  "found_text": "Основные показатели работы авиапредприятий гражданской авиации России за июль 2017 года (оперативные данные по форме 10-ГА)",
+  "value_ok": true,
+  "note": "Документ за июль 2017 г. — старый, но форма 10-ГА подтверждена."
+ },
+ "b1-168": {
+  "status": "found",
+  "found_text": "Процент занятости кресел (строка-показатель); Процент коммерческой загрузки",
+  "value_ok": true,
+  "note": "Кресло-км, налёта и финансов в таблице нет — подтверждено."
+ },
+ "b1-172": {
+  "status": "found",
+  "found_text": "Airline on-time performance is defined as aircraft's arrival at the gate within 15 minutes of the scheduled arrival time. ... DOWNLOAD COMPLIMENTARY MONTHLY",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-177": {
+  "status": "found",
+  "found_text": "... with an average fuel efficiency of 44 passenger-kilometers per liter of fuel (pax-km/L), 33% higher than the industry average",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-178": {
+  "status": "found",
+  "found_text": "Aircraft fuel burn was found to be the most important driver of fuel efficiency overall, followed by seating density, which accounted for one third of the variation",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-180": {
+  "status": "found",
+  "found_text": "... to benchmark the fuel efficiency of carriers on a passenger kilometer basis ... The fuel efficiency gap between the most and least fuel-efficient airlines on 2014 transatlantic operations was 51%. ... (25% in 2014).",
+  "value_ok": true,
+  "note": "Страница: 'Evaluating air carrier fuel efficiency and CO2 emissions in the U.S. airline industry'."
+ },
+ "b1-183": {
+  "status": "found",
+  "found_text": "Updated annually, WATS provides data related to demand, supply, and operational performance.",
+  "value_ok": true,
+  "note": "Цены на странице нет; платность WATS из этой цитаты не следует. Narrative/b1-236: 'WATS — платный' — цитатой не подтверждается."
+ },
+ "b1-186": {
+  "status": "found",
+  "found_text": "Travellers across the globe take part each year in the world's largest airline passenger satisfaction survey ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-189": {
+  "status": "found",
+  "found_text": "8.8 min delay per flight on departure; 7.5 min delay per flight on arrival",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-192": {
+  "status": "found",
+  "found_text": "Stage-length adjusted comparisons are achieved by multiplying the base metric by a quotient, the numerator of which is the square root of the carrier's stage length and the denominator of which is the square root of the common stage length.",
+  "value_ok": true,
+  "note": "Показатель 0,5 подтверждён."
+ },
+ "b1-193": {
+  "status": "found",
+  "found_text": "When CASM is referenced or presented for other airlines, it has been adjusted to our average stage length for the period presented.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-194": {
+  "status": "found",
+  "found_text": "For stage-length PRASM or TRASM comparisons in this prospectus, the stage length being utilized is the aircraft stage length.",
+  "value_ok": false,
+  "note": "Цитата есть, но относится только к PRASM/TRASM. Для CASM тип длины рейса в глоссарии не указан. Вывод в out/b1.json ('SL — длина рейса ВС' для формулы CASM у Sun Country) этой цитатой не подтверждается; противопоставление 'сравни Virgin America — seat-weighted' корректно только для показателей выручки. Затрагивает formulas[Sun Country] и pitfalls 'Определение длины рейса и ASK' в out/b1.json."
+ },
+ "b1-197": {
+  "status": "found",
+  "found_text": "Until the end of 2019, we have used 'Great Circle Distance (GCD)' approach (the shortest distance between two points on the surface of a sphere)",
+  "value_ok": true,
+  "note": "С 2020 — 'Distance Flown'."
+ },
+ "b1-198": {
+  "status": "found",
+  "found_text": "ASK – old (mn) 7,675 8,693 10,550 8,625 35,543 8,289 9,470 11,227 9,569 38,555",
+  "value_ok": true,
+  "note": "2018 Q1–Q4, итог; 2019 Q1–Q4, итог."
+ },
+ "b1-199": {
+  "status": "found",
+  "found_text": "ASK – new (mn) 8,622 9,812 11,762 9,703 39,900 9,474 10,778 12,731 10,927 43,911",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-200": {
+  "status": "found",
+  "found_text": "... in order to allow comparison of key performance indicators on the same basis ...",
+  "value_ok": true,
+  "note": "Есть в абзаце про ASL; в абзаце про пассажиров вариант без 'to'."
+ },
+ "b1-201": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": false,
+  "note": "АРИФМЕТИКА: 43911/38555 = 1,1389 → ASK +13,9% верно. Но при неизменных затратах CASK падает на 1 − 38555/43911 = 12,2%, а не 'на столько же' (13,9%). Это же завышение в out/b1.json: narrative 'CASK «подешевел» почти на 14%' и pitfalls 'CASK на столько же меньше'. Корректно: −12,2% (или: старый CASK на 13,9% выше нового). Для 2018: 39900/35543 = +12,3% ASK — эффект зависит от года."
+ },
+ "b1-202": {
+  "status": "found",
+  "found_text": "Block Hour: Time from the moment the aircraft door closes at departure of a revenue flight ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-204": {
+  "status": "found",
+  "found_text": "This content requires a subscription to one of the Aviation Week Intelligence Network (AWIN) bundles.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-206": {
+  "status": "found",
+  "found_text": "Stage Length Adjustment formula:  ((observed length of haul/base length of haul [15 carrier average])^.5) times respective carrier unit cost.",
+  "value_ok": true,
+  "note": "Тот же показатель ^.5 на второй таблице."
+ },
+ "b1-210": {
+  "status": "found",
+  "found_text": "Seat-kilometres available are equal to the sum of the products obtained by multiplying the number of passenger seats available for sale on each flight stage by the stage distance.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-211": {
+  "status": "found",
+  "found_text": "Tonne-kilometres available equals the sum of the products obtained by multiplying the number of tonnes available for the carriage of revenue load (passengers, freight and mail) on each flight stage by the stage distance.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-212": {
+  "status": "found",
+  "found_text": "The mass of 100 kg was adopted for application in 2012. Prior to that the recommended passenger mass plus checked baggage stood at 90 kg.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-215": {
+  "status": "found",
+  "found_text": "The cost per flight is positively correlated with the average stage length, but the increase in cost is [proportionally lower than the increase in stage length]",
+  "value_ok": true,
+  "note": "WebFetch дал дословно только начало; продолжение пересказом совпадает. Численной эластичности нет."
+ },
+ "b1-216": {
+  "status": "partial",
+  "found_text": "(пересказ WebFetch) cost per flight rises with stage length, but by a smaller proportion than the stage length itself",
+  "value_ok": true,
+  "note": "Дословно фрагмент не возвращён из-за лимита цитирования WebFetch; смысл совпадает. Тезис дополняет b1-215 (одно предложение разрезано на две цитаты)."
+ },
+ "b1-218": {
+  "status": "found",
+  "found_text": "... for any given stage length there is an optimal size, which increases with stage length",
+  "value_ok": true,
+  "note": "Wei & Hansen (2003), JTEP 37(2)."
+ },
+ "b1-221": {
+  "status": "found",
+  "found_text": "... economies of aircraft utilisation and economies of aircraft size.",
+  "value_ok": true,
+  "note": "Zuidberg (2014), JATM 40."
+ },
+ "b1-222": {
+  "status": "found",
+  "found_text": "The paper does not provide evidence of economies of scale, economies of stage length or economies of fleet commonality.",
+  "value_ok": true,
+  "note": "Зависимая переменная — средние операционные затраты на движение ВС (per aircraft movement); 'нет экономии от длины' относится к этой спецификации."
+ },
+ "b1-223": {
+  "status": "infer_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 2^0,5 = 1,414; 2^(1/3) = 1,260; отношение 1,122 (~12%); при длине вдвое короче — те же 12%. Все показатели степени подтверждены первоисточниками (VA 0,5; MIT ADP ^.5; McKinsey 0.5; Sun Country 0,5; Oliver Wyman 0,3333). Оговорки: верхняя граница чувствительности 0,6 ни в одном источнике не встречается — это допущение исследователя; MIT ADP нормирует по 'length of haul', а не stage length."
+ },
+ "b1-232": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Показатели и атрибуция подтверждены. Уточнения: у Virgin America SL — кресло-взвешенная (seat-weighted), база 1000 миль; у Sun Country база — собственная средняя длина, тип SL для CASM не указан; у MIT ADP — length of haul, база — среднее 15 перевозчиков; McKinsey — 'target stage length' без указания базы."
+ },
+ "b1-233": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Верно для операционной аренды по ASC 842; финансовая аренда по US GAAP тоже делится на амортизацию и проценты — стоит оговорить."
+ },
+ "b1-234": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-235": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": ""
+ },
+ "b1-236": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": false,
+  "note": "Платность IATA WATS из b1-183 не следует (цены на странице нет); платность CAPA и Cirium/OAG данных не подкреплена ни одной цитатой. Остальное подтверждено."
+ }
+}

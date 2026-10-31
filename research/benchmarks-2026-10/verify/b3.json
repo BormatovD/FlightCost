@@ -1,0 +1,1466 @@
+{
+ "b3-006": {
+  "status": "found",
+  "found_text": "(in millions, except per share data) ... Three months / Year ended December 31: 2025 2024 $ Change % Change 2025 2024 $ Change % Change",
+  "value_ok": true,
+  "note": "Заголовок подтверждён; структура столбцов (4К, затем FY) согласуется с числами строк."
+ },
+ "b3-007": {
+  "status": "found",
+  "found_text": "Passenger $ 12,916 $ 12,815 $ 101 1 % $ 51,768 $ 50,894 $ 874 2 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-008": {
+  "status": "found",
+  "found_text": "Total operating revenue 16,003 15,559 444 3 % 63,364 61,643 1,721 3 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-009": {
+  "status": "found",
+  "found_text": "Aircraft fuel and related taxes 2,380 2,409 (29) (1) % 9,819 10,566 (747) (7) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-010": {
+  "status": "found",
+  "found_text": "Regional carrier expense 640 598 42 7 % 2,553 2,328 225 10 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-011": {
+  "status": "found",
+  "found_text": "Total operating expense 14,536 13,842 694 5 % 57,542 55,648 1,894 3 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-012": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (millions) 59,861 60,387 (1) % 249,578 246,145 1 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-013": {
+  "status": "found",
+  "found_text": "Available seat miles (millions) 72,946 72,035 1.3 % 298,045 288,394 3 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-014": {
+  "status": "found",
+  "found_text": "Fuel gallons consumed (millions) 1,043 1,021 2 % 4,269 4,114 4 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-015": {
+  "status": "found",
+  "found_text": "CASM-Ex 13.86 13.54 2.4 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-016": {
+  "status": "found",
+  "found_text": "Third-party refinery sales. Refinery sales to third parties, and related expenses, are not related to our airline segment.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-017": {
+  "status": "found",
+  "found_text": "Cost per available seat mile (cents) 19.93 19.22 4 % 19.31 19.30 — %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-018": {
+  "status": "found",
+  "found_text": "Third-party refinery sales (1.70) (1.61)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-019": {
+  "status": "found",
+  "found_text": "Profit sharing (0.45) (0.48)",
+  "value_ok": true,
+  "note": "В той же сверке: Aircraft fuel and related taxes (3.29) (3.66); 19,31−3,29−1,70−0,45≈13,87 ≈ 13,86 (прочие мелкие статьи/округление). В out/b3.json excludes не упоминает прочие спецстатьи — несущественно."
+ },
+ "b3-020": {
+  "status": "found",
+  "found_text": "Passenger load factor 82 % 84 % (2) pts 84 % 85 % (1) pt",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-023": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, we had approximately 103,000 full-time employee equivalents, of which approximately 100,000 were based in the U.S.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-024": {
+  "status": "found",
+  "found_text": "Our global network is supported by a fleet of 1,314 aircraft as of December 31, 2025 ...",
+  "value_ok": true,
+  "note": "Начало предложения отличается от того, что видно в цитате, но цитата — его подстрока; ок."
+ },
+ "b3-025": {
+  "status": "found",
+  "found_text": "Fuel consumption table, 2025: Gallons Consumed 4,269 | Cost $9,819 | Average Price Per Gallon $2.30 | Percentage of Total Operating Expense 17%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-026": {
+  "status": "found",
+  "found_text": "(1)Includes the operations of our regional carriers operating under capacity purchase agreements.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-027": {
+  "status": "found",
+  "found_text": "In 2025, we served over 200 million customers safely, reliably and with industry-leading customer service innovation.",
+  "value_ok": true,
+  "note": "Значение 200 000 000 — нижняя граница «over 200 million», в out помечено approx."
+ },
+ "b3-030": {
+  "status": "found",
+  "found_text": "12 Months Ended December 31, | 2025 | 2024 | Percent Increase (Decrease)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-031": {
+  "status": "found",
+  "found_text": "Passenger | $49,643 | $49,586 | 0.1",
+  "value_ok": true,
+  "note": "Квартальные столбцы не возвращены WebFetch, годовые совпадают."
+ },
+ "b3-032": {
+  "status": "found",
+  "found_text": "Total operating revenues | 54,633 | 54,211 | 0.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-033": {
+  "status": "found",
+  "found_text": "Aircraft fuel and related taxes | 10,718 | 11,418 | -6.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-034": {
+  "status": "found",
+  "found_text": "Regional operating expenses | 5,119 | 4,723 | 8.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-035": {
+  "status": "found",
+  "found_text": "Total operating expenses | 53,166 | 51,597 | 3.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-036": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (millions) | 250,294 | 248,795 | 0.6 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-037": {
+  "status": "found",
+  "found_text": "Available seat miles (ASM) (millions) | 299,411 | 292,948 | 2.2 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-038": {
+  "status": "found",
+  "found_text": "Operating cost per ASM (cents) | 17.76 | 17.61 | 0.8 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-039": {
+  "status": "found",
+  "found_text": "Fuel consumption (gallons in millions) | 4,488 | 4,391 | 2.2 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-040": {
+  "status": "found",
+  "found_text": "Full-time equivalent employees at end of period: Total | 139,100 | 133,300 | 4.4 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-041": {
+  "status": "found",
+  "found_text": "Operating cost per ASM excluding net special items and fuel (cents) | 14.12 | 13.50 | 4.6 %",
+  "value_ok": true,
+  "note": "Строка находится в таблице Operating Statistics, а не в Reconciliation (неточный locator); число верно."
+ },
+ "b3-042": {
+  "status": "found",
+  "found_text": "Unless otherwise noted, operating statistics include mainline and regional operations.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-043": {
+  "status": "found",
+  "found_text": "Regional includes wholly-owned regional airline subsidiaries and operating results from capacity purchase carriers.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-044": {
+  "status": "found",
+  "found_text": "Passenger load factor (percent) | 83.6 | 84.9 | (1.3) pts",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-046": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, we operated 1,013 mainline aircraft supported by our wholly-owned regional airline subsidiaries ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-047": {
+  "status": "found",
+  "found_text": "... and third-party regional carriers, which together operated an additional 567 regional aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-048": {
+  "status": "found",
+  "found_text": "We provide service to over 350 destinations around the world, and in 2025, approximately 224 million passengers boarded our flights.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-049": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1580.0000; записано 1580",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-053": {
+  "status": "found",
+  "found_text": "Passenger revenue | 13,926 | 13,275 | 4.9 | 53,438 | 51,829 | 3.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-054": {
+  "status": "found",
+  "found_text": "Total operating revenue | 15,397 | 14,695 | 4.8 | 59,070 | 57,063 | 3.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-055": {
+  "status": "found",
+  "found_text": "Aircraft fuel | 2,923 | 2,676 | 9.2 | 11,396 | 11,756 | (3.1)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-056": {
+  "status": "found",
+  "found_text": "Regional capacity purchase | 681 | 668 | 2.0 | 2,693 | 2,516 | 7.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-057": {
+  "status": "found",
+  "found_text": "Total operating expense | 14,011 | 13,192 | 6.2 | 54,356 | 51,967 | 4.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-058": {
+  "status": "found",
+  "found_text": "Passengers (thousands) | 45,679 | 44,344 | 3.0 | 181,053 | 173,603 | 4.3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-059": {
+  "status": "found",
+  "found_text": "RPMs (millions) | 68,246 | 64,463 | 5.9 | 271,619 | 258,503 | 5.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-060": {
+  "status": "found",
+  "found_text": "ASMs (millions) | 83,365 | 78,298 | 6.5 | 330,284 | 311,185 | 6.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-061": {
+  "status": "found",
+  "found_text": "Cost per ASM (\"CASM\") (cents) | 16.81 | 16.85 | (0.3) | 16.46 | 16.70 | (1.5)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-062": {
+  "status": "found",
+  "found_text": "CASM-ex (cents) | 12.94 | 12.89 | 0.4 | 12.64 | 12.58 | 0.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-063": {
+  "status": "found",
+  "found_text": "CASM-ex is CASM less the impact of fuel expense, profit sharing, special charges and third-party business expenses.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-064": {
+  "status": "found",
+  "found_text": "Fuel gallons consumed (millions) | 1,175 | 1,115 | 5.4 | 4,663 | 4,444 | 4.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-065": {
+  "status": "found",
+  "found_text": "Employee headcount, as of December 31 (thousands) | 113.2 | 107.3 | 5.5 | 113.2 | 107.3 | 5.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-068": {
+  "status": "found",
+  "found_text": "... regional aircraft service branded as United Express",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-069": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, UAL, including its subsidiaries, had approximately 113,200 employees",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-075": {
+  "status": "found",
+  "found_text": "Three months ended December 31, 2025 | 2024 | Percent Change | Year ended December 31, 2025 | 2024 | Percent Change",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-076": {
+  "status": "found",
+  "found_text": "Passenger | $ 6,785 | $ 6,307 | 7.6 | $ 25,535 | $ 24,980 | 2.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-077": {
+  "status": "found",
+  "found_text": "Total operating revenues | 7,442 | 6,931 | 7.4 | 28,063 | 27,483 | 2.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-078": {
+  "status": "found",
+  "found_text": "Fuel and oil | 1,333 | 1,264 | 5.5 | 5,240 | 5,812 | (9.8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-079": {
+  "status": "found",
+  "found_text": "Total operating expenses | 7,051 | 6,653 | 6.0 | 27,635 | 27,162 | 1.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-080": {
+  "status": "found",
+  "found_text": "Revenue passengers carried (000s) | 34,033 | 34,126 | (0.3) | 134,110 | 140,023 | (4.2)",
+  "value_ok": true,
+  "note": "Число enplaned (168 334 тыс.) в value — в этой проверке не подтверждалось."
+ },
+ "b3-081": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (in millions) (a) | 35,567 | 34,471 | 3.2 | 139,443 | 142,515 | (2.2)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-082": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (in millions) (b) | 46,052 | 43,533 | 5.8 | 180,046 | 177,250 | 1.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-083": {
+  "status": "found",
+  "found_text": "Average aircraft stage length (miles) | 779 | 763 | 2.1 | 780 | 763 | 2.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-084": {
+  "status": "found",
+  "found_text": "Trips flown | 359,032 | 353,529 | 1.6 | 1,415,822 | 1,443,866 | (1.9)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-085": {
+  "status": "found",
+  "found_text": "Seats per trip (e) | 161.7 | 160.1 | 1.0 | 161.2 | 159.4 | 1.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-086": {
+  "status": "found",
+  "found_text": "CASM (cents) (i) | 15.31 | 15.28 | 0.2 | 15.35 | 15.32 | 0.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-087": {
+  "status": "found",
+  "found_text": "CASM, excluding Fuel and oil expense, special items, and profit-sharing expense (cents)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-088": {
+  "status": "found",
+  "found_text": "CASM, excluding Fuel and oil expense, special items, and profit-sharing expense (cents) | 12.29 | 12.19 | 0.8 | 12.32 | 11.95 | 3.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-089": {
+  "status": "found",
+  "found_text": "Fuel consumed, in gallons (millions) | 545 | 531 | 2.6 | 2,169 | 2,194 | (1.1)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-090": {
+  "status": "found",
+  "found_text": "Active fulltime equivalent Employees | 72,790 | 72,450 | 0.5 | 72,790 | 72,450 | 0.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-091": {
+  "status": "found",
+  "found_text": "Aircraft at end of period (j) | 803 | 803 | — | 803 | 803 | —",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-092": {
+  "status": "found",
+  "found_text": "Load factor (c) | 77.2 % | 79.2 % | (2.0) pts. | 77.4 % | 80.4 % | (3.0) pts.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-095": {
+  "status": "found",
+  "found_text": "... include Hawaiian Airlines from September 18, 2024 onward",
+  "value_ok": true,
+  "note": "Подтверждено; что весь 2025 консолидирован — следует логически."
+ },
+ "b3-097": {
+  "status": "found",
+  "found_text": "Passenger revenue $ 3,248 $ 3,178 2% $ 12,835 $ 10,654 20%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-098": {
+  "status": "found",
+  "found_text": "Total Operating Revenue 3,632 3,534 3% 14,239 11,735 21%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-099": {
+  "status": "found",
+  "found_text": "Aircraft fuel, including hedging gains and 737 702 5% 2,879 2,506 15%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-100": {
+  "status": "found",
+  "found_text": "Third-party regional carrier expense 67 62 8% 272 243 12%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-101": {
+  "status": "found",
+  "found_text": "Total Operating Expenses 3,557 3,461 3% 13,936 11,165 25%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-102": {
+  "status": "found",
+  "found_text": "Revenue passengers (000) 14,355 14,339 0.1% 58,627 49,238 19.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-103": {
+  "status": "found",
+  "found_text": "RPMs (000,000) \"traffic\" 18,935 19,068 (0.7)% 77,110 63,871 20.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-104": {
+  "status": "found",
+  "found_text": "ASMs (000,000) \"capacity\" 23,238 22,744 2.2% 92,962 76,167 22.1%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-105": {
+  "status": "found",
+  "found_text": "CASMex(b) 11.72¢ 11.57¢ 1.3% 11.42¢ 10.80¢ 5.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-106": {
+  "status": "found",
+  "found_text": "CASMex - operating costs excluding fuel, freighter costs, and special items per ASM, or \"unit cost\".",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-107": {
+  "status": "found",
+  "found_text": "Fuel gallons (000,000)(c) 287 279 2.9% 1,146 925 23.9%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-108": {
+  "status": "found",
+  "found_text": "(c) Excludes operations under the Air Transportation Services Agreement (ATSA) with Amazon.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-109": {
+  "status": "found",
+  "found_text": "Average full-time equivalent employees 32,676 30,396 7.5% 31,585 25,751 22.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-110": {
+  "status": "found",
+  "found_text": "Departures (000) 135 131 3.1% 543 461 17.8%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-111": {
+  "status": "found",
+  "found_text": "Operating fleet(d) 413 392 21 a/c 413 392 21 a/c",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-112": {
+  "status": "found",
+  "found_text": "(d) Includes aircraft owned and leased by Alaska, Hawaiian, and Horizon, as well as aircraft operated by third-party regional carriers under capacity purchase agreements. Excludes all aircraft removed from operating service.",
+  "value_ok": true,
+  "note": "WebFetch вернул эту часть сноски вне кавычек (лимит цитаты), формулировка совпадает."
+ },
+ "b3-113": {
+  "status": "found",
+  "found_text": "(a) Except for FTEs, data includes information related to third-party regional capacity purchase flying arrangements.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-114": {
+  "status": "found",
+  "found_text": "Load factor 81.5% 83.8% (2.3) pts 82.9% 83.9% (1.0) pts",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-117": {
+  "status": "found",
+  "found_text": "Passenger $ 2,053 $ 2,100 (2.2) $ 8,336 $ 8,617 (3.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-118": {
+  "status": "found",
+  "found_text": "Total operating revenues 2,244 2,277 (1.5) 9,062 9,279 (2.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-119": {
+  "status": "found",
+  "found_text": "Aircraft fuel 503 509 (1.1) 2,057 2,343 (12.2)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-120": {
+  "status": "found",
+  "found_text": "Total operating expenses 2,344 2,260 3.7 9,430 9,963 (5.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-121": {
+  "status": "found",
+  "found_text": "Revenue passengers (thousands) 9,718 9,942 (2.2) 39,336 40,498 (2.9)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-122": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (millions) 12,935 13,273 (2.5) 53,535 54,958 (2.6)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-123": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (millions) 15,881 16,142 (1.6) 65,007 66,082 (1.6)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-124": {
+  "status": "found",
+  "found_text": "Operating expense per ASM (cents) 14.76 14.00 5.4 14.51 15.08 (3.8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-125": {
+  "status": "found",
+  "found_text": "Operating expense per ASM, excluding fuel (cents) (2) 11.49 10.76 6.7 11.20 10.55 6.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-126": {
+  "status": "found",
+  "found_text": "CASM Ex-Fuel is a non-GAAP measure that excludes fuel, other non-airline operating expenses, and special items.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-127": {
+  "status": "found",
+  "found_text": "Fuel gallons consumed (millions) 201 206 (2.6) 826 853 (3.2)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-128": {
+  "status": "found",
+  "found_text": "Departures 76,407 78,826 (3.1) 308,985 319,987 (3.4)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-129": {
+  "status": "found",
+  "found_text": "Average stage length (miles) 1,282 1,278 0.3 1,301 1,287 1.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-130": {
+  "status": "found",
+  "found_text": "Average number of operating aircraft during period (1) 285 288 (1.0) 287 286 0.3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-131": {
+  "status": "found",
+  "found_text": "Average number of full-time equivalent crewmembers 19,412 19,179 1.2 19,259 19,822 (2.8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-134": {
+  "status": "found",
+  "found_text": "Passenger | $ 962 | $ 978 | (2) % | $ 3,598 | $ 3,683 | (2) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-135": {
+  "status": "found",
+  "found_text": "Total operating revenues | $ 997 | $ 1,002 | — % | $ 3,724 | $ 3,775 | (1) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-136": {
+  "status": "found",
+  "found_text": "Aircraft fuel | 227 | 229 | (1) % | 929 | 1,041 | (11) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-137": {
+  "status": "found",
+  "found_text": "Total operating expenses | 948 | 957 | (1) % | 3,873 | 3,717 | 4 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-138": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (millions) | 9,803 | 9,798 | — % | 39,754 | 39,871 | — %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-139": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (millions) | 7,736 | 7,668 | 1 % | 31,187 | 30,630 | 2 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-140": {
+  "status": "found",
+  "found_text": "Passengers (thousands) | 8,537 | 8,558 | — % | 33,200 | 33,296 | — %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-141": {
+  "status": "found",
+  "found_text": "Departures | 51,976 | 53,807 | (3) % | 205,622 | 216,374 | (5) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-142": {
+  "status": "found",
+  "found_text": "Block hours | 133,400 | 134,488 | (1) % | 541,304 | 554,399 | (2) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-143": {
+  "status": "found",
+  "found_text": "Average stage length (miles) | 892 | 874 | 2 % | 919 | 894 | 3 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-144": {
+  "status": "found",
+  "found_text": "Average aircraft in service | 169 | 153 | 10 % | 162 | 146 | 11 %; Aircraft – end of period | 176 | 159 | 11 %",
+  "value_ok": true,
+  "note": "Также подтверждён парк на конец периода 176."
+ },
+ "b3-145": {
+  "status": "found",
+  "found_text": "Fuel gallons consumed (thousands) | 92,700 | 92,330 | — % | 375,527 | 381,444 | (2) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-146": {
+  "status": "found",
+  "found_text": "Full-time equivalent employees | 7,656 | 7,913 | (3) % | 7,656 | 7,913 | (3) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-147": {
+  "status": "found",
+  "found_text": "Average seats per departure | 210 | 207 | 1 % | 209 | 205 | 2 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-148": {
+  "status": "found",
+  "found_text": "Cost per available seat mile (CASM) (¢) | 9.67 | 9.78 | (1) % | 9.74 | 9.32 | 5 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-149": {
+  "status": "found",
+  "found_text": "Adjusted CASM (excluding fuel) (¢) | 7.36 | 7.44 | (1) % | 7.41 | 6.81 | 9 %",
+  "value_ok": true,
+  "note": "Также есть строка Adjusted CASM (¢) 9.67 9.78 (1)% 9.74 9.42 3% — FY2025 adjusted = GAAP 9,74, что подтверждает пометку «спецстатей в 2025 нет»."
+ },
+ "b3-150": {
+  "status": "found",
+  "found_text": "Average daily aircraft utilization (hours) | 8.6 | 9.6 | (10) % | 9.2 | 10.3 | (11) %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-153": {
+  "status": "found",
+  "found_text": "Passenger | $2,324,348 | $2,217,059 | 4.8 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-154": {
+  "status": "found",
+  "found_text": "Total operating revenues | 2,606,579 | 2,512,589 | 3.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-155": {
+  "status": "found",
+  "found_text": "Aircraft fuel | 639,731 | 627,755 | 1.9",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-156": {
+  "status": "found",
+  "found_text": "Total operating expenses | 2,569,412 | 2,752,565 | -6.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-157": {
+  "status": "found",
+  "found_text": "Passengers | 18,737,151 | 16,982,836 | 10.3 %",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-158": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (thousands) | 21,369,532 | 18,984,711 | 12.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-159": {
+  "status": "found",
+  "found_text": "Departures | 137,039 | 121,580 | 12.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-160": {
+  "status": "found",
+  "found_text": "Block hours | 327,440 | 288,407 | 13.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-161": {
+  "status": "found",
+  "found_text": "Average stage length (miles) | 887 | 887 | —",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-162": {
+  "status": "found",
+  "found_text": "Average number of operating aircraft during period | 124.8 | 124.7 | 0.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-163": {
+  "status": "found",
+  "found_text": "Full-time equivalent employees at end of period | 5,616 | 5,991 | -6.3",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-164": {
+  "status": "found",
+  "found_text": "Fuel gallons consumed (thousands) | 251,049 | 227,345 | 10.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-165": {
+  "status": "found",
+  "found_text": "Airline operating expense per ASM (CASM) (cents) | 11.24 ¢ | 12.11 ¢ | -7.2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-166": {
+  "status": "found",
+  "found_text": "Airline operating CASM, excluding fuel and special charges (cents) | 8.04 ¢ | 8.56 ¢ | -6.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-167": {
+  "status": "found",
+  "found_text": "Scheduled service: Revenue passenger miles (RPMs) (thousands) | 16,947,654 | 15,303,737 | 10.7",
+  "value_ok": true,
+  "note": "Подтверждено, что строки Total system RPM нет."
+ },
+ "b3-168": {
+  "status": "found",
+  "found_text": "We also present adjusted airline-only CASM, which excludes aircraft fuel expense and special charges.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-169": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 2401.9354; записано 2402",
+  "value_ok": true,
+  "note": "Это оценка CASM×ASM; CASM 11,24¢ округлён до 0,01¢ → погрешность ±1 млн USD."
+ },
+ "b3-172": {
+  "status": "found",
+  "found_text": "Passenger | 923,129 | 914,087 | 1.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-173": {
+  "status": "found",
+  "found_text": "Cargo | 155,027 | 107,174 | 44.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-174": {
+  "status": "found",
+  "found_text": "Total Operating Revenue | 1,126,769 | 1,075,739 | 4.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-175": {
+  "status": "found",
+  "found_text": "Aircraft Fuel | 213,480 | 237,160 | -10.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-176": {
+  "status": "found",
+  "found_text": "Total Operating Expenses | 1,026,196 | 969,753 | 5.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-177": {
+  "status": "found",
+  "found_text": "Total System: Departures | 55,357 | 53,009 | 4.4",
+  "value_ok": true,
+  "note": "Разбивка scheduled 27 037 в value не проверялась."
+ },
+ "b3-178": {
+  "status": "found",
+  "found_text": "Total System: Block hours | 155,313 | 148,518 | 4.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-179": {
+  "status": "found",
+  "found_text": "Scheduled Service Statistics: Revenue passengers carried | 4,205,847 | 4,483,515 | -6.2",
+  "value_ok": true,
+  "note": "Число верно, но строка из блока Scheduled Service, а не Total System — пассажиры чартера не включены; в out pax SY = только регулярные."
+ },
+ "b3-180": {
+  "status": "found",
+  "found_text": "Scheduled Service Statistics: Revenue passenger miles (RPMs) – thousands | 5,362,531 | 5,648,351 | -5.1",
+  "value_ok": true,
+  "note": "Число верно, но это Scheduled Service, не Total System. В out rpk_km (scheduled) сочетается с ask_km (total system, 7 923 857) — LF и RPK занижены для сопоставления; нужно пометить scope."
+ },
+ "b3-181": {
+  "status": "found",
+  "found_text": "Total System: Available seat miles (ASMs) – thousands | 7,923,857 | 8,071,949 | -1.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-182": {
+  "status": "found",
+  "found_text": "Total System: Average stage length – miles | 1,113 | 1,098 | 1.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-183": {
+  "status": "found",
+  "found_text": "Total System: Fuel gallons – thousands | 84,647 | 86,185 | -1.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-184": {
+  "status": "found",
+  "found_text": "Average passenger aircraft | 43.9 | 43.0 | 2.1",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-185": {
+  "status": "found",
+  "found_text": "Employees at end of period | 3,281 | 3,141 | 4.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-186": {
+  "status": "found",
+  "found_text": "Cost per ASM (CASM) – cents | 12.95 | 12.01 | 7.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-187": {
+  "status": "found",
+  "found_text": "Adjusted CASM – cents | 8.17 | 7.59 | 7.6",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-188": {
+  "status": "found",
+  "found_text": "Adjusted CASM is a metric that uses a non-GAAP measurederived from CASM by excluding fuel costs, non-cash management stock compensation expense, costs arising from its cargo operations, depreciation and amortization recognized on certain assets that generate lease income, certain unplanned engine events, certain commissions, and other costs of selling its vacations product",
+  "value_ok": true,
+  "note": "В документе «measurederived» слитно. Сумма грузовых расходов 149,5 млн из value в этом фрагменте не подтверждалась; «спецстатьи» в перечне End Note 4 прямо не названы."
+ },
+ "b3-189": {
+  "status": "found",
+  "found_text": "...as these operations do not create ASMs.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-193": {
+  "status": "found",
+  "found_text": "Operating revenues 5,770 5,404 366 22,372 22,255 117",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-194": {
+  "status": "found",
+  "found_text": "Passenger $ 19,604 $ 19,760 (156) (1)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-195": {
+  "status": "found",
+  "found_text": "Total operating expenses 21,454 20,992 462 2",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-196": {
+  "status": "found",
+  "found_text": "Aircraft fuel 4,731 5,118 (387) (8)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-197": {
+  "status": "found",
+  "found_text": "Capacity purchase fees 863 860 3 0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-198": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (millions) 21,879 20,573 6.3 89,021 88,643 0.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-199": {
+  "status": "found",
+  "found_text": "Available seat miles (ASMs) (millions) 25,792 24,949 3.4 105,174 104,381 0.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-200": {
+  "status": "found",
+  "found_text": "Operating expense per ASM (CASM) (cents) 21.1 22.7 (6.9) 20.4 20.1 1.4",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-201": {
+  "status": "found",
+  "found_text": "Adjusted CASM (cents) 15.3 15.1 1.9 14.7 13.8 6.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-202": {
+  "status": "found",
+  "found_text": "Average number of full-time-equivalent (FTE) employees (thousands) 36.4 37.1 (1.9) 37.0 37.1 (0.4)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-203": {
+  "status": "found",
+  "found_text": "Aircraft in operating fleet at period-end 353 354 (0.3) 353 354 (0.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-204": {
+  "status": "found",
+  "found_text": "Seats dispatched (thousands) 13,675 13,796 (0.9) 56,587 56,745 (0.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-205": {
+  "status": "found",
+  "found_text": "Aircraft frequencies (thousands) 93.0 94.5 (1.6) 385.7 387.9 (0.6)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-206": {
+  "status": "found",
+  "found_text": "Average stage length (miles) 1,886 1,808 4.3 1,859 1,839 1.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-207": {
+  "status": "found",
+  "found_text": "Fuel litres (thousands) 1,244,669 1,225,281 1.6 5,064,561 5,082,636 (0.4)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-208": {
+  "status": "found",
+  "found_text": "Revenue passengers carried (thousands) 11,195 10,929 2.4 45,297 45,886 (1.3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-209": {
+  "status": "found",
+  "found_text": "(4) Except for the reference to average number of full-time equivalent (FTE) employees, operating statistics in this table include third party carriers operating under capacity purchase agreements ...",
+  "value_ok": true,
+  "note": "FTE в эту сноску не входят — employees AC (37,0 тыс.) только Air Canada без CPA-перевозчиков."
+ },
+ "b3-211": {
+  "status": "found",
+  "found_text": "... without the effects of aircraft fuel expense, the cost of ground packages at Air Canada Vacations, ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-212": {
+  "status": "found",
+  "found_text": "... freighter costs and other items discussed above",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-213": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 146.7125; записано 146.7",
+  "value_ok": true,
+  "note": "Подтверждено исходными числами 56 587 тыс. и 385,7 тыс. (b3-204, b3-205)."
+ },
+ "b3-216": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, we had a fleet of 131 Airbus single-aisle aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-217": {
+  "status": "found",
+  "found_text": "On an average full-time equivalent basis, for the full year 2025, we had 9,699 employees, compared to 11,941 in 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-218": {
+  "status": "found",
+  "found_text": "... for a total of 7,482 active employees compared to 11,331 active employees as of December 31, 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-219": {
+  "status": "found",
+  "found_text": "Our operating cost per available seat mile (\"CASM\") was 11.43 cents in 2025",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-220": {
+  "status": "found",
+  "found_text": "we qualified for and adopted fresh start accounting on the Emergence Date",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-221": {
+  "status": "found",
+  "found_text": "... filed voluntary petitions under chapter 11 of the Bankruptcy Code in the Bankruptcy Court",
+  "value_ok": true,
+  "note": "Предложение начинается с даты Petition Date 29.08.2025 — «август» подтверждён."
+ },
+ "b3-225": {
+  "status": "found",
+  "found_text": "Total operating revenues (millions) | 3,038 | 3,142 | (3.3%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-226": {
+  "status": "found",
+  "found_text": "Passenger revenues | 2,883 | 3,010 | (4.2%)",
+  "value_ok": true,
+  "note": "Разбивка fare 1 302 + other 1 581 не проверялась."
+ },
+ "b3-227": {
+  "status": "found",
+  "found_text": "Total operating expenses (millions) | 2,903 | 2,729 | 6.4%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-228": {
+  "status": "found",
+  "found_text": "Fuel expense | 886 | 894 | (0.9%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-229": {
+  "status": "found",
+  "found_text": "Revenue passenger miles (RPMs) (millions) (2) | 30,453 | 29,505 | 3.2%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-230": {
+  "status": "found",
+  "found_text": "Fuel gallons accrued (millions) | 339.96 | 322.70 | 5.3%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-231": {
+  "status": "found",
+  "found_text": "Departures (2) | 188,848 | 173,209 | 9.0%",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-232": {
+  "status": "found",
+  "found_text": "Average daily aircraft utilization (block hours) | 12.76 | 13.03 | (2.1%)",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-233": {
+  "status": "found",
+  "found_text": "Fleet (at the end of the period) | 155 | 143 | 12",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-234": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 149.0000; записано 149",
+  "value_ok": true,
+  "note": "Среднее двух точек — грубая оценка (как и указано)."
+ },
+ "b3-236": {
+  "status": "found",
+  "found_text": "CASM (cents) | 8.29 | 8.04 | ... | 8.04 | 8.03",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-237": {
+  "status": "found",
+  "found_text": "CASM ex fuel (cents) | 5.76 | 5.68 | ... | 5.58 | 5.40",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-238": {
+  "status": "found",
+  "found_text": "Passengers (thousands, scheduled & charter) | 8,191 | 7,848 | ... | 30,995 | 29,473",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-239": {
+  "status": "found",
+  "found_text": "ASMs (millions, scheduled & charter) | 9,429 | 8,930 | ... | 36,118 | 33,990",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-240": {
+  "status": "found",
+  "found_text": "We define CASM ex fuel as total operating expenses by available seat mile, excluding fuel expense.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-245": {
+  "status": "found",
+  "found_text": "The airline said it carried more than 22.6 million passengers, operated 215,397 flights and served 139 destinations",
+  "value_ok": true,
+  "note": "Вторичный источник (TravelPulse, пересказ данных WestJet)."
+ },
+ "b3-247": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 12926532.0000; записано 12926532",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-248": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 479656.9325; записано 479657",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-249": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 401656.8568; записано 401657",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-250": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 13589664.0000; записано 13589664",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-251": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 481855.2964; записано 481855",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-252": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 402809.1471; записано 402809",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-253": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 14119564.0000; записано 14119564",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-254": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 531540.5737; записано 531541",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-255": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 437128.4079; записано 437128",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-256": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 6567732.0000; записано 6567732",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-257": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 289755.9498; записано 289756",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-258": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 224411.7554; записано 224412",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-259": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1255.2883; записано 1255",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-260": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 3470088.0000; записано 3470088",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-261": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 149607.8369; записано 149608",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-262": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 124096.5158; записано 124097",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-263": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 2501128.0000; записано 2501128",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-264": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 104618.6254; записано 104619",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-265": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 86156.2310; записано 86156",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-266": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 2093.7565; записано 2094",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-267": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1137095.7560; записано 1137096",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-268": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 63977.8614; записано 63978",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-269": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 50190.6113; записано 50191",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-270": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1478.9871; записано 1479",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-271": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 760176.3720; записано 760176",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-272": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 34390.9281; записано 34391",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-273": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 27274.6053; записано 27275",
+  "value_ok": true,
+  "note": "Арифметика верна; RPM только scheduled — в out оговорено."
+ },
+ "b3-274": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1427.4881; записано 1427",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-275": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 256311.1160; записано 256311",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-276": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 12752.2117; записано 12752",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-277": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 8630.1571; записано 8630",
+  "value_ok": true,
+  "note": "Арифметика верна, но RPM — только scheduled service (b3-180), а ASK (b3-276) — total system: в out/b3.json для SY это не оговорено (в отличие от G4)."
+ },
+ "b3-278": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1791.1999; записано 1791",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-279": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 4051648.8000; записано 4051649",
+  "value_ok": true,
+  "note": "Литры из отчёта → тонны при 0,8 кг/л, перевод из галлонов не нужен."
+ },
+ "b3-280": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 169261.1459; записано 169261",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-281": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 143265.4122; записано 143265",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-282": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 2991.7705; записано 2992",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-283": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 1029398.8800; записано 1029399",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-284": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 58126.2866; записано 58126",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-285": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 49009.3528; записано 49009",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-286": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 14.9911; записано 14.99",
+  "value_ok": true,
+  "note": "Рассчитанный GAAP CASM включает расходы грузовых бортов Amazon и спецстатьи интеграции Hawaiian — в out оговорено."
+ },
+ "b3-287": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 402.5000; записано 402.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-288": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 161.7132; записано 161.7",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-289": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 175.8034; записано 175.8",
+  "value_ok": true,
+  "note": ""
+ },
+ "b3-290": {
+  "status": "arith_ok",
+  "found_text": "пересчёт: 353.5000; записано 353.5",
+  "value_ok": true,
+  "note": ""
+ }
+}

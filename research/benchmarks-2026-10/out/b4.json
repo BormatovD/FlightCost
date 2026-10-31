@@ -1,0 +1,256 @@
+{
+ "form41_t2_2025": [
+  {
+   "code": "DL",
+   "ids": [
+    "b4-001"
+   ],
+   "quarters": 4,
+   "block_h": 3614732,
+   "dep": 1173163,
+   "ac_avg": 968.3,
+   "util": 10.22,
+   "stage_km": 1951.0,
+   "seats": 196.0,
+   "fuel_t": 11507735
+  },
+  {
+   "code": "AA",
+   "ids": [
+    "b4-002"
+   ],
+   "quarters": 4,
+   "block_h": 3605366,
+   "dep": 1175429,
+   "ac_avg": 991.6,
+   "util": 9.95,
+   "stage_km": 1905.0,
+   "seats": 190.0,
+   "fuel_t": 11025676
+  },
+  {
+   "code": "UA",
+   "ids": [
+    "b4-003"
+   ],
+   "quarters": 4,
+   "block_h": 3783828,
+   "dep": 1017320,
+   "ac_avg": 1013.8,
+   "util": 10.22,
+   "stage_km": 2429.0,
+   "seats": 202.0,
+   "fuel_t": 12592069
+  },
+  {
+   "code": "WN",
+   "ids": [
+    "b4-004"
+   ],
+   "quarters": 4,
+   "block_h": 3023727,
+   "dep": 1415937,
+   "ac_avg": 803.9,
+   "util": 10.3,
+   "stage_km": 1256.0,
+   "seats": 163.0,
+   "fuel_t": 6567545
+  },
+  {
+   "code": "AS",
+   "ids": [
+    "b4-005"
+   ],
+   "quarters": 4,
+   "block_h": 929138,
+   "dep": 264462,
+   "ac_avg": 235.2,
+   "util": 10.82,
+   "stage_km": 2237.0,
+   "seats": 172.0,
+   "fuel_t": 2106525
+  },
+  {
+   "code": "B6",
+   "ids": [
+    "b4-006"
+   ],
+   "quarters": 4,
+   "block_h": 1037260,
+   "dep": 310168,
+   "ac_avg": 288.0,
+   "util": 9.86,
+   "stage_km": 2087.0,
+   "seats": 162.0,
+   "fuel_t": 2500667
+  },
+  {
+   "code": "NK",
+   "ids": [
+    "b4-007"
+   ],
+   "quarters": 4,
+   "block_h": 558981,
+   "dep": 215824,
+   "ac_avg": 199.6,
+   "util": 7.67,
+   "stage_km": 1539.0,
+   "seats": 193.0,
+   "fuel_t": 1239718
+  },
+  {
+   "code": "F9",
+   "ids": [
+    "b4-008"
+   ],
+   "quarters": 4,
+   "block_h": 541305,
+   "dep": 205620,
+   "ac_avg": 162.9,
+   "util": 9.1,
+   "stage_km": 1477.0,
+   "seats": 210.0,
+   "fuel_t": 1137096
+  },
+  {
+   "code": "G4",
+   "ids": [
+    "b4-009"
+   ],
+   "quarters": 4,
+   "block_h": 319635,
+   "dep": 132020,
+   "ac_avg": 123.3,
+   "util": 7.1,
+   "stage_km": 1454.0,
+   "seats": 176.0,
+   "fuel_t": 750305
+  },
+  {
+   "code": "SY",
+   "ids": [
+    "b4-010"
+   ],
+   "quarters": 4,
+   "block_h": 113322,
+   "dep": 38093,
+   "ac_avg": 43.6,
+   "util": 7.12,
+   "stage_km": 1815.0,
+   "seats": 185.0,
+   "fuel_t": 257581
+  },
+  {
+   "code": "HA",
+   "ids": [
+    "b4-011"
+   ],
+   "quarters": 4,
+   "block_h": 234426,
+   "dep": 84097,
+   "ac_avg": 60.8,
+   "util": 10.56,
+   "stage_km": 1865.0,
+   "seats": 238.0,
+   "fuel_t": 840624
+  },
+  {
+   "code": "MX",
+   "ids": [
+    "b4-012"
+   ],
+   "quarters": 4,
+   "block_h": 152557,
+   "dep": 62333,
+   "ac_avg": 50.2,
+   "util": 8.32,
+   "stage_km": 1374.0,
+   "seats": 135.0,
+   "fuel_t": 279916
+  },
+  {
+   "code": "XP",
+   "ids": [
+    "b4-013"
+   ],
+   "quarters": 4,
+   "block_h": 50578,
+   "dep": 21863,
+   "ac_avg": 16.2,
+   "util": 8.54,
+   "stage_km": 1299.0,
+   "seats": 171.0,
+   "fuel_t": 115106
+  },
+  {
+   "code": "QX",
+   "ids": [
+    "b4-014"
+   ],
+   "quarters": 4,
+   "block_h": 160838,
+   "dep": 101988,
+   "ac_avg": 45.7,
+   "util": 9.64,
+   "stage_km": 744.0,
+   "seats": 76.0,
+   "fuel_t": 227748
+  },
+  {
+   "code": "OO",
+   "ids": [
+    "b4-015"
+   ],
+   "quarters": 4,
+   "block_h": 1502967,
+   "dep": 878297,
+   "ac_avg": 581.8,
+   "util": 7.07,
+   "stage_km": 731.0,
+   "seats": 69.0,
+   "fuel_t": 1948836
+  },
+  {
+   "code": "9E",
+   "ids": [
+    "b4-016"
+   ],
+   "quarters": 4,
+   "block_h": 424622,
+   "dep": 250544,
+   "ac_avg": 124.0,
+   "util": 9.38,
+   "stage_km": 722.0,
+   "seats": 75.0,
+   "fuel_t": 619832
+  },
+  {
+   "code": "MQ",
+   "ids": [
+    "b4-017"
+   ],
+   "quarters": 4,
+   "block_h": 583168,
+   "dep": 322952,
+   "ac_avg": 511.3,
+   "util": 3.12,
+   "stage_km": 839.0,
+   "seats": 74.0,
+   "fuel_t": 883964
+  },
+  {
+   "code": "YX",
+   "ids": [
+    "b4-018"
+   ],
+   "quarters": 4,
+   "block_h": 682005,
+   "dep": 363385,
+   "ac_avg": 238.1,
+   "util": 7.84,
+   "stage_km": 789.0,
+   "seats": 75.0,
+   "fuel_t": 974609
+  }
+ ]
+}

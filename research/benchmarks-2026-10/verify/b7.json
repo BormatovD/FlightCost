@@ -1,0 +1,464 @@
+{
+ "b7-005": {
+  "status": "found",
+  "found_text": "the 12 months rolling CO2 emissions per passenger kilometre was at 50.6 grams in F26 (F25: 52.2 grams)",
+  "value_ok": true,
+  "note": "ESG Update; то же в Highlights: «CO2 emissions at 50.6 grams per passenger/km for the rolling 12 months to 31 March 2026 (vs 52.2 grams for F25)». ОПРЕДЕЛЕНИЕ: «CO2» (не CO2e) на пасс-км (RPK), скользящие 12 мес.; scope / только сжигание топлива — в RNS не указано (глоссарий/APM прочитаны до конца — определения нет)."
+ },
+ "b7-009": {
+  "status": "found",
+  "found_text": "In FY25 we recorded our lowest ever carbon intensity of 65.47g CO₂/RPK.",
+  "value_ok": true,
+  "note": "Market review. ОПРЕДЕЛЕНИЕ: CO₂ (не CO₂e) на RPK, KPI с пометкой Airline; охват (scope 1 / только авиатопливо) в тексте AR не определён (прочитан весь документ, обе части). Отдельная метрика 861 gCO₂e/RTK — другое (GHG на RTK)."
+ },
+ "b7-010": {
+  "status": "found",
+  "found_text": "In 2025, our carbon emissions per passenger kilometre reduced further to a new record low of 65.47g CO₂/RPK (2024: 66.64g CO₂/RPK)",
+  "value_ok": true,
+  "note": "KPI 'CO₂ emissions per passenger kilometre (G) 65.47g'. Определение — см. b7-009."
+ },
+ "b7-015": {
+  "status": "found",
+  "found_text": "In FY25, the Group's Scope 1 CO2 per PAX/km, excluding these other emissions was 64 grams.",
+  "value_ok": true,
+  "note": "Примечание к Table 17; «other emissions» = CH4 и N2O. ОПРЕДЕЛЕНИЕ: scope 1, только CO2 (без CH4/N2O), на пасс-км (RPK). Scope 1 включает и наземное топливо, но CO2-строка Table 21 = 99% от scope 1 — практически сжигание авиатоплива."
+ },
+ "b7-016": {
+  "status": "found",
+  "found_text": "Table 17 (Grams of CO2e per PAX/km, FY25): Scope 1 64.9 / Scope 2 0.0 / Scope 3 (category 3) 13.5",
+  "value_ok": true,
+  "note": "ОПРЕДЕЛЕНИЕ: CO2e (вкл. CH4, N2O), scope 1, на пасс-км. В out 64 (CO2) основное, 64.9 справочно — верно."
+ },
+ "b7-017": {
+  "status": "found",
+  "found_text": "Carbon dioxide (CO2) 16,386,934 2,795 2,805 99%",
+  "value_ok": true,
+  "note": "Table 21 (tCO2e, scope 1 и 2 по газам). Total Scope 1 = 16 536 228 (Table 20). 16 386 934 ÷ 3,16 = 5,186 млн т топлива — в out 5,19 верно."
+ },
+ "b7-018": {
+  "status": "found",
+  "found_text": "Fuel consumption from crude oil and petroleum products (MWh) 67,056,005",
+  "value_ok": true,
+  "note": "В out не используется. ВНИМАНИЕ: 67 056 005 МВт·ч × 3,6 = 241,4 ПДж ÷ 43,15 ГДж/т = 5,59 млн т топлива — на ~8% больше, чем 5,19 млн т из CO2 (16,39 млн т ÷ 3,16). Ryanair, видимо, использует иную теплотворность/охват; энергетический и CO2-пересчёты для FR не взаимозаменяемы."
+ },
+ "b7-024": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-029": {
+  "status": "found",
+  "found_text": "2019 (Base Year) | 2024 | 2025 | 2030 (Target) — Emission Intensity (gCO₂/RPK) | 65.1 | 58.3 | 56.9 | 52.1",
+  "value_ok": true,
+  "note": "Столбцы подтверждены: 56.9 — 2025. ОПРЕДЕЛЕНИЕ: «carbon dioxide emissions per revenue passenger kilometre» — CO₂ (не CO₂e) на RPK; scope / только авиатопливо явно не сказано (весь документ прочитан)."
+ },
+ "b7-030": {
+  "status": "found",
+  "found_text": "we successfully reached the halfway point of our target by reducing our emission intensity value to 56.9 gCO₂/RPK",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-031": {
+  "status": "found",
+  "found_text": "As of the end of 2025, our energy intensity has decreased to the level of 0.79 MJ/RPK.",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-032": {
+  "status": "found",
+  "found_text": "Energy intensity is calculated based on aircraft fuel consumption.",
+  "value_ok": true,
+  "note": "Без «* » в начале — несущественно."
+ },
+ "b7-033": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 0,79/43,15 = 18,31 г топлива/RPK × 3,16 = 57,85 г CO2/RPK; отличие от 56,9 — 1,7%. Вывод «≈ CO2 от сжигания авиатоплива» — косвенный (сверка, не определение из отчёта); корректно помечено."
+ },
+ "b7-036": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-037": {
+  "status": "found",
+  "found_text": "Airline total operating statistics … Utilization (block hours per aircraft per day) 8.42 8.23 2%",
+  "value_ok": true,
+  "note": "Таблица p.23 'Airline fleet statistics', столбцы 2025 2024 Change. ОГОВОРКА для сравнения: 8.42 — на весь парк (51 ВС на конец года, вкл. простаивающие из‑за GTF); в той же таблице есть «Utilization of operating aircraft» 10.70 (total) — именно эта база сопоставима с G3 11.0 (operational aircraft)."
+ },
+ "b7-038": {
+  "status": "partial",
+  "found_text": "Airline operating statistics without ACMI-out operations … Utilization (block hours per aircraft per day) 7.67 7.46 3%",
+  "value_ok": false,
+  "note": "Число и строка верны, но подпись неверна: это не отдельная «fleet statistics table» с неясной базой, а подблок «Airline operating statistics without ACMI-out operations» (собственные рейсы без сдачи в ACMI) той же таблицы. В out (BT.util.basis) «база не уточнена» — неверно, база в отчёте указана."
+ },
+ "b7-039": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не подтверждено: в прочитанных фрагментах AR чисел 601 667/606 529 нет; отбраковка не влияет на out."
+ },
+ "b7-045": {
+  "status": "found",
+  "found_text": "Total fuel consumption (E) 141,462,140.08 131,824,154.31",
+  "value_ok": true,
+  "note": "Блок «From non-renewable sources», столбцы FY 2026 (GJ) FY 2025 (GJ) — подтверждено."
+ },
+ "b7-046": {
+  "status": "found",
+  "found_text": "Total Scope 1 emissions (Metric tonnes of CO2 equivalent) 10,419,376.30 9,706,392.55",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-047": {
+  "status": "found",
+  "found_text": "Total Scope 1 and Scope 2 emissions per ASK (grams of CO2 equivalent/ASK) 60.5 61.7",
+  "value_ok": true,
+  "note": "ОПРЕДЕЛЕНИЕ: CO2e, scope 1+2, на ASK (не RPK). В out только справочно — корректно; с RPK-метриками других не сравнимо (при LF 84,4% ≈ 71,7 gCO2e/RPK)."
+ },
+ "b7-048": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 141 462 140,08/43,15 = 3 278 381 т; 10 419 376,30/3,16 = 3 297 271 т (+0,6%). Оговорка: «Total fuel consumption (E)» non-renewable может включать наземное топливо — оценка слегка завышена, в пределах заявленных ±2%."
+ },
+ "b7-052": {
+  "status": "found",
+  "found_text": "Operational Utilization Rate (Block Hours)1,2 hours/day 11.2 10.9 3.3% 11.0 10.3 6.6%",
+  "value_ok": true,
+  "note": "Столбцы 4Q25 4Q24 Var FY25 FY24 Var — 11.0 = FY25."
+ },
+ "b7-053": {
+  "status": "found",
+  "found_text": "(1) Calculated based on the number of operational aircraft.",
+  "value_ok": true,
+  "note": "Также сноска (2): «Value disclosed in 2024, adjusted to the 2025 methodology, which uses the cumulative average for the period.» — в out учтено («кумулятивное среднее»)."
+ },
+ "b7-055": {
+  "status": "found",
+  "found_text": "Carbon efficiency for Norwegian, measured by grams of CO2 emissions per revenue passenger kilometre (RPK)",
+  "value_ok": true,
+  "note": "ОПРЕДЕЛЕНИЕ: CO2 (не CO2e), на RPK, сегмент Norwegian; scope / только сжигание — в отчёте не определено (документ прочитан целиком)."
+ },
+ "b7-056": {
+  "status": "found",
+  "found_text": "was 70.5 grams in 2025",
+  "value_ok": true,
+  "note": "Продолжение того же предложения: «…, a 2 percent improvement from last year». Склейка b7-055+b7-056 = одно предложение — корректно."
+ },
+ "b7-057": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-058": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Блок-часы подтверждены (b7-059)."
+ },
+ "b7-059": {
+  "status": "found",
+  "found_text": "Total Block Hours | 49.469 | 53.896 | 9% | 216.940 | 225.350 | 4%",
+  "value_ok": true,
+  "note": "Столбцы Q4 2024, Q4 2025, %, FY 2024, FY 2025, % — 225.350 = FY2025 (точка — разделитель тысяч)."
+ },
+ "b7-064": {
+  "status": "found",
+  "found_text": "Specific CO₂ emissions | grammes | 85.4 | 87.5 | -2",
+  "value_ok": true,
+  "note": "Столбцы 2025 2024 Change in %. В английской версии «85.4», в немецкой «85,4» — цитата с запятой допустима. Сноски определения нет."
+ },
+ "b7-066": {
+  "status": "found",
+  "found_text": "Specific CO₂ emissions per passenger-kilometre were 2% lower than in the previous year at 85,4 grammes",
+  "value_ok": true,
+  "note": "ОПРЕДЕЛЕНИЕ: CO₂ на пасс-км (RPK), группа; CO₂ vs CO₂e не указано; база — выбросы от полётов (scope 1 flights), распределение пассажир/груз по весу (100 кг на пассажира с багажом, груз по факту). Т.е. только пассажирская доля CO₂ от сжигания авиатоплива."
+ },
+ "b7-067": {
+  "status": "found",
+  "found_text": "Gross global Scope 1 emissions: 29.56 million tonnes CO 2, thereof 29,37 million tonnes CO2 caused by flights of Lufthansa Group aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-068": {
+  "status": "found",
+  "found_text": "Total fuel consumed 403 million gigajoules",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-069": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 29,37/3,16 = 9,294 млн т; 403/43,15 = 9,340 млн т (+0,5%)."
+ },
+ "b7-073": {
+  "status": "found",
+  "found_text": "74% … 3.2 million tCO₂e",
+  "value_ok": true,
+  "note": "Графика 'Snapshot of 2026 emissions', Scope 1."
+ },
+ "b7-074": {
+  "status": "found",
+  "found_text": "99.9% is from jet fuel",
+  "value_ok": true,
+  "note": ""
+ },
+ "b7-075": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 3,2×0,999/3,16 = 1,012 млн т. Округление 3,15–3,25 даёт ±1,6%; заявленные ±3% — с запасом (вкл. CO2e vs CO2)."
+ },
+ "b7-081": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-086": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Подтверждено: строки utilisation нет (см. b7-087)."
+ },
+ "b7-087": {
+  "status": "found",
+  "found_text": "Aircraft frequencies (thousands) 93.0 94.5 (1.6) 385.7 387.9 (0.6)",
+  "value_ok": true,
+  "note": "Подтверждено также: в таблице Operating Statistics нет utilisation/блок-часов (b7-086/b7-141 верно). НО в той же таблице есть строка «Fuel litres (thousands)» — объём топлива AC доступен, в out AC fuel не фигурирует вовсе."
+ },
+ "b7-090": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Подтверждено (см. b7-140)."
+ },
+ "b7-091": {
+  "status": "found",
+  "found_text": "AVERAGE FLEET 358 388 419 433",
+  "value_ok": true,
+  "note": "Над таблицей только «2026 2027 2028» — 4 числа, 3 подписи; первый столбец (2025) выведен по смыслу, как и отмечено в value. Используется только в gaps."
+ },
+ "b7-092": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-093": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-096": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-097": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-101": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-105": {
+  "status": "found",
+  "found_text": "A companhia aprimorou sua eficiência energética em 2025 em relação a 2024, reduzindo o consumo de energia por passageiro transportado e por capacidade oferecida, com intensidades de 1,062 MJ/RPK 0,889 MJ/ASK e respectivamente.",
+  "value_ok": true,
+  "note": "Destaques 2025, p.10. Там же: «reduções de 0,4 % e 1,4 % em gCO2e/ASK em gCO2e/RPK» — собственная метрика GOL в CO2e."
+ },
+ "b7-106": {
+  "status": "found",
+  "found_text": "1,062 MJ/RPK",
+  "value_ok": true,
+  "note": "Десятичная запятая: 1,062 = 1.062 MJ/RPK."
+ },
+ "b7-107": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 1,062/43,15 = 24,61 г/RPK × 3,16 = 77,77 г CO2/RPK. ОПРЕДЕЛЕНИЕ получившегося числа: только CO2 от сжигания (при допущении энергия = авиатопливо), на RPK; сам GOL публикует интенсивность в gCO2e. Обоснованность метода подтверждена на Pegasus (b7-033, расхождение 1,7%)."
+ },
+ "b7-113": {
+  "status": "found",
+  "found_text": "TOTAL 783,617 1,610,228 860,737 123,144,152 145,385,977 172,269,793 84.4 389,218 30,050 …",
+  "value_ok": true,
+  "note": "Заголовок: «Monthly Operational Statistics for FY 2025-26 on scheduled consolidated services»; источник «ICAO ATR FORM A FURNISHED BY INDIGO»."
+ },
+ "b7-114": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Сопоставление верно: в заголовках группа AIRCRAFT FLOWN = DEPARTURES/HOURS/KILOMETRE идёт первой в строке данных; 145 385 977/172 269 793 = 84,39% = LF 84,4; 1 610 228/783 617 = 2,05 ч/вылет; 860 737/783 617 = 1 098 км — правдоподобно."
+ },
+ "b7-116": {
+  "status": "found",
+  "found_text": "As of 31st March 2026, fleet of 441 aircraft including 31 A320 CEOs (5 damp lease), 177 A320 NEOs, 172 A321 NEOs",
+  "value_ok": true,
+  "note": "Далее в предложении — ATR, A321F, damp/wet-lease B737/B787."
+ },
+ "b7-119": {
+  "status": "found",
+  "found_text": "As of 31st March 2025, fleet of 434 aircraft including 40 A320 CEOs (14 damp lease), 195 A320 NEOs, 135 A321 NEOs, 48 ATRs,",
+  "value_ok": true,
+  "note": "Далее — A321F, wet/damp-lease B777/B737/B787."
+ },
+ "b7-120": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: (434+441)/2 = 437,5; 1 610 228/437,5/365 = 10,08. Оговорка: парк вкл. грузовые A321F и арендованные широкофюзеляжные — смешанная база; среднее по двум точкам — оценка."
+ },
+ "b7-121": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Шаг open/reject/search без цитаты; упомянут в gaps out/b7.json."
+ },
+ "b7-122": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Период FY25 для FR корректен (документ — Sustainability Statement 2025, FY25). Значение 64 подтверждено."
+ },
+ "b7-123": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Верно: в RNS Wizz определения метрики нет (прочитан полностью)."
+ },
+ "b7-124": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Верно: в AR easyJet определения KPI нет (прочитан полностью)."
+ },
+ "b7-125": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "DY 70.5 подтверждён."
+ },
+ "b7-126": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "PC 56.9 подтверждён."
+ },
+ "b7-127": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "6E: числа и пересчёт подтверждены."
+ },
+ "b7-128": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "6E util 10.1 — арифметика верна, оценка."
+ },
+ "b7-129": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "G3 util 11.0 FY25 подтверждено."
+ },
+ "b7-130": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "G3 77.8 — пересчёт подтверждён арифметически."
+ },
+ "b7-131": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "LH 85.4 подтверждён в двух документах."
+ },
+ "b7-132": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "NZ ≈1.01 млн т — арифметика верна."
+ },
+ "b7-133": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": false,
+  "note": "BT 8.42 подтверждено; формулировка базы 7.67 в out неверна (см. b7-038); для сравнения с G3 сопоставимо 10.70 (operating aircraft)."
+ },
+ "b7-134": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Частично проверено: во второй половине AR есть только пересчитанные 2024-значения E1 (Jet fuel 2 448 800 MWh restated 2024); 2025 и 601 667/606 529 в прочитанных фрагментах не найдены — пробел подтверждается."
+ },
+ "b7-135": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось (ATHEX недоступен); блок-часы 225.350 подтверждены (b7-059)."
+ },
+ "b7-136": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось."
+ },
+ "b7-137": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось; в Key figures и SASB блок-часов действительно нет."
+ },
+ "b7-138": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось."
+ },
+ "b7-139": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось."
+ },
+ "b7-140": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Подтверждено: в релизе 4Q25 нет utilisation/блок-часов; средний парк 368 за 4Q25 — в комментарии к D&A."
+ },
+ "b7-141": {
+  "status": "conclude_checked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Подтверждено: строк utilisation/блок-часов нет. Попутно: есть «Fuel litres (thousands)» — топливо AC можно взять."
+ },
+ "b7-142": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось."
+ },
+ "b7-143": {
+  "status": "not_rechecked",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Не перепроверялось."
+ }
+}

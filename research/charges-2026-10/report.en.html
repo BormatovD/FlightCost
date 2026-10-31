@@ -254,7 +254,13 @@ details{margin:8px 0}summary{cursor:pointer;color:var(--ink2)}
 .verdict div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
 .verdict b{display:block;color:var(--ink2);font-size:15px;margin-bottom:4px}.verdict span{font-size:13px;color:var(--dim)}
 @media(max-width:760px){.grid2{grid-template-columns:1fr}.bar{grid-template-columns:96px 1fr 120px}.wrap{padding:22px 16px 50px}}
-</style><style>.curbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px;color:var(--dim);
+table.txt td:first-child{white-space:normal;min-width:9em}td.nm{white-space:normal}
+@media(max-width:640px){table.cards,table.cards tbody,table.cards tr,table.cards td{display:block;width:auto}
+table.cards tr.hd{display:none}table.cards tr{border-bottom:1px solid var(--line);padding:8px 10px}
+table.cards td{border:0;padding:2px 0;white-space:normal!important;text-align:left!important}
+table.cards td:first-child{font-weight:600;color:var(--ink2)}
+table.cards td[data-l]::before{content:attr(data-l) ": ";color:var(--dim);font-size:12px;font-weight:400}
+.tw{overflow-x:visible}}</style><style>.curbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px;color:var(--dim);
 margin:-8px 0 16px}.curbar button{font:inherit;color:var(--dim);background:none;border:1px solid var(--line);
 border-radius:999px;padding:1px 9px;cursor:pointer}.curbar button.on{color:var(--ink);border-color:var(--sky)}
 .curnote{margin-left:4px}.mny.cv{border-bottom:1px dotted var(--dim)}.verdict b .mny{font-size:inherit;color:inherit}</style></head><body class="doc"><div class="wrap"><style>.chart .lab2{font:12.5px var(--sans);fill:var(--ink)}
@@ -338,4 +344,9 @@ if(location.protocol.indexOf("http")===0){fetch("/api/fx").then(function(r){retu
 for(var k in q.rates){if(q.rates[k]&&q.rates[k].rate)R[k]=q.rates[k].rate;}R.EUR=1;
 var n=document.querySelector(".curnote");if(n&&q.as_of)n.textContent=n.textContent.replace(/\d{4}-\d{2}-\d{2}/,q.as_of);
 show(cur);}).catch(function(){});}
-})();</script></body></html>
+})();</script><script>document.querySelectorAll('.tw table:not(.nocards)').forEach(function(t){
+var rows=t.querySelectorAll('tr'),hd=null;for(var i=0;i<rows.length;i++){if(rows[i].querySelector('th')){hd=rows[i];break}}
+if(!hd||hd.children.length<3)return;t.classList.add('cards');hd.classList.add('hd');
+var L=[].map.call(hd.children,function(th){return th.textContent.replace(/\s+/g,' ').trim()});
+rows.forEach(function(r){if(r===hd||r.querySelector('th'))return;[].forEach.call(r.children,function(td,j){
+if(j>0&&!td.hasAttribute('data-l')&&L[j])td.setAttribute('data-l',L[j])})})});</script></body></html>

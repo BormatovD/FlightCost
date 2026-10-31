@@ -4,9 +4,36 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: benchmarks-2026-10
+    date: 2026-10-31
+    report: benchmarks-2026-10/report.html
+    calc: planned
+    calc_note:
+      ru: "Калькулятор сверяется с полосами двенадцати перевозчиков; полосы из всего рейтинга с приведением к длине рейса — в очереди."
+      en: "The calculator checks against twelve carriers' bands; bands from the whole rating, adjusted for stage length, are queued."
+      de: "Der Rechner vergleicht mit den Bändern von zwölf Airlines; Bänder aus dem ganzen Rating mit Streckenlängen-Korrektur folgen."
+    lang: ru
+    title:
+      ru: "Бенчмарки авиакомпаний и наш рейтинг эффективности"
+      en: "Airline benchmarks and our efficiency rating"
+      de: "Airline-Benchmarks und unser Effizienz-Rating"
+    lede:
+      ru: >-
+        Какие бенчмарки есть в отрасли, почему себестоимость кресло-километра нельзя сравнивать «в лоб», когда каким
+        бенчмарком пользоваться — и рейтинг эффективности авиакомпаний по открытой отчётности за 2025 год.
+      en: >-
+        Which benchmarks the industry uses, why cost per seat-kilometre cannot be compared head-on, when to use which
+        benchmark — and an efficiency rating of airlines from public 2025 reports.
+      de: >-
+        Welche Benchmarks die Branche nutzt, warum Kosten je Sitzkilometer nicht direkt vergleichbar sind, wann welcher
+        Benchmark passt — und ein Effizienz-Rating der Airlines aus öffentlichen Berichten 2025.
+    tags:
+      ru: [бенчмарки, CASK, рейтинг, авиакомпании]
+      en: [benchmarks, CASK, rating, airlines]
+      de: [Benchmarks, CASK, Rating, Airlines]
   - slug: network-2026-10
     date: 2026-10-30
-    #draft: true                    # большая статья, переведена; ждёт решения владельца о публикации
+    draft: true                    # большая статья, переведена; ждёт решения владельца о публикации
     report: network-2026-10/report.html
     calc: planned
     calc_note:
