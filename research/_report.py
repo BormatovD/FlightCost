@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import html
 import pathlib
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -94,6 +95,17 @@ def money(v, cur="EUR", d=0, sign=False, unit="", nc=False, tag="span") -> str:
             f'data-u="{e(unit)}"{" data-nc=1" if nc else ""}>{n(v, d, sign)}{code}</{tag}>')
 
 
+def money_tip(tpl: str, vals, cur="EUR", d=0) -> str:
+    """Всплывающая подсказка SVG (<title>) с нашими суммами: {0}, {1}… в шаблоне заменяются суммами с кодом
+    валюты, и переключатель пересчитывает их вместе с остальными."""
+    txt = tpl
+    for i, v in enumerate(vals):
+        txt = txt.replace("{%d}" % i, f"{n(v, d)} {cur}")
+    vs = "|".join(f"{v:.6g}" for v in vals)
+    return (f'<title class="mnyt" data-c="{cur}" data-d="{d}" data-vs="{vs}" data-t="{e(tpl)}">{e(txt)}</title>'
+            )
+
+
 def curname(cur="EUR", tag="span") -> str:
     """Код валюты в подписи рисунка или заголовке столбца — меняется вместе с переключателем."""
     return f'<{tag} class="mcur" data-c="{cur}">{cur}</{tag}>'
@@ -136,11 +148,15 @@ var to=c&&R[c]&&R[s]?c:s;var x=to===s?v:v/R[s]*R[to];var dd=to===s?d:(Math.abs(x
 var nc=m.hasAttribute("data-nc");m.textContent=fmt(x,dd,m.dataset.s==="1")+(nc?"":" "+to+u);
 if(m.classList)m.classList.toggle("cv",to!==s&&!nc);
 if(!nc)m.title=to!==s?fmt(v,d,false)+" "+s:"";});
-document.querySelectorAll(".mcur").forEach(function(m){var s=m.dataset.c;m.textContent=c&&R[c]&&R[s]?c:s;});}
+document.querySelectorAll(".mcur").forEach(function(m){var s=m.dataset.c;m.textContent=c&&R[c]&&R[s]?c:s;});
+document.querySelectorAll(".mnyt").forEach(function(m){var s=m.getAttribute("data-c"),d=+m.getAttribute("data-d"),
+to=c&&R[c]&&R[s]?c:s,t=m.getAttribute("data-t");m.getAttribute("data-vs").split("|").forEach(function(v,i){
+var x=to===s?+v:+v/R[s]*R[to];t=t.replace("{"+i+"}",fmt(x,d,false)+" "+to);});m.textContent=t;});}
 document.querySelectorAll(".curbar button").forEach(function(b){b.addEventListener("click",function(){
 var c=b.getAttribute("data-cur")||"";try{localStorage.setItem("fca.cur",c||"")}catch(e){}show(c);});});
 var saved="";try{saved=localStorage.getItem("fca.cur")||""}catch(e){}
 show(saved);
+window.fcaCurShow=function(){show(cur)};
 if(location.protocol.indexOf("http")===0){fetch("/api/fx").then(function(r){return r.json()}).then(function(q){
 for(var k in q.rates){if(q.rates[k]&&q.rates[k].rate)R[k]=q.rates[k].rate;}R.EUR=1;
 var n=document.querySelector(".curnote");if(n&&q.as_of)n.textContent=n.textContent.replace(/\\d{4}-\\d{2}-\\d{2}/,q.as_of);
@@ -261,7 +277,12 @@ if(j>0&&!td.hasAttribute('data-l')&&L[j])td.setAttribute('data-l',L[j])})})});</
 
 
 def page(title: str, body: str) -> str:
-    js = (cur_js() if 'class="mny"' in body else "") + TABLE_JS
+    # Переключатель валюты — только если в статье есть наши расчётные суммы (владелец, 01.11.2026):
+    # в статье без денег (жара и высота, дальность) он ничего не переключает и сбивает с толку.
+    has_money = 'class="mny"' in body or 'class="mnyt"' in body
+    if not has_money:
+        body = re.sub(r'<div class="curbar">.*?</div>', "", body, flags=re.S)
+    js = (cur_js() if has_money else "") + TABLE_JS
     return (f'<!doctype html><html lang="{LANG}"><head><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{e(title)}</title>'

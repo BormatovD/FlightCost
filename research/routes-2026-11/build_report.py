@@ -21,7 +21,7 @@ from collections import Counter
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE.parent))
-from _report import (ARTICLE_CSS, Sources, T, Tr, article_title, calc_badge, e, mark, n, page,  # noqa: E402
+from _report import (ARTICLE_CSS, Sources, T, Tr, article_title, calc_badge, e, mark, money, n, page,  # noqa: E402
                      write_all)
 import _report  # noqa: E402
 
@@ -274,16 +274,16 @@ rows.forEach(function(p){var s=(auto&&p.n&&reg!=='in')?1/(p.n+1):sh;
  html+='<tr><td class=nm data-l="'+L.pair+'">'+p.r+'. '+p.l+'</td>'+
   '<td data-l="'+L.share+'" class="r shr">'+fmt(s*100)+' %</td>'+
   '<td data-l="'+L.type+'"><span><span class=sw style="background:'+b.c+'"></span> <b>'+b.n+'</b>'+(low?' <span class=s>'+L.low.replace('{n}',thr)+'</span>':'')+'</span></td>'+
-  '<td class=r data-l="'+L.pd+'">'+fmt(Math.floor(b.pd*10)/10,1)+'</td><td class=r data-l="'+L.fare+'">'+fmt(b.f)+'</td>'+
+  '<td class=r data-l="'+L.pd+'">'+fmt(Math.floor(b.pd*10)/10,1)+'</td><td class=r data-l="'+L.fare+'"><span class="mny" data-v="'+b.f+'" data-c="EUR" data-d="0" data-s="0" data-u="">'+fmt(b.f)+' EUR</span></td>'+
   '<td class=r data-l="'+L.cheap+'">'+(b.f>cheap?'+'+fmt((b.f/cheap-1)*100)+' %':'—')+'</td></tr>'});
 q('#shc-sum').innerHTML=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]}).map(function(k){
  return '<span class=chip><span class=sw style="background:'+col[k]+'"></span>'+k+' — '+cnt[k]+'</span>'}).join(' ');
-q('#shc-body').innerHTML=html}
+q('#shc-body').innerHTML=html;if(window.fcaCurShow)window.fcaCurShow()}
 el.addEventListener('input',run);el.addEventListener('change',run);run()})();
 """.replace("__DATA__", json.dumps(data, ensure_ascii=False))
     lab = {"loc": T("ru-RU", "en-GB", "de-DE"), "pair": T("Пара", "Pair", "Paar"), "share": T("Доля", "Share", "Anteil"),
            "type": T("Тип", "Type", "Typ"), "pd": T("Рейсов в день", "Flights per day", "Flüge pro Tag"),
-           "fare": T("Тариф, EUR", "Fare, EUR", "Tarif, EUR"),
+           "fare": T("Тариф", "Fare", "Tarif"),
            "cheap": T("К самому дешёвому", "vs cheapest", "ggü. günstigstem"),
            "low": T("меньше {n} рейс.", "fewer than {n} flights", "weniger als {n} Flüge")}
     js = js.replace("__L__", json.dumps(lab, ensure_ascii=False))
@@ -388,8 +388,8 @@ def rmap(reg, rows, india=False, w=760, mode="tk"):
 
 def ac_table(rows, india=False):
     head = (f"<tr><th class=r>#</th><th>{T('Пара', 'Pair', 'Paar')}</th><th>{T('Лучший тип', 'Best type', 'Bester Typ')}</th>"
-            f"<th class=r>{T('Безубыточный тариф, EUR', 'Breakeven fare, EUR', 'Break-even-Tarif, EUR')}</th>"
-            "<th class=r>A320neo</th><th class=r>737 MAX 8</th>"
+            f"<th class=r>{T('Безубыточный тариф', 'Breakeven fare', 'Break-even-Tarif')}</th>"
+            f"<th class=r>A320neo</th><th class=r>737 MAX 8</th>"
             f"<th class=r>{T('Рейсов в день нужно', 'Flights per day needed', 'Nötige Flüge pro Tag')}</th>"
             f"<th class=r>{T('Летают сейчас', 'Flown now', 'Heute geflogen')}</th></tr>")
     body = []
@@ -399,14 +399,14 @@ def ac_table(rows, india=False):
             continue
         al = {x["type"]: x for x in a["all"]}
         b = a.get("best")
-        f = lambda t: (n(al[t]["fare"]) if t in al and al[t]["ok"] and al[t].get("fare") else "—")  # noqa: E731
+        f = lambda t: (money(al[t]["fare"], "EUR") if t in al and al[t]["ok"] and al[t].get("fare") else "—")  # noqa: E731
         if b:
             seats = (al[b["type"]].get("pax") or 0) / 0.8
             per_day = r["pax"] / 365 / 2 / (seats * 0.8) if seats else None
             best = f"<b>{tname(b['type'])}</b>"
             if a.get("russia") and "A21N" in al and al["A21N"]["ok"]:
-                best += f' <span class=s>(A321neo — {n(al["A21N"]["fare"])})</span>'
-            fare = n(b["fare"])
+                best += f' <span class=s>(A321neo — {money(al["A21N"]["fare"], "EUR")})</span>'
+            fare = money(b["fare"], "EUR")
             pd = n(per_day, 1) if per_day else "—"
         else:
             best = (T("SJ-100 / МС-21 — калькулятор пока не считает", "SJ-100 / MC-21 — not yet computed by the calculator",
@@ -563,9 +563,10 @@ def build() -> str:
       "Рынок почти дуополия: IndiGo перевёз в 2025 году около 64 % внутренних пассажиров",
       "The market is almost a duopoly: in 2025 IndiGo carried about 64 % of domestic passengers",
       "Der Markt ist fast ein Duopol: IndiGo beförderte 2025 rund 64 % der Inlandspassagiere")}{cite('r1-064')}.</p>
+<details><summary>{T("Открытые источники данных о маршрутах — таблица", "Open data sources on routes — table", "Offene Datenquellen zu Strecken — Tabelle")}</summary>
 <div class="tw"><table class="txt"><tr><th>{T("Источник", "Source", "Quelle")}</th><th>{T("Что даёт", "What it provides", "Was sie liefert")}</th>
 <th>{T("Детализация", "Granularity", "Detailgrad")}</th><th>{T("Доступ", "Access", "Zugang")}</th></tr>
-{srcs}</table></div>
+{srcs}</table></div></details>
 <p>{T("Итог для рейтинга: размер рынка и рост открыты в обоих регионах, загрузка кресел на паре — только в Европе "
       "(Eurostat публикует кресла), конкуренция на паре и тарифы — нет. Координируемые аэропорты известны частично: "
       "Испания, Великобритания, Дублин, Варшава, часть Франции, четыре аэропорта Индии; Германия не делит свои 17 "
