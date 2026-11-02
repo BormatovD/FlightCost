@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Одноразовая настройка чистого сервера под витрину.
 # Понимает два семейства: AlmaLinux / Rocky / RHEL 9–10 (dnf, firewalld,
-# SELinux) и Ubuntu / Debian (apt, ufw).
+# SELinux) и Ubuntu 22.04+ / Debian (apt, ufw). Сервер может быть общим:
+# чужие сайты в Caddy и чужие службы скрипт не трогает.
 #
 # Запускается с вашего компьютера — от root или от пользователя с sudo:
 #     ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh
@@ -57,7 +58,13 @@ if ! python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' 
 		dnf install -y -q python3.12 python3.12-pip
 		PY=python3.12
 	else
-		echo "системный Python старше 3.11 — нужна Ubuntu 24.04 или новее"; exit 1
+		# Ubuntu 22.04: системный 3.10. Ставим 3.12 рядом из PPA deadsnakes —
+		# системный python3 не трогаем: на сервере живут другие проекты.
+		apt-get install -y -qq software-properties-common
+		add-apt-repository -y -n ppa:deadsnakes/ppa >/dev/null
+		apt-get update -qq
+		apt-get install -y -qq python3.12 python3.12-venv
+		PY=python3.12
 	fi
 fi
 say "Python: $($PY --version)"
@@ -204,7 +211,16 @@ else
 fi
 
 say "Caddy: ${DOMAIN:-без домена, только :80}"
-sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/Caddyfile
+# Наш сайт — отдельным файлом, который главный Caddyfile подключает через
+# import. Главный файл НЕ перезаписывается: на сервере могут жить другие
+# сайты (play.flightcost.app). Прежняя версия скрипта затирала его целиком.
+sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/fca.caddy
+if [ ! -f /etc/caddy/Caddyfile ]; then
+	echo "import /etc/caddy/fca.caddy" > /etc/caddy/Caddyfile
+elif ! grep -q '^import /etc/caddy/fca.caddy' /etc/caddy/Caddyfile; then
+	cp -a /etc/caddy/Caddyfile "/etc/caddy/Caddyfile.bak.$(date +%Y%m%d%H%M%S)"
+	printf '\n# FlightCost (flightcost.app) — bootstrap.sh\nimport /etc/caddy/fca.caddy\n' >> /etc/caddy/Caddyfile
+fi
 install -d -o caddy -g caddy /var/log/caddy
 command -v restorecon >/dev/null && restorecon -R /etc/caddy /var/log/caddy || true
 caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile >/dev/null
@@ -224,7 +240,15 @@ if [ "$FAMILY" = el ]; then
 	firewall-cmd -q --reload
 else
 	ufw allow OpenSSH >/dev/null; ufw allow 80/tcp >/dev/null; ufw allow 443/tcp >/dev/null
-	ufw --force enable >/dev/null
+	# Экран включаем только на чистом сервере. Если уже слушают другие
+	# службы (Docker, игра, агенты), включение закрыло бы их без
+	# предупреждения — а порты Docker ufw всё равно не закрывает: их
+	# публикацию надо ограничивать в самом compose (127.0.0.1:порт).
+	if ufw status | grep -q inactive && ss -tlnH | awk '{print $4}' | grep -qvE ':(22|80|443)$'; then
+		echo "  ufw НЕ включён: на сервере слушают другие службы — проверьте их порты сами (ss -tlnp)"
+	else
+		ufw --force enable >/dev/null
+	fi
 fi
 
 say "ssh: только по ключу"

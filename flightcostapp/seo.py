@@ -587,7 +587,12 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
     L = lang or "ru"
 
     def href(k, p):
-        return p if k in LANG_LOCAL else f"/{L}{p}"
+        # Карта и данные — один адрес на все языки: язык передаём явно, иначе
+        # страница выбирает его по браузеру и с русской статьи открывалась
+        # по-английски (чекап 02.11.2026).
+        if k in LANG_LOCAL:
+            return f"{p}?lang={lang}" if lang else p
+        return f"/{L}{p}"
     labels = lambda key: esc(json.dumps({x: T[x][key] for x in LANGS}, ensure_ascii=False))  # noqa: E731
     nav = "".join(f'<a href="{href(k, p)}" data-p="{p}" data-l="{labels(key)}"{on_attr if k == on else ""}>'
                   f'{esc(T[L][key])}</a>' for k, p, key in NAV)
@@ -599,6 +604,10 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
     out = (f'<header class="sh"><a class="brand" href="/{L}/" data-p="/">FlightCost'
            f'<span data-l="{labels("brand_tag")}">{esc(T[L]["brand_tag"])}</span></a>'
            f'<nav>{nav}</nav><span class="lg">{lg}</span></header>')
+    if lang:
+        # Выбор языка запоминается так же, как в витрине: страницы без языка
+        # в адресе (карта, данные, Impressum) откроются на нём.
+        out += ("<script>try{localStorage.setItem('fca.lang','%s')}catch(e){}</script>" % lang)
     if not lang:
         out += ("<script>(function(){var L=['ru','en','de'],q=new URLSearchParams(location.search).get('lang'),s=null;"
                 "try{s=localStorage.getItem('fca.lang')}catch(e){}var g=L.indexOf(q)>=0?q:L.indexOf(s)>=0?s:null;"
@@ -880,7 +889,7 @@ def about_page(lang: str) -> str:
     body.append(f"<h2>{esc(a['faq_h'])}</h2>" + "".join(
         f"<details open><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>" for q, ans in a["faq"]))
     body.append(f'<p class="dim"><a href="/{lang}/types">{esc(t["nav_types"])}</a> · '
-                f'<a href="/data">{esc(t["nav_data"])}</a> · <a href="/map">{esc(t["nav_map"])}</a> · '
+                f'<a href="/data?lang={lang}">{esc(t["nav_data"])}</a> · <a href="/map?lang={lang}">{esc(t["nav_map"])}</a> · '
                 f'<a href="{REPO}">GitHub</a></p>')
     faq = {"@context": "https://schema.org", "@type": "FAQPage",
            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": ans}}

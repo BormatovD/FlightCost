@@ -279,7 +279,7 @@ border-radius:8px;padding:12px 14px;line-height:1.8}</style><h1>ТОиР: ско
 .calcrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0;margin:-2px 0 16px;font-size:13px;color:var(--dim)}
 li .calc{font-size:11px;padding:0 7px;margin-right:6px;vertical-align:1px}
 .legend-calc{font-size:12.5px;color:var(--dim);margin:6px 0 10px}
-</style><div class="calcrow"><span class="calc" style="color:var(--sky)">⚑ Учесть при вводе</span><span>Ставки ТОиР задаются в карточке типа (за час и за цикл); статья — ориентир при вводе, полоса Form 41 уже рядом с заготовкой.</span></div><div class="curbar"><span>Валюта:</span><button type="button" data-cur="" class="on">как в источнике</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ЕЦБ, справочные курсы 29.10.2026 (USD, CNY, INR); ЦБ РФ 26.10.2026 (RUB). Снимок для статей с диска; на сайте курс берётся с /api/fx, как у калькулятора.">курс на 2026-10-29, на сайте — актуальный</span></div>
+</style><div class="calcrow"><span class="calc" style="color:var(--sky)">⚑ Учесть при вводе</span><span>Ставки ТОиР задаются в карточке типа (за час и за цикл); статья — ориентир при вводе, полоса Form 41 уже рядом с заготовкой.</span></div><div class="curbar"><span>Валюта:</span><button type="button" data-cur="" class="on">как в источнике</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ЕЦБ (USD, CNY, INR) и ЦБ РФ (RUB), справочные курсы; на сайте — актуальный курс, как у калькулятора">курс на 2026-10-29, на сайте — актуальный</span></div>
 <div class="verdict">
 <div><b><span class="mny" data-v="1170.49" data-c="USD" data-d="0" data-s="0" data-u="">1 170 USD</span> за блок-час</b><span>столько прямые затраты на ТОиР A320 у авиакомпаний США (Form 41, борт около 12 лет, доллары 2025)<sup class=cite><a href="#src1">1</a></sup></span></div>
 <div><b>+3,0 % в год</b><span>так дорожает ремонт и ТО самолётов (индекс цен США, 2009–2025) — инфляция +2,6 %; не «в 2–3 раза быстрее»<sup class=cite><a href="#src1">1</a></sup></span></div>
@@ -327,11 +327,15 @@ var to=c&&R[c]&&R[s]?c:s;var x=to===s?v:v/R[s]*R[to];var dd=to===s?d:(Math.abs(x
 var nc=m.hasAttribute("data-nc");m.textContent=fmt(x,dd,m.dataset.s==="1")+(nc?"":" "+to+u);
 if(m.classList)m.classList.toggle("cv",to!==s&&!nc);
 if(!nc)m.title=to!==s?fmt(v,d,false)+" "+s:"";});
-document.querySelectorAll(".mcur").forEach(function(m){var s=m.dataset.c;m.textContent=c&&R[c]&&R[s]?c:s;});}
+document.querySelectorAll(".mcur").forEach(function(m){var s=m.dataset.c;m.textContent=c&&R[c]&&R[s]?c:s;});
+document.querySelectorAll(".mnyt").forEach(function(m){var s=m.getAttribute("data-c"),d=+m.getAttribute("data-d"),
+to=c&&R[c]&&R[s]?c:s,t=m.getAttribute("data-t");m.getAttribute("data-vs").split("|").forEach(function(v,i){
+var x=to===s?+v:+v/R[s]*R[to];t=t.replace("{"+i+"}",fmt(x,d,false)+" "+to);});m.textContent=t;});}
 document.querySelectorAll(".curbar button").forEach(function(b){b.addEventListener("click",function(){
 var c=b.getAttribute("data-cur")||"";try{localStorage.setItem("fca.cur",c||"")}catch(e){}show(c);});});
 var saved="";try{saved=localStorage.getItem("fca.cur")||""}catch(e){}
 show(saved);
+window.fcaCurShow=function(){show(cur)};
 if(location.protocol.indexOf("http")===0){fetch("/api/fx").then(function(r){return r.json()}).then(function(q){
 for(var k in q.rates){if(q.rates[k]&&q.rates[k].rate)R[k]=q.rates[k].rate;}R.EUR=1;
 var n=document.querySelector(".curnote");if(n&&q.as_of)n.textContent=n.textContent.replace(/\d{4}-\d{2}-\d{2}/,q.as_of);

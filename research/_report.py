@@ -123,8 +123,12 @@ def cur_bar() -> str:
     note = T(f"курс на {fx['as_of']}, на сайте — актуальный", f"rate as of {fx['as_of']}, live on the website",
              f"Kurs vom {fx['as_of']}, auf der Website aktuell")
     opts = "".join(f'<button type="button" data-cur="{c}">{c}</button>' for c in CURS)
+    # Подсказка — на языке статьи (в _fx.json источник записан по-русски).
+    src = T("ЕЦБ (USD, CNY, INR) и ЦБ РФ (RUB), справочные курсы; на сайте — актуальный курс, как у калькулятора",
+            "ECB (USD, CNY, INR) and Bank of Russia (RUB) reference rates; the website uses the live rate, like the calculator",
+            "EZB (USD, CNY, INR) und Bank of Russia (RUB), Referenzkurse; auf der Website der aktuelle Kurs wie im Rechner")
     return (f'<div class="curbar"><span>{lab}:</span><button type="button" data-cur="" class="on">{orig}</button>'
-            f'{opts}<span class="curnote" title="{e(fx.get("source", ""))}">{note}</span></div>')
+            f'{opts}<span class="curnote" title="{e(src)}">{note}</span></div>')
 
 
 CUR_CSS = """<style>.curbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px;color:var(--dim);
