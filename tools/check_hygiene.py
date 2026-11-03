@@ -38,7 +38,8 @@ SECRET = [
      "похоже на ключ в коде"),
 ]
 TRACKED_BAD = [
-    (r"^data/flightcost\.db", "хранилище"),
+    (r"^data/flightcost\.db", "хранилище и его копии (.bak-*, .pulled)"),
+    (r"\.(db|sqlite3?)(-wal|-shm)?$", "база SQLite: статистика, рабочие места, копии"),
     (r"^data/(raw|artifacts|geo)/", "чужие данные или кэш рецепта"),
     (r"^data/codes/(?!(airports_list\.xlsx|tkp_codes\.yaml)$)",
      "указатель кодов: CC BY-SA, только рецептом"),

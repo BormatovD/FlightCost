@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Выкладка кода на сервер. Запускает GitHub Actions после зелёных тестов:
-#     ssh deploy@сервер /srv/fca/app/deploy/deploy.sh
+#     ssh deploy@сервер bash /srv/fca/app/deploy/deploy.sh
 # Можно запустить и руками — то же самое.
 #
 # Сервер код не правит никогда: он всегда приводится к тому, что лежит в

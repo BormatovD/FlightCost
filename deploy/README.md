@@ -248,7 +248,7 @@ ssh deploy@АДРЕС journalctl -u fca-observe -n 20   # как прошли п
 **Один раз:**
 
 ```bash
-ssh deploy@АДРЕС /srv/fca/app/deploy/deploy.sh      # свежий код
+ssh deploy@АДРЕС bash /srv/fca/app/deploy/deploy.sh      # свежий код
 ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh       # каталоги и юниты главной базы
 fca master push                                      # засеять сервер своей базой
 fca master pull                                      # и сразу забрать — проверка круга
@@ -298,7 +298,7 @@ ENV
 chmod 600 /etc/fca/*
 
 # 3. код и юниты: выложить свежий main и повторить bootstrap
-sudo -u deploy /srv/fca/app/deploy/deploy.sh
+sudo -u deploy bash /srv/fca/app/deploy/deploy.sh
 bash /srv/fca/app/deploy/bootstrap.sh                  # пока DNS не переключён
 # bash /srv/fca/app/deploy/bootstrap.sh flightcost.app  # после переключения — с доменом
 

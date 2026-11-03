@@ -70,7 +70,7 @@ def _now():
 
 
 def _integrity(path: Path) -> str:
-    db = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+    db = sqlite3.connect(f"file:{Path(path).resolve()}?mode=ro", uri=True)
     try:
         return db.execute("PRAGMA integrity_check").fetchone()[0]
     finally:
@@ -138,7 +138,7 @@ def cmd_push(a) -> int:
 def proposals_from(home_db: Path, sources: list[str]) -> list[dict]:
     """Действующие факты источников — по предложению на (источник, домен)."""
     from .store import Fact
-    db = sqlite3.connect(f"file:{home_db}?mode=ro", uri=True)
+    db = sqlite3.connect(f"file:{Path(home_db).resolve()}?mode=ro", uri=True)
     db.row_factory = sqlite3.Row
     fields = set(Fact.__dataclass_fields__)
     out = []
@@ -185,14 +185,32 @@ def merge_home_tables(new_db: Path, old_db: Path) -> dict:
     """Перенести в свежую копию то, что есть только дома."""
     if not old_db.exists():
         return {}
-    db = sqlite3.connect(str(new_db))
-    db.execute("ATTACH DATABASE ? AS old", (f"file:{old_db}?mode=ro",))
+    # URI в ATTACH работает, только если само соединение открыто с uri=True:
+    # на Linux сборка sqlite часто разрешает URI по умолчанию, на macOS — нет
+    # (там это и упало). Путь — абсолютный, иначе URI его не найдёт.
+    db = sqlite3.connect(f"file:{Path(new_db).resolve()}", uri=True)
+    db.execute("ATTACH DATABASE ? AS old", (f"file:{Path(old_db).resolve()}?mode=ro",))
     kept = {}
     for t in PULL_KEEP_TABLES:
         have = db.execute("SELECT name FROM old.sqlite_master WHERE type='table' AND name = ?", (t,)).fetchone()
         if have:
             db.execute(f"CREATE TABLE IF NOT EXISTS main.{t} AS SELECT * FROM old.{t} WHERE 0")
             kept[t] = db.execute(f"INSERT OR IGNORE INTO main.{t} SELECT * FROM old.{t}").rowcount
+    # Свои типы ВС — ровно те строки, что были приняты дома. Перечитывать их
+    # из файлов (`fca refresh`) нельзя: у источника gate: review, и каждый
+    # pull ставил бы их заново в очередь приёмки.
+    cols = [r[1] for r in db.execute("PRAGMA main.table_info(facts)") if r[1] != "id"]
+    old_cols = {r[1] for r in db.execute("PRAGMA old.table_info(facts)")}
+    cols = [c for c in cols if c in old_cols]
+    for sid in sorted(NEVER_SEND):
+        db.execute("DELETE FROM main.facts WHERE source_id = ?", (sid,))
+        kept[f"источник {sid}"] = db.execute(
+            f"INSERT INTO main.facts ({', '.join(cols)}) SELECT {', '.join(cols)} FROM old.facts "
+            f"WHERE source_id = ?", (sid,)).rowcount
+        st = db.execute("SELECT * FROM old.source_state WHERE source_id = ?", (sid,)).fetchone()
+        if st:
+            db.execute("INSERT OR REPLACE INTO main.source_state SELECT * FROM old.source_state "
+                       "WHERE source_id = ?", (sid,))
     db.commit()
     db.execute("DETACH DATABASE old")
     db.close()
@@ -205,8 +223,8 @@ def home_only_losses(home: Path, pulled: Path) -> list[str]:
     if not home.exists():
         return []
     q = ("SELECT COUNT(*), MAX(created_at) FROM facts WHERE source_id = ? AND valid_to IS NULL")
-    h = sqlite3.connect(f"file:{home}?mode=ro", uri=True)
-    p = sqlite3.connect(f"file:{pulled}?mode=ro", uri=True)
+    h = sqlite3.connect(f"file:{Path(home).resolve()}?mode=ro", uri=True)
+    p = sqlite3.connect(f"file:{Path(pulled).resolve()}?mode=ro", uri=True)
     out = []
     try:
         for sid in sorted(HOME_ONLY - NEVER_SEND):
@@ -259,9 +277,6 @@ def cmd_pull(a) -> int:
     for t, n in kept.items():
         print(f"  сохранено из домашней: {t} — {n} строк")
     # Свои типы — из своих файлов: в главной базе их нет по построению.
-    from .cli import main as fca_main
-    for sid in sorted(NEVER_SEND):
-        fca_main(["--db", str(home), "refresh", "--only", sid])
     subprocess.run(["ssh", host, f"date -u +%Y-%m-%dT%H:%M:%SZ > {PULLS}/last"])
     print("главная база дома")
     return 0

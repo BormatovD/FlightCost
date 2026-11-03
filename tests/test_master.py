@@ -95,6 +95,8 @@ class Master(unittest.TestCase):
         kept = M.merge_home_tables(pulled, self.home)
         self.assertEqual(kept.get("observations"), 1)
         self.assertEqual(self.count(pulled, "SELECT COUNT(*) FROM observations"), 1)
+        self.assertEqual(self.count(pulled, "SELECT COUNT(*) FROM facts WHERE source_id='aircraft_user'"), 1,
+                         "свои типы ВС возвращаются из прежней домашней базы, без очереди приёмки")
 
     def test_pull_refuses_to_drop_unsent_home_facts(self):
         M.make_seed(self.home, self.drop / "seed.db")

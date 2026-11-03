@@ -9,6 +9,11 @@ __pycache__/
 # Хранилище — производная от источников, собирается `fca refresh`.
 data/flightcost.db
 data/flightcost.db-*
+# Копии базы: прежние при `fca master pull` (.bak-ДАТА), скачанная (.pulled)
+# и любые другие — в них свои типы ВС и сырьё, наружу им нельзя.
+data/flightcost.db.*
+data/*.db
+data/*.db-*
 # Скачанные артефакты и сырые выгрузки — чужие данные и чужие лицензии.
 data/raw/
 data/artifacts/

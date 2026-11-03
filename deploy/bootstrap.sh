@@ -12,6 +12,10 @@
 # Повторный запуск безопасен: ничего не ломает, только доводит до нужного
 # состояния — так же подключается домен, когда он появится.
 set -euo pipefail
+# Локаль приходит с компьютера по SSH (на macOS LC_CTYPE=UTF-8), а на
+# сервере такой нет — perl и apt сыпали предупреждениями на каждом шаге.
+export LC_ALL=C.UTF-8 LANG=C.UTF-8
+unset LC_CTYPE LANGUAGE
 
 DOMAIN="${1:-}"
 REPO="https://github.com/BormatovD/FlightCost.git"
@@ -332,11 +336,15 @@ else
 	echo "агент НЕ включён: нет ключа /etc/fca/anthropic.key — deploy/README.md, «Бот и агент»"
 fi
 
-say "Caddy: ${DOMAIN:-без домена, только :80}"
+# Без домена — адрес сервера по http, а не `:80`: catch-all `:80` спорит с
+# любым другим `:80` в общем Caddyfile («ambiguous site definition»), а на
+# общем сервере такой блок почти всегда есть (заготовка пакета Caddy).
+SITE_ADDR="${DOMAIN:-http://$(hostname -I | awk '{print $1}')}"
+say "Caddy: $SITE_ADDR"
 # Наш сайт — отдельным файлом, который главный Caddyfile подключает через
 # import. Главный файл НЕ перезаписывается: на сервере могут жить другие
 # сайты (play.flightcost.app). Прежняя версия скрипта затирала его целиком.
-sed "s|^ДОМЕН {|${DOMAIN:-:80} {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/fca.caddy
+sed "s|^ДОМЕН {|$SITE_ADDR {|" "$ROOT/app/deploy/Caddyfile" > /etc/caddy/fca.caddy
 if [ ! -f /etc/caddy/Caddyfile ]; then
 	echo "import /etc/caddy/fca.caddy" > /etc/caddy/Caddyfile
 elif ! grep -q '^import /etc/caddy/fca.caddy' /etc/caddy/Caddyfile; then
