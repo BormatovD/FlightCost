@@ -21,6 +21,10 @@ echo "код: $before → $after"
 echo "$after" > "$ROOT/VERSION"
 
 sudo /usr/bin/systemctl restart fca
+# Данные в репозитории (data/charges, каталог типов…) — в главную базу на
+# сервере сразу, а не к ночному прогону. Без главной базы юнит пропустится.
+sudo -n /usr/bin/systemctl start --no-block fca-master-refresh.service || true
+sudo -n /usr/bin/systemctl restart fca-bot 2>/dev/null || true
 
 # Выкладка удалась, только если витрина ответила и назвала новую версию.
 for _ in $(seq 1 30); do
@@ -40,5 +44,5 @@ for _ in $(seq 1 30); do
 done
 
 echo "витрина не ответила с версией $after за 30 секунд. Последние строки журнала:" >&2
-sudo /usr/bin/journalctl -u fca -n 40 --no-pager >&2 || true
+journalctl -u fca -n 40 --no-pager >&2 || true
 exit 1

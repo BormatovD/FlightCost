@@ -42,6 +42,19 @@ class Deploy(unittest.TestCase):
             for m in re.finditer(r"/srv/fca/app/deploy/([\w.-]+)", unit.read_text(encoding="utf-8")):
                 self.assertTrue((DEPLOY / m.group(1)).exists(), f"{unit.name}: нет {m.group(1)}")
 
+    def test_swap_root_never_touches_paths_itself(self):
+        """Root в swap.sh работает с файлами только через runuser (as_bot/as_dep):
+        каталоги out/ и site/data пишут процессы, смотрящие в интернет, и
+        любой путь там можно подменить ссылкой на системный файл."""
+        body = (DEPLOY / "swap.sh").read_text(encoding="utf-8")
+        for ln in body.splitlines():
+            code = ln.split("#", 1)[0].strip()
+            if not re.search(r'"\$(NEW|TAKE|TMP|SITE|OUT)', code):
+                continue
+            if code.startswith(("NEW=", "SITE=", "OUT=", "TAKE=", "TMP=$(as_dep", "trap ")):
+                continue
+            self.assertRegex(code, r"(^|\|\s*)(as_bot|as_dep)\b", f"root трогает путь сам: {code}")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

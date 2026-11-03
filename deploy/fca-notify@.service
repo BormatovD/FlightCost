@@ -1,0 +1,19 @@
+# Сообщить владельцу в Телеграм, что юнит упал. Подключается к другим
+# юнитам строкой OnFailure=fca-notify@%n.service; %i — имя упавшего.
+# Кладёт сообщение с хвостом журнала в общий ящик /srv/fca/spool, бот
+# отправляет. Журнал читается через группу systemd-journal, не от root.
+[Unit]
+Description=FlightCostApp — сообщить о сбое %i
+
+[Service]
+Type=oneshot
+User=fca
+SupplementaryGroups=fcaspool systemd-journal
+Environment=FCA_SPOOL=/srv/fca/spool
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.notify --unit %i
+UMask=0007
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/spool

@@ -1,0 +1,13 @@
+# Подмена снимка витрины. Root нужен на два действия: положить файл в
+# site/data и перезапустить fca. Скрипт — копия в /usr/local/sbin (root).
+[Unit]
+Description=FlightCostApp — подмена снимка витрины
+# Подмену может вызвать fcabot (бот смотрит в интернет) — не чаще шести
+# раз в час, иначе это рычаг перезапускать витрину по кругу.
+StartLimitIntervalSec=1h
+StartLimitBurst=6
+OnFailure=fca-notify@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/fca-swap

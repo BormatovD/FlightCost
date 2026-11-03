@@ -1,0 +1,48 @@
+// Закреплённый конфиг OpenClaw для агента обновления данных FlightCost.
+//
+// Запускается только так: `openclaw agent exec --config <этот файл>` из
+// flightcostapp/agent_run.py. Шлюза (gateway) нет вовсе — ни демона, ни порта
+// 18789, ни каналов: каждый прогон — один процесс, временное состояние,
+// уборка за собой.
+//
+// Модель видит ровно четыре инструмента: read, write (только в папке задания),
+// web_fetch и skills_read (встроенных навыков ноль). Командной строки нет:
+// exec запрещён и режимом, и списком. Проверяет tests/test_agent.py на макете
+// API — если новая версия OpenClaw добавит инструмент мимо этого списка, тест
+// упадёт до выкладки. Версия закреплена в deploy/bootstrap.sh (OPENCLAW_VERSION).
+//
+// Ключ Anthropic сюда не пишется: он приходит переменной окружения только в
+// процесс OpenClaw (systemd LoadCredential → agent_run.py).
+{
+  agents: {
+    defaults: {
+      model: { primary: "anthropic/claude-haiku-5-5" },
+      pdfModel: { primary: "anthropic/claude-haiku-5-5" },
+      pdfMaxMb: 30,
+      sandbox: { mode: "off" },   // клетка — systemd (fca-agent@.service), не Docker
+      skipBootstrap: true,
+    },
+  },
+  tools: {
+    allow: ["read", "write", "web_fetch", "pdf"],
+    deny: ["exec", "process", "terminal", "code_execution", "browser", "apply_patch", "edit",
+           "web_search", "x_search", "message", "sessions_spawn", "subagents", "cron",
+           "automations", "gateway", "nodes", "canvas", "computer"],
+    fs: { workspaceOnly: true },
+    toolSearch: false,
+    codeMode: false,
+    exec: { mode: "deny" },
+    elevated: { enabled: false },
+    web: {
+      search: { enabled: false },
+      // Частные и внутренние адреса закрыты (это и умолчание; второй слой —
+      // IPAddressDeny в fca-agent@.service).
+      fetch: { enabled: true, maxCharsCap: 200000, maxRedirects: 3, timeoutSeconds: 60,
+               ssrfPolicy: { dangerouslyAllowPrivateNetwork: false } },
+    },
+  },
+  skills: { allowBundled: [] },
+  plugins: { enabled: false },
+  telemetry: { enabled: false },
+  update: { checkOnStart: false, auto: { enabled: false } },
+}

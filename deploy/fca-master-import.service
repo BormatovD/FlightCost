@@ -1,0 +1,21 @@
+# Посев главной базы и предложения с компьютера владельца
+# (`fca master push` / `fca master send` кладут файлы в /srv/fca/drop и
+# запускают этот юнит через sudo). Пользователь fcabot — владелец базы.
+[Unit]
+Description=FlightCostApp — приём с компьютера в главную базу
+OnFailure=fca-notify@%n.service
+
+[Service]
+Type=oneshot
+User=fcabot
+WorkingDirectory=/srv/fca/master
+Environment=FCA_SPOOL=/srv/fca/spool
+Environment=PYTHONUNBUFFERED=1
+Environment=HOME=/srv/fca/master/home
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.master import
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/master /srv/fca/drop /srv/fca/spool

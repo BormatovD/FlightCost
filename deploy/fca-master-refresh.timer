@@ -1,0 +1,12 @@
+# Главная база: раз в сутки, 04:30 UTC — до утреннего забора ADS-B и до
+# рабочего дня в Европе. Курсы ЕЦБ к этому времени за вчера опубликованы.
+[Unit]
+Description=FlightCostApp — ежесуточное обновление главной базы
+
+[Timer]
+OnCalendar=*-*-* 04:30:00 UTC
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target

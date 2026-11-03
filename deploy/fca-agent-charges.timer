@@ -1,0 +1,12 @@
+# Тариф одного аэропорта из data/charges/_todo.yaml в неделю (пилот, чекап:
+# «один регион тарифов»). Регион — FCA_AGENT_CHARGES_ONLY в /etc/fca/agent.env.
+[Unit]
+Description=FlightCostApp — агент: тариф аэропорта
+
+[Timer]
+OnCalendar=Wed *-*-* 07:40:00 UTC
+Persistent=true
+Unit=fca-agent@charges.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,29 @@
+# Обновление главной базы на сервере: источники из интернета (срок подошёл)
+# и данные из репозитория (каталоги data/ — после каждой выкладки кода).
+# Сырьё владельца (HOME_ONLY в master.py) не трогается: его факты приходят
+# `fca master send`. Изменилось — новый снимок витрине и копия для pull.
+[Unit]
+Description=FlightCostApp — обновление главной базы
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/srv/fca/master/flightcost.db
+OnFailure=fca-notify@%n.service
+
+[Service]
+Type=oneshot
+User=fcabot
+WorkingDirectory=/srv/fca/master
+Environment=FCA_SPOOL=/srv/fca/spool
+Environment=FCA_VERSION_FILE=/srv/fca/VERSION
+Environment=PYTHONUNBUFFERED=1
+# Кэши библиотек (openap и др.) — внутри каталога базы: домашние каталоги закрыты.
+Environment=HOME=/srv/fca/master/home
+Environment=XDG_CACHE_HOME=/srv/fca/master/home/.cache
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.master refresh
+TimeoutStartSec=2h
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/master /srv/fca/spool

@@ -1,0 +1,52 @@
+# Телеграм-бот FlightCost: приём данных от людей и пульт владельца
+# (flightcostapp/bot.py). Ставит bootstrap.sh; включается, когда на месте
+# /etc/fca/bot.token (токен от @BotFather) и /etc/fca/bot.env (номер чата
+# владельца FCA_BOT_OWNER).
+#
+# Опрашивает Телеграм сам — входящего порта нет. Токен приходит через
+# LoadCredential: читает его systemd от root, процессу он виден файлом в
+# $CREDENTIALS_DIRECTORY, а не переменной окружения. Модели в боте нет.
+[Unit]
+Description=FlightCostApp — Телеграм-бот
+After=network-online.target
+Wants=network-online.target
+ConditionPathExists=/etc/fca/bot.token
+OnFailure=fca-notify@%n.service
+
+[Service]
+User=fcabot
+WorkingDirectory=/srv/fca/bot
+EnvironmentFile=/etc/fca/bot.env
+Environment=FCA_BOT_DIR=/srv/fca/bot
+Environment=FCA_SPOOL=/srv/fca/spool
+Environment=FCA_AGENT_QUEUE=/srv/fca/agent/queue
+Environment=FCA_AGENT_OUT=/srv/fca/agent/out
+Environment=PYTHONUNBUFFERED=1
+# Приёмка кнопками пишет в главную базу и пересобирает снимок витрине.
+# Пока базы нет (до `fca master push`), бот говорит «принимайте дома».
+Environment=FCA_REVIEW_DB=/srv/fca/master/flightcost.db
+Environment="FCA_AFTER_ACCEPT=/srv/fca/venv/bin/python -m flightcostapp.master snapshot"
+Environment=FCA_VERSION_FILE=/srv/fca/VERSION
+LoadCredential=bot-token:/etc/fca/bot.token
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.bot
+Restart=always
+RestartSec=10
+# Файлы очереди агента — для группы fcaq (бот и агент); группы даёт членство.
+UMask=0007
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+ReadWritePaths=/srv/fca/bot /srv/fca/spool /srv/fca/agent/queue
+# Главный справочник на сервере: приёмка кнопками пишет в него.
+ReadWritePaths=-/srv/fca/master
+InaccessiblePaths=-/srv/fca/observe -/srv/fca/backup -/srv/fca/incoming -/srv/fca/agent/runs
+
+[Install]
+WantedBy=multi-user.target

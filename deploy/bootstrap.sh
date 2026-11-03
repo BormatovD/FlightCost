@@ -84,13 +84,68 @@ if ! command -v caddy >/dev/null; then
 	fi
 fi
 
+# ── Node.js 24 и OpenClaw для агента ─────────────────────────────────────
+# OpenClaw требует Node 24.16+. Версия OpenClaw ЗАКРЕПЛЕНА: релизы выходят
+# почти ежедневно, а набор инструментов модели проверяется тестом
+# tests/test_agent.py (Cage) именно на этой версии. Поднимать — вручную:
+# сменить строку, прогнать тест с FCA_TEST_OPENCLAW, выложить.
+OPENCLAW_VERSION=2026.10.5
+if ! command -v node >/dev/null || [ "$(node -p 'process.versions.node.split(".")[0]')" -lt 24 ]; then
+	say "Node.js 24 (NodeSource)"
+	if [ "$FAMILY" = el ]; then
+		curl -fsSL https://rpm.nodesource.com/setup_24.x | bash - >/dev/null
+		dnf install -y -q nodejs
+	else
+		curl -fsSL https://deb.nodesource.com/setup_24.x | bash - >/dev/null
+		apt-get install -y -qq nodejs
+	fi
+fi
+# Владелец root, агент только читает: переписать свой бинарник он не может.
+# --ignore-scripts: никакие установочные скрипты зависимостей не исполняются.
+if [ "$(cat /srv/fca/openclaw/.version 2>/dev/null)" != "$OPENCLAW_VERSION" ]; then
+	say "OpenClaw $OPENCLAW_VERSION"
+	install -d -m 755 /srv/fca /srv/fca/openclaw
+	(cd /srv/fca/openclaw && npm install --prefix /srv/fca/openclaw --ignore-scripts --no-audit \
+		--no-fund --loglevel=error "openclaw@$OPENCLAW_VERSION" >/dev/null)
+	echo "$OPENCLAW_VERSION" > /srv/fca/openclaw/.version
+	chown -R root:root /srv/fca/openclaw && chmod -R a+rX,go-w /srv/fca/openclaw
+fi
+
 # ── пользователи ─────────────────────────────────────────────────────────
-say "пользователи: fca (витрина) и deploy (выкладка)"
+say "пользователи: fca (витрина), deploy (выкладка), fcabot (бот), agent (агент)"
 NOLOGIN=$(command -v nologin || echo /usr/sbin/nologin)
 id fca >/dev/null 2>&1 || useradd --system --user-group --no-create-home \
 	--home-dir /nonexistent --shell "$NOLOGIN" fca
 id deploy >/dev/null 2>&1 || useradd --create-home --shell /bin/bash deploy
 usermod -aG fca deploy
+# Три узкие группы вместо одной общей (проверка безопасности 03.11.2026:
+# общая группа давала витрине — процессу, что смотрит в интернет, — чтение
+# главной базы и присланного людьми):
+#   fcaspool — ящик сообщений владельцу: пишут бот, агент и служебные юниты
+#              (им группа даётся в юните, SupplementaryGroups), читает бот;
+#   fcaq     — очередь и черновики агента: только бот и агент;
+#   fcaxfer  — обмен с компьютером владельца: только deploy и бот.
+# Витрина (fca) не состоит ни в одной.
+for g in fcaspool fcaq fcaxfer; do getent group "$g" >/dev/null || groupadd --system "$g"; done
+id fcabot >/dev/null 2>&1 || useradd --system --user-group --no-create-home \
+	--home-dir /srv/fca/bot --shell "$NOLOGIN" fcabot
+id agent >/dev/null 2>&1 || useradd --system --user-group --no-create-home \
+	--home-dir /srv/fca/agent/home --shell "$NOLOGIN" agent
+# Прежняя версия заводила agent с оболочкой для интерактивного OpenClaw.
+# Теперь агент запускается только юнитом — входить им незачем.
+usermod -s "$NOLOGIN" agent
+usermod -aG fcaspool,fcaq,fcaxfer fcabot
+usermod -aG fcaspool,fcaq agent
+usermod -aG fcaxfer deploy
+# Прежняя черновая версия заводила одну общую группу fcabus — убрать.
+if getent group fcabus >/dev/null; then
+	for u in fca fcabot agent deploy; do gpasswd -d "$u" fcabus >/dev/null 2>&1 || true; done
+	groupdel fcabus || true
+fi
+# Журналы deploy читает через группу systemd-journal (только чтение), а не
+# через sudo journalctl: sudo с «*» пропускал любые ключи, в том числе
+# очистку журнала всей машины.
+usermod -aG systemd-journal deploy
 # Ваш ключ — и для deploy. Берётся у root и у того, кто запустил скрипт
 # через sudo: облачные образы AlmaLinux часто не пускают root вовсе, и
 # тогда ключ лежит у обычного пользователя, а у root его нет.
@@ -147,14 +202,37 @@ if command -v getenforce >/dev/null && [ "$(getenforce)" != Disabled ]; then
 	setsebool -P httpd_can_network_connect 1
 fi
 
-# ── агент обновления данных (OpenClaw) ──────────────────────────────────
-say "пользователь agent: агент обновления данных, без доступа к базе"
-# Агент только кладёт найденное во входящие; в справочник это попадает после
-# проверки человеком (fca review у владельца). Группы fca у него нет —
-# каталог данных витрины ему закрыт; sudo нет.
-id agent >/dev/null 2>&1 || useradd --create-home --shell /bin/bash agent
+# ── бот, агент, ящик сообщений: каталоги и ключи ────────────────────────
+say "каталоги бота и агента, ящик сообщений владельцу"
+# Агент кладёт найденное только к себе (out/) — в справочник это попадает
+# после проверки человеком. Группы fca у него нет: каталог данных витрины
+# ему закрыт; sudo нет.
 install -d -o agent -g deploy -m 2770 "$ROOT/inbox"
 gpasswd -d agent fca >/dev/null 2>&1 || true
+# Ящик: пишут бот, агент и служебные юниты; читает и удаляет бот.
+install -d -o root -g fcaspool -m 2770 "$ROOT/spool"
+# Присланное людьми — только боту (файлы «только для проверки» тоже здесь).
+install -d -o fcabot -g fcabot -m 700 "$ROOT/bot"
+# Агент: свой каталог; очередь пишет бот, черновики читает бот.
+install -d -o agent -g fcaq -m 2750 "$ROOT/agent" "$ROOT/agent/out"
+install -d -o agent -g fcaq -m 2770 "$ROOT/agent/queue"
+install -d -o agent -g agent -m 700 "$ROOT/agent/runs" "$ROOT/agent/home"
+# Ключи — только root; службам их отдаёт systemd (LoadCredential).
+install -d -o root -g root -m 700 /etc/fca
+# Главная база (решение владельца 03.11.2026): владелец fcabot, база и
+# копии 600. Копию для `fca master pull` (export/) читает deploy через
+# fcaxfer; снимок витрине (out/) — только fcabot, подмену делает root.
+install -d -o fcabot -g fcaxfer -m 2750 "$ROOT/master" "$ROOT/master/export"
+install -d -o fcabot -g fcabot -m 700 "$ROOT/master/out" "$ROOT/master/backup" "$ROOT/master/data" "$ROOT/master/home"
+# Сюда компьютер кладёт посев и предложения; забирает fcabot.
+install -d -o deploy -g fcaxfer -m 2770 "$ROOT/drop" "$ROOT/drop/proposals"
+# Отметка последней выгрузки домой — по ней сервер напоминает о pull.
+install -d -o deploy -g fcaxfer -m 2750 "$ROOT/pulls"
+# Своих типов владельца на сервере быть не должно и в базе забора: её
+# засевали полной копией домашней базы до решения о главной базе.
+if [ -f "$ROOT/observe/flightcost.db" ]; then
+	runuser -u fca -- sqlite3 "$ROOT/observe/flightcost.db" "DELETE FROM facts WHERE source_id = 'aircraft_user'"
+fi
 
 # ── PDF отчёта: Chromium в общий каталог ─────────────────────────────────
 if [ ! -d "$ROOT/ms-playwright" ]; then
@@ -170,15 +248,17 @@ if [ ! -d "$ROOT/ms-playwright" ]; then
 fi
 
 # ── права deploy ─────────────────────────────────────────────────────────
-say "права deploy: перезапуск витрины и журнал, больше ничего"
+say "права deploy: перезапуск витрины и бота, запуск приёма и обновления базы — ровно эти команды"
 cat > /etc/sudoers.d/fca-deploy <<'SUDO'
-deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart fca, /usr/bin/systemctl status fca, /usr/bin/journalctl -u fca *, /usr/bin/journalctl -u fca-observe *, /usr/bin/journalctl -u fca-backup *
+deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart fca, /usr/bin/systemctl status fca, /usr/bin/systemctl restart fca-bot, /usr/bin/systemctl start fca-master-import.service, /usr/bin/systemctl start --no-block fca-master-refresh.service
 SUDO
 chmod 440 /etc/sudoers.d/fca-deploy
 visudo -cf /etc/sudoers.d/fca-deploy >/dev/null
 
 # ── служба и прокси ──────────────────────────────────────────────────────
 say "служба витрины"
+# Сообщение о сбое любого юнита — первым: на него ссылаются OnFailure= остальных.
+install -m 644 "$ROOT/app/deploy/fca-notify@.service" /etc/systemd/system/
 install -m 644 "$ROOT/app/deploy/fca.service" /etc/systemd/system/fca.service
 command -v restorecon >/dev/null && restorecon /etc/systemd/system/fca.service || true
 systemctl daemon-reload
@@ -208,6 +288,48 @@ else
 	# оба файла на месте. Повторный bootstrap после их появления включит.
 	echo "таймер НЕ включён: нет $( [ -f "$ROOT/observe/flightcost.db" ] || printf 'базы ' )$( [ -f "$ROOT/observe/opensky.json" ] || printf 'ключей' )"
 	echo "  порядок — deploy/README.md, раздел «Наблюдения ADS-B на сервере»"
+fi
+
+say "главная база: приём с компьютера, обновление, подмена снимка витрины"
+install -m 755 -o root -g root "$ROOT/app/deploy/swap.sh" /usr/local/sbin/fca-swap
+install -m 644 "$ROOT/app/deploy/fca-master-import.service" "$ROOT/app/deploy/fca-master-refresh.service" \
+	"$ROOT/app/deploy/fca-master-refresh.timer" "$ROOT/app/deploy/fca-swap.service" \
+	"$ROOT/app/deploy/fca-swap.path" /etc/systemd/system/
+systemctl daemon-reload
+# Без главной базы юнит обновления пропускается (ConditionPathExists) —
+# таймер можно держать включённым с первого дня.
+systemctl enable --now --quiet fca-master-refresh.timer
+systemctl enable --now --quiet fca-swap.path
+[ -f "$ROOT/master/flightcost.db" ] && echo "главная база есть" \
+	|| echo "главной базы ещё нет: с компьютера — fca master push (deploy/README.md, «Главная база»)"
+
+say "Телеграм-бот и недельная сводка"
+install -m 644 "$ROOT/app/deploy/fca-bot.service" "$ROOT/app/deploy/fca-digest.service" \
+	"$ROOT/app/deploy/fca-digest.timer" /etc/systemd/system/
+systemctl daemon-reload
+# Сводка копится в ящике и без бота — включается сразу.
+systemctl enable --now --quiet fca-digest.timer
+if [ -s /etc/fca/bot.token ] && [ -s /etc/fca/bot.env ]; then
+	systemctl enable --quiet fca-bot && systemctl restart fca-bot
+	echo "бот запущен: journalctl -u fca-bot -n 20"
+else
+	echo "бот НЕ запущен: нужны /etc/fca/bot.token и /etc/fca/bot.env — deploy/README.md, «Бот и агент»"
+fi
+
+say "агент обновления данных (OpenClaw)"
+install -m 644 "$ROOT/app/deploy/fca-agent@.service" "$ROOT/app/deploy/fca-agent-submissions.timer" \
+	"$ROOT/app/deploy/fca-agent-charges.timer" /etc/systemd/system/
+# Свои внешние адреса сервера — тоже под запретом для агента: на них
+# слушают игра и порты Docker. Адреса машины, поэтому не в репозитории.
+install -d /etc/systemd/system/fca-agent@.service.d
+printf '[Service]\nIPAddressDeny=%s\n' "$(hostname -I)" > /etc/systemd/system/fca-agent@.service.d/10-host.conf
+systemctl daemon-reload
+if [ -s /etc/fca/anthropic.key ]; then
+	systemctl enable --now --quiet fca-agent-submissions.timer
+	systemctl enable --now --quiet fca-agent-charges.timer
+	echo "таймеры агента включены"
+else
+	echo "агент НЕ включён: нет ключа /etc/fca/anthropic.key — deploy/README.md, «Бот и агент»"
 fi
 
 say "Caddy: ${DOMAIN:-без домена, только :80}"

@@ -1,0 +1,22 @@
+# Недельная сводка владельцу: посетители, протухшие источники, забор ADS-B.
+# Запускает fca-digest.timer. Заменяет ручные `fca stats` и journalctl.
+[Unit]
+Description=FlightCostApp — недельная сводка в Телеграм
+OnFailure=fca-notify@%n.service
+
+[Service]
+Type=oneshot
+User=fca
+# Своя группа fca остаётся основной (база витрины), fcaspool — только для ящика.
+SupplementaryGroups=fcaspool
+WorkingDirectory=/srv/fca/site
+Environment=FCA_SPOOL=/srv/fca/spool
+# Пишет и в site/data: Store открывает базу на запись (схема, WAL), а это
+# та же база и тот же пользователь, что у витрины.
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.notify --digest
+UMask=0007
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/fca/spool /srv/fca/site/data

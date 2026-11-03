@@ -1,0 +1,14 @@
+# Присланное боту — агенту на черновик разбора. Каждые 15 минут; пустая
+# очередь — прогон без модели, ничего не стоит. Таймер, а не .path: при
+# исчерпанном бюджете очередь остаётся непустой, и .path крутил бы юнит
+# без остановки.
+[Unit]
+Description=FlightCostApp — агент: разбор присланного
+
+[Timer]
+OnCalendar=*:0/15
+RandomizedDelaySec=60
+Unit=fca-agent@submissions.service
+
+[Install]
+WantedBy=timers.target

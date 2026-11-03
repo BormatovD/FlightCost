@@ -5,6 +5,7 @@
 # отдельного пользователя `fca`, который может читать код и писать только
 # в каталог данных сайта — даже взломанная витрина не перепишет код.
 [Unit]
+OnFailure=fca-notify@%n.service
 Description=FlightCostApp — витрина
 After=network.target
 
@@ -29,6 +30,10 @@ ProtectSystem=strict
 ProtectHome=true
 PrivateTmp=true
 ReadWritePaths=/srv/fca/site/data
+# Витрина смотрит в интернет — всё служебное ей закрыто и юнитом, а не
+# только правами файлов: главная база, присланное людьми, агент, обмен с
+# компьютером, ящик сообщений.
+InaccessiblePaths=-/srv/fca/master -/srv/fca/bot -/srv/fca/agent -/srv/fca/drop -/srv/fca/pulls -/srv/fca/spool -/srv/fca/openclaw -/etc/fca
 
 [Install]
 WantedBy=multi-user.target

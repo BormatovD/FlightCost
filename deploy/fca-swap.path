@@ -1,0 +1,10 @@
+# Новый снимок из главной базы → подмена на витрине (fca-swap.service).
+[Unit]
+Description=FlightCostApp — новый снимок витрины из главной базы
+
+[Path]
+PathExists=/srv/fca/master/out/flightcost.db.new
+Unit=fca-swap.service
+
+[Install]
+WantedBy=paths.target

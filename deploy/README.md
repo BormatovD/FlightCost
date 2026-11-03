@@ -21,6 +21,15 @@
 /srv/fca/incoming     сюда приходит новый снимок перед подменой
 /srv/fca/backup       ночные копии user.db, 14 суток (fca-backup.timer, только root читает)
 /srv/fca/observe      своя база забора ADS-B и ключи OpenSky (fca-observe.timer)
+/srv/fca/bot          бот: присланное людьми (файлы, анкеты) — только пользователь fcabot
+/srv/fca/spool        ящик сообщений владельцу: таймеры и агент пишут, бот отправляет
+/srv/fca/agent        агент: очередь, черновики (out/), прогоны (runs/), журнал расходов
+/srv/fca/openclaw     OpenClaw закреплённой версии, владелец root
+/etc/fca              ключи и настройки бота и агента, только root
+/srv/fca/master       ГЛАВНАЯ база (fcabot): обновление, приёмка, снимок витрине,
+                      export/ — копия для fca master pull, backup/ — 7 суточных копий
+/srv/fca/drop         посев и предложения с компьютера владельца
+/srv/fca/pulls        отметка последней выгрузки домой
 /srv/fca/VERSION      какой коммит сейчас выложен
 ```
 
@@ -117,15 +126,22 @@ https://ДОМЕН/healthz`.
 
 **Справочник.**
 
+С главной базой на сервере (раздел «Главная база») — так:
+
 ```bash
-fca refresh && fca review       # как обычно
-fca publish
+fca master pull                            # сначала копия домой
+fca refresh --only eurostat_par && fca review   # домашние источники — как обычно
+fca master send --only eurostat_par        # факты — в очередь сервера, принять в боте
 ```
+
+Остальное сервер обновляет сам; данные из репозитория (`data/charges`,
+каталог типов) попадают в главную базу при выкладке кода. До `fca master
+push` — по-старому: `fca refresh && fca review && fca publish`.
 
 **Откатить код** — `git revert <коммит> && git push`. История остаётся
 честной, сервер приедет к исправленному состоянию тем же путём.
 
-**Журнал витрины** — `ssh deploy@АДРЕС sudo journalctl -u fca -n 50`.
+**Журнал витрины** — `ssh deploy@АДРЕС journalctl -u fca -n 50`.
 
 **Рабочие места гостей.** Единственное на сервере, что не восстановить
 ни из git, ни из `fca publish`. `fca-backup.timer` снимает копию каждую
@@ -200,12 +216,110 @@ ssh root@АДРЕС "systemctl enable --now fca-observe.timer && systemctl start
 ```bash
 bash deploy/pull-observations.sh     # слияние без дублей, повтор безопасен
 fca observe --aggregate              # факты домена observed
-ssh deploy@АДРЕС sudo journalctl -u fca-observe -n 20   # как прошли последние заборы
+fca master send --only adsb_flights  # свёрнутое — в главную базу на сервере
+ssh deploy@АДРЕС journalctl -u fca-observe -n 20   # как прошли последние заборы
 ```
 
 Реестр бортов в серверной базе — снимок на день засева. Раз в полгода
 засеять заново (сначала `bash deploy/pull-observations.sh` — чтобы не потерять
 накопленное с прошлого забора, — затем шаг 2).
+
+---
+
+## Главная база
+
+Решение владельца 03.11.2026: главная база справочника — на сервере, дома —
+обязательная копия; чувствительные файлы на сервер не уходят.
+
+| Где | Что |
+|---|---|
+| сервер, `/srv/fca/master` | база; обновление раз в сутки и после выкладки кода (`fca-master-refresh`); приёмка кнопками в боте; снимок витрине — сам (`fca-swap.path`) |
+| компьютер | копия (`fca master pull`); сырьё `data/raw` (Eurostat, BTS, Form 41, ru_pairs), подписная выгрузка сообщества, Platts, свои типы ВС (`aircraft_user`) |
+
+Источники с домашним сырьём (`HOME_ONLY` в `flightcostapp/master.py`) сервер
+не обновляет: их разбираете дома, как раньше, а факты отправляете
+предложением — `fca master send --only eurostat_par`. Свои типы ВС не
+уходят никогда (ни посевом, ни `send`); после `pull` они восстанавливаются
+из ваших файлов.
+
+`fca publish` с компьютера больше не подменяет базу на сервере — только
+геометрию (`data/geo`, `data/airspace`), и говорит об этом.
+
+**Один раз:**
+
+```bash
+ssh deploy@АДРЕС /srv/fca/app/deploy/deploy.sh      # свежий код
+ssh root@АДРЕС "bash -s" < deploy/bootstrap.sh       # каталоги и юниты главной базы
+fca master push                                      # засеять сервер своей базой
+fca master pull                                      # и сразу забрать — проверка круга
+```
+
+**Обязательно:** `fca master pull` не реже раза в неделю — и всегда перед
+работой с базой дома (исследования, `fca refresh` домашних источников).
+Сервер напоминает в Телеграме через 7 суток и тревожит через 14. Домашняя
+копия до `pull` сохраняется рядом (`flightcost.db.bak-*`, три последних);
+наблюдения и ссылки на ваши файлы переносятся в новую копию.
+
+---
+
+## Бот и агент
+
+Бот — `flightcostapp/bot.py`, служба `fca-bot`: приём данных от людей и
+пульт владельца (карточки присланного, очередь приёмки, сбои юнитов,
+недельная сводка). Модели в боте нет. Агент — `flightcostapp/agent_run.py`
+поверх OpenClaw (`deploy/agent/openclaw.json5`), юнит `fca-agent@<задание>`:
+черновик разбора присланного (каждые 15 минут, Haiku) и тариф одного
+аэропорта в неделю (Sonnet). Результат агента — черновик в Телеграме;
+в справочник его переносит человек.
+
+Клетка агента — четыре слоя: у модели нет командной строки (только чтение
+и запись в папке задания и web_fetch; проверяет `tests/test_agent.py`,
+класс Cage); юнит работает от пользователя `agent` и не видит справочник,
+базы, бот и ключи; результат проверяет программа (цитаты сверяются с
+текстом документа, тариф — парсером); принимает человек.
+
+**Один раз**, на сервере от root. Ключи вводятся без отображения и в
+историю оболочки не попадают:
+
+```bash
+# 1. токен бота — НОВЫЙ, после Revoke в @BotFather
+read -rs -p "токен бота: " T; echo; printf '%s' "$T" > /etc/fca/bot.token; unset T
+# номер вашего чата — спросите у @userinfobot
+printf 'FCA_BOT_OWNER=%s\n' 123456789 > /etc/fca/bot.env
+
+# 2. ключ Anthropic — отдельный, из отдельного рабочего пространства в
+#    console.anthropic.com с месячным лимитом расходов (это и есть жёсткий потолок)
+read -rs -p "ключ Anthropic: " K; echo; printf '%s' "$K" > /etc/fca/anthropic.key; unset K
+cat > /etc/fca/agent.env <<'ENV'
+FCA_AGENT_MONTH_USD=20        # мягкий потолок: дальше задания не запускаются
+FCA_AGENT_RUN_USD=2           # прогон дороже — сообщение в бот
+FCA_AGENT_CHARGES_ONLY=       # пилот тарифов: ИКАО через запятую, пусто — по порядку _todo.yaml
+ENV
+chmod 600 /etc/fca/*
+
+# 3. код и юниты: выложить свежий main и повторить bootstrap
+sudo -u deploy /srv/fca/app/deploy/deploy.sh
+bash /srv/fca/app/deploy/bootstrap.sh                  # пока DNS не переключён
+# bash /srv/fca/app/deploy/bootstrap.sh flightcost.app  # после переключения — с доменом
+
+# 4. проверить
+systemctl start fca-agent@check; journalctl -u fca-agent@check -n 10 --no-pager
+systemctl status fca-bot --no-pager | head -5
+```
+
+В Телеграме: `/ping` от вас — «на месте»; `/start` — анкета, как у всех.
+Сбой любого юнита приходит сообщением с хвостом журнала.
+
+Проверка клетки на сервере (после смены версии OpenClaw — обязательно):
+
+```bash
+cd /srv/fca/app && FCA_TEST_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/openclaw \
+  /srv/fca/venv/bin/python -m unittest tests.test_agent -v
+```
+
+Расходы: `/srv/fca/agent/ledger.jsonl` (строка на прогон, `cost_usd` из ответа
+OpenClaw). Модель по заданиям — `JOBS` в `agent_run.py`; Opus — только
+разовым прогоном с `--model`, когда дешёвая не справилась.
 
 ---
 

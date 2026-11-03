@@ -1,0 +1,10 @@
+# Сводка по понедельникам, 06:40 UTC (09:40 Мск).
+[Unit]
+Description=FlightCostApp — недельная сводка
+
+[Timer]
+OnCalendar=Mon *-*-* 06:40:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

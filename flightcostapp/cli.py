@@ -368,6 +368,13 @@ def _review_detail(store, pid: int, *, show_all: bool = False) -> int:
 
 
 def main(argv=None) -> int:
+    # `fca master …` — главная база на сервере (flightcostapp/master.py).
+    # Отдельный разбор аргументов: у команды свои подкоманды и ключи.
+    args = sys.argv[1:] if argv is None else list(argv)
+    i = 0 if args[:1] == ["master"] else 2 if args[:1] == ["--db"] and args[2:3] == ["master"] else None
+    if i is not None:
+        from .master import main as master_main
+        return master_main(args[:i] + args[i + 1:])
     p = argparse.ArgumentParser(prog="fca")
     p.add_argument("--db", default="data/flightcost.db")
     p.add_argument("--registry", default=None)
@@ -1266,7 +1273,9 @@ def main(argv=None) -> int:
         print(f"  планер: {ac.frame_source}; расход: "
               + (f"аналог {ac.burn_ref.analog}"
                  + (", тот же двигатель" if ac.burn_ref.same_engine else
-                    f", якорь {ac.burn_ref.anchor_kg_per_h:,.0f} кг/ч")
+                    (f", якорь {ac.burn_ref.anchor_kg_per_h:,.0f} кг/ч" if ac.burn_ref.anchor_kg_per_h
+                     else f", якорь рейсом {ac.burn_ref.anchor_trip_kg or 0:,.0f} кг на "
+                          f"{ac.burn_ref.anchor_trip_nm or 0:,.0f} nm"))
                  if ac.burn_ref else "физика openap"))
         print(f"  снаряжённая {d['oew_t']:.1f} т, предельная взлётная "
               f"{d['mtow_t']:.1f} т\n")
@@ -1637,25 +1646,17 @@ def _bench(store, a) -> int:
     return 0
 
 
-def _publish(store, a) -> int:
-    """Снимок справочника -> сервер витрины, подмена целиком.
-
-    Снимок — резервной копией SQLite, а не копированием файла: копия файла
-    во время `refresh` бывает рваной, резервная копия согласована всегда.
-    Из снимка вычищается то, чему наружу нельзя, и это печатается — молча
-    вырезанное выглядело бы как пропавшие данные. На сервере файл кладётся
-    рядом и подменяется переименованием: гость не увидит половину базы.
-    """
+def build_snapshot(store, tmp) -> tuple[int, dict]:
+    """Снимок справочника для витрины: резервная копия минус то, чему наружу
+    нельзя (PUBLISH_EXCLUDE_SOURCES, PUBLISH_CLEAR_TABLES). Общий для
+    `fca publish` с компьютера и для публикации на самом сервере
+    (flightcostapp/master.py), чтобы правила вырезки не разъехались."""
     import datetime as _dt
     import json as _json
     import os
-    import shlex
     import sqlite3
     import subprocess
-    import tempfile
-    from pathlib import Path as _P
 
-    tmp = _P(tempfile.mkdtemp(prefix="fca-publish-")) / "flightcost.db"
     dst = sqlite3.connect(tmp)
     store.db.backup(dst)
     cur = dst.cursor()
@@ -1678,10 +1679,13 @@ def _publish(store, a) -> int:
             cur.execute(f"DELETE FROM {tbl}")
             gone[f"таблица {tbl}"] = (n, why)
     try:
-        commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True,
-                                text=True, check=True).stdout.strip()
+        commit = subprocess.run(["git", "-C", str(Path(__file__).resolve().parents[1]), "rev-parse",
+                                 "--short", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     except Exception:                                        # noqa: BLE001
-        commit = "?"
+        # На сервере код принадлежит deploy, и git от другого пользователя
+        # отказывается («dubious ownership») — там версия лежит файлом.
+        vf = Path(os.environ.get("FCA_VERSION_FILE", "/srv/fca/VERSION"))
+        commit = vf.read_text().strip() if vf.is_file() else "?"
     facts = cur.execute("SELECT COUNT(*) FROM facts WHERE valid_to IS NULL").fetchone()[0]
     meta = {"published_at": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "code_commit": commit, "facts": str(facts),
@@ -1694,9 +1698,35 @@ def _publish(store, a) -> int:
     ok = cur.execute("PRAGMA integrity_check").fetchone()[0]
     dst.close()
     if ok != "ok":
-        print(f"снимок повреждён: {ok}")
-        return 2
+        raise RuntimeError(f"снимок повреждён: {ok}")
+    return facts, gone
 
+
+
+def _publish(store, a) -> int:
+    """Снимок справочника -> сервер витрины, подмена целиком.
+
+    Снимок — резервной копией SQLite, а не копированием файла: копия файла
+    во время `refresh` бывает рваной, резервная копия согласована всегда.
+    Из снимка вычищается то, чему наружу нельзя, и это печатается — молча
+    вырезанное выглядело бы как пропавшие данные. На сервере файл кладётся
+    рядом и подменяется переименованием: гость не увидит половину базы.
+    """
+    import datetime as _dt
+    import json as _json
+    import os
+    import shlex
+    import sqlite3
+    import subprocess
+    import tempfile
+    from pathlib import Path as _P
+
+    tmp = _P(tempfile.mkdtemp(prefix="fca-publish-")) / "flightcost.db"
+    try:
+        facts, gone = build_snapshot(store, tmp)
+    except RuntimeError as e:
+        print(e)
+        return 2
     print(f"снимок: {tmp} — {tmp.stat().st_size / 1e6:.1f} МБ, действующих фактов {facts}")
     for k, (n, why) in gone.items():
         if n:
@@ -1715,7 +1745,15 @@ def _publish(store, a) -> int:
         return subprocess.run(cmd).returncode
 
     root = SERVER_ROOT
-    if run(["rsync", "-az", "--partial", str(tmp), f"{host}:{root}/incoming/flightcost.db.new"]):
+    # Главная база на сервере (решение владельца 03.11.2026): снимок с
+    # компьютера затёр бы всё, что там принято и обновлено. С компьютера
+    # уезжает только геометрия; база — через `fca master send` и очередь.
+    master = subprocess.run(["ssh", host, f"test -e {root}/master/flightcost.db"]).returncode == 0
+    if master:
+        print("на сервере главная база — снимок с компьютера не отправляется.\n"
+              "  свои данные на сервер: fca master send --only <источник>\n"
+              "  забрать базу домой:    fca master pull")
+    if not master and run(["rsync", "-az", "--partial", str(tmp), f"{host}:{root}/incoming/flightcost.db.new"]):
         print("не отправилось: проверьте ssh до сервера")
         return 2
     # Геометрия — тоже данные витрины: без data/geo нет глобуса, без
@@ -1728,8 +1766,10 @@ def _publish(store, a) -> int:
             run(["rsync", "-az", "--delete", f"{d}/", f"{host}:{root}/site/{sub}/"])
         else:
             print(f"  нет каталога {sub} — на сервер не уедет")
-    remote = (f"set -e; mv -f {root}/incoming/flightcost.db.new {root}/site/data/flightcost.db; "
-              f"chgrp fca {root}/site/data/flightcost.db; chmod 664 {root}/site/data/flightcost.db; "
+    swap = ("" if master else
+            f"mv -f {root}/incoming/flightcost.db.new {root}/site/data/flightcost.db; "
+            f"chgrp fca {root}/site/data/flightcost.db; chmod 664 {root}/site/data/flightcost.db; ")
+    remote = (f"set -e; {swap}"
               f"sudo /usr/bin/systemctl restart fca; "
               f"for i in $(seq 1 20); do sleep 1; "
               f"curl -fsS http://127.0.0.1:8000/healthz && exit 0; done; "
@@ -1737,5 +1777,5 @@ def _publish(store, a) -> int:
     if run(["ssh", host, remote]):
         print("подмена прошла, но витрина не ответила: ssh на сервер и journalctl -u fca -n 50")
         return 2
-    print("\nопубликовано")
+    print("\nгеометрия обновлена" if master else "\nопубликовано")
     return 0

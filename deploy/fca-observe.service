@@ -13,6 +13,7 @@
 # следующим. Код выхода 2 — нет ключей; тогда юнит виден в
 # `systemctl --failed`, а не молчит.
 [Unit]
+OnFailure=fca-notify@%n.service
 Description=FlightCostApp — забор наблюдений ADS-B
 After=network-online.target
 Wants=network-online.target

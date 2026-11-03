@@ -1,6 +1,7 @@
 # Ночная копия базы рабочих мест гостей. Запускает fca-backup.timer;
 # bootstrap.sh кладёт оба файла в /etc/systemd/system.
 [Unit]
+OnFailure=fca-notify@%n.service
 Description=FlightCostApp — копия базы рабочих мест
 After=fca.service
 
