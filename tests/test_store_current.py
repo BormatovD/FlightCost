@@ -64,3 +64,21 @@ class Current(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OnePendingProposal(unittest.TestCase):
+    """Источник в статусе «ждёт приёмки» проверяется каждым прогоном; очередь
+    не должна копить одинаковые предложения (jet_fuel_price, 3.11.2026)."""
+
+    def test_same_facts_reuse_and_new_facts_supersede(self):
+        import tempfile
+        from pathlib import Path
+        from flightcostapp.store import Store
+        st = Store(Path(tempfile.mkdtemp()) / "x.db")
+        a = {"facts": [{"key": "k", "value": 1}], "findings": [{"m": "x"}]}
+        p1 = st.add_proposal("jet_fuel_price", a)
+        self.assertEqual(st.add_proposal("jet_fuel_price", dict(a)), p1)
+        p2 = st.add_proposal("jet_fuel_price", {"facts": [{"key": "k", "value": 2}]})
+        self.assertEqual([r["id"] for r in st.pending_proposals()], [p2])
+        self.assertEqual(st.db.execute("SELECT status FROM proposals WHERE id = ?", (p1,)).fetchone()[0],
+                         "superseded")

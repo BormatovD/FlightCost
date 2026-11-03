@@ -192,8 +192,11 @@ class Queue(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp())
         st = Store(tmp / "m.db")
         payload = {"facts": [{"domain": "x", "key": "a", "valid_from": "2026-01-01", "value": 1}]}
-        st.add_proposal("jet_fuel_price", payload)
-        st.add_proposal("jet_fuel_price", payload)
+        # Повторы, накопленные до дедупликации в add_proposal (как #7 и #8 на сервере).
+        for _ in range(2):
+            st.db.execute("INSERT INTO proposals (source_id, created_at, payload) VALUES (?,?,?)",
+                          ("jet_fuel_price", "2026-11-03T19:42", json.dumps(payload)))
+        st.db.commit()
         st.db.close()
         tg = FakeBot()
         b = B.FcaBot(tg, OWNER, home=tmp / "bot", review_db=str(tmp / "m.db"))

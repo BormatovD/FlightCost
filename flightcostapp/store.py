@@ -748,11 +748,35 @@ class Store:
     # ---------- предложения на ревью ----------
 
     def add_proposal(self, source_id: str, payload: dict) -> int:
+        """Одно ждущее предложение на источник.
+
+        Источник, чья поставка ждёт человека, не в статусе ok, и `plan_due`
+        проверяет его при каждом прогоне. На сервере прогон идёт ещё и
+        после каждой выкладки кода — и EIA, страница которой меняется
+        оформлением, а не числами, давала новое предложение каждый раз
+        (#5–#8 на 3.11.2026). Поэтому: те же факты — новое не заводится,
+        другие — прежние ждущие помечаются «заменено», остаётся свежее.
+        """
+        def facts_sha(p: dict) -> str:
+            return hashlib.sha256(json.dumps(p.get("facts", []), sort_keys=True,
+                                             ensure_ascii=False, default=str).encode()).hexdigest()
+        new_sha = facts_sha(payload)
+        pending = self.db.execute(
+            "SELECT id, payload FROM proposals WHERE source_id = ? AND status = 'pending' ORDER BY id",
+            (source_id,)).fetchall()
+        for r in pending:
+            if facts_sha(json.loads(r["payload"])) == new_sha:
+                return r["id"]
         cur = self.db.execute(
             "INSERT INTO proposals (source_id, created_at, payload) VALUES (?,?,?)",
             (source_id, datetime.utcnow().isoformat(timespec="seconds"),
              json.dumps(payload, ensure_ascii=False, default=str)),
         )
+        if pending:
+            self.db.execute(
+                f"UPDATE proposals SET status = 'superseded', verdict = ? WHERE id IN "
+                f"({','.join('?' * len(pending))})",
+                (f"заменено #{cur.lastrowid}", *[r["id"] for r in pending]))
         self.db.commit()
         return cur.lastrowid
 
