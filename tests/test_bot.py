@@ -185,6 +185,27 @@ class Spool(unittest.TestCase):
         self.assertIsNone(tg.sent[-1][2], "кнопки из ящика не должны доходить до владельца")
 
 
+class Queue(unittest.TestCase):
+
+    def test_queue_lists_fast_marks_duplicates_and_defers_accept(self):
+        from flightcostapp.store import Store
+        tmp = Path(tempfile.mkdtemp())
+        st = Store(tmp / "m.db")
+        payload = {"facts": [{"domain": "x", "key": "a", "valid_from": "2026-01-01", "value": 1}]}
+        st.add_proposal("jet_fuel_price", payload)
+        st.add_proposal("jet_fuel_price", payload)
+        st.db.close()
+        tg = FakeBot()
+        b = B.FcaBot(tg, OWNER, home=tmp / "bot", review_db=str(tmp / "m.db"))
+        b._queue()
+        texts = tg.to(OWNER)
+        self.assertEqual(len(texts), 2)
+        self.assertIn("то же содержимое, что #1", texts[1])
+        b.handle(btn("p:acc:1", chat=OWNER))
+        self.assertEqual(b.jobs.qsize(), 1, "приёмка уходит в фон, бот не ждёт")
+        self.assertTrue(any("принимаю" in t for _, t in tg.edits))
+
+
 class GlobalCap(BotFlow):
 
     def test_global_daily_cap(self):

@@ -35,7 +35,9 @@ import shutil
 import sqlite3
 import subprocess
 import sys
+import threading
 import time
+from queue import Empty, Queue
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -61,6 +63,7 @@ DAY_BYTES = 300 * 1024 * 1024
 MIN_FREE_BYTES = 3 * 1024 ** 3
 REPLY_KEEP_DAYS = 90        # дольше без ответа чат не держим
 DRAFT_TTL = 3600            # незаконченная анкета живёт час, в памяти
+SNAPSHOT_QUIET = 90         # снимок витрине — через столько секунд после последней приёмки
 TEXT_MAX = 1000
 
 KINDS = ("tariff", "aircraft", "error", "rates")
@@ -278,6 +281,13 @@ class FcaBot:
         self.owner_wait: dict | None = None        # ждём текст причины отказа
         self._salt_day, self._salt, self._count = "", b"", {}
         self._busy_told = False
+        # Медленное (fca review по базе в сотни МБ, снимок витрине) — в
+        # отдельном потоке: иначе бот минутами не отвечает никому. Снимок
+        # после приёмки один на серию: собирается через SNAPSHOT_QUIET с
+        # последнего «принять», а не после каждого.
+        self.jobs: Queue = Queue()
+        self.snapshot_due = 0.0
+        self._lock = threading.Lock()
 
     # ── предел отправок: суточная соль только в памяти ──────────────────
     def _rate_key(self, chat_id: int) -> str:
@@ -294,7 +304,33 @@ class FcaBot:
         self._count[k] = self._count.get(k, 0) + 1
 
     # ── цикл ─────────────────────────────────────────────────────────────
+    def _worker(self):
+        while True:
+            try:
+                job = self.jobs.get(timeout=5)
+            except Empty:
+                job = None
+            if job is not None:
+                try:
+                    job()
+                except Exception as e:                               # noqa: BLE001
+                    try:
+                        self.bot.send(self.owner, f"⚠️ служебная операция не удалась: {type(e).__name__}: {e}"[:3000])
+                    except TgError:
+                        pass
+                continue
+            with self._lock:
+                due = self.snapshot_due and time.time() - self.snapshot_due > SNAPSHOT_QUIET
+                if due:
+                    self.snapshot_due = 0.0
+            if due and self.after_accept:
+                self.bot.send(self.owner, "⏳ собираю снимок витрине с принятым…")
+                r = subprocess.run(self.after_accept, shell=True, capture_output=True, text=True, timeout=3600)
+                self.bot.send(self.owner, ("✅ витрина обновится через минуту" if r.returncode == 0
+                                           else "публикация не прошла") + f"\n{(r.stdout + r.stderr)[-1500:]}")
+
     def run_forever(self):
+        threading.Thread(target=self._worker, daemon=True).start()
         offset = int(self.db.get("offset", 0)) or None
         last_spool = last_clean = 0.0
         while True:
@@ -633,14 +669,28 @@ class FcaBot:
         if not self.review_db:
             return self.bot.send(self.owner, "Приёмка справочника на сервере не включена "
                                              "(FCA_REVIEW_DB не задан): принимайте дома, fca review.")
-        from .store import Store
-        rows = Store(self.review_db).pending_proposals()
+        # Быстрый список прямо из очереди, без `fca review`: тот сравнивает
+        # каждое предложение со всей базой и идёт минуты. Сравнение — по
+        # кнопке «Подробнее», в фоне.
+        db = sqlite3.connect(f"file:{Path(self.review_db).resolve()}?mode=ro", uri=True, timeout=30)
+        db.row_factory = sqlite3.Row
+        try:
+            rows = db.execute("SELECT id, source_id, created_at, payload FROM proposals "
+                              "WHERE status = 'pending' ORDER BY id").fetchall()
+        finally:
+            db.close()
         if not rows:
             return self.bot.send(self.owner, "предложений на приёмке нет")
-        _, text = self._fca("review")
-        self.bot.send(self.owner, text[:3800])
-        for r in rows[:10]:
-            self.bot.send(self.owner, f"#{r['id']} {r['source_id']} · {r['created_at'][:16]}",
+        seen: dict[str, int] = {}
+        for r in rows[:15]:
+            p = json.loads(r["payload"])
+            n, fl = len(p.get("facts", [])), len(p.get("findings", []))
+            h = hashlib.sha256(json.dumps(p.get("facts", []), sort_keys=True, default=str).encode()).hexdigest()
+            dup = f"\n⚠️ то же содержимое, что #{seen[h]} — принять один" if h in seen else ""
+            seen.setdefault(h, r["id"])
+            origin = " · с компьютера" if p.get("origin") == "computer" else ""
+            self.bot.send(self.owner, f"#{r['id']} {r['source_id']} · {r['created_at'][:16]}{origin}\n"
+                                      f"фактов {n}" + (f", выделено проверкой {fl}" if fl else "") + dup,
                           [[{"text": "✅ Принять", "callback_data": f"p:acc:{r['id']}"},
                             {"text": "❌ Отклонить", "callback_data": f"p:rej:{r['id']}"},
                             {"text": "🔎 Подробнее", "callback_data": f"p:det:{r['id']}"}]])
@@ -648,15 +698,23 @@ class FcaBot:
     def _proposal(self, act: str, pid: int, msg: dict):
         if not self.review_db:
             return self._queue()
+        head = msg.get("text", "")
         if act == "det":
-            _, text = self._fca("review", str(pid))
-            return self.bot.send(self.owner, text[:3900])
-        code, text = self._fca("review", "--accept" if act == "acc" else "--reject", str(pid))
-        self.bot.edit(self.owner, msg["message_id"], f"{msg.get('text', '')}\n\n{text[:500]}")
-        if code == 0 and act == "acc" and self.after_accept:
-            r = subprocess.run(self.after_accept, shell=True, capture_output=True, text=True, timeout=1800)
-            self.bot.send(self.owner, ("опубликовано" if r.returncode == 0 else "публикация не прошла") +
-                          f"\n{(r.stdout + r.stderr)[-1500:]}")
+            self.bot.send(self.owner, f"⏳ #{pid}: сравниваю с базой…")
+
+            def job():
+                _, text = self._fca("review", str(pid))
+                self.bot.send(self.owner, text[:3900])
+            return self.jobs.put(job)
+        self.bot.edit(self.owner, msg["message_id"], f"{head}\n\n⏳ {'принимаю' if act == 'acc' else 'отклоняю'}…")
+
+        def job():
+            code, text = self._fca("review", "--accept" if act == "acc" else "--reject", str(pid))
+            self.bot.edit(self.owner, msg["message_id"], f"{head}\n\n{text[:500]}")
+            if code == 0 and act == "acc":
+                with self._lock:
+                    self.snapshot_due = time.time()
+        self.jobs.put(job)
 
     # ── ящик сообщений от таймеров и агента ─────────────────────────────
     def drain_spool(self, spool: Path = SPOOL):
