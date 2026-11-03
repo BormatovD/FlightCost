@@ -112,8 +112,19 @@ if [ "$(cat /srv/fca/openclaw/.version 2>/dev/null)" != "$OPENCLAW_VERSION" ]; t
 	(cd /srv/fca/openclaw && npm install --prefix /srv/fca/openclaw --ignore-scripts --no-audit \
 		--no-fund --loglevel=error "openclaw@$OPENCLAW_VERSION" >/dev/null)
 	echo "$OPENCLAW_VERSION" > /srv/fca/openclaw/.version
-	chown -R root:root /srv/fca/openclaw && chmod -R a+rX,go-w /srv/fca/openclaw
 fi
+# Свой установочный шаг OpenClaw (чистка dist, встроенные плагины) пропущен
+# --ignore-scripts, и OpenClaw доделывает его при первом запуске — записью в
+# собственный каталог. У агента каталог только для чтения, и запуск падал:
+# «package lifecycle is incomplete … EROFS». Доделываем здесь, один раз, от
+# непривилегированного nobody (не от root), пока каталог ему открыт.
+OC_PKG=/srv/fca/openclaw/node_modules/openclaw
+if [ -e "$OC_PKG/.openclaw-lifecycle-pending" ] || [ -e "$OC_PKG/dist/openclaw-install-guard" ]; then
+	say "OpenClaw: завершение установки"
+	chown -R nobody /srv/fca/openclaw
+	runuser -u nobody -- env HOME=/tmp NO_COLOR=1 DO_NOT_TRACK=1 node "$OC_PKG/openclaw.mjs" --version
+fi
+chown -R root:root /srv/fca/openclaw && chmod -R a+rX,go-w /srv/fca/openclaw
 
 # ── пользователи ─────────────────────────────────────────────────────────
 say "пользователи: fca (витрина), deploy (выкладка), fcabot (бот), agent (агент)"
