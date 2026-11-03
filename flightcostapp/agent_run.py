@@ -409,7 +409,10 @@ class Runner:
                 self.out.mkdir(parents=True, exist_ok=True)
                 dst = self.out / f"sub-{sid}.json"
                 dst.write_text(json.dumps(p, ensure_ascii=False, indent=1), "utf-8")
+                cost = res.get("costUsd")
                 msg += (f": величин {len(p.get('items', []))}"
+                        + (f", стоимость {cost:.3f} USD ({res.get('model') or '?'})" if cost is not None
+                           else ", стоимость неизвестна")
                         + (f", ошибок формы {len(errs)}" if errs else "")
                         + (f", цитат не найдено в тексте: {len(bad)} ({', '.join(bad[:5])})" if bad else "")
                         + (f"\nсомнения: {'; '.join(map(str, p.get('doubts', [])[:5]))}" if p.get("doubts") else ""))
