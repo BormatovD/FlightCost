@@ -27,6 +27,7 @@ from pathlib import Path
 
 SPOOL = Path(os.environ.get("FCA_SPOOL", "/srv/fca/spool"))
 LEVELS = ("info", "warn", "alert")
+QUIET_S = 1800
 
 
 def post(text: str, *, level: str = "info", attach: str | None = None,
@@ -112,6 +113,15 @@ def main(argv=None) -> int:
     p.add_argument("--attach")
     a = p.parse_args(argv)
     if a.unit:
+        # Юнит с Restart= падает по кругу — сообщение одно на полчаса, а не на
+        # каждый перезапуск (иначе ящик за ночь копит сотни одинаковых).
+        mark = SPOOL / f".failed-{a.unit}"
+        try:
+            if mark.exists() and time.time() - mark.stat().st_mtime < QUIET_S:
+                return 0
+            mark.touch()
+        except OSError:
+            pass
         post(unit_failed(a.unit), level="alert")
     elif a.digest:
         post(digest())

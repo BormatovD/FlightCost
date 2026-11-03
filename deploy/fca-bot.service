@@ -30,7 +30,11 @@ Environment=FCA_VERSION_FILE=/srv/fca/VERSION
 LoadCredential=bot-token:/etc/fca/bot.token
 ExecStart=/srv/fca/venv/bin/python -m flightcostapp.bot
 Restart=always
+# Без отступа бот с неверным токеном перезапускался бы каждые 10 секунд
+# всю ночь. Паузы растут до 10 минут; сообщение о сбое — раз в полчаса.
 RestartSec=10
+RestartSteps=6
+RestartMaxDelaySec=10min
 # Файлы очереди агента — для группы fcaq (бот и агент); группы даёт членство.
 UMask=0007
 
