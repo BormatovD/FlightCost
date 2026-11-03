@@ -137,6 +137,16 @@ class RunnerFailures(Runner):
         self.assertEqual(n, 1, "после неизвестной стоимости прогоны останавливаются")
         self.assertAlmostEqual(A.month_spent(r.ledger), 1.5)
 
+    def test_expired_key_is_named_and_costs_nothing(self):
+        oc = self.tmp / "openclaw"
+        oc.write_text(f"#!{sys.executable}\nimport json\nprint(json.dumps({{'ok': False, 'status': 'error', "
+                      f"'error': {{'message': 'authentication_error: invalid x-api-key'}}}}))\n")
+        oc.chmod(0o755)
+        r = A.Runner(self.home, openclaw=str(oc), config=str(CONFIG), run_usd=1.5, spool=self.spool)
+        r.submissions(self.home / "queue")
+        self.assertEqual(A.month_spent(r.ledger), 0.0)
+        self.assertTrue(any("ключ Anthropic не принят" in t for t in self.spool_texts()))
+
 
 @unittest.skipUnless(os.environ.get("FCA_TEST_OPENCLAW"), "FCA_TEST_OPENCLAW не задан")
 class Cage(unittest.TestCase):

@@ -184,6 +184,8 @@ def extract_text(src: Path) -> str | None:
     return None
 
 
+AUTH_ERRORS = ("authentication_error", "invalid x-api-key", "couldn't sign in", "api key expired",
+               "permission_error")
 EXTRACT_TIMEOUT = 120
 EXTRACT_MEM = 1024 * 1024 * 1024
 
@@ -318,6 +320,16 @@ class Runner:
             env_out = {"ok": False, "status": "error", "error": {"message": stdout[-500:] or stderr[-500:]}}
         (ws / "result.json").write_text(json.dumps(env_out, ensure_ascii=False, indent=1), "utf-8")
         cost = env_out.get("costUsd")
+        err = json.dumps(env_out.get("error") or {}, ensure_ascii=False).lower() + stderr[-4000:].lower()
+        if env_out.get("status") != "ok" and any(m in err for m in AUTH_ERRORS):
+            # Ключ не принят — модель не вызывалась и денег не тратила. Это не
+            # «неизвестная стоимость», а истёкший или отозванный ключ: так и
+            # сказать, оценку в журнал не писать, прогоны остановить.
+            cost = 0.0
+            self.say("Агент: ключ Anthropic не принят — истёк или отозван. Новый ключ в пространстве "
+                     "flightcost-agent → /etc/fca/anthropic.key на сервере (deploy/README.md, «Бот и агент»).",
+                     "alert")
+            self.stop = True
         self._ledger_put(ws.name, {"ts": _now().isoformat(timespec="seconds"), "job": job, "run": ws.name,
                                    "model": env_out.get("model") or model or spec["model"],
                                    "status": env_out.get("status"),
