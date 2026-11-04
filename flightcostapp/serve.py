@@ -34,6 +34,7 @@
 from __future__ import annotations
 
 import json
+import os
 from html import escape as html_escape
 import re
 import threading
@@ -1065,10 +1066,39 @@ class Context:
     # блокировкой интерпретатора: десять параллельных потоков не быстрее
     # двух, зато каждый ждёт в десять раз дольше. Остальные — в очереди,
     # и страница показывает место в ней.
+    #
+    # С пулом процессов (flightcostapp/netpool.py) одновременных сборок
+    # столько, сколько процессов, — каждая на своём ядре. Без пула
+    # (FCA_NET_PROCS=0) — две, потоками, как раньше.
     NET_WORKERS = 2
-    _net_sem = threading.Semaphore(NET_WORKERS)
+    _net_sem = None
+    _net_pool = None
+    _net_pool_lock = threading.Lock()
     _net_queue: list = []
     _net_queue_lock = threading.Lock()
+    # Предел очереди: дальше — честный отказ «попробуйте через минуту», а
+    # не ожидание на десять минут, которое человек всё равно не дождётся.
+    NET_QUEUE_MAX = 30
+
+    @classmethod
+    def _net_setup(cls, public: bool = False):
+        with cls._net_pool_lock:
+            if cls._net_sem is not None:
+                return
+            from .netpool import Pool, default_procs
+            # Пул — только на публичной витрине (`serve --public`) или по
+            # явному FCA_NET_PROCS. Локально и в тестах — потоки: процессы
+            # spawn заново импортируют запущенный скрипт, а скрипты проверок
+            # написаны без `if __name__ == "__main__"`.
+            n = default_procs() if (public or os.environ.get("FCA_NET_PROCS")) else 0
+            if n > 0:
+                try:
+                    cls._net_pool = Pool(n)
+                    cls.NET_WORKERS = n
+                except Exception as exc:                       # noqa: BLE001
+                    print(f"пул сборки сети не поднялся ({exc}) — сборка потоками", flush=True)
+                    cls._net_pool = None
+            cls._net_sem = threading.Semaphore(cls.NET_WORKERS)
 
     @staticmethod
     def _pairs_q(raw: str, cast=float) -> dict:
@@ -1423,10 +1453,15 @@ class Context:
         from .store import Store
         job = {"done": False, "error": None, "progress": {"done": 0, "total": 0, "last": "",
                                                           "queue": 0}}
-        self._net_jobs[form_key] = job
         cls = type(self)
+        cls._net_setup(public=bool(getattr(self, "public", False)))
         with cls._net_queue_lock:
+            if sum(1 for j in cls._net_queue if not j.get("started")) >= cls.NET_QUEUE_MAX:
+                job.update(done=True, error=f"сейчас сеть собирают {len(cls._net_queue)} человек — "
+                                            "очередь полна, попробуйте через минуту")
+                return job
             cls._net_queue.append(job)
+        self._net_jobs[form_key] = job
 
         def progress(done, total, key):
             job["progress"].update(done=done, total=total, last=key)
@@ -1458,6 +1493,38 @@ class Context:
             job["progress"]["queue"] = 0
             queue_pos()
             t0 = time.monotonic()
+            if cls._net_pool is not None:
+                jid = f"{id(job)}-{t0}"
+                try:
+                    guest = ((str(self.gdb.path), self.ws)
+                             if isinstance(self.store, GuestStore) else None)
+                    path = str(self.store.base.path if isinstance(self.store, GuestStore)
+                               else self.store.path)
+                    codes = {str(c).upper() for c in list(airports) + [base]}
+                    mine = self._leg_cache.setdefault(scope, {})
+                    seed = {k: v for k, v in list(mine.items()) if k[0] in codes and k[1] in codes}
+                    det = dict(list(self._detour_cache.items())[:2000])
+                    fut = cls._net_pool.submit(jid, job, path, guest, scope, list(airports), base,
+                                               dict(kw), dict(ov or {}), seed, det)
+                    pairs, fleet, ms, new_legs, new_det = fut.result()
+                    mine.update(new_legs)
+                    self._detour_cache.update(new_det)
+                    if sum(len(v) for v in self._leg_cache.values()) > 4000:
+                        self._leg_cache.clear()
+                    if len(self._net_cache) >= self.NET_CACHE:
+                        self._net_cache.pop(next(iter(self._net_cache)))
+                    self._net_cache[form_key] = (pairs, fleet, ms)
+                except Exception as exc:                       # noqa: BLE001
+                    job["error"] = f"{type(exc).__name__}: {exc}"
+                finally:
+                    cls._net_pool.forget(jid)
+                    job["done"] = True
+                    cls._net_sem.release()
+                    with cls._net_queue_lock:
+                        if job in cls._net_queue:
+                            cls._net_queue.remove(job)
+                    queue_pos()
+                return
             try:
                 base_store = Store(self.store.path if not isinstance(self.store, GuestStore)
                                    else self.store.base.path, shared=True)

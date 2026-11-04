@@ -100,6 +100,9 @@ def _host(a) -> str:
     return h
 
 
+RSYNC_PERMS = ("--no-perms", "--no-group", "--no-owner", "--chmod=F660")
+
+
 def _sh(cmd: list[str]) -> int:
     print("  $", " ".join(cmd))
     return subprocess.run(cmd).returncode
@@ -132,7 +135,7 @@ def cmd_push(a) -> int:
     print(f"посев: {tmp.stat().st_size / 1e6:.1f} МБ")
     for k, n in gone.items():
         print(f"  не едет {k}: {n}")
-    if _sh(["rsync", "-az", "--partial", str(tmp), f"{host}:{DROP}/.seed.db"]) or \
+    if _sh(["rsync", "-z", "--partial", *RSYNC_PERMS, str(tmp), f"{host}:{DROP}/.seed.db"]) or \
        _sh(["ssh", host, f"mv -f {DROP}/.seed.db {DROP}/seed.db && "
                          "sudo /usr/bin/systemctl start fca-master-import.service"]):
         print("не отправилось — проверьте ssh и bootstrap (каталог /srv/fca/drop)")
@@ -179,7 +182,12 @@ def cmd_send(a) -> int:
         f = d / f"{_now():%Y%m%d%H%M%S}-{p['source_id']}-{i}.json"
         f.write_text(json.dumps(p, ensure_ascii=False, default=str), "utf-8")
         print(f"  {p['source_id']} / {p['retire']['domain']}: фактов {len(p['facts'])}")
-    if _sh(["rsync", "-az", f"{d}/", f"{host}:{DROP}/proposals/"]) or \
+    # Файлами, а не каталогом: `rsync -a src/ dst/` переносит и права самого
+    # каталога — временный каталог 700, и drop/proposals становился 700, после
+    # чего приём от fcabot его не видел (04.11.2026). Группу и права ставит
+    # каталог на сервере (setgid fcaxfer), а не наш компьютер.
+    files = sorted(str(f) for f in d.glob("*.json"))
+    if _sh(["rsync", "-z", "--partial", *RSYNC_PERMS, *files, f"{host}:{DROP}/proposals/"]) or \
        _sh(["ssh", host, "sudo /usr/bin/systemctl start fca-master-import.service"]):
         print("не отправилось")
         return 2
@@ -397,7 +405,14 @@ def cmd_import(a, *, master: Path = MASTER, drop: Path = DROP, spool=None) -> in
     from .store import Store
     known = set(load_registry()["sources"]) | EXTRA_SOURCES
     st = Store(db)
-    for f in sorted((drop / "proposals").glob("*.json")):
+    pdir = drop / "proposals"
+    if pdir.exists() and not os.access(pdir, os.R_OK | os.X_OK):
+        # Молча не видеть присланное хуже всего: «в очереди на сервере», а
+        # очередь пуста. Сказать, что каталог закрыт, и как открыть.
+        say(f"Приём с компьютера: каталог {pdir} закрыт для fcabot (права {oct(pdir.stat().st_mode)[-4:]}). "
+            f"На сервере от root: chmod 2770 {pdir}; chgrp -R fcaxfer {pdir}", "alert")
+        return 1
+    for f in sorted(pdir.glob("*.json")):
         try:
             p = json.loads(f.read_text("utf-8"))
             sid = p.pop("source_id")
