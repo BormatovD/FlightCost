@@ -54,7 +54,13 @@ KEEP_BACKUPS = 7
 # Источники, у которых сырьё живёт только у владельца. Сервер их не
 # обновляет (файлов там нет и не будет), их факты приходят `send`.
 HOME_ONLY = {"aircraft_user", "form41", "eurostat_par", "t100", "ru_pairs",
-             "adsb_flights", "market_fare"}
+             "adsb_flights", "market_fare", "observation"}
+# Источник в реестре и метка, под которой его факты лежат в базе, не всегда
+# совпадают: свёртка наблюдений ADS-B (`fca observe --aggregate`) пишет
+# факты с source_id «observation», а в реестре источник — adsb_flights.
+# `send` по имени из реестра забирает и такие факты; сервер их принимает.
+SEND_ALIASES = {"adsb_flights": ("adsb_flights", "observation")}
+EXTRA_SOURCES = {"observation"}
 # Чего нет в главной базе вовсе: свои сценарии владельца. `send` их не
 # отправляет, `push` вырезает, `pull` восстанавливает из локальных файлов.
 NEVER_SEND = {"aircraft_user"}
@@ -164,7 +170,7 @@ def cmd_send(a) -> int:
     if bad:
         print(f"не отправляю {', '.join(bad)}: свои сценарии владельца на сервер не уходят")
         return 2
-    props = proposals_from(Path(a.db), want)
+    props = proposals_from(Path(a.db), [x for w in want for x in SEND_ALIASES.get(w, (w,))])
     if not props:
         print("действующих фактов у этих источников нет — нечего отправлять")
         return 2
@@ -389,7 +395,7 @@ def cmd_import(a, *, master: Path = MASTER, drop: Path = DROP, spool=None) -> in
         return 0
     from .refresh import load_registry
     from .store import Store
-    known = set(load_registry()["sources"])
+    known = set(load_registry()["sources"]) | EXTRA_SOURCES
     st = Store(db)
     for f in sorted((drop / "proposals").glob("*.json")):
         try:

@@ -108,6 +108,24 @@ class Master(unittest.TestCase):
         losses = M.home_only_losses(self.home, self.master / "export" / "flightcost.db")
         self.assertTrue(any("eurostat_par" in x for x in losses))
 
+    def test_adsb_aggregates_are_sent_under_their_real_label(self):
+        """Свёртка ADS-B пишет факты с source_id «observation» — `send --only
+        adsb_flights` обязан их забрать, а сервер — принять (04.11.2026: «нечего
+        отправлять» после свёртки 39 тыс. фактов)."""
+        st = Store(self.home)
+        st.commit_facts([Fact(domain="observed", key="frequency/EDDF-LEBL/2026-10", value=12,
+                              valid_from="2026-10-01", source_id="observation", extracted_by="observe@1")])
+        st.db.close()
+        ids = [x for w in ["adsb_flights"] for x in M.SEND_ALIASES.get(w, (w,))]
+        props = M.proposals_from(self.home, ids)
+        self.assertEqual([p["source_id"] for p in props], ["observation"])
+        M.make_seed(self.home, self.drop / "seed.db")
+        M.cmd_import(None, master=self.master, drop=self.drop, spool=self.spool)
+        (self.drop / "proposals" / "o.json").write_text(json.dumps(props[0], default=str))
+        M.cmd_import(None, master=self.master, drop=self.drop, spool=self.spool)
+        self.assertEqual([r["source_id"] for r in Store(self.master / "flightcost.db").pending_proposals()],
+                         ["observation"])
+
     def test_refresh_tree_links_repo_data_but_owns_raw(self):
         app = self.tmp / "app"
         (app / "data" / "charges").mkdir(parents=True)
