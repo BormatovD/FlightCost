@@ -50,8 +50,10 @@ class I18n(unittest.TestCase):
             script.append(html[a:html.rindex("</script>")])
         cls.markups, cls.scripts = markup, script
         cls.script = "\n".join(script)
-        cls.map_keys = {norm(json.loads('"' + k + '"'))
-                        for k in T_CALL.findall(cls.MAP.read_text(encoding="utf-8"))}
+        map_src = cls.MAP.read_text(encoding="utf-8")
+        cls.map_keys = {norm(json.loads('"' + k + '"')) for k in T_CALL.findall(map_src)}
+        # Шапка карты переводится по атрибуту data-t (текст элемента — ключ).
+        cls.map_keys |= {norm(m) for m in re.findall(r"data-t>([^<]+)<", map_src)}
         cls.doc_keys = {norm(k) for k in cls.DOC_T.findall(cls.DOC.read_text(encoding="utf-8"))}
 
     def test_report_phrases_are_translated(self):

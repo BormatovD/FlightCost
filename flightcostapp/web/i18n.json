@@ -1053,7 +1053,9 @@
   "свой тип": "eigener Typ",
   "создать свой тип на основе этого и добавить в сравнение": "eigenen Typ auf dieser Basis anlegen und zum Vergleich hinzufügen",
   "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "Eine Airline-Simulation auf denselben Daten; ihre Einnahmen finanzieren das quelloffene FlightCost",
-  "Исследования": "Recherchen"
+  "Исследования": "Recherchen",
+  "FlightCostApp · карта данных": "FlightCostApp · Datenkarte",
+  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Jeder Knoten ist eine Größe der Rechnung. Ein Klick zeigt die Formel, die eigenen Felder und was der Knoten von jedem Eingang erhält und weitergibt, mit Einheiten. Der Zweig wird hervorgehoben, der Rest blendet aus."
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -2109,6 +2111,8 @@
   "свой тип": "own type",
   "создать свой тип на основе этого и добавить в сравнение": "create your own type based on this one and add it to the comparison",
   "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "An airline tycoon game on the same data; its revenue keeps the open-source FlightCost running",
-  "Исследования": "Research"
+  "Исследования": "Research",
+  "FlightCostApp · карта данных": "FlightCostApp · data map",
+  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Each node is a value in the calculation. A click shows its formula, its own fields, and what exactly the node takes from each input and passes on, with units. The branch is highlighted, the rest fades."
  }
 }

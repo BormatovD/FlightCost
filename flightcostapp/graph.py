@@ -725,12 +725,12 @@ form.rt button{background:var(--raise);color:var(--ink2);border:1px solid var(--
 .step .ss{font:11.5px/1.5 var(--mono);color:var(--dim);display:block;margin-top:2px;word-break:break-word}
 .step .pv{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
 .step a{color:var(--ink);font-size:11.5px}
-@media(max-width:900px){main{flex-direction:column}aside{width:100%;
+@media(max-width:900px){main{flex-direction:column;align-items:stretch}#wrap{width:100%}aside{width:100%;
  border-left:0;border-top:1px solid var(--line);position:static;max-height:none}}
 </style></head><body>
 __SITEHEAD__<header>
-__NAV__<h1>FlightCostApp · карта данных</h1>
-<div class="sub">Каждый узел — величина в расчёте. Клик показывает формулу,
+__NAV__<h1 data-t>FlightCostApp · карта данных</h1>
+<div class="sub" data-t>Каждый узел — величина в расчёте. Клик показывает формулу,
 собственные поля, а также что именно узел получает от каждого входа и что
 отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.</div>
 <div class="legend">__LEGEND__</div>
@@ -891,6 +891,9 @@ function _t(s) {
   return v == null ? s : v;
 }
 const LOC = {ru: "ru-RU", en: "en-GB", de: "de-DE"}[LANG];
+// Язык страницы — для браузера, чтения с экрана и поисковиков; шапка — перевод.
+document.documentElement.lang = LANG;
+document.querySelectorAll("[data-t]").forEach(el => { el.textContent = _t(el.textContent); });
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 const fmt = v => v == null || isNaN(v) ? "—" : Math.abs(v) >= 100
   ? Math.round(v).toLocaleString(LOC) : Number(v).toLocaleString(LOC, {maximumSignificantDigits: 3});
