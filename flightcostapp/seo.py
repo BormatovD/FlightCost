@@ -99,7 +99,7 @@ T = {
         "dev_burn": "Расход топлива — оценка разработчика FlightCost: {src}",
         "dev_field": "оценка разработчика",
         "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_research": "Исследования", "nav_about": "О сервисе", "nav_data": "Данные",
-        "nav_map": "Карта данных",
+        "nav_map": "Карта данных", "nav_monitor": "План",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
         "about_desc": ("Что считает FlightCost, откуда берутся данные и насколько им можно верить. Открытый бесплатный "
                        "инструмент для расчёта себестоимости рейса и сети маршрутов."),
@@ -220,7 +220,7 @@ T = {
         "dev_burn": "Fuel burn is a FlightCost developer estimate: {src}",
         "dev_field": "developer estimate",
         "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_research": "Research", "nav_about": "About", "nav_data": "Data",
-        "nav_map": "Data map",
+        "nav_map": "Data map", "nav_monitor": "Plan",
         "about_title": "About: free airline flight cost calculator | FlightCost",
         "about_desc": ("What FlightCost calculates, where the data comes from and how far you can trust it. A free, "
                        "open-source tool for the cost of a flight and of a route network."),
@@ -341,7 +341,7 @@ T = {
         "dev_burn": "Treibstoffverbrauch ist eine Schätzung der FlightCost-Entwickler: {src}",
         "dev_field": "Schätzung der Entwickler",
         "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_research": "Recherchen", "nav_about": "Über", "nav_data": "Daten",
-        "nav_map": "Datenkarte",
+        "nav_map": "Datenkarte", "nav_monitor": "Plan",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
         "about_desc": ("Was FlightCost berechnet, woher die Daten stammen und wie weit man ihnen trauen kann. "
                        "Ein kostenloses Open-Source-Werkzeug für Flug- und Netzkosten."),
@@ -574,7 +574,7 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 
 NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("research", "/research", "nav_research"),
        ("data", "/data", "nav_data"),
-       ("map", "/map", "nav_map"), ("about", "/about", "nav_about"))
+       ("map", "/map", "nav_map"), ("monitor", "/monitor", "nav_monitor"), ("about", "/about", "nav_about"))
 LANG_LOCAL = ("data", "map")          # страницы с одним адресом на все языки
 
 
@@ -1405,7 +1405,7 @@ def _research_tails() -> list[str]:
 
 def sitemap(types: list[dict]) -> str:
     """Все адреса с языковыми парами (xhtml:link) — так Google связывает версии."""
-    tails = (["/", "/calc", "/about", "/types", "/research"] + _research_tails()
+    tails = (["/", "/calc", "/about", "/types", "/research", "/monitor"] + _research_tails()
              + [f"/type/{quote(x['icao'])}" for x in public_types(types)])
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
@@ -1424,7 +1424,7 @@ def sitemap(types: list[dict]) -> str:
 
 def urls(types: list[dict]) -> list[str]:
     """Все адреса сайта для IndexNow."""
-    tails = (["/", "/calc", "/about", "/types", "/research"] + _research_tails()
+    tails = (["/", "/calc", "/about", "/types", "/research", "/monitor"] + _research_tails()
              + [f"/type/{quote(x['icao'])}" for x in public_types(types)])
     return [f"{site()}/{lg}{tl}" for tl in tails for lg in LANGS] + [site() + p for p in ("/", "/data", "/map")]
 

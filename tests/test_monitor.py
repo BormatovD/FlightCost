@@ -1,0 +1,128 @@
+"""Страница «План и показатели»: план из data/plan.yaml, ряды из базы.
+
+Проверяется то, что обещает страница: план читается и битый план ловится;
+индекс ставок считается от базового месяца и не показывает строк закрытого
+источника; страница отдаётся на трёх языках, есть в sitemap и в шапке.
+"""
+
+from __future__ import annotations
+
+import http.client
+import pathlib
+import re
+import sys
+import tempfile
+import threading
+import unittest
+from http.server import ThreadingHTTPServer
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from flightcostapp import monitor as M                     # noqa: E402
+from flightcostapp import serve as S                       # noqa: E402
+from flightcostapp.store import Fact, Store                # noqa: E402
+
+CYR = re.compile(r"[А-Яа-яЁё]{3,}")
+
+
+def f(domain, key, vf, value, src):
+    return Fact(domain=domain, key=key, valid_from=vf, value=value, unit="", source_id=src, extracted_by="t")
+
+
+class Plan(unittest.TestCase):
+    def test_repo_plan_is_valid_and_translated(self):
+        items = M.load_plan()
+        self.assertTrue(items)
+        for it in items:
+            for lg in ("en", "de"):
+                self.assertTrue(it["title"].get(lg), f"{it['id']}: нет title.{lg}")
+
+    def test_bad_status_is_an_error(self):
+        p = pathlib.Path(tempfile.mkdtemp()) / "plan.yaml"
+        p.write_text("items:\n  - {id: x, status: soon, area: calc, title: {ru: т}}\n", encoding="utf-8")
+        with self.assertRaises(ValueError):
+            M.load_plan(p)
+
+    def test_author_credit_shown_as_given(self):
+        items = [{"id": "a", "status": "next", "area": "data", "title": {"ru": "Тарифы Казани"},
+                  "by": "Иван П.", "via": "bot #12", "added": "2026-11-06"}]
+        h = M.plan_html("ru", items)
+        self.assertIn("Иван П.", h)
+        self.assertIn("Дальше", h)
+
+
+class Index(unittest.TestCase):
+    def test_index_from_base_month(self):
+        s = {"Z1": [("2026-01-01", 10.0), ("2026-03-01", 11.0)],
+             "Z2": [("2026-01-01", 20.0), ("2026-02-01", 24.0)]}
+        idx = dict(M.rate_index(s))
+        self.assertEqual(idx["2026-01"], 100.0)
+        self.assertEqual(idx["2026-02"], 110.0)            # медиана (100, 120)
+        self.assertEqual(idx["2026-03"], 115.0)            # медиана (110, 120)
+
+    def test_correction_overrides_same_date(self):
+        d = tempfile.mkdtemp()
+        st = Store(pathlib.Path(d) / "x.db")
+        st.commit_facts([f("jet_fuel_price", "spot/USGC", "2026-01-05", 2.0, "jet_fuel_price")])
+        st.commit_facts([f("jet_fuel_price", "spot/USGC", "2026-01-05", 2.5, "jet_fuel_price")])
+        self.assertEqual(M._history(st, "jet_fuel_price", key="spot/USGC")["spot/USGC"], [("2026-01-05", 2.5)])
+
+
+class Http(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        st = Store(pathlib.Path(cls.tmp.name) / "flightcost.db", shared=True)
+        facts = []
+        for m in range(1, 13):
+            facts.append(f("jet_fuel_price", "spot/USGC", f"2025-{m:02d}-03", 2.0 + m / 20, "jet_fuel_price"))
+            facts.append(f("enroute_rate", "EDZZ", f"2025-{m:02d}-01", 60 + m, "crco_enroute_rates"))
+            facts.append(f("enroute_rate", "LFZZ", f"2025-{m:02d}-01", 55 + m / 2, "crco_enroute_rates"))
+        st.commit_facts(facts)
+        cls.ctx = S.Context(st, {"sources": {}}, public=True)
+        cls.httpd = ThreadingHTTPServer(("127.0.0.1", 0), S._Handler)
+        cls.httpd.ctx = cls.ctx
+        cls.port = cls.httpd.server_address[1]
+        threading.Thread(target=cls.httpd.serve_forever, daemon=True).start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.httpd.shutdown()
+        cls.tmp.cleanup()
+
+    def get(self, path):
+        c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=30)
+        c.request("GET", path)
+        r = c.getresponse()
+        return r.status, r.read().decode("utf-8")
+
+    def test_plan_tab_three_languages(self):
+        for lg in ("ru", "en", "de"):
+            code, body = self.get(f"/{lg}/monitor")
+            self.assertEqual(code, 200, lg)
+            self.assertIn(f'<html lang="{lg}"', body)
+            self.assertIn('href="/%s/monitor"' % lg, body)
+            if lg != "ru":
+                main = body.split("<main>")[1].split("</main>")[0]
+                words = [w for w in CYR.findall(re.sub(r"<[^>]+>", " ", main))]
+                self.assertLessEqual(len(words), 3, f"{lg}: {words[:8]}")
+
+    def test_series_tab_draws_and_hides_closed_rows(self):
+        code, body = self.get("/ru/monitor?tab=series")
+        self.assertEqual(code, 200)
+        self.assertIn("<svg", body)
+        self.assertIn("EUROCONTROL", body)
+        # Ставки CRCO закрыты лицензией: на странице — индекс, а не ставка зоны.
+        self.assertNotIn("EDZZ", body)
+
+    def test_sitemap_and_nav(self):
+        _, sm = self.get("/sitemap.xml")
+        self.assertIn("/ru/monitor", sm)
+        _, body = self.get("/en/about")
+        self.assertIn('href="/en/monitor"', body)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

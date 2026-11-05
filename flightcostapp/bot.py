@@ -282,6 +282,26 @@ def card(d, lang="ru", sid: int | None = None) -> str:
     return "\n".join(lines)
 
 
+def plan_entry(row) -> str:
+    """Готовая запись для data/plan.yaml по принятому предложению. Владелец
+    правит формулировку и область и вставляет её коммитом: бот в репозиторий
+    не пишет (у него нет и не должно быть доступа к коду сайта)."""
+    text = " ".join((row["note"] or row["what"] or "").split())[:300]
+    author = row["author"] or ""
+    q = lambda s: json.dumps(s, ensure_ascii=False)                  # noqa: E731 — строка YAML в кавычках
+    return ("📝 Запись для data/plan.yaml (проверьте area и формулировку):\n\n"
+            f"  - id: bot-{row['id']}\n"
+            "    status: next\n"
+            "    area: calc\n"
+            "    title:\n"
+            f"      ru: {q(text)}\n"
+            f"    by: {q(author) if author else 'owner'}\n"
+            f"    via: \"bot #{row['id']}\"\n"
+            f"    added: {time.strftime('%Y-%m-%d', time.gmtime())}\n"
+            + ("" if author else "\n(автор не подписался — в плане будет «автор проекта»; при желании "
+               "впишите «участник сообщества»)"))
+
+
 # ── бот ──────────────────────────────────────────────────────────────────
 class FcaBot:
     def __init__(self, bot: Bot, owner: int, *, home: Path = HOME, review_db: str | None = None,
@@ -629,6 +649,8 @@ class FcaBot:
             if act == "acc":
                 self._answer_user(row, "accepted", "")
                 self.db.resolve(sid, "accepted", "")
+                if row["kind"] == "idea":
+                    self.bot.send(self.owner, plan_entry(row))
                 return self.bot.edit(self.owner, msg["message_id"], msg.get("text", "") + "\n\n✅ принято")
             if act == "rej":
                 kb = [[{"text": v[0], "callback_data": f"r:{k}:{sid}"}] for k, v in REJECT_REASONS.items()]

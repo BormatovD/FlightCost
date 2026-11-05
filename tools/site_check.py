@@ -39,7 +39,8 @@ import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urlparse
 
 LANGS = ("ru", "en", "de")
-QUICK = ["/{l}/", "/{l}/about", "/{l}/types", "/{l}/type/A320", "/{l}/research/",
+QUICK = ["/{l}/", "/{l}/about", "/{l}/types", "/{l}/type/A320", "/{l}/research/", "/{l}/monitor",
+         "/{l}/monitor?tab=series",
          "/map?lang={l}", "/data?lang={l}"]
 QUICK_PLAIN = ["/", "/impressum", "/datenschutz", "/healthz"]
 CYR = re.compile(r"[А-Яа-яЁё]{3,}")

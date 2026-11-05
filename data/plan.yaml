@@ -1,0 +1,182 @@
+# План работ — страница /{lang}/monitor, вкладка «План работ».
+#
+# Правится руками, коммитом в репозиторий. Предложение из бота после приёмки
+# приходит владельцу готовой записью (бот, вид «Предложение в план работ») —
+# её остаётся вставить сюда.
+#
+# Поля:
+#   id      — короткий постоянный идентификатор (латиница, цифры, дефис);
+#   status  — now (в работе) | next (дальше) | later (когда-нибудь) | done (сделано);
+#   area    — calc (расчёт) | data (данные) | research (исследования) | site (сайт) | community (сообщество);
+#   title   — ru обязателен, en и de — желательно (без них показывается ru);
+#   note    — одна-две фразы: зачем; тоже ru/en/de;
+#   by      — кто предложил: owner (автор проекта) или подпись автора, как он сам её указал в боте;
+#   via     — откуда пришло: owner | bot #N | github #N;
+#   added   — дата, когда попало в план; done — дата, когда сделано (для status: done).
+#   link    — необязательно: адрес статьи, решения или issue.
+
+items:
+  - id: research-pricing
+    status: now
+    area: research
+    title:
+      ru: "Исследование: динамическое ценообразование — объективные данные о тарифах и пассажирах"
+      en: "Research: dynamic pricing — objective fare and passenger data from open sources"
+      de: "Recherche: dynamische Preisbildung — objektive Tarif- und Passagierdaten aus offenen Quellen"
+    note:
+      ru: "Средний тариф и его разброс на паре, как цена меняется к вылету, кто летит. Сейчас средний чек — допущение."
+      en: "Average fare and its spread on a pair, how the price moves towards departure, who flies. Today the average fare is an assumption."
+      de: "Durchschnittstarif und Streuung je Strecke, Preisverlauf bis zum Abflug, wer fliegt. Heute ist der Durchschnittstarif eine Annahme."
+    by: owner
+    via: owner
+    added: 2026-11-06
+
+  - id: monitor-page
+    status: now
+    area: site
+    title:
+      ru: "Страница «План и показатели»: план работ и ряды изменений"
+      en: "“Plan and indicators” page: work plan and change series"
+      de: "Seite „Plan und Kennzahlen“: Arbeitsplan und Zeitreihen"
+    note:
+      ru: "Открытый план с авторами предложений и графики: топливо, сборы, аэронавигация, ТОиР, владение."
+      en: "An open plan crediting who proposed what, and charts: fuel, charges, air navigation, maintenance, ownership."
+      de: "Offener Plan mit Namen der Vorschlagenden und Diagramme: Treibstoff, Entgelte, Flugsicherung, Instandhaltung, Besitz."
+    by: owner
+    via: owner
+    added: 2026-11-05
+
+  - id: research-market
+    status: next
+    area: research
+    title:
+      ru: "Исследование: как оценивать рынок города и региона — экономика, население, курортность"
+      en: "Research: how to size a city and regional market — economy, population, tourism"
+      de: "Recherche: Marktgröße von Stadt und Region — Wirtschaft, Bevölkerung, Tourismus"
+    note:
+      ru: "Модель потока по населению объясняет около четверти разброса и не видит курорты."
+      en: "The population-based traffic model explains about a quarter of the variance and misses resorts."
+      de: "Das bevölkerungsbasierte Verkehrsmodell erklärt etwa ein Viertel der Streuung und übersieht Urlaubsorte."
+    by: owner
+    via: owner
+    added: 2026-11-05
+
+  - id: beginner-panel
+    status: next
+    area: site
+    title:
+      ru: "Простая панель для новичка: откуда и на чём → куда выгодно и сколько в день"
+      en: "A simple beginner panel: from where and on what → where it pays and how much per day"
+      de: "Einfache Einsteigeransicht: von wo und womit → wohin es sich lohnt und wie viel pro Tag"
+    note:
+      ru: "Один экран, несколько полей, список маршрутов по прибыли; ярус данных — одной меткой у числа."
+      en: "One screen, a few fields, routes ranked by profit; data quality shown as one tag per number."
+      de: "Ein Bildschirm, wenige Felder, Strecken nach Gewinn; Datenqualität als ein Hinweis je Zahl."
+    by: owner
+    via: owner
+    added: 2026-11-03
+
+  - id: fleet-report-question
+    status: next
+    area: calc
+    title:
+      ru: "Отчёт по парку: сравнение при одинаковом налёте, а не при одинаковом числе бортов"
+      en: "Fleet report: compare at equal flying hours, not equal fleet count"
+      de: "Flottenbericht: Vergleich bei gleichen Flugstunden statt gleicher Flottengröße"
+    note:
+      ru: "Отчёт должен первой строкой называть свой вопрос: кто дешевле вывезет поток или кто больше заработает на том же капитале."
+      en: "The report should state its question first: who carries a given demand cheaper, or who earns more on the same capital."
+      de: "Der Bericht soll zuerst seine Frage nennen: wer eine Nachfrage günstiger bedient oder wer mit demselben Kapital mehr verdient."
+    by: owner
+    via: owner
+    added: 2026-11-03
+
+  - id: charge-discounts
+    status: next
+    area: data
+    title:
+      ru: "Скидки и стимулирующие программы аэропортов в расчёте сборов"
+      en: "Airport discounts and incentive schemes in the charges calculation"
+      de: "Flughafenrabatte und Anreizprogramme in der Entgeltberechnung"
+    by: owner
+    via: owner
+    added: 2026-11-01
+
+  - id: block-time
+    status: next
+    area: data
+    title:
+      ru: "Фактическое блок-время по открытым данным полётов"
+      en: "Actual block time from open flight data"
+      de: "Tatsächliche Blockzeit aus offenen Flugdaten"
+    by: owner
+    via: owner
+    added: 2026-11-01
+
+  - id: wind
+    status: next
+    area: calc
+    title:
+      ru: "Ветер в расчёте топлива и блок-времени"
+      en: "Wind in fuel and block time"
+      de: "Wind bei Treibstoff und Blockzeit"
+    by: owner
+    via: owner
+    added: 2026-11-01
+
+  - id: fuel-regions
+    status: next
+    area: data
+    title:
+      ru: "Цена топлива по регионам — ряд вместо одной точки на регион"
+      en: "Regional jet fuel prices — a series instead of one point per region"
+      de: "Kerosinpreise nach Region — Zeitreihe statt eines Punkts je Region"
+    by: owner
+    via: owner
+    added: 2026-10-30
+
+  - id: telegram-channel
+    status: next
+    area: community
+    title:
+      ru: "Краткие версии исследований в Телеграм-канале с обсуждением"
+      en: "Short versions of the research in a Telegram channel with discussion"
+      de: "Kurzfassungen der Recherchen in einem Telegram-Kanal mit Diskussion"
+    by: owner
+    via: owner
+    added: 2026-11-04
+
+  - id: article-series
+    status: next
+    area: research
+    title:
+      ru: "Серия статей «Как считает калькулятор»: топливо, сборы, аэронавигация, ТОиР, флот, рынок, сеть, типы, ограничения, данные"
+      en: "Article series “How the calculator works”: fuel, charges, air navigation, maintenance, fleet, market, network, types, limits, data"
+      de: "Artikelserie „Wie der Rechner rechnet“: Treibstoff, Entgelte, Flugsicherung, Instandhaltung, Flotte, Markt, Netz, Typen, Grenzen, Daten"
+    by: owner
+    via: owner
+    added: 2026-11-01
+
+  - id: network-pool
+    status: done
+    area: site
+    title:
+      ru: "Сборка сети в отдельных процессах: много одновременных расчётов не мешают друг другу"
+      en: "Network building in separate processes: many simultaneous runs no longer block each other"
+      de: "Netzaufbau in eigenen Prozessen: viele gleichzeitige Berechnungen behindern sich nicht mehr"
+    by: owner
+    via: owner
+    added: 2026-11-03
+    done: 2026-11-05
+
+  - id: bot
+    status: done
+    area: community
+    title:
+      ru: "Телеграм-бот для данных, ошибок и предложений в план"
+      en: "Telegram bot for data, error reports and plan suggestions"
+      de: "Telegram-Bot für Daten, Fehlerhinweise und Vorschläge zum Plan"
+    by: owner
+    via: owner
+    added: 2026-11-02
+    done: 2026-11-05

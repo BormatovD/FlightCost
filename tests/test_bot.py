@@ -132,6 +132,13 @@ class BotFlow(unittest.TestCase):
         self.assertTrue(row["what"].startswith("Посчитать сезонность"))
         self.assertFalse(any(self.queue.iterdir()), "предложение не должно уходить агенту")
         self.assertTrue(any("план работ" in x for x in self.tg.to(USER)))
+        self.b.handle(btn(f"s:acc:{row['id']}", chat=OWNER))
+        entry = next(x for x in self.tg.to(OWNER) if "data/plan.yaml" in x)
+        import yaml
+        doc = yaml.safe_load("items:\n" + entry.split("\n\n", 1)[1])
+        it = doc["items"][0]
+        self.assertEqual((it["id"], it["by"], it["via"]), (f"bot-{row['id']}", "Иван П., авиакомпания N",
+                                                          f"bot #{row['id']}"))
 
     def test_reject_with_reason_reaches_author(self):
         row = self.submit()

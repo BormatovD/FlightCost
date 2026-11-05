@@ -34,6 +34,7 @@
 from __future__ import annotations
 
 import json
+import sys
 import os
 from html import escape as html_escape
 import re
@@ -254,7 +255,7 @@ class _Handler(BaseHTTPRequestHandler):
             from .research import feed
             self._public(feed().encode("utf-8"), "application/atom+xml; charset=utf-8")
             return True
-        if u.path in ("/about", "/types", "/calc", "/research"):
+        if u.path in ("/about", "/types", "/calc", "/research", "/monitor"):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True
         m = seo.LANG_PATH.match(u.path)
@@ -279,6 +280,18 @@ class _Handler(BaseHTTPRequestHandler):
             return True
         if tail in ("/types", "/types/"):
             self._public(seo.types_index(lang, ctx.seo_types()).encode("utf-8"), html_t)
+            return True
+        if tail in ("/monitor", "/monitor/"):
+            from . import monitor
+            tab = "series" if "tab=series" in (u.query or "") else "plan"
+            try:
+                plan = monitor.load_plan()
+            except (OSError, ValueError) as e:              # план битый — страница говорит, а не молчит
+                print(f"monitor: {e}", file=sys.stderr)
+                plan = []
+            data = ctx.monitor_data() if tab == "series" else None
+            self._public(monitor.page(lang, plan, data, tab, os.environ.get("FCA_BOT_URL", "")).encode("utf-8"),
+                         html_t, revalidate=True)
             return True
         if tail in ("/research", "/research/"):
             from .research import index_page
@@ -465,7 +478,7 @@ class _Handler(BaseHTTPRequestHandler):
             # строка «/en/type», чтобы перебор адресов не раздувал таблицу.
             tail = (m.group(2) or "/").rstrip("/")
             kind = {"": "/", "/calc": "/calc", "/about": "/about", "/types": "/types",
-                    "/research": "/research"}.get(tail)
+                    "/research": "/research", "/monitor": "/monitor"}.get(tail)
             if kind is None and tail.startswith("/type/"):
                 kind = "/type"
             if kind is None and tail.startswith("/research/"):
@@ -748,6 +761,7 @@ class Context:
     def __init__(self, store, registry, public: bool = False, gdb: GuestDB | None = None):
         self.store, self.registry = store, registry
         self.lock = threading.Lock()
+        self._monitor_lock = threading.Lock()
         self._apts = None
         # Слой гостя (решение 148): база мест и — у копии контекста на
         # запрос — ключ места. У общего контекста `ws` пуст.
@@ -2042,6 +2056,26 @@ class Context:
         """Пример на главной: A320, Франкфурт — Барселона, из тех же расчётов."""
         e = (self.seo_econ("narrow") or {}).get("A320")
         return {"icao": "A320", "name": "Airbus A320", "cls": "narrow", "e": e} if e else None
+
+    def monitor_data(self) -> dict:
+        """Ряды страницы «План и показатели» — до смены базы (подмена
+        снимка меняет файл) и не дольше суток. Считается под своим замком:
+        Form 41 за все годы — секунды, второй запрос ждёт первый."""
+        from . import monitor
+        lk = self._monitor_lock
+        path = getattr(self.store, "path", None)
+        try:
+            stamp = os.stat(path).st_mtime_ns if path else 0
+        except OSError:
+            stamp = 0
+        with lk:
+            c = getattr(self, "_monitor_cache", None)
+            if c and c[0] == stamp and time.time() - c[1] < 86400:
+                return c[2]
+            with self.lock:
+                data = monitor.build(self.store)
+            self._monitor_cache = (stamp, time.time(), data)
+            return data
 
     def seo_types(self) -> list[dict]:
         """Типы для страниц поисковика: справочник без слоя гостя, кэш на 10 минут.
