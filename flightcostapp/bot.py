@@ -66,7 +66,10 @@ DRAFT_TTL = 3600            # незаконченная анкета живёт
 SNAPSHOT_QUIET = 90         # снимок витрине — через столько секунд после последней приёмки
 TEXT_MAX = 1000
 
-KINDS = ("tariff", "aircraft", "error", "rates")
+# idea — предложение в план работ: только текст, без вопросов про источник и
+# дату, агенту не уходит; подпись автора — для вкладки «План работ» на сайте.
+KINDS = ("tariff", "aircraft", "error", "rates", "idea")
+TEXT_ONLY = ("error", "idea")
 USAGE = ("publish", "check")
 
 
@@ -75,12 +78,17 @@ T = {
     "ru": {
         "hello": ("Здравствуйте! Это бот проекта FlightCost (flightcost.app) — открытой модели "
                   "экономики авиамаршрутов.\n\nСюда можно прислать данные, которых нам не хватает, "
-                  "или сообщить об ошибке. Что у вас?"),
+                  "сообщить об ошибке или предложить работу в план. Что у вас?"),
         "k_tariff": "Тариф аэропорта", "k_aircraft": "Данные по типу ВС",
         "k_error": "Ошибка в расчёте", "k_rates": "Ставки: лизинг, ТОиР",
+        "k_idea": "Предложение в план работ",
         "ask_doc": ("Пришлите документ (PDF, XLSX, CSV, картинка, до 20 МБ) или ссылку на него. "
                     "Можно несколько файлов. Когда закончите — нажмите «Дальше»."),
         "ask_doc_error": "Опишите ошибку: маршрут, тип, что не так. Можно приложить снимок экрана или ссылку на расчёт.",
+        "ask_doc_idea": ("Опишите предложение: что посчитать, исследовать или исправить и зачем. "
+                         "Можно приложить файл или ссылку. Когда закончите — нажмите «Дальше»."),
+        "idea_note": ("Принятые предложения попадают в план работ на сайте. Подпись автора — "
+                      "как укажете на следующем шаге, или без подписи."),
         "next": "Дальше", "skip": "Пропустить", "cancel": "Отменить", "send": "Отправить",
         "got_file": "Файл получен ({n}). Ещё один или «Дальше».",
         "bad_file": "Этот формат не принимаю: только PDF, XLSX, CSV, PNG, JPG.",
@@ -115,12 +123,17 @@ T = {
     },
     "en": {
         "hello": ("Hello! This is the FlightCost bot (flightcost.app) — an open model of airline "
-                  "route economics.\n\nYou can send us data we are missing or report an error. What do you have?"),
+                  "route economics.\n\nYou can send us data we are missing or report an error or suggest work for the plan. What do you have?"),
         "k_tariff": "Airport charges", "k_aircraft": "Aircraft type data",
         "k_error": "Error in a calculation", "k_rates": "Rates: lease, MRO",
+        "k_idea": "Suggestion for the work plan",
         "ask_doc": ("Send a document (PDF, XLSX, CSV, image, up to 20 MB) or a link to it. Several files "
                     "are fine. Press “Next” when done."),
         "ask_doc_error": "Describe the error: route, type, what is wrong. A screenshot or link to the calculation helps.",
+        "ask_doc_idea": ("Describe your suggestion: what to calculate, research or fix, and why. "
+                         "A file or link is welcome. Press “Next” when done."),
+        "idea_note": ("Accepted suggestions go into the work plan on the site, credited as you choose "
+                      "in the next step, or without credit."),
         "next": "Next", "skip": "Skip", "cancel": "Cancel", "send": "Send",
         "got_file": "File received ({n}). Another one or “Next”.",
         "bad_file": "I can't take this format: PDF, XLSX, CSV, PNG, JPG only.",
@@ -374,7 +387,8 @@ class FcaBot:
         self.bot.send(chat, t["hello"], [[{"text": t["k_tariff"], "callback_data": "k:tariff"}],
                                          [{"text": t["k_aircraft"], "callback_data": "k:aircraft"}],
                                          [{"text": t["k_error"], "callback_data": "k:error"}],
-                                         [{"text": t["k_rates"], "callback_data": "k:rates"}]])
+                                         [{"text": t["k_rates"], "callback_data": "k:rates"}],
+                                         [{"text": t["k_idea"], "callback_data": "k:idea"}]])
 
     def on_user_message(self, chat: int, m: dict):
         lang = lang_of(m.get("from"))
@@ -433,7 +447,8 @@ class FcaBot:
         t = T[d.lang]
         cancel = {"text": t["cancel"], "callback_data": "n:cancel"}
         if d.step == "doc":
-            return self.bot.send(chat, t["ask_doc_error" if d.kind == "error" else "ask_doc"], [[cancel]])
+            key = f"ask_doc_{d.kind}" if d.kind in TEXT_ONLY else "ask_doc"
+            return self.bot.send(chat, t[key], [[cancel]])
         if d.step in ("what", "origin", "as_of"):
             return self.bot.send(chat, t[f"q_{'date' if d.step == 'as_of' else d.step}"], [[cancel]])
         if d.step == "usage":
@@ -505,7 +520,7 @@ class FcaBot:
         """Черновик разбора — агенту (только если присланы файлы и очередь есть)."""
         row = self.db.sub(sid)
         files = json.loads(row["files"])
-        if not files or not AGENT_QUEUE.is_dir() or row["kind"] == "error":
+        if not files or not AGENT_QUEUE.is_dir() or row["kind"] in TEXT_ONLY:
             return
         d = AGENT_QUEUE / f".sub-{sid}"
         try:
@@ -541,6 +556,11 @@ class FcaBot:
         if data == "n:next" and d.step == "doc":
             if not d.files and not d.notes:
                 return self.bot.send(chat, t["need_doc"])
+            if d.kind == "idea":
+                d.what = (d.notes[0] if d.notes else "")[:120]
+                d.usage, d.step = "publish", "author"
+                self.bot.send(chat, t["idea_note"])
+                return self._ask(chat, d)
             d.step = "what"
             return self._ask(chat, d)
         if data.startswith("u:") and d.step == "usage" and data[2:] in USAGE:

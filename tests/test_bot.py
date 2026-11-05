@@ -116,6 +116,23 @@ class BotFlow(unittest.TestCase):
         row = self.submit(kind="rates")
         self.assertEqual(row["usage"], "check")
 
+    def test_idea_skips_source_questions_and_agent(self):
+        """Предложение в план: текст → подпись → отправка; без вопросов про
+        источник и дату, публикуемое, агенту не уходит."""
+        h = self.b.handle
+        h(msg("/start"))
+        h(btn("k:idea"))
+        h(msg("Посчитать сезонность потока на курортах"))
+        h(btn("n:next"))
+        h(msg("Иван П., авиакомпания N"))
+        h(btn("n:send"))
+        row = self.b.db.db.execute("SELECT * FROM submissions ORDER BY id DESC").fetchone()
+        self.assertEqual((row["kind"], row["usage"], row["author"]),
+                         ("idea", "publish", "Иван П., авиакомпания N"))
+        self.assertTrue(row["what"].startswith("Посчитать сезонность"))
+        self.assertFalse(any(self.queue.iterdir()), "предложение не должно уходить агенту")
+        self.assertTrue(any("план работ" in x for x in self.tg.to(USER)))
+
     def test_reject_with_reason_reaches_author(self):
         row = self.submit()
         self.b.handle(btn(f"s:rej:{row['id']}", chat=OWNER))
