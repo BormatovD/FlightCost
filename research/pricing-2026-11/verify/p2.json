@@ -1,0 +1,578 @@
+{
+ "p2-005": {
+  "status": "found",
+  "found_text": "Pricing information is available for nearly 7,000 domestic city-pair markets across the 48 contiguous states.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-006": {
+  "status": "found",
+  "found_text": "Table 1a, too large to include in this report, is available exclusively in the DOT DataHub (Table 1a DataHub).",
+  "value_ok": true,
+  "note": "«data.transportation.gov, Socrata» в value — из p2-218, на этой странице не названо."
+ },
+ "p2-008": {
+  "status": "found",
+  "found_text": "The average fares in this report reflect the each-way prices paid by all passengers on domestic commercial airlines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-009": {
+  "status": "found",
+  "found_text": "These averages include first-class tickets, taxes, and airport fees.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-010": {
+  "status": "found",
+  "found_text": "they exclude free tickets, such as frequent flyer rewards, as well as ancillary charges such as baggage, seat upgrades, and change fees.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-011": {
+  "status": "found",
+  "found_text": "For each of the 1,000 largest city-pair markets, Table 1 lists the number of each-way passenger trips per day, the nonstop distance, the average market fare, [… airlines with the largest market share and the lowest average fare]",
+  "value_ok": true,
+  "note": "Инструмент цитирует до 125 символов; хвост предложения подтверждён пересказом инструмента. Цитата начинается с середины предложения — это не искажение."
+ },
+ "p2-015": {
+  "status": "found",
+  "found_text": "The Airline Origin and Destination Survey (DB1B) is a 10% sample of airline tickets from reporting carriers collected by the Office of Airline Information of the Bureau of Transportation Statistics.",
+  "value_ok": true,
+  "note": "На странице нет заявления о лицензии (подтверждает p2-023)."
+ },
+ "p2-016": {
+  "status": "found",
+  "found_text": "This table contains directional market characteristics of each domestic itinerary of the Origin and Destination Survey, such as the reporting carrier, origin and destination airport, prorated market fare, …",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-017": {
+  "status": "found",
+  "found_text": "This table contains summary characteristics of each domestic itinerary on the Origin and Destination Survey, including the reporting carrier, itinerary fare, number of passengers, originating airport, roundtrip indicator, and miles flown.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-018": {
+  "status": "found",
+  "found_text": "This table provides coupon-specific information for each domestic itinerary of the Origin and Destination Survey, such as the operating carrier, origin and destination airports, number of passengers, fare class, coupon type, trip break indicator, and distance.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-020": {
+  "status": "found",
+  "found_text": "Identifies records where the dollar value reported on the ticket was outside credible limits based on cents-per-mile.",
+  "value_ok": true,
+  "note": "Поле с Q4 1988; «*» — сомнительный тариф."
+ },
+ "p2-022": {
+  "status": "found",
+  "found_text": "The US Department of Transportation also warns not to use FareClass for analysis because different carriers treat…",
+  "value_ok": true,
+  "note": "Вторичный источник (личные заметки), предупреждение DOT пересказано автором."
+ },
+ "p2-026": {
+  "status": "found",
+  "found_text": "As of July 2025, BTS will be making significant changes to the Airline Origin & Destination Survey (DB1B)…",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-028": {
+  "status": "found",
+  "found_text": "O&D DB1B: Prior to July 2025, data was collected quarterly at a 10% sample rate. Collection is no longer active as of July 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-029": {
+  "status": "found",
+  "found_text": "O&D DB1C: Effective July 2025, data is collected monthly at a 40% sample rate.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-031": {
+  "status": "found",
+  "found_text": "Today, BTS announced the first OD40 data release for July-September 2025. (Tuesday, February 17, 2026)",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-034": {
+  "status": "found",
+  "found_text": "Gross total of funds collected on a ticket by the Issuing Carrier for the transportation of a passenger, inclusive of taxes and fees imposed by non-carrier entities or air carriers. Refer to regulatory definition.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-035": {
+  "status": "found",
+  "found_text": "inclusive of taxes and fees imposed by non-carrier entities or air carriers.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-036": {
+  "status": "found",
+  "found_text": "2290-Ticket Purchase occurred 22-90 days before travel, 21AP-Ticket purchase occurred up to 21 days before travel, 91UP-Ticket purchase occurred 91 days or later before travel. Note: Null is valid if Category Two Ticket",
+  "value_ok": true,
+  "note": "Три корзины подтверждены. Оговорка документа: для Category Two Ticket поле может быть пустым — в анализе учесть долю Null."
+ },
+ "p2-037": {
+  "status": "found",
+  "found_text": "Default value=1. Each line output is one passenger.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-038": {
+  "status": "found",
+  "found_text": "The Scheduled Flight Month of the First Coupon, mm=month. \"Scheduled\" as ticket was sold.",
+  "value_ok": true,
+  "note": "Месяц — первого купона (вылет туда), по расписанию на момент продажи."
+ },
+ "p2-044": {
+  "status": "found",
+  "found_text": "Table 2: Country of Residence and Journey Purpose of terminal passengers",
+  "value_ok": true,
+  "note": "Список из 8 таблиц; таблиц дохода и тарифа нет (подтверждает p2-043)."
+ },
+ "p2-045": {
+  "status": "found",
+  "found_text": "Table 4: Origin/destination of terminating scheduled passengers",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-047": {
+  "status": "found",
+  "found_text": "There is also a fixed charge of £115 + VAT to cover the extraction. Therefore, prices for ad hoc survey data start from £390 + VAT. Variable charge = cost per record x number of records (there is a minimum variable charge of £275).",
+  "value_ok": true,
+  "note": "£390 = £115 фикс. + минимум £275 переменной части. Что ad hoc выборка — именно «по рейсу/направлению», в процитированных фразах не сказано; это толкование сборщика (ad hoc = любые нестандартные разрезы)."
+ },
+ "p2-048": {
+  "status": "found",
+  "found_text": "Before any release of data we will require confirmation that you accept our quoted charges and terms.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-050": {
+  "status": "found",
+  "found_text": "Airports included in the report: Birmingham, East Midlands, London City, Gatwick, Heathrow, Luton, Manchester, Stansted",
+  "value_ok": true,
+  "note": "Год обследования — 2024."
+ },
+ "p2-051": {
+  "status": "found",
+  "found_text": "The CAA Departing Passenger Survey records information from a random sample of passengers at the gate before boarding their flight, at a number of UK airports.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-053": {
+  "status": "found",
+  "found_text": "CAA surveys generally operate for twelve month periods with anywhere from 3,000 to 70,000 interviews being achieved, depending on airport size.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-057": {
+  "status": "found",
+  "found_text": "Table 10 Income of UK and foreign passengers",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-060": {
+  "status": "found",
+  "found_text": "You may download information and publications from this web site free of charge for use within your company or organisation or for your own personal use but you may not reproduce them for publication.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-061": {
+  "status": "found",
+  "found_text": "…but you may not reproduce them for publication. All rights are otherwise reserved. Any other proposed use of material featured on this web site would be subject to the approval of the Civil Aviation Authority.",
+  "value_ok": true,
+  "note": "Open Government Licence на странице не упоминается. Вывод «без согласия CAA публиковать нельзя» подтверждён."
+ },
+ "p2-064": {
+  "status": "found",
+  "found_text": "© Crown copyright. The use of these data is subject to the UK Data Service End User Licence Agreement. … available to UK Data Service registered users subject to the End User Licence Agreement. Commercial use of the data requires approval from the data owner or their nominee.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-066": {
+  "status": "found",
+  "found_text": "data and estimates from Quarter 1 and Quarter 2 2024 were collected and produced under our previous IPS design … Quarter 3 (July to Sept) and Quarter 4 (Oct to Dec) 2024 data collected and produced under our new design … implemented from 1 July 2024",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-069": {
+  "status": "found",
+  "found_text": "All content is available under the Open Government Licence v3.0, except where otherwise stated",
+  "value_ok": true,
+  "note": "Есть оговорка «except where otherwise stated»."
+ },
+ "p2-074": {
+  "status": "found",
+  "found_text": "The statistical population for participation in tourism are all residents aged 15 and over, residing in private households.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-075": {
+  "status": "found",
+  "found_text": "(e.g. month of departure, number of nights, main country of destination, main purpose of the trip, main means of transport)",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-076": {
+  "status": "found",
+  "found_text": "Expenditure on tourism trips: for Packages, Transport, Accommodation, Expenditures for durable and valuable goods … Other expenditure.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-078": {
+  "status": "found",
+  "found_text": "Mode of transport: \"Total\", \"Air\", \"Land - total\", \"Other land\"; Purpose: \"Total\" (единственное видимое значение)",
+  "value_ok": false,
+  "note": "«Air» есть, но на проверенной странице цель поездки — только Total; разрез «воздух × цель» не подтверждён (сторонний агрегатор, есть «load more»). Summary корректно относит это к «требует проверки»."
+ },
+ "p2-081": {
+  "status": "found",
+  "found_text": "The copyright for the editorial content of this website, which is owned by the EU, is licensed under the Creative Commons Attribution 4.0 International licence. […] Reuse of statistical data, metadata, publications, and other dissemination tools published on this website for commercial or non-commercial purposes is authorised provided the source is acknowledged.",
+  "value_ok": false,
+  "note": "Цитата есть, но CC BY 4.0 на странице отнесена к редакционному контенту сайта. Для статистических данных — отдельная норма: повторное использование, в т.ч. коммерческое, разрешено с указанием источника (решение Комиссии от 12.12.2011), письменная лицензия не нужна. Практический вывод (хранить и публиковать с атрибуцией можно) верен, но формулировка «данные Eurostat — CC BY 4.0» в summary неточна."
+ },
+ "p2-082": {
+  "status": "found",
+  "found_text": "The following Eurostat data and documents may not be reused for commercial purposes, but non-commercial reuse is possible without restriction: Data identified as belonging to sources other than Eurostat. … Data for countries other than: Member States of the EU, Member States of EFTA, official EU acceding and candidate countries.",
+  "value_ok": true,
+  "note": "Исключения также касаются торговых данных Лихтенштейна/Швейцарии/Австрии — к HICP не относятся."
+ },
+ "p2-085": {
+  "status": "found",
+  "found_text": "In the first round of pricing flights are booked in advance, ranging from 6 weeks to a month before departure. […] In the second round of pricing flights are booked in advance, ranging from a month to two weeks before departure.",
+  "value_ok": false,
+  "note": "Цитата верна, но value «за 4–6 недель» неполно: в документе есть второй раунд — от месяца до двух недель. В сумме 2–6 недель (так и в summary и p2-233 — там верно). Документ 2017 г. (отчёт о соответствии HICP), актуальность методики на 2026 не проверена."
+ },
+ "p2-086": {
+  "status": "found",
+  "found_text": "Commonly a distinction is made between long-haul and short-haul flights with a longer period of time for long-haul flights which reflects consumer behaviour to plan more distant holiday more in advance.",
+  "value_ok": true,
+  "note": "Сформулировано как общая практика («Commonly a distinction is made»), а не обязательно как правило ирландского CSO."
+ },
+ "p2-093": {
+  "status": "found",
+  "found_text": "Country of Residence and Journey Purpose of terminal passengers at the 2023 survey airports. (строки — аэропорты; столбцы: International Business / International Leisure / Domestic Business / Domestic Leisure, каждый UK / Foreign)",
+  "value_ok": true,
+  "note": "Разрез аэропорт × межд./внутр. × бизнес/отдых × UK/иностр. подтверждён структурой таблицы."
+ },
+ "p2-097": {
+  "status": "found",
+  "found_text": "Стоимость авиаперелета экономическим классом по России в мае увеличилась до 6972,36 руб. за 1 тыс. км пути. (20.06.2023)",
+  "value_ok": true,
+  "note": "Статья ссылается на Росстат; рост +28% к маю 2022."
+ },
+ "p2-106": {
+  "status": "found",
+  "found_text": "г) данные онлайн-агрегаторов (по продаже билетов, туроператоров и других) и маркетплейсов; (Приказ Росстата от 15.12.2021 N 915)",
+  "value_ok": true,
+  "note": "Цитата подтверждена. Вывод «показатель отражает цену предложения» — интерпретация: пункт допускает агрегаторы как источник, но не утверждает, что авиатариф снимается только так."
+ },
+ "p2-113": {
+  "status": "found",
+  "found_text": "Решение Росавиации от 06.03.2026 N 22-68866-00363-Р О порядке предоставления субсидии организациям воздушного транспорта в целях обеспечения доступности воздушных перевозок населению (Версия 3)",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-114": {
+  "status": "found",
+  "found_text": "ПЕРЕЧЕНЬ МАРШРУТОВ ИЗ УДАЛЕННЫХ И ТРУДНОДОСТУПНЫХ НАСЕЛЕННЫХ ПУНКТОВ И В ОБРАТНОМ НАПРАВЛЕНИИ (рублей) | Маршрут | Размер специального тарифа на перевозку одного пассажира в одном направлении | Размер субсидии на перевозку одного пассажира в одном направлении | Анадырь - Жуковский - Анадырь | 13 500 | 13 500",
+  "value_ok": true,
+  "note": "Тариф 13 500 руб. и субсидия 13 500 руб. в одну сторону."
+ },
+ "p2-118": {
+  "status": "found",
+  "found_text": "DGCA has a Tariff Monitoring Unit that monitors airfares on certain routes on monthly basis…",
+  "value_ok": true,
+  "note": "«Результаты регулярно не публикуются» — в найденном фрагменте нет, это вывод сборщика (p2-122)."
+ },
+ "p2-119": {
+  "status": "found",
+  "found_text": "Air fares are not regulated by the Government.",
+  "value_ok": true,
+  "note": "Оговорка про COVID-коридоры в value — не из этой цитаты."
+ },
+ "p2-121": {
+  "status": "found",
+  "found_text": "The data has been compiled by the tariff monitoring unit of the Directorate General of Civil Aviation (DGCA).",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-126": {
+  "status": "found",
+  "found_text": "Under the UDAN Scheme, the Government has targeted an indicative airfare at Rs. 2500 for a distance of 500 km to 600 km per RCS seat under Regional Connectivity routes (equivalent to one-hour flight). This airfare is subject to indexation as per the formula specified in the UDAN Scheme document.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-130": {
+  "status": "found",
+  "found_text": "\"We are decommissioning only the self‑service section of the Amadeus for Developers portal,\" … fully decommissioning the portal for existing users on July 17. As of that date, API keys will be disabled, and the self-service portal will be inaccessible.",
+  "value_ok": true,
+  "note": "В тексте статьи год не указан; год 2026 подтверждается заголовком страницы ignav.com («Amadeus Self-Service Shutdown (July 2026)») и выдачей поиска. «Enterprise API по запросу» — из p2-132, не из этой статьи."
+ },
+ "p2-132": {
+  "status": "found",
+  "found_text": "Amadeus says its Self-Service API portal has been decommissioned. Its developer site now provides Enterprise APIs, with access on request.",
+  "value_ok": true,
+  "note": "Вторичный источник (сторонний сайт), но согласуется с p2-130."
+ },
+ "p2-136": {
+  "status": "found",
+  "found_text": "The Amadeus Flight Price Analysis API returns historical price quartiles for a given itinerary…",
+  "value_ok": true,
+  "note": "Вторичный каталог API; перечень min/Q1/медиана/Q3/max в найденном фрагменте не назван — деталь value из других источников."
+ },
+ "p2-139": {
+  "status": "found",
+  "found_text": "Data is transferred from the cache based on the user's search history from Aviasales websites.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-140": {
+  "status": "found",
+  "found_text": "The data is stored for 7 days for all types of queries.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-141": {
+  "status": "found",
+  "found_text": "Returns the cheapest tickets for specific dates found by Aviasales users in the last 48 hours.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-142": {
+  "status": "found",
+  "found_text": "Brings back the prices for each day of the month, grouped together by the number of transfers.",
+  "value_ok": true,
+  "note": "«Профиль по дню недели» — производное использование, не утверждение документа."
+ },
+ "p2-143": {
+  "status": "found",
+  "found_text": "To access the API, you must pass your token in the X-Access-Token header or in the token parameter.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-146": {
+  "status": "found",
+  "found_text": "2.1.1 Provide the Partner with the non-transferable right to use the software and graphic interface of the Affiliate Network for participation over the territory of all countries of the world under the conditions of a royalty-free, non-exclusive license. The Partner is granted the license only for direct functional use under this Agreement;",
+  "value_ok": true,
+  "note": "Явного пункта о хранении/публикации данных в соглашении нет — вывод «публикация агрегатов не урегулирована» (p2-250) подтверждается отсутствием такого пункта."
+ },
+ "p2-147": {
+  "status": "found",
+  "found_text": "4.5 The Partner agrees that Travelpayouts has the right to terminate this Agreement at their own discretion at any time without prior notice to the Partner and block their access to the relevant functionality and features of the Affiliate Network…",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-150": {
+  "status": "found",
+  "found_text": "Any new partnerships on the Tequila platform will be on an invitation only basis… (дата публикации: May 30, 2024)",
+  "value_ok": true,
+  "note": "Дата вступления в силу не указана; «с мая 2024» = дата публикации статьи."
+ },
+ "p2-153": {
+  "status": "found",
+  "found_text": "We decided to no longer support the QPX Express API given the low interest among our travel partners, (shutdown: April 10, 2018; статья 2 Nov 2017)",
+  "value_ok": true,
+  "note": "«Открытого API Google Flights нет» — вывод сборщика, в статье 2017 г. на состояние 2026 не проверяем."
+ },
+ "p2-158": {
+  "status": "found",
+  "found_text": "H1 FY26 Results (slide 5): H1 FY25 H1 FY26 / Guests 115.3m 119.0m +3% / Load Factor 95% 95% - / Ave. Fare €52 €58 +13% / Total Rev. €8.69bn €9.82bn +13%",
+  "value_ok": true,
+  "note": "Проверено двумя независимыми запросами (второй без подсказки чисел) — таблица воспроизведена одинаково. Это средний тариф по всей сети (без допуслуг), а не по паре."
+ },
+ "p2-159": {
+  "status": "found",
+  "found_text": "H2 fare growth challenging (tougher PY comps); также: Strong H1 fares & cost perf. – tougher H2 PY comps.",
+  "value_ok": false,
+  "note": "Цитата есть, но она про высокую базу прошлого года (PY comps), а не про сезонность лето/зима. Вывод «сезонность: тарифы H2 иначе ведут себя, чем H1» из неё не следует."
+ },
+ "p2-162": {
+  "status": "found",
+  "found_text": "RASK (Revenue per Available Seat Kilometre) decreased by 0.4 per cent to 4.31 euro cents in F26 from 4.33 euro cents in F25.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-163": {
+  "status": "found",
+  "found_text": "Passenger ticket revenue increased by 8.4 per cent to €3,161.4 million in F26 from €2,917.0 million in F25,",
+  "value_ok": true,
+  "note": "В том же документе: «Carried a record 69.7 million passengers (vs 63.4 million last year)» — даёт пассажиров для p2-164 (≈€45,4 за билет, оценка проверяющего)."
+ },
+ "p2-167": {
+  "status": "found",
+  "found_text": "Yield increased by 2% to INR 4.69 and load factor was flat at 82.5%",
+  "value_ok": true,
+  "note": "Единица «INR/км» в цитате не указана (у IndiGo yield = выручка на RPK, т.е. на пассажиро-км) — по смыслу верно."
+ },
+ "p2-175": {
+  "status": "found",
+  "found_text": "В июле — 4,3 млн и 1,4 млн пассажиров соответственно.",
+  "value_ok": true,
+  "note": "Зеркало Telegram-канала Аэрофлота. Пост раскрывает пассажиропоток, пассажирооборот, предельный пассажирооборот, занятость кресел; тарифа/доходной ставки нет."
+ },
+ "p2-179": {
+  "status": "found",
+  "found_text": "Passengers in 1,000 / Available seat-kilometers (m) / Revenue seat-kilometers (m) / Passenger load-factor (%) / … регионы: Europe, Middle East/ Africa, America (North und South), Asia/Pacific",
+  "value_ok": true,
+  "note": "RPK в отчёте называется «Revenue seat-kilometers». Строк доходности/выручки нет — вывод подтверждён."
+ },
+ "p2-184": {
+  "status": "found",
+  "found_text": "Fares are based on the total ticket value which consists of the price charged by the airlines plus any additional taxes and fees levied by an outside entity at the time of purchase.",
+  "value_ok": true,
+  "note": "Часть value «без платы за багаж» в процитированном фрагменте не содержится (в запросе не всплыла); основная часть подтверждена."
+ },
+ "p2-185": {
+  "status": "found",
+  "found_text": "Itinerary fares consist of round-trip fares unless the customer does not purchase a return trip.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-186": {
+  "status": "found",
+  "found_text": "The inflation adjustment is calculated using dollars for the most recent year of air fare data. … National Level Fares since 1995 … All Airports – Average Fares by Quarter since 1993 … The most recent data are from the 2nd Quarter of 2026.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-189": {
+  "status": "found",
+  "found_text": "Fares are collected monthly for the top 70 routes in the Australian domestic network.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-190": {
+  "status": "found",
+  "found_text": "The survey is conducted three weeks ahead of the hypothetical travel date. … 1. Business … 3. Restricted Economy (flexible–fees or restrictions apply) 4. Best Discount (cheapest fare–excluding baggage surcharges)",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-193": {
+  "status": "found",
+  "found_text": "The resulting numbers are then scaled on a range of 0 to 100 based on a topic’s proportion to all searches on all topics.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-194": {
+  "status": "found",
+  "found_text": "Google Trends data should always be considered as one data point among others before drawing conclusions.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-197": {
+  "status": "found",
+  "found_text": "Average domestic fares for Canada and ten major cities, quarterly",
+  "value_ok": true,
+  "note": "Элемент списка «похожие наборы» на open.canada.ca."
+ },
+ "p2-199": {
+  "status": "found",
+  "found_text": "The Fare Basis Survey estimates the average air fare paid and the proportion of passengers for each fare type…",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-202": {
+  "status": "found",
+  "found_text": "Data are collected quarterly on a calendar year basis and are due 60 days after the reference quarter. (Date modified: 2025-07-03)",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-204": {
+  "status": "found",
+  "found_text": "The 2018 reference year marks the final release of the Passenger Air Services Price Index (PASPI) as the program has been discontinued.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-208": {
+  "status": "found",
+  "found_text": "This file contains market-level data (by direction of travel) including carriers providing service, market fare, market origin and market destination for each itinerary.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-209": {
+  "status": "found",
+  "found_text": "Click on a month to download the DB1C Market data in .zip format. Файлы: July 2026: DB1C.MARKET.202607.15OCT2026.zip … July 2025: DB1C.MARKET.202507.18SEP2026.zip (13 файлов, июль 2025 – июль 2026)",
+  "value_ok": true,
+  "note": "Логин/ключ на странице не упоминается, ссылки прямые. Уточнение к p2-210: файлы за июль–дек. 2025 датированы 18–22SEP2026 (перевыпуск), 2026 г. — задержка 2–3,5 мес. (янв. 2026 → 01JUN2026, июль 2026 → 15OCT2026); оценка ~2,5 мес. разумна, но разброс шире."
+ },
+ "p2-212": {
+  "status": "found",
+  "found_text": "Access to the OD10 via Restricted Data Access form will carry over to the OD40 output",
+  "value_ok": true,
+  "note": "Факт закрытого доступа подтверждён. Какие поля закрыты — в документе не сказано (запрос на «confidential/restricted fields» — не найдено); часть value «вероятно, международные и детальные поля» — догадка сборщика, в источнике опоры нет."
+ },
+ "p2-217": {
+  "status": "found",
+  "found_text": "License: https://www.usa.gov/government-works",
+  "value_ok": true,
+  "note": "Лицензия указана в карточке data.gov для Table 1a. Распространять её на DB1C (p2-248) напрямую нельзя — это другой набор."
+ },
+ "p2-218": {
+  "status": "found",
+  "found_text": "CSV download: https://data.transportation.gov/api/v3/views/tfrh-tu9e/export.csv?accessType=DOWNLOAD (также query.json, query.xml); Dataset Last Updated: September 03, 2026",
+  "value_ok": true,
+  "note": "«Без ключа» прямо не заявлено, но ссылки — прямые выгрузки accessType=DOWNLOAD."
+ },
+ "p2-220": {
+  "status": "found",
+  "found_text": "US Carrier submitted Origin and Destination traffic data (DB1C) is extrapolated to create this report.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-221": {
+  "status": "found",
+  "found_text": "The data in this report is typically submitted to the Department about five or six months after the quarter it represents.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-222": {
+  "status": "found",
+  "found_text": "Table 6: Contiguous State City-Pair Markets That Average At Least 10 Passengers Per Day",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-225": {
+  "status": "found",
+  "found_text": "the percentage difference between the local airport's city-pair market fares and a calculated national benchmark of all other city-pairs",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-228": {
+  "status": "found",
+  "found_text": "We use the maximum number of requests per minute as the limit. Limits valid from 14.06.2024: … /v2/prices/month-matrix 300 … /v3/prices_for_dates 600 … /statistics/v1/execute_query* 30",
+  "value_ok": true,
+  "note": "Диапазон 30–600 и значения 600/300 подтверждены."
+ },
+ "p2-231": {
+  "status": "found",
+  "found_text": "Harmonized Index of Consumer Prices: Passenger Transport by Air for Germany (CP0733DEM086NEST). Units: Index 2025=100, Not Seasonally Adjusted. Frequency: Monthly. from Jan 1996 to Sep 2026. Sep 2026: 100.49. Last updated: Oct 16, 2026",
+  "value_ok": true,
+  "note": "Ряд — только по Германии (FRED-зеркало Eurostat), в value страна не названа. Задержка: сентябрь 2026 опубликован 16.10.2026, т.е. ~0,5 мес. после конца месяца (summary пишет «1–1,5 месяца» — завышено, но некритично). FRED помечает ряд «Copyrighted: Citation Required»."
+ },
+ "p2-233": {
+  "status": "found",
+  "found_text": "For flights, prices are collected two to three months in advance of the month in which consumption starts.",
+  "value_ok": true,
+  "note": "Отчёт 2021 г. Сравнение с Ирландией «2–6 нед.» верно с учётом двух раундов (см. p2-085)."
+ },
+ "p2-241": {
+  "status": "found",
+  "found_text": "Heute fliegt nur noch jeder Fünfte aus dienstlichen Gründen (20 Prozent). … Die Befragung 2024 … über 125.000 abfliegende Passagiere in persönlichen Interviews",
+  "value_ok": true,
+  "note": "Доля — по всем немецким аэропортам вместе (по стране), не по отдельным аэропортам; value «по аэропортам Германии» допустимо понимать как «по совокупности аэропортов»."
+ },
+ "p2-242": {
+  "status": "found",
+  "found_text": "Für empirische Zwecke können umfassende Datensätze über den Flughafenverband ADV bezogen werden.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p2-245": {
+  "status": "found",
+  "found_text": "Licence: Open Government Licence - Canada; Table 23100036 (Formerly CANSIM Table 401-0041); Date published: 2019-12-16; Record Modified: 2023-01-17",
+  "value_ok": true,
+  "note": ""
+ }
+}

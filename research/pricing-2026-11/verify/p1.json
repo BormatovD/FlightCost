@@ -1,0 +1,728 @@
+{
+ "p1-005": {
+  "status": "found",
+  "found_text": "Airfares fluctuate due to demand shocks and intertemporal variation in willingness to pay.",
+  "value_ok": true,
+  "note": "проверено на странице EconPapers (аннотация NBER WP 28989)"
+ },
+ "p1-007": {
+  "status": "found",
+  "found_text": "The data for this paper were collected between March and June 2006 from the online travel agency Expedia.com.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-008": {
+  "status": "found",
+  "found_text": "The observations in time start 103 days prior to the departure date and were collected every three days",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-009": {
+  "status": "found",
+  "found_text": "Fare is the one reported by Expedia.com and corresponds to the least expensive economy-class fare for a particular flight.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-010": {
+  "status": "found",
+  "found_text": "there are jumps of $21.25 and $10.19 at 7 and 14 days to departure, respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-011": {
+  "status": "found",
+  "found_text": "the estimates indicate that one fewer available seat increases fares by 1.53 dollars.",
+  "value_ok": true,
+  "note": "в value сказано «за каждое проданное место» — по смыслу то же (на одно свободное место меньше)"
+ },
+ "p1-012": {
+  "status": "found",
+  "found_text": "Supporting the theoretical prediction in Gallego and van Ryzin (1994), the results show that the price is lower if there is less time to sell: For every day that passes without sales, the price falls 57.1 cents.",
+  "value_ok": true,
+  "note": "введение; в разд. 3.2 то же число: «on average when a day passes without sales, the price falls 57.1 cents»"
+ },
+ "p1-014": {
+  "status": "found",
+  "found_text": "The data we analyze include 620,307 itineraries across the six carriers on these 86 large routes.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-015": {
+  "status": "found",
+  "found_text": "The average within carrier-route Gini coefficient is approximately 0.28.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-016": {
+  "status": "found",
+  "found_text": "Relative to travelers who purchase over 21 days in advance, passengers who purchase 14-21 days in advance pay 6% more",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-017": {
+  "status": "found",
+  "found_text": "those who purchase 7-13 days in advance pay 18% more, those who purchase 4-6 days in advance pay 26% more",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-018": {
+  "status": "found",
+  "found_text": "and those purchasing less than 4 days in advance pay 29% more.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-019": {
+  "status": "found",
+  "found_text": "Passengers who stay over a Saturday night pay 13% less.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-020": {
+  "status": "found",
+  "found_text": "It is noteworthy that these characteristics along with the fixed effects explain nearly 70% of the variation in fares.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-021": {
+  "status": "found",
+  "found_text": "the expected fare difference of two randomly selected tickets on a peak flight is 56.4% of the mean fare ... [off-peak 57.7%] ... The magnitude of the difference in dispersion is economically inconsequential.",
+  "value_ok": true,
+  "note": "значение для непиковых 57,7 % — разброс не больше на пиковых, вывод note подтверждается"
+ },
+ "p1-026": {
+  "status": "found",
+  "found_text": "Fares typically double in the sixty days before departure",
+  "value_ok": true,
+  "note": "разд. 3.2.2; относится к монопольным рынкам выборки Williams"
+ },
+ "p1-027": {
+  "status": "found",
+  "found_text": "The sample contains 738,625 observations, as well as over five million connecting fares.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-028": {
+  "status": "found",
+  "found_text": "Table 1: Summary Statistics for the Data Sample ... Variable Mean Std. Dev. Median 5th Pctile. 95th Pctile. ... Load Factor 88.76 13.52 93.42 59.21 100.00",
+  "value_ok": true,
+  "note": "строка подтверждена двумя независимыми чтениями. В тексте: «Average load factor is 89 percent, ranging from 70 percent to 98 percent, by market.» — согласуется"
+ },
+ "p1-029": {
+  "status": "found",
+  "found_text": "Oneway Fare ($) 232.60 139.33 190.18 89.00 504.00",
+  "value_ok": true,
+  "note": "в тексте статьи другое среднее: «The average one-way ticket price in the sample is $233.14.» — расхождение таблицы и текста в самом документе (0,2 %), на выводы не влияет. Порядок строк: Oneway Fare первая, Load Factor вторая; между Load Factor и Unique Fares ещё строки Daily Booking Rate и Daily Fare Change"
+ },
+ "p1-030": {
+  "status": "found",
+  "found_text": "Unique Fares (per itin.) 6.97 2.16 7.00 4.00 11.00",
+  "value_ok": true,
+  "note": "в out/p1.json добавлено «≈10 изменений цены» — этого числа в шагах нет (в Table 1 есть только Daily Fare Change ($) 3.43 31.25 0.00 0.00 46.00); утверждение без опоры на extract"
+ },
+ "p1-031": {
+  "status": "found",
+  "found_text": "I estimate that 24.6 percent of arrivals are business travelers.",
+  "value_ok": true,
+  "note": "модельная оценка, разд. 6"
+ },
+ "p1-032": {
+  "status": "found",
+  "found_text": "business consumers are willing to pay up to 125% more in order to secure a seat",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-034": {
+  "status": "found",
+  "found_text": "We use a panel of 87,601 flight services operated between the UK and the Republic of Ireland",
+  "value_ok": true,
+  "note": "период данных: 1 июня 2003 – 31 декабря 2004"
+ },
+ "p1-035": {
+  "status": "found",
+  "found_text": "All the fares are obtained from the internet using a web spider,",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-036": {
+  "status": "found",
+  "found_text": "posted on the internet 7, 10, 14, 21, 28, 35, 42, 49 and 56 days before the departure.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-037": {
+  "status": "found",
+  "found_text": "We find significant evidence that price dispersion increases with market power and, hence, that the monopoly effect prevails",
+  "value_ok": true,
+  "note": "фраза во Введении (разд. 1), не в «results»; в разд. 4: «a clear pattern indicating a positive and often statistically significant impact of market share on fare dispersion» (Table 3, FE: +0,336, p<0,05; pooled +0,040 незначим). Противоречие с аннотацией подтверждено: аннотация рабочей версии И журнальной (JIE 59(4) 2011, по IDEAS/EconPapers) — «We find a negative correlation between market dominance and price dispersion; thus competition appears to hinder the airlines' ability to price discriminate». Вторая половина той же фразы аннотации согласуется с основным текстом (конкуренция мешает дискриминации = власть повышает разброс), т.е. «negative» в аннотации — внутренне противоречивая формулировка, вероятно опечатка. Держаться основного текста — правильно. Журнальный полный текст не проверялся (за подпиской)."
+ },
+ "p1-038": {
+  "status": "found",
+  "found_text": "Moreover, in the Christmas and Easter periods of high demand, fares are less dispersed, possibly because airlines target a less heterogenous set of consumers.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-040": {
+  "status": "found",
+  "found_text": "As the capacity-based theories predict, it emerges that fares monotonically and substantially increase with flight occupancy.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-041": {
+  "status": "found",
+  "found_text": "On average, each extra sold seat induces a 3.11% increase in a flight's fare.",
+  "value_ok": true,
+  "note": "раздел Conclusions; Ryanair, B737-800, 189 мест — подтверждено в тексте"
+ },
+ "p1-042": {
+  "status": "found",
+  "found_text": "when we condition on capacity utilization to see how fares on average change with the booking day, we observe that the temporal profile of fares assumes a U-shaped form, with the minimum fares occurring 21 to 14 days prior to departure.",
+  "value_ok": true,
+  "note": "разд. 5.2"
+ },
+ "p1-043": {
+  "status": "found",
+  "found_text": "The database includes daily flights information from January 2004 up to, and including, June 2005.",
+  "value_ok": true,
+  "note": "разд. 4"
+ },
+ "p1-044": {
+  "status": "found",
+  "found_text": "Conversely, the airline adjusts its fares downward quite frequently,",
+  "value_ok": true,
+  "note": "разд. 5.2, а не раздел данных"
+ },
+ "p1-051": {
+  "status": "found",
+  "found_text": "Several fare (booking) classes that share the same inventory of seats in the compartment",
+  "value_ok": true,
+  "note": "Belobaba, MIT 16.75, слайды 19.04.2006"
+ },
+ "p1-052": {
+  "status": "found",
+  "found_text": "Nested booking limits Y=140 B=110 M=70",
+  "value_ok": true,
+  "note": "слайд Deterministic Seat Allocation/Protection"
+ },
+ "p1-053": {
+  "status": "found",
+  "found_text": "Accept reservations in excess of aircraft capacity to overcome loss of revenues due to passenger 'no-show' effects",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-054": {
+  "status": "found",
+  "found_text": "Traffic Flow (O-D) Control (Network Optimization)",
+  "value_ok": true,
+  "note": "value «следующая ступень после сегментного» — интерпретация порядка в списке техник RM; допустимо"
+ },
+ "p1-056": {
+  "status": "found",
+  "found_text": "Differential pricing consists of offering multiple combinations of price levels and restrictions",
+  "value_ok": true,
+  "note": "Surges, MIT 2013, разд. 1.1"
+ },
+ "p1-057": {
+  "status": "found",
+  "found_text": "Major restrictions were eliminated, shorter advance purchase requirements were implemented, and the fares were reduced.",
+  "value_ok": true,
+  "note": "разд. 1.1 (локатор «Section 1» верен)"
+ },
+ "p1-058": {
+  "status": "found",
+  "found_text": "The LCCs typically implemented more simplified fare structures compared to their NLC counterparts.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-059": {
+  "status": "found",
+  "found_text": "OD controls are especially important given that the majority of major airlines operate hub-and-spoke networks",
+  "value_ok": true,
+  "note": "разд. 2.1.1.2"
+ },
+ "p1-064": {
+  "status": "found",
+  "found_text": "We obtained data over two years and created a sample of flights that departed between August 1, 2018 and August 31, 2019.",
+  "value_ok": true,
+  "note": "разд. 3.1"
+ },
+ "p1-065": {
+  "status": "found",
+  "found_text": "Each fare is categorized into one of approximately a dozen “fare classes,” which are used by the heuristic.",
+  "value_ok": true,
+  "note": "разд. 3.2"
+ },
+ "p1-066": {
+  "status": "found",
+  "found_text": "It does not choose a price, rather, it allocates how many seats it is willing to sell at each fare",
+  "value_ok": true,
+  "note": "в оригинале с заглавной «It»; разд. 2.1"
+ },
+ "p1-067": {
+  "status": "found",
+  "found_text": "This includes choosing a discrete menu of fares and fare restrictions, including any AP requirements, for every itinerary.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-068": {
+  "status": "found",
+  "found_text": "In Figure II-(b), we plot average prices over time. Prices increase by over 70% in 120 days.",
+  "value_ok": true,
+  "note": "разд. 3.3; «price» в статье = LAF (lowest non-basic economy fare available), т.е. рост видимой минимальной цены, среднее по рейсам"
+ },
+ "p1-069": {
+  "status": "found",
+  "found_text": "Prices increase even for flights with low realized demand due to AP discounts expiring.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-070": {
+  "status": "found",
+  "found_text": "Moreover, the vast majority of consumers purchase the LAF.",
+  "value_ok": true,
+  "note": "LAF определён как «the lowest, nonbasic economy fare available for purchase»"
+ },
+ "p1-071": {
+  "status": "found",
+  "found_text": "We find that 5.8% of consumers purchase basic fares, and 4.8% of consumers purchase more expensive fares.",
+  "value_ok": true,
+  "note": "сноска 19: выше LAF чаще покупают клиенты с высшим статусом; «special fares, such as corporate or government discounts, are rare in the routes studied». Расчёт 100−5,8−4,8=89,4 % (p1-087) арифметически верен; оговорка — basic дешевле LAF, так что ~95 % платят LAF или меньше; данные одного перевозчика на отобранных маршрутах"
+ },
+ "p1-073": {
+  "status": "found",
+  "found_text": "Our sample from the DOC includes 413,309 passenger responses for 2009-2011.",
+  "value_ok": true,
+  "note": "разд. 2.1. Авторы по arXiv: Gaurab Aryal, Charles Murry, Jonathan W. Williams — в out/p1.json ошибочно «Williams, K. R.» (это другой Williams)"
+ },
+ "p1-074": {
+  "status": "found",
+  "found_text": "About 14% of the passengers flew for business purposes, and these passengers paid an average price of $684 for one direction of their itinerary.",
+  "value_ok": true,
+  "note": "Table 4: Business 14.43 %"
+ },
+ "p1-075": {
+  "status": "found",
+  "found_text": "In the last two months before the flight, the share of passengers traveling for leisure is approximately 90%.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-076": {
+  "status": "found",
+  "found_text": "This share decreases to 65% a week before the flight.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-077": {
+  "status": "found",
+  "found_text": "these passengers paid an average price of $684 for one direction of their itinerary.",
+  "value_ok": true,
+  "note": "Table 4: Business 14.43 | 684 | 716"
+ },
+ "p1-078": {
+  "status": "found",
+  "found_text": "Leisure passengers paid an average of $446.",
+  "value_ok": true,
+  "note": "684/446=1,53 верно. Table 4: Leisure 85.57 | 446 | 400. Это средние по всем классам (в т.ч. First 7,5 % при 897 $), не только эконом"
+ },
+ "p1-079": {
+  "status": "found",
+  "found_text": "The average fare increases for tickets purchased closer to the departure date, as does the standard deviation.",
+  "value_ok": true,
+  "note": "разд. 2.2"
+ },
+ "p1-081": {
+  "status": "found",
+  "found_text": "On average, 10 percent of early arrivals are the type labeled \"business\"",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-082": {
+  "status": "found",
+  "found_text": "close to 80 percent of late arrivals are the type labeled \"business.\"",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-083": {
+  "status": "found",
+  "found_text": "At sixty days before departure, roughly 42 percent of seats are already occupied.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-084": {
+  "status": "found",
+  "found_text": "I observe that 15.7 percent of flights sell out.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-085": {
+  "status": "found",
+  "found_text": "Well before the departure date, the number of fare hikes and the number of fare declines are roughly even.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-086": {
+  "status": "found",
+  "found_text": "Less than 60 percent of flights experience a price increase at the 7-day AP requirement.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-093": {
+  "status": "found",
+  "found_text": "I recorded fares manually from a website that has access to global distribution systems subscribed to ATPCO data.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-094": {
+  "status": "found",
+  "found_text": "I manually removed the taxes to get the published fares.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-095": {
+  "status": "found",
+  "found_text": "As in the figure, these times typically occur 6, 13 and 20 days before departure.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-096": {
+  "status": "found",
+  "found_text": "In the United States, the majority of sold fares are public.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-097": {
+  "status": "found",
+  "found_text": "...relative frequency of observing a ticket within a given price range using the 10% sample of airline tickets.",
+  "value_ok": true,
+  "note": "сравнение с 10 % выборкой DB1B подтверждено"
+ },
+ "p1-099": {
+  "status": "found",
+  "found_text": "1, 4, 7, 10, 14, 21, 28, 35, 42, 49, 56, 63 and 70 days from the date of the query.",
+  "value_ok": true,
+  "note": "Piga, Bachis (2006)"
+ },
+ "p1-100": {
+  "status": "found",
+  "found_text": "Fares were collected before tax and handling fees.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-101": {
+  "status": "found",
+  "found_text": "the fare available four days before departure is more than twice as high as that available two months before",
+  "value_ok": false,
+  "note": "цитата есть, но value неточен: это СРЕДНИЙ тариф Ryanair («Ryan Air's mean fares», Table 2, все маршруты), а не минимальный тариф и не «лоукостеры» вообще; данные июнь 2002 – июнь 2004. В out/p1.json «тариф >×2» без слова «минимальный» — там корректно"
+ },
+ "p1-102": {
+  "status": "found",
+  "found_text": "For some airlines the early booking fares may be higher than those available from four to two weeks prior to departure.",
+  "value_ok": true,
+  "note": "в оригинале «For some airlines» — оговорка, не общее правило"
+ },
+ "p1-103": {
+  "status": "found",
+  "found_text": "Unexpectedly, FSCs tend to change their fares more frequently than LCCs.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-104": {
+  "status": "found",
+  "found_text": "Finally, especially within the last two weeks, Full Service Carriers may offer lower fares than those posted by Low Cost Carriers.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-108": {
+  "status": "found",
+  "found_text": "online customers pay about 13 percent less than offline customers",
+  "value_ok": true,
+  "note": "разд. 5; Sengupta, Wiggins, NET Institute WP 06-07 (2006)"
+ },
+ "p1-109": {
+  "status": "found",
+  "found_text": "If one does not control for ticket characteristics, estimated internet savings rise to more than 40 percent.",
+  "value_ok": true,
+  "note": "введение"
+ },
+ "p1-111": {
+  "status": "found",
+  "found_text": "The ADI database provides monthly fare and booking information for most itineraries worldwide",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-112": {
+  "status": "found",
+  "found_text": "the ninety-ninth percentile fare within coach is about four times as expensive as the first percentile",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-113": {
+  "status": "found",
+  "found_text": "the majority of Air Canada's passengers travel in coach class with only 4 percent in business class",
+  "value_ok": true,
+  "note": "выборка — прямые рейсы между 15 крупнейшими городами Канады"
+ },
+ "p1-114": {
+  "status": "found",
+  "found_text": "competition has little impact at the top or the bottom of the price distribution but a significant impact in the middle",
+  "value_ok": true,
+  "note": "аннотация"
+ },
+ "p1-115": {
+  "status": "found",
+  "found_text": "each additional competitor leads to a 7 percent to 8 percent reduction in fares on tickets between the twenty-fifth and the seventy-fifth percentile",
+  "value_ok": true,
+  "note": "«средняя часть» = P25–P75, value верен"
+ },
+ "p1-119": {
+  "status": "found",
+  "found_text": "Our study focuses on domestic, direct, coach-class tickets from nine major carriers over the period 1993 to 2006.",
+  "value_ok": true,
+  "note": "заголовок рабочей версии в документе: «Does Competition Reduce Price Discrimination? New Evidence from the Airline Industry» (в журнале шага — «...Price Dispersion?», это название JPE-версии)"
+ },
+ "p1-120": {
+  "status": "found",
+  "found_text": "The average Gini coefficient is 0.22 in both 1993 and 2006, ...",
+  "value_ok": true,
+  "note": "Джини считается по паре перевозчик–направление (carrier-route), а не по направлению в целом, как в value; по Table 1 — кварталы 1993Q1 и 2006Q3"
+ },
+ "p1-121": {
+  "status": "found",
+  "found_text": "The big-city route shows more price dispersion than the leisure route ...",
+  "value_ok": true,
+  "note": "это пример двух конкретных маршрутов, обобщение в value — интерпретация"
+ },
+ "p1-122": {
+  "status": "found",
+  "found_text": "We find that competition has a negative effect on price dispersion, ...",
+  "value_ok": true,
+  "note": "аннотация. Знак совпадает с основным текстом Gaggero–Piga (рыночная власть ↑ разброс ⇔ конкуренция ↓ разброс). В out/p1.json (блок effect про конкуренцию) они поданы как противоположные («спорный: Gerardi-Shapiro снижает; Gaggero-Piga — власть повышает») — это одно и то же направление; противоположен только Borenstein & Rose 1994"
+ },
+ "p1-124": {
+  "status": "found",
+  "found_text": "We find that fares are 5% lower when purchased on the weekend.",
+  "value_ok": true,
+  "note": "аннотация на EconPapers (Puller, Taylor, JEBO 84(3) 2012)"
+ },
+ "p1-125": {
+  "status": "found",
+  "found_text": "the weekend purchase effect is distinctly larger on routes with a mixture of both business and leisure customers",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-129": {
+  "status": "found",
+  "found_text": "\"% Business\" / \"13%\" / \"YoY: -1%pt ▼\"",
+  "value_ok": true,
+  "note": "документ: «CAA Survey 2024: All Airport Summary» (Power BI, Departing Passenger Survey 2024). Плитка рядом: «% Leisure 87%» (= отдых+VFR). График «% Travel Purpose 2024»: в тексте значения 53%, 34%, 13% и подписи Leisure, VFR, Business без явной привязки — сопоставление 53/34/13 выводится по порядку и сумме 87 %, текстом не подтверждено (сборщик сам пометил «сверять визуально»)"
+ },
+ "p1-130": {
+  "status": "found",
+  "found_text": "\"% Foreign Resid.\" / \"32%\" / \"YoY: -3%pt ▼\"",
+  "value_ok": true,
+  "note": "та же страница плиток"
+ },
+ "p1-132": {
+  "status": "found",
+  "found_text": "travelers of this peak-period have to pay 21.9% higher fares than off-peak travelers.",
+  "value_ok": true,
+  "note": "пик — рейсы во вторник 22.11.2005 перед Днём благодарения; оценка по столбцу (6)"
+ },
+ "p1-138": {
+  "status": "found",
+  "found_text": "The final price to be paid shall at all times be indicated",
+  "value_ok": true,
+  "note": "открыта датированная редакция 28.05.2020 (UK retained law), сайт помечает её как superseded; для ЕС действующий текст Ст. 23(1) в этой части тот же по смыслу, но первоисточник ЕС (EUR-Lex) не проверялся"
+ },
+ "p1-139": {
+  "status": "found",
+  "found_text": "shall include the applicable air fare or air rate as well as all applicable taxes,",
+  "value_ok": true,
+  "note": "полностью в статье также «charges, surcharges and fees which are unavoidable» — т.е. и аэропортовые сборы входят в конечную цену; поправка в note корректна"
+ },
+ "p1-140": {
+  "status": "found",
+  "found_text": "Optional price supplements shall be communicated in a clear, transparent and unambiguous way ... and their acceptance by the customer shall be on an ‘opt-in’ basis.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-144": {
+  "status": "found",
+  "found_text": "The data also suggest that the average fare falls by less than the bag fee itself",
+  "value_ok": true,
+  "note": "аннотация на EconPapers (Brueckner, Lee, Picard, Singer, JEMS 24(3) 2015); полный текст не открывался"
+ },
+ "p1-150": {
+  "status": "found",
+  "found_text": "...about 1.4 million prices for airline tickets on the intra-European market",
+  "value_ok": true,
+  "note": "Siegert (Bank of England), Ulbricht (TSE); введение"
+ },
+ "p1-151": {
+  "status": "found",
+  "found_text": "these differences are mainly driven by the last 5 weeks before departure. Over this period, prices on monopoly routes increase by 95 percent",
+  "value_ok": true,
+  "note": "«this period» = последние 5 недель до вылета — подтверждено"
+ },
+ "p1-152": {
+  "status": "found",
+  "found_text": "prices on routes served by five competitors increase by only 60 percent",
+  "value_ok": true,
+  "note": "та же фраза, введение"
+ },
+ "p1-153": {
+  "status": "found",
+  "found_text": "showing an increase of about 0.45 percent for each day a customer waits to book",
+  "value_ok": true,
+  "note": "разд. 4.2 (Nonlinear advanced purchase discounts); «до ≈5 недель» в value — из контекста раздела, отдельно не проверено"
+ },
+ "p1-155": {
+  "status": "found",
+  "found_text": "Table 4: Summary Statistics from SIAT, Ticket Characteristics of Nonstop Passengers ... Advance Purchase ... 0-3 Days 4.03 617 636",
+  "value_ok": true,
+  "note": "столбцы: Proportion of Sample, Fare Mean, S.D. Таблица прочитана без подсказки значений — все 8 строк совпали со сборщиком (4-7 5.08/632/679; 8-14 7.00/571/599; 15-29 10.49/553/567; 30-44 16.76/478/429; 61-100 16.44/414/315). Доли — по ненепосадочной выборке SIAT, все классы обслуживания"
+ },
+ "p1-156": {
+  "status": "found",
+  "found_text": "45-60 Days 17.27 467 432",
+  "value_ok": true,
+  "note": "Table 4"
+ },
+ "p1-157": {
+  "status": "found",
+  "found_text": "101+ Days 22.93 419 387",
+  "value_ok": true,
+  "note": "Table 4. Замечание к infer p1-159/p1-204: взвешенное ≈480 $ (проверено: 479,9) — среднее ВСЕХ классов (Economy 92,5 %/447 $, First 7,5 %/897 $). Для эконома ориентир 447 $: тогда ранние окна 414–419 $ ≈0,93 эконом-среднего, а не 0,87; вывод «≈0,87 от общего среднего» для эконома завышает разрыв"
+ },
+ "p1-158": {
+  "status": "found",
+  "found_text": "However, the fraction of business passengers increases from 0 in the first period to 35% in the last period.",
+  "value_ok": true,
+  "note": "разд. 5.1 (Market Heterogeneity) — это модельная оценка по периодам для рынка(ов), а не описательная статистика"
+ },
+ "p1-163": {
+  "status": "found",
+  "found_text": "Vacation/Holiday was the top main purpose of the trip (57.1 percent), followed by Visit Friends/Relatives (22.2 percent), and Business (16.4 percent).",
+  "value_ok": true,
+  "note": "цифры относятся к 34,3 млн заокеанских (overseas) посетителей — без Канады и Мексики; это нерезиденты США, прилетающие в США"
+ },
+ "p1-164": {
+  "status": "found",
+  "found_text": "The average overseas visitor made the decision to visit the United States 104 days prior to the trip and made an airline reservation 79 days prior to the trip.",
+  "value_ok": true,
+  "note": "заокеанские посетители США"
+ },
+ "p1-167": {
+  "status": "found",
+  "found_text": "plus any additional taxes and fees levied by an outside entity at the time of purchase",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-168": {
+  "status": "found",
+  "found_text": "do not include fees for optional services, such as baggage fees",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-169": {
+  "status": "found",
+  "found_text": "Itinerary fares consist of round-trip fares, unless the customer does not purchase a return trip.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-172": {
+  "status": "found",
+  "found_text": "Table 1 of this report covers the 1,000 largest city-pair markets in the 48 contiguous states.",
+  "value_ok": true,
+  "note": "Domestic Airfare Consumer Report, 1 кв. 2026 (опубл. сент. 2026)"
+ },
+ "p1-173": {
+  "status": "found",
+  "found_text": "The average fares in this report reflect the each-way prices paid by all passengers on domestic commercial airlines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-174": {
+  "status": "found",
+  "found_text": "These averages include first-class tickets, taxes, and airport fees.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-175": {
+  "status": "found",
+  "found_text": "Note that the \"lowest fare carrier\" is the carrier with the lowest average fare that has at least a 10 percent share of the traffic in the market, except for markets where only a single carrier has a 10 percent or greater share.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-180": {
+  "status": "found",
+  "found_text": "Scheduled revenue increased 1% to €9.23bn as traffic (despite repeated Boeing delivery delays) grew 9%.",
+  "value_ok": true,
+  "note": "6-K Ryanair Holdings, FY25 (год до 31.03.2025)"
+ },
+ "p1-181": {
+  "status": "found",
+  "found_text": "Ancillary revenues were solid rising 10% to €4.72bn.",
+  "value_ok": true,
+  "note": "4,72/9,23 = 0,511; 4,72/13,95 = 0,338 — расчёт p1-183 верен"
+ },
+ "p1-182": {
+  "status": "found",
+  "found_text": "Total revenue rose 4% to €13.95bn.",
+  "value_ok": true,
+  "note": ""
+ },
+ "p1-184": {
+  "status": "found",
+  "found_text": "The absence of a full Easter in Q1, consumer spending pressure (driven by higher-for-longer interest rates and inflation in H1) and a big drop off in OTA bookings prior to S.24 necessitated repeated price stimulation last year.",
+  "value_ok": true,
+  "note": "причины — нет полной Пасхи в Q1, давление на потребительские расходы, обвал бронирований через OTA; загрузка 94 % в таблице подтверждена. Обобщение «политика загрузка важнее доходности» — интерпретация"
+ },
+ "p1-191": {
+  "status": "found",
+  "found_text": "Differentials for Northwest's hubs are 13 percent for Detroit, 37 percent for Minneapolis, and 35 percent for Memphis.",
+  "value_ok": true,
+  "note": "с. 6; результаты Borenstein (1999) в пересказе Gordon & Jenkins — вторичная цитата"
+ },
+ "p1-192": {
+  "status": "found",
+  "found_text": "Table 5 provides several alternative weightings ... there is no hub premium at all, and instead there is a hub discount in the range of -4.3 to -5.0 percent.",
+  "value_ok": true,
+  "note": "с. 12 (не 13); собственная оценка Gordon & Jenkins по внутренним данным Northwest 1996–98 — исследование, заказное для перевозчика (стоит учитывать при весе)"
+ },
+ "p1-195": {
+  "status": "found",
+  "found_text": "accounted for a modest 5.2% of total international O-D passengers",
+  "value_ok": true,
+  "note": "первые 8 месяцев 2017 г. — данные старые"
+ },
+ "p1-196": {
+  "status": "found",
+  "found_text": "at 25.5%, accounted for a much higher share of airline revenues",
+  "value_ok": true,
+  "note": "международные O-D, 8 мес. 2017"
+ },
+ "p1-197": {
+  "status": "found",
+  "found_text": "almost 47% across the North Atlantic",
+  "value_ok": true,
+  "note": "доля премиум-пассажиров там же: «nearly 13% across the North Atlantic» — note сборщика подтверждён"
+ },
+ "p1-199": {
+  "status": "found",
+  "found_text": "the average Gini is approximately 0.35, which implies that the expected difference in fares between two random passengers",
+  "value_ok": true,
+  "note": "разд. 3 (Econometric Model); UK–IE, июнь 2003 – дек. 2004"
+ },
+ "p1-200": {
+  "status": "found",
+  "found_text": "allows the airline to separate price inelastic passengers, who are mostly late bookers, from price elastic passengers",
+  "value_ok": true,
+  "note": "разд. 6 (Conclusion)"
+ },
+ "p1-201": {
+  "status": "found",
+  "found_text": "a simple pricing structure with one cabin class (with optional paid-for in-flight food and drink), and no discrimination between one-way and round-trip ticket fares;",
+  "value_ok": true,
+  "note": "разд. 3; «цена в одну сторону» в value следует из «no discrimination between one-way and round-trip»"
+ }
+}
