@@ -54,7 +54,7 @@ KEEP_BACKUPS = 7
 # Источники, у которых сырьё живёт только у владельца. Сервер их не
 # обновляет (файлов там нет и не будет), их факты приходят `send`.
 HOME_ONLY = {"aircraft_user", "form41", "eurostat_par", "t100", "ru_pairs",
-             "adsb_flights", "market_fare", "observation"}
+             "adsb_flights", "market_fare", "observation", "db1c_market"}
 # Источник в реестре и метка, под которой его факты лежат в базе, не всегда
 # совпадают: свёртка наблюдений ADS-B (`fca observe --aggregate`) пишет
 # факты с source_id «observation», а в реестре источник — adsb_flights.

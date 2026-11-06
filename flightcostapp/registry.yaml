@@ -846,6 +846,53 @@ sources:
       value_min: 0.0
       value_max: 1.0
 
+  dot_car:
+    title: Средние оплаченные тарифы по парам США — DOT Consumer Airfare Report, Table 1a
+    # Исследование 13: единственный открытый ряд СРЕДНЕГО ОПЛАЧЕННОГО тарифа
+    # по паре. Эталон для метода «минимум по глубине продажи → средний
+    # тариф» вместо допущения 1,2 / 2,0 (решение 210).
+    kind: csv
+    contour: deterministic
+    url: https://data.transportation.gov/api/v3/views/tfrh-tu9e/export.csv?accessType=DOWNLOAD
+    public: full
+    license: U.S. Government Works (data.transportation.gov)
+    parser: dot_car
+    domain: fare_paid
+    cadence_days: 30         # квартальный отчёт, задержка 5–6 месяцев
+    sla_days: 240
+    tier: 2
+    gate: auto
+    note: >
+      Тариф в одну сторону по всем пассажирам, с первым классом, налогами и
+      аэропортовыми сборами, без бонусных билетов и допуслуг. Пара без
+      направления. С 2024 года — год до окна страницы показателей.
+
+  db1c_market:
+    title: Оплаченные тарифы по парам США — свёртка выборки билетов BTS DB1C
+    # Сырые файлы (40 % билетов, строка — пассажир) — только у владельца,
+    # data/raw/db1c/: лицензия DB1C прямо не заявлена (исследование 13,
+    # verify/p2), до проверки строки не уходят ни на сервер, ни в репозиторий.
+    # Сюда — свёртка tools/db1c_fetch.py: агрегаты по паре и месяцу.
+    kind: directory
+    contour: deterministic
+    path: data/raw/db1c/agg
+    glob: "DB1C-*.json"
+    public: full             # публикуются только агрегаты по паре и месяцу
+    license: >
+      данные правительства США (BTS); явной лицензии на DB1C нет — до проверки
+      храним строки только у владельца, публикуем агрегаты
+    home: https://www.bts.gov/topics/airlines-and-airports/origin-and-destination-survey-data-market
+    parser: db1c_agg
+    domain: fare_paid
+    cadence_days: 30
+    sla_days: 150
+    tier: 2
+    gate: auto
+    note: >
+      По паре и месяцу: пассажиры выборки, средний тариф и квантили на прямых
+      рынках, доли и средние по группам глубины продажи (до 21 дня, 22–90,
+      от 91), средний по всем рынкам с пересадками.
+
   market_fare:
     title: Наблюдения рыночной цены из агрегатора
     kind: custom             # сеть вне контура, свой ключ, свой скрипт
