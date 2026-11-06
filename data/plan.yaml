@@ -32,7 +32,7 @@ items:
     added: 2026-11-06
 
   - id: monitor-page
-    status: now
+    status: done
     area: site
     title:
       ru: "Страница «План и показатели»: план работ и ряды изменений"
@@ -45,6 +45,7 @@ items:
     by: owner
     via: owner
     added: 2026-11-05
+    done: 2026-11-06
 
   - id: research-market
     status: next
