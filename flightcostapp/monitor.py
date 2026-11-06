@@ -111,7 +111,7 @@ T = {
         "own_note": "Это не ставка лизинга одного договора: в сумме и собственные, и арендованные борта, по "
                     "балансовой стоимости. Открытого ряда ставок лизинга по типам нет — ищем.",
         "missing": "В базе нет ряда: {what}.",
-        "src": "Источник", "last": "последнее", "upd": "Обновлено",
+        "src": "Источник", "pick": "нажмите на регион в легенде, чтобы показать или скрыть", "last": "последнее", "upd": "Обновлено",
         "window": "Все ряды — с января 2025 года: расчёт стоит на данных по итогам 2025-го, и ряды начинаются с "
                   "одной даты, чтобы их можно было сравнивать. Более длинная история — в исследованиях.",
         "bot": "Предложить в план — Телеграм-бот проекта",
@@ -169,7 +169,7 @@ T = {
         "own_note": "Not a single lease rate: owned and leased aircraft at book value together. There is no open "
                     "series of lease rates by type — we are looking.",
         "missing": "No series in the database: {what}.",
-        "src": "Source", "last": "latest", "upd": "Updated",
+        "src": "Source", "pick": "click a region in the legend to show or hide it", "last": "latest", "upd": "Updated",
         "window": "All series start in January 2025: the calculation rests on full-year 2025 data, and the series "
                   "share one start date so they can be compared. Longer history is in the research articles.",
         "bot": "Suggest work — the project's Telegram bot",
@@ -228,7 +228,7 @@ T = {
         "own_note": "Kein einzelner Leasingsatz: eigene und geleaste Flugzeuge zusammen, zum Buchwert. Eine offene "
                     "Reihe von Leasingsätzen nach Typ gibt es nicht — wir suchen.",
         "missing": "Keine Reihe in der Datenbank: {what}.",
-        "src": "Quelle", "last": "zuletzt", "upd": "Aktualisiert",
+        "src": "Quelle", "pick": "Region in der Legende anklicken, um sie ein- oder auszublenden", "last": "zuletzt", "upd": "Aktualisiert",
         "window": "Alle Reihen beginnen im Januar 2025: die Berechnung beruht auf Daten des Gesamtjahres 2025, und "
                   "die Reihen haben ein gemeinsames Startdatum, damit sie vergleichbar sind. Längere Historie in den Recherchen.",
         "bot": "Vorschlag einreichen — Telegram-Bot des Projekts",
@@ -407,6 +407,8 @@ FUEL_NAMES = {
 CONF = {"высокая": {"en": "high", "de": "hoch"}, "средняя": {"en": "medium", "de": "mittel"},
         "низкая": {"en": "low", "de": "niedrig"}, "заглушка": {"en": "placeholder", "de": "Platzhalter"}}
 FUEL_FILE = ROOT / "data" / "fuel" / "_regional.yaml"
+# Регионы на графике топлива по умолчанию; остальные включаются в легенде.
+FUEL_DEFAULT = {"north_america", "europe", "india", "russia", "africa", "spot"}
 # Цвет и штрих региона на общем графике: Россия — один цвет и три штриха,
 # остальные — свои цвета. 11 линий цветом не различить, штрих помогает.
 FUEL_STYLE = {
@@ -758,7 +760,8 @@ def _fmt(v: float, lang: str) -> str:
 
 def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int = 720, h: int = 240,
                band: list | None = None, y_range: tuple | None = None, cls: str = "",
-               styles: list | None = None, legend_below: bool = False, bands: dict | None = None) -> str:
+               styles: list | None = None, legend_below: bool = False, bands: dict | None = None,
+               ids: list | None = None, shown: set | None = None) -> str:
     """SVG-линии по категориям времени (месяц «2026-05» или год «2024»).
     Подпись каждой линии — в легенде с последним значением: цвет не
     единственный признак. Без скрипта: страница читается и роботом, и при
@@ -798,12 +801,12 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         if (hi - lo) / (step * k) <= 5:
             step *= k
             break
-    g = []
+    g, ylab = [], []                                       # подписи оси Y — поверх линий
     v = math.ceil(lo / step) * step
     while v <= hi:
         y = Y(v)
-        g.append(f'<line x1="{L}" x2="{w - R}" y1="{y:.1f}" y2="{y:.1f}" class="gl"/>'
-                 f'<text x="{L + 2}" y="{y - 4:.1f}" class="ax">'
+        g.append(f'<line x1="{L}" x2="{w - R}" y1="{y:.1f}" y2="{y:.1f}" class="gl"/>')
+        ylab.append(f'<text x="{L + 2}" y="{y - 4:.1f}" class="ax yl">'
                  f'{esc(_fmt(round(v) if step >= 1 else v, lang))}</text>')
         v += step
     nlab = min(len(xs), 7)
@@ -824,12 +827,23 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in band)
         dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(band))
         paths.append(f'<polygon points="{up} {dn}" fill="{COLORS[0]}" fill-opacity=".18"/>')
-    for i, bb in bands.items():                            # полоса линии i — её цветом
-        c = styles[i][0] if styles and i < len(styles) else COLORS[i % len(COLORS)]
-        up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in bb)
-        dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(bb))
-        paths.append(f'<polygon points="{up} {dn}" fill="{c}" fill-opacity=".16"/>')
+    # ids/shown — выбор линий: каждая линия со своей полосой — группа
+    # <g data-s>, легенда — кнопки; скрипт страницы (TOGGLE_JS) прячет и
+    # показывает. Без скрипта видны линии по умолчанию.
+    def grp_open(i):
+        if not ids:
+            return ""
+        hid = "" if shown is None or ids[i] in shown else ' style="display:none"'
+        return f'<g data-s="{esc(ids[i])}"{hid}>'
+
+    grp_close = "</g>" if ids else ""
     for i, (name, pts) in enumerate(lines):
+        paths.append(grp_open(i))
+        if i in bands:                                     # полоса линии — её цветом, под ней
+            c = styles[i][0] if styles and i < len(styles) else COLORS[i % len(COLORS)]
+            up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in bands[i])
+            dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(bands[i]))
+            paths.append(f'<polygon points="{up} {dn}" fill="{c}" fill-opacity=".16"/>')
         # styles[i] = (цвет, штрих или None, толщина): много линий на одном
         # графике различаются не только цветом, но и штрихом.
         c, dash, sw = (styles[i] if styles and i < len(styles) else (COLORS[i % len(COLORS)], None, 2))
@@ -842,15 +856,24 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         lx, ly = pts[-1]
         sw_i = (f'<svg width="18" height="6"><line x1="0" y1="3" x2="18" y2="3" stroke="{c}" stroke-width="2.5"{da}/></svg>'
                 if dash else f'<i style="background:{c}"></i>')
+        paths.append(grp_close)
         when = "" if legend_below else f' <em>({esc(lx)})</em>'
-        legend.append((ly, f'<span>{sw_i}{esc(name)}: <b>{esc(_fmt(ly, lang))}</b>{when}</span>'))
+        inner = f'{sw_i}{esc(name)}: <b>{esc(_fmt(ly, lang))}</b>{when}'
+        if ids:
+            on = shown is None or ids[i] in shown
+            legend.append((ly, f'<button type="button" class="lgb{"" if on else " off"}" data-s="{esc(ids[i])}" '
+                               f'aria-pressed="{"true" if on else "false"}">{inner}</button>'))
+        else:
+            legend.append((ly, f'<span>{inner}</span>'))
     svg = (f'<svg viewBox="0 0 {w} {h}" class="ch {cls}" role="img" preserveAspectRatio="none">'
-           + "".join(g) + "".join(paths) + "</svg>")
+           + "".join(g) + "".join(paths) + "".join(ylab) + "</svg>")
     if legend_below:
         # Под графиком — по последнему значению сверху вниз, как линии стоят на графике.
         items = "".join(x for _, x in sorted(legend, key=lambda z: -z[0]))
         last = max(p[-1][0] for _, p in lines)
-        return f'{svg}<div class="lg2 below">{items}</div><p class="cap">{esc(T[lang]["last"])}: {esc(last)}</p>'
+        hint = f' · {esc(T[lang]["pick"])}' if ids else ""
+        return (f'<div class="pick" data-key="{esc(cls or "chart")}">{svg}<div class="lg2 below">{items}</div></div>'
+                f'<p class="cap">{esc(T[lang]["last"])}: {esc(last)}{hint}</p>')
     return f'<div class="lg2">{"".join(x for _, x in legend)}</div>{svg}'
 
 
@@ -898,7 +921,7 @@ def series_html(lang: str, d: dict) -> str:
                       t["dflt_note"]))
     f = d.get("fuel") or {}
     regs = sorted(f.get("regions") or [], key=lambda r: -r["k"])
-    lines, styles, bands = [], [], {}
+    lines, styles, bands, ids = [], [], {}, []
     kf = lambda v: str(v) if lang == "en" else str(v).replace(".", ",")  # noqa: E731
     for r in regs:
         name = r["name"] if lang == "ru" else nm(FUEL_NAMES, r["code"], r["name"])
@@ -910,10 +933,13 @@ def series_html(lang: str, d: dict) -> str:
         else:
             lines.append((f"{name} ×{kf(r['k'])}", r["line"]))
         styles.append(FUEL_STYLE.get(r["code"], (COLORS[len(styles) % len(COLORS)], None, 2)))
+        ids.append(r["code"])
     if f.get("spot"):
         lines.append((t["fuel_spot_l"], f["spot"]))
         styles.append(("#8a8a8a", "2 4", 1.5))
-    body = line_chart(lines, lang, t["fuel_spot_u"], h=300, styles=styles, legend_below=True, bands=bands) \
+        ids.append("spot")
+    body = line_chart(lines, lang, t["fuel_spot_u"], h=300, styles=styles, legend_below=True, bands=bands,
+                      ids=ids, shown=FUEL_DEFAULT, cls="fuel") \
         or miss("jet_fuel_price spot/USGC")
     dm = f.get("damper") or []
     if dm:
@@ -980,18 +1006,47 @@ ul.plan .area{display:inline-block;padding:0 7px;border:1px solid var(--line);bo
 svg.ch{width:100%;height:auto;display:block}
 svg.ch .gl{stroke:var(--line);stroke-width:1}
 svg.ch .ax{fill:var(--dim);font:11px var(--sans)}
+svg.ch .yl{paint-order:stroke;stroke:var(--panel);stroke-width:3px}
 svg.ch .vl{fill:var(--ink2);font:12px var(--sans)}
 .lg2{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;margin:4px 0}
 .lg2 i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px}
 .lg2 em{color:var(--dim);font-style:normal}
 .lg2.below{margin:8px 0 2px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:3px 14px}
 .lg2 svg{vertical-align:middle;margin-right:6px}
+.lgb{all:unset;cursor:pointer;padding:2px 4px;border-radius:4px;font-size:12.5px;color:var(--ink)}
+.lgb:hover{background:var(--line)}.lgb:focus-visible{outline:2px solid var(--accent)}
+.lgb.off{opacity:.45}.lgb.off b{font-weight:normal}
 .pn .foot{font-size:12.5px;color:var(--ink);margin:8px 0 2px}
 .botl{display:inline-block;margin:6px 0}
 @media(max-width:640px){svg.ch .ax{font-size:22px}svg.ch .vl{font-size:23px}svg.ch .ax.odd{display:none}
   svg.ch.sm .ax{font-size:26px}svg.ch.sm .ax.mid{display:none}
   .pn{padding:2px 10px 8px}}
 </style>"""
+
+
+TOGGLE_JS = """<script>
+(function(){
+  // Выбор линий в легенде. Выбор помнится в этом браузере (localStorage —
+  // удобство, не данные: нет хранилища — работает умолчание).
+  document.querySelectorAll('.pick').forEach(function(box){
+    var key = 'fca.monitor.' + box.dataset.key, saved = null;
+    try { saved = JSON.parse(localStorage.getItem(key) || 'null'); } catch (e) {}
+    function apply(id, on){
+      box.querySelectorAll('g[data-s="' + id + '"]').forEach(function(g){ g.style.display = on ? '' : 'none'; });
+      box.querySelectorAll('.lgb[data-s="' + id + '"]').forEach(function(b){
+        b.classList.toggle('off', !on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    }
+    if (Array.isArray(saved)) box.querySelectorAll('.lgb').forEach(function(b){ apply(b.dataset.s, saved.indexOf(b.dataset.s) >= 0); });
+    box.querySelectorAll('.lgb').forEach(function(b){
+      b.addEventListener('click', function(){
+        apply(b.dataset.s, b.classList.contains('off'));
+        var on = []; box.querySelectorAll('.lgb:not(.off)').forEach(function(x){ on.push(x.dataset.s); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch (e) {}
+      });
+    });
+  });
+})();
+</script>"""
 
 
 def page(lang: str, plan: list[dict], data: dict | None, tab: str = "plan", bot_url: str = "") -> str:
@@ -1004,7 +1059,7 @@ def page(lang: str, plan: list[dict], data: dict | None, tab: str = "plan", bot_
     if bot_url:
         body.append(f'<a class="cta botl" href="{esc(bot_url)}">{esc(t["bot"])} →</a>')
     body.append(tabs)
-    body.append(series_html(lang, data or {}) if tab == "series" else plan_html(lang, plan))
+    body.append(series_html(lang, data or {}) + TOGGLE_JS if tab == "series" else plan_html(lang, plan))
     canon = f"{seo.site()}/{lang}/monitor" + ("?tab=series" if tab == "series" else "")
     alts = [(lg, f"{seo.site()}/{lg}/monitor" + ("?tab=series" if tab == "series" else "")) for lg in seo.LANGS]
     alts.append(("x-default", f"{seo.site()}/en/monitor" + ("?tab=series" if tab == "series" else "")))
