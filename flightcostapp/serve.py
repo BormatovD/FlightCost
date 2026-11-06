@@ -290,7 +290,7 @@ class _Handler(BaseHTTPRequestHandler):
                 print(f"monitor: {e}", file=sys.stderr)
                 plan = []
             data = ctx.monitor_data() if tab == "series" else None
-            self._public(monitor.page(lang, plan, data, tab, os.environ.get("FCA_BOT_URL", "")).encode("utf-8"),
+            self._public(monitor.page(lang, plan, data, tab, os.environ.get("FCA_BOT_URL", "https://t.me/flightcost_bot")).encode("utf-8"),
                          html_t, revalidate=True)
             return True
         if tail in ("/research", "/research/"):
