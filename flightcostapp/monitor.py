@@ -78,10 +78,10 @@ T = {
         "fuel_spot_u": "USD/т",
         "fuel_dmp": "Демпфер России: компенсация эксплуатанту за тонну, по месяцам",
         "fuel_dmp_u": "руб./т",
-        "fuel_reg": "Цена в крыло по регионам так, как её берёт расчёт: спот × множитель региона; полоса — "
-                    "разброс множителя",
-        "fuel_note": "Множители стоят на одной точке или допущении на регион (решение 235): форма кривой у всех "
-                     "регионов одна — спот, различается уровень. Свой ряд по регионам — пункт плана.",
+        "fuel_spot_l": "спот USGC (основа)",
+        "fuel_dmp_note": "Россия: для российского эксплуатанта расчёт вычитает из цены компенсацию — демпфер месяца плюс возврат акциза (решение 236). Последний опубликованный демпфер — {v} руб./т за {month}, возврат акциза — {ex} руб./т. На графике цена до компенсации.",
+        "fuel_reg": "Цена топлива «в крыло» по регионам так, как её берёт расчёт: спот × множитель региона, USD/т",
+        "fuel_note": "Множители стоят на одной точке или допущении на регион (решение 235): форма кривых одна — спот, различается уровень. Свой ряд по регионам — пункт плана.",
         "conf": "уверенность",
         "ch_h": "Сборы аэропортов по регионам",
         "ch_cap": "Контрольный оборот A320 (78 т, 148 пасс., июль): медиана по тарифам с документом и разброс, EUR",
@@ -135,10 +135,10 @@ T = {
         "fuel_spot_u": "USD/t",
         "fuel_dmp": "Russia's fuel damper: payment to the operator per tonne, by month",
         "fuel_dmp_u": "RUB/t",
-        "fuel_reg": "Into-plane price by region as the calculation takes it: spot × regional multiplier; the band is "
-                    "the multiplier's range",
-        "fuel_note": "The multipliers rest on one point or an assumption per region (decision 235): every region has "
-                     "the spot's shape, only the level differs. A regional series of its own is on the plan.",
+        "fuel_spot_l": "USGC spot (base)",
+        "fuel_dmp_note": "Russia: for a Russian operator the calculation subtracts compensation — the month's fuel damper plus the excise refund (decision 236). The latest published damper is {v} RUB/t for {month}, the excise refund {ex} RUB/t. The chart shows the price before compensation.",
+        "fuel_reg": "Into-plane jet fuel price by region as the calculation takes it: spot × regional multiplier, USD/t",
+        "fuel_note": "The multipliers rest on one point or an assumption per region (decision 235): every curve has the spot's shape, only the level differs. A regional series of its own is on the plan.",
         "conf": "confidence",
         "ch_h": "Airport charges by region",
         "ch_cap": "Reference A320 turnaround (78 t, 148 pax, July): median over documented tariffs and range, EUR",
@@ -191,10 +191,10 @@ T = {
         "fuel_spot_u": "USD/t",
         "fuel_dmp": "Russischer Kraftstoff-Dämpfer: Ausgleich an den Betreiber je Tonne, monatlich",
         "fuel_dmp_u": "RUB/t",
-        "fuel_reg": "Preis ins Flugzeug nach Region, wie die Berechnung ihn nimmt: Spot × Regionsfaktor; das Band ist "
-                    "die Spanne des Faktors",
-        "fuel_note": "Die Faktoren beruhen auf einem Punkt oder einer Annahme je Region (Entscheidung 235): alle "
-                     "Regionen folgen dem Spot, nur das Niveau unterscheidet sich. Eine eigene Regionalreihe steht im Plan.",
+        "fuel_spot_l": "USGC-Spot (Basis)",
+        "fuel_dmp_note": "Russland: für einen russischen Betreiber zieht die Berechnung den Ausgleich ab — den Dämpfer des Monats plus die Rückerstattung der Verbrauchsteuer (Entscheidung 236). Letzter veröffentlichter Dämpfer: {v} RUB/t für {month}, Rückerstattung {ex} RUB/t. Das Diagramm zeigt den Preis vor dem Ausgleich.",
+        "fuel_reg": "Kerosinpreis ins Flugzeug nach Region, wie die Berechnung ihn nimmt: Spot × Regionsfaktor, USD/t",
+        "fuel_note": "Die Faktoren beruhen auf einem Punkt oder einer Annahme je Region (Entscheidung 235): alle Kurven folgen dem Spot, nur das Niveau unterscheidet sich. Eine eigene Regionalreihe steht im Plan.",
         "conf": "Sicherheit",
         "ch_h": "Flughafenentgelte nach Region",
         "ch_cap": "Referenz-Umlauf A320 (78 t, 148 Pax, Juli): Median der belegten Tarife und Spanne, EUR",
@@ -400,6 +400,15 @@ FUEL_NAMES = {
 CONF = {"высокая": {"en": "high", "de": "hoch"}, "средняя": {"en": "medium", "de": "mittel"},
         "низкая": {"en": "low", "de": "niedrig"}, "заглушка": {"en": "placeholder", "de": "Platzhalter"}}
 FUEL_FILE = ROOT / "data" / "fuel" / "_regional.yaml"
+# Цвет и штрих региона на общем графике: Россия — один цвет и три штриха,
+# остальные — свои цвета. 11 линий цветом не различить, штрих помогает.
+FUEL_STYLE = {
+    "north_america": ("#3987e5", None, 2), "europe": ("#199e70", None, 2), "middle_east": ("#9085e9", None, 2),
+    "asia_oceania": ("#e69f00", None, 2), "africa": ("#a1887f", None, 2), "latam": ("#56b4e9", None, 2),
+    "kz_cis": ("#cc79a7", None, 2), "india": ("#f0e442", None, 2),
+    "russia_centre": ("#ef5a5a", None, 2.5), "russia_siberia": ("#ef5a5a", "6 4", 2.5),
+    "russia_far_east": ("#ef5a5a", "2 3", 2.5),
+}
 
 
 def _fuel(store) -> dict:
@@ -429,7 +438,10 @@ def _fuel(store) -> dict:
                             "conf": r.get("confidence") or "",
                             "line": [(m, round(v * k)) for m, v in tail],
                             "band": [(m, round(v * lo), round(v * hi)) for m, v in tail]})
-    return {"spot": monthly, "damper": damper, "regions": regions}
+    exc = 0.0
+    if DAMPER.exists():
+        exc = float((yaml.safe_load(DAMPER.read_text(encoding="utf-8")) or {}).get("excise_refund_rub_t") or 0)
+    return {"spot": monthly, "damper": damper, "regions": regions, "excise": exc}
 
 
 def _charges(store=None) -> dict:
@@ -699,7 +711,8 @@ def _fmt(v: float, lang: str) -> str:
 
 
 def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int = 720, h: int = 240,
-               band: list | None = None, y_range: tuple | None = None, cls: str = "") -> str:
+               band: list | None = None, y_range: tuple | None = None, cls: str = "",
+               styles: list | None = None, legend_below: bool = False) -> str:
     """SVG-линии по категориям времени (месяц «2026-05» или год «2024»).
     Подпись каждой линии — в легенде с последним значением: цвет не
     единственный признак. Без скрипта: страница читается и роботом, и при
@@ -764,18 +777,28 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(band))
         paths.append(f'<polygon points="{up} {dn}" fill="{COLORS[0]}" fill-opacity=".18"/>')
     for i, (name, pts) in enumerate(lines):
-        c = COLORS[i % len(COLORS)]
+        # styles[i] = (цвет, штрих или None, толщина): много линий на одном
+        # графике различаются не только цветом, но и штрихом.
+        c, dash, sw = (styles[i] if styles and i < len(styles) else (COLORS[i % len(COLORS)], None, 2))
         d = " ".join(f'{"M" if j == 0 else "L"}{X(x):.1f},{Y(y):.1f}' for j, (x, y) in enumerate(pts))
-        paths.append(f'<path d="{d}" fill="none" stroke="{c}" stroke-width="2"/>')
+        da = f' stroke-dasharray="{dash}"' if dash else ""
+        paths.append(f'<path d="{d}" fill="none" stroke="{c}" stroke-width="{sw}"{da}/>')
         if len(pts) <= 24:
             paths.extend(f'<circle cx="{X(x):.1f}" cy="{Y(y):.1f}" r="2.5" fill="{c}"><title>{esc(name)} · '
                          f'{esc(x)}: {esc(_fmt(y, lang))} {esc(unit)}</title></circle>' for x, y in pts)
         lx, ly = pts[-1]
-        legend.append(f'<span><i style="background:{c}"></i>{esc(name)}: <b>{esc(_fmt(ly, lang))}</b>'
-                      f' <em>({esc(lx)})</em></span>')
+        sw_i = (f'<svg width="18" height="6"><line x1="0" y1="3" x2="18" y2="3" stroke="{c}" stroke-width="2.5"{da}/></svg>'
+                if dash else f'<i style="background:{c}"></i>')
+        when = "" if legend_below else f' <em>({esc(lx)})</em>'
+        legend.append((ly, f'<span>{sw_i}{esc(name)}: <b>{esc(_fmt(ly, lang))}</b>{when}</span>'))
     svg = (f'<svg viewBox="0 0 {w} {h}" class="ch {cls}" role="img" preserveAspectRatio="none">'
            + "".join(g) + "".join(paths) + "</svg>")
-    return f'<div class="lg2">{"".join(legend)}</div>{svg}'
+    if legend_below:
+        # Под графиком — по последнему значению сверху вниз, как линии стоят на графике.
+        items = "".join(x for _, x in sorted(legend, key=lambda z: -z[0]))
+        last = max(p[-1][0] for _, p in lines)
+        return f'{svg}<div class="lg2 below">{items}</div><p class="cap">{esc(T[lang]["last"])}: {esc(last)}</p>'
+    return f'<div class="lg2">{"".join(x for _, x in legend)}</div>{svg}'
 
 
 def range_chart(rows: list[dict], lang: str, w: int = 720) -> str:
@@ -821,26 +844,24 @@ def series_html(lang: str, d: dict) -> str:
     out.append(_panel(t["dflt_h"], t["dflt_cap"], line_chart(dl, lang, "%") or miss("default_share"),
                       t["dflt_note"]))
     f = d.get("fuel") or {}
-    body = (line_chart([(t["fuel_spot_u"], f.get("spot") or [])], lang, t["fuel_spot_u"])
-            or miss("jet_fuel_price spot/USGC"))
-    regs = f.get("regions") or []
-    if regs:
-        allv = [v for r in regs for b in r["band"] for v in b[1:]] + [v for r in regs for _, v in r["line"]]
-        yr = (min(allv) * 0.95, max(allv) * 1.03)
-        cells = []
-        for r in regs:
-            name = r["name"] if lang == "ru" else nm(FUEL_NAMES, r["code"], r["name"])
-            conf = r["conf"] if lang == "ru" else CONF.get(r["conf"], {}).get(lang, r["conf"])
-            cells.append(f'<div class="cell"><div class="ct">{esc(name)} <em>× {esc(str(r["k"]) if lang == "en" else str(r["k"]).replace(".", ","))}'
-                         f' · {esc(t["conf"])}: {esc(conf)}</em></div>'
-                         + line_chart([(t["fuel_spot_u"], r["line"])], lang, t["fuel_spot_u"], w=360, h=170,
-                                      band=r["band"], y_range=yr, cls="sm")
-                         + "</div>")
-        body += f'<p class="cap">{esc(t["fuel_reg"])}</p><div class="grid">{"".join(cells)}</div>'
-    body2 = line_chart([(t["fuel_dmp_u"], f.get("damper") or [])], lang, t["fuel_dmp_u"])
-    out.append(_panel(t["fuel_h"], t["fuel_spot"], body
-                      + (f'<p class="cap">{esc(t["fuel_dmp"])}</p>{body2}' if body2 else ""),
-                      t["fuel_note"],
+    regs = sorted(f.get("regions") or [], key=lambda r: -r["k"])
+    lines, styles = [], []
+    for r in regs:
+        name = r["name"] if lang == "ru" else nm(FUEL_NAMES, r["code"], r["name"])
+        k = str(r["k"]) if lang == "en" else str(r["k"]).replace(".", ",")
+        star = "*" if r["code"].startswith("russia") and f.get("damper") else ""
+        lines.append((f"{name}{star} ×{k}", r["line"]))
+        styles.append(FUEL_STYLE.get(r["code"], (COLORS[len(styles) % len(COLORS)], None, 2)))
+    if f.get("spot"):
+        lines.append((t["fuel_spot_l"], f["spot"]))
+        styles.append(("#8a8a8a", "2 4", 1.5))
+    body = line_chart(lines, lang, t["fuel_spot_u"], h=300, styles=styles, legend_below=True) \
+        or miss("jet_fuel_price spot/USGC")
+    dm = f.get("damper") or []
+    if dm:
+        m, v = dm[-1]
+        body += (f'<p class="foot">* {esc(t["fuel_dmp_note"].format(month=m, v=_fmt(v, lang), ex=_fmt(f.get("excise") or 0, lang)))}</p>')
+    out.append(_panel(t["fuel_h"], t["fuel_reg"], body, t["fuel_note"],
                       f'{esc(t["src"])}: <a href="https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm">EIA</a> · '
                       f'<a href="/{lang}/research/fuel-2026-10">{"исследование топлива" if lang == "ru" else "fuel research" if lang == "en" else "Treibstoff-Recherche"}</a> · '
                       f'<a href="https://github.com/BormatovD/FlightCost/blob/main/data/fuel/_ru_damper.yaml">'
@@ -905,6 +926,9 @@ svg.ch .vl{fill:var(--ink2);font:12px var(--sans)}
 .lg2{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;margin:4px 0}
 .lg2 i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px}
 .lg2 em{color:var(--dim);font-style:normal}
+.lg2.below{margin:8px 0 2px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:3px 14px}
+.lg2 svg{vertical-align:middle;margin-right:6px}
+.pn .foot{font-size:12.5px;color:var(--ink);margin:8px 0 2px}
 .botl{display:inline-block;margin:6px 0}
 @media(max-width:640px){svg.ch .ax{font-size:22px}svg.ch .vl{font-size:23px}svg.ch .ax.odd{display:none}
   svg.ch.sm .ax{font-size:26px}svg.ch.sm .ax.mid{display:none}
