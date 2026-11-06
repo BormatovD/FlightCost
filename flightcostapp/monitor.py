@@ -79,7 +79,9 @@ T = {
         "fuel_dmp": "Демпфер России: компенсация эксплуатанту за тонну, по месяцам",
         "fuel_dmp_u": "руб./т",
         "fuel_spot_l": "спот USGC (основа)",
-        "fuel_dmp_note": "Россия: для российского эксплуатанта расчёт вычитает из цены компенсацию — демпфер месяца плюс возврат акциза (решение 236). Последний опубликованный демпфер — {v} руб./т за {month}, возврат акциза — {ex} руб./т. На графике цена до компенсации.",
+        "fuel_dmp_note": "Россия: цена после компенсации российскому эксплуатанту — демпфер месяца плюс возврат акциза, по курсу (решение 236), как её берёт расчёт. Линия — Центр, полоса — от Сибири до Дальнего Востока. Последний опубликованный демпфер — {v} руб./т за {month}, возврат акциза — {ex} руб./т; до публикации следующего месяца действует последний.",
+        "fuel_gross": "без вычета: нет курса рубля",
+        "fuel_net": "после демпфера",
         "fuel_reg": "Цена топлива «в крыло» по регионам так, как её берёт расчёт: спот × множитель региона, USD/т",
         "fuel_note": "Множители стоят на одной точке или допущении на регион (решение 235): форма кривых одна — спот, различается уровень. Свой ряд по регионам — пункт плана.",
         "conf": "уверенность",
@@ -136,7 +138,9 @@ T = {
         "fuel_dmp": "Russia's fuel damper: payment to the operator per tonne, by month",
         "fuel_dmp_u": "RUB/t",
         "fuel_spot_l": "USGC spot (base)",
-        "fuel_dmp_note": "Russia: for a Russian operator the calculation subtracts compensation — the month's fuel damper plus the excise refund (decision 236). The latest published damper is {v} RUB/t for {month}, the excise refund {ex} RUB/t. The chart shows the price before compensation.",
+        "fuel_dmp_note": "Russia: price after compensation to a Russian operator — the month's fuel damper plus the excise refund, at the exchange rate (decision 236), as the calculation takes it. The line is the Centre, the band spans Siberia to the Far East. The latest published damper is {v} RUB/t for {month}, the excise refund {ex} RUB/t; until the next month is published the latest one applies.",
+        "fuel_gross": "no deduction: no rouble rate",
+        "fuel_net": "after damper",
         "fuel_reg": "Into-plane jet fuel price by region as the calculation takes it: spot × regional multiplier, USD/t",
         "fuel_note": "The multipliers rest on one point or an assumption per region (decision 235): every curve has the spot's shape, only the level differs. A regional series of its own is on the plan.",
         "conf": "confidence",
@@ -192,7 +196,9 @@ T = {
         "fuel_dmp": "Russischer Kraftstoff-Dämpfer: Ausgleich an den Betreiber je Tonne, monatlich",
         "fuel_dmp_u": "RUB/t",
         "fuel_spot_l": "USGC-Spot (Basis)",
-        "fuel_dmp_note": "Russland: für einen russischen Betreiber zieht die Berechnung den Ausgleich ab — den Dämpfer des Monats plus die Rückerstattung der Verbrauchsteuer (Entscheidung 236). Letzter veröffentlichter Dämpfer: {v} RUB/t für {month}, Rückerstattung {ex} RUB/t. Das Diagramm zeigt den Preis vor dem Ausgleich.",
+        "fuel_dmp_note": "Russland: Preis nach dem Ausgleich an einen russischen Betreiber — Dämpfer des Monats plus Rückerstattung der Verbrauchsteuer, zum Wechselkurs (Entscheidung 236), wie die Berechnung ihn nimmt. Die Linie ist das Zentrum, das Band reicht von Sibirien bis Fernost. Letzter veröffentlichter Dämpfer: {v} RUB/t für {month}, Rückerstattung {ex} RUB/t; bis zur nächsten Veröffentlichung gilt der letzte.",
+        "fuel_gross": "ohne Abzug: kein Rubelkurs",
+        "fuel_net": "nach Dämpfer",
         "fuel_reg": "Kerosinpreis ins Flugzeug nach Region, wie die Berechnung ihn nimmt: Spot × Regionsfaktor, USD/t",
         "fuel_note": "Die Faktoren beruhen auf einem Punkt oder einer Annahme je Region (Entscheidung 235): alle Kurven folgen dem Spot, nur das Niveau unterscheidet sich. Eine eigene Regionalreihe steht im Plan.",
         "conf": "Sicherheit",
@@ -396,6 +402,7 @@ FUEL_NAMES = {
     "russia_centre": {"en": "Russia — Centre", "de": "Russland — Zentrum"},
     "russia_siberia": {"en": "Russia — Siberia", "de": "Russland — Sibirien"},
     "russia_far_east": {"en": "Russia — Far East", "de": "Russland — Ferner Osten"},
+    "russia": {"en": "Russia", "de": "Russland"},
 }
 CONF = {"высокая": {"en": "high", "de": "hoch"}, "средняя": {"en": "medium", "de": "mittel"},
         "низкая": {"en": "low", "de": "niedrig"}, "заглушка": {"en": "placeholder", "de": "Platzhalter"}}
@@ -406,8 +413,7 @@ FUEL_STYLE = {
     "north_america": ("#3987e5", None, 2), "europe": ("#199e70", None, 2), "middle_east": ("#9085e9", None, 2),
     "asia_oceania": ("#e69f00", None, 2), "africa": ("#a1887f", None, 2), "latam": ("#56b4e9", None, 2),
     "kz_cis": ("#cc79a7", None, 2), "india": ("#f0e442", None, 2),
-    "russia_centre": ("#ef5a5a", None, 2.5), "russia_siberia": ("#ef5a5a", "6 4", 2.5),
-    "russia_far_east": ("#ef5a5a", "2 3", 2.5),
+    "russia": ("#ef5a5a", None, 2.5),
 }
 
 
@@ -441,7 +447,47 @@ def _fuel(store) -> dict:
     exc = 0.0
     if DAMPER.exists():
         exc = float((yaml.safe_load(DAMPER.read_text(encoding="utf-8")) or {}).get("excise_refund_rub_t") or 0)
+    regions = _russia_net(store, regions, damper, exc)
     return {"spot": monthly, "damper": damper, "regions": regions, "excise": exc}
+
+
+def _russia_net(store, regions: list, damper: list, excise: float) -> list:
+    """Три региона России — одной линией, сразу после компенсации, как её
+    берёт расчёт для российского эксплуатанта (econ, решение 236): цена −
+    (демпфер последнего опубликованного месяца + возврат акциза) по курсу,
+    не ниже нуля. Линия — Центр, полоса — от меньшего множителя регионов до
+    большего. Месяц без курса рубля пропускается, а не рисуется без вычета."""
+    ru = [r for r in regions if r["code"].startswith("russia")]
+    if not ru:
+        return regions
+    rest = [r for r in regions if not r["code"].startswith("russia")]
+    centre = next((r for r in ru if r["code"] == "russia_centre"), ru[0])
+    ks = sorted(r["k"] for r in ru)
+    dm = sorted(damper)
+
+    def comp(month):
+        known = [v for m, v in dm if m <= month]
+        return (known[-1] + excise) if known else None
+
+    line, band = [], []
+    for m, gross_c in centre["line"]:
+        c = comp(m)
+        rub_eur = store.value("fx", "RUB", f"{m}-28")
+        usd_eur = store.value("fx", "USD", f"{m}-28")
+        if c is None or not rub_eur or not usd_eur:
+            continue
+        cut = c / (rub_eur / usd_eur)                     # руб/т → USD/т
+        spot = gross_c / centre["k"]
+        line.append((m, round(max(gross_c - cut, 0))))
+        band.append((m, round(max(spot * ks[0] - cut, 0)), round(max(spot * ks[-1] - cut, 0))))
+    if not line:
+        # Нет курса рубля — вычесть нечем, как и в расчёте: линия без вычета, и это сказано.
+        spot = [(m, v / centre["k"]) for m, v in centre["line"]]
+        return rest + [{"code": "russia", "name": "Россия", "k": centre["k"], "k_range": (ks[0], ks[-1]),
+                        "conf": centre["conf"], "line": centre["line"], "net": False,
+                        "band": [(m, round(v * ks[0]), round(v * ks[-1])) for m, v in spot]}]
+    return rest + [{"code": "russia", "name": "Россия", "k": centre["k"], "k_range": (ks[0], ks[-1]),
+                    "conf": centre["conf"], "line": line, "band": band, "net": True}]
 
 
 def _charges(store=None) -> dict:
@@ -712,7 +758,7 @@ def _fmt(v: float, lang: str) -> str:
 
 def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int = 720, h: int = 240,
                band: list | None = None, y_range: tuple | None = None, cls: str = "",
-               styles: list | None = None, legend_below: bool = False) -> str:
+               styles: list | None = None, legend_below: bool = False, bands: dict | None = None) -> str:
     """SVG-линии по категориям времени (месяц «2026-05» или год «2024»).
     Подпись каждой линии — в легенде с последним значением: цвет не
     единственный признак. Без скрипта: страница читается и роботом, и при
@@ -722,8 +768,10 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
     if not lines:
         return ""
     band = band or []
-    xs = sorted({p[0] for _, pts in lines for p in pts} | {b[0] for b in band})
-    ys = [p[1] for _, pts in lines for p in pts] + [v for b in band for v in b[1:]]
+    bands = bands or {}
+    allb = band + [b for bb in bands.values() for b in bb]
+    xs = sorted({p[0] for _, pts in lines for p in pts} | {b[0] for b in allb})
+    ys = [p[1] for _, pts in lines for p in pts] + [v for b in allb for v in b[1:]]
     lo, hi = y_range if y_range else (min(ys), max(ys))
     if lo == hi:
         lo, hi = lo * 0.9, hi * 1.1 or 1
@@ -776,6 +824,11 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in band)
         dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(band))
         paths.append(f'<polygon points="{up} {dn}" fill="{COLORS[0]}" fill-opacity=".18"/>')
+    for i, bb in bands.items():                            # полоса линии i — её цветом
+        c = styles[i][0] if styles and i < len(styles) else COLORS[i % len(COLORS)]
+        up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in bb)
+        dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(bb))
+        paths.append(f'<polygon points="{up} {dn}" fill="{c}" fill-opacity=".16"/>')
     for i, (name, pts) in enumerate(lines):
         # styles[i] = (цвет, штрих или None, толщина): много линий на одном
         # графике различаются не только цветом, но и штрихом.
@@ -845,17 +898,22 @@ def series_html(lang: str, d: dict) -> str:
                       t["dflt_note"]))
     f = d.get("fuel") or {}
     regs = sorted(f.get("regions") or [], key=lambda r: -r["k"])
-    lines, styles = [], []
+    lines, styles, bands = [], [], {}
+    kf = lambda v: str(v) if lang == "en" else str(v).replace(".", ",")  # noqa: E731
     for r in regs:
         name = r["name"] if lang == "ru" else nm(FUEL_NAMES, r["code"], r["name"])
-        k = str(r["k"]) if lang == "en" else str(r["k"]).replace(".", ",")
-        star = "*" if r["code"].startswith("russia") and f.get("damper") else ""
-        lines.append((f"{name}{star} ×{k}", r["line"]))
+        if "net" in r:
+            lo, hi = r["k_range"]
+            tag = t["fuel_net"] if r["net"] else t["fuel_gross"]
+            lines.append((f"{name}* ×{kf(lo)}–{kf(hi)}, {tag}", r["line"]))
+            bands[len(lines) - 1] = r["band"]
+        else:
+            lines.append((f"{name} ×{kf(r['k'])}", r["line"]))
         styles.append(FUEL_STYLE.get(r["code"], (COLORS[len(styles) % len(COLORS)], None, 2)))
     if f.get("spot"):
         lines.append((t["fuel_spot_l"], f["spot"]))
         styles.append(("#8a8a8a", "2 4", 1.5))
-    body = line_chart(lines, lang, t["fuel_spot_u"], h=300, styles=styles, legend_below=True) \
+    body = line_chart(lines, lang, t["fuel_spot_u"], h=300, styles=styles, legend_below=True, bands=bands) \
         or miss("jet_fuel_price spot/USGC")
     dm = f.get("damper") or []
     if dm:

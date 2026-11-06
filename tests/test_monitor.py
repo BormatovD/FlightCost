@@ -103,6 +103,20 @@ class Index(unittest.TestCase):
         self.assertAlmostEqual(v, 70 * (78 / 50) ** 0.5, delta=0.1)    # среднее ставок × √(MTOW/50)
         self.assertEqual(a["n"]["europe_ec"], 2)
 
+    def test_russia_one_line_after_damper(self):
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "x.db")
+        st.commit_facts([f("fx", "RUB", "2026-01-01", 100.0, "cbr_fx"), f("fx", "USD", "2026-01-01", 1.0, "fx_rates")])
+        regs = [{"code": "russia_centre", "k": 1.2, "conf": "", "line": [("2026-09", 1200)]},
+                {"code": "russia_siberia", "k": 1.0, "conf": "", "line": [("2026-09", 1000)]},
+                {"code": "europe", "k": 1.1, "conf": "", "line": [("2026-09", 1100)]}]
+        out = M._russia_net(st, regs, [("2026-08", 47000.0)], 3000.0)
+        ru = [r for r in out if r["code"] == "russia"]
+        self.assertEqual(len(ru), 1)
+        self.assertEqual(len(out), 2)
+        # (47 000 + 3 000) руб/т ÷ 100 руб/USD = 500 USD/т вычета; демпфер прошлого месяца действует
+        self.assertEqual(ru[0]["line"], [("2026-09", 700)])
+        self.assertEqual(ru[0]["band"], [("2026-09", 500, 700)])
+
     def test_correction_overrides_same_date(self):
         d = tempfile.mkdtemp()
         st = Store(pathlib.Path(d) / "x.db")
