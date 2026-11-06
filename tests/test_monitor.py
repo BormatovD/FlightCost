@@ -52,6 +52,39 @@ class Plan(unittest.TestCase):
         self.assertIn("Дальше", h)
 
 
+class Order(unittest.TestCase):
+    def test_timeline_done_then_now_then_plan(self):
+        items = [{"id": "n", "status": "next", "area": "calc", "title": {"ru": "Следующее"}, "added": "2026-11-01"},
+                 {"id": "w", "status": "now", "area": "calc", "title": {"ru": "Текущее"}, "added": "2026-11-02"},
+                 {"id": "d2", "status": "done", "area": "calc", "title": {"ru": "Позднее"}, "added": "2026-10-01",
+                  "done": "2026-11-04"},
+                 {"id": "d1", "status": "done", "area": "calc", "title": {"ru": "Раннее"}, "added": "2026-10-01",
+                  "done": "2026-11-01"}]
+        h = M.plan_html("ru", items)
+        pos = [h.index(f'id="p-{i}"') for i in ("d1", "d2", "w", "n")]
+        self.assertEqual(pos, sorted(pos), "сверху вниз: сделанное по дате, в работе, дальше")
+
+
+class Record(unittest.TestCase):
+    def test_writes_only_changes(self):
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "x.db")
+        shares = {"default_share/EDDF-LEBL/A320": ("FRA–BCN A320", 0.40)}
+        old = M._ref_shares
+        M._ref_shares = lambda store: shares
+        try:
+            n1 = M.record(st, "2026-11-06")
+            n2 = M.record(st, "2026-11-07")              # ничего не сдвинулось
+            shares["default_share/EDDF-LEBL/A320"] = ("FRA–BCN A320", 0.38)
+            n3 = M.record(st, "2026-11-08")
+        finally:
+            M._ref_shares = old
+        self.assertGreaterEqual(n1, 1)
+        self.assertEqual(n2, 0)
+        self.assertEqual(n3, 1)
+        pts = M._history(st, "monitor", key="default_share/EDDF-LEBL/A320")["default_share/EDDF-LEBL/A320"]
+        self.assertEqual(pts, [("2026-11-06", 0.40), ("2026-11-08", 0.38)])
+
+
 class Index(unittest.TestCase):
     def test_index_from_base_month(self):
         s = {"Z1": [("2026-01-01", 10.0), ("2026-03-01", 11.0)],
@@ -60,6 +93,15 @@ class Index(unittest.TestCase):
         self.assertEqual(idx["2026-01"], 100.0)
         self.assertEqual(idx["2026-02"], 110.0)            # медиана (100, 120)
         self.assertEqual(idx["2026-03"], 115.0)            # медиана (110, 120)
+
+    def test_ans_per_100km_by_continent(self):
+        st = Store(pathlib.Path(tempfile.mkdtemp()) / "x.db")
+        st.commit_facts([f("enroute_rate", "EDZZ", "2026-01-01", 60.0, "crco_enroute_rates"),
+                         f("enroute_rate", "LFZZ", "2026-01-01", 80.0, "crco_enroute_rates")])
+        a = M._ans(st)
+        v = dict(a["lines"]["europe_ec"])["2026-01"]
+        self.assertAlmostEqual(v, 70 * (78 / 50) ** 0.5, delta=0.1)    # среднее ставок × √(MTOW/50)
+        self.assertEqual(a["n"]["europe_ec"], 2)
 
     def test_correction_overrides_same_date(self):
         d = tempfile.mkdtemp()
@@ -113,7 +155,8 @@ class Http(unittest.TestCase):
         code, body = self.get("/ru/monitor?tab=series")
         self.assertEqual(code, 200)
         self.assertIn("<svg", body)
-        self.assertIn("EUROCONTROL", body)
+        self.assertIn("Европа (EUROCONTROL)", body)
+        self.assertIn("Доля заготовки", body)
         # Ставки CRCO закрыты лицензией: на странице — индекс, а не ставка зоны.
         self.assertNotIn("EDZZ", body)
 

@@ -461,7 +461,16 @@ def cmd_refresh(a, *, master: Path = MASTER, spool=None) -> int:
         lines.append("ждут приёмки: " + ", ".join(f"#{p['id']} {p['source_id']}" for p in new) + " — /queue")
     if errors:
         lines.append("ошибки: " + ", ".join(f"{x['source']} ({x['outcome']})" for x in errors))
-    if changed:
+    # Ряды страницы «План и показатели», у которых нет своей истории (доля
+    # заготовки эталонов, медианы сборов по регионам): пишутся, только если
+    # значение сдвинулось. Сбой здесь не мешает обновлению справочника.
+    recorded = 0
+    try:
+        from .monitor import record
+        recorded = record(st)
+    except Exception as exc:                                   # noqa: BLE001
+        lines.append(f"ряды мониторинга не записаны: {type(exc).__name__}: {exc}")
+    if changed or recorded:
         lines.append(snapshot(master))
     if lines:
         say("Справочник на сервере\n" + "\n".join(lines), "warn" if errors else "info")

@@ -47,6 +47,8 @@ def plan_due(registry: dict, store: Store, today: date | None = None,
     today = today or date.today()
     due = []
     for sid, src in registry["sources"].items():
+        if src.get("kind") == "derived":
+            continue                      # считается из справочника, а не забирается (monitor.record)
         if force:
             due.append(sid)
             continue

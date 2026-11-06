@@ -8,13 +8,18 @@
 РЯДЫ — из той же базы, что расчёт, и только из того, что разрешено
 показывать (решение 219):
 
-  * топливо — спот USGC (EIA, открыт) помесячно, USD/т; демпфер России —
-    `data/fuel/_ru_damper.yaml`, руб./т;
+  * топливо — спот USGC (EIA, открыт) помесячно, USD/т, и цена по регионам
+    так, как её берёт расчёт: спот × множитель региона с полосой множителя
+    (`data/fuel/_regional.yaml`, решение 235); демпфер России, руб./т;
   * сборы аэропортов — медиана контрольного оборота A320 по регионам
-    (`data/charges/_regional.yaml`, решение 234): снимок, а не ряд — ряд
-    растёт с новыми редакциями тарифов;
-  * аэронавигация — индекс ставок en-route: EUROCONTROL (CRCO, строки
-    закрыты лицензией — только медиана по зонам, индексом) и ФАС России;
+    (`data/charges/_regional.yaml`, решение 234): снимок с разбросом и ряд
+    медиан — его пишет `record()` при каждом обновлении главной базы;
+  * аэронавигация — маршрутный сбор на 100 км для A320 (78 т), EUR, среднее
+    по зонам континента; EUROCONTROL — только средним (строки закрыты
+    лицензией), Россия — по приказу ФАС;
+  * доля заготовки — какая часть себестоимости эталонных рейсов стоит на
+    заготовках, а не на документах; ряд пишет `record()`, текущее значение
+    считается при показе;
   * ТОиР по классам ВС и владение по типам — отчётность США (Form 41),
     медиана, взвешенная блок-часами перевозчиков; номинальные USD.
 
@@ -73,18 +78,26 @@ T = {
         "fuel_spot_u": "USD/т",
         "fuel_dmp": "Демпфер России: компенсация эксплуатанту за тонну, по месяцам",
         "fuel_dmp_u": "руб./т",
-        "fuel_note": "Цена в крыло в расчёте = спот × множитель региона (решение 235); множители пока по одной "
-                     "точке на регион, поэтому отдельного ряда по регионам нет — это пункт плана.",
+        "fuel_reg": "Цена в крыло по регионам так, как её берёт расчёт: спот × множитель региона; полоса — "
+                    "разброс множителя",
+        "fuel_note": "Множители стоят на одной точке или допущении на регион (решение 235): форма кривой у всех "
+                     "регионов одна — спот, различается уровень. Свой ряд по регионам — пункт плана.",
+        "conf": "уверенность",
         "ch_h": "Сборы аэропортов по регионам",
         "ch_cap": "Контрольный оборот A320 (78 т, 148 пасс., июль): медиана по тарифам с документом и разброс, EUR",
         "ch_note": "Снимок на дату сборки, а не ряд: тарифы обновляются раз в год, и ряд растёт с каждой новой "
                    "редакцией. Неофициальные данные сообщества сюда не входят.",
         "ch_n": "аэропортов",
         "ans_h": "Аэронавигация",
-        "ans_cap": "Ставки en-route, индекс: медиана по зонам, первый общий месяц = 100",
-        "ans_eu": "EUROCONTROL (зоны ЕКАО)", "ans_ru": "Россия (ФАС)",
-        "ans_note": "Ставки EUROCONTROL по лицензии не показываются строками — только медианой по зонам. "
-                    "В расчёте участвует ставка каждой зоны.",
+        "ans_cap": "Маршрутный сбор на 100 км для A320 (78 т), EUR: среднее по зонам континента; в подписи — "
+                   "число зон",
+        "ans_note": "Ставки EUROCONTROL по лицензии не показываются по зонам — только средним. В расчёте участвует "
+                    "ставка каждой зоны. Россия — внутренние рейсы российского эксплуатанта.",
+        "dflt_h": "Доля заготовки",
+        "dflt_cap": "Какая часть себестоимости эталонных рейсов стоит на заготовках, а не на документах, %",
+        "dflt_note": "Чем ниже, тем больше расчёта опирается на документы. Ряд ведётся с ноября 2026 года; "
+                     "сегодняшняя точка считается при открытии страницы.",
+        "ch_hist": "Медиана по регионам со временем, EUR",
         "mro_h": "ТОиР по классам ВС",
         "mro_cap": "Полный ТОиР на блок-час, перевозчики США (Form 41), медиана, взвешенная блок-часами, "
                    "номинальные USD",
@@ -120,18 +133,26 @@ T = {
         "fuel_spot_u": "USD/t",
         "fuel_dmp": "Russia's fuel damper: payment to the operator per tonne, by month",
         "fuel_dmp_u": "RUB/t",
-        "fuel_note": "Into-plane price in the calculation = spot × regional multiplier (decision 235); the "
-                     "multipliers rest on one point per region, so there is no regional series yet — it is on the plan.",
+        "fuel_reg": "Into-plane price by region as the calculation takes it: spot × regional multiplier; the band is "
+                    "the multiplier's range",
+        "fuel_note": "The multipliers rest on one point or an assumption per region (decision 235): every region has "
+                     "the spot's shape, only the level differs. A regional series of its own is on the plan.",
+        "conf": "confidence",
         "ch_h": "Airport charges by region",
         "ch_cap": "Reference A320 turnaround (78 t, 148 pax, July): median over documented tariffs and range, EUR",
         "ch_note": "A snapshot at build date, not a series: tariffs change once a year, and the series grows with "
                    "each new edition. Unofficial community data is not included.",
         "ch_n": "airports",
         "ans_h": "Air navigation",
-        "ans_cap": "En-route rates, index: median across zones, first common month = 100",
-        "ans_eu": "EUROCONTROL (ECAC zones)", "ans_ru": "Russia (FAS)",
-        "ans_note": "EUROCONTROL rates are not shown row by row under their licence — only as a median across "
-                    "zones. The calculation uses each zone's own rate.",
+        "ans_cap": "En-route charge per 100 km for an A320 (78 t), EUR: mean over the continent's zones; the label "
+                   "shows the number of zones",
+        "ans_note": "EUROCONTROL rates are not shown zone by zone under their licence — only as a mean. The "
+                    "calculation uses each zone's own rate. Russia — domestic flights of a Russian operator.",
+        "dflt_h": "Share on placeholders",
+        "dflt_cap": "Share of the reference flights' cost that rests on placeholders rather than documents, %",
+        "dflt_note": "Lower means more of the calculation stands on documents. The series starts in November 2026; "
+                     "today's point is calculated when the page opens.",
+        "ch_hist": "Regional median over time, EUR",
         "mro_h": "Maintenance by aircraft class",
         "mro_cap": "Total maintenance per block hour, US carriers (Form 41), block-hour-weighted median, nominal USD",
         "mro_u": "USD/block h",
@@ -166,18 +187,26 @@ T = {
         "fuel_spot_u": "USD/t",
         "fuel_dmp": "Russischer Kraftstoff-Dämpfer: Ausgleich an den Betreiber je Tonne, monatlich",
         "fuel_dmp_u": "RUB/t",
-        "fuel_note": "Preis ins Flugzeug in der Berechnung = Spot × Regionsfaktor (Entscheidung 235); die Faktoren "
-                     "beruhen auf einem Punkt je Region, daher gibt es noch keine regionale Reihe — sie steht im Plan.",
+        "fuel_reg": "Preis ins Flugzeug nach Region, wie die Berechnung ihn nimmt: Spot × Regionsfaktor; das Band ist "
+                    "die Spanne des Faktors",
+        "fuel_note": "Die Faktoren beruhen auf einem Punkt oder einer Annahme je Region (Entscheidung 235): alle "
+                     "Regionen folgen dem Spot, nur das Niveau unterscheidet sich. Eine eigene Regionalreihe steht im Plan.",
+        "conf": "Sicherheit",
         "ch_h": "Flughafenentgelte nach Region",
         "ch_cap": "Referenz-Umlauf A320 (78 t, 148 Pax, Juli): Median der belegten Tarife und Spanne, EUR",
         "ch_note": "Momentaufnahme zum Erstellungsdatum, keine Reihe: Tarife ändern sich einmal im Jahr, die Reihe "
                    "wächst mit jeder neuen Ausgabe. Inoffizielle Community-Daten sind nicht enthalten.",
         "ch_n": "Flughäfen",
         "ans_h": "Flugsicherung",
-        "ans_cap": "Streckengebühren, Index: Median über Zonen, erster gemeinsamer Monat = 100",
-        "ans_eu": "EUROCONTROL (ECAC-Zonen)", "ans_ru": "Russland (FAS)",
-        "ans_note": "EUROCONTROL-Sätze werden laut Lizenz nicht zeilenweise gezeigt — nur als Median über Zonen. "
-                    "Die Berechnung nutzt den Satz jeder Zone.",
+        "ans_cap": "Streckengebühr je 100 km für einen A320 (78 t), EUR: Mittel über die Zonen eines Kontinents; "
+                   "in der Legende die Zahl der Zonen",
+        "ans_note": "EUROCONTROL-Sätze werden laut Lizenz nicht je Zone gezeigt — nur als Mittel. Die Berechnung "
+                    "nutzt den Satz jeder Zone. Russland — Inlandsflüge eines russischen Betreibers.",
+        "dflt_h": "Anteil Platzhalter",
+        "dflt_cap": "Anteil der Kosten der Referenzflüge, der auf Platzhaltern statt Dokumenten beruht, %",
+        "dflt_note": "Je niedriger, desto mehr der Berechnung beruht auf Dokumenten. Die Reihe beginnt im November "
+                     "2026; der heutige Punkt wird beim Öffnen der Seite berechnet.",
+        "ch_hist": "Regionalmedian im Zeitverlauf, EUR",
         "mro_h": "Instandhaltung nach Flugzeugklasse",
         "mro_cap": "Instandhaltung gesamt je Blockstunde, US-Airlines (Form 41), nach Blockstunden gewichteter "
                    "Median, nominale USD",
@@ -234,15 +263,22 @@ def _tr(field, lang: str) -> str:
 
 
 def plan_html(lang: str, items: list[dict]) -> str:
+    """Лента сверху вниз по времени: сделанное (зелёное, от старого к
+    новому), в работе (синее), дальше и когда-нибудь (серое). Точка на
+    линии слева — статус: цвет не единственный признак, рядом заголовок
+    раздела."""
     t = T[lang]
     parts = [f'<p class="dim">{esc(t["plan_honest"])}</p>']
-    for st in STATUSES:
+    for st in ("done", "now", "next", "later"):
         rows = [x for x in items if x["status"] == st]
         if not rows:
             continue
         if st == "done":
-            rows.sort(key=lambda x: str(x.get("done")), reverse=True)
-        parts.append(f'<h2>{esc(t["st_" + st])} <span class="tag">{len(rows)}</span></h2><ul class="plan">')
+            rows.sort(key=lambda x: (str(x.get("done")), str(x.get("added"))))
+        else:
+            rows.sort(key=lambda x: str(x.get("added")))
+        parts.append(f'<h2 class="tl-h {st}">{esc(t["st_" + st])} <span class="tag">{len(rows)}</span></h2>'
+                     f'<ul class="plan tl {st}">')
         for x in rows:
             by = x.get("by") or "owner"
             who = t["owner"] if by == "owner" else by
@@ -345,6 +381,21 @@ def rate_index(series: dict[str, list], share: float = 0.8) -> list:
     return out
 
 
+FUEL_NAMES = {
+    "north_america": {"en": "North America", "de": "Nordamerika"}, "europe": {"en": "Europe", "de": "Europa"},
+    "middle_east": {"en": "Middle East", "de": "Naher Osten"},
+    "asia_oceania": {"en": "Asia and Oceania", "de": "Asien und Ozeanien"},
+    "africa": {"en": "Africa", "de": "Afrika"}, "latam": {"en": "Latin America", "de": "Lateinamerika"},
+    "kz_cis": {"en": "Kazakhstan and CIS", "de": "Kasachstan und GUS"}, "india": {"en": "India", "de": "Indien"},
+    "russia_centre": {"en": "Russia — Centre", "de": "Russland — Zentrum"},
+    "russia_siberia": {"en": "Russia — Siberia", "de": "Russland — Sibirien"},
+    "russia_far_east": {"en": "Russia — Far East", "de": "Russland — Ferner Osten"},
+}
+CONF = {"высокая": {"en": "high", "de": "hoch"}, "средняя": {"en": "medium", "de": "mittel"},
+        "низкая": {"en": "low", "de": "niedrig"}, "заглушка": {"en": "placeholder", "de": "Platzhalter"}}
+FUEL_FILE = ROOT / "data" / "fuel" / "_regional.yaml"
+
+
 def _fuel(store) -> dict:
     spot = _history(store, "jet_fuel_price", key="spot/USGC").get("spot/USGC", [])
     from .bench import KG_PER_GAL
@@ -355,10 +406,27 @@ def _fuel(store) -> dict:
         for m, r in sorted((doc.get("months") or {}).items()):
             if isinstance(r, dict) and r.get("damper_rub_t") is not None:
                 damper.append((str(m)[:7], float(r["damper_rub_t"])))
-    return {"spot": monthly, "damper": damper}
+    # Регионы — так, как цену берёт расчёт (econ, решение 235): спот ×
+    # множитель региона аэропорта вылета; полоса — разброс множителя.
+    # Последние 36 месяцев: старше множитель не мерили, и тянуть его на
+    # 1990-е значило бы выдумывать.
+    regions = []
+    if FUEL_FILE.exists() and monthly:
+        doc = yaml.safe_load(FUEL_FILE.read_text(encoding="utf-8")) or {}
+        tail = monthly[-36:]
+        for code, r in (doc.get("regions") or {}).items():
+            k = r.get("k")
+            if not k:
+                continue
+            lo, hi = (r.get("range") or [k, k])[:2]
+            regions.append({"code": code, "name": r.get("name") or code, "k": k,
+                            "conf": r.get("confidence") or "",
+                            "line": [(m, round(v * k)) for m, v in tail],
+                            "band": [(m, round(v * lo), round(v * hi)) for m, v in tail]})
+    return {"spot": monthly, "damper": damper, "regions": regions}
 
 
-def _charges() -> dict:
+def _charges(store=None) -> dict:
     if not REGIONAL.exists():
         return {}
     doc = yaml.safe_load(REGIONAL.read_text(encoding="utf-8")) or {}
@@ -368,7 +436,11 @@ def _charges() -> dict:
         rows.append({"code": code, "name": r.get("name") or code, "median": r.get("median_eur"),
                      "lo": rng[0], "hi": rng[1], "n": r.get("n")})
     rows.sort(key=lambda r: -(r["median"] or 0))
-    return {"built": str(doc.get("built") or ""), "rows": rows}
+    hist = {}
+    if store is not None:
+        for key, pts in _history(store, "monitor", prefix="charges_median/").items():
+            hist[key.split("/", 1)[1]] = pts
+    return {"built": str(doc.get("built") or ""), "rows": rows, "history": hist}
 
 
 REGION_NAMES = {
@@ -377,16 +449,171 @@ REGION_NAMES = {
     "africa": {"en": "Africa", "de": "Afrika"}, "world": {"en": "Rest of world", "de": "Übrige Welt"},
 }
 
+# Континент зоны — по первой букве кода ИКАО; EUROCONTROL и ФАС — по
+# источнику: CRCO выставляет счета и за Турцию, Кавказ и Канары.
+CONTINENT = {"crco": "europe_ec", "fas": "russia", "U": "cis", "Z": "china", "V": "asia", "W": "asia",
+             "R": "asia", "O": "middle_east", "K": "north_america", "C": "north_america", "P": "north_america",
+             "M": "latam", "S": "latam", "T": "latam", "D": "africa", "F": "africa", "G": "africa",
+             "H": "africa", "Y": "oceania", "N": "oceania", "E": "europe", "L": "europe", "B": "europe"}
+CONTINENT_NAMES = {
+    "europe_ec": {"ru": "Европа (EUROCONTROL)", "en": "Europe (EUROCONTROL)", "de": "Europa (EUROCONTROL)"},
+    "russia": {"ru": "Россия (ФАС)", "en": "Russia (FAS)", "de": "Russland (FAS)"},
+    "cis": {"ru": "СНГ", "en": "CIS", "de": "GUS"}, "china": {"ru": "Китай", "en": "China", "de": "China"},
+    "asia": {"ru": "Азия", "en": "Asia", "de": "Asien"},
+    "middle_east": {"ru": "Ближний Восток", "en": "Middle East", "de": "Naher Osten"},
+    "north_america": {"ru": "Северная Америка", "en": "North America", "de": "Nordamerika"},
+    "latam": {"ru": "Латинская Америка", "en": "Latin America", "de": "Lateinamerika"},
+    "africa": {"ru": "Африка", "en": "Africa", "de": "Afrika"},
+    "oceania": {"ru": "Океания", "en": "Oceania", "de": "Ozeanien"},
+    "europe": {"ru": "Европа (вне EUROCONTROL)", "en": "Europe (outside EUROCONTROL)",
+               "de": "Europa (außerhalb EUROCONTROL)"},
+}
+REF_MTOW_T = 78.0
+KM100_NM = 100 / 1.852
+
+
+def _zone_per_100km(z: str, rate: float, value_text: str | None, forms: dict) -> float:
+    """Маршрутный сбор зоны за 100 км для A320 (78 т) в валюте ставки — той
+    же формулой, что в расчёте (econ, navcharge): полосы массы ФАС из
+    факта, способ зоны из config/nav_zones.yaml."""
+    from .navcharge import charge
+    cfg = dict(forms.get(z, {}))
+    form = cfg.get("formula", "eurocontrol")
+    try:
+        extra = json.loads(value_text or "{}")
+    except ValueError:
+        extra = {}
+    if isinstance(extra, dict) and extra.get("bands"):
+        cfg.update({k: v for k, v in extra.items() if k in ("d_div", "d_unit", "d_exp", "m_div", "m_exp", "bands")})
+        form = "custom"
+    return charge(KM100_NM, REF_MTOW_T, rate, form, cfg)
+
 
 def _ans(store) -> dict:
-    eu = _history(store, "enroute_rate")
-    crco = {k: v for k, v in eu.items() if "/" not in k}               # CRCO: ключ — зона
-    fas = {k: v for k, v in eu.items() if "/" in k}                    # ФАС: зона/эксплуатант/рейс
-    src = dict(store.db.execute(
-        "SELECT key, source_id FROM facts WHERE domain = 'enroute_rate' GROUP BY key"))
-    crco = {k: v for k, v in crco.items() if src.get(k) == "crco_enroute_rates"}
-    fas = {k: v for k, v in fas.items() if src.get(k) == "fas_ans_rates"}
-    return {"eu": rate_index(crco), "ru": rate_index(fas), "n_eu": len(crco), "n_ru": len(fas)}
+    """Среднее по зонам континента, EUR на 100 км, помесячно. Зона входит в
+    месяц, если ставка в нём действует и есть курс её валюты."""
+    from .econ import _nav_formulas
+    forms = _nav_formulas()
+    rows = store.db.execute(
+        "SELECT key, valid_from, value, currency, value_text, source_id FROM facts "
+        "WHERE domain = 'enroute_rate' AND value IS NOT NULL ORDER BY key, valid_from, created_at").fetchall()
+    zones: dict = defaultdict(dict)
+    meta: dict = {}
+    for key, vf, val, cur, vt, src in rows:
+        if "/" in key and not key.endswith("/national/domestic"):
+            continue                                  # Россия — один вариант: свой эксплуатант, внутренний рейс
+        z = key.split("/")[0]
+        if src == "crco_enroute_rates":
+            cont = "europe_ec"
+        elif src == "fas_ans_rates":
+            cont = "russia"
+        else:
+            cont = CONTINENT.get(z[:1])
+        if not cont:
+            continue
+        zones[key][str(vf)[:10]] = (float(val), (cur or "EUR").upper(), vt)
+        meta[key] = (z, cont)
+    if not zones:
+        return {"lines": {}, "n": {}}
+    first = min(min(v) for v in zones.values())[:7]
+    months = _months(first, date.today().isoformat()[:7])
+    fx_cache: dict = {}
+
+    def fx(cur, month):
+        if cur == "EUR":
+            return 1.0
+        k = (cur, month)
+        if k not in fx_cache:
+            fx_cache[k] = store.value("fx", cur, f"{month}-28")
+        return fx_cache[k]
+
+    acc: dict = defaultdict(lambda: defaultdict(list))
+    for key, pts in zones.items():
+        z, cont = meta[key]
+        dates = sorted(pts)
+        for m in months:
+            cur_d = None
+            for d in dates:
+                if d[:7] <= m:
+                    cur_d = d
+                else:
+                    break
+            if cur_d is None:
+                continue
+            val, cur, vt = pts[cur_d]
+            r = fx(cur, m)
+            if not r:
+                continue
+            acc[cont][m].append(_zone_per_100km(z, val, vt, forms) / r)
+    lines = {c: [(m, round(sum(v) / len(v), 1)) for m, v in sorted(ms.items())] for c, ms in acc.items()}
+    n = {c: len({meta[k][0] for k in zones if meta[k][1] == c}) for c in acc}
+    return {"lines": lines, "n": n}
+
+
+# ── доля заготовки на эталонных рейсах ────────────────────────────────────
+
+# Эталоны: по одному на регион, где расчёт опирается на разные документы.
+# FRA–BCN — тот же, что в проверке сайта (tools/site_check.py).
+REF_ROUTES = (("EDDF", "LEBL", "A320", "FRA–BCN A320"),
+              ("UUEE", "ULLI", "A320", "SVO–LED A320"),
+              ("VIDP", "VABB", "A20N", "DEL–BOM A20N"),
+              ("KJFK", "KLAX", "A321", "JFK–LAX A321"))
+# Замеры до начала ряда (проверка сайта, эталон FRA–BCN, июль, загрузка 0,82).
+SEED = {"default_share/EDDF-LEBL/A320": [("2026-11-01", 0.42), ("2026-11-05", 0.40)]}
+
+
+def _ref_shares(store) -> dict:
+    from .econ import route_economics
+    out = {}
+    for o, d, ac, label in REF_ROUTES:
+        try:
+            res = route_economics(store, o, d, aircraft=ac, load_factor=0.82, month=7)
+            out[f"default_share/{o}-{d}/{ac}"] = (label, round(res.default_share(), 4))
+        except Exception:                              # noqa: BLE001 — нет аэропорта или типа в базе
+            continue
+    return out
+
+
+def _default_share(store) -> dict:
+    now = _ref_shares(store)
+    hist = _history(store, "monitor", prefix="default_share/")
+    lines = []
+    today = date.today().isoformat()
+    for key, (label, v) in now.items():
+        pts = dict(SEED.get(key, []))
+        pts.update(dict(hist.get(key, [])))
+        pts[today] = v
+        lines.append((label, [(d, round(x * 100, 1)) for d, x in sorted(pts.items())]))
+    return {"lines": lines}
+
+
+def record(store, today: str | None = None) -> int:
+    """Записать в главную базу то, у чего нет своей истории: долю заготовки
+    эталонов и медианы сборов по регионам. Пишется только изменившееся —
+    ряд не пухнет от одинаковых дней. Это производные от уже принятых
+    данных, а не новые данные извне, поэтому мимо очереди приёмки.
+    Возвращает число записанных фактов."""
+    from .store import Fact
+    today = today or date.today().isoformat()
+    vals = {k: v for k, (_, v) in _ref_shares(store).items()}
+    ch = _charges()
+    for r in ch.get("rows") or []:
+        if r.get("median"):
+            vals[f"charges_median/{r['code']}"] = float(r["median"])
+    last = {k: (pts[-1][1] if pts else None)
+            for k, pts in _history(store, "monitor").items()}
+    facts = []
+    for k, v in vals.items():
+        prev = last.get(k)
+        tol = 0.005 if k.startswith("default_share/") else 1.0
+        if prev is not None and abs(prev - v) < tol:
+            continue
+        facts.append(Fact(domain="monitor", key=k, valid_from=today, value=v,
+                          unit="share" if k.startswith("default_share/") else "EUR",
+                          source_id="monitor", extracted_by="monitor@1"))
+    if facts:
+        store.commit_facts(facts)
+    return len(facts)
 
 
 def _form41(store) -> dict:
@@ -418,9 +645,10 @@ def _form41(store) -> dict:
 
 
 def build(store) -> dict:
-    """Все ряды страницы. Медленная часть — Form 41 за все годы; витрина
-    кэширует результат до смены базы."""
-    out = {"fuel": _fuel(store), "charges": _charges(), "ans": _ans(store), "built": date.today().isoformat()}
+    """Все ряды страницы. Медленная часть — Form 41 за все годы и четыре
+    эталонных расчёта; витрина кэширует результат до смены базы."""
+    out = {"fuel": _fuel(store), "charges": _charges(store), "ans": _ans(store),
+           "dflt": _default_share(store), "built": date.today().isoformat()}
     out.update(_form41(store))
     return out
 
@@ -434,16 +662,20 @@ def _fmt(v: float, lang: str) -> str:
     return s.replace(",", " ").replace(".", "," if lang != "en" else ".")
 
 
-def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int = 720, h: int = 240) -> str:
+def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int = 720, h: int = 240,
+               band: list | None = None, y_range: tuple | None = None, cls: str = "") -> str:
     """SVG-линии по категориям времени (месяц «2026-05» или год «2024»).
-    Подпись каждой линии — текстом справа и в легенде: цвет не единственный
-    признак. Без скрипта: страница читается и роботом, и при печати."""
+    Подпись каждой линии — в легенде с последним значением: цвет не
+    единственный признак. Без скрипта: страница читается и роботом, и при
+    печати. `band` — полоса [(x, низ, верх)] под первой линией; `y_range` —
+    общая шкала для ряда маленьких графиков, чтобы их можно было сравнить."""
     lines = [(n, pts) for n, pts in lines if pts]
     if not lines:
         return ""
-    xs = sorted({p[0] for _, pts in lines for p in pts})
-    ys = [p[1] for _, pts in lines for p in pts]
-    lo, hi = min(ys), max(ys)
+    band = band or []
+    xs = sorted({p[0] for _, pts in lines for p in pts} | {b[0] for b in band})
+    ys = [p[1] for _, pts in lines for p in pts] + [v for b in band for v in b[1:]]
+    lo, hi = y_range if y_range else (min(ys), max(ys))
     if lo == hi:
         lo, hi = lo * 0.9, hi * 1.1 or 1
     pad = (hi - lo) * 0.08
@@ -454,7 +686,8 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
     # Ось времени настоящая, а не по порядку: месяцы демпфера идут с
     # пропусками, и равные шаги между точками исказили бы скорость роста.
     def tnum(x):
-        return int(x[:4]) + ((int(x[5:7]) - 1) / 12 if len(x) >= 7 else 0)
+        t = int(x[:4]) + ((int(x[5:7]) - 1) / 12 if len(x) >= 7 else 0)
+        return t + ((int(x[8:10]) - 1) / 365 if len(x) >= 10 else 0)    # дни — для коротких рядов
     t0, t1 = tnum(xs[0]), tnum(xs[-1])
 
     def X(x):
@@ -487,9 +720,13 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
     for n, i in enumerate(dict.fromkeys(idx)):
         anc = "end" if i == len(xs) - 1 and len(xs) > 1 else "start" if i == 0 else "middle"
         # На телефоне подписи крупнее — каждая вторая прячется (кроме крайних).
-        odd = " odd" if n % 2 and i not in (0, len(xs) - 1) else ""
+        odd = (" odd" if n % 2 else "") + " mid" if i not in (0, len(xs) - 1) else ""
         g.append(f'<text x="{X(xs[i]):.1f}" y="{h - 6}" class="ax{odd}" text-anchor="{anc}">{esc(xs[i])}</text>')
     paths, legend = [], []
+    if band:
+        up = " ".join(f"{X(x):.1f},{Y(b):.1f}" for x, _, b in band)
+        dn = " ".join(f"{X(x):.1f},{Y(a):.1f}" for x, a, _ in reversed(band))
+        paths.append(f'<polygon points="{up} {dn}" fill="{COLORS[0]}" fill-opacity=".18"/>')
     for i, (name, pts) in enumerate(lines):
         c = COLORS[i % len(COLORS)]
         d = " ".join(f'{"M" if j == 0 else "L"}{X(x):.1f},{Y(y):.1f}' for j, (x, y) in enumerate(pts))
@@ -500,7 +737,7 @@ def line_chart(lines: list[tuple[str, list]], lang: str, unit: str = "", w: int 
         lx, ly = pts[-1]
         legend.append(f'<span><i style="background:{c}"></i>{esc(name)}: <b>{esc(_fmt(ly, lang))}</b>'
                       f' <em>({esc(lx)})</em></span>')
-    svg = (f'<svg viewBox="0 0 {w} {h}" class="ch" role="img" preserveAspectRatio="none">'
+    svg = (f'<svg viewBox="0 0 {w} {h}" class="ch {cls}" role="img" preserveAspectRatio="none">'
            + "".join(g) + "".join(paths) + "</svg>")
     return f'<div class="lg2">{"".join(legend)}</div>{svg}'
 
@@ -541,27 +778,52 @@ def _panel(h: str, cap: str, body: str, note: str = "", src: str = "") -> str:
 def series_html(lang: str, d: dict) -> str:
     t = T[lang]
     miss = lambda what: f'<div class="note quiet">{esc(t["missing"].format(what=what))}</div>'  # noqa: E731
+    nm = lambda names, code, fallback: (names.get(code, {}).get(lang) or fallback)  # noqa: E731
     out = []
+    # Доля заготовки — первой: это главный ответ «насколько можно верить расчёту».
+    dl = (d.get("dflt") or {}).get("lines") or []
+    out.append(_panel(t["dflt_h"], t["dflt_cap"], line_chart(dl, lang, "%") or miss("default_share"),
+                      t["dflt_note"]))
     f = d.get("fuel") or {}
     body = (line_chart([(t["fuel_spot_u"], f.get("spot") or [])], lang, t["fuel_spot_u"])
             or miss("jet_fuel_price spot/USGC"))
+    regs = f.get("regions") or []
+    if regs:
+        allv = [v for r in regs for b in r["band"] for v in b[1:]] + [v for r in regs for _, v in r["line"]]
+        yr = (min(allv) * 0.95, max(allv) * 1.03)
+        cells = []
+        for r in regs:
+            name = r["name"] if lang == "ru" else nm(FUEL_NAMES, r["code"], r["name"])
+            conf = r["conf"] if lang == "ru" else CONF.get(r["conf"], {}).get(lang, r["conf"])
+            cells.append(f'<div class="cell"><div class="ct">{esc(name)} <em>× {esc(str(r["k"]) if lang == "en" else str(r["k"]).replace(".", ","))}'
+                         f' · {esc(t["conf"])}: {esc(conf)}</em></div>'
+                         + line_chart([(t["fuel_spot_u"], r["line"])], lang, t["fuel_spot_u"], w=360, h=170,
+                                      band=r["band"], y_range=yr, cls="sm")
+                         + "</div>")
+        body += f'<p class="cap">{esc(t["fuel_reg"])}</p><div class="grid">{"".join(cells)}</div>'
     body2 = line_chart([(t["fuel_dmp_u"], f.get("damper") or [])], lang, t["fuel_dmp_u"])
     out.append(_panel(t["fuel_h"], t["fuel_spot"], body
                       + (f'<p class="cap">{esc(t["fuel_dmp"])}</p>{body2}' if body2 else ""),
                       t["fuel_note"],
                       f'{esc(t["src"])}: <a href="https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm">EIA</a> · '
-                      f'{"Рейтер через СМИ" if lang == "ru" else "Reuters via media"} '
-                      f'(<a href="https://github.com/BormatovD/FlightCost/blob/main/data/fuel/_ru_damper.yaml">'
-                      f'_ru_damper.yaml</a>)'))
+                      f'<a href="/{lang}/research/fuel-2026-10">{"исследование топлива" if lang == "ru" else "fuel research" if lang == "en" else "Treibstoff-Recherche"}</a> · '
+                      f'<a href="https://github.com/BormatovD/FlightCost/blob/main/data/fuel/_ru_damper.yaml">'
+                      f'_ru_damper.yaml</a>'))
     ch = d.get("charges") or {}
-    out.append(_panel(t["ch_h"], t["ch_cap"] + (f" · {ch['built']}" if ch.get("built") else ""),
-                      range_chart(ch.get("rows") or [], lang) or miss("data/charges/_regional.yaml"),
+    body = range_chart(ch.get("rows") or [], lang) or miss("data/charges/_regional.yaml")
+    hist = ch.get("history") or {}
+    if any(len(v) >= 2 for v in hist.values()):
+        names = {r["code"]: r["name"] for r in ch.get("rows") or []}
+        hl = [(names.get(c, c) if lang == "ru" else nm(REGION_NAMES, c, c), pts) for c, pts in hist.items()]
+        body += f'<p class="cap">{esc(t["ch_hist"])}</p>' + line_chart(hl, lang, "EUR")
+    out.append(_panel(t["ch_h"], t["ch_cap"] + (f" · {ch['built']}" if ch.get("built") else ""), body,
                       t["ch_note"], f'{esc(t["src"])}: <a href="/{lang}/research/charges-2026-10">'
                       f'{"исследование сборов" if lang == "ru" else "charges research" if lang == "en" else "Entgelt-Recherche"}</a>'))
     a = d.get("ans") or {}
-    lines = [(f'{t["ans_eu"]}, {a.get("n_eu", 0)}', a.get("eu") or []),
-             (f'{t["ans_ru"]}, {a.get("n_ru", 0)}', a.get("ru") or [])]
-    out.append(_panel(t["ans_h"], t["ans_cap"], line_chart(lines, lang, "") or miss("enroute_rate"),
+    al = a.get("lines") or {}
+    order = sorted(al, key=lambda c: -(al[c][-1][1] if al[c] else 0))
+    lines = [(f'{CONTINENT_NAMES.get(c, {}).get(lang, c)}, {a.get("n", {}).get(c, 0)}', al[c]) for c in order]
+    out.append(_panel(t["ans_h"], t["ans_cap"], line_chart(lines, lang, "EUR") or miss("enroute_rate"),
                       t["ans_note"], f'{esc(t["src"])}: EUROCONTROL CRCO · ФАС России'))
     mro = d.get("mro") or {}
     lines = [(t["c_" + c], mro[c]) for c in ("narrow", "regional", "wide") if mro.get(c)]
@@ -581,6 +843,18 @@ STYLE = """<style>
 .tabs a{padding:8px 14px;text-decoration:none;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px}
 .tabs a.on{color:var(--ink2);border-bottom-color:var(--accent)}
 ul.plan{list-style:none;padding:0;margin:0}
+ul.tl{position:relative;padding-left:26px;margin-left:6px}
+ul.tl::before{content:"";position:absolute;left:6px;top:0;bottom:-26px;width:2px;background:var(--line)}
+ul.tl li{position:relative}
+ul.tl li::before{content:"";position:absolute;left:-26px;top:14px;width:12px;height:12px;border-radius:50%;
+  background:#6b6b6b;border:2px solid var(--bg)}
+ul.tl.done li::before{background:#199e70}ul.tl.now li::before{background:#3987e5}
+ul.tl.done li{border-left:3px solid #199e70}ul.tl.now li{border-left:3px solid #3987e5}
+ul.tl.next li,ul.tl.later li{opacity:.82}
+h2.tl-h.done{color:#3fbf8f}h2.tl-h.now{color:#6aa8f0}h2.tl-h.next,h2.tl-h.later{color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px 14px}
+.grid .ct{font-size:12.5px;color:var(--ink2);margin-top:6px}.grid .ct em{color:var(--dim);font-style:normal}
+svg.ch.sm .ax{font-size:13px}
 ul.plan li{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;background:var(--panel);max-width:none}
 ul.plan li p{margin:4px 0;color:var(--ink)}
 ul.plan .meta{font-size:12.5px;color:var(--dim)}
@@ -597,6 +871,7 @@ svg.ch .vl{fill:var(--ink2);font:12px var(--sans)}
 .lg2 em{color:var(--dim);font-style:normal}
 .botl{display:inline-block;margin:6px 0}
 @media(max-width:640px){svg.ch .ax{font-size:22px}svg.ch .vl{font-size:23px}svg.ch .ax.odd{display:none}
+  svg.ch.sm .ax{font-size:26px}svg.ch.sm .ax.mid{display:none}
   .pn{padding:2px 10px 8px}}
 </style>"""
 
