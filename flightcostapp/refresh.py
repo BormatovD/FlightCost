@@ -135,7 +135,9 @@ def _candidate_urls(src: dict, today: date) -> list[str]:
         return []
     out, y, m = [], today.year, today.month
     for _ in range(1 + int(src.get("url_fallback_months", 1))):
-        out.append(tpl.format(Y=f"{y:04d}", m=f"{m:02d}"))
+        # {d} — день сегодняшней даты: конец диапазона у запросов истории
+        # (Банк России, XML_dynamic). Шаблонам по месяцам он не мешает.
+        out.append(tpl.format(Y=f"{y:04d}", m=f"{m:02d}", d=f"{today.day:02d}"))
         m -= 1
         if m == 0:
             y, m = y - 1, 12

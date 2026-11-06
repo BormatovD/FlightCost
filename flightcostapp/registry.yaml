@@ -485,6 +485,44 @@ sources:
       value_min: 0.000001
       value_max: 1000000
 
+  ecb_fx_hist:
+    title: Курсы валют ЕЦБ — история с 2025 года
+    # Ежедневный fx_rates кладёт один день; ряды страницы «План и
+    # показатели» и расчёт на прошлую дату требуют курса на каждый месяц
+    # окна. Тот же курс ЕЦБ задним числом, интервалы закрыты следующей датой.
+    kind: zip
+    contour: deterministic
+    url: https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip
+    public: full
+    license: open
+    parser: ecb_fx_hist
+    domain: fx
+    cadence_days: 30
+    sla_days: 60
+    tier: 2
+    gate: auto
+    validators:
+      value_min: 0.000001
+
+  cbr_fx_hist:
+    title: Курс рубля к евро, Банк России — история с 2025 года
+    # Рубля у ЕЦБ нет; ежедневный cbr_fx кладёт один день. Без истории ряд
+    # цены топлива в России после демпфера начинался с запуска сборщика.
+    kind: url
+    contour: deterministic
+    url_template: "https://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=01/01/2025&date_req2={d}/{m}/{Y}&VAL_NM_RQ=R01239"
+    url_fallback_months: 0
+    public: full
+    license: open                  # cbr.ru: использование с указанием источника
+    parser: cbr_fx_hist
+    domain: fx
+    cadence_days: 30
+    sla_days: 60
+    tier: 2
+    gate: auto
+    validators:
+      value_min: 0.000001
+
   cbr_fx:
     title: Курсы валют — официальные курсы Банка России
     # Рубль: ЕЦБ не котирует его с марта 2022 года, а объявленный файл

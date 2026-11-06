@@ -89,7 +89,13 @@ def resolve(store, currency: str, as_of) -> tuple[float | None, str]:
 # котировка другого рынка, а кроссы через рубль несут две погрешности.
 # Объявленные файлы (fx_declared) — последними: это котировки на дату
 # отчётности, не ежедневные.
-PRIORITY = {"crco_enroute_rates": 0, "crco_terminal_rates": 0, "fx_rates": 1, "cbr_fx": 2}
+# История (ecb_fx_hist, cbr_fx_hist) — тот же курс того же банка задним
+# числом, поэтому приоритет у неё тот же, что у ежедневного файла: между
+# ними выигрывает более свежая дата.
+PRIORITY = {"crco_enroute_rates": 0, "crco_terminal_rates": 0, "fx_rates": 1, "ecb_fx_hist": 1,
+            "cbr_fx": 2, "cbr_fx_hist": 2}
+ECB = ("fx_rates", "ecb_fx_hist")
+CBR = ("cbr_fx", "cbr_fx_hist")
 
 
 def _best(store, currency: str, as_of):
@@ -115,10 +121,10 @@ def _best(store, currency: str, as_of):
                                     -_ord(r["valid_from"])))
     src = best["source_id"] or ""
     prov = ("курс, применённый CRCO" if src.startswith("crco")
-            else "справочный курс ЕЦБ" if src == "fx_rates"
+            else "справочный курс ЕЦБ" if src in ECB
             else ("кросс через рубль по курсам Банка России"
                   if "кросс" in (best["note"] or "") else "официальный курс Банка России")
-            if src == "cbr_fx"
+            if src in CBR
             else f"источник {src}")
     try:
         age = (date.fromisoformat(str(as_of)[:10])
@@ -147,8 +153,8 @@ def quote(store, currency: str, as_of) -> dict:
         src = row["source_id"] or ""
         # `kind` — машинный род курса для витрины: она подписывает его на
         # своём языке, не разбирая русскую прозу провенанса.
-        kind = ("crco" if src.startswith("crco") else "ecb" if src == "fx_rates"
-                else ("cbr_cross" if "кросс" in (row["note"] or "") else "cbr") if src == "cbr_fx"
+        kind = ("crco" if src.startswith("crco") else "ecb" if src in ECB
+                else ("cbr_cross" if "кросс" in (row["note"] or "") else "cbr") if src in CBR
                 else "declared" if src == "fx_declared" else "other")
         return {"rate": row["value"], "provenance": prov, "kind": kind,
                 "date": str(row["valid_from"])[:10], "source": src}
