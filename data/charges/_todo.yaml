@@ -1,8 +1,210 @@
-# Аэропорты сети Ryanair для калибровки M7: где искать тарифы.
+# Тарифы аэропортов: что собирать и где искать.
 #
 # Заводится по одному, каждый в свой файл data/charges/<ICAO>-<год>.json
 # с обязательным полем source_url. Пока файла нет — расчёт идёт по
 # параметрике яруса 3 и честно об этом предупреждает.
+#
+# ДВА РАЗДЕЛА.
+#   regions  — покрытие (06.11.2026): в каждом регионе не меньше `min`
+#              аэропортов с тарифом по документу (по умолчанию два). Агент
+#              «тарифы» берёт первый регион, где не хватает, и в нём — первого
+#              по порядку кандидата без файла. Кандидаты упорядочены по
+#              пассажиропотоку, от крупного к меньшему. Не нашёл документа
+#              дважды — кандидат помечается «не найден» в состоянии агента
+#              (/srv/fca/agent/charges_state.json), и следующий прогон берёт
+#              следующего кандидата того же региона. Регион аэропорта — по
+#              префиксу кода ИКАО (`prefixes`).
+#   airports — подробности по отдельным аэропортам: издатель, адрес
+#              документа, примечания разбора, статус. Если у кандидата есть
+#              запись здесь, агент берёт адрес и издателя из неё; нет адреса —
+#              агент ищет документ сам (SKILL-collect-charges, шаг 1).
+#   not_found_* — где документ не нашёлся или не читается; агент таких не берёт.
+
+regions:
+  north_america:
+    name: Северная Америка
+    prefixes: [K, C, PH]
+    candidates:
+      - {icao: KATL, city: Атланта}
+      - {icao: KDFW, city: Даллас}
+      - {icao: KLAX, city: Лос-Анджелес}
+      - {icao: KORD, city: Чикаго}
+      - {icao: KJFK, city: Нью-Йорк}
+      - {icao: CYYZ, city: Торонто}
+      - {icao: KSFO, city: Сан-Франциско}
+      - {icao: CYVR, city: Ванкувер}
+  middle_east:
+    name: Ближний Восток и Залив
+    prefixes: [OM, OE, OB, OK, OO, OT, OJ, OL, OS, OR, OI, LL]
+    candidates:
+      - {icao: OMDB, city: Дубай}
+      - {icao: OERK, city: Эр-Рияд}
+      - {icao: OEJN, city: Джидда}
+      - {icao: OMAA, city: Абу-Даби}
+      - {icao: OKKK, city: Кувейт}
+      - {icao: OBBI, city: Бахрейн}
+      - {icao: OJAI, city: Амман}
+      - {icao: LLBG, city: Тель-Авив}
+  cis:
+    name: СНГ, Кавказ и Центральная Азия
+    prefixes: [UA, UT, UB, UG, UD, UC, UM]
+    candidates:
+      - {icao: UTTT, city: Ташкент}
+      - {icao: UBBB, city: Баку}
+      - {icao: UACC, city: Астана}
+      - {icao: UGTB, city: Тбилиси}
+      - {icao: UDYZ, city: Ереван}
+      - {icao: UCFM, city: Бишкек}
+      - {icao: UMMS, city: Минск}
+  southeast_asia:
+    name: Юго-Восточная Азия
+    prefixes: [WS, WM, WB, WI, WA, VT, VV, VD, VL, VY, RP]
+    candidates:
+      - {icao: WSSS, city: Сингапур}
+      - {icao: VTBS, city: Бангкок}
+      - {icao: WMKK, city: Куала-Лумпур}
+      - {icao: WIII, city: Джакарта}
+      - {icao: RPLL, city: Манила}
+      - {icao: VVTS, city: Хошимин}
+      - {icao: VVNB, city: Ханой}
+  east_asia:
+    name: Япония, Корея, Тайвань, Гонконг
+    prefixes: [RJ, RO, RK, RC, VH, VM]
+    candidates:
+      - {icao: RJTT, city: Токио Ханэда}
+      - {icao: RKSI, city: Сеул Инчхон}
+      - {icao: VHHH, city: Гонконг}
+      - {icao: RCTP, city: Тайбэй}
+      - {icao: RJBB, city: Осака Кансай}
+  south_asia:
+    name: Южная Азия кроме Индии
+    prefixes: [VC, VG, VN, VR, VQ, OP, OA]
+    candidates:
+      - {icao: OPKC, city: Карачи}
+      - {icao: VGHS, city: Дакка}
+      - {icao: VCBI, city: Коломбо}
+      - {icao: VRMM, city: Мале}
+      - {icao: VNKT, city: Катманду}
+      - {icao: OPLA, city: Лахор}
+  north_africa:
+    name: Северная Африка
+    prefixes: [DA, DT, GM, HE, HL]
+    candidates:
+      - {icao: HECA, city: Каир}
+      - {icao: GMMN, city: Касабланка}
+      - {icao: HEGN, city: Хургада}
+      - {icao: GMMX, city: Марракеш}
+      - {icao: HESH, city: Шарм-эш-Шейх}
+      - {icao: DTTA, city: Тунис}
+      - {icao: GMAD, city: Агадир}
+  east_africa:
+    name: Восточная Африка
+    prefixes: [HK, HA, HT, HU, HR, HS, HB, FM, FI, FS]
+    candidates:
+      - {icao: HAAB, city: Аддис-Абеба}
+      - {icao: HTDA, city: Дар-эс-Салам}
+      - {icao: HUEN, city: Энтеббе}
+      - {icao: FIMP, city: Маврикий}
+      - {icao: HRYR, city: Кигали}
+      - {icao: HTKJ, city: Килиманджаро}
+  west_central_africa:
+    name: Западная и Центральная Африка
+    prefixes: [DG, DN, DI, DX, DB, DF, DR, GO, GA, GU, GL, GF, GG, GQ, FK, FO, FC, FZ, FE, FT, FG]
+    candidates:
+      - {icao: DIAP, city: Абиджан}
+      - {icao: GOBD, city: Дакар}
+      - {icao: FKKD, city: Дуала}
+  southern_africa:
+    name: Южная Африка
+    prefixes: [FA, FB, FV, FQ, FY, FW, FL, FN, FD, FX]
+    candidates:
+      - {icao: FALE, city: Дурбан}
+      - {icao: FQMA, city: Мапуту}
+      - {icao: FLKK, city: Лусака}
+  south_america:
+    name: Южная Америка
+    prefixes: [S]
+    candidates:
+      - {icao: SBGR, city: Сан-Паулу Гуарульюс}
+      - {icao: SKBO, city: Богота}
+      - {icao: SCEL, city: Сантьяго}
+      - {icao: SPJC, city: Лима}
+      - {icao: SAEZ, city: Буэнос-Айрес Эсейса}
+      - {icao: SBGL, city: Рио-де-Жанейро}
+  central_america_caribbean:
+    name: Мексика, Центральная Америка и Карибы
+    prefixes: [MM, MP, MR, MG, MH, MN, MS, MZ, MD, MK, MT, MU, MW, MY, TJ, TN, TF, TB, TT]
+    candidates:
+      - {icao: MMMX, city: Мехико}
+      - {icao: MMUN, city: Канкун}
+      - {icao: MPTO, city: Панама}
+      - {icao: MDPC, city: Пунта-Кана}
+      - {icao: MKJS, city: Монтего-Бей}
+  oceania:
+    name: Австралия и Океания
+    prefixes: [Y, NZ, NF, NT, NV]
+    candidates:
+      - {icao: YSSY, city: Сидней}
+      - {icao: YMML, city: Мельбурн}
+      - {icao: NZAA, city: Окленд}
+      - {icao: YBBN, city: Брисбен}
+  western_europe:
+    name: Франция, Бенилюкс, Британия и Ирландия
+    prefixes: [LF, EB, EH, EL, EG, EI]
+    candidates:
+      - {icao: LFPG, city: Париж Шарль-де-Голль}
+      - {icao: LFPO, city: Париж Орли}
+      - {icao: LFMN, city: Ницца}
+      - {icao: EGCC, city: Манчестер}
+  central_eastern_europe:
+    name: Центральная и Восточная Европа
+    prefixes: [EP, LK, LH, LZ, LR, LB, LJ, LD, LY, LQ, LW, LU, LA, EY, EV, EE]
+    candidates:
+      - {icao: EPWA, city: Варшава}
+      - {icao: LROP, city: Бухарест}
+      - {icao: LBSF, city: София}
+      - {icao: EPKK, city: Краков}
+      - {icao: EVRA, city: Рига}
+  germany_alps:
+    name: Германия, Австрия, Швейцария
+    prefixes: [ED, LO, LS]
+    candidates:
+      - {icao: EDDM, city: Мюнхен}
+  iberia:
+    name: Испания и Португалия
+    prefixes: [LE, LP, GC, GE]
+    candidates: []
+  italy_malta:
+    name: Италия и Мальта
+    prefixes: [LI, LM]
+    candidates:
+      - {icao: LIRF, city: Рим Фьюмичино}
+      - {icao: LMML, city: Мальта}
+  nordics:
+    name: Скандинавия и Финляндия
+    prefixes: [EK, EN, ES, EF, BI]
+    candidates: []
+  greece_turkey:
+    name: Греция, Кипр и Турция
+    prefixes: [LG, LC, LT]
+    candidates:
+      - {icao: LTFJ, city: Стамбул Сабиха Гёкчен}
+      - {icao: LCLK, city: Ларнака}
+  russia:
+    name: Россия
+    prefixes: [UU, UL, UN, US, UR, UW, UI, UH, UE, UO]
+    candidates: []
+  india:
+    name: Индия
+    prefixes: [VA, VE, VI, VO]
+    candidates:
+      - {icao: VABB, city: Мумбаи}
+      - {icao: VOHS, city: Хайдарабад}
+      - {icao: VECC, city: Калькутта}
+  china:
+    name: Китай
+    prefixes: [ZB, ZG, ZH, ZJ, ZL, ZP, ZS, ZU, ZW, ZY]
+    candidates: []
 
 airports:
   EIDW:

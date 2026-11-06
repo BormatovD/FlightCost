@@ -107,6 +107,66 @@ SUBMISSION_TASK = """# Задание: черновик разбора прис�
 `doubts`); missing — в документе нет. Не больше 60 величин — самые важные.
 """
 
+CHARGES_MIN_PER_REGION = 2
+CHARGES_MAX_TRIES = 2        # столько раз без файла — и кандидат «не найден», берётся следующий
+DRAFT_DAYS = 30
+
+
+def region_of(icao: str, regions: dict) -> str | None:
+    """Регион аэропорта — по самому длинному подходящему префиксу ИКАО."""
+    best, n = None, 0
+    for rid, r in regions.items():
+        for pre in r.get("prefixes") or []:
+            if icao.startswith(pre) and len(pre) > n:
+                best, n = rid, len(pre)
+    return best
+
+
+def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
+    """Следующий аэропорт для агента «тарифы»: (ИКАО, запись, регион) или None.
+
+    Явный список (FCA_AGENT_CHARGES_ONLY) — по нему, как раньше. Иначе — по
+    регионам _todo.yaml сверху вниз: первый регион, где аэропортов с тарифом
+    (файл в репозитории или черновик агента, ждущий приёмки) меньше `min`,
+    и в нём первый по порядку кандидат без файла, без черновика, не из
+    списков not_found_* и не «не найден» в состоянии агента."""
+    airports = doc.get("airports") or {}
+    blocked = {k for sec, v in doc.items() if sec.startswith("not_found") and isinstance(v, dict) for k in v}
+    regions = doc.get("regions") or {}
+
+    def usable(icao):
+        st = state.get(icao) or {}
+        a = airports.get(icao) or {}
+        return (icao not in have and icao not in blocked and st.get("status") not in ("draft", "not_found")
+                and not str(a.get("status", "")).startswith("заведён"))
+
+    if want:
+        for icao in want:
+            if usable(icao):
+                return icao, airports.get(icao) or {"city": ""}, region_of(icao, regions)
+        return None
+    # Черновик закрывает место в регионе на время приёмки — DRAFT_DAYS. Не
+    # попал в репозиторий за это время — считается отклонённым: сам он
+    # повторно не берётся, а регион снова ищет следующего кандидата.
+    from datetime import date as _d, timedelta as _td
+    fresh = (_d.today() - _td(days=DRAFT_DAYS)).isoformat()
+    drafts = {k for k, v in state.items()
+              if (v or {}).get("status") == "draft" and str((v or {}).get("at", "")) >= fresh}
+    for rid, r in regions.items():
+        got = {i for i in have | drafts if region_of(i, regions) == rid}
+        if len(got) >= int(r.get("min", CHARGES_MIN_PER_REGION)):
+            continue
+        for c in r.get("candidates") or []:
+            icao = c["icao"]
+            if usable(icao):
+                return icao, {**c, **(airports.get(icao) or {})}, rid
+    # Регионы закрыты — старый порядок: подробный раздел airports, у кого есть адрес.
+    for icao, a in airports.items():
+        if usable(icao) and a.get("url"):
+            return icao, a, region_of(icao, regions)
+    return None
+
+
 CHARGES_TASK = """# Задание: тариф аэропорта {icao} ({city})
 
 Издатель: {publisher}. Документ: {url}
@@ -268,6 +328,22 @@ class Runner:
                      f"{self.month_usd:.0f} (FCA_AGENT_MONTH_USD). Задание «{job}» не запущено.", "warn")
         return False
 
+    def charges_state(self) -> dict:
+        """Состояние агента «тарифы» между прогонами: черновики, ждущие
+        приёмки, и кандидаты, у которых документ не нашёлся. Живёт рядом с
+        журналом расходов, не в репозитории: сервер код не правит."""
+        f = self.home / "charges_state.json"
+        try:
+            return json.loads(f.read_text("utf-8")) if f.exists() else {}
+        except ValueError:
+            return {}
+
+    def save_charges_state(self, state: dict) -> None:
+        f = self.home / "charges_state.json"
+        tmp = f.with_suffix(".tmp")
+        tmp.write_text(json.dumps(state, ensure_ascii=False, indent=1, sort_keys=True), "utf-8")
+        os.replace(tmp, f)
+
     def workspace(self, job: str, tag: str) -> Path:
         ws = self.home / "runs" / f"{_now():%Y%m%d-%H%M%S}-{job}-{tag}"
         for sub in ("in", "out"):
@@ -426,26 +502,23 @@ class Runner:
     # ── задание: тариф аэропорта ─────────────────────────────────────────
     def charges(self, model: str | None = None, only: str | None = None) -> int:
         import yaml
-        todo = yaml.safe_load((ROOT / "data" / "charges" / "_todo.yaml").read_text("utf-8"))["airports"]
+        doc = yaml.safe_load((ROOT / "data" / "charges" / "_todo.yaml").read_text("utf-8"))
         have = {p.name.split("-")[0] for p in (ROOT / "data" / "charges").glob("*-*.json")}
         want = [s.strip().upper() for s in (only or os.environ.get("FCA_AGENT_CHARGES_ONLY", "")).split(",") if s.strip()]
-        pick = None
-        for icao, a in todo.items():
-            if want and icao not in want:
-                continue
-            if icao in have or str(a.get("status", "")).startswith("заведён") or not a.get("url"):
-                continue
-            pick = (icao, a)
-            break
+        state = self.charges_state()
+        pick = pick_charges(doc, have, state, want)
         if pick is None:
-            self.say("Агент «тарифы»: в _todo.yaml нет аэропорта без файла и с адресом документа.")
+            self.say("Агент «тарифы»: во всех регионах _todo.yaml хватает тарифов, а кандидаты с адресом кончились.")
             return 0
         if not self.budget_ok("charges"):
             return 0
-        icao, a = pick
+        icao, a, rid = pick
+        rname = ((doc.get("regions") or {}).get(rid) or {}).get("name", rid or "—")
         ws = self.workspace("charges", icao)
         have_doc, corpus = "", ""
         try:
+            if not a.get("url"):
+                raise ValueError("адрес документа не задан в _todo.yaml")
             req = urllib.request.Request(a["url"], headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=60) as r:
                 blob = r.read(MAX_DOC + 1)
@@ -475,7 +548,8 @@ class Runner:
         shutil.copy2(ROOT / "skills" / "SKILL-collect-charges.md", ws / "SKILL.md")
         year = _now().year
         task = CHARGES_TASK.format(icao=icao, city=a.get("city", ""), publisher=a.get("publisher", "—"),
-                                   url=a.get("url"), have_doc=have_doc, year=year)
+                                   url=a.get("url") or "не задан — найди сам (SKILL.md, шаг 1)",
+                                   have_doc=have_doc, year=year)
         try:
             res = self.exec("charges", ws, task, model)
         except Exception as e:                                     # noqa: BLE001
@@ -483,9 +557,20 @@ class Runner:
             return 0
         outs = sorted((ws / "out").glob(f"{icao}-*.json"))
         if not outs:
-            self.say(f"Агент «тарифы» {icao}: файла нет — {res.get('status')}: "
-                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}", "warn")
+            rec = state.setdefault(icao, {})
+            rec["tries"] = int(rec.get("tries", 0)) + 1
+            rec["at"] = _now().date().isoformat()
+            gave_up = rec["tries"] >= CHARGES_MAX_TRIES
+            if gave_up:
+                rec["status"] = "not_found"
+            self.save_charges_state(state)
+            self.say(f"Агент «тарифы» {icao} ({rname}): файла нет — {res.get('status')}: "
+                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}"
+                     + ("\nПопыток " + str(rec["tries"]) + " — помечен «не найден», следующий прогон возьмёт "
+                        "следующего кандидата региона." if gave_up else ""), "warn")
             return 0
+        state[icao] = {"status": "draft", "at": _now().date().isoformat(), "region": rid}
+        self.save_charges_state(state)
         from .parsers import airport_charges
         ctx = {"source_id": "airport_charges_tier1", "url": None, "fetched_at": _now().date().isoformat()}
         try:
@@ -497,7 +582,7 @@ class Runner:
         dst = self.out / f"charges-{outs[0].name}"
         shutil.copy2(outs[0], dst)
         cost = res.get("costUsd")
-        self.say(f"Тариф {icao} ({a.get('city', '')}) — черновик агента.\n{verdict}"
+        self.say(f"Тариф {icao} ({a.get('city', '')}, {rname}) — черновик агента.\n{verdict}"
                  + (f"\nстоимость {cost:.2f} USD" if cost else "")
                  + "\nДальше дома: положить в data/charges/, fca refresh --only airport_charges_tier1, "
                    "fca review, контрольный оборот A320.",
