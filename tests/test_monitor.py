@@ -85,6 +85,34 @@ class Record(unittest.TestCase):
         self.assertEqual(pts, [("2026-11-06", 0.40), ("2026-11-08", 0.38)])
 
 
+class RefRoutes(unittest.TestCase):
+    def test_iata_codes_and_seed_survives_failure(self):
+        from flightcostapp import econ
+        calls = []
+
+        class R:
+            def default_share(self):
+                return 0.39
+
+        def fake(store, o, d, **kw):
+            calls.append((o, d))
+            if o == "FRA":
+                return R()
+            raise KeyError(o)
+        old = econ.route_economics
+        econ.route_economics = fake
+        try:
+            st = Store(pathlib.Path(tempfile.mkdtemp()) / "x.db")
+            dl = dict(M._default_share(st)["lines"])
+        finally:
+            econ.route_economics = old
+        self.assertIn(("FRA", "BCN"), calls, "расчёт ключует аэропорты ИАТА")
+        pts = dl["FRA–BCN A320"]
+        self.assertEqual(pts[0], ("2026-11-01", 42.0))
+        self.assertEqual(pts[-1][1], 39.0)
+        self.assertNotIn("SVO–LED A320", dl, "без расчёта и истории линии нет")
+
+
 class Index(unittest.TestCase):
     def test_index_from_base_month(self):
         s = {"Z1": [("2026-01-01", 10.0), ("2026-03-01", 11.0)],

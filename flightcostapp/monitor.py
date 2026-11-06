@@ -620,23 +620,28 @@ def _ans(store) -> dict:
 
 # Эталоны: по одному на регион, где расчёт опирается на разные документы.
 # FRA–BCN — тот же, что в проверке сайта (tools/site_check.py).
-REF_ROUTES = (("EDDF", "LEBL", "A320", "FRA–BCN A320"),
-              ("UUEE", "ULLI", "A320", "SVO–LED A320"),
-              ("VIDP", "VABB", "A20N", "DEL–BOM A20N"),
-              ("KJFK", "KLAX", "A321", "JFK–LAX A321"))
+# Расчёт ключует аэропорты кодом ИАТА (домен airport, serve.resolve), ряд
+# в базе — кодом ИКАО: (ИАТА, ИАТА, тип, ключ ряда, подпись).
+REF_ROUTES = (("FRA", "BCN", "A320", "EDDF-LEBL", "FRA–BCN A320"),
+              ("SVO", "LED", "A320", "UUEE-ULLI", "SVO–LED A320"),
+              ("DEL", "BOM", "A20N", "VIDP-VABB", "DEL–BOM A20N"),
+              ("JFK", "LAX", "A321", "KJFK-KLAX", "JFK–LAX A321"))
 # Замеры до начала ряда (проверка сайта, эталон FRA–BCN, июль, загрузка 0,82).
 SEED = {"default_share/EDDF-LEBL/A320": [("2026-11-01", 0.42), ("2026-11-05", 0.40)]}
 
 
 def _ref_shares(store) -> dict:
     from .econ import route_economics
+    import sys
     out = {}
-    for o, d, ac, label in REF_ROUTES:
+    for o, d, ac, key, label in REF_ROUTES:
         try:
             res = route_economics(store, o, d, aircraft=ac, load_factor=0.82, month=7)
-            out[f"default_share/{o}-{d}/{ac}"] = (label, round(res.default_share(), 4))
-        except Exception:                              # noqa: BLE001 — нет аэропорта или типа в базе
-            continue
+            out[f"default_share/{key}/{ac}"] = (label, round(res.default_share(), 4))
+        except Exception as exc:                       # noqa: BLE001 — нет аэропорта или типа в базе
+            # Не молча: 06.11.2026 все четыре эталона падали на кодах ИКАО,
+            # а страница писала «в базе нет ряда» без причины.
+            print(f"monitor: эталон {label} не посчитан: {type(exc).__name__}: {exc}", file=sys.stderr)
     return out
 
 
@@ -645,11 +650,16 @@ def _default_share(store) -> dict:
     hist = _history(store, "monitor", prefix="default_share/")
     lines = []
     today = date.today().isoformat()
-    for key, (label, v) in now.items():
-        pts = dict(SEED.get(key, []))
-        pts.update(dict(hist.get(key, [])))
-        pts[today] = v
-        lines.append((label, [(d, round(x * 100, 1)) for d, x in sorted(pts.items())]))
+    # Ряд показывается и тогда, когда сегодняшний расчёт не удался: замеры и
+    # записанная история от этого не исчезают.
+    for o, d, ac, key, label in REF_ROUTES:
+        k = f"default_share/{key}/{ac}"
+        pts = dict(SEED.get(k, []))
+        pts.update(dict(hist.get(k, [])))
+        if k in now:
+            pts[today] = now[k][1]
+        if pts:
+            lines.append((label, [(dd, round(x * 100, 1)) for dd, x in sorted(pts.items())]))
     return {"lines": lines}
 
 
