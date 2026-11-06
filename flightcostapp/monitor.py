@@ -99,17 +99,19 @@ T = {
                      "сегодняшняя точка считается при открытии страницы.",
         "ch_hist": "Медиана по регионам со временем, EUR",
         "mro_h": "ТОиР по классам ВС",
-        "mro_cap": "Полный ТОиР на блок-час, перевозчики США (Form 41), медиана, взвешенная блок-часами, "
+        "mro_cap": "Полный ТОиР на блок-час, перевозчики США (Form 41), по кварталам, медиана, взвешенная блок-часами, "
                    "номинальные USD",
         "mro_u": "USD/блок-ч",
         "c_narrow": "узкофюзеляжные", "c_wide": "широкофюзеляжные", "c_regional": "региональные",
         "own_h": "Владение по типам ВС",
-        "own_cap": "Аренда + амортизация на борт в месяц, перевозчики США (Form 41), медиана, номинальные USD",
+        "own_cap": "Аренда + амортизация на борт в месяц, перевозчики США (Form 41), по кварталам, медиана, номинальные USD",
         "own_u": "USD/борт·мес",
         "own_note": "Это не ставка лизинга одного договора: в сумме и собственные, и арендованные борта, по "
                     "балансовой стоимости. Открытого ряда ставок лизинга по типам нет — ищем.",
         "missing": "В базе нет ряда: {what}.",
         "src": "Источник", "last": "последнее", "upd": "Обновлено",
+        "window": "Все ряды — с января 2025 года: расчёт стоит на данных по итогам 2025-го, и ряды начинаются с "
+                  "одной даты, чтобы их можно было сравнивать. Более длинная история — в исследованиях.",
         "bot": "Предложить в план — Телеграм-бот проекта",
     },
     "en": {
@@ -154,16 +156,18 @@ T = {
                      "today's point is calculated when the page opens.",
         "ch_hist": "Regional median over time, EUR",
         "mro_h": "Maintenance by aircraft class",
-        "mro_cap": "Total maintenance per block hour, US carriers (Form 41), block-hour-weighted median, nominal USD",
+        "mro_cap": "Total maintenance per block hour, US carriers (Form 41), quarterly, block-hour-weighted median, nominal USD",
         "mro_u": "USD/block h",
         "c_narrow": "narrowbody", "c_wide": "widebody", "c_regional": "regional",
         "own_h": "Ownership by aircraft type",
-        "own_cap": "Rent + depreciation per aircraft per month, US carriers (Form 41), median, nominal USD",
+        "own_cap": "Rent + depreciation per aircraft per month, US carriers (Form 41), quarterly, median, nominal USD",
         "own_u": "USD/aircraft·month",
         "own_note": "Not a single lease rate: owned and leased aircraft at book value together. There is no open "
                     "series of lease rates by type — we are looking.",
         "missing": "No series in the database: {what}.",
         "src": "Source", "last": "latest", "upd": "Updated",
+        "window": "All series start in January 2025: the calculation rests on full-year 2025 data, and the series "
+                  "share one start date so they can be compared. Longer history is in the research articles.",
         "bot": "Suggest work — the project's Telegram bot",
     },
     "de": {
@@ -208,17 +212,19 @@ T = {
                      "2026; der heutige Punkt wird beim Öffnen der Seite berechnet.",
         "ch_hist": "Regionalmedian im Zeitverlauf, EUR",
         "mro_h": "Instandhaltung nach Flugzeugklasse",
-        "mro_cap": "Instandhaltung gesamt je Blockstunde, US-Airlines (Form 41), nach Blockstunden gewichteter "
-                   "Median, nominale USD",
+        "mro_cap": "Instandhaltung gesamt je Blockstunde, US-Airlines (Form 41), quartalsweise, nach "
+                   "Blockstunden gewichteter Median, nominale USD",
         "mro_u": "USD/Blockstd.",
         "c_narrow": "Schmalrumpf", "c_wide": "Großraum", "c_regional": "Regional",
         "own_h": "Besitz nach Flugzeugtyp",
-        "own_cap": "Miete + Abschreibung je Flugzeug und Monat, US-Airlines (Form 41), Median, nominale USD",
+        "own_cap": "Miete + Abschreibung je Flugzeug und Monat, US-Airlines (Form 41), quartalsweise, Median, nominale USD",
         "own_u": "USD/Flugzeug·Monat",
         "own_note": "Kein einzelner Leasingsatz: eigene und geleaste Flugzeuge zusammen, zum Buchwert. Eine offene "
                     "Reihe von Leasingsätzen nach Typ gibt es nicht — wir suchen.",
         "missing": "Keine Reihe in der Datenbank: {what}.",
         "src": "Quelle", "last": "zuletzt", "upd": "Aktualisiert",
+        "window": "Alle Reihen beginnen im Januar 2025: die Berechnung beruht auf Daten des Gesamtjahres 2025, und "
+                  "die Reihen haben ein gemeinsames Startdatum, damit sie vergleichbar sind. Längere Historie in den Recherchen.",
         "bot": "Vorschlag einreichen — Telegram-Bot des Projekts",
     },
 }
@@ -408,12 +414,12 @@ def _fuel(store) -> dict:
                 damper.append((str(m)[:7], float(r["damper_rub_t"])))
     # Регионы — так, как цену берёт расчёт (econ, решение 235): спот ×
     # множитель региона аэропорта вылета; полоса — разброс множителя.
-    # Последние 36 месяцев: старше множитель не мерили, и тянуть его на
-    # 1990-е значило бы выдумывать.
+    # С начала окна страницы (SINCE): старше множитель не мерили, и тянуть
+    # его на прошлые годы значило бы выдумывать.
     regions = []
     if FUEL_FILE.exists() and monthly:
         doc = yaml.safe_load(FUEL_FILE.read_text(encoding="utf-8")) or {}
-        tail = monthly[-36:]
+        tail = [x for x in monthly if x[0] >= SINCE]
         for code, r in (doc.get("regions") or {}).items():
             k = r.get("k")
             if not k:
@@ -617,16 +623,24 @@ def record(store, today: str | None = None) -> int:
 
 
 def _form41(store) -> dict:
-    from .bench import _wq, carrier_rows
+    """ТОиР по классам и владение по типам — поквартально с начала окна
+    (SINCE): по годам с 2025-го была бы одна точка. Квартал подписан
+    месяцем своего начала, чтобы стоять на общей оси времени."""
+    from .bench import _load, _wq, carrier_rows
     try:
-        _, meta = carrier_rows(store, None)
+        data = _load(store)
     except Exception:                                      # noqa: BLE001 — нет Form 41 в базе
         return {}
+    periods = sorted({k[0] for k in data.get("p52", {}) if k in data.get("t2", {}) and k[0] >= SINCE})
     mro: dict = defaultdict(list)
     own: dict = defaultdict(list)
     bh_type: dict = defaultdict(float)
-    for y in meta.get("years") or []:
-        rows, _ = carrier_rows(store, y)
+    for yq in periods:
+        m = re.fullmatch(r"(\d{4})Q([1-4])", yq)
+        if not m:
+            continue
+        label = f"{m.group(1)}-{(int(m.group(2)) - 1) * 3 + 1:02d}"
+        rows, _ = carrier_rows(store, yq)                  # отбор по началу ключа — квартал целиком
         by_cls = defaultdict(list)
         by_type = defaultdict(list)
         for r in rows:
@@ -637,19 +651,41 @@ def _form41(store) -> dict:
                 by_type[r["icao"]].append((r["own_per_ac_month"], r["block_h"]))
                 bh_type[r["icao"]] += r["block_h"]
         for c, pairs in by_cls.items():
-            mro[c].append((str(y), round(_wq(pairs, 0.5))))
+            mro[c].append((label, round(_wq(pairs, 0.5))))
         for ic, pairs in by_type.items():
-            own[ic].append((str(y), round(_wq(pairs, 0.5))))
-    top = sorted((ic for ic in own if len(own[ic]) >= 2), key=lambda ic: -bh_type[ic])[:OWN_TYPES_MAX]
+            own[ic].append((label, round(_wq(pairs, 0.5))))
+    top = sorted(own, key=lambda ic: -bh_type[ic])[:OWN_TYPES_MAX]
     return {"mro": dict(mro), "own": {ic: own[ic] for ic in top}}
 
 
+# Общее окно всех рядов: с 2025 года — база расчёта стоит на данных по
+# итогам 2025-го, и ряды должны начинаться с одной даты, чтобы их можно
+# было класть рядом. Более длинная история остаётся в базе и в исследованиях.
+SINCE = "2025"
+
+
+def _since(pts: list) -> list:
+    return [x for x in pts if str(x[0]) >= SINCE]
+
+
 def build(store) -> dict:
-    """Все ряды страницы. Медленная часть — Form 41 за все годы и четыре
-    эталонных расчёта; витрина кэширует результат до смены базы."""
+    """Все ряды страницы, обрезанные по SINCE. Медленная часть — Form 41 и
+    четыре эталонных расчёта; витрина кэширует результат до смены базы."""
     out = {"fuel": _fuel(store), "charges": _charges(store), "ans": _ans(store),
            "dflt": _default_share(store), "built": date.today().isoformat()}
     out.update(_form41(store))
+    f = out["fuel"]
+    f["spot"], f["damper"] = _since(f["spot"]), _since(f["damper"])
+    out["ans"]["lines"] = {c: _since(v) for c, v in (out["ans"].get("lines") or {}).items()}
+    out["ans"]["lines"] = {c: v for c, v in out["ans"]["lines"].items() if v}
+    for k in ("mro", "own"):
+        if k in out:
+            out[k] = {c: _since(v) for c, v in out[k].items() if _since(v)}
+    ch = out["charges"]
+    if ch.get("history"):
+        ch["history"] = {c: _since(v) for c, v in ch["history"].items()}
+    out["dflt"]["lines"] = [(n, _since(v)) for n, v in out["dflt"]["lines"]]
+    out["since"] = SINCE
     return out
 
 
@@ -779,7 +815,7 @@ def series_html(lang: str, d: dict) -> str:
     t = T[lang]
     miss = lambda what: f'<div class="note quiet">{esc(t["missing"].format(what=what))}</div>'  # noqa: E731
     nm = lambda names, code, fallback: (names.get(code, {}).get(lang) or fallback)  # noqa: E731
-    out = []
+    out = [f'<p class="dim">{esc(t["window"])}</p>']
     # Доля заготовки — первой: это главный ответ «насколько можно верить расчёту».
     dl = (d.get("dflt") or {}).get("lines") or []
     out.append(_panel(t["dflt_h"], t["dflt_cap"], line_chart(dl, lang, "%") or miss("default_share"),
@@ -854,7 +890,7 @@ ul.tl.next li,ul.tl.later li{opacity:.82}
 h2.tl-h.done{color:#3fbf8f}h2.tl-h.now{color:#6aa8f0}h2.tl-h.next,h2.tl-h.later{color:var(--dim)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px 14px}
 .grid .ct{font-size:12.5px;color:var(--ink2);margin-top:6px}.grid .ct em{color:var(--dim);font-style:normal}
-svg.ch.sm .ax{font-size:13px}
+svg.ch.sm .ax{font-size:13px}svg.ch.sm .ax.mid{display:none}
 ul.plan li{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;background:var(--panel);max-width:none}
 ul.plan li p{margin:4px 0;color:var(--ink)}
 ul.plan .meta{font-size:12.5px;color:var(--dim)}
