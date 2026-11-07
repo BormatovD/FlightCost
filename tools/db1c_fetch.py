@@ -21,7 +21,12 @@
 data/raw в .gitignore; tools/check_hygiene.py проверяет это перед push.
 
 Адреса архивов не угадываются (в имени дата публикации), поэтому берутся
-со страницы BTS со списком месяцев.
+со страницы BTS со списком месяцев. Страница bts.gov закрыта защитой от
+ботов (403 для программ, 07.11.2026) — обходить её не будем. Тогда адреса
+берутся из списка KNOWN ниже (сами архивы лежат в открытом хранилище и
+скачиваются), а новые месяцы — из сохранённой в браузере страницы:
+
+    python tools/db1c_fetch.py --page ~/Downloads/db1c.html
 """
 
 from __future__ import annotations
@@ -53,14 +58,41 @@ GROUPS = ("21AP", "2290", "91UP")
 NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "VYIELD", "PURCHASEWINDOWGROUP")
 
 
-def links() -> dict[str, str]:
-    req = urllib.request.Request(INDEX, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        html = r.read().decode("utf-8", errors="replace")
-    out = {}
+# Опубликованные на 06.11.2026 (страница BTS, исследование 13). Новые месяцы —
+# через --page или прямо со страницы, если она откроется программе.
+_BLOB = "https://ostrapeispubdownloadprod.blob.core.windows.net/ostrapeis-pub-download-prod/ond40/products/db1c_public/"
+KNOWN = {m: _BLOB + f for m, f in {
+    "2025-07": "DB1C.MARKET.202507.18SEP2026.zip", "2025-08": "DB1C.MARKET.202508.21SEP2026.zip",
+    "2025-09": "DB1C.MARKET.202509.21SEP2026.zip", "2025-10": "DB1C.MARKET.202510.21SEP2026.zip",
+    "2025-11": "DB1C.MARKET.202511.22SEP2026.zip", "2025-12": "DB1C.MARKET.202512.22SEP2026.zip",
+    "2026-01": "DB1C.MARKET.202601.01JUN2026.zip", "2026-02": "DB1C.MARKET.202602.02JUN2026.zip",
+    "2026-03": "DB1C.MARKET.202603.02JUL2026.zip", "2026-04": "DB1C.MARKET.202604.15JUL2026.zip",
+    "2026-05": "DB1C.MARKET.202605.20AUG2026.zip", "2026-06": "DB1C.MARKET.202606.16SEP2026.zip",
+    "2026-07": "DB1C.MARKET.202607.15OCT2026.zip"}.items()}
+
+
+def links(page: str | None = None) -> dict[str, str]:
+    """Месяц -> адрес архива. Сохранённая страница (--page) главнее; иначе
+    страница BTS; закрыта (403 защиты от ботов) — известный список KNOWN."""
+    out = dict(KNOWN)
+    if page:
+        html = Path(page).expanduser().read_text("utf-8", errors="replace")
+    else:
+        try:
+            req = urllib.request.Request(INDEX, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                html = r.read().decode("utf-8", errors="replace")
+        except OSError as e:
+            print(f"страница BTS не открылась ({e}) — беру известный список месяцев; новые месяцы: "
+                  "сохраните страницу в браузере и передайте --page файл.html")
+            return out
+    found = 0
     for m in LINK.finditer(html):
         ym = m.group(1)
         out[f"{ym[:4]}-{ym[4:]}"] = m.group(0)
+        found += 1
+    if page and not found:
+        raise SystemExit(f"в {page} нет ссылок на DB1C.MARKET.*.zip — сохранена не та страница?")
     return out
 
 
@@ -175,6 +207,7 @@ def main(argv=None) -> int:
     ap.add_argument("--keep-zip", action="store_true", help="не удалять архивы после свёртки")
     ap.add_argument("--file", help="свернуть свой архив вместо скачивания")
     ap.add_argument("--month", help="месяц для --file, ГГГГ-ММ (иначе из имени файла)")
+    ap.add_argument("--page", help="сохранённая в браузере страница BTS со списком месяцев")
     a = ap.parse_args(argv)
     RAW.mkdir(parents=True, exist_ok=True)
     if a.file:
@@ -183,7 +216,7 @@ def main(argv=None) -> int:
         fold_zip(p, m)
         return 0
     have = {f.stem.replace("DB1C-", "") for f in AGG.glob("DB1C-*.json")}
-    todo = {m: u for m, u in sorted(links().items()) if m not in have}
+    todo = {m: u for m, u in sorted(links(a.page).items()) if m not in have}
     if not todo:
         print("все опубликованные месяцы уже свёрнуты")
         return 0

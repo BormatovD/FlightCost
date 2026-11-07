@@ -119,6 +119,31 @@ class Db1c(unittest.TestCase):
         self.assertEqual(by["ATL-LAX/2025-07/direct/share_91UP"].unit, "share")
 
 
+class Links(unittest.TestCase):
+    def test_closed_page_falls_back_to_known(self):
+        import urllib.request
+        old = urllib.request.urlopen
+
+        def deny(*a, **k):
+            raise urllib.error.HTTPError(D.INDEX, 403, "Forbidden", {}, None)
+        import urllib.error
+        urllib.request.urlopen = deny
+        try:
+            got = D.links()
+        finally:
+            urllib.request.urlopen = old
+        self.assertIn("2025-07", got)
+        self.assertTrue(got["2026-07"].endswith("DB1C.MARKET.202607.15OCT2026.zip"))
+
+    def test_saved_page_adds_new_month(self):
+        import tempfile
+        f = pathlib.Path(tempfile.mkdtemp()) / "p.html"
+        f.write_text('<a href="https://x.blob.core.windows.net/p/DB1C.MARKET.202608.12NOV2026.zip">Aug</a>')
+        got = D.links(str(f))
+        self.assertIn("2026-08", got)
+        self.assertIn("2025-07", got)
+
+
 class Registry(unittest.TestCase):
     def test_sources_and_home_only(self):
         reg = load_registry()["sources"]
