@@ -42,7 +42,7 @@ import sys
 import urllib.request
 import zipfile
 from array import array
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,6 +61,9 @@ NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "PURCHASEWIND
 # Признак действительной доходности. В описании DB1C Market — VYield, в
 # выгрузках 2025–2026 она называется V_YIELD (08.11.2026). Ищем по
 # похожим именам; не нашли — работаем без него и пишем это в свёртку.
+PEEK_ROWS = 200_000
+FLAG_VALID = {"1", "1.0", "1.00", "Y", "y", "T", "t", "TRUE", "true", "True"}
+FLAG_VALUES = FLAG_VALID | {"0", "0.0", "0.00", "N", "n", "F", "f", "FALSE", "false", "False", ""}
 VYIELD_NAMES = ("V_YIELD", "VYIELD", "VALIDYIELD", "YIELDVALID", "VALID_YIELD", "YIELD_VALID", "VALIDYIELDIND")
 
 
@@ -144,6 +147,30 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
     if vy is None:
         print("  колонки признака доходности (VYield) в файле нет — беру все строки с тарифом больше нуля.\n"
               f"  Колонки файла: {', '.join(head)}", flush=True)
+    # Что лежит в колонке признака, смотрим по первым строкам, а не верим
+    # описанию: 08.11.2026 при сравнении с «1» отбросились все 23 млн строк.
+    # Флаг (только 0/1, Y/N…) — фильтруем по нему; иначе это не флаг, и
+    # фильтра нет, а увиденные значения записываются в свёртку.
+    buf = []
+    vy_vals: Counter = Counter()
+    if pending is not None:
+        buf.append(pending)
+        pending = None
+    for r in itertools.islice(rd, PEEK_ROWS):
+        buf.append(r)
+    if vy is not None:
+        vy_vals.update(r[vy].strip() for r in buf if len(r) > vy)
+        seen = set(vy_vals)
+        if seen and seen <= FLAG_VALUES:
+            vy_mode = "flag"
+        else:
+            vy_mode = "not_a_flag"
+            vy = None
+        top = ", ".join(f"{v!r}: {n}" for v, n in vy_vals.most_common(8))
+        print(f"  признак доходности: {'флаг' if vy_mode == 'flag' else 'не флаг — без фильтра'}; "
+              f"значения в первых {len(buf):,} строках: {top}".replace(",", " ", 1), flush=True)
+    else:
+        vy_mode = "absent"
     direct: dict = defaultdict(lambda: array("f"))
     grp: dict = defaultdict(lambda: defaultdict(lambda: [0, 0.0]))
     allm: dict = defaultdict(lambda: [0, 0.0])
@@ -153,7 +180,7 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         nonlocal rows, skipped
         rows += 1
         try:
-            if vy is not None and r[vy].strip() not in ("1", "1.0", "1.00", "Y", "y"):
+            if vy is not None and r[vy].strip() not in FLAG_VALID:
                 skipped += 1
                 return
             fare = float(r[ix["MKTAMOUNT"]])
@@ -178,8 +205,8 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
             c[0] += pax
             c[1] += fare * pax
 
-    if pending is not None:
-        take(pending)
+    for r in buf:
+        take(r)
     for r in rd:
         take(r)
     out = {}
@@ -201,7 +228,8 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         a = allm[pair]
         out[pair] = {"direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2)}}
     return {"month": month, "sample_rate": SAMPLE_RATE, "min_pax": min_pax, "rows": rows,
-            "skipped": skipped, "vyield_filter": vy is not None, "pairs": out}
+            "skipped": skipped, "vyield_filter": vy is not None, "vyield_mode": vy_mode,
+            "vyield_values": dict(vy_vals.most_common(8)), "pairs": out}
 
 
 def _open_table(z: zipfile.ZipFile, label: str):

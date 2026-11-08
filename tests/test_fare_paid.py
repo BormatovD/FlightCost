@@ -102,6 +102,20 @@ class Db1c(unittest.TestCase):
         self.assertTrue(doc["vyield_filter"])
         self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 400)
 
+    def test_v_yield_not_a_flag_means_no_filter(self):
+        rows = db1c_csv().decode().splitlines()
+        k = rows[0].split(",").index("VYIELD")
+        out = [rows[0].replace("VYIELD", "V_YIELD")]
+        for r in rows[1:]:
+            c = r.split(",")
+            c[k] = "0.1532"                                 # доходность, а не флаг
+            out.append(",".join(c))
+        doc = D.aggregate(io.BytesIO("\n".join(out).encode()), "2025-07")
+        self.assertEqual(doc["vyield_mode"], "not_a_flag")
+        self.assertFalse(doc["vyield_filter"])
+        self.assertIn("0.1532", doc["vyield_values"])
+        self.assertIn("ATL-LAX", doc["pairs"])
+
     def test_headerless_file(self):
         cols = ["ITINID", "MKTID", "MKTCOUPONS", "ORIGIN", "DEST", "PASSENGERS", "MKTAMOUNT", "VYIELD",
                 "PURCHASEWINDOWGROUP"]
