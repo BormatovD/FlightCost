@@ -128,6 +128,24 @@ class Db1c(unittest.TestCase):
         self.assertEqual(doc["vyield_mode"], "flag_uninformative")
         self.assertIn("ATL-LAX", doc["pairs"])
 
+    def test_carrier_split(self):
+        cols = "ITINID,MKTID,MKTCOUPONS,ORIGIN,DEST,PASSENGERS,MKTAMOUNT,VYIELD,PURCHASEWINDOWGROUP,OPCARRIER,MKTCARRIER,MKTTAX,NONSTOPMILES"
+        rows = [f"{i},{i},1,DEN,LAS,1,{60 if i < 200 else 200},0,2290,{'F9' if i < 200 else 'UA'},"
+                f"{'F9' if i < 200 else 'UA'},15,628" for i in range(400)]
+        rows.append("900,900,1,DEN,LAS,1,5.6,0,2290,UA,UA,5.6,628")
+        doc = D.aggregate(io.BytesIO("\n".join([cols] + rows).encode()), "2025-07")
+        p = doc["pairs"]["DEN-LAS"]
+        self.assertEqual(p["direct"]["pax"], 400)
+        self.assertEqual(p["carriers"]["F9"]["pax"], 200)
+        self.assertEqual(p["carriers"]["UA"]["mean"], 200)
+        self.assertEqual(p["direct"]["mean_tax"], 15)
+        t = doc["carriers_total"]["UA"]
+        self.assertEqual((t["pax"], t["fare_usd"], t["award_pax"]), (200, 40000, 1))
+        facts = db1c_agg.parse(json.dumps(doc).encode(), {"source_id": "db1c_market"})
+        keys = {f.key for f in facts}
+        self.assertIn("DEN-LAS/2025-07/direct@F9/mean", keys)
+        self.assertIn("carrier/UA/2025-07/fare_usd", keys)
+
     def test_award_tickets_counted_apart(self):
         body = db1c_csv().decode().splitlines()
         extra = [f"{900 + i},{900 + i},1,ATL,LAX,1,5.6,1,2290" for i in range(100)]

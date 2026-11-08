@@ -26,7 +26,10 @@ from ..store import Fact
 
 STATS = ("pax", "mean", "p10", "p25", "p50", "p75", "p90",
          "share_21AP", "share_2290", "share_91UP", "mean_21AP", "mean_2290", "mean_91UP",
-         "share_award")
+         "share_award", "mean_tax")
+# По выполняющему перевозчику на прямых — то, что нужно для доли лоукостеров
+# и сверки тарифа перевозчика; квантили шире не нужны.
+CARRIER_STATS = ("pax", "mean", "p50", "mean_tax")
 
 
 def parse(blob: bytes, ctx: dict) -> list[Fact]:
@@ -41,6 +44,15 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     common = dict(domain="fare_paid", valid_from=f"{month}-01", source_id=ctx["source_id"],
                   artifact_sha=ctx.get("sha"), extracted_by="parser:db1c_agg@1", confidence="exact")
     for pair, segs in pairs.items():
+        segs = dict(segs)
+        for cc, st in (segs.pop("carriers", None) or {}).items():
+            for k in CARRIER_STATS:
+                v = st.get(k)
+                if v is not None:
+                    facts.append(Fact(key=f"{pair}/{month}/direct@{cc}/{k}", value=float(v),
+                                      unit="pax" if k == "pax" else "USD",
+                                      currency=None if k == "pax" else "USD",
+                                      note="BTS DB1C, прямые рейсы выполняющего перевозчика", **common))
         for seg, st in segs.items():
             for k in STATS:
                 v = st.get(k)
@@ -51,5 +63,12 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
                                   currency="USD" if unit == "USD" else None,
                                   note=f"BTS DB1C, выборка {doc.get('sample_rate', 0.4):.0%} билетов; "
                                        "тариф рынка с налогами и сборами", **common))
+    for cc, t in (doc.get("carriers_total") or {}).items():
+        for k in ("pax", "fare_usd", "tax_usd", "rpm", "award_pax"):
+            if t.get(k) is not None:
+                facts.append(Fact(key=f"carrier/{cc}/{month}/{k}", value=float(t[k]),
+                                  unit="USD" if k.endswith("usd") else k,
+                                  currency="USD" if k.endswith("usd") else None,
+                                  note="BTS DB1C, все рынки продающего перевозчика, сумма по выборке", **common))
     ctx.setdefault("summary", []).append(f"DB1C {month}: пар {len(pairs)}, фактов {len(facts)}")
     return facts

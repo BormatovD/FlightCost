@@ -69,6 +69,12 @@ AWARD_MAX = 15.0
 LOW_BINS = (0, 5, 10, 15, 20, 25, 30)
 GROUPS = ("21AP", "2290", "91UP")
 NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "PURCHASEWINDOWGROUP")
+# Необязательные: без них свёртка та же, только без разбивки по перевозчикам.
+# OPCARRIER — кто выполнял прямой рейс (доля лоукостеров на паре, тариф
+# перевозчика); MKTCARRIER — кто продал рынок (выручка перевозчика в целом,
+# сверка с Form 41); MKTTAX — налоги в тарифе; NONSTOPMILES — для доходности.
+OPTIONAL = ("OPCARRIER", "MKTCARRIER", "MKTTAX", "NONSTOPMILES")
+CARRIER_MIN_PAX = 30
 # Признак действительной доходности. В описании DB1C Market — VYield, в
 # выгрузках 2025–2026 она называется V_YIELD (08.11.2026). Ищем по
 # похожим именам; не нашли — работаем без него и пишем это в свёртку.
@@ -154,6 +160,7 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         raise ValueError(f"в файле DB1C нет колонок: {', '.join(miss)}. Первая строка файла: "
                          f"{line.strip()[:300]!r} — это точно файл MARKET, а не SEGMENT?")
     ix = {c: head.index(c) for c in NEED}
+    ox = {c: head.index(c) for c in OPTIONAL if c in head}
     vy = next((head.index(n) for n in VYIELD_NAMES if n in head), None)
     if vy is None:
         print("  колонки признака доходности (VYield) в файле нет — беру все строки с тарифом больше нуля.\n"
@@ -193,7 +200,9 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
               f"значения в первых {len(buf):,} строках: {top}".replace(",", " ", 1), flush=True)
     else:
         vy_mode = "absent"
-    direct: dict = defaultdict(lambda: array("f"))
+    direct: dict = defaultdict(lambda: array("f"))       # (пара, выполняющий) -> тарифы
+    dtax: dict = defaultdict(float)                      # (пара, выполняющий) -> сумма налогов
+    natl: dict = defaultdict(lambda: [0, 0.0, 0.0, 0.0, 0])  # продавец -> пасс, тариф, налог, пасс-мили, бонусные
     grp: dict = defaultdict(lambda: defaultdict(lambda: [0, 0.0]))
     allm: dict = defaultdict(lambda: [0, 0.0])
     award: dict = defaultdict(lambda: [0, 0])          # пара -> [прямые, все] бонусных пассажиров
@@ -217,6 +226,13 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
             return
         a, b = sorted((r[ix["ORIGIN"]].strip().upper(), r[ix["DEST"]].strip().upper()))
         pair = f"{a}-{b}"
+        opc = r[ox["OPCARRIER"]].strip().upper() if "OPCARRIER" in ox else ""
+        nt = natl[r[ox["MKTCARRIER"]].strip().upper()] if "MKTCARRIER" in ox else None
+        try:
+            tax = float(r[ox["MKTTAX"]] or 0) if "MKTTAX" in ox else 0.0
+            miles = float(r[ox["NONSTOPMILES"]] or 0) if "NONSTOPMILES" in ox else 0.0
+        except ValueError:
+            tax = miles = 0.0
         if fare < LOW_BINS[-1]:
             low_hist[int(fare // 5) * 5] += pax
         if fare < AWARD_MAX:
@@ -224,13 +240,21 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
             w[1] += pax
             if r[ix["MKTCOUPONS"]].strip() == "1":
                 w[0] += pax
+            if nt is not None:
+                nt[4] += pax
             return
+        if nt is not None:
+            nt[0] += pax
+            nt[1] += fare * pax
+            nt[2] += tax * pax
+            nt[3] += miles * pax
         s = allm[pair]
         s[0] += pax
         s[1] += fare * pax
         if r[ix["MKTCOUPONS"]].strip() != "1":
             return
-        direct[pair].extend([fare] * pax)
+        direct[(pair, opc)].extend([fare] * pax)
+        dtax[(pair, opc)] += tax * pax
         g = r[ix["PURCHASEWINDOWGROUP"]].strip().upper()
         if g in GROUPS:
             c = grp[pair][g]
@@ -241,13 +265,19 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         take(r)
     for r in rd:
         take(r)
+    by_pair: dict = defaultdict(dict)
+    for (pair, opc), fares in direct.items():
+        by_pair[pair][opc] = fares
+    has_tax = "MKTTAX" in ox
     out = {}
-    for pair, fares in direct.items():
-        n = len(fares)
+    for pair, cs in by_pair.items():
+        n = sum(len(v) for v in cs.values())
         if n < min_pax:
             continue
-        xs = sorted(fares)
+        xs = sorted(itertools.chain.from_iterable(cs.values()))
         st = {"pax": n, "mean": round(sum(xs) / n, 2)}
+        if has_tax:
+            st["mean_tax"] = round(sum(dtax[(pair, c)] for c in cs) / n, 2)
         for q, name in ((0.1, "p10"), (0.25, "p25"), (0.5, "p50"), (0.75, "p75"), (0.9, "p90")):
             st[name] = round(_quantile(xs, q), 2)
         known = sum(grp[pair][g][0] for g in GROUPS)
@@ -261,13 +291,30 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         if w[0]:
             st["award_pax"] = w[0]
         st["share_award"] = round(w[0] / (w[0] + n), 4)
+        carriers = {}
+        if "OPCARRIER" in ox:
+            for c, v in cs.items():
+                if len(v) < CARRIER_MIN_PAX or not c:
+                    continue
+                ys = sorted(v)
+                cst = {"pax": len(ys), "mean": round(sum(ys) / len(ys), 2),
+                       "p10": round(_quantile(ys, 0.1), 2), "p50": round(_quantile(ys, 0.5), 2),
+                       "p90": round(_quantile(ys, 0.9), 2)}
+                if has_tax:
+                    cst["mean_tax"] = round(dtax[(pair, c)] / len(ys), 2)
+                carriers[c] = cst
         a = allm[pair]
-        out[pair] = {"direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2),
+        if carriers:
+            out.setdefault(pair, {})["carriers"] = carriers
+        out[pair] = {**out.get(pair, {}), "direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2),
                                            "share_award": round(w[1] / (w[1] + a[0]), 4)}}
     return {"month": month, "sample_rate": SAMPLE_RATE, "min_pax": min_pax, "rows": rows,
             "skipped": skipped, "vyield_filter": vy is not None, "vyield_mode": vy_mode,
             "award_max_usd": AWARD_MAX, "low_fare_hist": {f"{k}-{k + 5}": v for k, v in sorted(low_hist.items())},
-            "vyield_values": dict(vy_vals.most_common(8)), "pairs": out}
+            "vyield_values": dict(vy_vals.most_common(8)), "pairs": out,
+            "carriers_total": {c: {"pax": v[0], "fare_usd": round(v[1]), "tax_usd": round(v[2]),
+                                   "rpm": round(v[3]), "award_pax": v[4]}
+                               for c, v in sorted(natl.items()) if c and v[0] + v[4] >= CARRIER_MIN_PAX}}
 
 
 def _open_table(z: zipfile.ZipFile, label: str):
