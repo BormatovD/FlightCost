@@ -201,10 +201,23 @@ def _open_table(z: zipfile.ZipFile, label: str):
     раскрывается, .gz распаковывается на лету. Имена внутри архивов BTS
     меняются от выгрузки к выгрузке (07.11.2026: ни .csv, ни .txt), поэтому
     по расширению не выбираем, а при сбое печатаем, что внутри."""
-    files = [i for i in z.infolist() if not i.is_dir()]
+    # Служебное macOS (__MACOSX, «._») — мимо. Если в архиве несколько
+    # форматов одной таблицы (BTS кладёт .csv.zip, .asc.zip и .parquet,
+    # 08.11.2026), берём CSV: его читает этот скрипт; parquet — двоичный, без
+    # pyarrow его не прочитать, и он давал «строк 34 млн, отброшено 34 млн».
+    files = [i for i in z.infolist() if not i.is_dir() and "__MACOSX" not in i.filename
+             and not i.filename.rsplit("/", 1)[-1].startswith("._")]
     if not files:
         raise ValueError(f"{label}: архив пустой")
-    big = max(files, key=lambda i: i.file_size)
+
+    def rank(i):
+        n = i.filename.lower()
+        r = (0 if ".csv" in n else 1 if ".asc" in n or n.endswith((".txt", ".dat")) else
+             3 if n.endswith(".parquet") else 2)
+        return (r, -i.file_size)
+    big = min(files, key=rank)
+    if big.filename.lower().endswith(".parquet"):
+        raise ValueError(f"{label}: в архиве только parquet ({big.filename}) — нужен CSV-вариант того же месяца")
     print(f"  {label}: внутри {', '.join(f'{i.filename} ({i.file_size / 1e6:.0f} МБ)' for i in files[:6])}"
           f" — беру {big.filename}", flush=True)
     fh = z.open(big)
@@ -222,6 +235,11 @@ def fold_zip(path: Path, month: str) -> Path:
         with _open_table(z, path.name) as fh:
             doc = aggregate(fh, month)
     doc["file"] = path.name
+    if not doc["pairs"]:
+        # Пустая свёртка не пишется: иначе refresh упадёт позже и непонятно где,
+        # а повторный запуск решит, что месяц уже свёрнут.
+        raise ValueError(f"{month}: строк {doc['rows']}, отброшено {doc['skipped']}, пар нет — "
+                         "формат файла не тот; свёртка не записана")
     AGG.mkdir(parents=True, exist_ok=True)
     out = AGG / f"DB1C-{month}.json"
     out.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), "utf-8")

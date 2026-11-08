@@ -128,6 +128,8 @@ class Zip(unittest.TestCase):
         f = d / "DB1C.202507.zip"
         with zipfile.ZipFile(f, "w") as z:
             z.writestr("readme.pdf", b"x")
+            z.writestr("DB1C.202507/DB1C.MARKET.202507.parquet", b"PAR1" + b"\0" * 5000)
+            z.writestr("__MACOSX/DB1C.202507/._DB1C.MARKET.202507.csv.zip", b"junk")
             z.writestr("T_DB1C_MARKET_202507.asc", body)
         old = D.AGG
         D.AGG = d / "agg"
@@ -137,6 +139,23 @@ class Zip(unittest.TestCase):
             D.AGG = old
         doc = json.loads(out.read_text())
         self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 400)
+
+    def test_empty_fold_is_not_written(self):
+        import tempfile
+        import zipfile
+        d = pathlib.Path(tempfile.mkdtemp())
+        f = d / "DB1C.202508.zip"
+        with zipfile.ZipFile(f, "w") as z:
+            z.writestr("m.csv", "ORIGIN,DEST,MKTCOUPONS,PASSENGERS,MKTAMOUNT,VYIELD,PURCHASEWINDOWGROUP\n"
+                                "ATL,LAX,1,1,100,0,2290\n")
+        old = D.AGG
+        D.AGG = d / "agg"
+        try:
+            with self.assertRaises(ValueError):
+                D.fold_zip(f, "2025-08")
+        finally:
+            D.AGG = old
+        self.assertFalse((d / "agg" / "DB1C-2025-08.json").exists())
 
 
 class Links(unittest.TestCase):
