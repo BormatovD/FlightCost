@@ -126,6 +126,28 @@ class Master(unittest.TestCase):
         self.assertEqual([r["source_id"] for r in Store(self.master / "flightcost.db").pending_proposals()],
                          ["observation"])
 
+    def test_big_send_is_split_by_prefix(self):
+        st = Store(self.home)
+        st.commit_facts([Fact(domain="fare_paid", key=f"P{i:03d}-X/2025-0{m}/direct/mean", valid_from=f"2025-0{m}-01",
+                              value=100.0 + i, source_id="db1c_market", extracted_by="test")
+                         for i in range(30) for m in range(1, 5)])
+        st.db.close()
+        old = M.MAX_FACTS_PER_PROPOSAL
+        M.MAX_FACTS_PER_PROPOSAL = 25
+        try:
+            props = M.proposals_from(self.home, ["db1c_market"])
+        finally:
+            M.MAX_FACTS_PER_PROPOSAL = old
+        self.assertEqual(sum(len(p["facts"]) for p in props), 120)
+        self.assertTrue(all(len(p["facts"]) <= 25 for p in props))
+        for p in props:                     # все месяцы пары — в одной части, и снимает она только своё
+            self.assertEqual(set(p["retire"]["prefixes"]), {f["key"].split("/")[0] for f in p["facts"]})
+        seen = [x for p in props for x in p["retire"]["prefixes"]]
+        self.assertEqual(len(seen), len(set(seen)))
+
+    def test_rsync_chmod_is_symbolic(self):
+        self.assertFalse(any(x.startswith("--chmod=F6") for x in M.RSYNC_PERMS), "rsync 2.6.9 в macOS")
+
     def test_refresh_tree_links_repo_data_but_owns_raw(self):
         app = self.tmp / "app"
         (app / "data" / "charges").mkdir(parents=True)

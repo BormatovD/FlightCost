@@ -100,7 +100,14 @@ def _host(a) -> str:
     return h
 
 
-RSYNC_PERMS = ("--no-perms", "--no-group", "--no-owner", "--chmod=F660")
+# Права файла — символьно: числовой --chmod (F660) понимает только rsync 3.1+,
+# а в macOS стоит 2.6.9 и отказывается целиком (08.11.2026).
+RSYNC_PERMS = ("--no-perms", "--no-group", "--no-owner", "--chmod=Fu=rw,Fg=rw,Fo=")
+# Фактов в одном предложении. Свёртка DB1C — 600 тыс. фактов: одним файлом это
+# сотни мегабайт в одной строке очереди приёмки. Делится по префиксам ключа
+# (документ, пара) — снятие исчезнувших ключей (retire) работает по ним же, и
+# каждая часть снимает только своё.
+MAX_FACTS_PER_PROPOSAL = 50_000
 
 
 def _sh(cmd: list[str]) -> int:
@@ -144,6 +151,11 @@ def cmd_push(a) -> int:
     return 0
 
 
+def _proposal(sid: str, dom: str, facts: list, prefixes: list) -> dict:
+    return {"source_id": sid, "origin": "computer", "sent_at": _now().isoformat(timespec="seconds"),
+            "facts": facts, "retire": {"domain": dom, "prefixes": sorted(prefixes)}}
+
+
 def proposals_from(home_db: Path, sources: list[str]) -> list[dict]:
     """Действующие факты источников — по предложению на (источник, домен)."""
     from .store import Fact
@@ -157,11 +169,19 @@ def proposals_from(home_db: Path, sources: list[str]) -> list[dict]:
         for r in rows:
             by_dom.setdefault(r["domain"], []).append({k: r[k] for k in r.keys() if k in fields})
         for dom, facts in by_dom.items():
-            out.append({"source_id": sid, "origin": "computer",
-                        "sent_at": _now().isoformat(timespec="seconds"),
-                        "facts": facts,
-                        "retire": {"domain": dom,
-                                   "prefixes": sorted({f["key"].split("/")[0] for f in facts})}})
+            by_pre: dict[str, list] = {}
+            for f in facts:
+                by_pre.setdefault(f["key"].split("/")[0], []).append(f)
+            chunk: list = []
+            pres: list = []
+            for pre in sorted(by_pre):
+                if chunk and len(chunk) + len(by_pre[pre]) > MAX_FACTS_PER_PROPOSAL:
+                    out.append(_proposal(sid, dom, chunk, pres))
+                    chunk, pres = [], []
+                chunk += by_pre[pre]
+                pres.append(pre)
+            if chunk:
+                out.append(_proposal(sid, dom, chunk, pres))
     db.close()
     return out
 
