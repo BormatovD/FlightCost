@@ -96,6 +96,12 @@ class Db1c(unittest.TestCase):
         self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 401)
         self.assertEqual(doc["skipped"], 1)                # остаётся только нулевой тариф
 
+    def test_v_yield_name(self):
+        body = db1c_csv().decode().replace("VYIELD", "V_YIELD", 1)
+        doc = D.aggregate(io.BytesIO(body.encode()), "2025-07")
+        self.assertTrue(doc["vyield_filter"])
+        self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 400)
+
     def test_headerless_file(self):
         cols = ["ITINID", "MKTID", "MKTCOUPONS", "ORIGIN", "DEST", "PASSENGERS", "MKTAMOUNT", "VYIELD",
                 "PURCHASEWINDOWGROUP"]

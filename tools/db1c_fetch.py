@@ -59,9 +59,9 @@ MIN_PAX = 300
 GROUPS = ("21AP", "2290", "91UP")
 NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "PURCHASEWINDOWGROUP")
 # Признак действительной доходности. В описании DB1C Market — VYield, в
-# выгрузках 2025–2026 колонки с таким именем нет (08.11.2026). Ищем по
+# выгрузках 2025–2026 она называется V_YIELD (08.11.2026). Ищем по
 # похожим именам; не нашли — работаем без него и пишем это в свёртку.
-VYIELD_NAMES = ("VYIELD", "VALIDYIELD", "YIELDVALID", "VALID_YIELD", "YIELD_VALID", "VALIDYIELDIND")
+VYIELD_NAMES = ("V_YIELD", "VYIELD", "VALIDYIELD", "YIELDVALID", "VALID_YIELD", "YIELD_VALID", "VALIDYIELDIND")
 
 
 # Опубликованные на 06.11.2026 (страница BTS, исследование 13). Новые месяцы —
@@ -153,7 +153,7 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         nonlocal rows, skipped
         rows += 1
         try:
-            if vy is not None and r[vy].strip() != "1":
+            if vy is not None and r[vy].strip() not in ("1", "1.0", "1.00", "Y", "y"):
                 skipped += 1
                 return
             fare = float(r[ix["MKTAMOUNT"]])
