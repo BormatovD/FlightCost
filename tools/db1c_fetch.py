@@ -57,7 +57,11 @@ SAMPLE_RATE = 0.40
 # есть смысл считать квантили. Меньше — среднее и квантили шумят.
 MIN_PAX = 300
 GROUPS = ("21AP", "2290", "91UP")
-NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "VYIELD", "PURCHASEWINDOWGROUP")
+NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "PURCHASEWINDOWGROUP")
+# Признак действительной доходности. В описании DB1C Market — VYield, в
+# выгрузках 2025–2026 колонки с таким именем нет (08.11.2026). Ищем по
+# похожим именам; не нашли — работаем без него и пишем это в свёртку.
+VYIELD_NAMES = ("VYIELD", "VALIDYIELD", "YIELDVALID", "VALID_YIELD", "YIELD_VALID", "VALIDYIELDIND")
 
 
 # Опубликованные на 06.11.2026 (страница BTS, исследование 13). Новые месяцы —
@@ -136,6 +140,10 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         raise ValueError(f"в файле DB1C нет колонок: {', '.join(miss)}. Первая строка файла: "
                          f"{line.strip()[:300]!r} — это точно файл MARKET, а не SEGMENT?")
     ix = {c: head.index(c) for c in NEED}
+    vy = next((head.index(n) for n in VYIELD_NAMES if n in head), None)
+    if vy is None:
+        print("  колонки признака доходности (VYield) в файле нет — беру все строки с тарифом больше нуля.\n"
+              f"  Колонки файла: {', '.join(head)}", flush=True)
     direct: dict = defaultdict(lambda: array("f"))
     grp: dict = defaultdict(lambda: defaultdict(lambda: [0, 0.0]))
     allm: dict = defaultdict(lambda: [0, 0.0])
@@ -145,7 +153,7 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         nonlocal rows, skipped
         rows += 1
         try:
-            if r[ix["VYIELD"]].strip() != "1":
+            if vy is not None and r[vy].strip() != "1":
                 skipped += 1
                 return
             fare = float(r[ix["MKTAMOUNT"]])
@@ -193,7 +201,7 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         a = allm[pair]
         out[pair] = {"direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2)}}
     return {"month": month, "sample_rate": SAMPLE_RATE, "min_pax": min_pax, "rows": rows,
-            "skipped": skipped, "pairs": out}
+            "skipped": skipped, "vyield_filter": vy is not None, "pairs": out}
 
 
 def _open_table(z: zipfile.ZipFile, label: str):

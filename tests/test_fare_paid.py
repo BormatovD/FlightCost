@@ -85,6 +85,17 @@ class Db1c(unittest.TestCase):
         self.assertEqual(doc["pairs"]["ATL-LAX"]["all"]["pax"], 401)
         self.assertEqual(doc["skipped"], 2)
 
+    def test_without_vyield_column(self):
+        body = db1c_csv().decode().splitlines()
+        cols = body[0].split(",")
+        k = cols.index("VYIELD")
+        rows = [",".join(c for j, c in enumerate(r.split(",")) if j != k) for r in body]
+        doc = D.aggregate(io.BytesIO("\n".join(rows).encode()), "2025-07")
+        self.assertFalse(doc["vyield_filter"])
+        # без признака строка с тарифом 5000 (VYield=0 в полном файле) входит в свёртку
+        self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 401)
+        self.assertEqual(doc["skipped"], 1)                # остаётся только нулевой тариф
+
     def test_headerless_file(self):
         cols = ["ITINID", "MKTID", "MKTCOUPONS", "ORIGIN", "DEST", "PASSENGERS", "MKTAMOUNT", "VYIELD",
                 "PURCHASEWINDOWGROUP"]
