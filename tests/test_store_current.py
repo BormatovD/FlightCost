@@ -82,3 +82,24 @@ class OnePendingProposal(unittest.TestCase):
         self.assertEqual([r["id"] for r in st.pending_proposals()], [p2])
         self.assertEqual(st.db.execute("SELECT status FROM proposals WHERE id = ?", (p1,)).fetchone()[0],
                          "superseded")
+
+
+class ProposalScope(unittest.TestCase):
+    """Части одной большой отправки (разные префиксы) не заменяют друг друга;
+    новая поставка той же области — заменяет."""
+
+    def test_parts_coexist_same_scope_replaces(self):
+        import tempfile
+        from pathlib import Path as _P
+        st = Store(_P(tempfile.mkdtemp()) / "x.db")
+
+        def prop(pres, v):
+            return {"facts": [{"key": f"{p}/m", "value": v} for p in pres],
+                    "retire": {"domain": "fare_paid", "prefixes": pres}}
+        a = st.add_proposal("db1c_market", prop(["AAA-BBB"], 1))
+        b = st.add_proposal("db1c_market", prop(["CCC-DDD"], 1))
+        pend = {r["id"] for r in st.pending_proposals()}
+        self.assertEqual(pend, {a, b}, "части с разными префиксами ждут обе")
+        c = st.add_proposal("db1c_market", prop(["AAA-BBB"], 2))
+        pend = {r["id"] for r in st.pending_proposals()}
+        self.assertEqual(pend, {b, c}, "новая поставка той же пары заменяет прежнюю")

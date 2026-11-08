@@ -756,17 +756,35 @@ class Store:
         оформлением, а не числами, давала новое предложение каждый раз
         (#5–#8 на 3.11.2026). Поэтому: те же факты — новое не заводится,
         другие — прежние ждущие помечаются «заменено», остаётся свежее.
+
+        Заменяется только предложение ТОЙ ЖЕ ОБЛАСТИ. Большая отправка с
+        компьютера делится на части по префиксам ключа (master.send, свёртка
+        DB1C — 12 частей): части с непересекающимися префиксами — не
+        редакции друг друга, и каждая ждёт своей приёмки. 08.11.2026 без
+        этого из двенадцати частей в очереди осталась последняя.
         """
+        def scope(p: dict):
+            r = p.get("retire") or {}
+            return (r.get("domain"), frozenset(r.get("prefixes") or ())) if r.get("prefixes") else None
+
+        def overlaps(a, b) -> bool:
+            if a is None or b is None:
+                return True                       # без области — как раньше: одно ждущее на источник
+            return a[0] == b[0] and bool(a[1] & b[1])
         def facts_sha(p: dict) -> str:
             return hashlib.sha256(json.dumps(p.get("facts", []), sort_keys=True,
                                              ensure_ascii=False, default=str).encode()).hexdigest()
         new_sha = facts_sha(payload)
-        pending = self.db.execute(
-            "SELECT id, payload FROM proposals WHERE source_id = ? AND status = 'pending' ORDER BY id",
-            (source_id,)).fetchall()
-        for r in pending:
-            if facts_sha(json.loads(r["payload"])) == new_sha:
+        mine = scope(payload)
+        pending = []
+        for r in self.db.execute(
+                "SELECT id, payload FROM proposals WHERE source_id = ? AND status = 'pending' ORDER BY id",
+                (source_id,)).fetchall():
+            old = json.loads(r["payload"])
+            if facts_sha(old) == new_sha:
                 return r["id"]
+            if overlaps(scope(old), mine):
+                pending.append(r)
         cur = self.db.execute(
             "INSERT INTO proposals (source_id, created_at, payload) VALUES (?,?,?)",
             (source_id, datetime.utcnow().isoformat(timespec="seconds"),
