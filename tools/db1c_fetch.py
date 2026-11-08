@@ -33,7 +33,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import io
+import itertools
 import json
 import re
 import sys
@@ -107,7 +109,12 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
     """Поток CSV рынков DB1C -> свёртка по паре (без направления, коды по
     алфавиту). Заголовок узнаётся по именам колонок; без заголовка —
     порядок полей из описания DB1C Market."""
-    rd = csv.reader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace", newline=""))
+    text = io.TextIOWrapper(fh, encoding="utf-8", errors="replace", newline="")
+    line = text.readline()
+    # Разделитель — по первой строке: в описании запятая, но выгрузки BTS
+    # бывали и через «|» и табуляцию.
+    delim = max((",", "|", "\t", ";"), key=line.count)
+    rd = csv.reader(itertools.chain([line], text), delimiter=delim)
     first = next(rd)
     up = [c.strip().upper() for c in first]
     if "MKTAMOUNT" in up:
@@ -126,7 +133,8 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
         pending = first
     miss = [c for c in NEED if c not in head]
     if miss:
-        raise ValueError(f"в файле DB1C нет колонок: {', '.join(miss)}")
+        raise ValueError(f"в файле DB1C нет колонок: {', '.join(miss)}. Первая строка файла: "
+                         f"{line.strip()[:300]!r} — это точно файл MARKET, а не SEGMENT?")
     ix = {c: head.index(c) for c in NEED}
     direct: dict = defaultdict(lambda: array("f"))
     grp: dict = defaultdict(lambda: defaultdict(lambda: [0, 0.0]))
@@ -188,10 +196,30 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
             "skipped": skipped, "pairs": out}
 
 
+def _open_table(z: zipfile.ZipFile, label: str):
+    """Файл таблицы внутри архива: самый большой, не каталог. Вложенный zip
+    раскрывается, .gz распаковывается на лету. Имена внутри архивов BTS
+    меняются от выгрузки к выгрузке (07.11.2026: ни .csv, ни .txt), поэтому
+    по расширению не выбираем, а при сбое печатаем, что внутри."""
+    files = [i for i in z.infolist() if not i.is_dir()]
+    if not files:
+        raise ValueError(f"{label}: архив пустой")
+    big = max(files, key=lambda i: i.file_size)
+    print(f"  {label}: внутри {', '.join(f'{i.filename} ({i.file_size / 1e6:.0f} МБ)' for i in files[:6])}"
+          f" — беру {big.filename}", flush=True)
+    fh = z.open(big)
+    low = big.filename.lower()
+    if low.endswith(".zip"):
+        inner = zipfile.ZipFile(io.BytesIO(fh.read()))
+        return _open_table(inner, f"{label}/{big.filename}")
+    if low.endswith(".gz"):
+        return gzip.GzipFile(fileobj=fh)
+    return fh
+
+
 def fold_zip(path: Path, month: str) -> Path:
     with zipfile.ZipFile(path) as z:
-        name = next(n for n in z.namelist() if n.lower().endswith((".csv", ".txt", ".dat")) or "." not in n)
-        with z.open(name) as fh:
+        with _open_table(z, path.name) as fh:
             doc = aggregate(fh, month)
     doc["file"] = path.name
     AGG.mkdir(parents=True, exist_ok=True)

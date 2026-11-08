@@ -119,6 +119,26 @@ class Db1c(unittest.TestCase):
         self.assertEqual(by["ATL-LAX/2025-07/direct/share_91UP"].unit, "share")
 
 
+class Zip(unittest.TestCase):
+    def test_odd_inner_name_and_pipes(self):
+        import tempfile
+        import zipfile
+        body = db1c_csv().decode().replace(",", "|").encode()
+        d = pathlib.Path(tempfile.mkdtemp())
+        f = d / "DB1C.202507.zip"
+        with zipfile.ZipFile(f, "w") as z:
+            z.writestr("readme.pdf", b"x")
+            z.writestr("T_DB1C_MARKET_202507.asc", body)
+        old = D.AGG
+        D.AGG = d / "agg"
+        try:
+            out = D.fold_zip(f, "2025-07")
+        finally:
+            D.AGG = old
+        doc = json.loads(out.read_text())
+        self.assertEqual(doc["pairs"]["ATL-LAX"]["direct"]["pax"], 400)
+
+
 class Links(unittest.TestCase):
     def test_closed_page_falls_back_to_known(self):
         import urllib.request
