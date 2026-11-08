@@ -161,13 +161,24 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
     if vy is not None:
         vy_vals.update(r[vy].strip() for r in buf if len(r) > vy)
         seen = set(vy_vals)
-        if seen and seen <= FLAG_VALUES:
-            vy_mode = "flag"
-        else:
+        valid = sum(n for v, n in vy_vals.items() if v in FLAG_VALID)
+        total = sum(vy_vals.values()) or 1
+        if not seen or not seen <= FLAG_VALUES:
             vy_mode = "not_a_flag"
             vy = None
+        elif valid / total < 0.5:
+            # Флаг, но «действительных» почти нет: в публичных выгрузках
+            # 2025–2026 V_YIELD = 0 у 99 % строк и пусто у остальных
+            # (08.11.2026). Фильтр по нему выбросил бы всё — значит, смысл
+            # колонки в выгрузке не тот, что в описании. Без фильтра.
+            vy_mode = "flag_uninformative"
+            vy = None
+        else:
+            vy_mode = "flag"
         top = ", ".join(f"{v!r}: {n}" for v, n in vy_vals.most_common(8))
-        print(f"  признак доходности: {'флаг' if vy_mode == 'flag' else 'не флаг — без фильтра'}; "
+        label = {"flag": "флаг, фильтрую", "not_a_flag": "не флаг — без фильтра",
+                 "flag_uninformative": "флаг, но «действительных» меньше половины — без фильтра"}[vy_mode]
+        print(f"  признак доходности: {label}; "
               f"значения в первых {len(buf):,} строках: {top}".replace(",", " ", 1), flush=True)
     else:
         vy_mode = "absent"

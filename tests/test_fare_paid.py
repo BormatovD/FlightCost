@@ -116,6 +116,18 @@ class Db1c(unittest.TestCase):
         self.assertIn("0.1532", doc["vyield_values"])
         self.assertIn("ATL-LAX", doc["pairs"])
 
+    def test_v_yield_all_zero_is_ignored(self):
+        rows = db1c_csv().decode().splitlines()
+        k = rows[0].split(",").index("VYIELD")
+        out = [rows[0].replace("VYIELD", "V_YIELD")]
+        for i, r in enumerate(rows[1:]):
+            c = r.split(",")
+            c[k] = "" if i % 50 == 0 else "0"               # как в выгрузках 2025–2026
+            out.append(",".join(c))
+        doc = D.aggregate(io.BytesIO("\n".join(out).encode()), "2025-07")
+        self.assertEqual(doc["vyield_mode"], "flag_uninformative")
+        self.assertIn("ATL-LAX", doc["pairs"])
+
     def test_headerless_file(self):
         cols = ["ITINID", "MKTID", "MKTCOUPONS", "ORIGIN", "DEST", "PASSENGERS", "MKTAMOUNT", "VYIELD",
                 "PURCHASEWINDOWGROUP"]
