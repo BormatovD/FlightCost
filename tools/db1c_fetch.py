@@ -56,6 +56,17 @@ SAMPLE_RATE = 0.40
 # пассажиров на прямых рейсах: ~10 в день по выборке 40 % — рынок, у которого
 # есть смысл считать квантили. Меньше — среднее и квантили шумят.
 MIN_PAX = 300
+# Бонусные билеты. Тариф рынка в DB1C — сумма по билету с налогами, и билет
+# за мили стоит ровно государственные сборы: сбор безопасности 5,60 USD за
+# посадку (08.11.2026: 13 тыс. пар-месяцев из 40 тыс. с p10 в 5–10 USD,
+# на JFK–LAX p10 = 5,61–5,87). Платный билет не бывает дешевле суммы сборов —
+# 7,5 % акциза, 5,30 сегментного сбора, 5,60 безопасности и до 4,50
+# аэропортового — то есть ~16 USD при нулевой базе. Между ними в данных
+# провал: 10–15 USD у 148 пар-месяцев против 13 294 у 5–10. Граница — по
+# этому механизму, а не по «выбросам». DOT в Consumer Airfare Report бонусные
+# билеты тоже не берёт. Бонусные считаются отдельно: их доля — тоже знание.
+AWARD_MAX = 15.0
+LOW_BINS = (0, 5, 10, 15, 20, 25, 30)
 GROUPS = ("21AP", "2290", "91UP")
 NEED = ("ORIGIN", "DEST", "MKTCOUPONS", "PASSENGERS", "MKTAMOUNT", "PURCHASEWINDOWGROUP")
 # Признак действительной доходности. В описании DB1C Market — VYield, в
@@ -185,6 +196,8 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
     direct: dict = defaultdict(lambda: array("f"))
     grp: dict = defaultdict(lambda: defaultdict(lambda: [0, 0.0]))
     allm: dict = defaultdict(lambda: [0, 0.0])
+    award: dict = defaultdict(lambda: [0, 0])          # пара -> [прямые, все] бонусных пассажиров
+    low_hist: Counter = Counter()
     rows = skipped = 0
 
     def take(r):
@@ -204,6 +217,14 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
             return
         a, b = sorted((r[ix["ORIGIN"]].strip().upper(), r[ix["DEST"]].strip().upper()))
         pair = f"{a}-{b}"
+        if fare < LOW_BINS[-1]:
+            low_hist[int(fare // 5) * 5] += pax
+        if fare < AWARD_MAX:
+            w = award[pair]
+            w[1] += pax
+            if r[ix["MKTCOUPONS"]].strip() == "1":
+                w[0] += pax
+            return
         s = allm[pair]
         s[0] += pax
         s[1] += fare * pax
@@ -236,10 +257,16 @@ def aggregate(fh, month: str, min_pax: int = MIN_PAX) -> dict:
                 st[f"share_{g}"] = round(c[0] / known, 4)
             if c[0] >= 30:                         # средняя по группе — от тридцати пассажиров
                 st[f"mean_{g}"] = round(c[1] / c[0], 2)
+        w = award[pair]
+        if w[0]:
+            st["award_pax"] = w[0]
+        st["share_award"] = round(w[0] / (w[0] + n), 4)
         a = allm[pair]
-        out[pair] = {"direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2)}}
+        out[pair] = {"direct": st, "all": {"pax": a[0], "mean": round(a[1] / a[0], 2),
+                                           "share_award": round(w[1] / (w[1] + a[0]), 4)}}
     return {"month": month, "sample_rate": SAMPLE_RATE, "min_pax": min_pax, "rows": rows,
             "skipped": skipped, "vyield_filter": vy is not None, "vyield_mode": vy_mode,
+            "award_max_usd": AWARD_MAX, "low_fare_hist": {f"{k}-{k + 5}": v for k, v in sorted(low_hist.items())},
             "vyield_values": dict(vy_vals.most_common(8)), "pairs": out}
 
 
@@ -290,8 +317,10 @@ def fold_zip(path: Path, month: str) -> Path:
     AGG.mkdir(parents=True, exist_ok=True)
     out = AGG / f"DB1C-{month}.json"
     out.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")), "utf-8")
-    print(f"{month}: строк {doc['rows']:,}, отброшено {doc['skipped']:,}, пар {len(doc['pairs'])} → {out.name}"
-          .replace(",", " "))
+    aw = sum(v["direct"].get("award_pax", 0) for v in doc["pairs"].values())
+    paid = sum(v["direct"]["pax"] for v in doc["pairs"].values())
+    print(f"{month}: строк {doc['rows']:,}, отброшено {doc['skipped']:,}, пар {len(doc['pairs'])}, "
+          f"бонусных на прямых {aw / max(aw + paid, 1):.1%} → {out.name}".replace(",", " "))
     return out
 
 

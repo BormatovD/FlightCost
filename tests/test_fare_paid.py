@@ -128,6 +128,17 @@ class Db1c(unittest.TestCase):
         self.assertEqual(doc["vyield_mode"], "flag_uninformative")
         self.assertIn("ATL-LAX", doc["pairs"])
 
+    def test_award_tickets_counted_apart(self):
+        body = db1c_csv().decode().splitlines()
+        extra = [f"{900 + i},{900 + i},1,ATL,LAX,1,5.6,1,2290" for i in range(100)]
+        doc = D.aggregate(io.BytesIO("\n".join(body + extra).encode()), "2025-07")
+        d = doc["pairs"]["ATL-LAX"]["direct"]
+        self.assertEqual(d["pax"], 400, "бонусные не в тарифах")
+        self.assertEqual(d["award_pax"], 100)
+        self.assertAlmostEqual(d["share_award"], 0.2)
+        self.assertAlmostEqual(d["mean"], 299.5)
+        self.assertEqual(doc["low_fare_hist"]["5-10"], 100)
+
     def test_headerless_file(self):
         cols = ["ITINID", "MKTID", "MKTCOUPONS", "ORIGIN", "DEST", "PASSENGERS", "MKTAMOUNT", "VYIELD",
                 "PURCHASEWINDOWGROUP"]
