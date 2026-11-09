@@ -223,3 +223,46 @@ class SourceUrl(unittest.TestCase):
         self.put({"icao": "KATL", "source_url": "https://keep.me"})
         self.assertEqual(A.fill_source_url(self.f, "https://other", {}, self.ws), "")
         self.assertEqual(self.got(), "https://keep.me")
+
+
+class Watch(unittest.TestCase):
+    """Новая редакция заведённого тарифа встаёт первой в очередь агента «тарифы»."""
+
+    def test_refresh_goes_first(self):
+        doc = {"regions": {"europe": {"prefixes": ["E"], "min": 2,
+                                      "candidates": [{"icao": "EDDM", "city": "Мюнхен"}]}}}
+        st = {"EDDF": {"status": "refresh", "url": "https://fraport/2027.pdf"}}
+        icao, a, _ = A.pick_charges(doc, {"EDDF"}, st)
+        self.assertEqual((icao, a["url"]), ("EDDF", "https://fraport/2027.pdf"))
+        st["EDDF"]["status"] = "draft"
+        self.assertEqual(A.pick_charges(doc, {"EDDF"}, st)[0], "EDDM")
+
+
+class Drafts(unittest.TestCase):
+    """Бот кладёт черновик тарифа туда, откуда его заберёт дом, — и только его."""
+
+    def test_only_charges_json_is_stashed(self):
+        from flightcostapp import bot as B
+        d = Path(tempfile.mkdtemp())
+        self.assertTrue(B.stash_draft("charges-KATL-2026.json", b"{}", d))
+        self.assertEqual(oct((d / "charges-KATL-2026.json").stat().st_mode & 0o777), "0o640")
+        self.assertFalse(B.stash_draft("report.pdf", b"x", d))
+        self.assertFalse(B.stash_draft("charges-../../x.json", b"x", d))
+
+
+class DraftCheck(unittest.TestCase):
+    def test_band_for_region_without_tariff_set(self):
+        from flightcostapp import drafts as D
+        code, _, lo, hi = D.band_of("KDEN")
+        self.assertEqual(code, "north_america")
+        self.assertAlmostEqual(hi / lo, 4.0)
+
+    def test_draft_replaces_only_its_airport(self):
+        from flightcostapp import drafts as D
+
+        class Inner:
+            def current(self, domain, as_of=None, prefixes=None):
+                return {"KATL/old": "старое", "KDEN/x": "чужое"}
+        f = {"domain": "airport_charge", "key": "KATL/new", "value_text": "{}"}
+        rows = D.DraftStore(Inner(), "KATL", [f]).current("airport_charge")
+        self.assertEqual(set(rows), {"KATL/new", "KDEN/x"})

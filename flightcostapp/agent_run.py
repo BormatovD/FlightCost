@@ -57,6 +57,7 @@ MAX_DOC = 30 * 1024 * 1024
 JOBS = {
     "submissions": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
     "charges": {"model": "anthropic/claude-sonnet-5-5", "timeout": 1500},
+    "watch": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
 }
 
 RULES = """# Общие правила (для любого задания)
@@ -110,6 +111,14 @@ SUBMISSION_TASK = """# Задание: черновик разбора прис�
 CHARGES_MIN_PER_REGION = 2
 CHARGES_MAX_TRIES = 2        # столько раз без файла — и кандидат «не найден», берётся следующий
 DRAFT_DAYS = 30
+# Аэропортов за прогон (решение владельца 09.11.2026): прогон стоит 0,1–0,5 USD,
+# один аэропорт дважды в неделю — 40 тарифов за 20 недель. Узкое место —
+# приёмка, а не деньги: число — в /etc/fca/agent.env.
+CHARGES_PER_RUN = int(os.environ.get("FCA_AGENT_CHARGES_PER_RUN", "3"))
+# Проверка свежести заведённых тарифов: раз в месяц, столько аэропортов за прогон,
+# каждый — не чаще раза в WATCH_DAYS.
+WATCH_PER_RUN = int(os.environ.get("FCA_AGENT_WATCH_PER_RUN", "8"))
+WATCH_DAYS = 28
 
 
 def region_of(icao: str, regions: dict) -> str | None:
@@ -145,6 +154,13 @@ def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
             if usable(icao):
                 return icao, airports.get(icao) or {"city": ""}, region_of(icao, regions)
         return None
+    # Новая редакция уже заведённого тарифа (её нашла проверка свежести) —
+    # раньше новых аэропортов: устаревший тариф хуже отсутствующего, он
+    # молча считает по прошлогодним ставкам.
+    for icao, st in state.items():
+        if (st or {}).get("status") == "refresh" and st.get("url"):
+            return icao, {**(airports.get(icao) or {}), "url": st["url"], "city": st.get("city", "")}, \
+                region_of(icao, regions)
     # Черновик закрывает место в регионе на время приёмки — DRAFT_DAYS. Не
     # попал в репозиторий за это время — считается отклонённым: сам он
     # повторно не берётся, а регион снова ищет следующего кандидата.
@@ -180,6 +196,25 @@ CHARGES_TASK = """# Задание: тариф аэропорта {icao} ({city}
 взял документ; без него файл отвергается целиком, и вся работа пропадёт. У каждого правила —
 `source_note` с разделом документа. Чего нет в схеме — опиши в `doubts` (массив строк в том же
 файле, верхний уровень).
+"""
+
+
+WATCH_TASK = """# Задание: есть ли новая редакция тарифа {icao}
+
+Заведён тариф: {source} — действует с {valid_from}. Издатель: {publisher}.
+Адрес публикации: {source_url}
+
+Открой этот адрес через web_fetch (не открылся — поищи страницу тарифов на сайте издателя) и
+проверь, опубликована ли редакция, которая начинает действовать ПОЗЖЕ {valid_from} (в том числе
+объявленная заранее, с будущей датой). Ничего не раскладывай — нужен только ответ.
+
+Запиши `out/watch.json`:
+{{"icao": "{icao}", "newer": true | false | null, "url": "адрес документа новой редакции или null",
+ "effective_from": "ГГГГ-ММ-ДД или null", "quote": "дословная строка до 300 знаков, где видна дата
+ новой редакции", "where": "адрес страницы, где цитата"}}
+
+`newer: null` — страницу открыть не удалось или по ней нельзя понять. Даты в тексте нет — не
+угадывай: `false` или `null`.
 """
 
 
@@ -510,7 +545,97 @@ class Runner:
                      f"{(res.get('error') or {}).get('message', res.get('final', ''))[:300]}", "warn")
 
     # ── задание: тариф аэропорта ─────────────────────────────────────────
-    def charges(self, model: str | None = None, only: str | None = None) -> int:
+    def watch_state(self) -> dict:
+        f = self.home / "watch_state.json"
+        try:
+            return json.loads(f.read_text("utf-8"))
+        except (OSError, ValueError):
+            return {}
+
+    def save_watch_state(self, st: dict) -> None:
+        f = self.home / "watch_state.json"
+        tmp = f.with_suffix(".tmp")
+        tmp.write_text(json.dumps(st, ensure_ascii=False, indent=1), "utf-8")
+        tmp.replace(f)
+
+    def watch(self, model: str | None = None, per_run: int | None = None) -> int:
+        """Проверка свежести заведённых тарифов (решение владельца 09.11.2026).
+
+        Раз в месяц, до WATCH_PER_RUN аэропортов, старые редакции первыми,
+        каждый — не чаще раза в WATCH_DAYS. Найдена новая редакция с адресом
+        и датой позже действующей — аэропорт встаёт первым в очередь агента
+        «тарифы» (состояние refresh), сам тариф агент разложит обычным порядком."""
+        from datetime import date as _d, timedelta as _td
+        files = {}
+        for f in sorted((ROOT / "data" / "charges").glob("*-*.json")):
+            icao, _, yr = f.stem.partition("-")
+            if len(icao) == 4 and yr.isdigit():
+                files.setdefault(icao, []).append((int(yr), f))
+        ws_state, ch_state = self.watch_state(), self.charges_state()
+        since = (_d.today() - _td(days=WATCH_DAYS)).isoformat()
+        due = []
+        for icao, fs in files.items():
+            yr, f = max(fs)
+            if str((ws_state.get(icao) or {}).get("at", "")) >= since:
+                continue
+            if (ch_state.get(icao) or {}).get("status") in ("refresh", "draft"):
+                continue
+            try:
+                d = json.loads(f.read_text("utf-8"))
+            except (OSError, ValueError):
+                continue
+            due.append((str(d.get("valid_from") or f"{yr}-01-01"), icao, d))
+        due.sort()
+        found, failed, checked = [], [], 0
+        for vf, icao, d in due[:max(1, per_run or WATCH_PER_RUN)]:
+            if self.stop or not self.budget_ok("watch"):
+                break
+            ws = self.workspace("watch", icao)
+            task = WATCH_TASK.format(icao=icao, source=d.get("source") or "—", valid_from=vf,
+                                     publisher=d.get("publisher") or "—",
+                                     source_url=d.get("source_url") or "не записан — найди страницу тарифов издателя")
+            try:
+                res = self.exec("watch", ws, task, model)
+            except Exception as e:                                 # noqa: BLE001
+                self.say(f"Проверка свежести {icao}: не запущена: {e}", "alert")
+                break
+            checked += 1
+            try:
+                w = json.loads((ws / "out" / "watch.json").read_text("utf-8"))
+            except (OSError, ValueError):
+                w = {"newer": None}
+            ws_state[icao] = {"at": _d.today().isoformat(), "newer": w.get("newer"), "url": w.get("url"),
+                              "effective_from": w.get("effective_from"), "status": res.get("status")}
+            eff = str(w.get("effective_from") or "")
+            if w.get("newer") is True and w.get("url") and eff > vf:
+                ch_state[icao] = {"status": "refresh", "url": w["url"], "at": _d.today().isoformat(),
+                                  "effective_from": eff, "quote": str(w.get("quote") or "")[:300]}
+                found.append(f"{icao} с {eff}: {w['url']}")
+            elif w.get("newer") is None:
+                failed.append(icao)
+        self.save_watch_state(ws_state)
+        self.save_charges_state(ch_state)
+        if checked:
+            self.say(f"Проверка свежести тарифов: проверено {checked}."
+                     + ("\nНовые редакции (агент «тарифы» возьмёт их первыми):\n" + "\n".join(found) if found
+                        else "\nНовых редакций не найдено.")
+                     + (f"\nНе удалось проверить: {', '.join(failed)}" if failed else ""),
+                     "info" if not failed else "warn")
+        return len(found)
+
+    def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:
+        """До `per_run` аэропортов за прогон; останавливается, когда кандидаты
+        кончились, кончился бюджет или ключ не принят."""
+        made = 0
+        for _ in range(max(1, per_run or CHARGES_PER_RUN)):
+            r = self.charges_one(model, only)
+            if r is None or self.stop:
+                break
+            made += r
+        return made
+
+    def charges_one(self, model: str | None = None, only: str | None = None) -> int | None:
+        """Один аэропорт. None — дальше в этом прогоне не идти."""
         import yaml
         doc = yaml.safe_load((ROOT / "data" / "charges" / "_todo.yaml").read_text("utf-8"))
         have = {p.name.split("-")[0] for p in (ROOT / "data" / "charges").glob("*-*.json")}
@@ -519,9 +644,9 @@ class Runner:
         pick = pick_charges(doc, have, state, want)
         if pick is None:
             self.say("Агент «тарифы»: во всех регионах _todo.yaml хватает тарифов, а кандидаты с адресом кончились.")
-            return 0
+            return None
         if not self.budget_ok("charges"):
-            return 0
+            return None
         icao, a, rid = pick
         rname = ((doc.get("regions") or {}).get(rid) or {}).get("name", rid or "—")
         ws = self.workspace("charges", icao)
@@ -564,7 +689,7 @@ class Runner:
             res = self.exec("charges", ws, task, model)
         except Exception as e:                                     # noqa: BLE001
             self.say(f"Агент «тарифы» {icao}: не запущен: {e}", "alert")
-            return 0
+            return None
         outs = sorted((ws / "out").glob(f"{icao}-*.json"))
         if not outs:
             rec = state.setdefault(icao, {})
@@ -600,8 +725,8 @@ class Runner:
         self.say(f"Тариф {icao} ({a.get('city', '')}, {rname}) — черновик агента.\n{verdict}"
                  + (f"\n{url_note}" if url_note else "")
                  + (f"\nстоимость {cost:.2f} USD" if cost else "")
-                 + "\nДальше дома: положить в data/charges/, fca refresh --only airport_charges_tier1, "
-                   "fca review, контрольный оборот A320.",
+                 + "\nДома: fca master drafts — скачает, проверит парсером и оборотом A320; "
+                   "чистые — fca master drafts --accept-clean.",
                  "info" if verdict.startswith("парсер принял") else "warn", attach=str(dst))
         return 1
 
@@ -687,6 +812,8 @@ def main(argv=None) -> int:
     if a.job == "submissions":
         n = r.submissions(HOME / "queue", a.model)
         print(f"разобрано отправок: {n}")
+    elif a.job == "watch":
+        r.watch(a.model)
     else:
         r.charges(a.model, a.only)
     return 0

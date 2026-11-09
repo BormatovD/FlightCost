@@ -503,6 +503,63 @@ def cmd_refresh(a, *, master: Path = MASTER, spool=None) -> int:
     return 0
 
 
+DRAFTS_INBOX = ROOT / "data" / "charges" / "_inbox"
+
+
+def cmd_drafts(a) -> int:
+    """Черновики тарифов агента — домой, с проверкой; принятые — в data/charges/."""
+    from . import drafts as D
+    from .store import Store
+    DRAFTS_INBOX.mkdir(parents=True, exist_ok=True)
+    if not a.local:
+        host = _host(a)
+        # --ignore-existing: принятый и убранный из _inbox черновик повторно не приедет —
+        # список принятых ведётся в .accepted.
+        if _sh(["rsync", "-z", "--ignore-existing", *RSYNC_PERMS,
+                f"{host}:{MASTER}/export/drafts/", str(DRAFTS_INBOX) + "/"]):
+            print("не скачалось: есть ли черновики на сервере (бот кладёт их в master/export/drafts)?")
+            return 2
+    seen = set((DRAFTS_INBOX / ".accepted").read_text("utf-8").split()) \
+        if (DRAFTS_INBOX / ".accepted").exists() else set()
+    files = [f for f in sorted(DRAFTS_INBOX.glob("charges-*.json")) if f.name not in seen]
+    if not files:
+        print("черновиков нет")
+        return 0
+    st = Store(a.db)
+    rows = []
+    for f in files:
+        r = D.check(f.read_bytes(), st)
+        r["file"] = f
+        rows.append(r)
+        mark = {"clean": "ЧИСТЫЙ", "look": "СМОТРЕТЬ", "reject": "ОТВЕРГНУТ"}[r["verdict"]]
+        t = r.get("turnaround_eur")
+        lo, hi = r.get("band") or (None, None)
+        print(f"{mark:9} {r.get('icao') or f.name:6} фактов {r.get('facts', 0):4}  оборот A320 "
+              f"{('—' if t is None else f'{t:,.0f}'.replace(',', ' ')):>7} EUR"
+              + (f"  (коридор {r.get('region')}: {lo:,.0f}–{hi:,.0f})".replace(",", " ") if lo else ""))
+        for x in r["reasons"]:
+            print(f"          · {x}")
+        for x in (r.get("doubts") or [])[:5]:
+            print(f"          ? {x[:200]}")
+    want = {s.strip().upper() for s in (a.accept or "").split(",") if s.strip()}
+    take = [r for r in rows if r["verdict"] != "reject" and
+            ((a.accept_clean and r["verdict"] == "clean") or (r.get("icao") in want))]
+    if not take:
+        print("\nпринять: fca master drafts --accept-clean   (или --accept ИКАО,ИКАО после просмотра)")
+        return 0
+    dst_dir = ROOT / "data" / "charges"
+    for r in take:
+        name = r["file"].name.removeprefix("charges-")
+        (dst_dir / name).write_bytes(r["file"].read_bytes())
+        with open(DRAFTS_INBOX / ".accepted", "a", encoding="utf-8") as fh:
+            fh.write(r["file"].name + "\n")
+        r["file"].unlink()
+        print(f"принят: data/charges/{name}")
+    print("\nдальше: fca refresh --only airport_charges_tier1 && fca master send --only airport_charges_tier1, "
+          "затем git add data/charges && git commit")
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="fca master")
     p.add_argument("--db", default="data/flightcost.db")
@@ -513,6 +570,10 @@ def main(argv=None) -> int:
     s.add_argument("--only", required=True, help="источники через запятую")
     pl = sub.add_parser("pull", help="главную базу — домой (обязательно раз в неделю)")
     pl.add_argument("--force", action="store_true", help="заменить, даже если дома есть неотправленное")
+    dr = sub.add_parser("drafts", help="черновики тарифов агента — домой, проверка, приёмка")
+    dr.add_argument("--accept-clean", action="store_true", help="принять все чистые")
+    dr.add_argument("--accept", help="принять названные (ИКАО через запятую) после просмотра")
+    dr.add_argument("--local", action="store_true", help="не скачивать, проверить то, что уже в _inbox")
     sub.add_parser("import", help="сервер: посев и присланное с компьютера")
     sub.add_parser("refresh", help="сервер: обновить главную базу")
     sub.add_parser("snapshot", help="сервер: снимок витрине и копия для pull")
@@ -520,7 +581,7 @@ def main(argv=None) -> int:
     if a.cmd == "snapshot":
         print(snapshot())
         return 0
-    return {"push": cmd_push, "send": cmd_send, "pull": cmd_pull,
+    return {"push": cmd_push, "send": cmd_send, "pull": cmd_pull, "drafts": cmd_drafts,
             "import": cmd_import, "refresh": cmd_refresh}[a.cmd](a)
 
 

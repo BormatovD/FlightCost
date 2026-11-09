@@ -24,14 +24,27 @@ regions:
   north_america:
     name: Северная Америка
     prefixes: [K, C, PH]
+    # 10 вместо двух (решение владельца 09.11.2026, сверка на сетях США): сборы
+    # США сейчас — коэффициент 0,86 по отчётам перевозчиков, у Southwest он
+    # ошибается на +29 %. Порядок — пассажиропоток и базы Frontier/Southwest
+    # (Денвер, Лас-Вегас, Орландо, Даллас Лав-Филд), чтобы сверку можно было
+    # повторить уже на настоящих тарифах.
+    min: 10
     candidates:
       - {icao: KATL, city: Атланта}
       - {icao: KDFW, city: Даллас}
+      - {icao: KDEN, city: Денвер}
       - {icao: KLAX, city: Лос-Анджелес}
       - {icao: KORD, city: Чикаго}
+      - {icao: KLAS, city: Лас-Вегас}
+      - {icao: KMCO, city: Орландо}
       - {icao: KJFK, city: Нью-Йорк}
-      - {icao: CYYZ, city: Торонто}
+      - {icao: KSEA, city: Сиэтл}
+      - {icao: KPHX, city: Финикс}
+      - {icao: KDAL, city: Даллас Лав-Филд}
       - {icao: KSFO, city: Сан-Франциско}
+      - {icao: KMDW, city: Чикаго Мидуэй}
+      - {icao: CYYZ, city: Торонто}
       - {icao: CYVR, city: Ванкувер}
   middle_east:
     name: Ближний Восток и Залив

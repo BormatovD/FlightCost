@@ -1,0 +1,14 @@
+# Проверка свежести заведённых тарифов аэропортов (решение владельца
+# 09.11.2026): раз в месяц, до FCA_AGENT_WATCH_PER_RUN аэропортов, старые
+# редакции первыми. Найденная новая редакция встаёт первой в очередь агента
+# «тарифы» (fca-agent-charges.timer).
+[Unit]
+Description=FlightCostApp — агент: проверка свежести тарифов
+
+[Timer]
+OnCalendar=*-*-03 07:20:00 UTC
+Persistent=true
+Unit=fca-agent@watch.service
+
+[Install]
+WantedBy=timers.target

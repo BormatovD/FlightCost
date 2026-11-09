@@ -775,6 +775,7 @@ class FcaBot:
                     data = read_attachment(Path(att))
                     if data is not None:
                         self.bot.send_file(self.owner, Path(att), data=data)
+                        stash_draft(Path(att).name, data)
                     else:
                         self.bot.send(self.owner, f"вложение не отправлено: вне разрешённых каталогов "
                                                   f"или ссылка ({Path(att).name})")
@@ -784,6 +785,29 @@ class FcaBot:
             except Exception as e:                                   # noqa: BLE001
                 print(f"ящик {p.name}: битое сообщение: {e}", file=sys.stderr)
             p.unlink(missing_ok=True)
+
+
+DRAFTS = Path(os.environ.get("FCA_DRAFTS_DIR", "/srv/fca/master/export/drafts"))
+
+
+def stash_draft(name: str, data: bytes, drafts: Path | None = None) -> bool:
+    """Черновик тарифа агента — ещё и туда, откуда его заберёт домой
+    `fca master drafts` (решение владельца 09.11.2026). Каталог принадлежит
+    боту и читается группой fcaxfer — той же, через которую дом забирает
+    главную базу; агенту туда писать нельзя, поэтому копирует бот."""
+    drafts = DRAFTS if drafts is None else drafts
+    if not (name.startswith("charges-") and name.endswith(".json")) or "/" in name:
+        return False
+    try:
+        drafts.mkdir(parents=True, exist_ok=True)
+        tmp = drafts / f".{name}.tmp"
+        tmp.write_bytes(data)
+        os.chmod(tmp, 0o640)
+        tmp.replace(drafts / name)
+        return True
+    except OSError as e:
+        print(f"черновик {name} не сохранён для дома: {e}", file=sys.stderr)
+        return False
 
 
 def read_attachment(p: Path, roots=None, limit: int = MAX_FILE) -> bytes | None:

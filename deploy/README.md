@@ -294,6 +294,8 @@ cat > /etc/fca/agent.env <<'ENV'
 FCA_AGENT_MONTH_USD=20        # мягкий потолок: дальше задания не запускаются
 FCA_AGENT_RUN_USD=2           # прогон дороже — сообщение в бот
 FCA_AGENT_CHARGES_ONLY=       # пилот тарифов: ИКАО через запятую, пусто — по порядку _todo.yaml
+FCA_AGENT_CHARGES_PER_RUN=3   # аэропортов за прогон тарифов (пн и чт)
+FCA_AGENT_WATCH_PER_RUN=8     # заведённых тарифов на проверку свежести за прогон (3-го числа)
 ENV
 chmod 600 /etc/fca/*
 
@@ -316,6 +318,17 @@ systemctl status fca-bot --no-pager | head -5
 cd /srv/fca/app && FCA_TEST_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/openclaw \
   /srv/fca/venv/bin/python -m unittest tests.test_agent -v
 ```
+
+Черновики тарифов: бот присылает файл в Телеграм и кладёт копию в
+`/srv/fca/master/export/drafts/`. Дома `fca master drafts` забирает их,
+проверяет парсером и контрольным оборотом A320 против коридора региона и
+печатает «ЧИСТЫЙ / СМОТРЕТЬ / ОТВЕРГНУТ»; `--accept-clean` кладёт чистые в
+`data/charges/`, `--accept ИКАО,…` — названные после просмотра.
+
+Проверка свежести (`fca-agent-watch.timer`, 3-го числа): заведённые тарифы,
+старые редакции первыми; найденная новая редакция встаёт первой в очередь
+агента «тарифы». Таймеры ставит `bootstrap.sh` — после изменения файла
+таймера в репозитории его нужно повторить (deploy.sh таймеры не трогает).
 
 Расходы: `/srv/fca/agent/ledger.jsonl` (строка на прогон, `cost_usd` из ответа
 OpenClaw). Модель по заданиям — `JOBS` в `agent_run.py`; Opus — только
