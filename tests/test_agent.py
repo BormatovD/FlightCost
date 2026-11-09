@@ -187,3 +187,39 @@ class Cage(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class SourceUrl(unittest.TestCase):
+    """09.11.2026, KATL: агент нашёл документ, но не записал source_url."""
+
+    def setUp(self):
+        self.ws = Path(tempfile.mkdtemp())
+        self.f = self.ws / "KATL-2026.json"
+
+    def put(self, d):
+        self.f.write_text(json.dumps(d))
+
+    def got(self):
+        return json.loads(self.f.read_text()).get("source_url")
+
+    def test_known_url_filled_silently(self):
+        self.put({"icao": "KATL"})
+        self.assertEqual(A.fill_source_url(self.f, "https://x.org/t.pdf", {}, self.ws), "")
+        self.assertEqual(self.got(), "https://x.org/t.pdf")
+
+    def test_single_url_from_answer(self):
+        self.put({"icao": "KATL", "doubts": ["взят https://www.atl.com/rates-and-charges.pdf."]})
+        note = A.fill_source_url(self.f, None, {"final": "готово"}, self.ws)
+        self.assertEqual(self.got(), "https://www.atl.com/rates-and-charges.pdf")
+        self.assertIn("проверь", note)
+
+    def test_several_urls_listed_not_guessed(self):
+        self.put({"icao": "KATL"})
+        note = A.fill_source_url(self.f, None, {"final": "https://a.com/fees.pdf и https://b.com/tariff.pdf"}, self.ws)
+        self.assertIsNone(self.got())
+        self.assertIn("https://b.com/tariff.pdf", note)
+
+    def test_present_url_untouched(self):
+        self.put({"icao": "KATL", "source_url": "https://keep.me"})
+        self.assertEqual(A.fill_source_url(self.f, "https://other", {}, self.ws), "")
+        self.assertEqual(self.got(), "https://keep.me")

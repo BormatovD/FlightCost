@@ -176,7 +176,8 @@ CHARGES_TASK = """# Задание: тариф аэропорта {icao} ({city}
 `examples/`. Процедура и пять частых ошибок — `SKILL.md` (шаги 2–4; шаг 1 и шаг 5 сделает
 программа). Командной строки у тебя нет: `fca` не запускай, просто запиши файл.
 
-Запиши `out/{icao}-{year}.json` в формате примера. Поле `source_url` обязательно. У каждого правила —
+Запиши `out/{icao}-{year}.json` в формате примера. Поле `source_url` обязательно: это адрес, с которого ты
+взял документ; без него файл отвергается целиком, и вся работа пропадёт. У каждого правила —
 `source_note` с разделом документа. Чего нет в схеме — опиши в `doubts` (массив строк в том же
 файле, верхний уровень).
 """
@@ -580,6 +581,7 @@ class Runner:
             return 0
         state[icao] = {"status": "draft", "at": _now().date().isoformat(), "region": rid}
         self.save_charges_state(state)
+        url_note = fill_source_url(outs[0], a.get("url"), res, ws)
         from .parsers import airport_charges
         ctx = {"source_id": "airport_charges_tier1", "url": None, "fetched_at": _now().date().isoformat()}
         try:
@@ -589,14 +591,61 @@ class Runner:
             verdict = f"парсер отверг: {str(e)[:600]}"
         self.out.mkdir(parents=True, exist_ok=True)
         dst = self.out / f"charges-{outs[0].name}"
-        shutil.copy2(outs[0], dst)
+        # copyfile, не copy2: права файла агента (OpenClaw пишет 0600) не
+        # переносятся, иначе бот (группа fcaq) не может прочитать вложение —
+        # 09.11.2026 черновик KATL пришёл без файла.
+        shutil.copyfile(outs[0], dst)
+        os.chmod(dst, 0o640)
         cost = res.get("costUsd")
         self.say(f"Тариф {icao} ({a.get('city', '')}, {rname}) — черновик агента.\n{verdict}"
+                 + (f"\n{url_note}" if url_note else "")
                  + (f"\nстоимость {cost:.2f} USD" if cost else "")
                  + "\nДальше дома: положить в data/charges/, fca refresh --only airport_charges_tier1, "
                    "fca review, контрольный оборот A320.",
                  "info" if verdict.startswith("парсер принял") else "warn", attach=str(dst))
         return 1
+
+
+_URL_RX = re.compile(r"https?://[^\s\"'<>)\]]+")
+
+
+def fill_source_url(path: Path, known: str | None, res: dict, ws: Path) -> str:
+    """Агент обязан записать source_url, но 09.11.2026 (KATL) не записал — и
+    парсер отверг черновик целиком, хотя документ был найден. Адрес из
+    _todo.yaml подставляется молча (он и так наш). Иначе адрес ищется в
+    ответе агента, в doubts и в журналах прогона: один подходящий —
+    подставляется с пометкой «проверь»; несколько — не подставляется,
+    список уходит в сообщение. Возвращает пометку для сообщения."""
+    try:
+        d = json.loads(path.read_text("utf-8"))
+    except (OSError, ValueError):
+        return ""
+    if not isinstance(d, dict) or d.get("source_url"):
+        return ""
+    if known:
+        d["source_url"] = known
+        path.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
+        return ""
+    texts = [str(res.get("final") or ""), " ".join(map(str, d.get("doubts") or [])), str(d.get("source") or "")]
+    for f in ("openclaw.stderr.log",):
+        try:
+            texts.append((ws / f).read_text("utf-8", "replace")[-200_000:])
+        except OSError:
+            pass
+    seen = []
+    for t in texts:
+        for u in _URL_RX.findall(t):
+            u = u.rstrip(".,;:")
+            if u not in seen and not re.search(r"anthropic|openclaw|github\.com|localhost", u):
+                seen.append(u)
+    docs = [u for u in seen if re.search(r"\.pdf(\?|$)|tariff|rates|charges|fees|rules|regulat", u, re.I)] or seen
+    if len(docs) == 1:
+        d["source_url"] = docs[0]
+        path.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
+        return f"source_url агент не записал — подставлен адрес из его ответа, проверь: {docs[0]}"
+    if docs:
+        return "source_url агент не записал; адреса в его ответе: " + ", ".join(docs[:5])
+    return "source_url агент не записал, адреса документа в его ответе нет"
 
 
 def main(argv=None) -> int:
