@@ -251,9 +251,18 @@ EXTRACT_MEM = 1024 * 1024 * 1024
 
 
 def _limits():                                   # в дочернем процессе, до exec
+    """Пределы памяти и времени для разбора присланного. На сервере (Linux)
+    действуют оба. macOS не даёт понизить RLIMIT_AS (ValueError), и раньше
+    из-за этого падал запуск разбора целиком — на компьютере владельца
+    тесты агента не проходили (09.11.2026). Предел, который система не
+    принимает, пропускается; время ограничено всё равно — и CPU, и
+    тайм-аутом subprocess."""
     import resource
-    resource.setrlimit(resource.RLIMIT_AS, (EXTRACT_MEM, EXTRACT_MEM))
-    resource.setrlimit(resource.RLIMIT_CPU, (EXTRACT_TIMEOUT, EXTRACT_TIMEOUT))
+    for lim, val in ((resource.RLIMIT_AS, EXTRACT_MEM), (resource.RLIMIT_CPU, EXTRACT_TIMEOUT)):
+        try:
+            resource.setrlimit(lim, (val, val))
+        except (ValueError, OSError):
+            pass
 
 
 def extract_text_safe(src: Path) -> str | None:

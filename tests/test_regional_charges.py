@@ -14,6 +14,8 @@ import yaml
 from flightcostapp import econ
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+TURN = ROOT / "research/charges-2026-10/turnaround.json"
+NO_RESEARCH = "нет данных исследования сборов (research/charges-2026-10) — сверка файла с ними пропущена"
 
 
 class RegionalCharges(unittest.TestCase):
@@ -24,6 +26,7 @@ class RegionalCharges(unittest.TestCase):
                           ("SBGR", "world")):
             self.assertEqual(econ.regional_charge_k(icao)[1], reg, icao)
 
+    @unittest.skipUnless(TURN.exists(), NO_RESEARCH)
     def test_file_matches_turnarounds(self):
         """Медиана в файле = медиана оборотов исследования — файл не правится руками."""
         doc = yaml.safe_load((ROOT / "data/charges/_regional.yaml").read_text(encoding="utf-8"))
@@ -47,6 +50,7 @@ class RegionalCharges(unittest.TestCase):
         self.assertIn("JetBlue", na["basis"])
         self.assertAlmostEqual(econ.regional_charge_k("KDEN")[0], na["k"])
 
+    @unittest.skipUnless(TURN.exists(), NO_RESEARCH)
     def test_every_airport_with_tariff_is_in_a_region(self):
         """Регионы покрывают все аэропорты с тарифом, иначе медиана считает не то."""
         turn = json.loads((ROOT / "research/charges-2026-10/turnaround.json").read_text(encoding="utf-8"))["airports"]
