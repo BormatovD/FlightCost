@@ -31,6 +31,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from itertools import combinations
 
+from . import netutil
 from .rights import closed_zones, load_closures, pair_rights
 from .zones import closed_polygons, load_world
 
@@ -613,6 +614,11 @@ class NetResult:
     maint_fh: float | None = None
     maint_fc: float | None = None
     maint_prov: str = "default"
+    util_note: str = ""
+    crews_per_ac: float | None = None   # экипажей по два пилота на борт при налёте сети
+    pilot_h: float | None = None
+    net_kind: str | None = None
+    util_shares: dict | None = None
 
 
 def _shift(leg: Leg, d: float) -> Leg:
@@ -662,7 +668,9 @@ def _bisect(fn, lo, hi, it=80):
 def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
              util_h_month=None, lease_eur_month=None, fare_mult=1.0,
              fare_conv=None, lf_ref=0.80, alpha=ALPHA,
-             maint_fh=None, maint_fc=None) -> NetResult:
+             maint_fh=None, maint_fc=None, net_kind=None,
+             window_h=netutil.WINDOW_H, turn_min=netutil.TURN_MIN,
+             pilot_h=netutil.PILOT_H_YEAR) -> NetResult:
     if fleet_n < 1:
         raise ValueError("бортов меньше одного")
     warnings = []
@@ -681,8 +689,9 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
                       for l in p.legs]
     lease = float(lease_eur_month if lease_eur_month is not None else fleet.lease_eur_month)
     lease_prov = "input" if lease_eur_month is not None else fleet.lease_prov
-    util = float(util_h_month if util_h_month is not None else fleet.util_h_month)
-    util_prov = "input" if util_h_month is not None else fleet.util_prov
+    util_prov, util_note, nu = "input", "задан человеком", None
+    if util_h_month is not None:
+        util = float(util_h_month)
 
     excluded = [p for p in pairs if p.status != "ok"]
     ok = [p for p in pairs if p.status == "ok"]
@@ -698,6 +707,17 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
         raise ValueError("в сети не осталось ни одной пары с ценой и правом летать")
 
     rt_h = {p.key: sum(l.block_h for l in p.legs) for p in live}
+    if util_h_month is None:
+        # Налёт из плеч сети (план network-calc): пиковый день по окну базы × годовой
+        # коэффициент типа сети, откалиброванный по Form 41 T-2. Вес плеча — заданная
+        # частота пары, у пар без частоты — один.
+        wl = []
+        for p in live:
+            f = _lookup(freq, p.a, p.b, directional=False) if freq else None
+            wl += [(l.block_h, float(f) if f else 1.0) for l in p.legs if f != 0]
+        nu = netutil.network_util(wl or [(l.block_h, 1.0) for p in live for l in p.legs],
+                                  net_kind, window_h, turn_min)
+        util, util_prov, util_note = nu.h_month, "derived", nu.note
     # Заданные частоты закреплены; пары без своей частоты делят оставшиеся
     # часы парка поровну (решение 221). Ноль — пара выключена человеком.
     # Прежде пара без частоты при любой заданной молча выпадала из сети.
@@ -801,8 +821,13 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
                         "нынешнего потока")
     warnings.append("третья и четвёртая свободы считаются доступными: двусторонние "
                     "соглашения о воздушном сообщении не проверяются")
-    warnings.append("расписание проверено только суммой часов: развороты, ночёвки "
-                    "и окна аэропортов — этап ротации (M15)")
+    warnings.append("расписание проверено суммой часов и окном базы "
+                    f"{window_h:g} ч; ночные запреты конкретных аэропортов и ночёвки не проверяются")
+    duty = netutil.duty_notes([(f"{l.origin}→{l.destination}", l.block_h) for p, _ in flown
+                               for l in p.legs[:1]], window_h, turn_min)
+    if duty:
+        warnings.append("смены экипажей (EASA, начало 06:00–13:29): " + "; ".join(duty[:6])
+                        + (" …" if len(duty) > 6 else ""))
     if any(p.via for p, _ in flown):
         warnings.append("обход закрытого неба — кратчайший по границам зон с зазором "
                         f"{25} км, без структуры трасс и высотных ограничений; "
@@ -817,7 +842,9 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
     return NetResult(fleet_n, fleet.aircraft, lease, lease_prov, util, util_prov, hours,
                      lf_ref, fare_mult, fare_conv, alpha, be_lf, pr_ref, be_k,
                      be_lease, p_now, p_be, out_pairs, excluded, warnings, core,
-                     m_fh, m_fc, m_prov)
+                     m_fh, m_fc, m_prov, util_note,
+                     netutil.crews(hours / fleet_n, pilot_h), pilot_h,
+                     nu.kind if nu else None, nu.shares if nu else None)
 
 
 # ── отчёт ───────────────────────────────────────────────────────────────
@@ -877,6 +904,11 @@ def report(net: NetResult, pairs: list[Pair], *, base: str) -> str:
     L.append(f"  лизинг        {net.lease_eur_month:>12,.0f} EUR/мес на борт   [{net.lease_prov}]")
     L.append(f"  налёт         {net.hours_used / net.fleet:>12,.0f} ч/мес на борт      "
              f"из принятых {net.util_h_month:,.0f} [{net.util_prov}]")
+    if net.util_prov == "derived" and net.util_note:
+        L.append(f"                {net.util_note}")
+    if net.crews_per_ac is not None:
+        L.append(f"  экипажи       {net.crews_per_ac:>12.1f} на борт (по два пилота, {net.pilot_h:,.0f} ч "
+                 f"пилота в год, без резерва на отпуска и обучение)")
     L.append("\nУСЛОВИЯ")
     L.append(f"  цена          медиана рынка × {net.fare_mult:.2f}"
              + (f" × {net.fare_conv:.2f} (минимум → средний чек)" if net.fare_conv not in (None, 1)

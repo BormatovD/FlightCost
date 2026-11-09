@@ -313,7 +313,8 @@ class Simulation(unittest.TestCase):
 
     def test_auto_frequency_fits_fleet_hours(self):
         net = self.sim()
-        self.assertLessEqual(net.hours_used, 4 * 330.0 + 1e-6)
+        self.assertEqual(net.util_prov, "derived", "налёт — из плеч сети, а не 300 ч справочника")
+        self.assertLessEqual(net.hours_used, 4 * net.util_h_month + 1e-6)
         self.assertTrue(any("поровну" in w for w in net.warnings))
 
     def test_overbooked_schedule_is_said(self):

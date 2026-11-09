@@ -744,6 +744,11 @@ tr.sel td,tr:hover td.v{background:var(--select)}
       <div><label for="nfleet">Бортов</label><input id="nfleet" type="number" min="1" step="1" value="4"></div>
       <div><label for="nutil">Налёт, ч/мес<button type="button" class="hint" data-hk="nutil" aria-label="пояснение">i</button></label><input id="nutil" type="number" placeholder="—" step="10"></div>
     </div>
+    <div class="field pair">
+      <div><label for="nkind">Тип сети<button type="button" class="hint" data-hk="nkind" aria-label="пояснение">i</button></label>
+        <select id="nkind"><option value="">по плечам</option><option value="shuttle">челнок от базы</option><option value="hub">хаб</option><option value="leisure">лоукост, курорты</option><option value="longhaul">дальний</option></select></div>
+      <div><label for="nwin">Окно базы, ч<button type="button" class="hint" data-hk="nwin" aria-label="пояснение">i</button></label><input id="nwin" type="number" placeholder="18" min="6" max="24" step="1"></div>
+    </div>
     <div class="field"><label for="nlease"><span id="nleasel">Лизинг, EUR в месяц на борт</span><button type="button" class="hint" data-hk="nlease" aria-label="пояснение">i</button></label>
       <input id="nlease" type="number" placeholder="—" step="1000"></div>
     <div class="field pair">
@@ -1068,6 +1073,7 @@ const RU = {store:_t("из документа"), derived:_t("вычислено"
 // «2», доля 0,07 как «0». Разряд выбирается по величине, а не один на
 // всё: у денег он не тот, что у коэффициента.
 // Два знака в той же локали, что f0: «4,74», а не «4.74» рядом с «1 503».
+const f1 = n => Number(n).toLocaleString(LOCALE, {minimumFractionDigits: 1, maximumFractionDigits: 1});
 const f2 = n => Number(n).toLocaleString(LOCALE, {minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2});
 // ── валюта показа ───────────────────────────────────────────────────────
@@ -1538,6 +1544,8 @@ setHint("ctx", _t("их нет в справочнике: у каждого аэ
 setHint("nconv", _t("Рынок, а не вы: агрегатор показывает самый дешёвый билет на дату, а средний проданный билет дороже — часть мест уходит по старшим тарифам. Пусто — плавно по потоку пары, подобрано по проданным билетам США: 5 тыс. пассажиров в месяц × 1,4, 80 тыс. × 1,7, 300 тыс. × 1,9 (на толстых парах разрыв больше: акционные минимумы, поздние и деловые покупки). Число — одно для всех пар; 1,00 — все летят по минимуму (нижняя граница выручки)."));;
 setHint("nmult", _t("Ваше решение: насколько дешевле или дороже рынка продаёте. 1,00 — как рынок. «Цена в ноль» над глобусом — в этих же единицах."));
 setHint("nlf", _t("вклад и «нужно» — при ней"));
+setHint("nkind", _t("От типа сети зависит годовой коэффициент к пиковому дню: зима, тяжёлое ТО, резерв, задержки. Подобран по Form 41 T-2 2025 у перевозчиков США: челнок 0,81, хаб 0,74, лоукост и курорты 0,52 (сильная сезонность), дальний 0,73. «По плечам» — челнок, а при среднем плече от 5 ч — дальний."));
+setHint("nwin", _t("Часы, когда база принимает и выпускает рейсы. 18 — с 06:00 до 24:00, типично при ночных ограничениях; без них 20–22. Короткому плечу окно режет налёт ступенькой: в окно влезает только целое число пар «туда-обратно». Пусто — 18."));
 setHint("nalpha", _t("Отраслевое правило, не измерение: при показателе 1 доля пассажиров пропорциональна доле частот, выше — перевес у того, кто летает чаще. Пусто — 1,3."));
 setHint("ngo", _t("ядро считает каждое плечо: первый раз — до минуты, дальше мгновенно"));
 
@@ -3442,6 +3450,8 @@ function netParams(){
   const seats = seatsParam(); if (seats) p.set("seats", String(seats));
   if ($("#nalpha").value !== "") p.set("alpha", $("#nalpha").value);
   if ($("#nutil").value !== "") p.set("util_h", $("#nutil").value);
+  if ($("#nkind").value !== "") p.set("net_kind", $("#nkind").value);
+  if ($("#nwin").value !== "") p.set("window_h", $("#nwin").value);
   if ($("#nlease").value !== "") p.set("lease", String(Math.round(toEur($("#nlease").value))));
   if ($("#nmfh").value !== "") p.set("maint_fh", String(Math.round(toEur($("#nmfh").value))));
   if ($("#nmfc").value !== "") p.set("maint_fc", String(Math.round(toEur($("#nmfc").value))));
@@ -3514,7 +3524,8 @@ function netSoft(){
   clearTimeout(NET_TIMER); NET_TIMER = setTimeout(netRun, 250);
 }
 $("#ngo").onclick = netRun;
-["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv", "nalpha"].forEach(id => $("#" + id).addEventListener("input", netSoft));
+["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv", "nalpha", "nwin"].forEach(id => $("#" + id).addEventListener("input", netSoft));
+$("#nkind").addEventListener("change", netSoft);
 $("#nmult").addEventListener("input", () => { $("#nmultv").textContent = `× ${f2(+$("#nmult").value / 100)}`; netFareLine(); netSoft(); });
 $("#nconv").addEventListener("input", netFareLine);
 // Итог двух множителей числом: какой чек на самом деле уходит в расчёт,
@@ -3644,7 +3655,10 @@ function netFleetHints(){
         _t("Меняется без пересборки сети: разница ложится в постоянную часть каждого рейса.")}`
     : _t("ставка типа появится после расчёта"));
   setHint("nutil", fl && fl.util_h_month != null
-    ? `${_t("В расчёте")}: <b>${f0(fl.util_h_month)} ${_t("ч/мес")}</b> — ${esc(P[fl.util_prov] || fl.util_prov || "")}.`
+    ? `${_t("В расчёте")}: <b>${f0(fl.util_h_month)} ${_t("ч/мес")}</b> — ${fl.util_prov === "derived" && fl.util_note
+        ? esc(fl.util_note) : esc(P[fl.util_prov] || fl.util_prov || "")}.${fl.crews_per_ac != null
+        ? `<br>${_t("Экипажей на борт")}: <b>${f1(fl.crews_per_ac)}</b> (${_t("по два пилота, налёт пилота")} ${f0(fl.pilot_h)} ${_t("ч в год, без резерва на отпуска и обучение")})` : ""}<br>${
+        _t("Пусто — налёт из плеч сети: пиковый день по окну базы × годовой коэффициент типа сети.")}`
     : _t("ставка типа появится после расчёта"));
 }
 
@@ -4197,7 +4211,7 @@ function netState(){
     maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
     fare_mult: +$("#nmult").value / 100, fare_conv: $("#nconv").value === "" ? null : +$("#nconv").value, lf: +$("#nlf").value / 100,
     freqs: NET.freqs, tset: NET.tset, types: NET.cmp.types, mode: NET.mode, rep: NET.rep,
-    alpha: $("#nalpha").value || null, layout: CHOSEN.op, seats: $("#seatsv").value || null, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
+    alpha: $("#nalpha").value || null, net_kind: $("#nkind").value || null, window_h: $("#nwin").value || null, layout: CHOSEN.op, seats: $("#seatsv").value || null, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
     market: NET.market, month: $("#month").value || null, saved_at: new Date().toISOString().slice(0, 16)};
 }
 function netApply(st){
@@ -4215,6 +4229,7 @@ function netApply(st){
   NET.tset = st.tset || {}; NET.mode = st.mode || "fleet"; NET.rep = st.rep || {};
   if (Array.isArray(st.types)) NET.cmp.types = st.types.filter(t => ACS.some(x => x.icao === t));
   $("#nalpha").value = st.alpha || "";
+  $("#nkind").value = st.net_kind || ""; $("#nwin").value = st.window_h || "";
   [["rshare", "share"], ["relast", "elasticity"], ["rminf", "min_freq"], ["rres", "reserve"]].forEach(([id, k]) => $("#" + id).value = NET.rep[k] || "");
   if (st.layout) { $("#layout").value = st.layout; if ($("#layout").value === st.layout) { $("#seatsv").value = st.seats || ""; $("#layout").dispatchEvent(new Event("change")); } }
   rmodeApply();

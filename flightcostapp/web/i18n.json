@@ -1056,7 +1056,20 @@
   "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "Eine Airline-Simulation auf denselben Daten; ihre Einnahmen finanzieren das quelloffene FlightCost",
   "Исследования": "Recherchen",
   "FlightCostApp · карта данных": "FlightCostApp · Datenkarte",
-  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Jeder Knoten ist eine Größe der Rechnung. Ein Klick zeigt die Formel, die eigenen Felder und was der Knoten von jedem Eingang erhält und weitergibt, mit Einheiten. Der Zweig wird hervorgehoben, der Rest blendet aus."
+  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Jeder Knoten ist eine Größe der Rechnung. Ein Klick zeigt die Formel, die eigenen Felder und was der Knoten von jedem Eingang erhält und weitergibt, mit Einheiten. Der Zweig wird hervorgehoben, der Rest blendet aus.",
+  "Окно базы, ч": "Basisfenster, h",
+  "Тип сети": "Netztyp",
+  "дальний": "Langstrecke",
+  "лоукост, курорты": "Low-Cost, Urlaub",
+  "по плечам": "nach Strecken",
+  "хаб": "Hub",
+  "челнок от базы": "Pendel ab Basis",
+  "Экипажей на борт": "Crews je Flugzeug",
+  "по два пилота, налёт пилота": "je zwei Piloten, Flugstunden je Pilot",
+  "ч в год, без резерва на отпуска и обучение": "h im Jahr, ohne Reserve für Urlaub und Schulung",
+  "Пусто — налёт из плеч сети: пиковый день по окну базы × годовой коэффициент типа сети.": "Leer — Auslastung aus den Strecken des Netzes: Spitzentag im Basisfenster × Jahresfaktor des Netztyps.",
+  "От типа сети зависит годовой коэффициент к пиковому дню: зима, тяжёлое ТО, резерв, задержки. Подобран по Form 41 T-2 2025 у перевозчиков США: челнок 0,81, хаб 0,74, лоукост и курорты 0,52 (сильная сезонность), дальний 0,73. «По плечам» — челнок, а при среднем плече от 5 ч — дальний.": "Der Netztyp bestimmt den Jahresfaktor zum Spitzentag: Winter, schwere Wartung, Reserve, Verspätungen. Angepasst an Form 41 T-2 2025 der US-Airlines: Pendel 0,81, Hub 0,74, Low-Cost und Urlaub 0,52 (starke Saisonalität), Langstrecke 0,73. „Nach Strecken“ — Pendel, bei einer mittleren Strecke ab 5 h Langstrecke.",
+  "Часы, когда база принимает и выпускает рейсы. 18 — с 06:00 до 24:00, типично при ночных ограничениях; без них 20–22. Короткому плечу окно режет налёт ступенькой: в окно влезает только целое число пар «туда-обратно». Пусто — 18.": "Stunden, in denen die Basis Flüge abfertigt. 18 — von 06:00 bis 24:00, typisch bei Nachtbeschränkungen; ohne sie 20–22. Bei kurzer Strecke senkt das Fenster die Auslastung stufenweise: Es passt nur eine ganze Zahl Umläufe hinein. Leer — 18."
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -2115,6 +2128,19 @@
   "Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost": "An airline tycoon game on the same data; its revenue keeps the open-source FlightCost running",
   "Исследования": "Research",
   "FlightCostApp · карта данных": "FlightCostApp · data map",
-  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Each node is a value in the calculation. A click shows its formula, its own fields, and what exactly the node takes from each input and passes on, with units. The branch is highlighted, the rest fades."
+  "Каждый узел — величина в расчёте. Клик показывает формулу, собственные поля, а также что именно узел получает от каждого входа и что отдаёт дальше, с единицами измерения. Ветка подсвечивается, остальное гаснет.": "Each node is a value in the calculation. A click shows its formula, its own fields, and what exactly the node takes from each input and passes on, with units. The branch is highlighted, the rest fades.",
+  "Окно базы, ч": "Base window, h",
+  "Тип сети": "Network type",
+  "дальний": "long-haul",
+  "лоукост, курорты": "low-cost, leisure",
+  "по плечам": "by sectors",
+  "хаб": "hub",
+  "челнок от базы": "base shuttle",
+  "Экипажей на борт": "Crews per aircraft",
+  "по два пилота, налёт пилота": "two pilots each, pilot flying",
+  "ч в год, без резерва на отпуска и обучение": "h a year, no allowance for leave and training",
+  "Пусто — налёт из плеч сети: пиковый день по окну базы × годовой коэффициент типа сети.": "Empty — utilisation from the network's sectors: the peak day within the base window × the annual factor of the network type.",
+  "От типа сети зависит годовой коэффициент к пиковому дню: зима, тяжёлое ТО, резерв, задержки. Подобран по Form 41 T-2 2025 у перевозчиков США: челнок 0,81, хаб 0,74, лоукост и курорты 0,52 (сильная сезонность), дальний 0,73. «По плечам» — челнок, а при среднем плече от 5 ч — дальний.": "The network type sets the annual factor applied to the peak day: winter, heavy maintenance, reserve, delays. Fitted to Form 41 T-2 2025 for US carriers: base shuttle 0.81, hub 0.74, low-cost and leisure 0.52 (strong seasonality), long-haul 0.73. “By sectors” — shuttle, or long-haul when the average sector is 5 h or more.",
+  "Часы, когда база принимает и выпускает рейсы. 18 — с 06:00 до 24:00, типично при ночных ограничениях; без них 20–22. Короткому плечу окно режет налёт ступенькой: в окно влезает только целое число пар «туда-обратно». Пусто — 18.": "Hours when the base accepts and dispatches flights. 18 — from 06:00 to 24:00, typical with night restrictions; without them 20–22. For a short sector the window cuts utilisation in steps: only a whole number of round trips fits. Empty — 18."
  }
 }

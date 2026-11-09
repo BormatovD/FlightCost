@@ -91,11 +91,11 @@ items:
   - slug: network-2026-10
     date: 2026-10-30
     report: network-2026-10/report.html
-    calc: planned
+    calc: in_calc
     calc_note:
-      ru: "Сейчас калькулятор берёт налёт 300 ч в месяц для любой сети; налёт по типу сети и экипажи от годовых часов — в очереди."
-      en: "The calculator currently assumes 300 h a month for any network; utilisation by network type and crews from annual hours are queued."
-      de: "Der Rechner nimmt derzeit 300 h im Monat für jedes Netz an; Auslastung nach Netztyp und Crews aus Jahresstunden folgen."
+      ru: "В расчёте сети: налёт по типу сети и окну базы вместо 300 ч (коэффициенты — по Form 41 T-2), экипажи от годовых часов, резерв и тяжёлое ТО явными долями; ночные запреты аэропортов — в очереди."
+      en: "In the network calculation: utilisation by network type and base window instead of 300 h (factors from Form 41 T-2), crews from annual hours, reserve and heavy maintenance as explicit shares; airport night bans are queued."
+      de: "In der Netzberechnung: Auslastung nach Netztyp und Basisfenster statt 300 h (Faktoren aus Form 41 T-2), Crews aus Jahresstunden, Reserve und schwere Wartung als eigene Anteile; Nachtverbote der Flughäfen folgen."
     lang: ru
     title:
       ru: "Как построить сеть, чтобы самолёт летал больше"

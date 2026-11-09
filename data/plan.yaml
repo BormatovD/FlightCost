@@ -44,9 +44,9 @@ items:
       en: "Network calculation from the research: utilisation by network type instead of 300 h, crews from annual hours, reserve and scheduled maintenance as explicit shares"
       de: "Netzberechnung nach den Recherchen: Auslastung nach Netztyp statt 300 h, Crews aus Jahresstunden, Reserve und planmäßige Wartung als eigene Anteile"
     note:
-      ru: "Из статей о сети и о рейтинге перевозчиков; заодно окно базы из ночных ограничений аэропорта."
-      en: "From the network and carrier-ranking articles; plus the base window from airport night restrictions."
-      de: "Aus den Artikeln zu Netz und Airline-Ranking; dazu das Basisfenster aus Nachtbeschränkungen."
+      ru: "Сделано 09.11.2026: налёт из плеч сети по окну базы × годовой коэффициент типа сети (по Form 41 T-2: челнок 0,81, хаб 0,74, лоукост 0,52), экипажи от годовых часов и проверка смен, резерв и тяжёлое ТО долями. Осталось: ночные ограничения аэропортов в справочник — их соберёт агент."
+      en: "Done 9 Nov 2026: utilisation from the network's sectors within the base window × the annual factor of the network type (from Form 41 T-2: shuttle 0.81, hub 0.74, low-cost 0.52), crews from annual hours with a duty check, reserve and heavy maintenance as shares. Left: airport night restrictions in the reference data — an agent will collect them."
+      de: "Erledigt am 09.11.2026: Auslastung aus den Strecken im Basisfenster × Jahresfaktor des Netztyps (nach Form 41 T-2: Pendel 0,81, Hub 0,74, Low-Cost 0,52), Crews aus Jahresstunden mit Dienstprüfung, Reserve und schwere Wartung als Anteile. Offen: Nachtbeschränkungen der Flughäfen in die Stammdaten — ein Agent sammelt sie."
     by: owner
     via: owner
     added: 2026-11-09

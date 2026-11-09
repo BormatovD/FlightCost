@@ -280,7 +280,7 @@ und der Preis eines dichten Flugplans</p>
 .calcrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0;margin:-2px 0 16px;font-size:13px;color:var(--dim)}
 li .calc{font-size:11px;padding:0 7px;margin-right:6px;vertical-align:1px}
 .legend-calc{font-size:12.5px;color:var(--dim);margin:6px 0 10px}
-</style><div class="calcrow"><span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span><span>Der Rechner nimmt derzeit 300 h im Monat für jedes Netz an; Auslastung nach Netztyp und Crews aus Jahresstunden folgen.</span></div><div class="curbar"><span>Währung:</span><button type="button" data-cur="" class="on">wie in der Quelle</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="EZB (USD, CNY, INR) und Bank of Russia (RUB), Referenzkurse; auf der Website der aktuelle Kurs wie im Rechner">Kurs vom 2026-10-29, auf der Website aktuell</span></div>
+</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Im Rechner enthalten</span><span>In der Netzberechnung: Auslastung nach Netztyp und Basisfenster statt 300 h (Faktoren aus Form 41 T-2), Crews aus Jahresstunden, Reserve und schwere Wartung als eigene Anteile; Nachtverbote der Flughäfen folgen.</span></div><div class="curbar"><span>Währung:</span><button type="button" data-cur="" class="on">wie in der Quelle</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="EZB (USD, CNY, INR) und Bank of Russia (RUB), Referenzkurse; auf der Website der aktuelle Kurs wie im Rechner">Kurs vom 2026-10-29, auf der Website aktuell</span></div>
 <div class="verdict">
 <div><b>8–13 h am Tag</b><span>fliegt ein Flugzeug bei großen Airlines im Jahresmittel, laut ihren Berichten 2024–2025
 <sup class=cite><a href="#src1">1</a>,<a href="#src2">2</a>,<a href="#src3">3</a></sup></span></div>
@@ -622,16 +622,20 @@ Barcelona mit 2,12 Blockstunden.</p></section><section><h2>Was wir im Rechner ä
 <ol><li><span class="calc" style="color:var(--sky)">⚑ Bei der Eingabe beachten</span><b>Geben Sie die Auslastung der ganzen Flotte im Jahresmittel ein</b>, nicht die Sommerspitze und
 nicht die Auslastung fliegender Flugzeuge: Das Leasing wird auch im Winter gezahlt und für Flugzeuge in Reserve oder in der
 Wartung. Richtwert ist die Tabelle oben.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span><b>Auslastung nach Netztyp statt einer einzigen Zahl von 300 Stunden.</b> Der Standardwert hängt dann
-vom Muster ab (Pendel ab Basis, Hub, Charter, regional, Langstrecke) und von der Streckenlänge: der Spitzentag nach der
-Fensterformel, multipliziert mit einem Jahresfaktor (Winter, Wartung, Reserve, Verspätungen) von etwa 0,8; das ist eine
-Kalibrierung, kein Zitat.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span><b>Crews aus Jahresstunden.</b> Crews je Flugzeug = Flugzeugstunden ÷ Flugstunden je Pilot (Standard
-750 Stunden, Spanne 500–900), mit Prüfung, wie viele Sektoren bei der gegebenen Streckenlänge in einen Dienst passen.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span><b>Basisfenster aus den Nachtbeschränkungen des Flughafens</b> — in die Flughafendaten; im Modus „Netz“
-eine Warnung, wenn die Paare nicht ins Fenster passen.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span><b>Reserve und planmäßige Wartung als ausdrückliche Anteile</b>: Reserveflugzeuge und
-Ersatztriebwerke zum Besitz, Standzeit in schwerer Wartung zur Auslastung, statt eines versteckten Puffers für alles.</li>
+<li><span class="calc" style="color:var(--green)">✓ Im Rechner enthalten</span><b>Auslastung nach Netztyp statt einer einzigen Zahl von 300 Stunden</b> (09.11.2026). Im Modus „Netz“
+ist der Standardwert der Spitzentag nach der Fensterformel auf den Strecken des Netzes, multipliziert mit dem Jahresfaktor
+des Netztyps. Der Faktor ist nicht 0,8 für alle: nach Form 41 T-2 2025 (Blockstunden ÷ Flugzeugtage der US-Airlines gegen
+den Spitzentag bei ihrer mittleren Streckenlänge) Pendel ab Basis 0,81, Hub 0,74, Low-Cost und Urlaub mit starker
+Saisonalität 0,52, Langstrecke 0,73 (ein Typ, schwach). Frontier und Southwest blieben außen vor; bei ihnen liegt das
+Modell 4–10 % daneben. US-Regionalairlines sind nicht verwendet: Ihre Flugzeugtage werden anders gezählt.</li>
+<li><span class="calc" style="color:var(--green)">✓ Im Rechner enthalten</span><b>Crews aus Jahresstunden.</b> Crews je Flugzeug = Flugzeugstunden ÷ Flugstunden je Pilot (Standard
+750 Stunden, Spanne 500–900); passt der Spitzentag nicht in einen EASA-Dienst, sagt eine Warnung, wie viele Dienste am Tag
+nötig sind. Die Crewkosten je Blockstunde ändern sich dadurch nicht.</li>
+<li><span class="calc" style="color:var(--sky)">⚑ Bei der Eingabe beachten</span><b>Basisfenster</b> — ein Feld im Modus „Netz“, Standard 18 Stunden. <span class="calc" style="color:var(--dim)">◷ Für den Rechner geplant</span>Nachtbeschränkungen
+einzelner Flughäfen kommen in die Flughafendaten; ein Agent sammelt sie.</li>
+<li><span class="calc" style="color:var(--green)">✓ Im Rechner enthalten</span><b>Reserve und planmäßige Wartung als ausdrückliche Anteile</b> im Jahresfaktor: Reserve 3 %, schwere
+Wartung 3 % (Annahmen: offene Daten je Airline gibt es nicht), der Rest sind Winter und Verspätungen. Im Flottenbericht ist
+die Reserve eine eigene Zeile Flugzeuge, und die Auslastung gilt dort je Flugzeug im Einsatz, ohne Doppelzählung.</li>
 </ol></section><section><h2>Wie geprüft wurde</h2>
 <p>Vier Rechercheure führten Suchprotokolle — 898 Schritte samt Auszügen aus Berichten (<code>trace/n1–n5</code>):
 Auslastung der Airlines, Mechanik und Aufbau des Netzes, Crews und Verspätungen, Wartung, Verträge und Ersatzteile. Andere

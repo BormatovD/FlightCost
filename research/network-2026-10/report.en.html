@@ -280,7 +280,7 @@ parts and the price of a tight schedule</p>
 .calcrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0;margin:-2px 0 16px;font-size:13px;color:var(--dim)}
 li .calc{font-size:11px;padding:0 7px;margin-right:6px;vertical-align:1px}
 .legend-calc{font-size:12.5px;color:var(--dim);margin:6px 0 10px}
-</style><div class="calcrow"><span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span><span>The calculator currently assumes 300 h a month for any network; utilisation by network type and crews from annual hours are queued.</span></div><div class="curbar"><span>Currency:</span><button type="button" data-cur="" class="on">as in the source</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ECB (USD, CNY, INR) and Bank of Russia (RUB) reference rates; the website uses the live rate, like the calculator">rate as of 2026-10-29, live on the website</span></div>
+</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><span>In the network calculation: utilisation by network type and base window instead of 300 h (factors from Form 41 T-2), crews from annual hours, reserve and heavy maintenance as explicit shares; airport night bans are queued.</span></div><div class="curbar"><span>Currency:</span><button type="button" data-cur="" class="on">as in the source</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ECB (USD, CNY, INR) and Bank of Russia (RUB) reference rates; the website uses the live rate, like the calculator">rate as of 2026-10-29, live on the website</span></div>
 <div class="verdict">
 <div><b>8–13 h a day</b><span>is how much an aircraft flies on average over a year at major carriers, per their 2024–2025
 reports<sup class=cite><a href="#src1">1</a>,<a href="#src2">2</a>,<a href="#src3">3</a></sup></span></div>
@@ -607,16 +607,20 @@ flight of 2.12 block hours.</p></section><section><h2>What we are changing in th
 <ol><li><span class="calc" style="color:var(--sky)">⚑ Mind when entering data</span><b>Enter utilisation across the whole fleet, averaged over the year</b>, not the summer peak and
 not the utilisation of flying aircraft: the lease is paid for winter too, and for aircraft in reserve or in maintenance.
 The table above is the benchmark.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span><b>Utilisation by network type instead of a single 300-hour figure.</b> The default will depend on the
-pattern (base shuttle, hub, charter, regional, long-haul) and sector length: the peak day from the window formula,
-multiplied by an annual factor (winter, maintenance, reserve, delays) of about 0.8; this is a calibration, not a
-quote.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span><b>Crews from annual hours.</b> Crews per aircraft = aircraft hours ÷ pilot flight hours (750 hours by
-default, range 500–900), with a check of how many sectors fit into a duty at the given sector length.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span><b>Base window from the airport's night restrictions</b> — into the airport reference data; in the
-“Network” mode, a warning if the pairs do not fit into the window.</li>
-<li><span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span><b>Reserve and scheduled maintenance as explicit shares</b>: reserve aircraft and spare engines go to
-ownership, heavy-maintenance downtime to utilisation, instead of a hidden buffer for everything.</li></ol></section><section><h2>How it was checked</h2>
+<li><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><b>Utilisation by network type instead of a single 300-hour figure</b> (9 Nov 2026). In the “Network”
+mode the default is the peak day from the window formula on the network's sectors, multiplied by the annual factor of the
+network type. The factor turned out not to be 0.8 for all: from Form 41 T-2 2025 (block hours ÷ aircraft days of US
+carriers against the peak day at their average sector length), a base shuttle is 0.81, a hub 0.74, low-cost and leisure
+carriers with strong seasonality 0.52, long-haul 0.73 (one type, weak). Frontier and Southwest were left out of the fit; on
+them the model is off by 4–10 %. US regional carriers are not used: their aircraft days are counted differently.</li>
+<li><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><b>Crews from annual hours.</b> Crews per aircraft = aircraft hours ÷ pilot flight hours (750 hours by
+default, range 500–900); if the aircraft's peak day does not fit one EASA duty, a warning says how many duties a day are
+needed. The crew cost per block hour does not change.</li>
+<li><span class="calc" style="color:var(--sky)">⚑ Mind when entering data</span><b>Base window</b> — a field in the “Network” mode, 18 hours by default. <span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span>Night
+restrictions of specific airports go into the reference data; an agent will collect them.</li>
+<li><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><b>Reserve and scheduled maintenance as explicit shares</b> within the annual factor: reserve 3 %, heavy
+maintenance 3 % (assumptions: there is no open per-carrier data), the rest is winter and delays. In the fleet report the
+reserve is a separate line of aircraft, and utilisation there is per aircraft in service, with no double counting.</li></ol></section><section><h2>How it was checked</h2>
 <p>Four researchers kept search logs — 898 steps including extracts from reports (<code>trace/n1–n5</code>): airline
 utilisation, network mechanics and design, crews and delays, maintenance, contracts and spare parts. Other agents opened
 every source and checked the quotes (<code>verify/</code>): utilisation — 65 of 65 found;

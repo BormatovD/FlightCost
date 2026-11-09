@@ -1139,9 +1139,10 @@ class Context:
         прежним — это только его плечи.
         """
         from copy import deepcopy
+        from . import netutil
         from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
-                    "fare_mult", "fare_conv", "alpha", "airports", "base")
+                    "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h")
         kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY})
         airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
         base = self.resolve(q.get("base") or (airports[0] if airports else "FRA"))
@@ -1193,7 +1194,10 @@ class Context:
                            fare_mult=float(q.get("fare_mult") or 1.0),
                            fare_conv=float(q["fare_conv"]) if q.get("fare_conv") not in (None, "") else None,
                            lf_ref=float(q.get("lf") or 0.8),
-                           alpha=float(q["alpha"]) if q.get("alpha") else ALPHA)
+                           alpha=float(q["alpha"]) if q.get("alpha") else ALPHA,
+                           net_kind=q.get("net_kind") if q.get("net_kind") in netutil.ANNUAL else None,
+                           window_h=min(max(float(q["window_h"]), 6.0), 24.0) if q.get("window_h")
+                           else netutil.WINDOW_H)
         except ValueError as exc:
             out["error"] = str(exc)
             out["pairs"] = [_jsonable(p) for p in pairs]     # с причинами «нет цены»

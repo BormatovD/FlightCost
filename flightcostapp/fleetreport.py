@@ -138,6 +138,11 @@ class TypePlan:
         fl = res.get("fleet") or {}
         self.lease = float(self.net.get("lease_eur_month") or fl.get("lease_eur_month") or 0.0)
         self.util = float(self.net.get("util_h_month") or fl.get("util_h_month") or 0.0)
+        # Налёт из плеч сети уже снят на резервные борта (их доля — в util_shares); отчёт
+        # заводит резерв отдельной строкой бортов, поэтому делит на борт в работе.
+        sh = self.net.get("util_shares") or {}
+        if sh.get("reserve") and self.net.get("util_prov") == "derived":
+            self.util /= 1 - float(sh["reserve"])
         # Заданный в сети средний чек к минимуму; None — по потоку пары (решение 210).
         c = self.net.get("fare_conv")
         self.conv = float(c) if c not in (None, "") else None
