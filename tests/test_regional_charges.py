@@ -20,7 +20,8 @@ class RegionalCharges(unittest.TestCase):
     def test_regions_by_prefix(self):
         for icao, reg in (("EDDM", "europe"), ("GCRR", "europe"), ("HECA", "africa"), ("GMMN", "africa"),
                           ("VABB", "india"), ("VTBS", "asia_gulf"), ("ZBAA", "asia_gulf"), ("OMDB", "asia_gulf"),
-                          ("UWWW", "russia_cis"), ("KJFK", "world"), ("SBGR", "world")):
+                          ("UWWW", "russia_cis"), ("KJFK", "north_america"), ("PHNL", "north_america"),
+                          ("SBGR", "world")):
             self.assertEqual(econ.regional_charge_k(icao)[1], reg, icao)
 
     def test_file_matches_turnarounds(self):
@@ -30,11 +31,21 @@ class RegionalCharges(unittest.TestCase):
         base = doc["base_eur"]
         self.assertAlmostEqual(base, econ.APT_EST_MTOW * 78 + econ.APT_EST_PAX * 148)
         for code, r in doc["regions"].items():
+            if r.get("basis"):                       # сверен по отчётам перевозчиков, не по тарифам
+                self.assertEqual(r["n"], 0, code)
+                continue
             vals = sorted(turn[i]["eur"] for i in r["airports"])
             mid = len(vals) // 2
             med = vals[mid] if len(vals) % 2 else (vals[mid - 1] + vals[mid]) / 2
             self.assertAlmostEqual(r["k"], round(med / base, 3), places=3, msg=code)
             self.assertEqual(r["n"], len(vals))
+
+    def test_calibrated_region_says_how(self):
+        """Регион без тарифов с документом обязан назвать, по чему сверен его уровень."""
+        doc = yaml.safe_load((ROOT / "data/charges/_regional.yaml").read_text(encoding="utf-8"))
+        na = doc["regions"]["north_america"]
+        self.assertIn("JetBlue", na["basis"])
+        self.assertAlmostEqual(econ.regional_charge_k("KDEN")[0], na["k"])
 
     def test_every_airport_with_tariff_is_in_a_region(self):
         """Регионы покрывают все аэропорты с тарифом, иначе медиана считает не то."""

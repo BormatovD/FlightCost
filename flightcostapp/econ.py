@@ -982,6 +982,24 @@ def route_economics(store: Store, origin: str, destination: str, *,
         rec(G3, "Поправка расхода openap",
             "множитель к расходу во всех фазах по опубликованной эксплуатации",
             f"× {k:.2f}", k, "×", "store", why, node="v_tier", ref=ref_c)
+    # Руление по аэропортам (flightcostapp/taxi.py): измерение T-100 вместо
+    # стандартного цикла ИКАО там, где оно есть. Сумма двух концов; конец без
+    # оценки — половина стандарта. Меняются блок-время и топливо руления.
+    from . import taxi as _taxi
+    from .fuel import TAXI_MIN, TAXI_KG_PER_H
+    _t = [_taxi.lookup(store, ap["icao"], as_of) for ap in (a, b)]
+    if any(v is not None for v in _t) and fr.times.get("Руление") is not None:
+        t_new = sum(v if v is not None else TAXI_MIN / 2 for v in _t)
+        d_h = (t_new - TAXI_MIN) / 60.0
+        fr.block_h += d_h
+        fr.trip_kg += TAXI_KG_PER_H * d_h
+        fr.times["Руление"] = t_new / 60.0
+        fr.phases["Руление"] = TAXI_KG_PER_H * t_new / 60.0
+        rec(G2, "Руление", "половина руления рейса по аэропорту вылета + прилёта",
+            " + ".join(f"{ap['icao']} {v:.1f}" if v is not None else f"{ap['icao']} {TAXI_MIN / 2:.1f} (ИКАО)"
+                       for ap, v in zip((a, b), _t)) + " мин",
+            t_new, "мин", "store", "BTS T-100: колодки минус воздух, подбор по сети; "
+            f"стандарт ИКАО — {TAXI_MIN:.0f} мин", node="v_block")
     # ТОЛЬКО рейсовое. Запас возится и возвращается, в стоимость топлива
     # не входит; его вес уже удорожил рейсовое через взлётную массу.
     fuel_kg, block_h = fr.trip_kg, fr.block_h
@@ -1200,6 +1218,11 @@ def route_economics(store: Store, origin: str, destination: str, *,
         form = cfg.get("formula", "eurocontrol")
         su_z = (nm * 1.852 / 100.0) * math.sqrt(ac.mtow_t / 50.0)
         su_total += su_z
+        if cfg.get("transit_only") and ({a["country"], b["country"]} & set(cfg["transit_only"])):
+            rec(G4, f"Зона {z}", "посадка или вылет в стране зоны — сбора нет",
+                f"{nm:.0f} nm", 0.0, "EUR", "store",
+                cfg.get("note", "") + "; рейс с посадкой в стране не платит", node="v_rate")
+            continue
         if form == "none":
             rec(G4, f"Зона {z}", FORMULA_RU.get(form, cfg.get("note", form)), f"{nm:.0f} nm",
                 0.0, "EUR", "store", cfg.get("note", ""), node="v_rate")
@@ -1729,6 +1752,15 @@ def route_economics(store: Store, origin: str, destination: str, *,
     p_util, p_lease = fe.prov("monthly_hours"), fe.prov("lease_eur_month")
     p_maint = _pair("maint_eur_per_fh", "maint_eur_per_fc")
     p_crew = _pair("crew_eur_per_fh", "crew_eur_per_fc")
+    from .fleet import crew_region as _crew_region
+    _cr_code, _cr = _crew_region(a["icao"])
+    if _cr and fe.prov("crew_eur_per_fh") == "default" and fe.prov("crew_eur_per_fc") == "default":
+        fe.crew_eur_per_fh *= _cr["factor"]
+        fe.crew_eur_per_fc *= _cr["factor"]
+        rec(G6, "Уровень оплаты экипажа", "множитель региона аэропорта вылета к заготовке",
+            f"× {_cr['factor']:.2f}", _cr["factor"], "×", "default", _cr["note"], node="v_crew_rate")
+        warnings.append(f"экипаж — заготовка × {_cr['factor']:.2f} (уровень оплаты США по Form 41); "
+                        "своя ставка — ключом --set")
     _fields = ("lease_eur_month", "monthly_hours", "maint_eur_per_fh",
                "maint_eur_per_fc", "crew_eur_per_fh", "crew_eur_per_fc")
     _dflt = [f for f in _fields if fe.prov(f) == "default"]

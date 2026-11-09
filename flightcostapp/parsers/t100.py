@@ -30,7 +30,7 @@ import zipfile
 
 from ..store import Fact
 
-WHO = "parser:t100@2"
+WHO = "parser:t100@3"
 REPORTER = "T100"
 PAX_CLASSES = {"F", "L"}
 NEED = {"PASSENGERS", "SEATS", "DEPARTURES_PERFORMED", "ORIGIN", "DEST", "YEAR",
@@ -63,6 +63,10 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     to_icao = store.icao_of_iata(ctx.get("today")) if store is not None else {}
     agg: dict[tuple, list[float]] = {}
     miss: dict[str, int] = {}
+    # Руление: колодки минус воздух, по направленной паре (flightcostapp/taxi.py).
+    has_taxi = {"RAMP_TO_RAMP", "AIR_TIME"} <= cols
+    taxi_seg: dict[tuple, list[float]] = {}
+    last_month = ""
     for raw in rd:
         r = {k.strip().upper(): (v or "").strip() for k, v in raw.items() if k}
         if r["CLASS"] not in PAX_CLASSES:
@@ -76,6 +80,14 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
         if o == d:
             continue
         mon = f"{int(r['YEAR']):04d}-{int(r['MONTH']):02d}"
+        last_month = max(last_month, mon)
+        dep = _f(r["DEPARTURES_PERFORMED"])
+        if has_taxi and r["CLASS"] == "F" and dep > 0:
+            ramp, air = _f(r["RAMP_TO_RAMP"]), _f(r["AIR_TIME"])
+            if ramp > air > 0:
+                ts = taxi_seg.setdefault((o, d), [0.0, 0.0])
+                ts[0] += dep
+                ts[1] += ramp - air
         a, b = sorted((o, d))
         s = agg.setdefault((a, b, mon), [0.0, 0.0, 0.0])
         s[0] += _f(r["PASSENGERS"])
@@ -88,6 +100,16 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     facts = pack({(REPORTER, a, b, m): v for (a, b, m), v in agg.items() if v[0]},
                  ctx=ctx, who=WHO,
                  note="BTS T-100 Segment: все перевозчики, классы F и L, оба направления")
+    if taxi_seg:
+        from ..taxi import fit
+        est = fit([(o, d, n, m / n) for (o, d), (n, m) in taxi_seg.items()])
+        common = dict(domain="taxi", valid_from=f"{last_month}-01", source_id=ctx["source_id"],
+                      artifact_sha=ctx.get("sha"), extracted_by=WHO, confidence="derived")
+        facts += [Fact(key=a, value=v, unit="min",
+                       note=f"BTS T-100: половина руления рейса через аэропорт, {n:,} рейсов "
+                            "за период выгрузки, классы F; подбор t(вылет)+t(прилёт) по сети",
+                       **common) for a, (v, n) in est.items()]
+        ctx.setdefault("summary", []).append(f"руление: оценка для {len(est)} аэропортов")
     ctx.setdefault("parsed_prefixes", []).append(REPORTER)       # store добавит «/»
     months = sorted({m for _, _, m in agg})
     ctx["summary"] = list(ctx.get("summary", []))
