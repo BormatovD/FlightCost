@@ -26,12 +26,26 @@ from __future__ import annotations
 
 from collections import defaultdict
 
+# Только аэропорты США. В T-100 есть и иностранные концы — рейсы в Европу и
+# Азию, — но по ним оценка смещена: у такого аэропорта в выборке одни
+# дальнемагистральные рейсы в США, широкофюзеляжные и с удалёнными
+# стоянками. 09.11.2026 это дало Франкфурту 19 и Барселоне 18 минут на конец
+# вместо ~10 по EUROCONTROL — блок-время FRA–BCN выросло на 9 %, а с ним
+# экипаж, ТОиР и владение. Иностранные концы участвуют в подборе (иначе их
+# руление легло бы на американский конец), но оценки по ним не выдаются.
+US_PREFIXES = ("K", "PA", "PH", "PG", "TJ", "TI")
+
+
+def is_us(icao: str) -> bool:
+    return bool(icao) and icao.upper().startswith(US_PREFIXES)
+
+
 MIN_DEPARTURES = 300       # рейсов в год через аэропорт, чтобы оценка не шумела
 ITERATIONS = 200
 CLAMP = (2.0, 25.0)        # половина оборота, мин: вне — ошибка данных, а не аэропорт
 
 
-def fit(segments, min_departures: int = MIN_DEPARTURES) -> dict[str, tuple[float, int]]:
+def fit(segments, min_departures: int = MIN_DEPARTURES, us_only: bool = True) -> dict[str, tuple[float, int]]:
     """segments: (вылет, прилёт, рейсов, руление на рейс в минутах).
 
     Возвращает {аэропорт: (половина оборота, мин; рейсов)}. Подбор —
@@ -56,9 +70,12 @@ def fit(segments, min_departures: int = MIN_DEPARTURES) -> dict[str, tuple[float
             den[d] += n
         # Полшага: чистый Якоби на сумме двух неизвестных колеблется.
         t = {a: min(max(0.5 * t[a] + 0.5 * num[a] / den[a], CLAMP[0]), CLAMP[1]) for a in deps}
-    return {a: (round(v, 2), int(deps[a])) for a, v in t.items() if deps[a] >= min_departures}
+    return {a: (round(v, 2), int(deps[a])) for a, v in t.items()
+            if deps[a] >= min_departures and (not us_only or is_us(a))}
 
 
 def lookup(store, icao: str, as_of=None) -> float | None:
+    if not is_us(icao):
+        return None          # оценки вне США смещены (см. US_PREFIXES); стандарт ИКАО
     v = store.value("taxi", icao.upper(), as_of) if store is not None else None
     return float(v) if v else None

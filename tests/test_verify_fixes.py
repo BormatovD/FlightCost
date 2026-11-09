@@ -14,14 +14,14 @@ class Taxi(unittest.TestCase):
     def test_fit_recovers_airports(self):
         segs = [("A", "B", 100, 20), ("B", "A", 100, 20), ("A", "C", 100, 30), ("C", "A", 100, 30),
                 ("B", "C", 100, 26)]
-        est = taxi.fit(segs, min_departures=0)
+        est = taxi.fit(segs, min_departures=0, us_only=False)
         self.assertAlmostEqual(est["A"][0], 12.0, places=1)
         self.assertAlmostEqual(est["B"][0], 8.0, places=1)
         self.assertAlmostEqual(est["C"][0], 18.0, places=1)
 
     def test_thin_airport_and_bad_rows_left_out(self):
         segs = [("A", "B", 1000, 20), ("B", "A", 1000, 20), ("A", "X", 10, 30), ("A", "B", 50, 400)]
-        est = taxi.fit(segs)
+        est = taxi.fit(segs, us_only=False)
         self.assertNotIn("X", est)
         self.assertAlmostEqual(est["A"][0] + est["B"][0], 20.0, places=1)
 
@@ -42,6 +42,22 @@ class T100Taxi(unittest.TestCase):
         tx = {f.key: f.value for f in facts if f.domain == "taxi"}
         self.assertAlmostEqual(tx["KAAA"], 12.0, places=1)
         self.assertAlmostEqual(tx["KCCC"], 18.0, places=1)
+
+
+class TaxiForeign(unittest.TestCase):
+    def test_foreign_end_fitted_but_not_emitted(self):
+        segs = [("KJFK", "EDDF", 500, 40), ("EDDF", "KJFK", 500, 40), ("KJFK", "KBOS", 2000, 30),
+                ("KBOS", "KJFK", 2000, 30), ("KBOS", "KDCA", 2000, 22), ("KDCA", "KBOS", 2000, 22)]
+        est = taxi.fit(segs, min_departures=0)
+        self.assertNotIn("EDDF", est)
+        self.assertIn("KJFK", est)
+
+    def test_lookup_ignores_foreign_even_if_stored(self):
+        class S:
+            def value(self, *a):
+                return 19.2
+        self.assertIsNone(taxi.lookup(S(), "EDDF"))
+        self.assertEqual(taxi.lookup(S(), "KDEN"), 19.2)
 
 
 class Crew(unittest.TestCase):
