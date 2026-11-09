@@ -1,0 +1,13 @@
+# Ночные ограничения аэропортов (план network-calc, шаг 4): раз в неделю, до
+# FCA_AGENT_NIGHT_PER_RUN аэропортов с заведённым тарифом — сначала незаведённые,
+# потом проверенные больше года назад. Приёмка дома: fca master drafts --accept-night.
+[Unit]
+Description=FlightCostApp — агент: ночные ограничения аэропортов
+
+[Timer]
+OnCalendar=Tue *-*-* 07:50:00 UTC
+Persistent=true
+Unit=fca-agent@night.service
+
+[Install]
+WantedBy=timers.target

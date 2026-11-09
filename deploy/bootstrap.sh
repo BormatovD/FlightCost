@@ -334,7 +334,7 @@ fi
 say "агент обновления данных (OpenClaw)"
 install -m 644 "$ROOT/app/deploy/fca-agent@.service" "$ROOT/app/deploy/fca-agent-submissions.timer" \
 	"$ROOT/app/deploy/fca-agent-charges.timer" "$ROOT/app/deploy/fca-agent-watch.timer" \
-	"$ROOT/app/deploy/fca-agent-fuel.timer" /etc/systemd/system/
+	"$ROOT/app/deploy/fca-agent-fuel.timer" "$ROOT/app/deploy/fca-agent-night.timer" /etc/systemd/system/
 # Свои внешние адреса сервера — тоже под запретом для агента: на них
 # слушают игра и порты Docker. Адреса машины, поэтому не в репозитории.
 install -d /etc/systemd/system/fca-agent@.service.d
@@ -345,6 +345,7 @@ if [ -s /etc/fca/anthropic.key ]; then
 	systemctl enable --now --quiet fca-agent-charges.timer
 	systemctl enable --now --quiet fca-agent-watch.timer
 	systemctl enable --now --quiet fca-agent-fuel.timer
+	systemctl enable --now --quiet fca-agent-night.timer
 	echo "таймеры агента включены"
 else
 	echo "агент НЕ включён: нет ключа /etc/fca/anthropic.key — deploy/README.md, «Бот и агент»"

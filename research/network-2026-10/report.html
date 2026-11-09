@@ -280,7 +280,7 @@ border-radius:8px;padding:12px 14px;line-height:1.8}</style><style>.formula{font
 .calcrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0;margin:-2px 0 16px;font-size:13px;color:var(--dim)}
 li .calc{font-size:11px;padding:0 7px;margin-right:6px;vertical-align:1px}
 .legend-calc{font-size:12.5px;color:var(--dim);margin:6px 0 10px}
-</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Уже в расчёте</span><span>В расчёте сети: налёт по типу сети и окну базы вместо 300 ч (коэффициенты — по Form 41 T-2), экипажи от годовых часов, резерв и тяжёлое ТО явными долями; ночные запреты аэропортов — в очереди.</span></div><div class="curbar"><span>Валюта:</span><button type="button" data-cur="" class="on">как в источнике</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ЕЦБ (USD, CNY, INR) и ЦБ РФ (RUB), справочные курсы; на сайте — актуальный курс, как у калькулятора">курс на 2026-10-29, на сайте — актуальный</span></div>
+</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Уже в расчёте</span><span>В расчёте сети: налёт по типу сети и окну базы вместо 300 ч (коэффициенты — по Form 41 T-2), экипажи от годовых часов, резерв и тяжёлое ТО явными долями; ночные запреты аэропортов — из справочника, его пополняет агент.</span></div><div class="curbar"><span>Валюта:</span><button type="button" data-cur="" class="on">как в источнике</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ЕЦБ (USD, CNY, INR) и ЦБ РФ (RUB), справочные курсы; на сайте — актуальный курс, как у калькулятора">курс на 2026-10-29, на сайте — актуальный</span></div>
 <div class="verdict">
 <div><b>8–13 ч в сутки</b><span>столько в среднем за год летает борт у крупных перевозчиков по отчётности 2024–2025
 годов<sup class=cite><a href="#src1">1</a>,<a href="#src2">2</a>,<a href="#src3">3</a></sup></span></div>
@@ -605,8 +605,9 @@ Frontier и Southwest в подбор не входили; на них моде�
 <li><span class="calc" style="color:var(--green)">✓ Уже в расчёте</span><b>Экипажи от годовых часов.</b> Число экипажей на самолёт = часы самолёта ÷ налёт пилота (по
 умолчанию 750 часов, диапазон 500–900); если пиковый день борта не закрывается одной сменой EASA — предупреждение,
 сколько смен нужно в день. Стоимость экипажа за блок-час от этого не меняется.</li>
-<li><span class="calc" style="color:var(--sky)">⚑ Учесть при вводе</span><b>Окно базы</b> — поле в режиме «Сеть», по умолчанию 18 часов. <span class="calc" style="color:var(--dim)">◷ В очереди на расчёт</span>Ночные ограничения
-конкретных аэропортов — в справочник, их соберёт агент.</li>
+<li><span class="calc" style="color:var(--sky)">⚑ Учесть при вводе</span><b>Окно базы</b> — поле в режиме «Сеть», по умолчанию 18 часов. <span class="calc" style="color:var(--green)">✓ Уже в расчёте</span>Ночной запрет базы
+из справочника аэропортов сужает окно (шире 18 часов — только вручную: под 18 откалиброван годовой коэффициент); квоты
+и запреты в других аэропортах сети — предупреждением. Справочник пополняет агент, по восемь аэропортов в неделю.</li>
 <li><span class="calc" style="color:var(--green)">✓ Уже в расчёте</span><b>Резерв и плановое ТО — явными долями</b> внутри годового коэффициента: резерв 3 %, тяжёлое ТО 3 %
 (допущения: открытых данных по перевозчикам нет), остальное — зима и задержки. В отчёте по парку резерв — отдельной
 строкой бортов, и налёт там считается на борт в работе, без двойного счёта.</li></ol></section><section><h2>Как проверялось</h2>

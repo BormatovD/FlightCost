@@ -337,6 +337,12 @@ cd /srv/fca/app && FCA_TEST_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/opencla
 цитатой, скачок к прошлой точке и k к USGC; `--accept-fuel` дописывает
 чистые и просмотренные точки в `data/fuel/`, дальше — commit и deploy.
 
+Ночные ограничения (`fca-agent-night.timer`, по вторникам): до
+`FCA_AGENT_NIGHT_PER_RUN` (8) аэропортов с заведённым тарифом за прогон —
+запрет, квота или только ночная надбавка и часы по местному времени, с
+цитатой. Дома `fca master drafts` сверяет часы с цитатой; `--accept-night`
+пишет в `data/airports/_night.yaml`. В режиме «Сеть» запрет базы сужает окно.
+
 Расходы: `/srv/fca/agent/ledger.jsonl` (строка на прогон, `cost_usd` из ответа
 OpenClaw). Модель по заданиям — `JOBS` в `agent_run.py`; Opus — только
 разовым прогоном с `--model`, когда дешёвая не справилась.

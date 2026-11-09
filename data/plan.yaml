@@ -36,25 +36,25 @@ items:
     link: /ru/research/verify-2026-11
 
   - id: network-calc
-    status: now
-    order: 1
+    status: done
     area: calc
     title:
       ru: "Расчёт сети по исследованиям: налёт по типу сети вместо 300 ч, экипажи от годовых часов, резерв и плановое ТО явными долями"
       en: "Network calculation from the research: utilisation by network type instead of 300 h, crews from annual hours, reserve and scheduled maintenance as explicit shares"
       de: "Netzberechnung nach den Recherchen: Auslastung nach Netztyp statt 300 h, Crews aus Jahresstunden, Reserve und planmäßige Wartung als eigene Anteile"
     note:
-      ru: "Сделано 09.11.2026: налёт из плеч сети по окну базы × годовой коэффициент типа сети (по Form 41 T-2: челнок 0,81, хаб 0,74, лоукост 0,52), экипажи от годовых часов и проверка смен, резерв и тяжёлое ТО долями. Осталось: ночные ограничения аэропортов в справочник — их соберёт агент."
-      en: "Done 9 Nov 2026: utilisation from the network's sectors within the base window × the annual factor of the network type (from Form 41 T-2: shuttle 0.81, hub 0.74, low-cost 0.52), crews from annual hours with a duty check, reserve and heavy maintenance as shares. Left: airport night restrictions in the reference data — an agent will collect them."
-      de: "Erledigt am 09.11.2026: Auslastung aus den Strecken im Basisfenster × Jahresfaktor des Netztyps (nach Form 41 T-2: Pendel 0,81, Hub 0,74, Low-Cost 0,52), Crews aus Jahresstunden mit Dienstprüfung, Reserve und schwere Wartung als Anteile. Offen: Nachtbeschränkungen der Flughäfen in die Stammdaten — ein Agent sammelt sie."
+      ru: "Сделано 09.11.2026: налёт из плеч сети по окну базы × годовой коэффициент типа сети (по Form 41 T-2: челнок 0,81, хаб 0,74, лоукост 0,52), экипажи от годовых часов и проверка смен, резерв и тяжёлое ТО долями. Ночные ограничения аэропортов — справочник, его по вторникам пополняет агент; запрет базы сужает окно."
+      en: "Done 9 Nov 2026: utilisation from the network's sectors within the base window × the annual factor of the network type (from Form 41 T-2: shuttle 0.81, hub 0.74, low-cost 0.52), crews from annual hours with a duty check, reserve and heavy maintenance as shares. Airport night restrictions — a reference file an agent extends every Tuesday; a ban at the base narrows the window."
+      de: "Erledigt am 09.11.2026: Auslastung aus den Strecken im Basisfenster × Jahresfaktor des Netztyps (nach Form 41 T-2: Pendel 0,81, Hub 0,74, Low-Cost 0,52), Crews aus Jahresstunden mit Dienstprüfung, Reserve und schwere Wartung als Anteile. Nachtbeschränkungen der Flughäfen — Stammdaten, die ein Agent jeden Dienstag ergänzt; ein Verbot an der Basis verengt das Fenster."
     by: owner
     via: owner
     added: 2026-11-09
+    done: 2026-11-10
     link: /ru/research/network-2026-10
 
   - id: toir-calc
-    status: next
-    order: 3
+    status: now
+    order: 1
     area: calc
     title:
       ru: "ТОиР по возрасту борта и рост ставок во времени; новые типы — расчёт «снизу» с поправкой факт/каталог"

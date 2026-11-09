@@ -1197,7 +1197,7 @@ class Context:
                            alpha=float(q["alpha"]) if q.get("alpha") else ALPHA,
                            net_kind=q.get("net_kind") if q.get("net_kind") in netutil.ANNUAL else None,
                            window_h=min(max(float(q["window_h"]), 6.0), 24.0) if q.get("window_h")
-                           else netutil.WINDOW_H)
+                           else None, base=base)
         except ValueError as exc:
             out["error"] = str(exc)
             out["pairs"] = [_jsonable(p) for p in pairs]     # с причинами «нет цены»

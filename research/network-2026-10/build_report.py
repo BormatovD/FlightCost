@@ -908,8 +908,9 @@ Frontier и Southwest в подбор не входили; на них моде�
 <li>{mark('in_calc')}<b>Экипажи от годовых часов.</b> Число экипажей на самолёт = часы самолёта ÷ налёт пилота (по
 умолчанию 750 часов, диапазон 500–900); если пиковый день борта не закрывается одной сменой EASA — предупреждение,
 сколько смен нужно в день. Стоимость экипажа за блок-час от этого не меняется.</li>
-<li>{mark('on_input')}<b>Окно базы</b> — поле в режиме «Сеть», по умолчанию 18 часов. {mark('planned')}Ночные ограничения
-конкретных аэропортов — в справочник, их соберёт агент.</li>
+<li>{mark('on_input')}<b>Окно базы</b> — поле в режиме «Сеть», по умолчанию 18 часов. {mark('in_calc')}Ночной запрет базы
+из справочника аэропортов сужает окно (шире 18 часов — только вручную: под 18 откалиброван годовой коэффициент); квоты
+и запреты в других аэропортах сети — предупреждением. Справочник пополняет агент, по восемь аэропортов в неделю.</li>
 <li>{mark('in_calc')}<b>Резерв и плановое ТО — явными долями</b> внутри годового коэффициента: резерв 3 %, тяжёлое ТО 3 %
 (допущения: открытых данных по перевозчикам нет), остальное — зима и задержки. В отчёте по парку резерв — отдельной
 строкой бортов, и налёт там считается на борт в работе, без двойного счёта.</li></ol></section>""",
@@ -926,8 +927,10 @@ them the model is off by 4–10 %. US regional carriers are not used: their airc
 <li>{mark('in_calc')}<b>Crews from annual hours.</b> Crews per aircraft = aircraft hours ÷ pilot flight hours (750 hours by
 default, range 500–900); if the aircraft's peak day does not fit one EASA duty, a warning says how many duties a day are
 needed. The crew cost per block hour does not change.</li>
-<li>{mark('on_input')}<b>Base window</b> — a field in the “Network” mode, 18 hours by default. {mark('planned')}Night
-restrictions of specific airports go into the reference data; an agent will collect them.</li>
+<li>{mark('on_input')}<b>Base window</b> — a field in the “Network” mode, 18 hours by default. {mark('in_calc')}A night ban at
+the base, from the airport reference data, narrows the window (wider than 18 hours only by hand: the annual factor is
+calibrated at 18); quotas and bans at other airports of the network come as a warning. An agent fills the reference data,
+eight airports a week.</li>
 <li>{mark('in_calc')}<b>Reserve and scheduled maintenance as explicit shares</b> within the annual factor: reserve 3 %, heavy
 maintenance 3 % (assumptions: there is no open per-carrier data), the rest is winter and delays. In the fleet report the
 reserve is a separate line of aircraft, and utilisation there is per aircraft in service, with no double counting.</li></ol></section>""",
@@ -944,8 +947,10 @@ Modell 4–10 % daneben. US-Regionalairlines sind nicht verwendet: Ihre Flugzeug
 <li>{mark('in_calc')}<b>Crews aus Jahresstunden.</b> Crews je Flugzeug = Flugzeugstunden ÷ Flugstunden je Pilot (Standard
 750 Stunden, Spanne 500–900); passt der Spitzentag nicht in einen EASA-Dienst, sagt eine Warnung, wie viele Dienste am Tag
 nötig sind. Die Crewkosten je Blockstunde ändern sich dadurch nicht.</li>
-<li>{mark('on_input')}<b>Basisfenster</b> — ein Feld im Modus „Netz“, Standard 18 Stunden. {mark('planned')}Nachtbeschränkungen
-einzelner Flughäfen kommen in die Flughafendaten; ein Agent sammelt sie.</li>
+<li>{mark('on_input')}<b>Basisfenster</b> — ein Feld im Modus „Netz“, Standard 18 Stunden. {mark('in_calc')}Ein Nachtverbot
+an der Basis aus den Flughafendaten verengt das Fenster (breiter als 18 Stunden nur von Hand: Der Jahresfaktor ist auf 18
+kalibriert); Quoten und Verbote an anderen Flughäfen des Netzes kommen als Warnung. Ein Agent füllt die Daten, acht
+Flughäfen pro Woche.</li>
 <li>{mark('in_calc')}<b>Reserve und planmäßige Wartung als ausdrückliche Anteile</b> im Jahresfaktor: Reserve 3 %, schwere
 Wartung 3 % (Annahmen: offene Daten je Airline gibt es nicht), der Rest sind Winter und Verspätungen. Im Flottenbericht ist
 die Reserve eine eigene Zeile Flugzeuge, und die Auslastung gilt dort je Flugzeug im Einsatz, ohne Doppelzählung.</li>

@@ -280,7 +280,7 @@ parts and the price of a tight schedule</p>
 .calcrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 0;margin:-2px 0 16px;font-size:13px;color:var(--dim)}
 li .calc{font-size:11px;padding:0 7px;margin-right:6px;vertical-align:1px}
 .legend-calc{font-size:12.5px;color:var(--dim);margin:6px 0 10px}
-</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><span>In the network calculation: utilisation by network type and base window instead of 300 h (factors from Form 41 T-2), crews from annual hours, reserve and heavy maintenance as explicit shares; airport night bans are queued.</span></div><div class="curbar"><span>Currency:</span><button type="button" data-cur="" class="on">as in the source</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ECB (USD, CNY, INR) and Bank of Russia (RUB) reference rates; the website uses the live rate, like the calculator">rate as of 2026-10-29, live on the website</span></div>
+</style><div class="calcrow"><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><span>In the network calculation: utilisation by network type and base window instead of 300 h (factors from Form 41 T-2), crews from annual hours, reserve and heavy maintenance as explicit shares; airport night bans from the reference data, filled by an agent.</span></div><div class="curbar"><span>Currency:</span><button type="button" data-cur="" class="on">as in the source</button><button type="button" data-cur="EUR">EUR</button><button type="button" data-cur="USD">USD</button><button type="button" data-cur="RUB">RUB</button><button type="button" data-cur="INR">INR</button><button type="button" data-cur="CNY">CNY</button><span class="curnote" title="ECB (USD, CNY, INR) and Bank of Russia (RUB) reference rates; the website uses the live rate, like the calculator">rate as of 2026-10-29, live on the website</span></div>
 <div class="verdict">
 <div><b>8–13 h a day</b><span>is how much an aircraft flies on average over a year at major carriers, per their 2024–2025
 reports<sup class=cite><a href="#src1">1</a>,<a href="#src2">2</a>,<a href="#src3">3</a></sup></span></div>
@@ -616,8 +616,10 @@ them the model is off by 4–10 %. US regional carriers are not used: their airc
 <li><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><b>Crews from annual hours.</b> Crews per aircraft = aircraft hours ÷ pilot flight hours (750 hours by
 default, range 500–900); if the aircraft's peak day does not fit one EASA duty, a warning says how many duties a day are
 needed. The crew cost per block hour does not change.</li>
-<li><span class="calc" style="color:var(--sky)">⚑ Mind when entering data</span><b>Base window</b> — a field in the “Network” mode, 18 hours by default. <span class="calc" style="color:var(--dim)">◷ Queued for the calculator</span>Night
-restrictions of specific airports go into the reference data; an agent will collect them.</li>
+<li><span class="calc" style="color:var(--sky)">⚑ Mind when entering data</span><b>Base window</b> — a field in the “Network” mode, 18 hours by default. <span class="calc" style="color:var(--green)">✓ Built into the calculator</span>A night ban at
+the base, from the airport reference data, narrows the window (wider than 18 hours only by hand: the annual factor is
+calibrated at 18); quotas and bans at other airports of the network come as a warning. An agent fills the reference data,
+eight airports a week.</li>
 <li><span class="calc" style="color:var(--green)">✓ Built into the calculator</span><b>Reserve and scheduled maintenance as explicit shares</b> within the annual factor: reserve 3 %, heavy
 maintenance 3 % (assumptions: there is no open per-carrier data), the rest is winter and delays. In the fleet report the
 reserve is a separate line of aircraft, and utilisation there is per aircraft in service, with no double counting.</li></ol></section><section><h2>How it was checked</h2>

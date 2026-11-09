@@ -59,6 +59,7 @@ JOBS = {
     "charges": {"model": "anthropic/claude-sonnet-5-5", "timeout": 1500},
     "watch": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
     "fuel": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
+    "night": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
 }
 
 RULES = """# Общие правила (для любого задания)
@@ -120,6 +121,7 @@ CHARGES_PER_RUN = int(os.environ.get("FCA_AGENT_CHARGES_PER_RUN", "3"))
 # каждый — не чаще раза в WATCH_DAYS.
 WATCH_PER_RUN = int(os.environ.get("FCA_AGENT_WATCH_PER_RUN", "8"))
 WATCH_DAYS = 28
+NIGHT_PER_RUN = int(os.environ.get("FCA_AGENT_NIGHT_PER_RUN", "8"))
 
 
 def region_of(icao: str, regions: dict) -> str | None:
@@ -236,6 +238,30 @@ FUEL_TASK = """# Задание: новые месяцы открытых ряд
 Месяц ещё не опубликован или не нашёлся — `"value": null`. Значение за другой месяц (например, прошлый,
 упомянутый для сравнения) под этим месяцем не записывай. Число пиши точкой как десятичным разделителем,
 без разрядов: 126263, 3.86, 27639.95.
+"""
+
+
+NIGHT_TASK = """# Задание: ночные ограничения аэропортов
+
+Для каждого аэропорта ниже найди, есть ли ночной запрет полётов, квота (бюджет шума, лимит ночных
+рейсов) или только ночная надбавка к сборам — и в какие часы по местному времени. Поиска у тебя нет —
+только web_fetch: начни с адреса тарифа (там часто сказано, с какого по какой час действует ночная
+надбавка) и сайта аэропорта (разделы noise, night flights, Lärmschutz, Nachtflug, шум); годится и
+сборник аэронавигационной информации (AIP, раздел AD 2.20/2.21) или постановление властей.
+
+{items}
+
+Запиши `out/night.json`:
+{{"airports": [{{"icao": "ИКАО", "kind": "ban" | "quota" | "surcharge" | "none" | null,
+                "from": "ЧЧ:ММ" или null, "to": "ЧЧ:ММ" или null,
+                "quote": "дословная строка до 300 знаков, где видны часы",
+                "where": "адрес страницы"}}],
+ "doubts": ["что смутило"]}}
+
+ban — запрещены взлёты и посадки (исключения для задержанных и экстренных — всё равно ban). quota —
+ночью летать можно, но по квоте или бюджету шума. surcharge — ограничений нет, есть только надбавка
+к сборам за ночь. none — прямо сказано, что аэропорт круглосуточный без ограничений. Не нашёл —
+"kind": null. Часы — в 24-часовом формате, как в документе: «23:00–06:00» → from "23:00", to "06:00".
 """
 
 
@@ -693,6 +719,44 @@ class Runner:
                  "info" if got else "warn", attach=str(dst))
         return len(got)
 
+    def night(self, model: str | None = None, per_run: int | None = None, today=None) -> int:
+        """Ночные ограничения аэропортов с заведённым тарифом (план network-calc, шаг 4).
+
+        Раз в неделю, до NIGHT_PER_RUN аэропортов: сначала незаведённые, потом проверенные
+        больше года назад. Черновик — владельцу и в master/export/drafts; приёмка дома:
+        fca master drafts --accept-night."""
+        from . import night as NG
+        want = NG.due(ROOT / "data" / "charges", NG.load(), today, per_run or NIGHT_PER_RUN)
+        if not want or not self.budget_ok("night"):
+            return 0
+        items = "\n".join(f"- {w['icao']} — издатель тарифа: {w['publisher']}; тариф: {w['url'] or 'адрес не записан'}"
+                          for w in want)
+        ws = self.workspace("night", f"{_now():%Y%m%d}")
+        try:
+            res = self.exec("night", ws, NIGHT_TASK.format(items=items), model)
+        except Exception as e:                                     # noqa: BLE001
+            self.say(f"Агент «ночь»: не запущен: {e}", "alert")
+            return 0
+        try:
+            d = json.loads((ws / "out" / "night.json").read_text("utf-8"))
+        except (OSError, ValueError):
+            self.say(f"Агент «ночь»: файла нет или не JSON — {res.get('status')}: "
+                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}", "warn")
+            return 0
+        got = [p for p in d.get("airports") or [] if p.get("kind")]
+        self.out.mkdir(parents=True, exist_ok=True)
+        dst = self.out / f"night-{_now():%Y-%m-%d}.json"
+        dst.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
+        os.chmod(dst, 0o640)
+        cost = res.get("costUsd")
+        self.say(f"Ночные ограничения — черновик агента: {len(got)} из {len(want)}.\n"
+                 + "\n".join(f"{p.get('icao')}: {p.get('kind')} {p.get('from') or ''}–{p.get('to') or ''}"
+                              for p in got)
+                 + (f"\nстоимость {cost:.2f} USD" if cost else "")
+                 + "\nДома: fca master drafts — сверит часы с цитатой; принять — --accept-night.",
+                 "info" if got else "warn", attach=str(dst))
+        return len(got)
+
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:
         """До `per_run` аэропортов за прогон; останавливается, когда кандидаты
         кончились, кончился бюджет или ключ не принят."""
@@ -886,6 +950,8 @@ def main(argv=None) -> int:
         r.watch(a.model)
     elif a.job == "fuel":
         print(f"значений: {r.fuel(a.model)}")
+    elif a.job == "night":
+        print(f"аэропортов: {r.night(a.model)}")
     else:
         r.charges(a.model, a.only)
     return 0

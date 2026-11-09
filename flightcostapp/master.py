@@ -535,6 +535,36 @@ def _fuel_drafts(a, st, seen: set) -> int:
     return len(files)
 
 
+def _night_drafts(a, seen: set) -> int:
+    """Черновики ночных ограничений: проверка, по --accept-night — в data/airports/_night.yaml."""
+    from . import night as NG
+    files = [f for f in sorted(DRAFTS_INBOX.glob("night-*.json")) if f.name not in seen]
+    mark = {"clean": "ЧИСТЫЙ", "look": "СМОТРЕТЬ", "reject": "ОТВЕРГНУТ", "skip": "НЕТ"}
+    for f in files:
+        r = NG.check(f.read_bytes())
+        print(f"\n{f.name}" + (f": {r['error']}" if r.get("error") else ""))
+        for x in r["rows"]:
+            print(f"{mark[x['verdict']]:9} {x['icao']:5} {x['kind'] or '—':9} {x['from'] or ''}–{x['to'] or ''}"
+                  f"  {x.get('where') or ''}")
+            if x.get("quote"):
+                print(f"          « {str(x['quote'])[:160]} »")
+            for why in x["reasons"]:
+                print(f"          · {why}")
+        for x in r.get("doubts", [])[:5]:
+            print(f"          ? {x[:200]}")
+        if not a.accept_night:
+            continue
+        for line in NG.merge([x for x in r["rows"] if x["verdict"] in ("clean", "look")]):
+            print(f"принято: {line}")
+        with open(DRAFTS_INBOX / ".accepted", "a", encoding="utf-8") as fh:
+            fh.write(f.name + "\n")
+        f.unlink()
+    if files:
+        print("\nпринять ночные ограничения (чистые и «смотреть» после просмотра): fca master drafts --accept-night"
+              if not a.accept_night else "\nдальше: git add data/airports && git commit, затем deploy")
+    return len(files)
+
+
 def cmd_drafts(a) -> int:
     """Черновики тарифов агента — домой, с проверкой; принятые — в data/charges/."""
     from . import drafts as D
@@ -551,7 +581,7 @@ def cmd_drafts(a) -> int:
     seen = set((DRAFTS_INBOX / ".accepted").read_text("utf-8").split()) \
         if (DRAFTS_INBOX / ".accepted").exists() else set()
     st = Store(a.db)
-    fuel_seen = _fuel_drafts(a, st, seen)
+    fuel_seen = _fuel_drafts(a, st, seen) + _night_drafts(a, seen)
     files = [f for f in sorted(DRAFTS_INBOX.glob("charges-*.json")) if f.name not in seen]
     if not files:
         print("черновиков тарифов нет" if fuel_seen else "черновиков нет")
@@ -606,6 +636,8 @@ def main(argv=None) -> int:
     dr.add_argument("--local", action="store_true", help="не скачивать, проверить то, что уже в _inbox")
     dr.add_argument("--accept-fuel", action="store_true",
                     help="дописать точки рядов топлива (кроме отвергнутых) в data/fuel/")
+    dr.add_argument("--accept-night", action="store_true",
+                    help="дописать ночные ограничения (кроме отвергнутых) в data/airports/_night.yaml")
     sub.add_parser("import", help="сервер: посев и присланное с компьютера")
     sub.add_parser("refresh", help="сервер: обновить главную базу")
     sub.add_parser("snapshot", help="сервер: снимок витрине и копия для pull")

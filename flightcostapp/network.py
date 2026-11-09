@@ -669,8 +669,8 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
              util_h_month=None, lease_eur_month=None, fare_mult=1.0,
              fare_conv=None, lf_ref=0.80, alpha=ALPHA,
              maint_fh=None, maint_fc=None, net_kind=None,
-             window_h=netutil.WINDOW_H, turn_min=netutil.TURN_MIN,
-             pilot_h=netutil.PILOT_H_YEAR) -> NetResult:
+             window_h=None, turn_min=netutil.TURN_MIN,
+             pilot_h=netutil.PILOT_H_YEAR, base=None) -> NetResult:
     if fleet_n < 1:
         raise ValueError("бортов меньше одного")
     warnings = []
@@ -707,6 +707,16 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
         raise ValueError("в сети не осталось ни одной пары с ценой и правом летать")
 
     rt_h = {p.key: sum(l.block_h for l in p.legs) for p in live}
+    # Окно базы: задано человеком — его; иначе 18 ч калибровки, суженное ночным
+    # запретом базы из справочника (night.py, шаг 4 плана network-calc).
+    from . import night as _night
+    win_note = None
+    if base and len(str(base)) != 4:      # ИАТА из командной строки: база — общий конец пар
+        from collections import Counter
+        ends = Counter(x for p in live for x in (p.a, p.b))
+        base = ends.most_common(1)[0][0] if ends else None
+    if window_h is None:
+        window_h, win_note = _night.base_window(base, netutil.WINDOW_H) if base else (netutil.WINDOW_H, None)
     if util_h_month is None:
         # Налёт из плеч сети (план network-calc): пиковый день по окну базы × годовой
         # коэффициент типа сети, откалиброванный по Form 41 T-2. Вес плеча — заданная
@@ -717,7 +727,7 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
             wl += [(l.block_h, float(f) if f else 1.0) for l in p.legs if f != 0]
         nu = netutil.network_util(wl or [(l.block_h, 1.0) for p in live for l in p.legs],
                                   net_kind, window_h, turn_min)
-        util, util_prov, util_note = nu.h_month, "derived", nu.note
+        util, util_prov, util_note = nu.h_month, "derived", nu.note + (f"; {win_note}" if win_note else "")
     # Заданные частоты закреплены; пары без своей частоты делят оставшиеся
     # часы парка поровну (решение 221). Ноль — пара выключена человеком.
     # Прежде пара без частоты при любой заданной молча выпадала из сети.
@@ -822,7 +832,12 @@ def simulate(pairs: list[Pair], *, fleet: Fleet, fleet_n: int, freq=None,
     warnings.append("третья и четвёртая свободы считаются доступными: двусторонние "
                     "соглашения о воздушном сообщении не проверяются")
     warnings.append("расписание проверено суммой часов и окном базы "
-                    f"{window_h:g} ч; ночные запреты конкретных аэропортов и ночёвки не проверяются")
+                    f"{window_h:g} ч" + (f" ({win_note})" if win_note else "")
+                    + "; время прилётов в другие аэропорты и ночёвки не проверяются")
+    far = _night.notes([x for p, _ in flown for x in (p.a, p.b) if x != base])
+    if far:
+        warnings.append("ночные ограничения в аэропортах сети — проверьте, что рейсы ложатся в дневные часы: "
+                        + "; ".join(far[:8]) + (" …" if len(far) > 8 else ""))
     duty = netutil.duty_notes([(f"{l.origin}→{l.destination}", l.block_h) for p, _ in flown
                                for l in p.legs[:1]], window_h, turn_min)
     if duty:

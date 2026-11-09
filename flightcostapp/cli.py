@@ -609,8 +609,9 @@ def main(argv=None) -> int:
                          "годовой коэффициент типа сети")
     nw.add_argument("--net-kind", choices=["shuttle", "hub", "leisure", "longhaul"], default=None,
                     help="тип сети для годового коэффициента; по умолчанию челнок, при плече от 5 ч — дальний")
-    nw.add_argument("--window", type=float, default=18.0, metavar="Ч",
-                    help="окно базы, часов (18 — с 06:00 до 24:00)")
+    nw.add_argument("--window", type=float, default=None, metavar="Ч",
+                    help="окно базы, часов; по умолчанию 18 (06:00–24:00), уже — если у базы ночной запрет "
+                         "в data/airports/_night.yaml")
     nw.add_argument("--lease", type=float, default=None, metavar="EUR/МЕС",
                     help="ставка лизинга борта")
     nw.add_argument("--month", type=int, default=None, metavar="1-12")
@@ -1439,7 +1440,7 @@ def _cmd_network(a, store) -> int:
                        util_h_month=a.util, lease_eur_month=a.lease,
                        fare_mult=a.fare_mult, fare_conv=a.fare_conv,
                        lf_ref=a.lf, alpha=a.alpha if a.alpha is not None else ALPHA,
-                       net_kind=a.net_kind, window_h=a.window)
+                       net_kind=a.net_kind, window_h=a.window, base=a.base)
     except ValueError as exc:
         print(f"не посчитать: {exc}")
         for p in pairs:
