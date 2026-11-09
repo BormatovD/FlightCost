@@ -348,8 +348,10 @@ class Excel(unittest.TestCase):
             self.assertEqual(self.vals["r.xlsx"]["Бортов всего"][t["name"]], t["plan"]["fleet"])
 
     def test_auto_conv_matches_plan(self):
-        convs = {r["conv"] for t in self.rep_auto["types"] for r in t["plan"]["pairs"]}
-        self.assertEqual(convs, {1.2, 2.0})
+        from flightcostapp.network import pair_conv
+        for t in self.rep_auto["types"]:
+            for r in t["plan"]["pairs"]:
+                self.assertEqual(r["conv"], pair_conv(r.get("market")), r.get("pair"))
         for t in self.rep_auto["types"]:
             self.assertAlmostEqual(self.vals["auto.xlsx"]["Результат за месяц"][t["name"]],
                                    t["plan"]["result"], delta=5.0)

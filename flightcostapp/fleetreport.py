@@ -41,7 +41,7 @@ from datetime import date
 
 import yaml
 
-from .network import CONV_BASE, CONV_THICK, DIST_RATE, THICK_PAX_MONTH, WEEKS_PER_MONTH, pair_conv
+from .network import DIST_RATE, WEEKS_PER_MONTH, pair_conv
 
 DATA = pathlib.Path(__file__).resolve().parents[1] / "data" / "types"
 AVAIL = DATA / "availability.yaml"

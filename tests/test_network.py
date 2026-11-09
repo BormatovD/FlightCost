@@ -277,15 +277,19 @@ class Simulation(unittest.TestCase):
         return {r.key: r.fare_conv for r in net.pairs}
 
     def test_fare_conv_by_pair_volume(self):
-        """Решение 210: без заданного числа — 1,2, на загруженной паре 2,0;
-        заданное число — всем парам одинаково."""
-        self.assertEqual(N.pair_conv(None), N.CONV_BASE)
-        self.assertEqual(N.pair_conv(N.THICK_PAX_MONTH - 1), N.CONV_BASE)
-        self.assertEqual(N.pair_conv(N.THICK_PAX_MONTH), N.CONV_THICK)
+        """Без заданного числа — плавно растёт с потоком пары (подбор по
+        билетам США, 09.11.2026); заданное число — всем парам одинаково."""
+        self.assertEqual(N.pair_conv(None), N.pair_conv(N.CONV_Q_DEFAULT))
+        self.assertEqual(N.pair_conv(10), N.pair_conv(N.CONV_Q_MIN))
+        lo, mid, hi = N.pair_conv(5_000), N.pair_conv(80_000), N.pair_conv(300_000)
+        self.assertLess(lo, mid)
+        self.assertLess(mid, hi)
+        self.assertAlmostEqual(mid, N.CONV_K * 80_000 ** N.CONV_BETA / N.CONV_CACHE_P10, places=3)
+        self.assertTrue(1.3 < lo < 1.5 and 1.85 < hi < 2.0)
         self.assertEqual(N.pair_conv(10 ** 6, 1.0), 1.0)
         net = self.sim()
         self.assertIsNone(net.fare_conv)
-        self.assertTrue(any("допущение по потоку" in w for w in net.warnings))
+        self.assertTrue(any("по потоку пары" in w for w in net.warnings))
         one = self.sim(fare_conv=1.0)
         self.assertTrue(all(r.fare_conv == 1.0 for r in one.pairs))
         self.assertGreater(net.profit_at_ref, one.profit_at_ref)

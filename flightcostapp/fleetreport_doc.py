@@ -20,7 +20,7 @@ import math
 import urllib.parse
 from pathlib import Path
 
-from .network import CONV_BASE, CONV_THICK, THICK_PAX_MONTH
+from .network import pair_conv
 
 WEB = Path(__file__).parent / "web"
 _CAT = None
@@ -843,8 +843,7 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
            D.pct(a["share"]) + (f'<small class="sub">{sl}</small>' if sl else "")),
           (T("Наша цена к рыночной"), f'× {D.n(a["price"], 2)}'),
           (T("Средний чек к минимальному"), (
-              f'<span class="guess">× {D.n(CONV_BASE, 1)}, {T("на парах от")} {D.n(THICK_PAX_MONTH / 1000)} '
-              f'{T("тыс. пасс./мес")} × {D.n(CONV_THICK, 1)} · {T("допущение")}</span>'
+              _conv_guess(D)
               if a.get("fare_conv") is None
               else f'<span class="guess">× {D.n(a["fare_conv"], 2)}</span>'
               if abs(a["fare_conv"] - 1) < 1e-9 else f'× {D.n(a["fare_conv"], 2)}')),
@@ -860,12 +859,19 @@ def _plan_section(D: Doc, rep: dict, ok: list) -> str:
     return _plan_body(D, rep, ok, head, fleet=False)
 
 
+def _conv_guess(D) -> str:
+    """Средний чек к минимуму по потоку пары — допущение, подобранное по билетам США."""
+    T = D.T
+    unit = T("тыс. пасс./мес")
+    pts = ", ".join(f"{D.n(q / 1000)} {unit} × {D.n(pair_conv(q), 2)}" for q in (5_000, 80_000, 300_000))
+    return f'<span class="guess">{T("по потоку пары")}: {pts} · {T("допущение")}</span>'
+
+
 def _plan_section_fleet(D: Doc, rep: dict, ok: list) -> str:
     T, a = D.T, rep["assume"]
     kv = _inputs_kv(D, rep, ok)
     kv.insert(len(kv) - 1, (T("Средний чек к минимальному"), (
-        f'<span class="guess">× {D.n(CONV_BASE, 1)}, {T("на парах от")} {D.n(THICK_PAX_MONTH / 1000)} '
-        f'{T("тыс. пасс./мес")} × {D.n(CONV_THICK, 1)} · {T("допущение")}</span>'
+        _conv_guess(D)
         if a.get("fare_conv") is None else f'× {D.n(a["fare_conv"], 2)}')))
     sv = share_volume(rep)
     sh = (f' {T("Это")} {D.pct(sv["planned"] / sv["market"], 1)} {T("нынешнего потока пар")}'
