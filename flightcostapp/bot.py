@@ -791,12 +791,12 @@ DRAFTS = Path(os.environ.get("FCA_DRAFTS_DIR", "/srv/fca/master/export/drafts"))
 
 
 def stash_draft(name: str, data: bytes, drafts: Path | None = None) -> bool:
-    """Черновик тарифа агента — ещё и туда, откуда его заберёт домой
+    """Черновик агента (тариф или ряд топлива) — ещё и туда, откуда его заберёт домой
     `fca master drafts` (решение владельца 09.11.2026). Каталог принадлежит
     боту и читается группой fcaxfer — той же, через которую дом забирает
     главную базу; агенту туда писать нельзя, поэтому копирует бот."""
     drafts = DRAFTS if drafts is None else drafts
-    if not (name.startswith("charges-") and name.endswith(".json")) or "/" in name:
+    if not (name.startswith(("charges-", "fuel-")) and name.endswith(".json")) or "/" in name:
         return False
     try:
         drafts.mkdir(parents=True, exist_ok=True)

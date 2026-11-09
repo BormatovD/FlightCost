@@ -58,6 +58,7 @@ JOBS = {
     "submissions": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
     "charges": {"model": "anthropic/claude-sonnet-5-5", "timeout": 1500},
     "watch": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
+    "fuel": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
 }
 
 RULES = """# Общие правила (для любого задания)
@@ -215,6 +216,26 @@ WATCH_TASK = """# Задание: есть ли новая редакция та
 
 `newer: null` — страницу открыть не удалось или по ней нельзя понять. Даты в тексте нет — не
 угадывай: `false` или `null`.
+"""
+
+
+FUEL_TASK = """# Задание: новые месяцы открытых рядов цены топлива
+
+Нужны значения за месяцы ниже. Для каждого ряда — где искать и что именно взять. Ничего не
+пересчитывай: нужно число, как оно напечатано, и дословная цитата, где оно стоит. Поиска у тебя нет —
+только web_fetch: начинай со страницы «Где», иди по ссылкам с неё; не открылась — запиши это в `doubts`.
+
+{items}
+
+Запиши `out/fuel.json`:
+{{"points": [{{"series": "<код ряда>", "month": "ГГГГ-ММ", "value": число или null,
+              "quote": "дословная строка до 300 знаков с этим числом", "where": "адрес страницы"}}],
+ "damper": [{{"month": "ГГГГ-ММ", "value": число руб/т или null, "quote": "…", "where": "…"}}],
+ "doubts": ["что смутило"]}}
+
+Месяц ещё не опубликован или не нашёлся — `"value": null`. Значение за другой месяц (например, прошлый,
+упомянутый для сравнения) под этим месяцем не записывай. Число пиши точкой как десятичным разделителем,
+без разрядов: 126263, 3.86, 27639.95.
 """
 
 
@@ -623,6 +644,55 @@ class Runner:
                      "info" if not failed else "warn")
         return len(found)
 
+    def fuel(self, model: str | None = None, today=None) -> int:
+        """Новые месяцы открытых рядов цены топлива и демпфера (план fuel-regions).
+
+        Раз в месяц: что пора собрать — по последним точкам в data/fuel/; агент
+        ищет, программа проверяет форму, черновик уходит владельцу и в
+        master/export/drafts. Приёмка дома: fca master drafts --accept-fuel."""
+        from . import fuel_series as FS
+        sdoc, ddoc = FS.load(FS.SERIES_PATH), FS.load(FS.DAMPER_PATH)
+        want = FS.due(sdoc, ddoc, today)
+        if not want["points"] and not want["damper"]:
+            return 0
+        if not self.budget_ok("fuel"):
+            return 0
+        lines = []
+        for sid in dict.fromkeys(s for s, _ in want["points"]):
+            ser = sdoc["series"][sid]
+            ms = ", ".join(m for s, m in want["points"] if s == sid)
+            lines.append(f"## Ряд `{sid}` — {ser.get('name')}\nМесяцы: {ms}. Единица: {ser.get('unit')}.\n"
+                         f"Где: {ser.get('home')}\nЧто взять: {ser.get('find')}\n")
+        if want["damper"]:
+            lines.append("## Демпфер для авиакеросина (Россия), руб/т\nМесяцы: " + ", ".join(want["damper"])
+                         + ".\nГде: та же ежемесячная заметка, что для ряда ru_spimex.\nЧто взять: размер демпфера "
+                           "(налогового вычета) за месяц, руб/т.\n")
+        ws = self.workspace("fuel", f"{_now():%Y%m}")
+        try:
+            res = self.exec("fuel", ws, FUEL_TASK.format(items="\n".join(lines)), model)
+        except Exception as e:                                     # noqa: BLE001
+            self.say(f"Агент «топливо»: не запущен: {e}", "alert")
+            return 0
+        src = ws / "out" / "fuel.json"
+        try:
+            d = json.loads(src.read_text("utf-8"))
+        except (OSError, ValueError):
+            self.say(f"Агент «топливо»: файла нет или не JSON — {res.get('status')}: "
+                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}", "warn")
+            return 0
+        got = [p for p in (d.get("points") or []) + (d.get("damper") or []) if p.get("value") is not None]
+        self.out.mkdir(parents=True, exist_ok=True)
+        dst = self.out / f"fuel-{_now():%Y-%m-%d}.json"
+        dst.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
+        os.chmod(dst, 0o640)
+        cost = res.get("costUsd")
+        self.say("Топливо — черновик агента: найдено значений " + str(len(got)) + ".\n"
+                 + "\n".join(f"{p.get('series', 'демпфер')} {p.get('month')}: {p.get('value')}" for p in got)
+                 + (f"\nстоимость {cost:.2f} USD" if cost else "")
+                 + "\nДома: fca master drafts — проверит цитаты, скачки и k к USGC; принять — --accept-fuel.",
+                 "info" if got else "warn", attach=str(dst))
+        return len(got)
+
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:
         """До `per_run` аэропортов за прогон; останавливается, когда кандидаты
         кончились, кончился бюджет или ключ не принят."""
@@ -814,6 +884,8 @@ def main(argv=None) -> int:
         print(f"разобрано отправок: {n}")
     elif a.job == "watch":
         r.watch(a.model)
+    elif a.job == "fuel":
+        print(f"значений: {r.fuel(a.model)}")
     else:
         r.charges(a.model, a.only)
     return 0

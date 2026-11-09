@@ -1,0 +1,14 @@
+# Открытые ряды цены топлива и демпфер (план fuel-regions, 09.11.2026): раз в
+# месяц, 8-го — к этому дню Рейтер уже посчитал демпфер прошлого месяца, BTS
+# выкладывает месячный релиз о топливе с лагом около шести недель. Черновик —
+# владельцу; приёмка дома: fca master drafts --accept-fuel.
+[Unit]
+Description=FlightCostApp — агент: ряды цены топлива
+
+[Timer]
+OnCalendar=*-*-08 07:30:00 UTC
+Persistent=true
+Unit=fca-agent@fuel.service
+
+[Install]
+WantedBy=timers.target

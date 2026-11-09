@@ -330,6 +330,13 @@ cd /srv/fca/app && FCA_TEST_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/opencla
 агента «тарифы». Таймеры ставит `bootstrap.sh` — после изменения файла
 таймера в репозитории его нужно повторить (deploy.sh таймеры не трогает).
 
+Ряды цены топлива (`fca-agent-fuel.timer`, 8-го числа): агент ищет новые
+месяцы рядов из `data/fuel/_series.yaml` (BTS — стоимость галлона у
+перевозчиков США; биржа ТС-1) и демпфер, черновик `fuel-ГГГГ-ММ-ДД.json`
+приходит так же, как тарифы. Дома `fca master drafts` сверяет число с
+цитатой, скачок к прошлой точке и k к USGC; `--accept-fuel` дописывает
+чистые и просмотренные точки в `data/fuel/`, дальше — commit и deploy.
+
 Расходы: `/srv/fca/agent/ledger.jsonl` (строка на прогон, `cost_usd` из ответа
 OpenClaw). Модель по заданиям — `JOBS` в `agent_run.py`; Opus — только
 разовым прогоном с `--model`, когда дешёвая не справилась.

@@ -37,7 +37,7 @@ items:
 
   - id: network-calc
     status: now
-    order: 2
+    order: 1
     area: calc
     title:
       ru: "Расчёт сети по исследованиям: налёт по типу сети вместо 300 ч, экипажи от годовых часов, резерв и плановое ТО явными долями"
@@ -258,20 +258,21 @@ items:
     added: 2026-11-01
 
   - id: fuel-regions
-    status: now
-    order: 1
+    status: done
     area: data
     title:
       ru: "Цена топлива по регионам — ряд вместо одной точки на регион"
       en: "Regional jet fuel prices — a series instead of one point per region"
       de: "Kerosinpreise nach Region — Zeitreihe statt eines Punkts je Region"
     note:
-      ru: "Сейчас множитель «в крыло» снят на одну дату; сдвиг регионального спота работает только у автора (данные Platts под лицензией). Нужен открытый ряд по регионам."
-      en: "The into-plane multiplier is taken at one date; the regional spot shift works only on the author's machine (licensed Platts data). An open regional series is needed."
-      de: "Der Into-Plane-Faktor stammt von einem Stichtag; die regionale Spot-Verschiebung läuft nur beim Autor (lizenzierte Platts-Daten). Gebraucht wird eine offene Regionalreihe."
+      ru: "Открытого регионального спота нет (сводка IATA — данные Platts по лицензии). Взяты официальные ряды: США — стоимость галлона у перевозчиков (BTS), Россия — биржа ТС-1 с наценкой ТЗК, без привязки к USGC; ежемесячно их пополняет агент. Европа, Ближний Восток и Азия пока на точке статьи — открытых рядов там нет."
+      en: "There is no open regional spot (IATA's monitor is licensed Platts data). Official series are used instead: US — airline cost per gallon (BTS), Russia — TS-1 exchange price plus into-plane mark-up, not tied to USGC; an agent extends them monthly. Europe, the Middle East and Asia stay on the article's point — no open series there."
+      de: "Einen offenen regionalen Spot gibt es nicht (der IATA-Monitor sind lizenzierte Platts-Daten). Verwendet werden amtliche Reihen: USA — Kosten je Gallone der Airlines (BTS), Russland — Börsenpreis TS-1 plus Betankungsaufschlag, ohne Bindung an USGC; ein Agent ergänzt sie monatlich. Europa, Naher Osten und Asien bleiben beim Punkt des Artikels — dort gibt es keine offene Reihe."
     by: owner
     via: owner
     added: 2026-10-30
+    done: 2026-11-09
+    link: /ru/research/fuel-2026-10
 
   - id: telegram-channel
     status: next

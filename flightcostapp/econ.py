@@ -203,6 +203,105 @@ def _platts_ratios() -> dict | None:
     return hit[1]
 
 
+FUEL_SERIES_PATH = Path(__file__).resolve().parents[1] / "data" / "fuel" / "_series.yaml"
+SERIES_K_BAND = (0.6, 2.5)        # вне полосы точка считается ошибкой и не берётся
+
+
+def _months_back(month: str, n: int) -> str:
+    y, m = int(month[:4]), int(month[5:7]) - n
+    while m < 1:
+        y, m = y - 1, m + 12
+    return f"{y:04d}-{m:02d}"
+
+
+def _series_doc() -> dict:
+    try:
+        mt = FUEL_SERIES_PATH.stat().st_mtime
+    except OSError:
+        return {}
+    hit = _FUEL_REG_CACHE.get("series")
+    if not hit or hit[0] != mt:
+        import yaml
+        with open(FUEL_SERIES_PATH, encoding="utf-8") as fh:
+            hit = (mt, yaml.safe_load(fh) or {})
+        _FUEL_REG_CACHE["series"] = hit
+    return hit[1]
+
+
+def usgc_month_mean(store, month: str) -> float | None:
+    """Средняя дневная котировка USGC за месяц, USD/галлон; по дате — последняя загрузка."""
+    nxt = _months_back(month, -1)
+    by = {}
+    for vf, v in store.db.execute(
+            "SELECT valid_from, value FROM facts WHERE domain = 'jet_fuel_price' AND key = 'spot/USGC' "
+            "AND value IS NOT NULL AND valid_from >= ? AND valid_from < ? ORDER BY created_at",
+            (f"{month}-01", f"{nxt}-01")):
+        by[str(vf)[:10]] = float(v)
+    return sum(by.values()) / len(by) if len(by) >= 5 else None
+
+
+def _series_points(ser: dict, month: str) -> list[tuple[str, dict]]:
+    """Точки ряда не позже `month` и не старше max_age_months, новые первыми."""
+    floor = _months_back(month, int(ser.get("max_age_months", 4)))
+    pts = []
+    for m, p in (ser.get("points") or {}).items():
+        m = str(m)[:7]
+        if floor <= m <= month:
+            pts.append((m, p if isinstance(p, dict) else {"value": p}))
+    return sorted(pts, reverse=True)
+
+
+def fuel_series(region: str, as_of, store) -> dict | None:
+    """Открытый ряд цены топлива региона (план fuel-regions, 09.11.2026) или None.
+
+    Два вида рядов. `ratio` — цена «в крыло» по учёту перевозчиков (США, Form 41
+    P-12(a)): k = цена ÷ средняя USGC за окно месяцев (у перевозчика цена отстаёт от
+    спота примерно на месяц), медиана по последним точкам; дальше расчёт идёт как
+    раньше, спот дня × k. `direct` — местная цена, не привязанная к USGC (Россия,
+    биржа ТС-1 в режиме демпфера): цена без НДС × (1 + наценка ТЗК группы) + сбор
+    за заправку, сразу в EUR/кг; спот USGC тогда не участвует."""
+    doc = _series_doc()
+    month = str(as_of or date.today())[:7]
+    for sid, ser in (doc.get("series") or {}).items():
+        regs = ser.get("regions") or {}
+        if region not in regs:
+            continue
+        pts = _series_points(ser, month)
+        if not pts:
+            return None
+        if ser.get("mode") == "ratio":
+            win = int(ser.get("spot_window", 1))
+            ks = []
+            for m, p in pts[:int(ser.get("smooth", 1))]:
+                means = [usgc_month_mean(store, _months_back(m, i)) for i in range(win)]
+                if any(x is None for x in means):
+                    continue
+                k = float(p["value"]) / (sum(means) / win)
+                if SERIES_K_BAND[0] <= k <= SERIES_K_BAND[1]:
+                    ks.append((m, k))
+            if not ks:
+                return None
+            import statistics
+            return {"mode": "ratio", "id": sid, "name": ser.get("name"), "k": statistics.median(k for _, k in ks),
+                    "months": [m for m, _ in ks], "points": {m: round(k, 3) for m, k in ks},
+                    "confidence": ser.get("confidence", "средняя")}
+        if ser.get("mode") == "direct":
+            m, p = pts[0]
+            g = regs[region] or {}
+            vat = float((ser.get("vat") or {}).get(int(m[:4]), ser.get("vat_default", 0)))
+            local_t = float(p["value"]) / (1 + vat) * (1 + float(g.get("markup", 0))) + float(g.get("fee_t", 0))
+            cur = ser.get("currency", "RUB")
+            per_eur = store.value("fx", cur, as_of)
+            if not per_eur:
+                return None
+            return {"mode": "direct", "id": sid, "name": ser.get("name"), "month": m, "value": float(p["value"]),
+                    "vat": vat, "markup": float(g.get("markup", 0)), "fee_t": float(g.get("fee_t", 0)),
+                    "local_t": local_t, "currency": cur, "per_eur": per_eur,
+                    "eur_kg": local_t / per_eur / 1000, "confidence": ser.get("confidence", "средняя"),
+                    "source": p.get("source")}
+    return None
+
+
 @dataclass
 class Aircraft:
     """Физика и лётные данные типа. Приходят из справочника, не из кода.
@@ -1126,8 +1225,24 @@ def route_economics(store: Store, origin: str, destination: str, *,
             # предупреждение, а часть сверх спота при низкой уверенности идёт
             # в долю «выдуманного».
             fk, fcode, freg = fuel_region_k(a["icao"])
+            # Открытый ряд региона главнее точки статьи и спота Platts (план fuel-regions).
+            ser = fuel_series(fcode, as_of, store)
+            if ser and ser["mode"] == "ratio":
+                fk = ser["k"]
+                freg = {**freg, "confidence": ser["confidence"], "series": ser}
             fuel_eur_per_kg = spot_eur * fk
             fuel_mult = (fk, freg)
+            if ser and ser["mode"] == "direct":
+                fuel_eur_per_kg = ser["eur_kg"]
+                fk = fuel_eur_per_kg / spot_eur
+                freg = {**freg, "confidence": ser["confidence"], "series": ser}
+                fuel_mult = (fk, freg)
+                rec(G3, "Цена топлива по местному ряду", "биржа без НДС × (1 + наценка ТЗК) + сбор ÷ курс",
+                    f"{ser['value']:,.0f} / (1 + {ser['vat']:.2f}) × (1 + {ser['markup']:.3f}) + {ser['fee_t']:,.0f}"
+                    f" = {ser['local_t']:,.0f} {ser['currency']}/т ({ser['month']}) / {ser['per_eur']:.2f} / 1000",
+                    fuel_eur_per_kg, "EUR/кг", "derived",
+                    f"{ser['name']}; спот USGC не участвует — внутренняя цена в режиме демпфера от него "
+                    f"оторвана; data/fuel/_series.yaml", node="v_fprice")
             # Индия, внутренний рейс (решение 236): цена IOCL с налогами (акциз и VAT штата
             # вылета) вместо множителя, который снят для международных рейсов без налогов.
             ind = (india_domestic_atf(a["icao"], as_of)
@@ -1166,18 +1281,29 @@ def route_economics(store: Store, origin: str, destination: str, *,
             fuel_prov = "store"
             spot_txt = (f"; региональный спот на {freg['spot_as_of']}: {freg['addon']:.3f} × {freg['spot_ratio']:.3f}"
                         if freg.get("spot_as_of") else "")
+            sr = freg.get("series")
+            if sr and sr["mode"] == "ratio":
+                spot_txt = (f"; ряд {sr['name']}: k по месяцам "
+                            + ", ".join(f"{m} {k}" for m, k in sorted(sr["points"].items())) + ", медиана")
+            elif sr:
+                spot_txt = f"; местный ряд {sr['name']}, {sr['month']}"
             fuel_src = (f"EIA spot/USGC {usd_gal:.3f} USD/gal, плотность "
                         f"{rho:.3f} кг/л, курс {usd_eur:.4f} USD/EUR; × {fk:.2f} — "
                         f"«в крыло», {freg.get('name')} (уверенность: {freg.get('confidence')}){spot_txt}")
+            if sr and sr["mode"] == "direct":
+                fuel_src = (f"{sr['name']}, {sr['month']}: {sr['local_t']:,.0f} {sr['currency']}/т с наценкой ТЗК "
+                            f"и сбором, курс {sr['per_eur']:.2f} {sr['currency']}/EUR (уверенность: "
+                            f"{sr['confidence']}); data/fuel/_series.yaml")
             rec(G3, "Множитель «в крыло»", "регион аэропорта вылета"
-                + (" × сдвиг регионального спота" if spot_txt else ""),
+                + (" — открытый ряд" if sr else " × сдвиг регионального спота" if spot_txt else ""),
                 f"{a['icao']} → {freg.get('name')}{spot_txt}", fk, "×", "default" if freg.get("confidence") in
                 ("низкая", "заглушка", "нет") else "derived",
                 "спот USGC → цена в баке: региональный спот + доставка + заправка; research/fuel-2026-10, решение 235",
                 node="v_fprice")
-            warnings.append(
-                f"цена топлива — спот Мексиканского залива × {fk:.2f} ({freg.get('name')}, уверенность "
-                f"{freg.get('confidence')}): в кризис региональный спот расходится до 20 %; своя цена — ключом --fuel")
+            if not sr:
+                warnings.append(
+                    f"цена топлива — спот Мексиканского залива × {fk:.2f} ({freg.get('name')}, уверенность "
+                    f"{freg.get('confidence')}): в кризис региональный спот расходится до 20 %; своя цена — ключом --fuel")
     rec(G3, "Цена топлива", "из справочника или заглушка",
         f"{fuel_eur_per_kg:.3f}", fuel_eur_per_kg, "EUR/кг", fuel_prov, fuel_src,
         node="v_fprice",

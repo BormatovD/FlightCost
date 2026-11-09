@@ -123,9 +123,9 @@ items:
     report: fuel-2026-10/report.html
     calc: in_calc
     calc_note:
-      ru: "В расчёте: цена «в крыло» по региону вылета со сдвигом регионального спота, демпфер России, цены IOCL для внутренних рейсов Индии (решения 235–236)."
-      en: "In the calculator: the into-plane price by departure region with the regional spot shift, Russia's damper, IOCL prices for India's domestic flights (decisions 235–236)."
-      de: "Im Rechner: Preis ins Flugzeug nach Abflugregion mit Verschiebung des regionalen Spots, Russlands Dämpfer, IOCL-Preise für Indiens Inlandsflüge (Entscheidungen 235–236)."
+      ru: "В расчёте: цена «в крыло» по региону вылета, открытые месячные ряды для США (BTS) и России (биржа ТС-1), демпфер России, цены IOCL для внутренних рейсов Индии."
+      en: "In the calculator: the into-plane price by departure region, open monthly series for the US (BTS) and Russia (TS-1 exchange), Russia's damper, IOCL prices for India's domestic flights."
+      de: "Im Rechner: Preis ins Flugzeug nach Abflugregion, offene Monatsreihen für die USA (BTS) und Russland (Börse TS-1), Russlands Dämpfer, IOCL-Preise für Indiens Inlandsflüge."
     lang: ru
     title:
       ru: "Сколько стоит авиатопливо в разных регионах"

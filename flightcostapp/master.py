@@ -506,6 +506,35 @@ def cmd_refresh(a, *, master: Path = MASTER, spool=None) -> int:
 DRAFTS_INBOX = ROOT / "data" / "charges" / "_inbox"
 
 
+def _fuel_drafts(a, st, seen: set) -> int:
+    """Черновики рядов топлива: проверка, по --accept-fuel — точки в data/fuel/."""
+    from . import fuel_series as FS
+    files = [f for f in sorted(DRAFTS_INBOX.glob("fuel-*.json")) if f.name not in seen]
+    mark = {"clean": "ЧИСТЫЙ", "look": "СМОТРЕТЬ", "reject": "ОТВЕРГНУТ", "skip": "НЕТ"}
+    for f in files:
+        r = FS.check(f.read_bytes(), st)
+        print(f"\n{f.name}" + (f": {r['error']}" if r.get("error") else ""))
+        for x in r["rows"]:
+            k = f"  k {x['k']:.3f}" if x.get("k") is not None else ""
+            print(f"{mark[x['verdict']]:9} {x['series']:10} {x['month']}  {x['value']}{k}  {x.get('where') or ''}")
+            for why in x["reasons"]:
+                print(f"          · {why}")
+        for x in r.get("doubts", [])[:5]:
+            print(f"          ? {x[:200]}")
+        if not a.accept_fuel:
+            continue
+        take = [x for x in r["rows"] if x["verdict"] in ("clean", "look")]
+        for line in FS.merge(take):
+            print(f"принято: {line}")
+        with open(DRAFTS_INBOX / ".accepted", "a", encoding="utf-8") as fh:
+            fh.write(f.name + "\n")
+        f.unlink()
+    if files:
+        print("\nпринять ряды топлива (чистые и «смотреть» после просмотра): fca master drafts --accept-fuel"
+              if not a.accept_fuel else "\nдальше: git add data/fuel && git commit, затем deploy")
+    return len(files)
+
+
 def cmd_drafts(a) -> int:
     """Черновики тарифов агента — домой, с проверкой; принятые — в data/charges/."""
     from . import drafts as D
@@ -521,11 +550,12 @@ def cmd_drafts(a) -> int:
             return 2
     seen = set((DRAFTS_INBOX / ".accepted").read_text("utf-8").split()) \
         if (DRAFTS_INBOX / ".accepted").exists() else set()
+    st = Store(a.db)
+    fuel_seen = _fuel_drafts(a, st, seen)
     files = [f for f in sorted(DRAFTS_INBOX.glob("charges-*.json")) if f.name not in seen]
     if not files:
-        print("черновиков нет")
+        print("черновиков тарифов нет" if fuel_seen else "черновиков нет")
         return 0
-    st = Store(a.db)
     rows = []
     for f in files:
         r = D.check(f.read_bytes(), st)
@@ -570,10 +600,12 @@ def main(argv=None) -> int:
     s.add_argument("--only", required=True, help="источники через запятую")
     pl = sub.add_parser("pull", help="главную базу — домой (обязательно раз в неделю)")
     pl.add_argument("--force", action="store_true", help="заменить, даже если дома есть неотправленное")
-    dr = sub.add_parser("drafts", help="черновики тарифов агента — домой, проверка, приёмка")
+    dr = sub.add_parser("drafts", help="черновики агента (тарифы, ряды топлива) — домой, проверка, приёмка")
     dr.add_argument("--accept-clean", action="store_true", help="принять все чистые")
     dr.add_argument("--accept", help="принять названные (ИКАО через запятую) после просмотра")
     dr.add_argument("--local", action="store_true", help="не скачивать, проверить то, что уже в _inbox")
+    dr.add_argument("--accept-fuel", action="store_true",
+                    help="дописать точки рядов топлива (кроме отвергнутых) в data/fuel/")
     sub.add_parser("import", help="сервер: посев и присланное с компьютера")
     sub.add_parser("refresh", help="сервер: обновить главную базу")
     sub.add_parser("snapshot", help="сервер: снимок витрине и копия для pull")
