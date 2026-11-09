@@ -65,6 +65,14 @@ class Order(unittest.TestCase):
         self.assertEqual(pos, sorted(pos), "сверху вниз: сделанное по дате, в работе, дальше")
 
 
+class Priority(unittest.TestCase):
+    def test_order_before_date(self):
+        items = [{"id": "a", "status": "next", "area": "calc", "title": {"ru": "Старое"}, "added": "2026-10-01"},
+                 {"id": "b", "status": "next", "area": "calc", "title": {"ru": "Важное"}, "added": "2026-11-09", "order": 1}]
+        h = M.plan_html("ru", items)
+        self.assertLess(h.index('id="p-b"'), h.index('id="p-a"'), "пронумерованное — первым")
+
+
 class Record(unittest.TestCase):
     def test_writes_only_changes(self):
         st = Store(pathlib.Path(tempfile.mkdtemp()) / "x.db")

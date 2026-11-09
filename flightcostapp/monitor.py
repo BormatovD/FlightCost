@@ -288,7 +288,8 @@ def plan_html(lang: str, items: list[dict]) -> str:
         if st == "done":
             rows.sort(key=lambda x: (str(x.get("done")), str(x.get("added"))))
         else:
-            rows.sort(key=lambda x: str(x.get("added")))
+            # `order` — очерёдность владельца (1 — первым); без неё — по дате в плане.
+            rows.sort(key=lambda x: (int(x.get("order") or 999), str(x.get("added"))))
         parts.append(f'<h2 class="tl-h {st}">{esc(t["st_" + st])} <span class="tag">{len(rows)}</span></h2>'
                      f'<ul class="plan tl {st}">')
         for x in rows:

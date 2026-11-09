@@ -13,23 +13,96 @@
 #   by      — кто предложил: owner (автор проекта) или подпись автора, как он сам её указал в боте;
 #   via     — откуда пришло: owner | bot #N | github #N;
 #   added   — дата, когда попало в план; done — дата, когда сделано (для status: done).
-#   link    — необязательно: адрес статьи, решения или issue.
+#   link    — необязательно: адрес статьи, решения или issue;
+#   order   — необязательно: очерёдность внутри «в работе» и «дальше» (1 — первым);
+#             без неё пункт идёт после пронумерованных, по дате в плане.
 
 items:
   - id: research-pricing
-    status: now
+    status: done
     area: research
     title:
       ru: "Исследование: динамическое ценообразование — объективные данные о тарифах и пассажирах"
       en: "Research: dynamic pricing — objective fare and passenger data from open sources"
       de: "Recherche: dynamische Preisbildung — objektive Tarif- und Passagierdaten aus offenen Quellen"
     note:
-      ru: "Средний тариф и его разброс на паре, как цена меняется к вылету, кто летит. Сейчас средний чек — допущение."
-      en: "Average fare and its spread on a pair, how the price moves towards departure, who flies. Today the average fare is an assumption."
-      de: "Durchschnittstarif und Streuung je Strecke, Preisverlauf bis zum Abflug, wer fliegt. Heute ist der Durchschnittstarif eine Annahme."
+      ru: "Вылилось в проверку модели на Frontier и Southwest: билеты DB1C, надбавка за позднюю покупку, средний чек по потоку пары — уже в расчёте."
+      en: "Became the model check on Frontier and Southwest: DB1C tickets, late-purchase premium, average fare by pair traffic — now in the calculation."
+      de: "Wurde zur Modellprüfung an Frontier und Southwest: DB1C-Tickets, Aufschlag für Spätbuchung, Durchschnittspreis nach Verkehr — jetzt im Rechner."
     by: owner
     via: owner
     added: 2026-11-06
+    done: 2026-11-09
+    link: /ru/research/verify-2026-11
+
+  - id: network-calc
+    status: now
+    order: 2
+    area: calc
+    title:
+      ru: "Расчёт сети по исследованиям: налёт по типу сети вместо 300 ч, экипажи от годовых часов, резерв и плановое ТО явными долями"
+      en: "Network calculation from the research: utilisation by network type instead of 300 h, crews from annual hours, reserve and scheduled maintenance as explicit shares"
+      de: "Netzberechnung nach den Recherchen: Auslastung nach Netztyp statt 300 h, Crews aus Jahresstunden, Reserve und planmäßige Wartung als eigene Anteile"
+    note:
+      ru: "Из статей о сети и о рейтинге перевозчиков; заодно окно базы из ночных ограничений аэропорта."
+      en: "From the network and carrier-ranking articles; plus the base window from airport night restrictions."
+      de: "Aus den Artikeln zu Netz und Airline-Ranking; dazu das Basisfenster aus Nachtbeschränkungen."
+    by: owner
+    via: owner
+    added: 2026-11-09
+    link: /ru/research/network-2026-10
+
+  - id: toir-calc
+    status: next
+    order: 3
+    area: calc
+    title:
+      ru: "ТОиР по возрасту борта и рост ставок во времени; новые типы — расчёт «снизу» с поправкой факт/каталог"
+      en: "Maintenance by aircraft age and rate growth over time; new types bottom-up with an actual-to-catalogue factor"
+      de: "Instandhaltung nach Flugzeugalter und Kostenwachstum; neue Typen von unten mit Faktor Ist/Katalog"
+    by: owner
+    via: owner
+    added: 2026-11-09
+    link: /ru/research/toir
+
+  - id: benchmark-bands
+    status: next
+    order: 9
+    area: calc
+    title:
+      ru: "Полосы сравнения из всех 30 перевозчиков рейтинга, приведённые к длине рейса"
+      en: "Comparison bands from all 30 ranked carriers, normalised to the flight length"
+      de: "Vergleichsbänder aus allen 30 Airlines des Rankings, normiert auf die Flugstrecke"
+    by: owner
+    via: owner
+    added: 2026-11-09
+    link: /ru/research/benchmarks-2026-10
+
+  - id: hothigh-calc
+    status: next
+    order: 10
+    area: calc
+    title:
+      ru: "Снятие нагрузки в жару и на высокогорных аэродромах, когда рейс упирается в массу"
+      en: "Payload limits in heat and at high airfields when the flight is mass-limited"
+      de: "Nutzlastgrenzen bei Hitze und auf hoch gelegenen Flugplätzen, wenn der Flug massebegrenzt ist"
+    by: owner
+    via: owner
+    added: 2026-11-09
+    link: /ru/research/hothigh-2026-10
+
+  - id: routes-in-network
+    status: next
+    order: 11
+    area: site
+    title:
+      ru: "Рейтинг пар в режиме «Сеть»: подсказки «рынок большой и растёт» и «слоты» у выбора пары"
+      en: "Pair ranking in Network mode: “large and growing market” and “slots” hints next to the pair"
+      de: "Streckenranking im Netzmodus: Hinweise „großer, wachsender Markt“ und „Slots“ bei der Streckenwahl"
+    by: owner
+    via: owner
+    added: 2026-11-09
+    link: /ru/research/routes-2026-11
 
   - id: verify-us-fleets
     status: done
@@ -49,6 +122,7 @@ items:
 
   - id: boeing-burn-calib
     status: next
+    order: 6
     area: calc
     title:
       ru: "Поправка расхода топлива для Boeing 737: сейчас 737-700 недобирает 14 %"
@@ -60,6 +134,7 @@ items:
 
   - id: us-airport-tariffs
     status: next
+    order: 7
     area: data
     title:
       ru: "Тарифы крупных аэропортов США вместо региональной оценки"
@@ -71,6 +146,7 @@ items:
 
   - id: crew-by-carrier
     status: next
+    order: 8
     area: calc
     title:
       ru: "Ставка экипажа как вход по перевозчику, с подсказкой по классу компании"
@@ -143,6 +219,7 @@ items:
 
   - id: charge-discounts
     status: next
+    order: 4
     area: data
     title:
       ru: "Скидки и стимулирующие программы аэропортов в расчёте сборов"
@@ -154,17 +231,23 @@ items:
 
   - id: block-time
     status: next
+    order: 5
     area: data
     title:
       ru: "Фактическое блок-время по открытым данным полётов"
       en: "Actual block time from open flight data"
       de: "Tatsächliche Blockzeit aus offenen Flugdaten"
+    note:
+      ru: "Руление по аэропортам США из T-100 уже в расчёте; дальше — время в воздухе по фактическим полётам и руление вне США."
+      en: "US taxi times from T-100 are already in; next — airborne time from actual flights and taxi outside the US."
+      de: "US-Rollzeiten aus T-100 sind drin; als Nächstes Flugzeit aus realen Flügen und Rollzeiten außerhalb der USA."
     by: owner
     via: owner
     added: 2026-11-01
 
   - id: wind
     status: next
+    order: 12
     area: calc
     title:
       ru: "Ветер в расчёте топлива и блок-времени"
@@ -175,12 +258,17 @@ items:
     added: 2026-11-01
 
   - id: fuel-regions
-    status: next
+    status: now
+    order: 1
     area: data
     title:
       ru: "Цена топлива по регионам — ряд вместо одной точки на регион"
       en: "Regional jet fuel prices — a series instead of one point per region"
       de: "Kerosinpreise nach Region — Zeitreihe statt eines Punkts je Region"
+    note:
+      ru: "Сейчас множитель «в крыло» снят на одну дату; сдвиг регионального спота работает только у автора (данные Platts под лицензией). Нужен открытый ряд по регионам."
+      en: "The into-plane multiplier is taken at one date; the regional spot shift works only on the author's machine (licensed Platts data). An open regional series is needed."
+      de: "Der Into-Plane-Faktor stammt von einem Stichtag; die regionale Spot-Verschiebung läuft nur beim Autor (lizenzierte Platts-Daten). Gebraucht wird eine offene Regionalreihe."
     by: owner
     via: owner
     added: 2026-10-30
