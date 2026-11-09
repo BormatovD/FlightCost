@@ -77,6 +77,87 @@ def svg_months(series: dict) -> str:
     return f'<svg viewBox="0 0 {w} {h}" class="chart" role="img">{"".join(g)}</svg>'
 
 
+def svg_distance(pts, a, b) -> str:
+    """Тариф пары против расстояния: точка — пара (размер — пассажиры), линия — регрессия."""
+    import math
+    w, h, L, Rr, Tt, B = 680, 300, 52, 16, 20, 36
+    X = lambda km: L + min(km, 5500) / 5500 * (w - L - Rr)        # noqa: E731
+    Y = lambda v: Tt + (800 - min(v, 800)) / 800 * (h - Tt - B)    # noqa: E731
+    g = []
+    for v in range(0, 801, 200):
+        g.append(f'<line x1="{L}" x2="{w - Rr}" y1="{Y(v):.1f}" y2="{Y(v):.1f}" stroke="var(--line)"/>'
+                 f'<text x="{L - 6}" y="{Y(v) + 4:.1f}" text-anchor="end" class="ax">{n(v)}</text>')
+    for km in range(0, 5501, 1000):
+        g.append(f'<text x="{X(km):.1f}" y="{h - 16}" text-anchor="middle" class="ax">{n(km)}</text>')
+    g.append(f'<text x="{w - Rr}" y="{h - 2}" text-anchor="end" class="ax">{e(T("расстояние, км", "distance, km", "Entfernung, km"))}</text>')
+    for km, v, pax in sorted(pts, key=lambda x: -x[2]):
+        g.append(f'<circle cx="{X(km):.1f}" cy="{Y(v):.1f}" r="{max(1.2, math.sqrt(pax) / 18):.1f}" fill="var(--sky)" fill-opacity=".28"/>')
+    g.append(f'<line x1="{X(0):.1f}" y1="{Y(a):.1f}" x2="{X(5500):.1f}" y2="{Y(a + b * 5.5):.1f}" stroke="var(--green)" stroke-width="2.5"/>')
+    g.append(f'<line x1="{X(0):.1f}" y1="{Y(a):.1f}" x2="{X(5500):.1f}" y2="{Y(a):.1f}" stroke="var(--green)" stroke-dasharray="4 4"/>')
+    g.append(f'<text x="{X(3000):.1f}" y="{Y(a + b * 5.5) - 30:.1f}" class="lab" fill="var(--ink2)">{n(a)} + {n(b)} USD / 1000 {T("км", "km", "km")}</text>')
+    g.append(f'<text x="{X(4300):.1f}" y="{Y(a) + 16:.1f}" class="ax">{e(T("постоянная часть", "fixed part", "fester Teil"))} {n(a)} USD</text>')
+    g.append(f'<text x="{L}" y="{Tt - 6}" class="ax">USD</text>')
+    return f'<svg viewBox="0 0 {w} {h}" class="chart" role="img">{"".join(g)}</svg>'
+
+
+def svg_booking(bk) -> str:
+    """Тариф покупок за 0–21 и 22–90 дней к покупкам за 91+ день, по дальности."""
+    w, h, L, Rr, Tt, B = 680, 260, 44, 10, 26, 40
+    lo, hi = 0.8, 1.7
+    Y = lambda v: Tt + (hi - v) / (hi - lo) * (h - Tt - B)        # noqa: E731
+    gw = (w - L - Rr) / len(bk)
+    g = []
+    for v in (0.8, 1.0, 1.2, 1.4, 1.6):
+        g.append(f'<line x1="{L}" x2="{w - Rr}" y1="{Y(v):.1f}" y2="{Y(v):.1f}" stroke="var(--line)"'
+                 + (' stroke-width="1.5" stroke="var(--dim)"' if v == 1.0 else "") + "/>"
+                 f'<text x="{L - 6}" y="{Y(v) + 4:.1f}" text-anchor="end" class="ax">{n(v, 1)}</text>')
+    for i, b in enumerate(bk):
+        x0 = L + i * gw + gw * 0.14
+        bw = gw * 0.34
+        for j, (k, col) in enumerate((("r21", "var(--sky)"), ("r22", "var(--dim)"))):
+            v = b[k]
+            y0, y1 = sorted((Y(v), Y(1.0)))
+            g.append(f'<rect x="{x0 + j * (bw + 3):.1f}" y="{y0:.1f}" width="{bw:.1f}" height="{max(y1 - y0, 1):.1f}" rx="2" fill="{col}">'
+                     f'<title>{n(v, 2)}</title></rect>')
+        g.append(f'<text x="{x0 + bw / 2:.1f}" y="{Y(b["r21"]) - 5:.1f}" text-anchor="middle" class="ax">{n(b["r21"], 2)}</text>')
+        g.append(f'<text x="{L + i * gw + gw / 2:.1f}" y="{h - 22}" text-anchor="middle" class="ax">{n(b["lo"] / 1000, 1 if b["lo"] % 1000 else 0)}–{n(b["hi"] / 1000, 1 if b["hi"] % 1000 else 0)}</text>')
+    g.append(f'<text x="{w - Rr}" y="{h - 4}" text-anchor="end" class="ax">{e(T("дальность пары, тыс. км", "pair distance, thousand km", "Entfernung, Tsd. km"))}</text>')
+    g.append(f'<rect x="{L + 4}" y="4" width="10" height="10" fill="var(--sky)"/><text x="{L + 18}" y="13" class="ax">{e(T("куплен за 0–21 день", "bought 0–21 days out", "0–21 Tage vorher gekauft"))}</text>'
+             f'<rect x="{L + 200}" y="4" width="10" height="10" fill="var(--dim)"/><text x="{L + 214}" y="13" class="ax">{e(T("за 22–90 дней", "22–90 days out", "22–90 Tage vorher"))}</text>')
+    return f'<svg viewBox="0 0 {w} {h}" class="chart" role="img">{"".join(g)}</svg>'
+
+
+def svg_flow(pts, curve, be) -> str:
+    """Средний ÷ 10-й перцентиль против потока пары (лог. шкала): облако пар, медианы, подбор, прежняя ступенька."""
+    import math
+    w, h, L, Rr, Tt, B = 680, 300, 44, 14, 22, 38
+    q0, q1, lo, hi = 1e3, 1e6, 1.0, 4.0
+    X = lambda q: L + (math.log10(min(max(q, q0), q1)) - 3) / 3 * (w - L - Rr)   # noqa: E731
+    Y = lambda v: Tt + (hi - min(max(v, lo), hi)) / (hi - lo) * (h - Tt - B)     # noqa: E731
+    g = []
+    for v in (1, 2, 3, 4):
+        g.append(f'<line x1="{L}" x2="{w - Rr}" y1="{Y(v):.1f}" y2="{Y(v):.1f}" stroke="var(--line)"/>'
+                 f'<text x="{L - 6}" y="{Y(v) + 4:.1f}" text-anchor="end" class="ax">× {n(v)}</text>')
+    for q, lab in ((1e3, "1"), (1e4, "10"), (1e5, "100"), (1e6, "1000")):
+        g.append(f'<text x="{X(q):.1f}" y="{h - 18}" text-anchor="middle" class="ax">{lab}</text>')
+    g.append(f'<text x="{w - Rr}" y="{h - 2}" text-anchor="end" class="ax">{e(T("поток пары, тыс. пассажиров в месяц", "pair traffic, thousand passengers a month", "Verkehr, Tsd. Passagiere im Monat"))}</text>')
+    for q, r in pts:
+        g.append(f'<circle cx="{X(q):.1f}" cy="{Y(r):.1f}" r="1.6" fill="var(--sky)" fill-opacity=".22"/>')
+    step = [(q0, 1.2 * 1.37), (8e4, 1.2 * 1.37), (8e4, 2.0 * 1.37), (q1, 2.0 * 1.37)]
+    g.append('<polyline fill="none" stroke="var(--dim)" stroke-width="2" stroke-dasharray="5 4" points="'
+             + " ".join(f"{X(q):.1f},{Y(v):.1f}" for q, v in step) + '"/>')
+    fit = [(10 ** (3 + k * 0.1), (10 ** (3 + k * 0.1)) ** be) for k in range(31)]
+    g.append('<polyline fill="none" stroke="var(--green)" stroke-width="2.5" points="'
+             + " ".join(f"{X(q):.1f},{Y(v):.1f}" for q, v in fit) + '"/>')
+    for c in curve:
+        qm = math.sqrt(max(c["lo"], 1e3) * min(c["hi"], 3e5))
+        g.append(f'<circle cx="{X(qm):.1f}" cy="{Y(c["ratio"]):.1f}" r="5" fill="var(--ink2)"><title>{n(c["ratio"], 2)}</title></circle>')
+    g.append(f'<text x="{X(1.2e3):.1f}" y="{Y(3.75):.1f}" class="lab" fill="var(--green)">{e(T("подбор: q^0,077", "fit: q^0.077", "Anpassung: q^0,077"))}</text>'
+             f'<text x="{X(1.2e3):.1f}" y="{Y(3.45):.1f}" class="lab" fill="var(--dim)">{e(T("прежняя ступенька 1,2 / 2,0", "old step 1.2 / 2.0", "alte Stufe 1,2 / 2,0"))}</text>'
+             f'<text x="{X(1.2e3):.1f}" y="{Y(3.15):.1f}" class="lab" fill="var(--ink2)">{e(T("● медиана по корзине потока", "● median per traffic bin", "● Median je Verkehrsklasse"))}</text>')
+    return f'<svg viewBox="0 0 {w} {h}" class="chart" role="img">{"".join(g)}</svg>'
+
+
 def build() -> str:
     S = Sources(HERE)
     for u, t in ((SRC_T100, "BTS TranStats: T-100 Segment (All Carriers), 2025"),
@@ -227,10 +308,25 @@ def build() -> str:
         f"За год средний тариф по одному набору пар вырос на {n(growth)} %, медианный рост по отдельной паре — {n(FA['trend']['median_pair_growth'] * 100)} %. Порядок совпадает с официальной статистикой: в июне 2026 года индекс авиатарифов США был на 26,5 % выше, чем годом раньше{c_cpi}.",
         f"Over the year the average fare on the same set of pairs rose {n(growth)}%, the median growth per pair {n(FA['trend']['median_pair_growth'] * 100)}%. The order of magnitude matches official statistics: in June 2026 the US airfare index was 26.5% above a year earlier{c_cpi}.",
         f"Innerhalb eines Jahres stieg der Durchschnittstarif auf denselben Strecken um {n(growth)} %, das mittlere Wachstum je Strecke um {n(FA['trend']['median_pair_growth'] * 100)} %. Die Größenordnung entspricht der amtlichen Statistik: Im Juni 2026 lag der US-Flugpreisindex 26,5 % über dem Vorjahr{c_cpi}.") + "</p>")
+    da, db, dr2 = FA["distance"]["weighted"]
+    ua, ub, ur2 = FA["distance"]["unweighted"]
+    body.append("<h3>" + T("Тариф и дальность", "Fare and distance", "Tarif und Entfernung") + "</h3>"
+                + svg_distance(FA["scatter_distance"], da, db)
+                + '<p class="small">' + T(f"Точка — пара в октябре 2025 года, размер — пассажиры; линия — регрессия по всем 13 месяцам, взвешенная по пассажирам.",
+                                          f"Each dot is a pair in October 2025, size = passengers; the line is the regression over all 13 months, weighted by passengers.",
+                                          f"Jeder Punkt ist eine Strecke im Oktober 2025, Größe = Passagiere; die Linie ist die Regression über alle 13 Monate, gewichtet nach Passagieren.") + "</p>")
+    body.append("<p>" + T(
+        f"Билет на 500 км в среднем стоит почти столько же, сколько на 1 500. Регрессия даёт {n(da)} USD постоянной части и {n(db)} USD на каждую тысячу километров и объясняет {n(dr2 * 100)} % разброса; без взвешивания по пассажирам — всего {n(ur2 * 100)} %. Постоянная часть больше переменной до {n(round(da / db * 10) * 100)} км. Это зеркало себестоимости: аэропорт, наземное обслуживание, цикловая часть ТОиР и экипажа от длины рейса не зависят, поэтому и в цене короткий рейс дорог на километр. Широкая полоса по вертикали на одной дальности — в основном конкуренция: на парах, где почти все пассажиры летят ультралоукостерами, средний тариф около {n(FA['ulcc_share'][-1]['mean'])} USD, а там, где их нет, — {n(FA['ulcc_share'][0]['mean'])} USD.",
+        f"A 500 km ticket costs on average almost as much as a 1,500 km one. The regression gives a fixed part of USD {n(da)} plus USD {n(db)} per thousand kilometres and explains {n(dr2 * 100)}% of the variance; unweighted by passengers only {n(ur2 * 100)}%. The fixed part exceeds the variable one up to {n(round(da / db * 10) * 100)} km. It mirrors cost: airport, ground handling and the per-cycle part of maintenance and crew do not depend on flight length, so a short flight is dear per kilometre in price too. The wide vertical band at one distance is mostly competition: on pairs where almost all passengers fly ultra-low-cost carriers the average fare is about USD {n(FA['ulcc_share'][-1]['mean'])}, where there are none it is USD {n(FA['ulcc_share'][0]['mean'])}.",
+        f"Ein Ticket über 500 km kostet im Schnitt fast so viel wie eines über 1.500 km. Die Regression ergibt einen festen Teil von {n(da)} USD plus {n(db)} USD je tausend Kilometer und erklärt {n(dr2 * 100)} % der Streuung; ungewichtet nur {n(ur2 * 100)} %. Der feste Teil ist bis {n(round(da / db * 10) * 100)} km größer als der variable. Das spiegelt die Kosten: Flughafen, Abfertigung und der zyklische Teil von Instandhaltung und Crew hängen nicht von der Flugdauer ab, also ist ein kurzer Flug auch im Preis teuer je Kilometer. Das breite senkrechte Band bei gleicher Entfernung ist vor allem Wettbewerb: Wo fast alle Passagiere mit Ultra-Low-Cost-Airlines fliegen, liegt der Durchschnittstarif bei etwa {n(FA['ulcc_share'][-1]['mean'])} USD, wo es keine gibt, bei {n(FA['ulcc_share'][0]['mean'])} USD.") + "</p>")
     bk = FA["booking"]
     brow = "".join(f'<tr><td>{n(b["lo"])}–{n(b["hi"])}</td><td class="r">{n(b["r21"], 2)}</td><td class="r">{n(b["r22"], 2)}</td>'
                    f'<td class="r">{n(b["share21"] * 100)} %</td></tr>' for b in bk)
     body.append("<h3>" + T("Надбавка за позднюю покупку", "Late-purchase premium", "Aufschlag für späte Buchung") + "</h3>"
+                + svg_booking(bk) + "<p>" + T(
+                    "DB1C делит каждый билет на три группы по тому, за сколько дней до вылета он куплен: до 21 дня, 22–90 и от 91. Столбик — во сколько раз средний тариф группы выше, чем у купленных за 91 день и раньше. Это и есть «динамическое ценообразование» в цифрах: цена держится ровно, пока до вылета больше трёх недель, а в последние три недели авиакомпания продаёт остаток кресел опоздавшим и деловым пассажирам дороже.",
+                    "DB1C splits every ticket into three groups by how many days before departure it was bought: up to 21, 22–90 and 91 or more. Each bar shows how many times the group's average fare exceeds that of tickets bought 91+ days out. This is \"dynamic pricing\" in numbers: the price stays flat while departure is more than three weeks away, and in the last three weeks the airline sells the remaining seats to late and business travellers at a premium.",
+                    "DB1C teilt jedes Ticket nach der Vorlaufzeit in drei Gruppen: bis 21 Tage, 22–90 und ab 91. Jede Säule zeigt, um welchen Faktor der Durchschnittstarif der Gruppe über dem der 91+ Tage vorher gekauften Tickets liegt. Das ist „dynamische Preisbildung“ in Zahlen: Der Preis bleibt flach, solange der Abflug mehr als drei Wochen entfernt ist, und in den letzten drei Wochen verkauft die Airline die restlichen Sitze teurer an Spät- und Geschäftsreisende.") + "</p>"
                 f'<div class="tw"><table><tr><th>{T("Дальность, км", "Distance, km", "Entfernung, km")}</th><th class="r">{T("0–21 день к 91+", "0–21 days to 91+", "0–21 Tage zu 91+")}</th>'
                 f'<th class="r">{T("22–90 дней к 91+", "22–90 days to 91+", "22–90 Tage zu 91+")}</th><th class="r">{T("доля покупок за 0–21 день", "share bought 0–21 days out", "Anteil 0–21 Tage vorher")}</th></tr>{brow}</table></div>'
                 "<p>" + T("Дороже только последние три недели: между «за месяц-два» и «за три месяца и больше» разницы нет. На коротких парах надбавка больше и поздних покупок больше.",
@@ -256,6 +352,14 @@ def build() -> str:
                 f'<tr><td>q</td><td>{T("поток пары, пассажиров в месяц, оба направления, все перевозчики", "pair traffic, passengers a month, both directions, all carriers", "Verkehr der Strecke, Passagiere im Monat, beide Richtungen, alle Airlines")}</td><td class="r">{T("из базы", "from the database", "aus der Datenbank")}</td><td>T-100, Eurostat{c_t100}</td></tr>'
                 f'<tr><td>K, β</td><td>{T("средний чек ÷ 10-й перцентиль тарифов пары = K · q<sup>β</sup>", "average fare ÷ the pair\'s 10th percentile = K · q<sup>β</sup>", "Durchschnittspreis ÷ 10. Perzentil = K · q<sup>β</sup>")}</td><td class="r">{n(1.00, 2)}; {n(be, 3)}</td><td>DB1C {T("июль — декабрь 2025, прямые", "July — December 2025, nonstop", "Juli — Dezember 2025, nonstop")}{c_db1c}</td></tr>'
                 f'<tr><td>r</td><td>{T("медиана минимумов агрегатора к 10-му перцентилю", "median of aggregator minimums to the 10th percentile", "Median der Aggregator-Minima zum 10. Perzentil")}</td><td class="r">{n(1.37, 2)}</td><td><span class="no">{T("оценка: 13 пар США, слабое звено", "estimate: 13 US pairs, weak link", "Schätzung: 13 US-Strecken, schwaches Glied")}</span></td></tr></table></div>')
+    body.append(svg_flow(FA["scatter_flow"], ff["curve"], be) + '<p class="small">' + T(
+        "Точка — пара в октябре 2025 года: отношение среднего оплаченного тарифа к 10-му перцентилю тарифов пары против потока пары из T-100. Шкала потока логарифмическая. Ступенька пересчитана к 10-му перцентилю (× 1,37), чтобы её можно было сравнить с данными.",
+        "Each dot is a pair in October 2025: the ratio of the average fare paid to the pair's 10th-percentile fare against pair traffic from T-100. The traffic axis is logarithmic. The step is converted to the 10th percentile (× 1.37) so it can be compared with the data.",
+        "Jeder Punkt ist eine Strecke im Oktober 2025: Verhältnis des bezahlten Durchschnittstarifs zum 10. Perzentil gegen den Verkehr aus T-100. Die Verkehrsachse ist logarithmisch. Die Stufe ist aufs 10. Perzentil umgerechnet (× 1,37), damit sie mit den Daten vergleichbar ist.") + "</p>")
+    body.append("<p>" + T(
+        "Почему на толстой паре разрыв больше — данные этого не доказывают, но объяснение из практики управления доходами такое: там больше рейсов в день и больше разных пассажиров — и туристы, которые покупают за месяцы по акции, и деловые, которые берут билет за день. Авиакомпания открывает дешёвые классы бронирования, чтобы заполнить самолёт заранее, и держит дорогие для поздних покупателей. На тонкой паре рейс один-два в день, разброс пассажиров меньше, и цены плотнее. Прежняя ступенька «1,2 или 2,0» перепрыгивала эту плавную зависимость: на парах 20–80 тыс. пассажиров в месяц она недооценивала средний чек на четверть.",
+        "Why the gap is wider on thick pairs — the data do not prove it, but the revenue-management explanation is: there are more flights a day and a wider mix of passengers — tourists who buy months ahead on promotions and business travellers who buy the day before. The airline opens cheap booking classes to fill the aircraft early and keeps dear ones for late buyers. On a thin pair there are one or two flights a day, a narrower mix and tighter prices. The old \"1.2 or 2.0\" step jumped over this smooth relationship: on pairs with 20–80k passengers a month it underestimated the average fare by a quarter.",
+        "Warum der Abstand auf starken Strecken größer ist — die Daten beweisen es nicht, aber die Erklärung aus dem Revenue Management lautet: mehr Flüge am Tag und gemischtere Passagiere — Touristen, die Monate vorher im Angebot buchen, und Geschäftsreisende, die am Vortag kaufen. Die Airline öffnet billige Buchungsklassen, um das Flugzeug früh zu füllen, und hält teure für Spätbucher zurück. Auf schwachen Strecken gibt es ein, zwei Flüge am Tag, weniger Mischung und engere Preise. Die alte Stufe „1,2 oder 2,0“ übersprang diesen glatten Zusammenhang: Bei 20–80 Tsd. Passagieren im Monat unterschätzte sie den Durchschnittspreis um ein Viertel.") + "</p>")
     rr = "".join(f'<tr><td>{n(b["lo"] / 1e3)}–{"∞" if b["hi"] > 1e9 else n(b["hi"] / 1e3)}</td><td class="r">{n(b["step"]["bias"] * 100, 0, sign=True)} %</td>'
                  f'<td class="r">{n(b["step"]["mae"] * 100)} %</td><td class="r">{n(b["flow"]["bias"] * 100, 0, sign=True)} %</td><td class="r">{n(b["flow"]["mae"] * 100)} %</td></tr>'
                  for b in ff["bands"])

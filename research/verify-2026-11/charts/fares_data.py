@@ -111,5 +111,9 @@ for lo, hi in [(0, 5e3), (5e3, 1e4), (1e4, 2e4), (2e4, 4e4), (4e4, 8e4), (8e4, 1
     curve.append({'lo': lo, 'hi': hi, 'n': len(t), 'ratio': S.median(t)})
 out['flow_fit'] = {'alpha': al, 'beta': be, 'n_train': len(train), 'n_test': len(test),
                    'all': {k: err(test, f) for k, f in rules.items()}, 'bands': bands, 'curve': curve}
+# точки для рисунков: один месяц, по паре
+out['scatter_distance'] = [[round(r['km']), round(r['mean'], 1), r['pax']] for r in rows if r['m'] == '2025-10']
+out['scatter_flow'] = [[round(flow[(r['pair'], '2025-10')]), round(r['mean'] / r['p10'], 3)] for r in rows
+                       if r['m'] == '2025-10' and flow.get((r['pair'], '2025-10'), 0) > 0]
 json.dump(out, open(HERE / 'out' / 'fares.json', 'w'), ensure_ascii=False, indent=1, default=float)
 print('ok', {k: (round(v['mae'], 3)) for k, v in out['flow_fit']['all'].items()})
