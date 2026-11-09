@@ -4,6 +4,34 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: verify-2026-11
+    date: 2026-11-09
+    report: verify-2026-11/report.html
+    draft: true
+    calc: in_calc
+    calc_note:
+      ru: "Правки по сверке уже в расчёте: аэронавигация и сборы США, экипаж, руление, средний чек по потоку пары."
+      en: "The fixes from the check are already in the calculation: US air navigation and charges, crew, taxi, average fare by pair traffic."
+      de: "Die Korrekturen aus der Prüfung sind im Rechner: US-Flugsicherung und -Entgelte, Crew, Rollzeit, Durchschnittspreis nach Verkehr."
+    lang: ru
+    title:
+      ru: "Проверка модели на Frontier и Southwest: где она ошибалась и что поправлено"
+      en: "Checking the model against Frontier and Southwest: where it was wrong and what was fixed"
+      de: "Prüfung des Modells an Frontier und Southwest: wo es falsch lag und was korrigiert wurde"
+    lede:
+      ru: >-
+        1,6 млн рейсов двух американских авиакомпаний через калькулятор против их отчётности по каждой статье: что
+        сошлось, четыре ошибки модели для США и их правки, и что 268 млн записей о билетах говорят о среднем чеке.
+      en: >-
+        1.6 million flights of two US airlines run through the calculator against their reports line by line: what
+        matched, four model errors for the US and their fixes, and what 268 million ticket records say about the average fare.
+      de: >-
+        1,6 Mio. Flüge zweier US-Airlines im Rechner gegen ihre Berichte, Posten für Posten: was stimmte, vier
+        Modellfehler für die USA und ihre Korrektur, und was 268 Mio. Ticketdatensätze über den Durchschnittspreis sagen.
+    tags:
+      ru: [проверка модели, США, Form 41, DB1C, тарифы]
+      en: [model check, USA, Form 41, DB1C, fares]
+      de: [Modellprüfung, USA, Form 41, DB1C, Tarife]
   - slug: routes-2026-11
     date: 2026-11-01
     report: routes-2026-11/report.html
