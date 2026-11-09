@@ -1,0 +1,56 @@
+{
+ "carrier": "C5",
+ "name": "CommuteAir",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "unknown",
+  "detail": "Частная компания, отчётности нет",
+  "lessor_reserves": "не найдено",
+  "evidence": []
+ },
+ "engine_pbh": [],
+ "fleet": [
+  {
+   "icao": "E145",
+   "count": 59,
+   "avg_age_y": null,
+   "as_of": "2025-09-30 (UAL 10-Q Q3 2025); июнь 2025 — 59 ERJ145 (AviTrader)",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a3-107",
+    "a3-112"
+   ]
+  },
+  {
+   "icao": "E170",
+   "count": 1,
+   "avg_age_y": null,
+   "as_of": "2025-06",
+   "owned": null,
+   "leased": null,
+   "source_grade": "press",
+   "note": "чартер под собственным брендом; строка Form 41 C5 E170 (11766 USD/ч) нерепрезентативна",
+   "evidence": [
+    "a3-114"
+   ]
+  }
+ ],
+ "cpa": {
+  "role": "CPA с United до 2028; United владеет 40%",
+  "who_pays_maintenance": "не найдено. MRO ERJ145 с 2025 — Embraer (Форт-Уэрт)",
+  "evidence": [
+   "a3-107",
+   "a3-108",
+   "a3-113"
+  ]
+ },
+ "gaps": [
+  "Учётная политика",
+  "Договоры по двигателям AE3007",
+  "Кто владеет ERJ145 и кто платит ТОиР",
+  "Возраст парка"
+ ],
+ "doubts": []
+}

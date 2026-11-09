@@ -1,0 +1,528 @@
+{
+ "airlines": [
+  {
+   "airline": "Ryanair (группа)",
+   "country": "IE",
+   "model": "ULCC",
+   "fleet": "B737-800/8200",
+   "year": "FY2025 (апр 2024–мар 2025)",
+   "util_h_day": 9.57,
+   "util_basis": "flight hours/сутки, среднее за год по всему парку (Average Daily Flight Hour Utilization)",
+   "season": "год; зимой часть парка на хранении",
+   "avg_sector_h": null,
+   "avg_sector_km": 1260,
+   "evidence": [
+    "n1-099",
+    "n1-100",
+    "n1-101",
+    "n1-096"
+   ],
+   "note": "FY24 9,38; FY23 9,40; FY19 9,02. Сектор 783 мили. Средний сектор в часах не публикуется"
+  },
+  {
+   "airline": "Ryanair UK (дочка, 15 ВС)",
+   "country": "GB",
+   "model": "ULCC",
+   "fleet": "B737-800",
+   "year": "2024",
+   "util_h_day": 12.9,
+   "util_basis": "ч/сутки на ВС за месяц (CAA Table 8.2, блок-часы — infer n1-190)",
+   "season": "август 2024 (декабрь 2024: 10,5)",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-058",
+    "n1-050",
+    "n1-190"
+   ],
+   "note": "прокси летнего налёта Ryanair; малая выборка"
+  },
+  {
+   "airline": "Wizz Air",
+   "country": "HU/CH",
+   "model": "ULCC",
+   "fleet": "A320/A321ceo/neo",
+   "year": "FY2025 (апр 2024–мар 2025)",
+   "util_h_day": 12.47,
+   "util_basis": "блок-часы/сутки на летающий ВС (12:28); на весь парк 9:51",
+   "season": "год",
+   "avg_sector_h": 2.6,
+   "avg_sector_km": 1749,
+   "evidence": [
+    "n1-009",
+    "n1-010",
+    "n1-011",
+    "n1-012",
+    "n1-013"
+   ],
+   "note": "разрыв = в среднем 44 ВС на земле (GTF). avg_sector_h — infer: 12:28 / 4,83 вылета"
+  },
+  {
+   "airline": "Wizz Air UK",
+   "country": "GB",
+   "model": "ULCC",
+   "fleet": "A321neo (18)",
+   "year": "2024",
+   "util_h_day": 11.9,
+   "util_basis": "CAA Table 8.2, ч/сутки за месяц",
+   "season": "август 2024 (декабрь 2024: 12,1)",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-061",
+    "n1-051"
+   ],
+   "note": "почти без сезонности"
+  },
+  {
+   "airline": "easyJet UK",
+   "country": "GB",
+   "model": "LCC",
+   "fleet": "A319/A320/A320neo/A321neo (~185)",
+   "year": "2024",
+   "util_h_day": 11.0,
+   "util_basis": "CAA Table 8.2, ч/сутки за месяц",
+   "season": "август 2024; сентябрь 11,9; январь 8,9; декабрь 9,1",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-059",
+    "n1-055",
+    "n1-066",
+    "n1-048"
+   ],
+   "note": "A320neo: 12,7 (авг), 13,3 (сен). Группа easyJet налёт не публикует"
+  },
+  {
+   "airline": "Jet2.com",
+   "country": "GB",
+   "model": "лейжер LCC / пакетный",
+   "fleet": "B737-800, A321neo (~118)",
+   "year": "2024",
+   "util_h_day": 12.8,
+   "util_basis": "CAA Table 8.2, ч/сутки за месяц",
+   "season": "сентябрь 2024; август 10,6 (см. doubts); январь 7,2; декабрь 7,5",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-054",
+    "n1-060",
+    "n1-065",
+    "n1-049"
+   ],
+   "note": "самая сильная сезонность: зима ≈7 ч"
+  },
+  {
+   "airline": "TUI Airways",
+   "country": "GB",
+   "model": "чартер/пакетный",
+   "fleet": "B737-8/800, B787",
+   "year": "2024",
+   "util_h_day": 13.4,
+   "util_basis": "CAA Table 8.2",
+   "season": "сентябрь 2024; декабрь 8,1",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-056"
+   ],
+   "note": ""
+  },
+  {
+   "airline": "Southwest",
+   "country": "US",
+   "model": "LCC (point-to-point)",
+   "fleet": "B737",
+   "year": "2019",
+   "util_h_day": 10.51,
+   "util_basis": "блок-часы/сутки, весь операционный парк (Form 41 через MIT ADP)",
+   "season": "год",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-071"
+   ],
+   "note": "10-K 2024 строки налёта в доступном тексте не дал; средний этап 763 мили (2024) — без цитаты"
+  },
+  {
+   "airline": "Spirit",
+   "country": "US",
+   "model": "ULCC",
+   "fleet": "A320 family",
+   "year": "2023",
+   "util_h_day": 11.1,
+   "util_basis": "Average daily aircraft utilization (hours), год",
+   "season": "год; 4К23 11,2",
+   "avg_sector_h": null,
+   "avg_sector_miles": 1007,
+   "evidence": [
+    "n1-022",
+    "n1-023",
+    "n1-071"
+   ],
+   "note": "2022: 10,7; 2019 (Form 41): 12,24"
+  },
+  {
+   "airline": "Allegiant",
+   "country": "US",
+   "model": "лейжер ULCC (низкочастотный)",
+   "fleet": "A319/A320, B737-8200",
+   "year": "2024",
+   "util_h_day": 6.3,
+   "util_basis": "Average block hours per aircraft per day, год",
+   "season": "год",
+   "avg_sector_h": null,
+   "avg_sector_miles": 887,
+   "evidence": [
+    "n1-019",
+    "n1-020"
+   ],
+   "note": "сознательно низкий налёт дешёвых б/у бортов; 2019 (Form 41): 7,75"
+  },
+  {
+   "airline": "Volaris",
+   "country": "MX",
+   "model": "ULCC",
+   "fleet": "A320/A321ceo/neo (143)",
+   "year": "2024",
+   "util_h_day": 13.03,
+   "util_basis": "Average daily aircraft utilization (block hours), год",
+   "season": "год; 4К24 13,13",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-082",
+    "n1-083"
+   ],
+   "note": "2023: 13,37; в 4К24 в среднем 34 AOG — вероятно, на операционный парк (база не уточнена)"
+  },
+  {
+   "airline": "Pegasus",
+   "country": "TR",
+   "model": "LCC",
+   "fleet": "A320/A321neo, B737-800",
+   "year": "2017/2019",
+   "util_h_day": 13.4,
+   "util_basis": "Average Daily Utilization (block hours), месяц",
+   "season": "август 2017; март 2019 — 12,0",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-140",
+    "n1-142",
+    "n1-138"
+   ],
+   "note": "свежих цифр (2023–2025) не найдено; 2021 — 9,4 (ковид)"
+  },
+  {
+   "airline": "Thai AirAsia",
+   "country": "TH",
+   "model": "LCC",
+   "fleet": "A320/A321neo",
+   "year": "2023",
+   "util_h_day": 12.7,
+   "util_basis": "block hours per day per aircraft, год",
+   "season": "год",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-149",
+    "n1-146"
+   ],
+   "note": "2022: 9,6"
+  },
+  {
+   "airline": "VietJet",
+   "country": "VN",
+   "model": "LCC",
+   "fleet": "A320/A321 (82)",
+   "year": "1H2023",
+   "util_h_day": 12.0,
+   "util_basis": "«c.12 hrs», база не указана",
+   "season": "1 полугодие",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-089"
+   ],
+   "note": "1H2022: 10"
+  },
+  {
+   "airline": "S7 (ПАО «Авиакомпания «Сибирь»)",
+   "country": "RU",
+   "model": "network/hybrid",
+   "fleet": "A319/A320/A321, B737-800, B767, E170",
+   "year": "2017",
+   "util_h_day": 10.4,
+   "util_basis": "средний налёт на 1 ВС в сутки, год (годовой отчёт)",
+   "season": "год",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-122",
+    "n1-125",
+    "n1-118",
+    "n1-123"
+   ],
+   "note": "2016: 10,5; 2014: 11,0 на ВС в эксплуатации. Отчёты после 2017 не публикуются"
+  },
+  {
+   "airline": "S7 — B737NG",
+   "country": "RU",
+   "model": "network/hybrid",
+   "fleet": "B737-800",
+   "year": "2018",
+   "util_h_day": 14.17,
+   "util_basis": "ч/сутки (455 ч/мес), со слов зам. гендиректора S7 Group — пресса",
+   "season": "август 2018 (пик)",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-186"
+   ],
+   "note": "вторичный источник. План для 737 MAX — 16:40 (500 ч/мес), не факт (n1-187)"
+  },
+  {
+   "airline": "Победа",
+   "country": "RU",
+   "model": "ULCC",
+   "fleet": "B737-800",
+   "year": "2018",
+   "util_h_day": 13.8,
+   "util_basis": "среднесуточный налёт (блог со ссылкой на прошлые данные)",
+   "season": "год?",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-111",
+    "n1-110",
+    "n1-106",
+    "n1-109",
+    "n1-042"
+   ],
+   "note": "ВСЁ вторично: 3К2020 >13 на списочный ВС (Boeing); 2017 «15–16 ч» (ATO/Ведомости); один борт 16,5 (2018); CEO 2020 «15,5–16 ч». Оборот 25 мин"
+  },
+  {
+   "airline": "Российские перевозчики (A320/737-800)",
+   "country": "RU",
+   "model": "mixed",
+   "fleet": "A320, B737-800",
+   "year": "~2022–2023",
+   "util_h_day": 10.5,
+   "util_basis": "«10–11 ч в сутки», пресса",
+   "season": "н/д",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-113",
+    "n1-114"
+   ],
+   "note": "SSJ100: 5,3 ч/сутки (2022–23)"
+  },
+  {
+   "airline": "British Airways — A350-1000",
+   "country": "GB",
+   "model": "wide-body hub",
+   "fleet": "A350-1000 (18)",
+   "year": "2024",
+   "util_h_day": 14.0,
+   "util_basis": "CAA Table 8.2",
+   "season": "август 2024; декабрь 14,8",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-063",
+    "n1-052"
+   ],
+   "note": "777-300ER 13,0 (авг); BA всего 11,3 (авг), 10,6 (дек)"
+  },
+  {
+   "airline": "Virgin Atlantic",
+   "country": "GB",
+   "model": "wide-body hub",
+   "fleet": "A330/A350/B787 (43)",
+   "year": "2024",
+   "util_h_day": 14.6,
+   "util_basis": "CAA Table 8.2",
+   "season": "август 2024",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-062"
+   ],
+   "note": ""
+  },
+  {
+   "airline": "US широкофюзеляжные (AA/DL/UA/HA)",
+   "country": "US",
+   "model": "wide-body hub",
+   "fleet": "widebody",
+   "year": "2019",
+   "util_h_day": 13.02,
+   "util_basis": "блок-часы/сутки, Form 41 через MIT ADP",
+   "season": "год",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-073"
+   ],
+   "note": "AA 13,69; DL 12,97; UA 12,59; HA 13,20"
+  },
+  {
+   "airline": "Emirates — A380",
+   "country": "AE",
+   "model": "wide-body hub",
+   "fleet": "A380",
+   "year": "2019–фев 2020",
+   "util_h_day": 11.5,
+   "util_basis": "≈350 FH/мес (flight hours) → 11,5 ч/сутки (пересчёт ×12/365)",
+   "season": "год",
+   "avg_sector_h": null,
+   "evidence": [
+    "n1-134",
+    "n1-135"
+   ],
+   "note": "вторичный (IBA); 1 янв 2020 ≈12,3 ч/сутки"
+  }
+ ],
+ "day_examples": [
+  {
+   "airline": "Southwest",
+   "aircraft": "N446WN, B737-700",
+   "date": "2014-04-04",
+   "legs": 5,
+   "route": "SEA–MDW–TPA–BWI–ISP–PBI",
+   "window": "вылет 06:00 (PT), прилёт ≈00:00 (ET)",
+   "turn_min": "41 (Тампа); «около 20 мин» как возможный",
+   "total": "«14-hour workday»; ночёвка ≈7 ч",
+   "evidence": [
+    "n1-167"
+   ],
+   "note": "блог компании"
+  },
+  {
+   "airline": "Southwest",
+   "aircraft": "B737 (без бортового номера)",
+   "date": "2024-11 (День благодарения)",
+   "legs": 6,
+   "route": "BWI–DEN–LGB–RNO–LAS–SMF–LAS",
+   "window": "«well before dawn» → ночь",
+   "turn_min": "45",
+   "total": "«nearly 19-hour journey» (окно, включая стоянки и пояса); ночёвка ≈7 ч",
+   "evidence": [
+    "n1-165"
+   ],
+   "note": "пресса CBS"
+  },
+  {
+   "airline": "easyJet",
+   "aircraft": "G-EZPT, A320 (Гатвик)",
+   "date": "2017-10-02…09",
+   "legs": "4 в сутки",
+   "route": "Гатвик ↔ средиземноморье/Хургада",
+   "window": "н/д",
+   "turn_min": "н/д",
+   "total": "≈90 ч в воздухе за неделю ≈12,8 ч/сутки (airborne)",
+   "evidence": [
+    "n1-169"
+   ],
+   "note": "Telegraph по FR24"
+  },
+  {
+   "airline": "Ryanair",
+   "aircraft": "EI-DAC, B737-800 (Барселона)",
+   "date": "2017-10 (неделя)",
+   "legs": "46 за неделю ≈6,6 в сутки",
+   "route": "Иберия, Ибица",
+   "window": "н/д",
+   "turn_min": "н/д",
+   "total": "н/д",
+   "evidence": [
+    "n1-170"
+   ],
+   "note": "короткие плечи → много циклов"
+  },
+  {
+   "airline": "Jet2",
+   "aircraft": "G-CELK, B737 (Лидс-Брэдфорд)",
+   "date": "2017-10 (неделя)",
+   "legs": "н/д",
+   "route": "северная Англия – Амстердам и др.",
+   "window": "н/д",
+   "turn_min": "н/д",
+   "total": "≈50 ч в воздухе за неделю ≈7 ч/сутки",
+   "evidence": [
+    "n1-171"
+   ],
+   "note": "октябрь — межсезонье"
+  },
+  {
+   "airline": "Победа",
+   "aircraft": "отдельный B737-800",
+   "date": "2018",
+   "legs": "н/д",
+   "route": "н/д",
+   "window": "н/д",
+   "turn_min": "25 (стандарт)",
+   "total": "16,5 ч/сутки (рекорд борта)",
+   "evidence": [
+    "n1-109",
+    "n1-044"
+   ],
+   "note": "вторичный (блог)"
+  }
+ ],
+ "claim_check": {
+  "S7": {
+   "claim": "S7 летает 16–17 ч в сутки",
+   "verdict": "как средний налёт не подтверждается; как плановый/пиковый — частично",
+   "public_facts": [
+    "годовой отчёт «Сибири»: «Средний налет на 1 ВС составляет 10,4 часов в сутки» (2017), 10,5 (2016), 11,0 на ВС в эксплуатации (2014)",
+    "Ведомости 2018: «Boeing 737 NG в августе летали в среднем по 14 часов 10 минут в сутки (455 в месяц)» — пиковый месяц, один тип",
+    "там же: «летать на МАХ планируется примерно 16 часов 40 минут в сутки (500 в месяц)» — план, не факт"
+   ],
+   "average_vs_peak": "среднее за год 10,4–11,0 ч (2014–2017); пиковый месяц 737NG 14,2 ч (авг 2018); 16,7 ч — только план для MAX",
+   "not_found_publicly": [
+    "налёт S7 по типам (A320neo/A321neo/737-8) за 2019–2025 — не найдено в открытых источниках"
+   ],
+   "evidence": [
+    "n1-122",
+    "n1-125",
+    "n1-118",
+    "n1-186",
+    "n1-187",
+    "n1-176",
+    "n1-189",
+    "n1-196"
+   ]
+  },
+  "Ryanair": {
+   "claim": "Ryanair летает 16–17 ч в сутки",
+   "verdict": "не подтверждается",
+   "public_facts": [
+    "20-F FY25: «Average Daily Flight Hour Utilization (hours) 9.57 9.38 9.40 6.88 2.37» (FY25…FY21)",
+    "20-F: политика зимней постановки части парка",
+    "CAA: Ryanair UK (15 ВС) — 12,9 ч/сутки в августе 2024, 10,5 в декабре",
+    "пресса 2017 (ATO.ru): «в среднем 14 ч в сутки» — вероятно, летний/операционный показатель"
+   ],
+   "average_vs_peak": "среднее за год 9,4–9,6; летний месяц ≈13; 16–17 — не найдено нигде",
+   "evidence": [
+    "n1-099",
+    "n1-101",
+    "n1-058",
+    "n1-050",
+    "n1-107",
+    "n1-197"
+   ]
+  },
+  "Победа (для сравнения)": {
+   "note": "ближе всех к 16 ч: заявления 15–16 ч (2017, 2020), рекорд борта 16,5 (2018), но среднее по парку 13,8 (2018) и >13 (3К2020); все источники — пресса",
+   "evidence": [
+    "n1-193"
+   ]
+  }
+ },
+ "gaps": [
+  "IndiGo — цифра налёта в открытых материалах не найдена",
+  "Air Arabia, flydubai — нет цифр (только «лидер по налёту A320»)",
+  "Cebu Pacific, AirAsia Malaysia — нет цифр в доступных ops stats",
+  "Emirates/Qatar/SIA не публикуют налёт в отчётах; Emirates — только IBA (вторично)",
+  "Southwest 10-K 2024 и Spirit 10-K 2024 — таблица налёта не попала в доступный текст; для Southwest только Form 41 2019",
+  "MIT ADP за 2023–2024 недоступен",
+  "easyJet группа, Jet2 группа — только UK-AOC через CAA",
+  "Ryanair — летний налёт группы не публикуется; прокси Ryanair UK",
+  "Pegasus — свежих (2023–2025) цифр не найдено"
+ ],
+ "doubts": [
+  "CAA Table 8.2: знаменатель не равен колонке «aircraft in service» (easyJet авг: 67 431 ч/(183×31)=11,9 vs опубликовано 11,0; Jet2 авг 10,6 при сентябре 12,8) — использованы опубликованные значения; трактовка часов как блок-часов — infer по инструкции CAA к другой форме",
+  "Ryanair «flight hours» vs block hours: определение в 20-F не проверено; блок обычно на 0,3–0,5 ч/рейс больше",
+  "Строки таблиц цитируются по извлечению WebFetch — разделители/пробелы в исходном PDF/HTML могут отличаться",
+  "Wizz 12:28 — на летающий ВС; при наличии AOG годовые «на весь парк» ниже на 2–3 ч",
+  "VietJet «c.12 hrs» — база не указана",
+  "Победа и S7 737NG — только пресса/интервью, не отчётность"
+ ],
+ "verdict": "Среднегодовой налёт по всему парку у реальных перевозчиков — 9,5–13 блок-ч/сутки (Ryanair 9,6; S7 10,4–11; Southwest 10,5; Spirit 11,1; Wizz 12,5 на летающий; Thai AirAsia 12,7; Volaris 13,0), у лейжер-перевозчиков с низкой частотой — 6–7 (Allegiant). Летний месяц у лоукостеров и чартеров — 12–14 ч, зимой у сезонных — 7–9 ч. Широкофюзеляжные хабовые — 12,5–15 ч. 16–17 ч/сутки — это рекорды отдельных бортов, пиковые заявления (Победа) или план (S7 737 MAX), а не среднее ни у S7, ни у Ryanair. Для модели: 300 ч/мес (10 ч) — разумно для сетевого узкофюзеляжного парка и как среднегодовое для сезонного лоукостера; 360–400 ч/мес (12–13) — для круглогодичного ULCC/операционного парка; 400–450 (13–15) — для широкофюзеляжных и летнего пика; >480 ч/мес как годовое среднее не подтверждено ни одним источником."
+}

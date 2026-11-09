@@ -1,0 +1,127 @@
+{
+ "engine": "IAE V2500-A5",
+ "aircraft": [
+  "A319",
+  "A320",
+  "A321"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  22.0,
+  33.0
+ ],
+ "thrust_note": "по обозначениям V2522-A5…V2533-A5 (e1-214)",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 3000000,
+    "year": 2013,
+    "note": "25 LLP; модули: fan/LPC $452k, HPC $740k, HPT $825k, LPT $977k (без года)",
+    "evidence": [
+     "e1-085",
+     "e1-086"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "все 25 LLP",
+    "efc": 20000,
+    "evidence": [
+     "e1-087"
+    ]
+   }
+  ],
+  "escalation": {
+   "2023": 0.12
+  },
+  "escalation_notes": [
+   "Ishka 2023: «around 12% currently» (e1-043)",
+   "CFM/GE: «double-digit increase on Nov. 1, 2022» и «high-single-digit spares price hikes in August» 2023 — запчасти в целом (e1-005..007, e1-118)",
+   "Aviation Week (2023): новые запчасти дорожают ~10%/год (e1-005); AW MRO 2025: стоимость SV растёт двузначно (e1-134)"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first",
+   "interval_efc": 10500,
+   "ratio_fh_fc": 1.9,
+   "thrust": "V2527-A5 (A320)",
+   "cost_usd": 2400000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "типичный 1-й SV (2.9 HP workscope) $2.3–2.5 млн; при длинных секторах 8 000–9 500 EFC; 2-й 8 500–9 500 EFC при 1.8–2.0",
+   "evidence": [
+    "e1-089",
+    "e1-091"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efc": 7250,
+   "ratio_fh_fc": 2.05,
+   "thrust": "V2530/V2533-A5 (A321)",
+   "cost_usd": 2400000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "1-й 7 000–7 500 EFC; 2-й 5 000–5 500 EFC при 2.0–2.15 FH/FC; 2-й SV ~$2.7 млн",
+   "evidence": [
+    "e1-088",
+    "e1-091"
+   ]
+  },
+  {
+   "which": "first",
+   "interval_efc": 11500,
+   "thrust": "V2522/V2524-A5 (A319)",
+   "cost_usd": null,
+   "evidence": [
+    "e1-090"
+   ]
+  },
+  {
+   "which": "full level 3.0",
+   "cost_usd": 3050000,
+   "cost_year": 2013,
+   "includes_llp": false,
+   "cost_note": "$3.0–3.1 млн",
+   "evidence": [
+    "e1-091"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh_total": 225,
+   "usd_per_efc_total": 423,
+   "thrust": "V2522/24/27",
+   "year": 2013,
+   "note": "$204–245/EFH, $406–440/EFC, SV+LLP, 2 SV",
+   "evidence": [
+    "e1-092"
+   ]
+  },
+  {
+   "usd_per_efh_total": 290,
+   "usd_per_efc_total": 600,
+   "thrust": "V2530/33",
+   "year": 2013,
+   "note": "$280–300/EFH, ~$600/EFC, 3 SV, умеренный климат",
+   "evidence": [
+    "e1-093"
+   ]
+  }
+ ],
+ "issues": [
+  "Ближний Восток: интервалы примерно вдвое короче (AC No.91)"
+ ],
+ "gaps": [
+  "каталог LLP после 2013",
+  "стоимость SV после 2013"
+ ],
+ "doubts": [
+  "часть цифр (2-й интервал, резервы) — из таблиц через пересказ WebFetch"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

@@ -1,0 +1,85 @@
+{
+  "researcher": "l2",
+  "scope": "судебные и банкротные документы (EWHC/bailii/judiciary.uk, SAFLII, Delhi HC, Bankr. SDNY, АС РФ через garant/РАПСИ)",
+  "checked_at": "2026-10-21",
+  "items": [
+    {
+      "aircraft": "B190 (Beechcraft 1900D)",
+      "engine": "не назван в решении (у типа — PT6A-67D)",
+      "component": "combined",
+      "value": 285,
+      "unit": "USD/FH",
+      "year": 2015,
+      "escalation": null,
+      "conditions": "суммарный maintenance reserve rate (состав не раскрыт); 285 USD/ч за первые 45 ч в месяц, далее 350 USD/ч; без НДС; flight vs block hour не уточнено; базовая аренда 38 000 USD/мес; договор 24.11.2014, срок 12.01.2015–11.01.2016",
+      "context": "Ringopro (Pty) Ltd (лизингодатель) v Winter Castle Trading 44 (лизингополучатель), ЮАР: [2021] ZANWHC 3; апелляция [2023] ZANWHC 124",
+      "evidence": ["l2-006", "l2-082", "l2-084", "l2-085"]
+    },
+    {
+      "aircraft": "B190 (Beechcraft 1900D)",
+      "engine": "не назван в решении (у типа — PT6A-67D)",
+      "component": "combined",
+      "value": 350,
+      "unit": "USD/FH",
+      "year": 2015,
+      "escalation": null,
+      "conditions": "ставка сверх первых 45 ч налёта в месяц; без НДС",
+      "context": "Ringopro v Winter Castle Trading 44, [2021] ZANWHC 3",
+      "evidence": ["l2-082", "l2-085"]
+    },
+    {
+      "aircraft": "B190 (Beechcraft 1900D)",
+      "engine": "не назван в решении",
+      "component": "engine_cycles_surcharge",
+      "value": 15,
+      "unit": "USD/EFC",
+      "year": 2015,
+      "escalation": null,
+      "conditions": "доплата за каждый цикл двигателя сверх 1 цикла на двигатель на лётный час; без НДС",
+      "context": "Ringopro v Winter Castle Trading 44, [2023] ZANWHC 124 п.[6]",
+      "evidence": ["l2-007", "l2-085"]
+    },
+    {
+      "aircraft": "A319",
+      "engine": "CFM56-5B6/P (по ch-aviation; в решении тип не назван, ESN 575280/779311)",
+      "component": "airframe",
+      "value": 30545,
+      "unit": "USD/month",
+      "year": 2018,
+      "escalation": 0.04,
+      "conditions": "ФИКСИРОВАННАЯ (календарная) часть Maintenance Rent, взыскивалась и при простое; утилизационные ставки EFH/EFC (ст. 8.3 Novation Agreement) в решении не приведены; по индексации 4%/год: 31 767 (2019), 33 037 (2020); базовая аренда 125 000 USD/мес; договор 22.01.2016, поставка 10.03.2016",
+      "context": "FTAI AirOpCo UK Ltd v Olympus Airways SA [2022] EWHC 1362 (Comm), A319-100 SX-BHN msn 1612",
+      "evidence": ["l2-119", "l2-120", "l2-121", "l2-122", "l2-124", "l2-116"]
+    }
+  ],
+  "related_costs": [
+    {
+      "what": "стоимость EPR shop visit двигателя 737-800 (ESN 892380)",
+      "value": "3 114 305 – 4 318 213 USD",
+      "year": 2023,
+      "context": "GASL Ireland Leasing A-1 v SpiceJet [2023] EWHC 1107 (Comm) para 28(c); договор 10.05.2017; MTBR 12 844 FH / 7 498 FC",
+      "evidence": ["l2-053"]
+    },
+    {
+      "what": "консервативная оценка затрат на восстановление одного A321neo к возврату (эксперт VietJet)",
+      "value": "6 779 056.76 USD",
+      "year": 2025,
+      "context": "FW Aviation (Holdings) 1 v VietJet [2025] EWHC 928 (Comm) para 100; поставка 2019, прекращение договора 10.2021",
+      "evidence": ["l2-141"]
+    }
+  ],
+  "gaps": [
+    "Ставки engine PR (USD/EFH), LLP (USD/EFC), шасси и ВСУ для реактивных магистральных ВС в найденных судебных/банкротных документах не названы: решения отсылают к приложениям договоров (Schedule 7 — GASL v SpiceJet; Art. 8.3 Novation Agreement — FTAI v Olympus; cl. 12.3 — Sunbird v SpiceJet [2026] EWHC 831), где цифр нет (l2-052, l2-055, l2-118)",
+    "Не удалось открыть: bailii EWHC Comm 2022/176 (NAS Air v Genesis, A320 CFM56-5B4/P), 2022/382 (GASL v SpiceJet), 2026/1996 (FWA v VietJet, третий процесс) — бот-защита/нет разрешения WebFetch (l2-044, l2-051, l2-136)",
+    "Россия 2022+: в доступной части [2025] EWHC 1430 (Comm) ставок резервов нет; условия лизинга Аэрофлота в Annexe 2, не прочитано (l2-101, l2-103)",
+    "kad.arbitr.ru поиском не индексируется; в найденных постановлениях АС РФ (garant/РАПСИ) ставок резервов на ТО нет, только суммы (Ред Вингс v ГСС: 680,7 тыс. USD техрезервов за 5,5 мес по 2 ВС, тип ВС не назван — l2-107)",
+    "Банкротства (Avianca, LATAM, SAS, Air South, TWA) и NCLT/Delhi HC (Go First, SpiceJet): ставок нет, только суммы требований (l2-021, l2-058, l2-074, l2-014)",
+    "Договор лизинга Q400 msn 4221 (DOT-OST-2021-0046): Schedule 9 с резервами не попал в доступный текст PDF (l2-076)"
+  ],
+  "doubts": [
+    "Beech 1900D — турбовинтовой 19-местный самолёт; ставка суммарная (не разложена по составляющим), поэтому component='combined' вне перечня SPEC_RES",
+    "A319: состав фиксированной месячной части не раскрыт (в примерах названы Airframe 6-Year Check и LLP); отнесено к airframe как наиболее вероятное (календарные структурные проверки, возможно, с шасси) — это вывод, а не цитата",
+    "A319: год ставки 30 545 = 2018 выведен из индексации (31 767 в 2019 = 30 545 × 1,04); тип двигателя CFM56-5B6/P взят из ch-aviation, не из решения",
+    "related_costs — не ставки резервов, а оценки стоимости событий; использовать только для сверки"
+  ]
+}

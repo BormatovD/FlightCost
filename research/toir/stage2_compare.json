@@ -1,0 +1,642 @@
+[
+{
+"airline": "ABY",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ABY",
+"fy": 2024,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ABY",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ANE",
+"fy": 2015,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ANE",
+"fy": 2016,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ANE",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "ANE",
+"fy": 2018,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "AZO",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "BRX",
+"fy": 2019,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "BRX",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "BTI",
+"fy": 2022,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "BTI",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "BTI",
+"fy": 2024,
+"actual": 235,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": 3.8,
+"sector": null,
+"hours": "block (без ACMI-out)",
+"fx": 1.0818,
+"cur": "EUR"
+},
+{
+"airline": "BTI",
+"fy": 2025,
+"actual": 268,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": 4.5,
+"sector": null,
+"hours": "block (без ACMI-out)",
+"fx": 1.1299,
+"cur": "EUR"
+},
+{
+"airline": "CEB",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "CEB",
+"fy": 2018,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "CEB",
+"fy": 2019,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "CEB",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EXS",
+"fy": 2022,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EXS",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EXS",
+"fy": 2024,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EXS",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EXS",
+"fy": 2026,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "EZY",
+"fy": 2016,
+"actual": 505,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": 6.9,
+"sector": 1.94,
+"hours": "block",
+"fx": 1.3987,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2017,
+"actual": 464,
+"pred": 946,
+"pred_nolab": 774,
+"ratio": 0.6,
+"why": "",
+"covid": false,
+"age": 7.1,
+"sector": 1.95,
+"hours": "block",
+"fx": 1.3056,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2018,
+"actual": 495,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": 7.0,
+"sector": 1.94,
+"hours": "block",
+"fx": 1.3245,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2019,
+"actual": 419,
+"pred": 909,
+"pred_nolab": 744,
+"ratio": 0.56,
+"why": "",
+"covid": false,
+"age": 7.4,
+"sector": 1.95,
+"hours": "block",
+"fx": 1.2917,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2020,
+"actual": 733,
+"pred": 1059,
+"pred_nolab": 867,
+"ratio": 0.85,
+"why": "; пандемия — налёт обвалился, постоянные расходы ТО на час завышены",
+"covid": true,
+"age": 8.0,
+"sector": 1.97,
+"hours": "block",
+"fx": 1.2814,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2021,
+"actual": 1194,
+"pred": 1060,
+"pred_nolab": 867,
+"ratio": 1.38,
+"why": "; пандемия — налёт обвалился, постоянные расходы ТО на час завышены",
+"covid": true,
+"age": 8.6,
+"sector": 2.0,
+"hours": "block",
+"fx": 1.353,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2022,
+"actual": 480,
+"pred": 1028,
+"pred_nolab": 841,
+"ratio": 0.57,
+"why": "; пандемия — налёт обвалился, постоянные расходы ТО на час завышены",
+"covid": true,
+"age": 9.3,
+"sector": 2.06,
+"hours": "block",
+"fx": 1.2719,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2023,
+"actual": 436,
+"pred": 991,
+"pred_nolab": 810,
+"ratio": 0.54,
+"why": "",
+"covid": false,
+"age": 9.9,
+"sector": 2.11,
+"hours": "block",
+"fx": 1.2423,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2024,
+"actual": 429,
+"pred": 1056,
+"pred_nolab": 864,
+"ratio": 0.5,
+"why": "",
+"covid": false,
+"age": 10.2,
+"sector": 2.11,
+"hours": "block",
+"fx": 1.2696,
+"cur": "GBP"
+},
+{
+"airline": "EZY",
+"fy": 2025,
+"actual": 466,
+"pred": 1018,
+"pred_nolab": 832,
+"ratio": 0.56,
+"why": "",
+"covid": false,
+"age": 10.9,
+"sector": 2.2,
+"hours": "block",
+"fx": 1.3089,
+"cur": "GBP"
+},
+{
+"airline": "IGO",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "IGO",
+"fy": 2021,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "IGO",
+"fy": 2022,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "IGO",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "IGO",
+"fy": 2024,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "IGO",
+"fy": 2025,
+"why": "нет курса INR за ФГ2025"
+},
+{
+"airline": "IGO",
+"fy": 2026,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "JZA",
+"fy": 2024,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "JZA",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "LOG",
+"fy": 2024,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "NAX",
+"fy": 2020,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "NAX",
+"fy": 2021,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "NAX",
+"fy": 2022,
+"why": "нет курса NOK за ФГ2022"
+},
+{
+"airline": "NAX",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "NAX",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "PBD",
+"fy": 2016,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "PBD",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "PBD",
+"fy": 2018,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "PBD",
+"fy": 2022,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2016,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2019,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2020,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2021,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RXA",
+"fy": 2022,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RYR",
+"fy": 2016,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RYR",
+"fy": 2017,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RYR",
+"fy": 2018,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "RYR",
+"fy": 2019,
+"actual": 193,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": null,
+"sector": 1.88,
+"hours": "derived",
+"fx": 1.1581,
+"cur": "EUR"
+},
+{
+"airline": "RYR",
+"fy": 2020,
+"actual": 232,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора; пандемия — налёт обвалился, постоянные расходы ТО на час завышены",
+"covid": true,
+"age": null,
+"sector": 1.89,
+"hours": "derived",
+"fx": 1.1112,
+"cur": "EUR"
+},
+{
+"airline": "RYR",
+"fy": 2021,
+"why": "нет курса EUR за ФГ2021"
+},
+{
+"airline": "RYR",
+"fy": 2022,
+"why": "нет курса EUR за ФГ2022"
+},
+{
+"airline": "RYR",
+"fy": 2023,
+"actual": 257,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": true,
+"age": null,
+"sector": 1.88,
+"hours": "derived",
+"fx": 1.0413,
+"cur": "EUR"
+},
+{
+"airline": "RYR",
+"fy": 2024,
+"actual": 264,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": null,
+"sector": 1.88,
+"hours": "derived",
+"fx": 1.0848,
+"cur": "EUR"
+},
+{
+"airline": "RYR",
+"fy": 2025,
+"actual": 251,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": null,
+"sector": 1.88,
+"hours": "derived",
+"fx": 1.0736,
+"cur": "EUR"
+},
+{
+"airline": "RYR",
+"fy": 2026,
+"actual": 294,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": null,
+"sector": 1.89,
+"hours": "derived",
+"fx": 1.1594,
+"cur": "EUR"
+},
+{
+"airline": "WIF",
+"fy": 2023,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "WIF",
+"fy": 2025,
+"why": "нет суммы ТОиР или налёта"
+},
+{
+"airline": "WZZ",
+"fy": 2018,
+"why": "нет курса EUR за ФГ2018"
+},
+{
+"airline": "WZZ",
+"fy": 2019,
+"actual": 446,
+"pred": 678,
+"pred_nolab": 555,
+"ratio": 0.8,
+"why": "",
+"covid": false,
+"age": 4.8,
+"sector": 2.38,
+"hours": "block",
+"fx": 1.1581,
+"cur": "EUR"
+},
+{
+"airline": "WZZ",
+"fy": 2020,
+"actual": 482,
+"pred": 681,
+"pred_nolab": 557,
+"ratio": 0.87,
+"why": "; пандемия — налёт обвалился, постоянные расходы ТО на час завышены",
+"covid": true,
+"age": 5.4,
+"sector": 2.41,
+"hours": "block",
+"fx": 1.1112,
+"cur": "EUR"
+},
+{
+"airline": "WZZ",
+"fy": 2021,
+"why": "нет курса EUR за ФГ2021"
+},
+{
+"airline": "WZZ",
+"fy": 2022,
+"why": "нет курса EUR за ФГ2022"
+},
+{
+"airline": "WZZ",
+"fy": 2023,
+"actual": 435,
+"pred": 725,
+"pred_nolab": 593,
+"ratio": 0.73,
+"why": "",
+"covid": true,
+"age": 4.6,
+"sector": 2.49,
+"hours": "block",
+"fx": 1.0413,
+"cur": "EUR"
+},
+{
+"airline": "WZZ",
+"fy": 2024,
+"actual": 434,
+"pred": 733,
+"pred_nolab": 599,
+"ratio": 0.72,
+"why": "",
+"covid": false,
+"age": 4.3,
+"sector": 2.59,
+"hours": "block",
+"fx": 1.0848,
+"cur": "EUR"
+},
+{
+"airline": "WZZ",
+"fy": 2025,
+"actual": 447,
+"pred": 747,
+"pred_nolab": 611,
+"ratio": 0.73,
+"why": "",
+"covid": false,
+"age": 4.5,
+"sector": 2.58,
+"hours": "block",
+"fx": 1.0736,
+"cur": "EUR"
+},
+{
+"airline": "WZZ",
+"fy": 2026,
+"actual": 623,
+"pred": null,
+"pred_nolab": null,
+"ratio": null,
+"why": "нет парка по типам, возраста или сектора",
+"covid": false,
+"age": null,
+"sector": 2.55,
+"hours": "block",
+"fx": 1.1594,
+"cur": "EUR"
+}
+]

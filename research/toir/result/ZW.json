@@ -1,0 +1,50 @@
+{
+ "carrier": "ZW",
+ "name": "Air Wisconsin Airlines (Harbor Diversified до 01.2026)",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "mixed",
+  "detail": "Текущее ТО — в расход по мере выполнения; плановый капремонт двигателей — deferral. Политика FY2019 (более свежие примечания недоступны), срок амортизации не раскрыт.",
+  "lessor_reserves": "не найдено (парк собственный)",
+  "evidence": [
+   "a3-130",
+   "a3-131",
+   "a3-209"
+  ]
+ },
+ "engine_pbh": [],
+ "fleet": [
+  {
+   "icao": "CRJ2",
+   "count": 63,
+   "avg_age_y": null,
+   "as_of": "2024-12-31",
+   "owned": 63,
+   "leased": 0,
+   "source_grade": "primary",
+   "note": "45 в работе для American; после 03.04.2025 — EAS/чартер, распродажа ВС; к 09.01.2026 Air Wisconsin продана",
+   "evidence": [
+    "a3-124",
+    "a3-128"
+   ]
+  }
+ ],
+ "cpa": {
+  "role": "CPA с American до 03.04.2025, далее codeshare/interline, EAS и чартер",
+  "who_pays_maintenance": "Air Wisconsin сам; American возмещал топливо, сборы, ливрею — ТОиР нет",
+  "evidence": [
+   "a3-125",
+   "a3-126",
+   "a3-127",
+   "a3-210"
+  ]
+ },
+ "gaps": [
+  "Возраст парка",
+  "Политика ТОиР за 2024–2025"
+ ],
+ "doubts": [
+  "2025 — переходный год (конец CPA, падение налёта): накладные 571 USD/ч и общий уровень 1731 USD/ч нерепрезентативны (a3-132)",
+  "При deferral капремонт двигателей в Form 41 ТОиР может не попадать"
+ ]
+}

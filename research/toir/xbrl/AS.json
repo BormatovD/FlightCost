@@ -1,0 +1,134 @@
+{
+ "carrier": "AS",
+ "cik": "766421",
+ "name": "Alaska Air Group",
+ "unit": "млн USD",
+ "line_label": "Aircraft maintenance",
+ "mmr": {
+  "2009": {
+   "v": 223.1,
+   "evidence": [
+    "x2-082"
+   ]
+  },
+  "2010": {
+   "v": 216.5,
+   "evidence": [
+    "x2-082",
+    "x2-084"
+   ]
+  },
+  "2011": {
+   "v": 205.6,
+   "evidence": [
+    "x2-084"
+   ]
+  },
+  "2012": {
+   "v": 222,
+   "evidence": [
+    "x2-080"
+   ]
+  },
+  "2013": {
+   "v": 247,
+   "evidence": [
+    "x2-080"
+   ]
+  },
+  "2014": {
+   "v": 229,
+   "evidence": [
+    "x2-075"
+   ]
+  },
+  "2015": {
+   "v": 253,
+   "evidence": [
+    "x2-075"
+   ]
+  },
+  "2016": {
+   "v": 270,
+   "evidence": [
+    "x2-072"
+   ]
+  },
+  "2017": {
+   "v": 391,
+   "evidence": [
+    "x2-072"
+   ]
+  },
+  "2018": {
+   "v": 435,
+   "evidence": [
+    "x2-065",
+    "x2-067"
+   ]
+  },
+  "2019": {
+   "v": 437,
+   "evidence": [
+    "x2-065",
+    "x2-067"
+   ]
+  },
+  "2020": {
+   "v": 321,
+   "evidence": [
+    "x2-065"
+   ]
+  },
+  "2021": {
+   "v": 364,
+   "evidence": [
+    "x2-062"
+   ]
+  },
+  "2022": {
+   "v": 424,
+   "evidence": [
+    "x2-062"
+   ]
+  },
+  "2023": {
+   "v": 488,
+   "evidence": [
+    "x2-057"
+   ]
+  },
+  "2024": {
+   "v": 620,
+   "evidence": [
+    "x2-057",
+    "x2-059"
+   ]
+  },
+  "2025": {
+   "v": 912,
+   "evidence": [
+    "x2-059"
+   ]
+  }
+ },
+ "deferred_amort": {},
+ "capitalized": {},
+ "pbh": {},
+ "oem_credits": {},
+ "tags": {
+  "mmr": "не проверено",
+  "note": "тег XBRL не проверен: API data.sec.gov и R-страницы недоступны инструменту (PROVENANCE_REQUIRED); значения взяты из отчётов о прибылях в релизах Q4 (8-K Ex.99.1) и Financial_Report.xlsx"
+ },
+ "gaps": [
+  "deferred_amort/capitalized: неприменимо — метод direct_expense (см. result/<код>.json) — отложенного ТО нет; ряд неприменим",
+  "pbh: годовая сумма расходов по договорам за налёт не раскрыта в просмотренных источниках (релизы Q4, Financial_Report.xlsx); полные 10-K обрезаются инструментом до Item 1A–2",
+  "oem_credits: суммы компенсаций производителей двигателей, уменьшивших ТОиР, в просмотренных источниках не найдены",
+  "API XBRL (companyconcept/companyfacts) недоступен: WebFetch PROVENANCE_REQUIRED (x2-001)"
+ ],
+ "doubts": [
+  "строка отчёта — «Aircraft maintenance», не «Maintenance, materials and repairs»",
+  "2017+ включает Virgin America (с 14.12.2016); 2024 — Hawaiian с 18.09.2024, 2025 — полный год с Hawaiian",
+  "2009–2011 в релизах с одним знаком после запятой"
+ ]
+}

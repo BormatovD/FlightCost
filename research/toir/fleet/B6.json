@@ -1,0 +1,59 @@
+{
+ "carrier": "B6",
+ "fleet": [
+  {
+   "icao": "A320",
+   "count": 129,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-058"
+   ]
+  },
+  {
+   "icao": "A321/A21N",
+   "count": 100,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-058"
+   ],
+   "note": "«100 Airbus A321» — ceo и neo вместе"
+  },
+  {
+   "icao": "BCS3",
+   "count": 59,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-058"
+   ]
+  },
+  {
+   "icao": "E190",
+   "count": 0,
+   "avg_age_y": null,
+   "as_of": "2025-12-31",
+   "owned": null,
+   "leased": null,
+   "source_grade": "primary",
+   "evidence": [
+    "a4-058"
+   ],
+   "note": "E190 выведены в 3 кв. 2025"
+  }
+ ],
+ "gaps": [
+  "Средний возраст и собственность/лизинг по типам на 31.12.2025. Item 2 «Properties» 10-K FY2025 недоступен: WebFetch получает только первые ~106–124 тыс. символов (и HTML на sec.gov, и PDF на сайте IR, и зеркала), offset дальше этой границы не читает.",
+  "Агрегаторные значения возраста JetBlue есть у исследователя a2 (a2-081, airfleets)"
+ ]
+}

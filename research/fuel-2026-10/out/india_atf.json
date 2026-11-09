@@ -1,0 +1,366 @@
+{
+  "month": "2026-10",
+  "note_units": "domestic_rs_per_kl = INR per kilolitre, as quoted (incl. state VAT & excise per OMC list); press since June 2026 quotes INR/litre, converted x1000",
+  "iocl": [
+    {
+      "city": "Delhi",
+      "icao": "VIDP",
+      "domestic_rs_per_kl": 137000,
+      "international_usd_per_kl": null,
+      "month": "2026-10",
+      "evidence": [
+        "f4-031",
+        "f4-033",
+        "f4-035"
+      ],
+      "note": "Press (PTI) quoting OMCs, ~₹137/l; IOCL site not updated. International Oct-2026 not found (last known ~$1,100/kl Jun-2026)."
+    },
+    {
+      "city": "Mumbai",
+      "icao": "VABB",
+      "domestic_rs_per_kl": 114500,
+      "international_usd_per_kl": 1690.33,
+      "month": "domestic 2026-06-10 (scheme); international 2026-04",
+      "evidence": [
+        "f4-020",
+        "f4-006"
+      ],
+      "note": "Oct-2026 value NOT found; stale."
+    },
+    {
+      "city": "Kolkata",
+      "icao": "VECC",
+      "domestic_rs_per_kl": 109450,
+      "international_usd_per_kl": 1727.3,
+      "month": "2026-04",
+      "evidence": [
+        "f4-005",
+        "f4-006",
+        "f4-010"
+      ],
+      "note": "Oct-2026 value NOT found; April-2026 IOCL table."
+    },
+    {
+      "city": "Chennai",
+      "icao": "VOMM",
+      "domestic_rs_per_kl": 139000,
+      "international_usd_per_kl": 1684.98,
+      "month": "domestic 2026-06-10 (scheme); international 2026-04",
+      "evidence": [
+        "f4-020",
+        "f4-006"
+      ],
+      "note": "Oct-2026 value NOT found; stale. TN VAT at Chennai drops 29%->16% from 2026-11-01."
+    }
+  ],
+  "history": [
+    {
+      "city": "Delhi",
+      "icao": "VIDP",
+      "series_domestic_rs_per_kl": {
+        "2026-03": 96638.14,
+        "2026-04": 104927,
+        "2026-05": 104927.18,
+        "2026-06-01": 104927.18,
+        "2026-06-10": 115000,
+        "2026-07": 110000,
+        "2026-08": 115000,
+        "2026-09": 121280,
+        "2026-10": 137000
+      },
+      "series_international_usd_per_kl": {
+        "2026-04 (Indian carriers intl run, IOCL)": 1690.81,
+        "2026-05 (international airlines)": 1511.86,
+        "2026-06 (international airlines, approx)": 1100
+      },
+      "evidence": [
+        "f4-010",
+        "f4-005",
+        "f4-006",
+        "f4-013",
+        "f4-015",
+        "f4-017",
+        "f4-020",
+        "f4-026",
+        "f4-028",
+        "f4-031"
+      ]
+    },
+    {
+      "city": "Mumbai",
+      "icao": "VABB",
+      "series_domestic_rs_per_kl": {
+        "2026-03": 90451.87,
+        "2026-04": 98247,
+        "2026-06-10": 114500
+      },
+      "evidence": [
+        "f4-010",
+        "f4-020"
+      ]
+    },
+    {
+      "city": "Kolkata",
+      "icao": "VECC",
+      "series_domestic_rs_per_kl": {
+        "2026-03": 99587.14,
+        "2026-04": 109450
+      },
+      "evidence": [
+        "f4-010"
+      ]
+    },
+    {
+      "city": "Chennai",
+      "icao": "VOMM",
+      "series_domestic_rs_per_kl": {
+        "2026-03": 100280.49,
+        "2026-04": 109873,
+        "2026-06-10": 139000
+      },
+      "evidence": [
+        "f4-010",
+        "f4-020"
+      ]
+    }
+  ],
+  "excise": {
+    "domestic_basic_excise_pct_ad_valorem": 11,
+    "rcs_udan_concessional_pct": 2,
+    "rcs_note": "2% for RCS — 2022 source, not re-verified for 2026",
+    "saed_2026": "SAED ₹50/l introduced 26-Mar-2026 (07/2026-CE) but ATF exempt from whole SAED except when exported (09/2026-CE); export SAED varied: ₹29.5/l (Mar) → ₹9.5/l (1-Jun) → ₹19.5/l (15-Aug) → ₹10.5/l (Oct). Not part of into-plane price.",
+    "indian_carriers_international_flights": "exempt (since July 2022)",
+    "foreign_going_aircraft": "BED exempt (10/2026-CE, per secondary summary)",
+    "evidence": [
+      "f4-047",
+      "f4-049",
+      "f4-051",
+      "f4-053",
+      "f4-044",
+      "f4-055",
+      "f4-023"
+    ],
+    "doubt": "Effective date of 11% rate not re-confirmed from CBIC; notification number for 2022 international exemption not found."
+  },
+  "state_vat": [
+    {
+      "state": "Delhi",
+      "airports_icao": [
+        "VIDP"
+      ],
+      "vat_pct": 7,
+      "date": "2026-05-16 (six months; expiry ~Nov-2026)",
+      "previous_pct": 25,
+      "evidence": [
+        "f4-058",
+        "f4-060",
+        "f4-024"
+      ]
+    },
+    {
+      "state": "Maharashtra",
+      "airports_icao": [
+        "VABB",
+        "VAPO",
+        "VANM"
+      ],
+      "vat_pct": 7,
+      "date": "2026-05-15..2026-11-14 (domestic flights)",
+      "previous_pct": 18,
+      "evidence": [
+        "f4-063",
+        "f4-060",
+        "f4-065"
+      ],
+      "note": "2022 LS: 25% Mumbai/Pune/Raigad, 5% elsewhere; by Apr-2026 18%. After 14-Nov-2026 reverts to 18% unless extended."
+    },
+    {
+      "state": "West Bengal",
+      "airports_icao": [
+        "VECC"
+      ],
+      "vat_pct": 25,
+      "vat_note": "25% + 20% additional tax on tax (≈30% effective) per 2022 LS; PSU Watch Jun-2026 says 'around 20%'; RCS flights at Kolkata/Bagdogra 0.83%; Bagdogra 12.5%",
+      "date": "2022-12-15 / 2024-07-15",
+      "evidence": [
+        "f4-072",
+        "f4-074",
+        "f4-024"
+      ]
+    },
+    {
+      "state": "Tamil Nadu",
+      "airports_icao": [
+        "VOMM"
+      ],
+      "vat_pct": 29,
+      "vat_pct_from_2026_11_01": {
+        "VOMM_domestic_scheduled": 16,
+        "other_TN_airports": 1
+      },
+      "date": "29% until 2026-10-31; new rates 2026-11-01..2027-10-31",
+      "evidence": [
+        "f4-068",
+        "f4-065",
+        "f4-063"
+      ]
+    },
+    {
+      "state": "Karnataka",
+      "airports_icao": [
+        "VOBL"
+      ],
+      "vat_pct": 18,
+      "date": "Lok Sabha data ~Jun-2026 (cited Oct-2026); PSU Watch Jun-2026 says 15%",
+      "evidence": [
+        "f4-068",
+        "f4-072",
+        "f4-024"
+      ]
+    },
+    {
+      "state": "Telangana",
+      "airports_icao": [
+        "VOHS"
+      ],
+      "vat_pct": 16,
+      "date": "Lok Sabha data ~Jun-2026 (cited Oct-2026)",
+      "evidence": [
+        "f4-068",
+        "f4-076"
+      ],
+      "note": "2021 source said Hyderabad cut 16%->1%; conflict."
+    },
+    {
+      "state": "Andhra Pradesh",
+      "airports_icao": [],
+      "vat_pct": 1,
+      "date": "~Jun-2026",
+      "evidence": [
+        "f4-068"
+      ],
+      "note": "1-4% band"
+    },
+    {
+      "state": "Gujarat",
+      "airports_icao": [
+        "VAAH"
+      ],
+      "vat_pct": 5,
+      "date": "2022-12-15 (old)",
+      "evidence": [
+        "f4-072"
+      ]
+    },
+    {
+      "state": "Kerala",
+      "airports_icao": [
+        "VOCI"
+      ],
+      "vat_pct": 1,
+      "date": "2021-08-27 (old)",
+      "evidence": [
+        "f4-076"
+      ],
+      "note": "1-4% band; scope (all airports?) not confirmed"
+    },
+    {
+      "state": "Goa",
+      "airports_icao": [
+        "VOGO",
+        "VOGA"
+      ],
+      "vat_pct": 18,
+      "vat_note": "+0.5% Goa Green Cess",
+      "date": "2022-12-15 (old)",
+      "evidence": [
+        "f4-072"
+      ]
+    },
+    {
+      "state": "Uttar Pradesh",
+      "airports_icao": [
+        "VILK"
+      ],
+      "vat_pct": 1,
+      "date": "2026-03-27",
+      "evidence": [
+        "f4-070"
+      ],
+      "note": "1-4% band; covers Noida/Jewar (VIDX) too"
+    },
+    {
+      "state": "Rajasthan",
+      "airports_icao": [
+        "VIJP"
+      ],
+      "vat_pct": 26,
+      "vat_note": "5.5% for airlines with hub/connecting two Rajasthan cities; 10% for scheduled flights to Rajasthan cities other than Jaipur",
+      "date": "2022-12-15 (old)",
+      "evidence": [
+        "f4-072"
+      ]
+    },
+    {
+      "state": "Assam",
+      "airports_icao": [
+        "VEGT"
+      ],
+      "vat_pct": 23.65,
+      "date": "2022-12-15 (old)",
+      "evidence": [
+        "f4-072"
+      ]
+    }
+  ],
+  "rcs_udan_low_vat_states": {
+    "list_1_to_4_pct": [
+      "Uttar Pradesh (1%)",
+      "Andhra Pradesh (1%)",
+      "Kerala (1%, 2021)",
+      "Tamil Nadu non-Chennai airports (1% from 2026-11-01)",
+      "West Bengal RCS flights (0.83%)",
+      "Gujarat (5%, near band)"
+    ],
+    "note": "MoCA in 2021 asked 22 states/UTs for 1-4%; UDAN airports as low as 1%.",
+    "evidence": [
+      "f4-076",
+      "f4-060",
+      "f4-070",
+      "f4-068",
+      "f4-074",
+      "f4-072"
+    ]
+  },
+  "international_vat_exempt": {
+    "state_vat_on_international_flights": "exempt (generally); explicitly confirmed for Maharashtra",
+    "excise_on_international_flights": "nil for Indian carriers (since Jul-2022); BED exempt for foreign-going aircraft (10/2026-CE)",
+    "foreign_vs_indian_international": "Not the same price regime in 2026: foreign airlines pay market-linked prices; domestic cap/scheme applied to Indian carriers' domestic ops (scheme price 'for both domestic and international' at Delhi per PSU Watch). IOCL publishes USD price 'for Domestic Airlines on International Run'; separate foreign-airline list not found.",
+    "evidence": [
+      "f4-023",
+      "f4-060",
+      "f4-053",
+      "f4-044",
+      "f4-013",
+      "f4-022",
+      "f4-006"
+    ]
+  },
+  "gaps": [
+    "Oct-2026 domestic prices for Mumbai, Kolkata, Chennai (only Delhi ₹137/l found)",
+    "International (USD/kl) prices for Jul–Oct 2026 for any metro",
+    "November 2026 revision not yet published",
+    "IOCL official site still shows April-2026 table; previous-price pages not retrievable",
+    "2026 VAT for Gujarat, Goa, Rajasthan, Assam, Kerala (only 2021–2022 data)",
+    "Whether Delhi (7%) and Maharashtra (7%) VAT cuts are extended beyond Nov-2026",
+    "CBIC notification text for 11% excise and for 2022 international exemption not opened"
+  ],
+  "doubts": [
+    "Since June 2026 domestic ATF priced under a stabilisation framework and press quotes ₹/litre for Delhi only; swarajya (7-Oct-2026) says the June fund lapsed — basis of ₹137/l (scheme vs market list) unclear.",
+    "IOCL April table USD 1,690.81 (Delhi, Indian carriers intl run) vs press May-1 'international carriers' $1,511.86 after +$76.55 → implies April ~$1,435; categories or mid-April revision differ.",
+    "Karnataka VAT: 18% (Lok Sabha via A2Z, Oct-2026) vs 15% (PSU Watch, Jun-2026).",
+    "Telangana VAT: 16% (2026) vs 1% (2021 report).",
+    "West Bengal: 25% + 20% surcharge (2022) vs 'around 20%' (2026 press).",
+    "Several quotes come via WebFetch summariser and may be lightly normalised; e_psu_vat, e_ls are paraphrased."
+  ]
+}

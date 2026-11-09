@@ -1,0 +1,392 @@
+{
+ "n1-009": {
+  "status": "found",
+  "found_text": "Further improvement in operational metrics with operating fleet utilization at 12:28 hours vs 12:25 hours last year",
+  "value_ok": true,
+  "note": "Wizz Air Holdings, F25 (12 мес. до 31.03.2025)."
+ },
+ "n1-010": {
+  "status": "found",
+  "found_text": "Utilisation (block hours per aircraft per day) | 9:51 | 11:29 | (14.3)%",
+  "value_ok": true,
+  "note": "Ячейка таблицы KPI совпадает: 9:51 F25, 11:29 F24. «Включая стоящие из-за GTF» — интерпретация, в строке не сказано."
+ },
+ "n1-011": {
+  "status": "found",
+  "found_text": "Average aircraft stage length (km) | 1,749 | 1,769 | (1.1)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-012": {
+  "status": "found",
+  "found_text": "an average of 44 aircraft were parked during the year owing to issues with the GTF engine",
+  "value_ok": true,
+  "note": "Раздел Financial Review. Связь с разрывом 9:51 vs 12:28 — вывод исследователя."
+ },
+ "n1-020": {
+  "status": "found",
+  "found_text": "Twelve Months Ended December 31: Average block hours per aircraft per day | 6.3 | 6.2 | 1.6",
+  "value_ok": true,
+  "note": "Total system statistics."
+ },
+ "n1-021": {
+  "status": "found",
+  "found_text": "Twelve Months Ended December 31: Average stage length (miles) | 887 | 882 | 0.6",
+  "value_ok": true,
+  "note": "Total system; в scheduled service — 893/888."
+ },
+ "n1-023": {
+  "status": "found",
+  "found_text": "Year Ended December 31: Average daily aircraft utilization (hours) | 11.1 | 10.7 | 3.7 %; Three Months: 11.2 | 10.8",
+  "value_ok": true,
+  "note": "Spirit Airlines."
+ },
+ "n1-024": {
+  "status": "found",
+  "found_text": "Year Ended December 31: Average stage length (miles) | 1,007 | 1,013 | -0.6 %",
+  "value_ok": true,
+  "note": "Spirit; 2022 — 1 013."
+ },
+ "n1-042": {
+  "status": "found",
+  "found_text": "А сейчас мы летаем так, что ставка размазывается на 15,5–16 часов полетов в сутки.",
+  "value_ok": true,
+  "note": "А. Калмыков, гендиректор «Победы»."
+ },
+ "n1-043": {
+  "status": "found",
+  "found_text": "у нас минимум на 30% налет выше, т. е. минимум на 30% ниже себестоимость часа в расчете на лизинг",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-044": {
+  "status": "found",
+  "found_text": "Их много, в том числе разворот судна за 25 минут.",
+  "value_ok": true,
+  "note": "Контекст — стандарты, которые аэропорт должен обеспечить (Внуково/Шереметьево)."
+ },
+ "n1-048": {
+  "status": "found",
+  "found_text": "EASYJET UK LTD … Total 27,959 - 22,177 - 49,265 - 3,285,037 4,211,863 5,018,086 187 9.1",
+  "value_ok": true,
+  "note": "CAA Table 8.2, December 2024."
+ },
+ "n1-049": {
+  "status": "found",
+  "found_text": "JET2.COM LTD … Total 12,729 - 5,494 - 19,601 - 859,396 2,015,388 2,487,160 119 7.5",
+  "value_ok": true,
+  "note": "December 2024."
+ },
+ "n1-050": {
+  "status": "found",
+  "found_text": "RYANAIR UK LTD … Total 2,590 - 2,118 - 4,581 - 330,051 389,201 489,489 15 10.5",
+  "value_ok": true,
+  "note": "December 2024. Тип 737-800 в строке Total не указан — по локатору."
+ },
+ "n1-051": {
+  "status": "found",
+  "found_text": "WIZZ AIR UK LTD … Total 4,398 - 2,216 - 7,019 - 406,458 807,268 1,051,191 18 12.1",
+  "value_ok": true,
+  "note": "December 2024."
+ },
+ "n1-052": {
+  "status": "found",
+  "found_text": "AIRBUS A350 1000 6,558 - 922 - 8,337 - 256,546 1,899,679 2,170,861 18 14.8; BA Total 53,631 - 20,306 - 81,590 - 3,242,577 11,612,467 13,592,300 251 10.6",
+  "value_ok": true,
+  "note": "BA всего 10,6 тоже подтверждено."
+ },
+ "n1-054": {
+  "status": "found",
+  "found_text": "JET2.COM LTD … Total 29,572 - 12,562 - 44,225 - 2,101,542 4,974,510 5,737,006 118 12.8",
+  "value_ok": true,
+  "note": "September 2024."
+ },
+ "n1-055": {
+  "status": "found",
+  "found_text": "AIRBUS A320 200N 11,381 - 5,937 - 17,810 - 943,644 1,885,289 2,057,964 45 13.3; EASYJET UK Total 38,549 - 26,968 - 65,387 - 4,061,969 6,213,850 6,911,892 183 11.9",
+  "value_ok": true,
+  "note": "September 2024; итог 11,9 подтверждён."
+ },
+ "n1-058": {
+  "status": "found",
+  "found_text": "RYANAIR UK LTD … Total 3,598 - 2,619 - 6,034 - 448,121 628,616 680,029 15 12.9",
+  "value_ok": true,
+  "note": "August 2024."
+ },
+ "n1-059": {
+  "status": "found",
+  "found_text": "EASYJET UK LTD … Total 40,076 - 27,951 - 67,431 - 4,524,927 6,769,975 7,220,638 183 11.0; AIRBUS A320 200N … 45 12.7",
+  "value_ok": true,
+  "note": "August 2024."
+ },
+ "n1-060": {
+  "status": "found",
+  "found_text": "JET2.COM LTD … Total 31,496 - 13,442 - 47,035 - 2,363,966 5,579,041 6,104,414 116 10.6; BOEING 737 800 … 92 11.0",
+  "value_ok": true,
+  "note": "August 2024."
+ },
+ "n1-061": {
+  "status": "found",
+  "found_text": "WIZZ AIR UK LTD … Total 4,302 - 2,210 - 6,849 - 483,327 940,871 1,028,197 18 11.9",
+  "value_ok": true,
+  "note": "August 2024."
+ },
+ "n1-062": {
+  "status": "found",
+  "found_text": "VIRGIN ATLANTIC AIRWAYS LTD … Total 15,208 - 2,254 - 19,374 - 529,890 3,657,089 4,385,596 43 14.6",
+  "value_ok": true,
+  "note": "August 2024."
+ },
+ "n1-063": {
+  "status": "found",
+  "found_text": "AIRBUS A350 1000 6,107 - 795 - 7,700 - 237,670 1,826,623 2,021,273 18 14.0; BOEING 777 300ER … 16 13.0; BA Total … 248 11.3",
+  "value_ok": true,
+  "note": "August 2024; 777-300ER 13,0 и BA всего 11,3 подтверждены."
+ },
+ "n1-065": {
+  "status": "found",
+  "found_text": "JET2.COM LTD … Total 9,249 - 3,904 - 14,101 - 636,159 1,542,125 1,793,075 110 7.2",
+  "value_ok": true,
+  "note": "January 2024."
+ },
+ "n1-066": {
+  "status": "found",
+  "found_text": "EASYJET UK LTD … Total 17,664 - 14,920 - 31,303 - 2,092,282 2,612,982 3,181,326 179 8.9",
+  "value_ok": true,
+  "note": "January 2024."
+ },
+ "n1-056": {
+  "status": "found",
+  "found_text": "TUI AIRWAYS LTD … Total 18,579 - 6,685 - 26,473 - 1,251,172 3,669,730 4,069,854 67 13.4",
+  "value_ok": true,
+  "note": "September 2024. Сравнение Dec 2024 = 8,1 подтверждено в документе 12038 (Total … 62 8.1)."
+ },
+ "n1-069": {
+  "status": "found",
+  "found_text": "Enter the number of revenue aircraft hours flown (in Block Hours), to one decimal place, performed by each aircraft type in the quarter.",
+  "value_ok": true,
+  "note": "Это инструкция к форме квартальной отчётности CAA (Column G); перенос определения на Table 8.2 (Avge Daily Utilisation) — разумное, но косвенное допущение."
+ },
+ "n1-071": {
+  "status": "found",
+  "found_text": "Average Daily Block Hour Utilization of Total Operating Fleet (All Aircraft); 2019: Southwest 10.51, Spirit 12.24, Allegiant 7.75, Frontier 11.56, JetBlue 11.85, Delta 10.42, United 10.82, American 11.14",
+  "value_ok": true,
+  "note": "Все 8 значений совпадают."
+ },
+ "n1-073": {
+  "status": "found",
+  "found_text": "Average Daily Block Hour Utilization of Total Widebody Fleet (Dual Aisle); 2019: American 13.69, Delta 12.97, United 12.59, Hawaiian 13.20, Total All Sectors 13.02",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-082": {
+  "status": "found",
+  "found_text": "Full Year: Average daily aircraft utilization (block hours) 13.03 13.37 (2.6%)",
+  "value_ok": true,
+  "note": "Volaris; 4К24: 13.13 vs 13.23."
+ },
+ "n1-083": {
+  "status": "found",
+  "found_text": "CASM ex fuel increased 16.8% to $5.68 cents, mainly due to reduced operating leverage as a result of the aircraft-on-ground (AOG) caused by the P&W engine inspections, with an average of 34 AOGs during the quarter.",
+  "value_ok": true,
+  "note": "Парк на конец периода 143 подтверждён («Fleet (at the end of the period) 143 129»)."
+ },
+ "n1-089": {
+  "status": "found",
+  "found_text": "Aircraft utilization c.12 hrs (1H23) compared to 10 hrs (1H22)",
+  "value_ok": true,
+  "note": "Слайд 17."
+ },
+ "n1-092": {
+  "status": "found",
+  "found_text": "Ryanair has adopted a policy of grounding a certain portion of its fleet during the winter months (from November to March).",
+  "value_ok": true,
+  "note": "20-F FY2012; ~80 ВС зимой 2012."
+ },
+ "n1-096": {
+  "status": "found",
+  "found_text": "Fiscal Year Ended March 31, 2019 2018 2017 2016 2015 … Average Daily Flight Hour Utilization (hours) 9.02 9.13 9.33 9.36 9.03",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-099": {
+  "status": "found",
+  "found_text": "Fiscal Year ended March 31, 2025 2024 2023 2022 2021 … Average Daily Flight Hour Utilization (hours) 9.57 9.38 9.40 6.88 2.37",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-100": {
+  "status": "found",
+  "found_text": "Average Sector Length (miles) 783 780 766 772 776",
+  "value_ok": true,
+  "note": "783 мили ≈ 1 260 км — пересчёт верен (783×1,609=1 260)."
+ },
+ "n1-101": {
+  "status": "found",
+  "found_text": "Ryanair adopted a policy of grounding a certain portion of its fleet during the winter months",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-106": {
+  "status": "found",
+  "found_text": "Налет \"Победы\" составляет 15–16 ч в сутки на один Boeing 737 … у \"Победы\" в прошлом году эта цифра была на уровне 14–15 ч",
+  "value_ok": true,
+  "note": "Публикация 31.10.2017; «в прошлом году» = 2016."
+ },
+ "n1-107": {
+  "status": "found",
+  "found_text": "самолеты ирландского оператора проводят в полетах в среднем 14 ч в сутки",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-109": {
+  "status": "found",
+  "found_text": "…среднесуточный налет достигал 13,8 часа, а для одного конкретного борта составлял даже 16,5 часов",
+  "value_ok": true,
+  "note": "Ретроспектива рекорда 2018 г."
+ },
+ "n1-110": {
+  "status": "found",
+  "found_text": "средний налет на списочное воздушное судно типа Boeing 737-800 превысил 13 часов",
+  "value_ok": true,
+  "note": "3К2020, по данным Boeing."
+ },
+ "n1-111": {
+  "status": "found",
+  "found_text": "тогда среднесуточный налет достигал 13,8 часа",
+  "value_ok": true,
+  "note": "2018."
+ },
+ "n1-113": {
+  "status": "found",
+  "found_text": "…приблизились к популярным западным самолетам (Airbus A320 и Boeing 737–800) … в среднем у российских компаний летают по 10–11 часов в сутки",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-114": {
+  "status": "found",
+  "found_text": "Средний налет на двигатель оценивается в 159 часов в месяц, то есть 5,3 часа в день.",
+  "value_ok": true,
+  "note": "Строго — налёт на двигатель SaM146 (данные ОДК, 8 авиакомпаний, март 2022–март 2023), а не на ВС; как прокси налёта SSJ100 приемлемо, но это не одно и то же."
+ },
+ "n1-118": {
+  "status": "found",
+  "found_text": "11,0часов налёта (в сутки) на 1 ВС в эксплуатации",
+  "value_ok": true,
+  "note": "Годовой отчёт ОАО «Авиакомпания «Сибирь» за 2014 г."
+ },
+ "n1-122": {
+  "status": "found",
+  "found_text": "Средний налет на 1 ВС составляет 10,4 часов в сутки",
+  "value_ok": true,
+  "note": "ПАО «Авиакомпания «Сибирь», 2017."
+ },
+ "n1-123": {
+  "status": "found",
+  "found_text": "При этом общий налет флота увеличился на 8% до 191 тыс. часов … увеличение кол-ва ВС с 46 до 62 единиц",
+  "value_ok": true,
+  "note": "Внутренняя сверка: 191 тыс. ч / ~54 ВС среднегодовых / 365 ≈ 9,7 ч/сутки — ниже заявленных 10,4; вероятно, 10,4 считается на ВС в эксплуатации или иначе усредняется."
+ },
+ "n1-125": {
+  "status": "found",
+  "found_text": "Средний налет на 1 ВС составляет 10,5 часов в сутки",
+  "value_ok": true,
+  "note": "ПАО «Авиакомпания «Сибирь», 2016; парк 46 ВС."
+ },
+ "n1-134": {
+  "status": "found",
+  "found_text": "average monthly A380 utilisation remained similar to that of 2019, at approximately 350 FH per month",
+  "value_ok": true,
+  "note": "До конца февраля 2020. 350/30,4 ≈ 11,5 ч/сутки — пересчёт верен. Единица — FH (лётные часы), не блок-часы."
+ },
+ "n1-135": {
+  "status": "found",
+  "found_text": "declined from approximately 12.3 hours per day on the 1st January to 2.2 hours on the 31st July",
+  "value_ok": true,
+  "note": "По пересказу WebFetch, это средняя суточная утилизация на активный A380 Emirates."
+ },
+ "n1-138": {
+  "status": "found",
+  "found_text": "Avg. daily aircraft utilization (hours) (2) 9.4 6.2 52.1 … (2) Refers to the hours from an aircraft's take-off to landing (including taxi time).",
+  "value_ok": true,
+  "note": "Pegasus MD&A 2021; 2021 — 9,4, 2020 — 6,2 подтверждены."
+ },
+ "n1-140": {
+  "status": "found",
+  "found_text": "Average Daily Utilization (block hours) 13.4 13.0 3.0% 13.8 12.4 11.1%",
+  "value_ok": true,
+  "note": "Колонки: Aug 2017/2016, Jan–Aug 2017/2016."
+ },
+ "n1-142": {
+  "status": "found",
+  "found_text": "Utilization 12,0 12,3 -2,4% 12,0 12,2 -1,4%",
+  "value_ok": true,
+  "note": "Март 2019 12,0 (март 2018 12,3); янв–март 2019 12,0."
+ },
+ "n1-146": {
+  "status": "found",
+  "found_text": "Represents the average block hours per day per aircraft during the relevant period.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n1-149": {
+  "status": "found",
+  "found_text": "In 2023, the aircraft utilisation rate was at 12.7 hours per day.",
+  "value_ok": true,
+  "note": "Таблица: 2023 12.7, 2022 9.6, 2021 5.6 — подтверждено. Страница 35 не проверялась."
+ },
+ "n1-165": {
+  "status": "found",
+  "found_text": "\"We've got a 45-minute turn, so it becomes very important to be prompt,\" Robles said.",
+  "value_ok": true,
+  "note": "Цитата обрезана (в оригинале продолжение после запятой). Говорит бортпроводник Ryan Robles, а не руководство — это анекдотический источник; тип ВС в цитате не назван."
+ },
+ "n1-167": {
+  "status": "found",
+  "found_text": "about to begin a 14-hour workday",
+  "value_ok": true,
+  "note": "N446WN, 737-700; SEA 6:00 → MDW → TPA → BWI → ISP → PBI, прибытие около полуночи. Полный абзац WebFetch дословно не выдал, фраза подтверждена."
+ },
+ "n1-169": {
+  "status": "found",
+  "found_text": "completed precisely four flights a day over the course of the week … in the air for nearly 90 hours … used London Gatwick as a base … from Mallorca to Hurghada",
+  "value_ok": true,
+  "note": "Неделя 2–9 октября; год 2017 — по дате публикации (13.10.2017), в тексте не указан. 90/7 ≈ 12,9 ч/сутки."
+ },
+ "n1-170": {
+  "status": "found",
+  "found_text": "worked the hardest in the week, exhausting itself over 46 flights … seemed to be based at Barcelona … short hops around the Iberian peninsula, and to Ibiza",
+  "value_ok": true,
+  "note": "46/7 ≈ 6,6 рейса/сутки."
+ },
+ "n1-171": {
+  "status": "found",
+  "found_text": "Using Leeds Bradford as a base … spending nearly 50 hours in the air",
+  "value_ok": true,
+  "note": "50/7 ≈ 7,1 ч/сутки."
+ },
+ "n1-176": {
+  "status": "found",
+  "found_text": "Так что роста производственных показателей удалось достичь преимущественно за счёт увеличения налёта на … Конкретных цифр перевозчик, впрочем, не приводит",
+  "value_ok": true,
+  "note": "S7, 1К2025."
+ },
+ "n1-186": {
+  "status": "found",
+  "found_text": "Boeing 737 NG в августе летали в среднем по 14 часов 10 минут в сутки (455 в месяц)",
+  "value_ok": true,
+  "note": "Слова Г. Давыдова (S7 Group). ВНИМАНИЕ: внутреннее несоответствие в источнике — 455 ч / 31 день августа = 14,7 ч (≈14 ч 41 мин), а 14 ч 10 мин × 31 = 439 ч. Одно из двух чисел в источнике неточно; при использовании указывать оба."
+ },
+ "n1-187": {
+  "status": "found",
+  "found_text": "летать на МАХ планируется примерно 16 часов 40 минут в сутки (500 в месяц)",
+  "value_ok": true,
+  "note": "План, Давыдов. 500/30 = 16,67 ч — согласовано."
+ },
+ "n1-188": {
+  "status": "found",
+  "found_text": "Хорошим показателем для среднемагистрального самолета в России и мире считается налет 10 часов в сутки и выше",
+  "value_ok": true,
+  "note": ""
+ }
+}

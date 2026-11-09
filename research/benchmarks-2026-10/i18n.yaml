@@ -1,0 +1,121 @@
+# Переводы строк из данных исследования (out/b1.json, out/rating.json) для report.en.html и report.de.html.
+# Ключ — русская строка как в данных; сборщик печатает строки без перевода.
+
+# --- периоды отчётности (out/rating.json, period)
+"2025":
+  en: "2025"
+  de: "2025"
+"2025 (календарный год)":
+  en: "2025 (calendar year)"
+  de: "2025 (Kalenderjahr)"
+"F26: 01.04.2025–31.03.2026":
+  en: "F26: 1 Apr 2025 – 31 Mar 2026"
+  de: "F26: 01.04.2025–31.03.2026"
+"FY2025":
+  en: "FY2025"
+  de: "GJ 2025"
+"FY2025 (01.01–31.12.2025)":
+  en: "FY2025 (1 Jan – 31 Dec 2025)"
+  de: "GJ 2025 (01.01.–31.12.2025)"
+"FY2025 (апрель 2024 — март 2025)":
+  en: "FY2025 (April 2024 – March 2025)"
+  de: "GJ 2025 (April 2024 – März 2025)"
+"FY2025-26: 01.04.2025–31.03.2026":
+  en: "FY2025-26: 1 Apr 2025 – 31 Mar 2026"
+  de: "GJ 2025/26: 01.04.2025–31.03.2026"
+"FY2025: календарный":
+  en: "FY2025: calendar year"
+  de: "GJ 2025: Kalenderjahr"
+"FY2026: 01.04.2025–31.03.2026":
+  en: "FY2026: 1 Apr 2025 – 31 Mar 2026"
+  de: "GJ 2026: 01.04.2025–31.03.2026"
+"FY25: 01.10.2024–30.09.2025":
+  en: "FY25: 1 Oct 2024 – 30 Sep 2025"
+  de: "GJ 25: 01.10.2024–30.09.2025"
+"FY26: 01.07.2025–30.06.2026":
+  en: "FY26: 1 Jul 2025 – 30 Jun 2026"
+  de: "GJ 26: 01.07.2025–30.06.2026"
+
+# --- причины исключения из рейтинга (out/rating.json, excluded)
+"два банкротства в 2025 году, год разбит на два отчётных периода":
+  en: "two bankruptcies in 2025, the year is split into two reporting periods"
+  de: "zwei Insolvenzen 2025, das Jahr ist in zwei Berichtsperioden geteilt"
+"нет открытой финансовой отчётности (только вторичные источники)":
+  en: "no public financial reporting (secondary sources only)"
+  de: "keine öffentlichen Finanzberichte (nur Sekundärquellen)"
+
+# --- когда каким бенчмарком пользоваться (out/b1.json, use_cases)
+"Ценообразование и оценка маршрута":
+  en: "Pricing and route appraisal"
+  de: "Preisgestaltung und Streckenbewertung"
+"стоимость блок-часа по типу ВС (Form 41 P-5.2 через FAA/ADP), отчётность конкурентов (RASK, загрузка)":
+  en: "block-hour cost by aircraft type (Form 41 P-5.2 via FAA/ADP), competitors' reports (RASK, load factor)"
+  de: "Blockstundenkosten je Flugzeugtyp (Form 41 P-5.2 über FAA/ADP), Berichte der Wettbewerber (RASK, Sitzladefaktor)"
+"даёт нижнюю границу тарифа и сравнение с конкурентом на той же длине рейса":
+  en: "gives a floor for the fare and a comparison with a competitor at the same stage length"
+  de: "liefert eine Untergrenze für den Tarif und den Vergleich mit einem Wettbewerber bei gleicher Streckenlänge"
+"Планирование сети и выбор ВС":
+  en: "Network planning and aircraft choice"
+  de: "Netzplanung und Flugzeugwahl"
+"Form 41 P-5.2 и T-2 по типам, Swan & Adler, Wei & Hansen, ICCT":
+  en: "Form 41 P-5.2 and T-2 by type, Swan & Adler, Wei & Hansen, ICCT"
+  de: "Form 41 P-5.2 und T-2 nach Typ, Swan & Adler, Wei & Hansen, ICCT"
+"затраты на кресло-км зависят от длины и вместимости одновременно":
+  en: "cost per seat-km depends on stage length and aircraft size at the same time"
+  de: "die Kosten je Sitzkilometer hängen zugleich von Streckenlänge und Flugzeuggröße ab"
+"Переговоры с ТОиР и лизингодателями":
+  en: "Negotiating with MRO providers and lessors"
+  de: "Verhandlungen mit MRO-Anbietern und Leasinggebern"
+"IATA MCX ($/лётный час, $/цикл), FAA (затраты владения отдельно)":
+  en: "IATA MCX ($/flight hour, $/cycle), FAA (ownership costs shown separately)"
+  de: "IATA MCX ($/Flugstunde, $/Zyklus), FAA (Eigentumskosten separat)"
+"показывает рыночный уровень ставок; но без поправки на возраст и циклы":
+  en: "shows market rate levels, but without adjusting for age and cycles"
+  de: "zeigt das Marktniveau der Sätze, aber ohne Korrektur für Alter und Zyklen"
+"Инвестиционный анализ и сравнение авиакомпаний":
+  en: "Investment analysis and airline comparison"
+  de: "Investmentanalyse und Airline-Vergleich"
+"отчётность + корректировка на длину рейса, ex-fuel, ex-ownership или поправка на МСФО 16":
+  en: "reports + stage length adjustment, ex-fuel, ex-ownership or an IFRS 16 adjustment"
+  de: "Berichte + Streckenlängenkorrektur, ex Treibstoff, ex Eigentumskosten oder IFRS-16-Korrektur"
+"иначе сравниваются бухгалтерские стандарты и сети, а не эффективность":
+  en: "otherwise you compare accounting standards and networks, not efficiency"
+  de: "sonst vergleicht man Rechnungslegungsstandards und Netze, nicht Effizienz"
+"Проверка собственной модели (FlightCostApp)":
+  en: "Checking your own model (FlightCostApp)"
+  de: "Prüfung des eigenen Modells (FlightCostApp)"
+"MIT ADP / Form 41 для американских типов, MCX для ТОиР, ICCT для расхода топлива":
+  en: "MIT ADP / Form 41 for US types, MCX for maintenance, ICCT for fuel burn"
+  de: "MIT ADP / Form 41 für US-Typen, MCX für Wartung, ICCT für Treibstoffverbrauch"
+"открытые независимые ряды с известными определениями":
+  en: "open, independent series with known definitions"
+  de: "offene, unabhängige Reihen mit bekannten Definitionen"
+"Качество и надёжность продукта":
+  en: "Product quality and reliability"
+  de: "Produktqualität und Zuverlässigkeit"
+"Cirium OTP, EUROCONTROL CODA, Skytrax":
+  en: "Cirium OTP, EUROCONTROL CODA, Skytrax"
+  de: "Cirium OTP, EUROCONTROL CODA, Skytrax"
+"дополняют, но не заменяют затратные показатели":
+  en: "complement cost metrics but do not replace them"
+  de: "ergänzen Kostenkennzahlen, ersetzen sie aber nicht"
+
+# --- чего не нашлось (out/b1.json, gaps)
+"Почему отрасль использует показатель степени 0,5: обоснования в первоисточниках нет, это конвенция; свежих (2020–2026) открытых эмпирических оценок эластичности CASK по длине рейса не найдено (b1-223, b1-216).":
+  en: "Why the industry uses an exponent of 0.5: the primary sources give no justification, it is a convention; no recent (2020–2026) open empirical estimates of the elasticity of CASK to stage length were found (b1-223, b1-216)."
+  de: "Warum die Branche den Exponenten 0,5 nutzt: Die Primärquellen begründen es nicht, es ist eine Konvention; aktuelle (2020–2026) offene empirische Schätzungen der Elastizität der CASK zur Streckenlänge wurden nicht gefunden (b1-223, b1-216)."
+"Точные коэффициенты функции стоимости рейса Swan & Adler (2006) — полный текст за пейволлом, открытой дословной цитаты нет (b1-046).":
+  en: "The exact coefficients of the Swan & Adler (2006) flight cost function — the full text is paywalled, no open verbatim quote (b1-046)."
+  de: "Die genauen Koeffizienten der Flugkostenfunktion von Swan & Adler (2006) — Volltext hinter Paywall, kein offenes wörtliches Zitat (b1-046)."
+"Методика IATA ACMG (нормализация на длину рейса, МСФО 16, курсы) закрыта логином (b1-091, b1-231).":
+  en: "The IATA ACMG methodology (stage length normalisation, IFRS 16, exchange rates) is behind a login (b1-091, b1-231)."
+  de: "Die Methodik der IATA ACMG (Normierung auf Streckenlänge, IFRS 16, Wechselkurse) liegt hinter einem Login (b1-091, b1-231)."
+"Учёт ACMI/мокрой аренды у арендатора по МСФО 16 — первоисточник не найден (b1-229).":
+  en: "Accounting for ACMI/wet lease at the lessee under IFRS 16 — no primary source found (b1-229)."
+  de: "Bilanzierung von ACMI/Wet Lease beim Leasingnehmer nach IFRS 16 — keine Primärquelle gefunden (b1-229)."
+"Методика пересчёта затрат по ППС для авиакомпаний — открытого первоисточника нет (b1-230).":
+  en: "A method for converting airline costs at purchasing power parity — no open primary source (b1-230)."
+  de: "Eine Methode zur Umrechnung von Airline-Kosten nach Kaufkraftparität — keine offene Primärquelle (b1-230)."
+"Определение equivalent seat mile в MIT ADP (перевод груза в кресло-мили) не найдено (b1-207).":
+  en: "The definition of the equivalent seat mile in MIT ADP (converting cargo into seat-miles) was not found (b1-207)."
+  de: "Die Definition der Equivalent Seat Mile im MIT ADP (Umrechnung von Fracht in Sitzmeilen) wurde nicht gefunden (b1-207)."

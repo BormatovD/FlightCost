@@ -1,0 +1,296 @@
+{
+ "a1-003": {
+  "status": "found",
+  "found_text": "our MRO operation, known as Delta TechOps, provides engine, component, airframe and other maintenance services ... to aviation and airline customers from around the world.",
+  "value_ok": true,
+  "note": "Инструмент вернул текст двумя сегментами (ограничение длины цитаты); оба сегмента точны, непрерывность между ними не показана дословно. Item 1, Other Complementary Businesses."
+ },
+ "a1-004": {
+  "status": "found",
+  "found_text": "Our global network is supported by a fleet of 1,314 aircraft as of December 31, 2025",
+  "value_ok": true,
+  "note": "Число верно. Что 1314 включает региональные ВС, в найденном фрагменте не показано (непроверено)."
+ },
+ "a1-013": {
+  "status": "found",
+  "found_text": "Aircraft maintenance materials and outside repairs 528 626 (98) (16) % 2,432 2,616 (184) (7) %",
+  "value_ok": true,
+  "note": "2,432 и 2,616 — колонки полного года 2025/2024 (528/626 — квартал). Утверждение про зарплату техников TechOps в отдельной строке не проверялось."
+ },
+ "a1-025": {
+  "status": "found",
+  "found_text": "Maintenance costs are expensed as incurred, except for costs incurred under power-by-the-hour contracts",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-026": {
+  "status": "found",
+  "found_text": "which are expensed based on actual hours flown.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-027": {
+  "status": "found",
+  "found_text": "fix the amount we pay per flight hour or per flight cycle to the service provider",
+  "value_ok": true,
+  "note": "Хвост цитаты ('in exchange for maintenance and repairs') дословно не подтверждён, ядро точно."
+ },
+ "a1-028": {
+  "status": "found",
+  "found_text": "Modifications that enhance the operating performance or extend the useful lives of airframes or engines are capitalized and amortized over the remaining estimated useful life of the asset or the remaining lease term",
+  "value_ok": true,
+  "note": "Вывод 'не тяжёлые формы' — интерпретация исследователя, из текста прямо не следует."
+ },
+ "a1-029": {
+  "status": "found",
+  "found_text": "We record maintenance costs related to our mainline and regional fleets in aircraft maintenance materials and outside repairs and regional carrier expense, respectively.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-045": {
+  "status": "found",
+  "found_text": "airframe and engine maintenance, regional flying, ground handling, fueling",
+  "value_ok": true,
+  "note": "Раздел Item 1A (зависимость от поставщиков)."
+ },
+ "a1-054": {
+  "status": "found",
+  "found_text": "The fly-by-hour contract covers the maintenance, repair and overhaul of 49 engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-055": {
+  "status": "found",
+  "found_text": "powering the airline’s B777-300ER fleet",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-056": {
+  "status": "found",
+  "found_text": "Hannover, April 9, 2019",
+  "value_ok": true,
+  "note": "Срок 12 лет — из заголовка релиза, в этом фрагменте не проверялся."
+ },
+ "a1-059": {
+  "status": "found",
+  "found_text": "United signed a Rate per Flight Hour (RPFH) agreement with CFM International (CFM) to support all 200 LEAP-1B engines",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-060": {
+  "status": "found",
+  "found_text": "CFM will guarantee engine maintenance costs on a dollar per engine flight hour basis",
+  "value_ok": true,
+  "note": "Срок 12 лет — из соседней цитаты a1-061."
+ },
+ "a1-061": {
+  "status": "found",
+  "found_text": "Under the terms of the comprehensive 12-year service and support agreement, CFM will guarantee engine maintenance costs",
+  "value_ok": true,
+  "note": "Дата начала в релизе не указана (подтверждено)."
+ },
+ "a1-065": {
+  "status": "found",
+  "found_text": "According to ch-aviation, United operates an active Dreamliner fleet comprised of 11 787-8s, 47 787-9s and 20 787-10s.",
+  "value_ok": true,
+  "note": "Источник статьи — ch-aviation; дата 02.2026 не проверялась."
+ },
+ "a1-068": {
+  "status": "found",
+  "found_text": "brings United Airlines’ 787 fleet to more than 200 GEnx powered aircraft.",
+  "value_ok": true,
+  "note": "Фраза 'более 200' включает заказанные ВС (активных 78 по a1-065) — не путать с действующим парком. Отсутствие упоминания договора обслуживания не проверялось полностью."
+ },
+ "a1-071": {
+  "status": "found",
+  "found_text": "bringing more than 1,400 CFM56-7B engines operated by Southwest under GE's TrueChoice Flight Hour agreement.",
+  "value_ok": true,
+  "note": "Релиз от 19.07.2016 (EVENDALE, OH)."
+ },
+ "a1-072": {
+  "status": "found",
+  "found_text": "GE added the CFM56-7B engines that power 83 Southwest Airlines Boeing 737-700 and -800 aircraft",
+  "value_ok": true,
+  "note": "Дата релиза 19 июля 2016 подтверждена."
+ },
+ "a1-087": {
+  "status": "found",
+  "found_text": "charged to operating expense as incurred",
+  "value_ok": true,
+  "note": "Подтверждены ключевые фрагменты (инструмент ограничивает длину цитаты); начало фразы 'Maintenance and repair costs for owned and leased flight equipment' дословно не показано."
+ },
+ "a1-088": {
+  "status": "found",
+  "found_text": "power-by-the-hour maintenance agreements",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-089": {
+  "status": "found",
+  "found_text": "based on contractual terms when an obligation exists",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-091": {
+  "status": "found",
+  "found_text": "charged to expense as incurred",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-092": {
+  "status": "found",
+  "found_text": "power-by-the-hour (\"PBTH\") engine maintenance agreements",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-093": {
+  "status": "found",
+  "found_text": "level rate per engine hour",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-094": {
+  "status": "found",
+  "found_text": "based on the amounts paid",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-096": {
+  "status": "found",
+  "found_text": "scheduled inspections and repairs and routine maintenance costs",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-097": {
+  "status": "found",
+  "found_text": "Maintenance materials and repairs expense",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-098": {
+  "status": "found",
+  "found_text": "risk of performance is deemed transferred",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-099": {
+  "status": "partial",
+  "found_text": "(в ответе инструмента этой фразы нет; подтверждены лишь соседние фрагменты note)",
+  "value_ok": true,
+  "note": "Фраза 'expense is recorded commensurate with the period in which the corresponding level of service' отдельно не возвращена, проверка косвенная."
+ },
+ "a1-100": {
+  "status": "found",
+  "found_text": "time and materials basis",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент; полная фраза не показана."
+ },
+ "a1-102": {
+  "status": "found",
+  "found_text": "Maintenance and repairs on our aircraft are expensed when incurred.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-103": {
+  "status": "found",
+  "found_text": "monthly payments based upon utilization, such as flight hours",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-104": {
+  "status": "found",
+  "found_text": "have contracts for maintenance on certain aircraft engines, avionics",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-105": {
+  "status": "found",
+  "found_text": "maintenance deposit payments to the lessor",
+  "value_ok": true,
+  "note": "Подтверждён ключевой фрагмент."
+ },
+ "a1-106": {
+  "status": "found",
+  "found_text": "$56 million, with $42 million included in Other current assets and $14 million included in Other noncurrent assets",
+  "value_ok": true,
+  "note": "Число 56 млн подтверждено; дата 31.12.2024 отдельно не показана."
+ },
+ "a1-107": {
+  "status": "found",
+  "found_text": "Expense associated with lease returns ... in the consolidated statements of operations.",
+  "value_ok": true,
+  "note": "Подтверждено начало и конец предложения."
+ },
+ "a1-108": {
+  "status": "found",
+  "found_text": "Alaska's CPA with Horizon, a wholly owned subsidiary, does not involve any leased aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-111": {
+  "status": "found",
+  "found_text": "including the overhaul of aircraft components, are charged to operating expenses as incurred",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-112": {
+  "status": "found",
+  "found_text": "Engine overhaul costs covered by power-by-the-hour arrangements",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-113": {
+  "status": "found",
+  "found_text": "expensed on a straight-line basis and are based on the amount of hours flown per contract",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-114": {
+  "status": "found",
+  "found_text": "pays maintenance reserves to the aircraft lessors",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-115": {
+  "status": "found",
+  "found_text": "expected to be recovered from lessors are recorded as deposits",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-116": {
+  "status": "found",
+  "found_text": "of the leased assets are accounted for as lease payments",
+  "value_ok": true,
+  "note": "Вывод 'невозмещаемая часть — арендные платежи' разумен, но его текст не показан целиком."
+ },
+ "a1-119": {
+  "status": "found",
+  "found_text": "The order includes a TotalCare® long-term services agreement.",
+  "value_ok": true,
+  "note": "6 A330 / Trent 700, 1 декабря 2010 подтверждены. 'Оплата за час' в цитате не сказана — вывод внешний (TotalCare обычно по часам), в документе не подтверждён."
+ },
+ "a1-122": {
+  "status": "found",
+  "found_text": "a TrueChoice Overhaul agreement with GE for up to 20 years of maintenance, repair and overhaul for the GEnx-1B engines",
+  "value_ok": true,
+  "note": "Уточнение 'B788/B789' в тексте не проверено."
+ },
+ "a1-123": {
+  "status": "found",
+  "found_text": "The TrueChoice Overhaul provides time and material overhauls with tailored workscopes",
+  "value_ok": true,
+  "note": ""
+ },
+ "a1-128": {
+  "status": "found",
+  "found_text": "a hybrid of traditional OnPoint time and material and rate per engine flight hour agreements",
+  "value_ok": true,
+  "note": "Срок 8 лет, дата 17.10.2005 подтверждены. 'Позже TrueChoice Flight Hour' — из другого документа."
+ },
+ "a1-132": {
+  "status": "found",
+  "found_text": "Expenses include those typically borne by regional airlines such as crew costs, ownership costs and maintenance costs.",
+  "value_ok": true,
+  "note": "Часть value 'Alaska платит по CPA' в найденном предложении не показана; проверена только первая часть документа (offset 0-100000)."
+ }
+}

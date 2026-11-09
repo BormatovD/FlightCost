@@ -1,0 +1,164 @@
+# Переводы строк из данных исследования (out/hothigh.json) для report.en.html и report.de.html.
+# Ключ — русская строка как в данных; сборщик печатает строки без перевода.
+
+# --- model.table: случаи и разброс ---
+"длинная ВПП (≥3,5 км), аэродром <2000 ft (Дели, Залив)":
+  en: "long runway (≥3.5 km), airfield <2,000 ft (Delhi, Gulf)"
+  de: "lange Piste (≥3,5 km), Flugplatz <2.000 ft (Delhi, Golfregion)"
+"высокогорье ~5000 ft, длинная ВПП (Денвер, Найроби, Йоханнесбург — экстраполяция)":
+  en: "high altitude ~5,000 ft, long runway (Denver, Nairobi, Johannesburg — extrapolation)"
+  de: "Hochlage ~5.000 ft, lange Piste (Denver, Nairobi, Johannesburg — Extrapolation)"
+"короткая ВПП (~2,1 км) у моря":
+  en: "short runway (~2.1 km) at sea level"
+  de: "kurze Piste (~2,1 km) auf Meereshöhe"
+"7000–8400 ft (Аддис, Богота, Мехико), Ла-Пас, Куско":
+  en: "7,000–8,400 ft (Addis Ababa, Bogotá, Mexico City), La Paz, Cusco"
+  de: "7.000–8.400 ft (Addis Abeba, Bogotá, Mexiko-Stadt), La Paz, Cusco"
+"0,48–0,57":
+  en: "0.48–0.57"
+  de: "0,48–0,57"
+"1,43":
+  en: "1.43"
+  de: "1,43"
+"0,41; плюс ≥0,6 % при любой температуре (шины)":
+  en: "0.41; plus ≥0.6 % at any temperature (tyres)"
+  de: "0,41; plus ≥0,6 % bei jeder Temperatur (Reifen)"
+"нет данных; экстраполяция по DEN занижает":
+  en: "no data; extrapolating from DEN understates"
+  de: "keine Daten; Extrapolation aus DEN unterschätzt"
+
+# --- by_type: другие типы ---
+"дистанция разбега, не масса":
+  en: "take-off distance, not weight"
+  de: "Startstrecke, nicht Masse"
+"TODR +4,2 м/K (мин. загрузка), −1,2 м/гПа; при макс. загрузке ≈7,4 м/K и 2,2 м/гПа (пересказ)":
+  en: "TODR +4.2 m/K (min. load), −1.2 m/hPa; at max. load ≈7.4 m/K and 2.2 m/hPa (paraphrase)"
+  de: "TODR +4,2 m/K (min. Beladung), −1,2 m/hPa; bei max. Beladung ≈7,4 m/K und 2,2 m/hPa (Paraphrase)"
+"модель силового баланса на данных OpenAP, ISA":
+  en: "force-balance model on OpenAP data, ISA"
+  de: "Kräftegleichgewichtsmodell auf OpenAP-Daten, ISA"
+"MTOM на ВПП 1511 м (Хиос)":
+  en: "MTOM on a 1,511 m runway (Chios)"
+  de: "MTOM auf einer 1.511-m-Piste (Chios)"
+"−133 кг/год (климатический тренд температуры и ветра); 3900 кг ≈ 38 пасс. с 1988":
+  en: "−133 kg/year (climate trend in temperature and wind); 3,900 kg ≈ 38 passengers since 1988"
+  de: "−133 kg/Jahr (Klimatrend bei Temperatur und Wind); 3.900 kg ≈ 38 Passagiere seit 1988"
+"ВПП-ограниченный аэродром":
+  en: "runway-limited airfield"
+  de: "pistenbegrenzter Flugplatz"
+"графики TOW vs длина ВПП (ISA и ISA+15) есть в Airbus AC, числа не извлечены":
+  en: "TOW vs runway length charts (ISA and ISA+15) are in the Airbus AC; figures not extracted"
+  de: "Diagramme TOW vs. Pistenlänge (ISA und ISA+15) stehen im Airbus-AC; Zahlen nicht extrahiert"
+"BFL при 92 т":
+  en: "BFL at 92 t"
+  de: "BFL bei 92 t"
+"8300 ft (JFK) → 11 500 ft (Денвер), стандартный день (+39 %)":
+  en: "8,300 ft (JFK) → 11,500 ft (Denver), standard day (+39 %)"
+  de: "8.300 ft (JFK) → 11.500 ft (Denver), Standardtag (+39 %)"
+"модельный пример Leeham":
+  en: "Leeham model example"
+  de: "Modellbeispiel von Leeham"
+"дистанция взлёта при той же массе (300 nm, макс. пасс.)":
+  en: "take-off distance at the same weight (300 nm, max. passengers)"
+  de: "Startstrecke bei gleicher Masse (300 nm, max. Passagiere)"
+"1156 м (SL, ISA) → 1383 м (3000 ft, ISA+10), +20 %":
+  en: "1,156 m (SL, ISA) → 1,383 m (3,000 ft, ISA+10), +20 %"
+  de: "1.156 m (SL, ISA) → 1.383 m (3.000 ft, ISA+10), +20 %"
+"flat rating 37,4 °C на SL":
+  en: "flat rating 37.4 °C at SL"
+  de: "Flat Rating 37,4 °C auf SL"
+"не найдено":
+  en: "not found"
+  de: "nicht gefunden"
+"есть только TOFL E195-E2 1840 м (MTOW, ISA, SL)":
+  en: "only the E195-E2 TOFL of 1,840 m is available (MTOW, ISA, SL)"
+  de: "nur die TOFL der E195-E2 von 1.840 m verfügbar (MTOW, ISA, SL)"
+
+# --- cases: что происходило на деле ---
+"Aeroméxico: ограничение массы на части рейсов из MEX из-за жары, апрель 2024 (34,2 °C — максимум с 1998)":
+  en: "Aeroméxico: weight restrictions on some flights out of MEX due to heat, April 2024 (34.2 °C — the highest since 1998)"
+  de: "Aeroméxico: Massenbeschränkung auf einem Teil der Flüge ab MEX wegen Hitze, April 2024 (34,2 °C — Höchstwert seit 1998)"
+"мест/кг не опубликовано":
+  en: "seats/kg not published"
+  de: "Plätze/kg nicht veröffentlicht"
+"IndiGo: задержки Дели–Багдогра >3 ч, 'high ground temperatures', июнь 2024":
+  en: "IndiGo: Delhi–Bagdogra delays >3 h, 'high ground temperatures', June 2024"
+  de: "IndiGo: Verspätungen Delhi–Bagdogra >3 h, 'high ground temperatures', Juni 2024"
+"нет":
+  en: "none"
+  de: "keine"
+"Лех: IndiGo и SpiceJet отменили ~12 дневных рейсов за ~3 дня, июль 2024, 36 °C":
+  en: "Leh: IndiGo and SpiceJet cancelled ~12 daytime flights over ~3 days, July 2024, 36 °C"
+  de: "Leh: IndiGo und SpiceJet strichen ~12 Tagesflüge in ~3 Tagen, Juli 2024, 36 °C"
+"~12 рейсов":
+  en: "~12 flights"
+  de: "~12 Flüge"
+"Дели: работа аэропорта нарушена на ~3 ч из-за жары (Палам 44,9 °C); 'load carrying capacity falls'":
+  en: "Delhi: airport operations disrupted for ~3 h by heat (Palam 44.9 °C); 'load carrying capacity falls'"
+  de: "Delhi: Flughafenbetrieb ~3 h lang wegen Hitze gestört (Palam 44,9 °C); 'load carrying capacity falls'"
+"3 ч":
+  en: "3 h"
+  de: "3 h"
+"Aeroméxico MEX–NRT: с 10.07.2024 5 из 7 рейсов через MTY, обратно беспосадочно (787)":
+  en: "Aeroméxico MEX–NRT: from 2024-07-10, 5 of 7 flights via MTY, non-stop on the way back (787)"
+  de: "Aeroméxico MEX–NRT: ab 10.07.2024 5 von 7 Flügen über MTY, zurück nonstop (787)"
+"5/7 в неделю":
+  en: "5/7 a week"
+  de: "5/7 pro Woche"
+"Air France ограничила загрузку A340 на взлёте из Боготы (2548 м)":
+  en: "Air France restricted A340 loads on take-off from Bogotá (2,548 m)"
+  de: "Air France beschränkte die Zuladung des A340 beim Start in Bogotá (2.548 m)"
+"Прогноз Coffel et al. 2017: 10–30 % рейсов в жаркие часы потребуют ограничений, в среднем 0,5–4 % payload+fuel; 4 % ≈ 12–13 пасс. из 160":
+  en: "Coffel et al. 2017 projection: 10–30 % of flights in the hottest hours will need restrictions, on average 0.5–4 % of payload+fuel; 4 % ≈ 12–13 passengers out of 160"
+  de: "Prognose Coffel et al. 2017: 10–30 % der Flüge in den heißesten Stunden brauchen Beschränkungen, im Mittel 0,5–4 % von Zuladung+Treibstoff; 4 % ≈ 12–13 Passagiere von 160"
+"см. текст":
+  en: "see text"
+  de: "siehe Text"
+
+# --- gaps ---
+"Числа с графиков TOW vs ВПП vs температура в Airbus AC (A320/A321neo) и Boeing ACAPS (737) не извлечены — графики-изображения, без сети в shell нельзя растеризовать (h1-010)":
+  en: "Figures from the TOW vs runway vs temperature charts in the Airbus AC (A320/A321neo) and Boeing ACAPS (737) not extracted — the charts are images and cannot be rasterised in the shell without network access (h1-010)"
+  de: "Zahlen aus den Diagrammen TOW vs. Piste vs. Temperatur im Airbus-AC (A320/A321neo) und in Boeing ACAPS (737) nicht extrahiert — die Diagramme sind Bilder und lassen sich in der Shell ohne Netz nicht rastern (h1-010)"
+"E190/E195, ATR 72, Dash 8-400: нет опубликованных Δ массы на °C или 1000 ft (h1-105)":
+  en: "E190/E195, ATR 72, Dash 8-400: no published Δ weight per °C or per 1,000 ft (h1-105)"
+  de: "E190/E195, ATR 72, Dash 8-400: keine veröffentlichten Δ Masse je °C oder je 1.000 ft (h1-105)"
+"Цифр от IndiGo, Air India, Ethiopian, Aeroméxico о снятых местах/тоннах не найдено (h1-124)":
+  en: "No figures found from IndiGo, Air India, Ethiopian or Aeroméxico on seats/tonnes offloaded (h1-124)"
+  de: "Keine Zahlen von IndiGo, Air India, Ethiopian oder Aeroméxico zu gesperrten Plätzen/ausgeladenen Tonnen gefunden (h1-124)"
+"Климатические нормы из первоисточника не извлечены для BOM, ADD, BOG, MEX, LPB, CUZ, NBO, JNB, THR, DXB, KWI; источник — NCEI accession 0253808 (WMO 1991–2020), нужна загрузка xlsx (h1-092)":
+  en: "Climate normals from the primary source not extracted for BOM, ADD, BOG, MEX, LPB, CUZ, NBO, JNB, THR, DXB, KWI; source — NCEI accession 0253808 (WMO 1991–2020), the xlsx needs to be downloaded (h1-092)"
+  de: "Klimanormalwerte aus der Primärquelle nicht extrahiert für BOM, ADD, BOG, MEX, LPB, CUZ, NBO, JNB, THR, DXB, KWI; Quelle — NCEI accession 0253808 (WMO 1991–2020), die xlsx muss heruntergeladen werden (h1-092)"
+"Полный текст Coffel et al. 2017 (5 типов, 19 аэропортов) недоступен — только аннотация (h1-053)":
+  en: "Full text of Coffel et al. 2017 (5 types, 19 airports) not available — abstract only (h1-053)"
+  de: "Volltext von Coffel et al. 2017 (5 Typen, 19 Flughäfen) nicht verfügbar — nur das Abstract (h1-053)"
+"Высоты аэродромов ADD/MEX/LPB/CUZ/NBO/JNB/THR не извлекались — брать из справочника модели":
+  en: "Elevations of ADD/MEX/LPB/CUZ/NBO/JNB/THR were not extracted — take them from the model's reference data"
+  de: "Höhen der Flugplätze ADD/MEX/LPB/CUZ/NBO/JNB/THR nicht extrahiert — aus dem Verzeichnis des Modells nehmen"
+
+# --- doubts (кроме снятых: CLOSED в build_report.py) ---
+"Данные Coffel & Horton — по одному варианту 737-800 и одному графику Boeing; у 737-800 с другими двигателями/MTOW будет иначе":
+  en: "The Coffel & Horton data cover one 737-800 variant and one Boeing chart; a 737-800 with other engines/MTOW will differ"
+  de: "Die Daten von Coffel & Horton betreffen eine Variante der 737-800 und ein Boeing-Diagramm; bei einer 737-800 mit anderen Triebwerken/MTOW sieht es anders aus"
+"Ахмадабад: среднее 2010–2019 по обсерватории, не 30-летняя норма аэродрома":
+  en: "Ahmedabad: 2010–2019 observatory average, not the airfield's 30-year normal"
+  de: "Ahmedabad: Mittel 2010–2019 des Observatoriums, nicht der 30-jährige Normalwert des Flugplatzes"
+"Посадка MEX–NRT через Монтеррей и технические посадки Air India нельзя приписать жаре без заявления авиакомпании":
+  en: "The MEX–NRT stop in Monterrey and Air India's technical stops cannot be attributed to heat without a statement from the airline"
+  de: "Die Zwischenlandung MEX–NRT in Monterrey und die technischen Zwischenlandungen von Air India lassen sich ohne Erklärung der Airline nicht der Hitze zuschreiben"
+
+# --- model.limits ---
+"Ограничение снимает нагрузку только когда плановый TOW близок к MTOW: на коротких секторах TOW < RTOW и потерь нет":
+  en: "The limit removes payload only when the planned TOW is close to MTOW: on short sectors TOW < RTOW and nothing is lost"
+  de: "Die Begrenzung kostet nur dann Zuladung, wenn das geplante TOW nahe am MTOW liegt: auf kurzen Strecken ist TOW < RTOW, und es geht nichts verloren"
+"A321/A321neo (corner 30 °C у CFM56-5B1/2/3) чувствительнее A320 (45 °C у -5B4) — разные D0, числа не извлечены":
+  en: "A321/A321neo (corner point 30 °C for the CFM56-5B1/2/3) is more sensitive than the A320 (45 °C for the -5B4) — different D0, figures not extracted"
+  de: "A321/A321neo (Knickpunkt 30 °C beim CFM56-5B1/2/3) ist empfindlicher als der A320 (45 °C beim -5B4) — andere D0, Zahlen nicht extrahiert"
+"Турбовинтовые (ATR 72, Dash 8-400): количественной опоры нет; Q400 flat-rated до 37,4 °C — D0≈+22 как ориентир":
+  en: "Turboprops (ATR 72, Dash 8-400): no quantitative basis; the Q400 is flat-rated to 37.4 °C — D0≈+22 as a guide"
+  de: "Turboprops (ATR 72, Dash 8-400): keine quantitative Grundlage; die Q400 hat ein Flat Rating bis 37,4 °C — D0≈+22 als Richtwert"
+"Не учтены препятствия, мокрая ВПП (+15 % длины), ветер, давление (A320: −1,2…−2,2 м TODR на гПа)":
+  en: "Not included: obstacles, wet runway (+15 % length), wind, pressure (A320: −1.2…−2.2 m TODR per hPa)"
+  de: "Nicht berücksichtigt: Hindernisse, nasse Piste (+15 % Länge), Wind, Luftdruck (A320: −1,2…−2,2 m TODR je hPa)"
+"D0 зависит от запаса ВПП; модель знает длину ВПП — можно выбирать строку таблицы по отношению ВПП к потребной дистанции":
+  en: "D0 depends on the runway margin; the model knows the runway length, so the table row can be chosen by the ratio of runway length to required distance"
+  de: "D0 hängt von der Pistenreserve ab; das Modell kennt die Pistenlänge, die Tabellenzeile lässt sich also nach dem Verhältnis von Pistenlänge zu erforderlicher Strecke wählen"

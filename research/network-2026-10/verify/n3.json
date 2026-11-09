@@ -1,0 +1,500 @@
+{
+ "n3-005": {
+  "status": "found",
+  "found_text": "0600 1329 13:00 12:30 12:00 11:30 11:00 10:30 10:00 09:30 09:00 (columns: 1-2 Sectors, 3 Sectors ... 10 Sectors)",
+  "value_ok": true,
+  "note": "Совпадает с официальной таблицей ORO.FTL.205(b)(1) Table 2."
+ },
+ "n3-006": {
+  "status": "found",
+  "found_text": "1700 0459 11:00 10:30 10:00 09:30 09:00 09:00 09:00 09:00 09:00",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-007": {
+  "status": "found",
+  "found_text": "ORO.FTL.210(a): 60 duty hours in any 7 consecutive days; 110 duty hours in any 14 consecutive days; 190 duty hours in any 28 consecutive days, spread as evenly as practicable throughout that period",
+  "value_ok": true,
+  "note": "110/14 и 190/28 подтверждены."
+ },
+ "n3-008": {
+  "status": "found",
+  "found_text": "ORO.FTL.210(b): 100 hours of flight time in any 28 consecutive days; 900 hours of flight time in any calendar year; 1 000 hours of flight time in any 12 consecutive calendar months",
+  "value_ok": true,
+  "note": "100/28 и 1000/12 подтверждены."
+ },
+ "n3-009": {
+  "status": "found",
+  "found_text": "(a)(1) ... at least as long as the preceding duty period, or 12 hours, whichever is greater; (b) away from home base: at least as long as the preceding duty period, or 10 hours, whichever is greater (incl. 8-hour sleep opportunity)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-010": {
+  "status": "found",
+  "found_text": "The minimum recurrent extended recovery rest period shall be 36 hours, including 2 local nights ... time between the end of one ... and the start of the next ... shall not be more than 168 hours",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-013": {
+  "status": "found",
+  "found_text": "0700-1159 | 14 | 14 | 13 | 13 | 12.5 | 12 | 11.5 (columns 1,2,3,4,5,6,7+ segments)",
+  "value_ok": true,
+  "note": "Совпадает с Table B Part 117."
+ },
+ "n3-014": {
+  "status": "found",
+  "found_text": "0000-0359 | 9 | 9 | 9 | 9 | 9 | 9 | 9",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-016": {
+  "status": "found",
+  "found_text": "§117.25(e): rest period of at least 10 consecutive hours ... must provide a minimum of 8 uninterrupted hours of sleep opportunity; (b) at least 30 consecutive hours free from all duty within the past 168 consecutive hour period; §117.23(b) 100 hours in any 672 consecutive hours, 1,000 hours in any 365 consecutive calendar day period; (c) 60 FDP hours/168 h, 190/672 h",
+  "value_ok": true,
+  "note": "Пересказанные числа 30/168, 100/672, 1000/365, 60/168, 190/672 подтверждены."
+ },
+ "n3-020": {
+  "status": "found",
+  "found_text": "11. Продолжительность полетного времени при выполнении полетов на всех типах воздушных судов не может превышать 80 часов за 28 последовательных дней и 800 часов за 365 последовательных дней ... Приказом Минтранса России от 10 ноября 2025 г. № 381 настоящий документ признан утратившим силу с 1 марта 2026 г.",
+  "value_ok": true,
+  "note": "п. 11 в ред. приказа от 16.06.2008 № 91."
+ },
+ "n3-022": {
+  "status": "found",
+  "found_text": "ограничение максимального времени полета (13 часов) при выполнении 1-2 посадок в день",
+  "value_ok": true,
+  "note": "Новость от 14.05.2012; о третьем члене экипажа — по содержанию новости (пересказ инструмента)."
+ },
+ "n3-025": {
+  "status": "found",
+  "found_text": "Приказ вступает в силу 1 марта 2026 года.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-027": {
+  "status": "found",
+  "found_text": "не может превышать 80 часов за один календарный месяц, 240 часов в один квартал, 800 часов за календарный год ... может быть увеличена до 90 часов за один календарный месяц, до 270 часов в один квартал, ... до 900 часов за один календарный год",
+  "value_ok": true,
+  "note": "90/270/900 подтверждены. Проверено по rulaws.ru (неофициальная копия), не по publication.pravo.gov.ru."
+ },
+ "n3-028": {
+  "status": "found",
+  "found_text": "06.01 - 21.59 | 12.00 12.00 10.30 10.30 08.30 08.30; 22.00 - 06.00 | 11.00 11.00 10.00 10.00 06.30 06.30 (заголовки: «1 - 2, 3 (в случаях ... пунктами 33 и 34)», «1 - 4», «3 - 4», «5 - 6», «5 и более», «7 и более»; ГВС / вертолеты)",
+  "value_ok": null,
+  "note": "Числа совпадают, но таблица в копии rulaws повреждена: 6 значений на 6 смешанных колонок ГВС и вертолётов. Значения парами (12.00/12.00 …) вероятнее соответствуют парам «ГВС / вертолёты» для одной группы посадок, а не шести группам посадок 1–2…7+. Тогда для самолётов: 12:00 при 1–2(3) посадках, 10:30 при 3–4/5–6, 8:30 при 7+. Трактовка «12.00/12.00/10.30/10.30/08.30/08.30 по группам 1–2…7+» не подтверждена; нужен официальный текст (publication.pravo.gov.ru)."
+ },
+ "n3-029": {
+  "status": "found",
+  "found_text": "п. 50: не менее двойной продолжительности завершенной полетной смены; п. 54 и Прил. 5: До 12 часов (включительно) — в базовом аэропорту не менее 12, во внебазовом не менее 10",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-030": {
+  "status": "found",
+  "found_text": "Продолжительность еженедельного непрерывного отдыха членов экипажей, внешних пилотов не может быть менее 42 часов. ... не реже чем через каждые 6 рабочих дней подряд или две ночные полетные смены подряд",
+  "value_ok": true,
+  "note": "пп. 56, 58."
+ },
+ "n3-037": {
+  "status": "found",
+  "found_text": "pilot strength addition in FY25 was 418 ... 5,456 pilots",
+  "value_ok": true,
+  "note": "Фраза длиннее лимита инструмента; обе части найдены в одном предложении."
+ },
+ "n3-038": {
+  "status": "found",
+  "found_text": "... night landings from six to two between midnight and 6 am ... cutting down operations by 300-400 flights",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-042": {
+  "status": "found",
+  "found_text": "Operational highlights (p.46): Block hours | 1,546,668 | 1,353,475 | +14.3%; Number of aircraft at period end | 434 | 367 | +18.3%",
+  "value_ok": true,
+  "note": "Цитата — только заголовок строки, но числа 434 и 1,546,668 подтверждены независимо."
+ },
+ "n3-046": {
+  "status": "found",
+  "found_text": "including above inflation pay increases for our people, and higher crewing ratios due to Boeing delivery delays,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-047": {
+  "status": "found",
+  "found_text": "176 Boeing 737 \"Gamechangers\" in our 613 aircraft fleet at year-end.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-051": {
+  "status": "found",
+  "found_text": "we will maintain our industry leading 5 on, 4 off roster in return for pilots maintaining productivity on existing crewing ratios",
+  "value_ok": true,
+  "note": "Документ 2018 г."
+ },
+ "n3-054": {
+  "status": "found",
+  "found_text": "the average flight hours for their pilots was 809 hours",
+  "value_ok": false,
+  "note": "Статья Irish Examiner датирована 23.08.2002, а не ~2017. 809 ч/год — цифра Ryanair 2002 г. (другие парк, ростер и FTL до EU-OPS/ORO.FTL), её нельзя сочетать с ростером 5/4 (2018) как текущую норму."
+ },
+ "n3-055": {
+  "status": "found",
+  "found_text": "a guaranteed minimum of five days off in every 14-day period ... issued 28 days in advance",
+  "value_ok": true,
+  "note": "Тоже 2002 г.; сейчас ростер 5/4."
+ },
+ "n3-057": {
+  "status": "found",
+  "found_text": "Pilots typically work rosters of five days on and four days off.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-063": {
+  "status": "found",
+  "found_text": "The basic interval for light or ‘A’ checks is currently 750FH, 750 flight cycles (FC), or 4 months (MO);",
+  "value_ok": true,
+  "note": "Aircraft Commerce 2017, A320ceo."
+ },
+ "n3-064": {
+  "status": "found",
+  "found_text": "The basic interval for the ‘C’ check is currently 7,500FH, 5,000FC or 24MO;",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-065": {
+  "status": "found",
+  "found_text": "...high-utilisation operators will often see that FH and even FC are met before calendar thresholds",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-066": {
+  "status": "found",
+  "found_text": "It is usually performed by line maintenance people overnight,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-067": {
+  "status": "found",
+  "found_text": "...this interval allows the average operator to perform winter maintenance.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-068": {
+  "status": "found",
+  "found_text": "A C check takes an average of two weeks, but this varies throughout the base check cycle,",
+  "value_ok": true,
+  "note": "Диапазон 3 дня–3 недели не проверялся отдельно."
+ },
+ "n3-069": {
+  "status": "found",
+  "found_text": "Operators performing normal utilisation of an A320 will typically carry out three to four A checks per year",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-071": {
+  "status": "found",
+  "found_text": "the A cluster of checks were at 750 Flight Hours (FH), 750 Flight Cycles, or 6 months, whichever was reached first",
+  "value_ok": true,
+  "note": "MPD rev. 45. Расхождение с n3-063 (4 мес) — разные ревизии MPD; новые интервалы в статье не названы."
+ },
+ "n3-072": {
+  "status": "found",
+  "found_text": "the C check was at 7,500 FH, 5000 FC, or 24 months.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-075": {
+  "status": "found",
+  "found_text": "use an 'A' check every 500FH or 600FH",
+  "value_ok": true,
+  "note": "Диапазон 400–700 отдельно не проверялся. Статья — AC Issue 70 (~2010)."
+ },
+ "n3-076": {
+  "status": "found",
+  "found_text": "a 'C' or base check every 6,000FH and 24 months ... We will escalate the interval once more to 7,500FH and 24 months",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-077": {
+  "status": "found",
+  "found_text": "overnight check, which is valid for 28 hours ... a daily check every day, which is valid for 48 hours",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-078": {
+  "status": "found",
+  "found_text": "The utilised interval is likely to be 85%, or 5,100FH.",
+  "value_ok": true,
+  "note": "Относится к C-check 6,000 FH на 737NG, а не к A-check A320 (используется в n3-079 как общий коэффициент)."
+ },
+ "n3-083": {
+  "status": "found",
+  "found_text": "EasyJet has planned 14 standby aircraft for summer 2024, while Ryanair has around eight backup aircraft planned.",
+  "value_ok": true,
+  "note": "Только лид/мета-описание; тело статьи за пейволлом."
+ },
+ "n3-084": {
+  "status": "partial",
+  "found_text": "EasyJet has planned 14 standby aircraft for summer 2024, while Ryanair has around eight backup aircraft planned.",
+  "value_ok": true,
+  "note": "Смысл и число совпадают, но формулировка в доступном тексте иная (одно предложение с easyJet); точная фраза «Ryanair has around eight backup aircraft planned.» возможно есть в теле за пейволлом."
+ },
+ "n3-086": {
+  "status": "found",
+  "found_text": "Today for instance, we currently have 340 active lines of flying on the mainline operation.",
+  "value_ok": true,
+  "note": "US Airways, Cranky Flier, 28.02.2012 — данные 2012 г."
+ },
+ "n3-087": {
+  "status": "found",
+  "found_text": "13 spares total….",
+  "value_ok": true,
+  "note": "13/340 = 3.8%. Данные 2012 г."
+ },
+ "n3-090": {
+  "status": "found",
+  "found_text": "easyJet's total fleet as at 30 September 2025 comprised 356 aircraft (30 September 2024: 347 aircraft).",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-091": {
+  "status": "found",
+  "found_text": "OTP +3ppts YoY to 72%",
+  "value_ok": true,
+  "note": "Пункт списка highlights."
+ },
+ "n3-095": {
+  "status": "found",
+  "found_text": "OEMs have told airlines they will need to own a higher ratio of new narrowbody spare engines than they did in the past.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-105": {
+  "status": "found",
+  "found_text": "The 10,910 aircraft with CFM5-5B and -7B engines therefore have ... 21,820 installed engines plus up to 3,150 spare units",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-106": {
+  "status": "found",
+  "found_text": "There are another 6,080 installed V2500 engines, plus 900 spare units.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-109": {
+  "status": "found",
+  "found_text": "providing a total spare engine fleet of around 100 engines",
+  "value_ok": true,
+  "note": "Wizz Air H1 F26."
+ },
+ "n3-110": {
+  "status": "found",
+  "found_text": "ending the period with a total fleet of 243 aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-111": {
+  "status": "found",
+  "found_text": "At end of period H1 F26 there were 35 grounded aircraft due to GTF engine inspections.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-112": {
+  "status": "found",
+  "found_text": "For the six months ended 30 September | 2025 | 2024 | Change; Utilisation (block hours per aircraft per day) | 10:09 | 10:05 | 0.7%",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-113": {
+  "status": "found",
+  "found_text": "Utilisation (block hours per operating aircraft per day)** | 12:23 | 12:48 | (3.3)%",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-117": {
+  "status": "found",
+  "found_text": "The average delay per flight in 2024 decreased slightly to 17.5 minutes per flight, compared to 2023 where the average delay per flight was 17.6 minutes per flight",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-118": {
+  "status": "found",
+  "found_text": "Reactionary (knock-on) delay remained the highest contributor to the average delay per flight with an identical share of 46% of delay minutes, translating to 8.0 minutes per flight in 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-119": {
+  "status": "found",
+  "found_text": "... with 72.4% of flights arriving within 15 minutes or earlier of their scheduled arrival time (STA), compared to 70.6% in 2023.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-121": {
+  "status": "found",
+  "found_text": "reactionary (knock-on) delay was the highest contributor ... with an identical share of 46% of delay minutes, translating to 8.1 minutes per flight in 2023",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-124": {
+  "status": "found",
+  "found_text": "21.0 min — delay per flight on departure",
+  "value_ok": true,
+  "note": "Бриф помечен датой публикации 23.07.2025 — возможно, данные за неполный июль; цитата из одного числа мало что доказывает."
+ },
+ "n3-126": {
+  "status": "found",
+  "found_text": "11.6 min — delay per flight on departure (arrival 10.3 min)",
+  "value_ok": true,
+  "note": "Сравнение июль/ноябрь ×1.8 корректно арифметически, но сравниваются разные метрики месяцев; ок."
+ },
+ "n3-129": {
+  "status": "found",
+  "found_text": "all-causes departure delays in first wave flights decreased from 7.5 min in 2024 to 6.6 min in 2025",
+  "value_ok": true,
+  "note": "Первая волна = вылеты 03:00–08:59 UTC, первые рейсы борта."
+ },
+ "n3-130": {
+  "status": "found",
+  "found_text": "Similarly, departures within 15 minutes (OTP15) increased by 1.5%, from 88.0% to 89.5%.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-131": {
+  "status": "found",
+  "found_text": "dropping by 2.8 minutes per flight from 17.5 min/flight to 14.7 min/flight",
+  "value_ok": true,
+  "note": "Период уточнён: средние по будним дням IFR, январь–октябрь 2024 vs 2025."
+ },
+ "n3-133": {
+  "status": "found",
+  "found_text": "were on average 31 minutes and 36 seconds behind schedule in 2023",
+  "value_ok": true,
+  "note": "Вылеты из аэропортов UK, данные CAA через PA. Ryanair 19:54, easyJet 21:30, BA 21:36, Lufthansa 18:30 подтверждены."
+ },
+ "n3-137": {
+  "status": "found",
+  "found_text": "Iberia Express (International Airlines Group) defended its title for the third consecutive year with 88.94% on-time performance",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-138": {
+  "status": "found",
+  "found_text": "An on-time flight arrives within 14:59 minutes of scheduled gate arrival time.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-141": {
+  "status": "found",
+  "found_text": "won in both the Europe and Low-Cost Airline categories for the second year running ... 84.69% ... Iberia 81.58% ... Vueling 81.20%",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-145": {
+  "status": "found",
+  "found_text": "It lowers the airline's aircraft utilisation and will result in aircraft arriving ahead of schedule in the absence of the anticipated departure delay.",
+  "value_ok": true,
+  "note": "Документ EUROCONTROL «Arriving on time: the passenger priority»."
+ },
+ "n3-146": {
+  "status": "found",
+  "found_text": "In 2011 the share of flights with a departure delay <5 minutes was 63% compared to 64% for arrivals. For 2019 this difference has increased to almost 6% (59% vs 53%) indicating that airlines developed mitigation techniques that focus on arrival punctuality.",
+  "value_ok": true,
+  "note": "Порог <5 мин; что 59% — прилёты, следует из контекста, явно не подписано."
+ },
+ "n3-149": {
+  "status": "found",
+  "found_text": "...while an extra flight-buffer minute reduces arrival delay by 0.571 minutes. (early arrivals set to zero: flight buffer 0.236, ground buffer 0.170; baseline ground buffer 0.180)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-155": {
+  "status": "found",
+  "found_text": "Flybondi concluded its first season operating aircraft under wet lease ... The two Boeing 737-800 aircraft leased from AlbaStar ... the four Airbus A320ceo aircraft from Avion Express Malta ... began in November 2024 ... March 31",
+  "value_ok": true,
+  "note": "Начало ноябрь 2024 подтверждено только для Avion Express."
+ },
+ "n3-157": {
+  "status": "found",
+  "found_text": "ACMI operators are increasingly looking to markets in the Southern Hemisphere to pick up business in the European low season.",
+  "value_ok": true,
+  "note": "Мета-описание; статья за пейволлом."
+ },
+ "n3-158": {
+  "status": "found",
+  "found_text": "Ten A320s out of Viva Aerobus’ overall fleet are wet-leased from Avion Express Malta.",
+  "value_ok": true,
+  "note": "Подпись к фото."
+ },
+ "n3-161": {
+  "status": "found",
+  "found_text": "intends temporarily to ground 80 aircraft, almost one-third of its current fleet",
+  "value_ok": true,
+  "note": "Май 2011, зима 2011/12; годом ранее ~40 — подтверждено."
+ },
+ "n3-163": {
+  "status": "found",
+  "found_text": "Ryanair will ground around 20 aircraft this winter to counter the impact of spiralling fuel costs.",
+  "value_ok": true,
+  "note": "16.04.2008."
+ },
+ "n3-165": {
+  "status": "found",
+  "found_text": "Total fleet utilization up to 11:35 hours (vs 10:31 hours in last year)",
+  "value_ok": true,
+  "note": "Wizz Air, три месяца до 31.12.2023."
+ },
+ "n3-166": {
+  "status": "found",
+  "found_text": "Operational utilization to 12:15 hours (vs 10:31 hours in last year)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n3-043": {
+  "status": "infer_ok",
+  "note": "5456/2=2728; /434=6.29; 2×1,546,668/5456=567; 1,546,668/434=3,564 ч = 9.76 ч/сут. Арифметика верна; оговорки о парке на конец года корректны."
+ },
+ "n3-058": {
+  "status": "infer_ok",
+  "note": "3650/809=4.51, 4745/809=5.87, 5840/809=7.22; /900: 4.06, 5.27, 6.49 — верно. Но посылка устарела: 809 ч/пилот — Ryanair 2002 г. (Irish Examiner 23.08.2002), а не ~2017; в паре с ростером 5/4 (2018) это анахронизм."
+ },
+ "n3-059": {
+  "status": "infer_ok",
+  "note": "365×5/9≈203 раб. дня ×8 ≈1,620 ч > 900 — верно; FDP 12:00 при 4 секторах (старт 06:00–13:29) верно. Мелочь: 2 экипажа × 7–8 блок-ч = 14–16, а не 15–17 (15–17 верно только при секторах ~2 ч и более)."
+ },
+ "n3-060": {
+  "status": "infer_ok",
+  "note": "Числа перенесены верно, но «Ryanair ~809» — данные 2002 г.; нижняя граница IndiGo 567 занижена простоем GTF. Дефолт ~750 — суждение, не вычисление."
+ },
+ "n3-079": {
+  "status": "infer_ok",
+  "note": "16×0.87=13.9 FH/сут; 750/13.9=54 дня (~7.7 нед), при 85% — 46 дней; 365/54–46 = 6.8–7.9 A-check/год; 10 блок-ч → 8.7 FH → 86 дней < 4 мес. Верно. Оговорка: 85% взяты из C-check 737NG (n3-078), для A-check A320 это допущение; FC 750 при 6 сект./сут = 125 дней — не связывает."
+ },
+ "n3-080": {
+  "status": "infer_ok",
+  "note": "16×0.87×365=5,081 FH/год; 7,500/5,081=1.48 г = 17.7 мес (~18) — верно; 10 ч → 3,176 FH/год → 28 мес > 24, календарь первым — верно; 6×365=2,190 FC → 5,000/2,190=27.4 мес — верно."
+ },
+ "n3-092": {
+  "status": "infer_ok",
+  "note": "14/356=3.9% (1 на 25); 8/613=1.3% (1 на 77); 13/340=3.8%. Верно. Сравнение разных лет (US Airways 2012, easyJet лето 2024 / парк 2025)."
+ },
+ "n3-114": {
+  "status": "infer_ok",
+  "note": "3,150/21,820=14.4%; 900/6,080=14.8%; 100/(243×2)=20.6%. Верно. Оговорка: парк Wizz 243 включает и ceo-борта (не только GTF)."
+ },
+ "n3-134": {
+  "status": "infer_ok",
+  "note": "Качественный вывод согласуется с n3-129/131/118. Уточнение: 14.7 — будни янв–окт 2025, 17.5 — 2024."
+ },
+ "n3-150": {
+  "status": "infer_ok",
+  "note": "6×10 мин = 60 мин = 1 ч; 1/16 = 6.25% — верно; коэффициенты 0.236–0.571 и 0.17–0.18 соответствуют источнику."
+ },
+ "n3-167": {
+  "status": "infer_ok",
+  "note": "21.0/11.6=1.81 (≈вдвое) — верно. Но сравнение Wizz «зима 12:15 vs лето 12:23–12:48» берёт зиму 2023 и лета 2024–2025 — разные годы; Ryanair 20–80 ВС — 2008–2011, не текущая практика."
+ },
+ "n3-168": {
+  "status": "infer_ok",
+  "note": "12:23/10:09 = 1.22 (на весь парк на 18% ниже) — «~20%» верно. Но 35 ВС на конец периода объясняют разрыв лишь частично: 10:09×243/208 = 11:52, не 12:23; остальное — ТО/резерв и среднее за период."
+ }
+}

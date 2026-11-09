@@ -1,0 +1,330 @@
+{
+ "h1-004": {
+  "status": "found",
+  "found_text": "§506: The design criterion is to use the mean daily maximum temperature of the hottest month at the airport.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-005": {
+  "status": "found",
+  "found_text": "§504b: The airplane's maximum allowable takeoff weight is the lower of the following: (1) Maximum structural takeoff weight. (2) Climb limited takeoff weight. (3) Tire speed limited takeoff weight. (4) Brake energy limited takeoff weight. (5) Takeoff weight limited by maximum landing weight. (6) Obstacle clearance limited takeoff weight. (7) Runway length-limited takeoff weight (insufficient available runway length).",
+  "value_ok": true,
+  "note": "список из 7 пунктов подтверждён дословно — теперь его можно использовать как цитату"
+ },
+ "h1-006": {
+  "status": "found",
+  "found_text": "§403a: The parameter airport temperature is used only for takeoff length determinations by setting it equal to the ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-007": {
+  "status": "found",
+  "found_text": "§508: If an APM provides only the dry runway condition, then increase the obtained dry runway length by 15 percent.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-009": {
+  "status": "found",
+  "found_text": "Take-Off Weight Limitation - ISA +15°C (+27°F) Conditions - LEAP-1A Series Engine",
+  "value_ok": true,
+  "note": "также есть варианты CFM56, IAE V2500, PW Engines (Subject 3-3-2)"
+ },
+ "h1-014": {
+  "status": "found",
+  "found_text": "airlines' services at Delhi's IGI airport were impacted for three hours due to high temperatures.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-015": {
+  "status": "found",
+  "found_text": "When the temperature is quite high, aircraft takes longer length of runway and also load carrying capacity falls.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-016": {
+  "status": "found",
+  "found_text": "The maximum temperature touched 44.9 degrees Celsius at Palam, six notches above normal on Friday.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-018": {
+  "status": "found",
+  "found_text": "IndiGo stated: \"Delhi and Bagdogra flights were delayed due to high ground temperatures impeding operations,\" ... finally took off at 5:51 pm, nearly three hours late.",
+  "value_ok": true,
+  "note": "в статье и 'over three hours', и 'nearly three hours late' (2:10→5:51 = 3 ч 41 мин от вылета по расписанию); '>3 ч' допустимо"
+ },
+ "h1-020": {
+  "status": "partial",
+  "found_text": "Since Saturday, IndiGo and SpiceJet have cancelled approximately 12 flights scheduled around noon ... Over the past three days, nearly 12 flights have been cancelled",
+  "value_ok": true,
+  "note": "в оригинале 'have cancelled' — в цитате пропущено 'have'; число и 3 дня подтверждены"
+ },
+ "h1-021": {
+  "status": "found",
+  "found_text": "The daytime temperatures reached 36 degrees Celsius, causing the high-altitude air to become too thin",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-025": {
+  "status": "found",
+  "found_text": "10 to 30 percent of fully loaded planes may have to remove some fuel, cargo or passengers",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-026": {
+  "status": "found",
+  "found_text": "a 4 percent weight reduction would mean roughly 12 or 13 fewer passengers on an average 160-seat craft.",
+  "value_ok": true,
+  "note": "вопреки note в trace, это дословная цитата, и связка с 4 % в том же предложении; также есть 'reduced by as much as 4 percent on the hottest days'"
+ },
+ "h1-027": {
+  "status": "found",
+  "found_text": "facing LaGuardia's short runways, a Boeing 737-800 may have to offload weight half the time during the hottest days.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-029": {
+  "status": "found",
+  "found_text": "At Chios, the MTOM reduces by a mean of 133 kg per year over the considered period",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-030": {
+  "status": "found",
+  "found_text": "Since the A320 entered service in 1988, for Chios, this equates to a mean loss of payload of 3900 kg or 38 standard passengers with baggage for 2017 conditions",
+  "value_ok": true,
+  "note": "внутреннее расхождение подтверждено: в разд. 5 также 'this is 3990 kg since the aircraft was introduced in 1988'"
+ },
+ "h1-034": {
+  "status": "found",
+  "found_text": "has announced a 2,000 pound increase via a thrust bump that will improve take-off performance out of hot and high airports.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-037": {
+  "status": "found",
+  "found_text": "This point is often +15°C over the ICAO standard day temperature which is defined as 15°C or 56°F.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-038": {
+  "status": "found",
+  "found_text": "...we are down at 20 klbf thrust should we start from JFK and 17 klbf (or a bit better dependent on how the engine copes with thinner air) should we start from Denver.",
+  "value_ok": true,
+  "note": "20/17 klbf — тяга 'down at' в процессе разбега в модельном примере, не статическая тяга"
+ },
+ "h1-039": {
+  "status": "found",
+  "found_text": "...a balanced field length of 11,500 ft [Denver]; Our model gives a lift off distance of 5,900 ft and a balanced field length of 8,300 ft [JFK]; MAX 8 ... 92t or 181,000 lb",
+  "value_ok": true,
+  "note": "+39 % верно (11500/8300)"
+ },
+ "h1-040": {
+  "status": "found",
+  "found_text": "the air density and therefore air weight diminishes with another 5% should the temperature increase with 15°C to 30°C",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-043": {
+  "status": "found",
+  "found_text": "the PW127M produces 5 percent more power than its predecessors.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-045": {
+  "status": "found",
+  "found_text": "temperatures can reach up to 114 °F (46 °C) on an average summer day",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-048": {
+  "status": "found",
+  "found_text": "Debido a las altas temperaturas en la CDMX, es necesario restringir el peso en algunos vuelos para garantizar la seguridad.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-049": {
+  "status": "partial",
+  "found_text": "WebFetch: 34.2 grados centígrados ... the highest since May 9, 1998 (полное предложение не выдано дословно)",
+  "value_ok": true,
+  "note": "число и дата подтверждены, точная формулировка 'marcando así la más alta' не подтверждена дословно; ISA+34 — infer исследователя, арифметика верна (2230 м ≈ 7316 ft → ISA 0,5 °C)"
+ },
+ "h1-051": {
+  "status": "found",
+  "found_text": "From July 10, 2024, five of Aeromexico's seven weekly flights from Mexico City to Tokyo will operate via Monterrey.",
+  "value_ok": true,
+  "note": "обратные рейсы беспосадочные — подтверждено"
+ },
+ "h1-054": {
+  "status": "found",
+  "found_text": "...may require some weight restriction below their maximum takeoff weights, with mean restrictions ranging from 0.5 to 4% of total aircraft payload and fuel capacity by mid- to late century.",
+  "value_ok": true,
+  "note": "10–30 % — от annual flights departing at the time of daily maximum temperature; 5 types, 19 airports подтверждено"
+ },
+ "h1-058": {
+  "status": "found",
+  "found_text": "737-800 performance charts from Boeing [2] are used to calculate the temperature ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-059": {
+  "status": "found",
+  "found_text": "Table 2. Boeing 737-800 temperature thresholds for three chosen levels of weight restriction (°C): PHX | 1k lbs (454 kg): 38 | 10k lbs (4,536 kg): 47 | 15k lbs (6,804 kg): 53. Table 1: PHX runway 11,500 ft, elevation 1,135 ft",
+  "value_ok": true,
+  "note": "числа и единицы (°C, в заголовке столбцов) подтверждены; таблица возвращена WebFetch в переструктурированном виде, но значения однозначны"
+ },
+ "h1-060": {
+  "status": "found",
+  "found_text": "Table 2 (°C): DEN | N/A | 30 | 37. N/A = restriction always in effect due to airport characteristics; Table 1: DEN 16,000 ft, 5,433 ft",
+  "value_ok": true,
+  "note": "'1k lb всегда' подтверждено: в разд. 2 N/A означает, что ограничение 1k lbs действует всегда"
+ },
+ "h1-061": {
+  "status": "found",
+  "found_text": "Table 2 (°C): LGA | N/A | 31 | 33 (DCA тоже N/A | 31 | 33). Table 1: LGA 7,003 ft, 21 ft",
+  "value_ok": true,
+  "note": "в value не сказано, что у LGA тоже ≥1k lb при любой температуре (N/A); причина — короткие ВПП: 'cannot take off at its maximum weight at any temperature due to the relatively short runways'"
+ },
+ "h1-062": {
+  "status": "found",
+  "found_text": "at DEN the runways are sufficiently long but the required takeoff speed would exceed the maximum tire speed of 225 mph [2].",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-063": {
+  "status": "found",
+  "found_text": "In this situation, a 15k lbs weight restriction represents approximately 30% of the payload capacity of the aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-067": {
+  "status": "found",
+  "found_text": "due to a combination of short runway lengths, elevation, temperature, humidity and other environmental conditions.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-068": {
+  "status": "found",
+  "found_text": "Mexico City certainly qualifies as that.",
+  "value_ok": true,
+  "note": "слова эксперта Jerry Nickelsburg (UCLA), не Boeing"
+ },
+ "h1-071": {
+  "status": "found",
+  "found_text": "la altitud a la que se encuentra el aeropuerto de la capital colombiana (2.548 metros)",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-072": {
+  "status": "found",
+  "found_text": "Air France ha establecido limitaciones en la carga de sus aviones al despegue desde el aeropuerto de Bogotá",
+  "value_ok": true,
+  "note": "тип — A340-300"
+ },
+ "h1-075": {
+  "status": "found",
+  "found_text": "NEW DELHI (PALAM) 1991-2020; columns: Mean Temperature Daily Minimum, Daily Maximum, Rainfall... ; May 26.4 40.7 32.9 2.7 0.2 7.1 0.1 4.0",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-076": {
+  "status": "found",
+  "found_text": "Jun 27.9 39.6 75.2 4.0 0.1 6.5 0.7 3.5",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-082": {
+  "status": "found",
+  "found_text": "Average and Extremes of temperature over Ahmedabad (2010 to 2019): May 42.2 48 20 May 2016 27.5 23.4 3 May 2018",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-086": {
+  "status": "found",
+  "found_text": "Temperature Observed Normal Departure / Average High 91.7 89.9 +1.8",
+  "value_ok": true,
+  "note": "89,9 °F = 32,2 °C верно"
+ },
+ "h1-095": {
+  "status": "found",
+  "found_text": "TOW for 300 NM - Max pax - SL - ISA 1,156 m - 3,793 ft",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-096": {
+  "status": "found",
+  "found_text": "TOW for 300 NM - Max pax - 3,000 ft - ISA +10 1,383 m - 4,537 ft",
+  "value_ok": true,
+  "note": "+19,6 % верно"
+ },
+ "h1-097": {
+  "status": "found",
+  "found_text": "Max payload (at typical in-service OEW) 7,550 kg - 16,645 lb",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-100": {
+  "status": "found",
+  "found_text": "Flat-rated to (outside air temperature, sea level (SL)) 37.4°C",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-101": {
+  "status": "found",
+  "found_text": "Take-Off Field Length (International Standard Atmosphere (ISA), SL, MTOW) 1,277 m 4,188 ft",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-104": {
+  "status": "found",
+  "found_text": "Takeoff Field Length MTOW, ISA, SL - standard engine 1,840 m 6,037 ft",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-107": {
+  "status": "found",
+  "found_text": "Example values are an increase of 4.2 m per degree and a decrease of 1.2 m per hPa at minimum payload (at maximum payload, the equivalent numbers are 7.4 m · K − 1 and 2.2 m · hPa − 1 )",
+  "value_ok": true,
+  "note": "значения при макс. загрузке подтверждены"
+ },
+ "h1-108": {
+  "status": "found",
+  "found_text": "at 30 °C, these variations can account for MTOM changes of up to half a ton (500 kg, 1100 lb).",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-114": {
+  "status": "found",
+  "found_text": "This is normally 15°C over ISA, i.e. 30°C at sea level.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-116": {
+  "status": "found",
+  "found_text": "The -5B3, as well as the -5B1 and -5B2, also has a low corner point temperature of 30 degrees centigrade.",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-117": {
+  "status": "found",
+  "found_text": "It also has a corner point temperature of 45 degrees. [-5B6]; -5B4/-5B7 ... have a corner point temperature of 45 degrees; -5B5 ... 45 degrees centigrade",
+  "value_ok": true,
+  "note": "45 °C для -5B4/5/6/7 подтверждено по отдельным местам"
+ },
+ "h1-118": {
+  "status": "found",
+  "found_text": "Thrust bump is achieved by extending the engine’s corner point by a few degrees",
+  "value_ok": true,
+  "note": ""
+ },
+ "h1-128": {
+  "status": "found",
+  "found_text": "Q1 'Below the tropopause, the ICAO Standard Atmosphere (ISA) assumes?' option [B] ... decreasing by 1.98°C per 1000ft up to 36 090ft.",
+  "value_ok": true,
+  "note": "в документе правильный ответ не отмечен; значение совпадает со стандартом ИКАО (6,5 K/км)"
+ },
+ "_model": {
+  "ok": true,
+  "note": "Дословно проверены все три строки Coffel & Horton (Table 2, °C): PHX 38/47/53, DEN N/A/30/37, LGA N/A/31/33; ограничение отсчитывается от MTOW. Наклоны k и пороги D0 в статье НЕ указаны — это производные исследователя, арифметика воспроизводится: PHX 9000 lb/9 °C=0,57 %/°C и 5000/6=0,48 %; DEN 5000/7=0,41 %, ноль при 16 °C=ISA+12; LGA 2500 lb/°C=1,43 %, ноль при 27 °C=ISA+12; PHX 38 °C=ISA+25. Перевод в % опирается на MTOW 79 016 кг, которой в статье нет (вариант 737-800 не назван). Дели: при ~777 ft ΔISA мая ≈27 → 1,1 % ≈870 кг ≈8–9 пасс.; при 45 °C ≈3,3 % ≈26 пасс. — согласуется (высота VIDP не извлечена). Оговорки: (1) у DEN и LGA ≥1k lb действует при ЛЮБОЙ температуре (N/A), поэтому D0=ISA+12, полученный экстраполяцией к нулю, противоречит источнику; в таблице модели это отмечено только для DEN, для строки LGA — нет; (2) в DEN предел — скорость шин, перенос на 'высокогорье вообще' — допущение; (3) линейность по двум-трём точкам; (4) ссылки в out перепутаны: пункт про −5 % плотности и 20/17 klbf ссылается на h1-039/h1-037 вместо h1-040/h1-038, MAX 8 BFL — на h1-038 вместо h1-039, A321neo — на h1-033 вместо h1-034, flat rating — на h1-036 (шаг open). Вывод: как оценка порядка величины модель следует из проверенных цитат"
+ }
+}

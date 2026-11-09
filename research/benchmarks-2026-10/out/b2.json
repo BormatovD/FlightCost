@@ -1,0 +1,1671 @@
+{
+ "carriers": [
+  {
+   "code": "FR",
+   "name": "Ryanair Group",
+   "region": "Europe",
+   "model": "ULCC",
+   "period": "FY26: 01.04.2025–31.03.2026",
+   "currency": "EUR",
+   "scope": "Группа Ryanair (Ryanair DAC, Buzz, Lauda Europe, Malta Air, Ryanair UK)",
+   "values": {
+    "revenue": {
+     "value": 15544300000.0,
+     "ids": [
+      "b2-005"
+     ]
+    },
+    "pax_revenue": {
+     "value": 15544300000.0,
+     "ids": [
+      "b2-006",
+      "b2-007"
+     ],
+     "note": "scheduled 10 556,0 + ancillary 4 988,3 = вся выручка"
+    },
+    "opex": {
+     "value": 13170100000.0,
+     "ids": [
+      "b2-008"
+     ]
+    },
+    "fuel_cost": {
+     "value": 5418600000.0,
+     "ids": [
+      "b2-009"
+     ]
+    },
+    "opex_ex_fuel": {
+     "value": 7751500000.0,
+     "ids": [
+      "b2-008",
+      "b2-009"
+     ],
+     "note": "вычислено"
+    },
+    "pax": {
+     "value": 208400000.0,
+     "ids": [
+      "b2-003"
+     ]
+    },
+    "load_factor": {
+     "value": 0.94,
+     "ids": [
+      "b2-004"
+     ]
+    },
+    "flights": {
+     "value": 1100000.0,
+     "ids": [
+      "b2-013"
+     ],
+     "quality": "«over 1.1m», округлено"
+    },
+    "fleet_end": {
+     "value": 647,
+     "ids": [
+      "b2-010"
+     ]
+    },
+    "fleet_start": {
+     "value": 613,
+     "ids": [
+      "b2-010"
+     ]
+    },
+    "fleet_avg": {
+     "value": 630,
+     "ids": [
+      "b2-010"
+     ],
+     "quality": "оценка (613+647)/2"
+    },
+    "employees": {
+     "value": 30000,
+     "ids": [
+      "b2-011"
+     ],
+     "quality": "округлено"
+    }
+   },
+   "notes": "ASK/RPK/плечо/блок-часы за FY26 не получены: глоссарий Appendix A годового отчёта вне досягаемости WebFetch. В FR-2025.yaml есть FY25 (ASK 267 151 млн км из 166 млрд ASM) — другой год. Парк в собственности, тяжёлый ТОиР капитализирован. Топливо с хеджем."
+  },
+  {
+   "code": "W6",
+   "name": "Wizz Air Holdings",
+   "region": "Europe",
+   "model": "ULCC",
+   "period": "F26: 01.04.2025–31.03.2026",
+   "currency": "EUR",
+   "scope": "Группа Wizz Air (Hungary, UK, Malta; Abu Dhabi закрыта)",
+   "values": {
+    "revenue": {
+     "value": 5691400000.0,
+     "ids": [
+      "b2-028"
+     ]
+    },
+    "pax_revenue": {
+     "value": 5691400000.0,
+     "ids": [
+      "b2-026",
+      "b2-027"
+     ],
+     "note": "ticket 3 161,4 + ancillary 2 530,0"
+    },
+    "opex": {
+     "value": 5551700000.0,
+     "ids": [
+      "b2-030"
+     ]
+    },
+    "fuel_cost": {
+     "value": 1764000000.0,
+     "ids": [
+      "b2-029"
+     ]
+    },
+    "fuel_volume": {
+     "value": 1900000.0,
+     "ids": [
+      "b2-032"
+     ],
+     "unit": "t",
+     "quality": "оценка 2,2 т/бч × бч"
+    },
+    "ask_km": {
+     "value": 132030723000.0,
+     "ids": [
+      "b2-023"
+     ]
+    },
+    "rpk_km": {
+     "value": 119877458000.0,
+     "ids": [
+      "b2-024"
+     ]
+    },
+    "pax": {
+     "value": 69747746,
+     "ids": [
+      "b2-025"
+     ]
+    },
+    "flights": {
+     "value": 337405,
+     "ids": [
+      "b2-020"
+     ]
+    },
+    "block_hours": {
+     "value": 861653,
+     "ids": [
+      "b2-019"
+     ]
+    },
+    "fleet_avg": {
+     "value": 245.5,
+     "ids": [
+      "b2-017"
+     ],
+     "note": "equivalent aircraft, вкл. стоящие из-за GTF"
+    },
+    "fleet_end": {
+     "value": 262,
+     "ids": [
+      "b2-016"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 227.9,
+     "ids": [
+      "b2-033"
+     ]
+    },
+    "seats_total": {
+     "value": 76878622,
+     "ids": [
+      "b2-022"
+     ]
+    },
+    "stage_km": {
+     "value": 1717,
+     "ids": [
+      "b2-021"
+     ]
+    }
+   },
+   "notes": "Налёт 9:36 на все борта занижен ~40 стоящими A321neo (GTF) — для «отдачи парка» это реальная потеря, но не управленческая. МСФО 16: тяжёлый ТОиР арендованных в амортизации ROU. Численность в релизе не названа."
+  },
+  {
+   "code": "U2",
+   "name": "easyJet (airline)",
+   "region": "Europe",
+   "model": "LCC",
+   "period": "FY25: 01.10.2024–30.09.2025",
+   "currency": "GBP",
+   "scope": "Сегмент airline (без easyJet holidays) для выручки/затрат; KPI — авиакомпания",
+   "values": {
+    "revenue": {
+     "value": 8666000000.0,
+     "ids": [
+      "b2-048"
+     ],
+     "note": "airline revenue; группа с holidays 10 106"
+    },
+    "pax_revenue": {
+     "value": 8666000000.0,
+     "ids": [
+      "b2-046",
+      "b2-047"
+     ],
+     "note": "passenger 6 072 + ancillary 2 594"
+    },
+    "opex": {
+     "value": 8183000000.0,
+     "ids": [
+      "b2-052"
+     ],
+     "note": "headline, без non-headline статей"
+    },
+    "fuel_cost": {
+     "value": 2253000000.0,
+     "ids": [
+      "b2-050"
+     ]
+    },
+    "opex_ex_fuel_reported": {
+     "value": 5930000000.0,
+     "ids": [
+      "b2-049"
+     ]
+    },
+    "ask_km": {
+     "value": 134451000000.0,
+     "ids": [
+      "b2-038"
+     ]
+    },
+    "rpk_km": {
+     "value": 122021000000.0,
+     "ids": [
+      "b2-039"
+     ]
+    },
+    "pax": {
+     "value": 93400000.0,
+     "ids": [
+      "b2-037"
+     ]
+    },
+    "flights": {
+     "value": 576000,
+     "ids": [
+      "b2-041"
+     ]
+    },
+    "block_hours": {
+     "value": 1268000,
+     "ids": [
+      "b2-042"
+     ]
+    },
+    "fleet_avg": {
+     "value": 305,
+     "ids": [
+      "b2-044"
+     ],
+     "note": "среднее число бортов в эксплуатации в сутки"
+    },
+    "fleet_end": {
+     "value": 356,
+     "ids": [
+      "b2-043"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 180.6,
+     "ids": [
+      "b2-053"
+     ]
+    },
+    "stage_km": {
+     "value": 1293,
+     "ids": [
+      "b2-040"
+     ]
+    }
+   },
+   "notes": "Численность и тонны топлива в RNS нет. Год смещён на квартал против календарного 2025."
+  },
+  {
+   "code": "6E",
+   "name": "IndiGo (InterGlobe Aviation)",
+   "region": "Asia",
+   "model": "LCC",
+   "period": "FY2026: 01.04.2025–31.03.2026",
+   "currency": "INR",
+   "scope": "InterGlobe Aviation, вкл. ATR, damp-lease 737/787 и 3 A321F",
+   "values": {
+    "revenue": {
+     "value": 849619000000.0,
+     "ids": [
+      "b2-058"
+     ],
+     "note": "revenue from operations; total income 895 134 вкл. прочие доходы"
+    },
+    "opex": {
+     "value": 896775000000.0,
+     "ids": [
+      "b2-059"
+     ],
+     "note": "total cost вкл. курсовые потери по лизинговым обязательствам и финрасходы"
+    },
+    "fuel_cost": {
+     "value": 253892000000.0,
+     "ids": [
+      "b2-060"
+     ]
+    },
+    "opex_ex_fuel_reported": {
+     "value": 517000000000.0,
+     "ids": [
+      "b2-067",
+      "b2-069"
+     ],
+     "note": "CASK ex fuel ex forex 3,00 × ASK"
+    },
+    "ask_km": {
+     "value": 172400000000.0,
+     "ids": [
+      "b2-061"
+     ]
+    },
+    "rpk_km": {
+     "value": 145500000000.0,
+     "ids": [
+      "b2-062"
+     ]
+    },
+    "pax": {
+     "value": 123400000.0,
+     "ids": [
+      "b2-063"
+     ]
+    },
+    "load_factor": {
+     "value": 0.844,
+     "ids": [
+      "b2-064"
+     ]
+    },
+    "fleet_end": {
+     "value": 441,
+     "ids": [
+      "b2-065"
+     ]
+    },
+    "employees": {
+     "value": 69000,
+     "ids": [
+      "b2-066"
+     ],
+     "quality": "округлено"
+    }
+   },
+   "notes": "Total cost не годится для CASK как есть: падение рупии дало крупную курсовую переоценку (Ind AS 116). Для опоры «затраты» использовать opex_ex_fuel_reported (ex forex). Рейсы, блок-часы, плечо, объём топлива не найдены."
+  },
+  {
+   "code": "CM",
+   "name": "Copa Holdings",
+   "region": "LatAm",
+   "model": "network",
+   "period": "FY2025: календарный",
+   "currency": "USD",
+   "scope": "Copa Airlines + Wingo",
+   "values": {
+    "revenue": {
+     "value": 3617822000.0,
+     "ids": [
+      "b2-081"
+     ]
+    },
+    "pax_revenue": {
+     "value": 3431253000.0,
+     "ids": [
+      "b2-080"
+     ]
+    },
+    "opex": {
+     "value": 2798862000.0,
+     "ids": [
+      "b2-083"
+     ]
+    },
+    "fuel_cost": {
+     "value": 932251000.0,
+     "ids": [
+      "b2-082"
+     ]
+    },
+    "fuel_volume": {
+     "value": 377500000.0,
+     "ids": [
+      "b2-078"
+     ],
+     "unit": "US gal"
+    },
+    "ask_km": {
+     "value": 52156000000.0,
+     "ids": [
+      "b2-074",
+      "b2-085"
+     ],
+     "src": "32 408 млн ASM"
+    },
+    "rpk_km": {
+     "value": 45400000000.0,
+     "ids": [
+      "b2-073",
+      "b2-085"
+     ],
+     "src": "28 210 млн RPM"
+    },
+    "pax": {
+     "value": 14853000.0,
+     "ids": [
+      "b2-072"
+     ]
+    },
+    "flights": {
+     "value": 159197,
+     "ids": [
+      "b2-075"
+     ]
+    },
+    "block_hours": {
+     "value": 505888,
+     "ids": [
+      "b2-076"
+     ]
+    },
+    "fleet_avg": {
+     "value": 116.5,
+     "ids": [
+      "b2-087"
+     ],
+     "quality": "оценка из налёта 11,9 ч"
+    },
+    "fleet_end": {
+     "value": 125,
+     "ids": [
+      "b2-084"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 163.9,
+     "ids": [
+      "b2-088"
+     ],
+     "quality": "оценка ASM/(рейсы×плечо)"
+    },
+    "stage_km": {
+     "value": 1999,
+     "ids": [
+      "b2-077",
+      "b2-086"
+     ],
+     "src": "1 242 мили"
+    }
+   },
+   "notes": "Парк в основном собственный. Численность не найдена (gap b2-089)."
+  },
+  {
+   "code": "Y4",
+   "name": "Volaris",
+   "region": "LatAm",
+   "model": "ULCC",
+   "period": "FY2025: календарный",
+   "currency": "USD",
+   "scope": "Volaris Mexico, Costa Rica, El Salvador; операционные показатели вкл. чартер",
+   "values": {
+    "revenue": {
+     "value": 3038000000.0,
+     "ids": [
+      "b2-094"
+     ]
+    },
+    "pax_revenue": {
+     "value": 2883000000.0,
+     "ids": [
+      "b2-095"
+     ]
+    },
+    "opex": {
+     "value": 2903000000.0,
+     "ids": [
+      "b2-105"
+     ]
+    },
+    "fuel_cost": {
+     "value": 886000000.0,
+     "ids": [
+      "b2-104"
+     ]
+    },
+    "fuel_volume": {
+     "value": 339960000.0,
+     "ids": [
+      "b2-101"
+     ],
+     "unit": "US gal"
+    },
+    "ask_km": {
+     "value": 58126000000.0,
+     "ids": [
+      "b2-096",
+      "b2-106"
+     ],
+     "src": "36 118 млн ASM"
+    },
+    "rpk_km": {
+     "value": 49009000000.0,
+     "ids": [
+      "b2-097",
+      "b2-106"
+     ],
+     "src": "30 453 млн RPM"
+    },
+    "pax": {
+     "value": 30995000.0,
+     "ids": [
+      "b2-098"
+     ]
+    },
+    "flights": {
+     "value": 188848,
+     "ids": [
+      "b2-099"
+     ]
+    },
+    "block_hours": {
+     "value": 481472,
+     "ids": [
+      "b2-100"
+     ]
+    },
+    "fleet_avg": {
+     "value": 149,
+     "ids": [
+      "b2-103",
+      "b2-107"
+     ],
+     "note": "на балансе; в налёте ≈103 (GTF)"
+    },
+    "fleet_end": {
+     "value": 155,
+     "ids": [
+      "b2-103"
+     ]
+    }
+   },
+   "notes": "Около трети парка стоит из-за двигателей GTF: утилизация 12,76 ч на работающие борта. Плечо и численность не найдены."
+  },
+  {
+   "code": "AD",
+   "name": "Azul",
+   "region": "LatAm",
+   "model": "hybrid",
+   "period": "FY2025: календарный",
+   "currency": "BRL",
+   "scope": "Azul S.A. (вкл. региональный ATR/E-Jets и A330)",
+   "values": {
+    "revenue": {
+     "value": 21873700000.0,
+     "ids": [
+      "b2-121"
+     ]
+    },
+    "pax_revenue": {
+     "value": 20231000000.0,
+     "ids": [
+      "b2-120"
+     ]
+    },
+    "opex": {
+     "value": 18232500000.0,
+     "ids": [
+      "b2-123"
+     ],
+     "note": "adjusted (без разовых, Chapter 11)"
+    },
+    "fuel_cost": {
+     "value": 5710300000.0,
+     "ids": [
+      "b2-122"
+     ]
+    },
+    "fuel_volume": {
+     "value": 1427847000.0,
+     "ids": [
+      "b2-117"
+     ],
+     "unit": "L"
+    },
+    "ask_km": {
+     "value": 50908000000.0,
+     "ids": [
+      "b2-111"
+     ]
+    },
+    "rpk_km": {
+     "value": 42336000000.0,
+     "ids": [
+      "b2-112"
+     ]
+    },
+    "pax": {
+     "value": 31914000.0,
+     "ids": [
+      "b2-113"
+     ]
+    },
+    "flights": {
+     "value": 310713,
+     "ids": [
+      "b2-114"
+     ]
+    },
+    "block_hours": {
+     "value": 575448,
+     "ids": [
+      "b2-115"
+     ]
+    },
+    "fleet_avg": {
+     "value": 133.6,
+     "ids": [
+      "b2-125"
+     ],
+     "quality": "оценка из налёта; на конец 187"
+    },
+    "fleet_end": {
+     "value": 187,
+     "ids": [
+      "b2-119"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 127.2,
+     "ids": [
+      "b2-126"
+     ],
+     "quality": "оценка"
+    },
+    "stage_km": {
+     "value": 1288,
+     "ids": [
+      "b2-116"
+     ]
+    },
+    "employees": {
+     "value": 14674,
+     "ids": [
+      "b2-118"
+     ],
+     "note": "FTE на конец года"
+    }
+   },
+   "notes": "2025 — год реструктуризации (Chapter 11); opex adjusted. Самый полный набор полей в выборке."
+  },
+  {
+   "code": "G3",
+   "name": "GOL",
+   "region": "LatAm",
+   "model": "LCC",
+   "period": "FY2025: календарный",
+   "currency": "BRL",
+   "scope": "GOL Linhas Aéreas (737)",
+   "values": {
+    "revenue": {
+     "value": 22103000000.0,
+     "ids": [
+      "b2-136"
+     ]
+    },
+    "pax_revenue": {
+     "value": 20027000000.0,
+     "ids": [
+      "b2-137"
+     ]
+    },
+    "opex": {
+     "value": 18741000000.0,
+     "ids": [
+      "b2-138"
+     ],
+     "note": "recurring; IFRS 20 262 (b2-139)"
+    },
+    "fuel_cost": {
+     "value": 5719000000.0,
+     "ids": [
+      "b2-140"
+     ]
+    },
+    "ask_km": {
+     "value": 49300000000.0,
+     "ids": [
+      "b2-129"
+     ]
+    },
+    "rpk_km": {
+     "value": 41300000000.0,
+     "ids": [
+      "b2-141"
+     ],
+     "quality": "ASK×LF"
+    },
+    "pax": {
+     "value": 34500000.0,
+     "ids": [
+      "b2-131"
+     ]
+    },
+    "flights": {
+     "value": 237400,
+     "ids": [
+      "b2-132"
+     ]
+    },
+    "block_hours": {
+     "value": 486000,
+     "ids": [
+      "b2-143"
+     ],
+     "quality": "грубая оценка"
+    },
+    "fleet_end": {
+     "value": 129,
+     "ids": [
+      "b2-135"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 179.3,
+     "ids": [
+      "b2-142"
+     ],
+     "quality": "оценка"
+    },
+    "stage_km": {
+     "value": 1158,
+     "ids": [
+      "b2-134"
+     ]
+    }
+   },
+   "notes": "Вышла из Chapter 11 в 2025. Объём топлива и численность не найдены."
+  },
+  {
+   "code": "LA",
+   "name": "LATAM Airlines Group",
+   "region": "LatAm",
+   "model": "network",
+   "period": "FY2025: календарный",
+   "currency": "USD",
+   "scope": "Группа LATAM вкл. грузовые (LATAM Cargo); ASK только пассажирский",
+   "values": {
+    "revenue": {
+     "value": 14494990000.0,
+     "ids": [
+      "b2-156"
+     ]
+    },
+    "pax_revenue": {
+     "value": 12611528000.0,
+     "ids": [
+      "b2-154"
+     ]
+    },
+    "opex": {
+     "value": 12159452000.0,
+     "ids": [
+      "b2-158"
+     ]
+    },
+    "fuel_cost": {
+     "value": 3804821000.0,
+     "ids": [
+      "b2-157"
+     ]
+    },
+    "fuel_volume": {
+     "value": 1444000000.0,
+     "ids": [
+      "b2-150"
+     ],
+     "unit": "US gal",
+     "note": "вкл. грузовые 767F"
+    },
+    "ask_km": {
+     "value": 170812000000.0,
+     "ids": [
+      "b2-147"
+     ]
+    },
+    "rpk_km": {
+     "value": 144110000000.0,
+     "ids": [
+      "b2-148"
+     ]
+    },
+    "pax": {
+     "value": 87414000.0,
+     "ids": [
+      "b2-149"
+     ]
+    },
+    "fleet_end": {
+     "value": 371,
+     "ids": [
+      "b2-153"
+     ]
+    },
+    "employees": {
+     "value": 39507,
+     "ids": [
+      "b2-152"
+     ],
+     "note": "в среднем"
+    },
+    "pax_haul_km": {
+     "value": 1649,
+     "ids": [
+      "b2-151"
+     ],
+     "note": "дальность перевозки пассажира, не плечо рейса"
+    }
+   },
+   "notes": "Грузовая выручка 1 653,5 млн (b2-155) — для CASK по пассажирскому ASK нужна поправка на грузы. Рейсы и блок-часы не найдены."
+  },
+  {
+   "code": "A3",
+   "name": "Aegean Airlines (группа)",
+   "region": "Europe",
+   "model": "hybrid",
+   "period": "FY2025: календарный",
+   "currency": "EUR",
+   "scope": "Aegean + Olympic Air",
+   "values": {
+    "revenue": {
+     "value": 1859700000.0,
+     "ids": [
+      "b2-163"
+     ]
+    },
+    "pax_revenue": {
+     "value": 1610500000.0,
+     "ids": [
+      "b2-164"
+     ],
+     "note": "scheduled services"
+    },
+    "opex": {
+     "value": 1641500000.0,
+     "ids": [
+      "b2-175"
+     ],
+     "quality": "revenue − EBIT"
+    },
+    "fuel_cost": {
+     "value": 369000000.0,
+     "ids": [
+      "b2-165"
+     ]
+    },
+    "ask_km": {
+     "value": 22179000000.0,
+     "ids": [
+      "b2-170"
+     ]
+    },
+    "rpk_km": {
+     "value": 18231000000.0,
+     "ids": [
+      "b2-171"
+     ]
+    },
+    "pax": {
+     "value": 17284000.0,
+     "ids": [
+      "b2-169"
+     ]
+    },
+    "flights": {
+     "value": 134371,
+     "ids": [
+      "b2-172"
+     ]
+    },
+    "block_hours": {
+     "value": 225350,
+     "ids": [
+      "b2-173"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 180.4,
+     "ids": [
+      "b2-176"
+     ],
+     "quality": "оценка"
+    },
+    "stage_km": {
+     "value": 915,
+     "ids": [
+      "b2-174"
+     ]
+    }
+   },
+   "notes": "Смешанный парк A320/A321neo + турбовинтовые Olympic. Парк, численность, объём топлива не найдены. Подтверждает block_hours и flights из A3-2025.yaml."
+  },
+  {
+   "code": "BT",
+   "name": "airBaltic (свои рейсы)",
+   "region": "Europe",
+   "model": "hybrid",
+   "period": "FY2025: календарный",
+   "currency": "EUR",
+   "scope": "Только собственные рейсы, без ACMI-out (контур CASK)",
+   "values": {
+    "revenue": {
+     "value": 618200000.0,
+     "ids": [
+      "b2-197"
+     ],
+     "note": "775,6 − ACMI 157,5"
+    },
+    "pax_revenue": {
+     "value": 593267000.0,
+     "ids": [
+      "b2-190"
+     ]
+    },
+    "opex": {
+     "value": 639400000.0,
+     "ids": [
+      "b2-196"
+     ],
+     "quality": "CASK × ASK"
+    },
+    "fuel_cost": {
+     "value": 149600000.0,
+     "ids": [
+      "b2-196"
+     ],
+     "quality": "fuel CASK × ASK"
+    },
+    "ask_km": {
+     "value": 9121000000.0,
+     "ids": [
+      "b2-187"
+     ]
+    },
+    "rpk_km": {
+     "value": 7317000000.0,
+     "ids": [
+      "b2-188"
+     ]
+    },
+    "pax": {
+     "value": 5207000.0,
+     "ids": [
+      "b2-184"
+     ]
+    },
+    "flights": {
+     "value": 48328,
+     "ids": [
+      "b2-182"
+     ]
+    },
+    "block_hours": {
+     "value": 107477,
+     "ids": [
+      "b2-181"
+     ]
+    },
+    "fleet_avg": {
+     "value": 38.4,
+     "ids": [
+      "b2-198"
+     ],
+     "note": "эквивалент на свои рейсы"
+    },
+    "fleet_end": {
+     "value": 51,
+     "ids": [
+      "b2-180"
+     ]
+    },
+    "seats_per_flight": {
+     "value": 143.2,
+     "ids": [
+      "b2-199"
+     ]
+    },
+    "stage_km": {
+     "value": 1318,
+     "ids": [
+      "b2-186"
+     ]
+    },
+    "employees": {
+     "value": 2859,
+     "ids": [
+      "b2-194"
+     ],
+     "note": "на конец года, вкл. занятых на ACMI"
+    }
+   },
+   "notes": "Монотипный A220-300. ~1/3 налёта — ACMI-out (Lufthansa и др.). Численность относится ко всей компании."
+  },
+  {
+   "code": "LH",
+   "name": "Lufthansa Group — Passenger Airlines",
+   "region": "Europe",
+   "model": "network",
+   "period": "FY2025: календарный",
+   "currency": "EUR",
+   "scope": "Сегмент Passenger Airlines (Lufthansa Airlines вкл. CityLine/City Airlines/Air Dolomiti/Discover, SWISS, Austrian, Brussels, Eurowings)",
+   "values": {
+    "revenue": {
+     "value": 30576000000.0,
+     "ids": [
+      "b2-206"
+     ]
+    },
+    "pax_revenue": {
+     "value": 28623000000.0,
+     "ids": [
+      "b2-207"
+     ],
+     "note": "traffic revenue"
+    },
+    "opex": {
+     "value": 30688000000.0,
+     "ids": [
+      "b2-208"
+     ]
+    },
+    "fuel_cost": {
+     "value": 7271000000.0,
+     "ids": [
+      "b2-216",
+      "b2-218"
+     ],
+     "quality": "ГРУППА вкл. Lufthansa Cargo — верхняя граница"
+    },
+    "ask_km": {
+     "value": 338552000000.0,
+     "ids": [
+      "b2-212"
+     ]
+    },
+    "rpk_km": {
+     "value": 281765000000.0,
+     "ids": [
+      "b2-213"
+     ]
+    },
+    "pax": {
+     "value": 135035000.0,
+     "ids": [
+      "b2-211"
+     ]
+    },
+    "flights": {
+     "value": 1002935,
+     "ids": [
+      "b2-210"
+     ]
+    },
+    "fleet_end": {
+     "value": 715,
+     "ids": [
+      "b2-214"
+     ]
+    },
+    "employees": {
+     "value": 66128,
+     "ids": [
+      "b2-209"
+     ],
+     "note": "на 31.12"
+    }
+   },
+   "notes": "Блок-часы не публикуются. Opex сегмента > выручки сегмента при Adjusted EBIT 1 087 — сегментный EBIT включает прочие доходы. Хедж −254 млн в топливе."
+  },
+  {
+   "code": "DY",
+   "name": "Norwegian (сегмент, без Widerøe)",
+   "region": "Europe",
+   "model": "LCC",
+   "period": "FY2025: календарный",
+   "currency": "NOK",
+   "scope": "Сегмент Norwegian (737-800/MAX 8); в NO-2025.yaml — группа с Widerøe",
+   "values": {
+    "revenue": {
+     "value": 30092000000.0,
+     "ids": [
+      "b2-224"
+     ]
+    },
+    "pax_revenue": {
+     "value": 24905000000.0,
+     "ids": [
+      "b2-225"
+     ]
+    },
+    "opex": {
+     "value": 26933000000.0,
+     "ids": [
+      "b2-236"
+     ],
+     "quality": "revenue − EBIT"
+    },
+    "opex_ex_fuel_reported": {
+     "value": 14935000000.0,
+     "ids": [
+      "b2-226",
+      "b2-227"
+     ],
+     "note": "opex без лизинга, D&A и топлива = 14 935; полный ex-fuel = 18 362"
+    },
+    "fuel_cost": {
+     "value": 8571000000.0,
+     "ids": [
+      "b2-227"
+     ]
+    },
+    "ask_km": {
+     "value": 37640000000.0,
+     "ids": [
+      "b2-230"
+     ]
+    },
+    "rpk_km": {
+     "value": 32305000000.0,
+     "ids": [
+      "b2-231"
+     ]
+    },
+    "pax": {
+     "value": 23100000.0,
+     "ids": [
+      "b2-229"
+     ]
+    },
+    "flights": {
+     "value": 152000,
+     "ids": [
+      "b2-237"
+     ],
+     "quality": "оценка при 187 креслах"
+    },
+    "block_hours": {
+     "value": 378000,
+     "ids": [
+      "b2-238"
+     ],
+     "quality": "верхняя граница"
+    },
+    "fleet_end": {
+     "value": 95,
+     "ids": [
+      "b2-233"
+     ]
+    },
+    "stage_km": {
+     "value": 1322,
+     "ids": [
+      "b2-232"
+     ]
+    },
+    "employees": {
+     "value": 5364,
+     "ids": [
+      "b2-235"
+     ]
+    }
+   },
+   "notes": "Тонны топлива (786 тыс.) в yaml — группа, стр. 196 недоступна WebFetch."
+  },
+  {
+   "code": "PC",
+   "name": "Pegasus Airlines",
+   "region": "Europe",
+   "model": "LCC",
+   "period": "FY2025: календарный",
+   "currency": "EUR",
+   "scope": "Pegasus",
+   "values": {
+    "revenue": {
+     "value": 3414000000.0,
+     "ids": [
+      "b2-241"
+     ]
+    },
+    "opex": {
+     "value": 3014000000.0,
+     "ids": [
+      "b2-250"
+     ]
+    },
+    "fuel_cost": {
+     "value": 907000000.0,
+     "ids": [
+      "b2-249"
+     ]
+    },
+    "opex_ex_fuel_reported": {
+     "value": 2106270000.0,
+     "ids": [
+      "b2-248"
+     ],
+     "note": "CASK non-fuel 2,69 c × ASK"
+    },
+    "ask_km": {
+     "value": 78300000000.0,
+     "ids": [
+      "b2-245"
+     ]
+    },
+    "rpk_km": {
+     "value": 68700000000.0,
+     "ids": [
+      "b2-252"
+     ],
+     "quality": "ASK×LF"
+    },
+    "pax": {
+     "value": 43300000.0,
+     "ids": [
+      "b2-243"
+     ]
+    },
+    "fleet_avg": {
+     "value": 124,
+     "ids": [
+      "b2-246"
+     ]
+    },
+    "fleet_end": {
+     "value": 127,
+     "ids": [
+      "b2-251"
+     ]
+    },
+    "stage_km": {
+     "value": 1587,
+     "ids": [
+      "b2-247"
+     ]
+    }
+   },
+   "notes": "Регион — Европа по базе (Стамбул SAW). Рейсы/блок-часы из PC-2025.yaml не подтверждены (b2-253)."
+  },
+  {
+   "code": "SU",
+   "name": "Группа «Аэрофлот»",
+   "region": "Russia",
+   "model": "network",
+   "period": "FY2025: календарный",
+   "currency": "RUB",
+   "scope": "Аэрофлот + Россия + Победа",
+   "values": {
+    "revenue": {
+     "value": 902260000000.0,
+     "ids": [
+      "b2-267"
+     ]
+    },
+    "pax_revenue": {
+     "value": 844400000000.0,
+     "ids": [
+      "b2-268"
+     ],
+     "note": "регулярные пассажирские"
+    },
+    "fuel_cost": {
+     "value": 303800000000.0,
+     "ids": [
+      "b2-269"
+     ]
+    },
+    "ask_km": {
+     "value": 170875200000.0,
+     "ids": [
+      "b2-263"
+     ]
+    },
+    "rpk_km": {
+     "value": 154089200000.0,
+     "ids": [
+      "b2-262"
+     ]
+    },
+    "pax": {
+     "value": 55340300,
+     "ids": [
+      "b2-261"
+     ]
+    },
+    "flights": {
+     "value": 361081,
+     "ids": [
+      "b2-264"
+     ]
+    },
+    "block_hours": {
+     "value": 1061914,
+     "ids": [
+      "b2-265"
+     ]
+    }
+   },
+   "notes": "Источники вторичные (Интерфакс, AK&M), databook недоступен. Opex годовой не подтверждён цитатой (в SU-2025.yaml 763,62 млрд RUB без цитаты). Топливная демпферная компенсация учитывается отдельно — проверить по МСФО."
+  },
+  {
+   "code": "AY",
+   "name": "Finnair",
+   "region": "Europe",
+   "model": "network",
+   "period": "FY2025: календарный",
+   "currency": "EUR",
+   "scope": "Finnair Group, ASK/рейсы вкл. купленную ёмкость Norra",
+   "values": {
+    "revenue": {
+     "value": 3106200000.0,
+     "ids": [
+      "b2-278"
+     ]
+    },
+    "pax_revenue": {
+     "value": 2445800000.0,
+     "ids": [
+      "b2-283"
+     ]
+    },
+    "opex": {
+     "value": 3155300000.0,
+     "ids": [
+      "b2-284"
+     ],
+     "note": "comparable; прочие опер. доходы отдельно"
+    },
+    "fuel_cost": {
+     "value": 878900000.0,
+     "ids": [
+      "b2-285"
+     ]
+    },
+    "opex_ex_fuel_reported": {
+     "value": 2165793660.0,
+     "ids": [
+      "b2-290"
+     ],
+     "note": "CASK ex fuel 5,51 c × ASK"
+    },
+    "fuel_volume": {
+     "value": 1049263,
+     "ids": [
+      "b2-288"
+     ],
+     "unit": "t"
+    },
+    "ask_km": {
+     "value": 39306600000.0,
+     "ids": [
+      "b2-280"
+     ]
+    },
+    "rpk_km": {
+     "value": 30227000000.0,
+     "ids": [
+      "b2-286"
+     ]
+    },
+    "pax": {
+     "value": 11900000.0,
+     "ids": [
+      "b2-279"
+     ]
+    },
+    "flights": {
+     "value": 113281,
+     "ids": [
+      "b2-287"
+     ]
+    },
+    "fleet_end": {
+     "value": 55,
+     "ids": [
+      "b2-291"
+     ],
+     "note": "собственный эксплуатируемый, без Norra"
+    },
+    "employees": {
+     "value": 5779,
+     "ids": [
+      "b2-289"
+     ],
+     "note": "в среднем"
+    }
+   },
+   "notes": "Блок-часы и плечо не раскрыты. Wet-lease-out (Qantas, BA) возможно в ASK — не проверено."
+  },
+  {
+   "code": "QF",
+   "name": "Qantas Group",
+   "region": "Oceania",
+   "model": "network",
+   "period": "FY26: 01.07.2025–30.06.2026",
+   "currency": "AUD",
+   "scope": "Группа: Qantas, Jetstar Group, Loyalty, Freight",
+   "values": {
+    "revenue": {
+     "value": 25516000000.0,
+     "ids": [
+      "b2-297"
+     ]
+    },
+    "pax_revenue": {
+     "value": 21814000000.0,
+     "ids": [
+      "b2-296"
+     ]
+    },
+    "opex": {
+     "value": 23404000000.0,
+     "ids": [
+      "b2-298"
+     ],
+     "note": "statutory; underlying 23 168"
+    },
+    "fuel_cost": {
+     "value": 5724000000.0,
+     "ids": [
+      "b2-299"
+     ]
+    },
+    "fuel_volume": {
+     "value": 32149000.0,
+     "ids": [
+      "b2-304"
+     ],
+     "unit": "bbl",
+     "note": "≈4,06 млн т, b2-305"
+    },
+    "ask_km": {
+     "value": 157957000000.0,
+     "ids": [
+      "b2-302"
+     ]
+    },
+    "rpk_km": {
+     "value": 133398000000.0,
+     "ids": [
+      "b2-301"
+     ]
+    },
+    "pax": {
+     "value": 55945000.0,
+     "ids": [
+      "b2-300"
+     ]
+    },
+    "employees": {
+     "value": 29175,
+     "ids": [
+      "b2-303"
+     ],
+     "note": "FTE"
+    }
+   },
+   "notes": "Выручка группы включает Loyalty и грузы — CASK по группе завышен против чистого перевозчика. Jetstar отдельно за год не раскрыт."
+  },
+  {
+   "code": "NZ",
+   "name": "Air New Zealand",
+   "region": "Oceania",
+   "model": "network",
+   "period": "FY26: 01.07.2025–30.06.2026",
+   "currency": "NZD",
+   "scope": "Air New Zealand Group",
+   "values": {
+    "revenue": {
+     "value": 7016000000.0,
+     "ids": [
+      "b2-309"
+     ]
+    },
+    "pax_revenue": {
+     "value": 6100000000.0,
+     "ids": [
+      "b2-310"
+     ],
+     "quality": "округлено"
+    },
+    "opex": {
+     "value": 6500000000.0,
+     "ids": [
+      "b2-311"
+     ],
+     "quality": "округлено"
+    },
+    "fuel_cost": {
+     "value": 1738000000.0,
+     "ids": [
+      "b2-312"
+     ]
+    },
+    "ask_km": {
+     "value": 41046000000.0,
+     "ids": [
+      "b2-314"
+     ]
+    },
+    "rpk_km": {
+     "value": 34346000000.0,
+     "ids": [
+      "b2-315"
+     ]
+    },
+    "pax": {
+     "value": 16010000.0,
+     "ids": [
+      "b2-313"
+     ]
+    },
+    "flights": {
+     "value": 131000,
+     "ids": [
+      "b2-318"
+     ],
+     "quality": "оценка >360/сутки"
+    },
+    "fleet_end": {
+     "value": 112,
+     "ids": [
+      "b2-316"
+     ]
+    },
+    "employees": {
+     "value": 11700,
+     "ids": [
+      "b2-316"
+     ],
+     "quality": "округлено"
+    }
+   },
+   "notes": "Объём топлива, блок-часы, плечо не найдены; рейсы — оценка."
+  },
+  {
+   "code": "EK",
+   "name": "Emirates (авиакомпания)",
+   "region": "MiddleEast",
+   "model": "network",
+   "period": "FY2025-26: 01.04.2025–31.03.2026",
+   "currency": "AED",
+   "scope": "Emirates вкл. Emirates SkyCargo; без dnata",
+   "values": {
+    "revenue": {
+     "value": 130900000000.0,
+     "ids": [
+      "b2-328"
+     ]
+    },
+    "opex": {
+     "value": 107600000000.0,
+     "ids": [
+      "b2-331"
+     ],
+     "quality": "fuel / доля 29%"
+    },
+    "fuel_cost": {
+     "value": 31200000000.0,
+     "ids": [
+      "b2-329"
+     ]
+    },
+    "ask_km": {
+     "value": 356000000000.0,
+     "ids": [
+      "b2-323"
+     ]
+    },
+    "rpk_km": {
+     "value": 279100000000.0,
+     "ids": [
+      "b2-332"
+     ],
+     "quality": "ASK×LF"
+    },
+    "pax": {
+     "value": 53200000.0,
+     "ids": [
+      "b2-322"
+     ]
+    },
+    "load_factor": {
+     "value": 0.784,
+     "ids": [
+      "b2-324"
+     ]
+    },
+    "fleet_end": {
+     "value": 277,
+     "ids": [
+      "b2-325"
+     ]
+    },
+    "employees": {
+     "value": 74980,
+     "ids": [
+      "b2-326"
+     ],
+     "note": "на 31.03.2026"
+    }
+   },
+   "notes": "Выручка и расходы включают SkyCargo (крупная доля) — CASK по пассажирскому ASK несопоставим без поправки. Пассажирская выручка не найдена."
+  }
+ ],
+ "gaps": [
+  {
+   "carrier": "S7",
+   "note": "Отчёт об устойчивом развитии 2025 (PDF) в поиске не найден, РСБУ (bo.nalog.ru) WebFetch не читает; значения S7-2025.yaml не перепроверены. Других источников по S7 не искали (ограничение задания). ids: —"
+  },
+  {
+   "carrier": "SU",
+   "note": "Годовые opex, сотрудники, парк, топливо в тоннах — databook ir.aeroflot.ru вне allowlist (b2-274)"
+  },
+  {
+   "carrier": "FR",
+   "note": "ASK/RPK/плечо/секторы/блок-часы FY26 — нужен Appendix A годового отчёта или 20-F"
+  },
+  {
+   "carrier": "LH",
+   "note": "блок-часы не публикуются; топливо сегмента не раскрыто (b2-220)"
+  },
+  {
+   "carrier": "ALL",
+   "note": "block hours есть только у W6, U2, CM, Y4, AD, A3, BT, SU (+ оценки G3, DY); stage/seats — у W6, U2, CM, AD, G3, A3, BT, DY, PC"
+  },
+  {
+   "carrier": "не охвачены",
+   "note": "Turkish/AJet (4Q25-презентация не найдена в выдаче), Jet2 (выручка с турпакетами, нет ASK), AirAsia/Capital A, AirAsia X, Cebu Pacific, Viva Aerobus, SAS, IAG/AF-KLM по компаниям, flydubai, Air Arabia — не успели"
+  }
+ ]
+}

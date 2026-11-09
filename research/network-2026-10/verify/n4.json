@@ -1,0 +1,1154 @@
+{
+ "n4-004": {
+  "status": "found",
+  "found_text": "Base check downtimes are 17 days for the 24MO, 22 days for the 48MO, and 47-53 days for the 72MO check.",
+  "value_ok": true,
+  "note": "Статья об A380 (широкофюзеляжный), для узкофюзеляжных не применимо напрямую."
+ },
+ "n4-006": {
+  "status": "found",
+  "found_text": "Two years ago, over 100 C check tasks saw intervals raised from 24 to 36 months (or FH/FC equivalent) or deleted.",
+  "value_ok": true,
+  "note": "Документ AJW/MRO Management, март 2017; «two years ago» ≈ 2015. В оригинале также «or deleted»."
+ },
+ "n4-007": {
+  "status": "found",
+  "found_text": "...can take the period to 1,000 FH, 1,000 FC, and/or six months... / A check timing was raised to 750 FH and/or 750 FC and/or 4 months from 600 FH and/or 750 FC and/or 100 days in March 2009.",
+  "value_ok": true,
+  "note": "Исходные 750/750/4 мес подтверждены отдельной фразой того же документа (с 03.2009; до этого 600 FH/750 FC/100 дней)."
+ },
+ "n4-008": {
+  "status": "found",
+  "found_text": "...requirements do not impose aircraft ground time longer than an overnight stop.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-010": {
+  "status": "found",
+  "found_text": "BCT Aviation Maintenance has secured UK Civil Aviation Authority (CAA) approval to perform C Checks at intervals of up to 84 months on Airbus A320 family and Boeing 737 Classic and Next Generation aircraft.",
+  "value_ok": true,
+  "note": "Одобрение распространяется на 737 Classic/NG (не MAX)."
+ },
+ "n4-013": {
+  "status": "found",
+  "found_text": "...the ground-breaking maintenance program that it started using in 2004",
+  "value_ok": true,
+  "note": "Статья о пересмотре этой программы easyJet — «использует» верно на момент статьи, но с оговоркой."
+ },
+ "n4-015": {
+  "status": "found",
+  "found_text": "Some short-haul operators equalize their \"C check\" tasks throughout every \"A check\" phase on overnight visits;",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-016": {
+  "status": "found",
+  "found_text": "A typical program would consist of a daily check (which can in fact be typically valid for up to 48 hrs).",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-021": {
+  "status": "found",
+  "found_text": "The six-month rolling Operational Reliability (OR) average for flynas' A320neo fleet reached 99.78% as of December 2025.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-022": {
+  "status": "found",
+  "found_text": "This performance is higher than both the Worldwide (WW) average of 99.59%",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-024": {
+  "status": "found",
+  "found_text": "we've reduced aircraft downtime on that fleet by about 4% as a result.",
+  "value_ok": true,
+  "note": "Цитата CEO BA Шона Дойла."
+ },
+ "n4-025": {
+  "status": "found",
+  "found_text": "if a neo engine is starting up at six minutes rather than three",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-028": {
+  "status": "found",
+  "found_text": "In 2010, Delta had more than 5,600 cancellations due to maintenance",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-029": {
+  "status": "found",
+  "found_text": "where the Delta logged only 55 maintenance-related cancellations",
+  "value_ok": true,
+  "note": "−99% к 2010: 55/5647 → −99.0%, верно."
+ },
+ "n4-030": {
+  "status": "found",
+  "found_text": "With a success rate of over 95 percent for pending failure predictions,",
+  "value_ok": true,
+  "note": "Заявление компании."
+ },
+ "n4-032": {
+  "status": "found",
+  "found_text": "Maintenance Cancellations (2010-2018): 5,647 3,134 1,244 792 414 249 127 78 55",
+  "value_ok": true,
+  "note": "На слайде парк указан как «1300 AIRCRAFT» (Delta & Delta Connection), а не ~800 (см. n4-033)."
+ },
+ "n4-033": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "55/5647 = −99.0% за 2010→2018 (8 лет) — верно. «~800+ ВС» в родителях нет: на слайде IATA — «1300 AIRCRAFT» (Delta + Delta Connection)."
+ },
+ "n4-036": {
+  "status": "found",
+  "found_text": "Loss of revenue from a grounded aircraft can reach US$10,000 to US$150,000 or more per day,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-041": {
+  "status": "found",
+  "found_text": "despatch reliability is the percentage of flights that depart within a specific window ... between 15 minutes for Scheduled/Charter operators and One Hour for Corporate Operators ... operators exclude non-aircraft issues such as severe weather, air traffic control congestion",
+  "value_ok": true,
+  "note": "15 мин и исключение погоды/УВД — из соседних фраз того же текста."
+ },
+ "n4-044": {
+  "status": "found",
+  "found_text": "TotalCare transfers both time-on-wing and shop visit cost risks back to Rolls-Royce,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-045": {
+  "status": "found",
+  "found_text": "covering the risk for shop visit cost for both planned and un-planned events.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-046": {
+  "status": "found",
+  "found_text": "Secured cost of operating and maintaining Rolls-Royce engines via a $ per engine flying hour ($/efh) payment mechanism",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-049": {
+  "status": "found",
+  "found_text": "...will perform component maintenance ... provide access to the company's component pool and logistics services",
+  "value_ok": true,
+  "note": "Фрагменты одного предложения."
+ },
+ "n4-050": {
+  "status": "found",
+  "found_text": "establish home base stocks at several Hawaiian Airlines maintenance bases",
+  "value_ok": true,
+  "note": "Базы: Honolulu, Los Angeles, Seattle-Tacoma."
+ },
+ "n4-051": {
+  "status": "found",
+  "found_text": "In total, the new agreement encompasses parts pooling support for up to 52 aircraft over the next seven years.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-053": {
+  "status": "found",
+  "found_text": "will ultimately cover approximately 1,000 aircraft of the Airbus A320 family.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-054": {
+  "status": "found",
+  "found_text": "adds dedicated component lease and supply services to six logistic hubs in Europe ... The ten-year contract with Wizz Air Hungary, Wizz Air UK, Wizz Air Abu Dhabi and Wizz Air Malta",
+  "value_ok": true,
+  "note": "Срок 10 лет — из соседней фразы."
+ },
+ "n4-055": {
+  "status": "found",
+  "found_text": "critical material is strategically positioned in dedicated home base stocks and warehouses ... components at eleven maintenance stations throughout the United States",
+  "value_ok": true,
+  "note": "«11 станций» в тексте прописью (eleven)."
+ },
+ "n4-058": {
+  "status": "found",
+  "found_text": "Globally, airlines spent $103.9 Billion on MRO, representing around 11.5% of total airline operational costs and 10.8% of their total revenue.",
+  "value_ok": true,
+  "note": "с. 12."
+ },
+ "n4-059": {
+  "status": "found",
+  "found_text": "Maintenance Cost ($/FH) $1,522",
+  "value_ok": true,
+  "note": "Среднее по выборке MCX (28 авиакомпаний, 2703 ВС)."
+ },
+ "n4-060": {
+  "status": "found",
+  "found_text": "Maintenance Cost ($/AC) $5.05M",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-061": {
+  "status": "found",
+  "found_text": "Higher utilization translates into increased demand for engine and component maintenance, which rose from 41% and 17% of total MRO spend in 2019 to 50% and 18% in 2024.",
+  "value_ok": true,
+  "note": "Локатор: инструмент нашёл на с. 21, а не 20 — несущественно."
+ },
+ "n4-062": {
+  "status": "found",
+  "found_text": "Twenty-eight (28) airlines contributed data to the FY2024 cycle. Their fleet comprised a total of 2,703 aircraft for a total spend4 of $13.19 Billion.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-065": {
+  "status": "found",
+  "found_text": "Under the terms of the agreement, CFM Services guarantees maintenance costs for the airlines LEAP-1A engines on a dollar per engine flight hour basis.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-066": {
+  "status": "found",
+  "found_text": "that will power the airline's future fleet of at least 15 leased Airbus A320neo aircraft. ... has signed a Memorandum of Understanding for a 12-year Rate-Per-Flight-Hour Agreement with CFM International",
+  "value_ok": true,
+  "note": "Это меморандум о взаимопонимании (MoU), а не подписанный контракт — в утверждениях стоит оговорить."
+ },
+ "n4-067": {
+  "status": "found",
+  "found_text": "The agreement is valued at approximately $500 million U.S. at list price.",
+  "value_ok": true,
+  "note": "≥30 двигателей — вывод исследователя (15 ВС × 2), корректен."
+ },
+ "n4-069": {
+  "status": "found",
+  "found_text": "The fleet size of MCX airlines ranged from 1 to over 300+ aircraft.",
+  "value_ok": true,
+  "note": "FY2023 отчёт."
+ },
+ "n4-073": {
+  "status": "found",
+  "found_text": "Average flight hours per aircraft increased almost 15% to 2,800 hours per year in 2024 from just over 2,400 in 2022.",
+  "value_ok": true,
+  "note": "+15% — относительно 2022, а не 2023."
+ },
+ "n4-074": {
+  "status": "found",
+  "found_text": "The more hours a plane flies, the more maintenance it needs — particularly in the engine, component, and line segments of MRO",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-075": {
+  "status": "found",
+  "found_text": "Spending this year is expected to reach $119 billion, surging past 2019's historic high by 12%.",
+  "value_ok": true,
+  "note": "Прогноз на 2025."
+ },
+ "n4-080": {
+  "status": "found",
+  "found_text": "п. 36: Линейная станция должна соответствовать требованиям Правил к выполняемым видам работ.",
+  "value_ok": true,
+  "note": "ФАП-285; на странице rulaws пометки об утрате силы нет, но он утратил силу с 01.03.2024 (ФАП-109, n4-135)."
+ },
+ "n4-081": {
+  "status": "found",
+  "found_text": "п. 35: ...должно функционировать под контролем организации по ТО",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-082": {
+  "status": "found",
+  "found_text": "п. 67: Работа новых линейных станций начинается после проведения внутреннего аудита организацией по ТО",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-083": {
+  "status": "found",
+  "found_text": "п. 47: Количество привлекаемого персонала не должно превышать 50% ...",
+  "value_ok": true,
+  "note": "Окончание фразы («от общего количества подтверждающего персонала») инструментом не выведено, начало совпадает."
+ },
+ "n4-084": {
+  "status": "found",
+  "found_text": "п. 38: инструментами, материалами, оборудованием, необходимыми для выполнения разрешенных видов работ, ... на праве собственности, аренды или ином законном основании",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-085": {
+  "status": "found",
+  "found_text": "п. 32: наличие помещений и площадей для хранения запасных компонентов ... раздельное хранение исправных компонентов, оборудования, инструмента и материалов от неисправных",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-086": {
+  "status": "found",
+  "found_text": "п. 57: временно перемещая материалы, оборудование и персонал",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-089": {
+  "status": "found",
+  "found_text": "145.A.75(d): в месте, определенном как место линейного обслуживания, способное поддерживать мелкое техническое обслуживание",
+  "value_ok": true,
+  "note": "Документ — ПРОЕКТ приказа Минтранса (05.03.2022), не действующая норма."
+ },
+ "n4-090": {
+  "status": "found",
+  "found_text": "AMC 145.A.10: Линейное техническое обслуживание следует понимать как любое техническое обслуживание, которое выполняется перед полетом",
+  "value_ok": true,
+  "note": "Проект."
+ },
+ "n4-091": {
+  "status": "found",
+  "found_text": "145.A.30(g): сертифицированный персонал, имеющий квалификацию категории B1, B2, B2L, B3 и L",
+  "value_ok": true,
+  "note": "Проект; в цитате перечислены также B2L, B3, L."
+ },
+ "n4-101": {
+  "status": "found",
+  "found_text": "...прошел аудит Росавиации по расширению сертификата ФАП-285...",
+  "value_ok": true,
+  "note": "BFM, 17.03.2022."
+ },
+ "n4-102": {
+  "status": "found",
+  "found_text": "...оперативное и периодическое техническое обслуживание воздушных судов западного производства",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-104": {
+  "status": "found",
+  "found_text": "При этом обеспеченность расходными материалами на текущий момент составляет 100%",
+  "value_ok": true,
+  "note": "BFM, 22.12.2022. Атрибуцию техдиректору инструмент не подтверждал."
+ },
+ "n4-105": {
+  "status": "found",
+  "found_text": "Более того, часть самолетов всегда будет находиться на техническом обслуживании. Считается, что доля таких машин составляет 15-20% от численности всего парка.",
+  "value_ok": true,
+  "note": "Оценка без источника («считается»)."
+ },
+ "n4-106": {
+  "status": "found",
+  "found_text": "«А-Техникс», уже освоил в том числе тяжелые формы обслуживания самолетов",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-112": {
+  "status": "partial",
+  "found_text": "(инструмент не выдал предложение целиком) ключевой фрагмент: «систем VSV для двигателей CFM56-7B и CFM56-5B»; смысл: к апрелю 2025 завершить расширение цеха ремонта двигателей, в том числе обслуживание систем VSV",
+  "value_ok": true,
+  "note": "Фрагмент «систем VSV для двигателей CFM56-7B и CFM56-5B» подтверждён; слово «включая обслуживание» дословно не подтверждено."
+ },
+ "n4-117": {
+  "status": "found",
+  "found_text": "During 2018, around 57% of Aeroflot airline fleet heavy maintenance operations were performed by in-house maintenance facilities ...",
+  "value_ok": true,
+  "note": "Часть «and 43% were subcontracted» инструментом не выведена (лимит длины), но 43% = 100−57."
+ },
+ "n4-118": {
+  "status": "found",
+  "found_text": "Labour intensity per flight hour of Aeroflot fleet aircraft was 2.27 hours in 2018 (2.23 in 2017).",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-119": {
+  "status": "found",
+  "found_text": "In 2018, PJSC Aeroflot serviced 136 thousand takeoffs at Sheremetyevo (base airport), up 12.1% yearon- year.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-121": {
+  "status": "found",
+  "found_text": "The total number of provider's LMS in the country has reached 20.",
+  "value_ok": true,
+  "note": "26.12.2024."
+ },
+ "n4-122": {
+  "status": "found",
+  "found_text": "In accordance with the certificate received, the engineering and technical staff of the linear station will carry out operational maintenance of Airbus А320CEO/NEO and Boeing 737NG.",
+  "value_ok": true,
+  "note": "Относится к одной конкретной новой ЛСТО из статьи."
+ },
+ "n4-124": {
+  "status": "found",
+  "found_text": "The total number of provider's LMS in the country has reached 19, 5 of which are in the Far East cities",
+  "value_ok": true,
+  "note": "01.10.2024."
+ },
+ "n4-126": {
+  "status": "found",
+  "found_text": "Aeroflot Technics provides simultaneous technical support for more than 300 aircraft operated by Aeroflot Group.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-127": {
+  "status": "found",
+  "found_text": "Over its 10 years of operations, Aeroflot Technics has performed more than 4,200 scheduled maintenance checks, including A-checks and C-checks. In its first year, the company completed just 10 A- and C-checks; since 2023, the annual number has consistently exceeded 1,000.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-128": {
+  "status": "found",
+  "found_text": "Currently, the provider holds a FAP-109 (FAP-145) certificate authorizing maintenance of both foreign- and Russian-built aircraft,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-130": {
+  "status": "found",
+  "found_text": "Aeroflot Group has completed its first independent overhaul of three CFM International CFM56-5B engines installed on Aeroflot's A320-200 aircraft",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-131": {
+  "status": "found",
+  "found_text": "Russian airlines lost access to foreign maintenance centres and spares for CFM and Pratt & Whitney engines",
+  "value_ok": true,
+  "note": "Речь о российских авиакомпаниях в целом."
+ },
+ "n4-132": {
+  "status": "found",
+  "found_text": "In an interview with Rossiya-24 on December 26 ... plans to inaugurate an engine repair facility in the fourth quarter of 2027",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-134": {
+  "status": "found",
+  "found_text": "п. 3: Настоящий приказ вступает в силу с 1 марта 2024 г. и действует до 1 марта 2030 г.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-135": {
+  "status": "found",
+  "found_text": "п. 2: Признать утратившим силу приказ Министерства транспорта Российской Федерации от 25 сентября 2015 г. N 285",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-136": {
+  "status": "found",
+  "found_text": "п. 34(е): помещения и площади для хранения запасных частей и расходных материалов",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-137": {
+  "status": "found",
+  "found_text": "п. 39: Не допускается выполнение работ организацией при отсутствии необходимой документации, персонала, оборудования",
+  "value_ok": true,
+  "note": "Подтверждено также: слов «станция»/«линейная станция» в тексте ФАП-109 нет (для n4-138)."
+ },
+ "n4-138": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Подтверждено: п.35–36, 67 ФАП-285; ФАП-285 утратил силу с 01.03.2024; в тексте ФАП-109 слов «станция»/«линейная станция» нет; «Аэрофлот Техникс» — сертификат ФАП-109."
+ },
+ "n4-141": {
+  "status": "partial",
+  "found_text": "Airlines outsource line maintenance at stations where their traffic \"makes in-house support uneconomic.\" (инструмент выдал фразу частично пересказом)",
+  "value_ok": true,
+  "note": "Подтверждён фрагмент «makes in-house support uneconomic»; слова «where an airline's volume» дословно не подтверждены."
+ },
+ "n4-142": {
+  "status": "found",
+  "found_text": "...start-up carriers and airlines that \"do not have enough flights at particular airports,\"",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-144": {
+  "status": "found",
+  "found_text": "It would be extremely expensive for an airline to own and stock every component at its bases and line stations.",
+  "value_ok": true,
+  "note": "Dave Shorter, AJ Walter (продавец PBH — заинтересованная сторона)."
+ },
+ "n4-145": {
+  "status": "found",
+  "found_text": "This trend I mainly see in the U.S for Ejet fleets of more than 70 aircraft.",
+  "value_ok": true,
+  "note": "Cornelius Dalm, Spairliners."
+ },
+ "n4-150": {
+  "status": "found",
+  "found_text": "Items in this category shall be repaired within three (3) consecutive calendar days (72 hours) excluding the day of discovery.",
+  "value_ok": true,
+  "note": "Столбец в документе называется «Repair Interval», не «Rectification Intervals»; «без учёта дня обнаружения»."
+ },
+ "n4-151": {
+  "status": "found",
+  "found_text": "Items in this category shall be repaired within ten (10) consecutive calendar days (240 hours) excluding the day of discovery.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-152": {
+  "status": "found",
+  "found_text": "Items in this category shall be repaired within one hundred and twenty (120) consecutive calendar days (2880 hours) excluding the day of discovery.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-153": {
+  "status": "found",
+  "found_text": "Items in this category shall be repaired within the time interval specified in the 'Remarks or Exceptions' column.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-155": {
+  "status": "found",
+  "found_text": "The nature of line maintenance means it needs to be performed close to the customer",
+  "value_ok": true,
+  "note": "«тяжёлое можно везти» — из контекста статьи."
+ },
+ "n4-156": {
+  "status": "found",
+  "found_text": "Most also offer roving aircraft-on-ground (AOG) and mobile maintenance teams, which give them a wider geographical footprint.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-157": {
+  "status": "found",
+  "found_text": "Vilnius, Lithuania-based FL Technics usually attracts narrowbody customers within a 3-hr. flying time, but this can extend up to 7 hr. during busy periods, says CEO Zilvinas Lapinskas.",
+  "value_ok": true,
+  "note": "Это слова одного MRO (FL Technics) о своей клиентской базе, не отраслевое правило."
+ },
+ "n4-159": {
+  "status": "found",
+  "found_text": "FL Technics also serves clients through on-call stations.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-160": {
+  "status": "found",
+  "found_text": "FL Technics opened fourteen new stations across Scandinavia, expanding its line maintenance network in Northern Europe.",
+  "value_ok": true,
+  "note": "«для многих перевозчиков» — из цитаты прямо не следует."
+ },
+ "n4-163": {
+  "status": "found",
+  "found_text": "The FAK carries all those parts and tools that are crucial to getting an aircraft back in the sky.",
+  "value_ok": true,
+  "note": "Маркетинговый блог производителя контейнеров."
+ },
+ "n4-164": {
+  "status": "found",
+  "found_text": "...cannot risk an Aircraft on Ground (AOG) due to part unavailability",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-169": {
+  "status": "found",
+  "found_text": "The input parameter for spares calculation is a 99% service level.",
+  "value_ok": true,
+  "note": "Kalf, TU Delft MSc thesis (KLM Component Services), 2021."
+ },
+ "n4-170": {
+  "status": "found",
+  "found_text": "CS commonly uses an SLA of 95%.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-171": {
+  "status": "found",
+  "found_text": "the average service level for the Boeing 737 at KLM is 82%,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-172": {
+  "status": "found",
+  "found_text": "2.3 spares per 100 at a fleet size of 300 compared to 4 spared per 100 at a fleet size of 100.",
+  "value_ok": false,
+  "note": "Цитата точна, но это ВЫДУМАННЫЙ иллюстративный пример: подпись к рис. 4 — «The pooling effect explained with a made up example». Подавать как данные KLM CS (и строить на них n4-176) нельзя — только как иллюстрацию принципа."
+ },
+ "n4-173": {
+  "status": "found",
+  "found_text": "KLM generally promises a 95% service level and hands the component over to the shipping company within 3 hours.",
+  "value_ok": true,
+  "note": "Относится к Essentiality 1 (No-Go); 3 ч также для AOG в Essentiality 2."
+ },
+ "n4-174": {
+  "status": "found",
+  "found_text": "The base locations only serve as a forward-deployed local stock location",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-175": {
+  "status": "found",
+  "found_text": "The service level also accounts for components send from the remote base, which is 20% in practice instead of the intended 99%.",
+  "value_ok": false,
+  "note": "Интерпретация «выносной склад закрывает на месте ~20% потребностей» не следует однозначно: в тезисе 20% — фактический уровень сервиса по компонентам, отправляемым с удалённой базы (против цели 99%); формулировка неоднозначна. Лучше писать «уровень сервиса для отправок с удалённой базы — 20% против целевых 99%»."
+ },
+ "n4-176": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": false,
+  "note": "Числа 4→2.3 на 100 ВС переписаны верно, но в источнике это выдуманный пример («made up example», рис. 4), не данные KLM. «Пул на 1000 ВС» в родителях отсутствует. Принцип (эффект масштаба пула) корректен, цифры — только иллюстрация."
+ },
+ "n4-180": {
+  "status": "found",
+  "found_text": "Component Pooling allows Air Corsica access to a shared inventory of components",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-181": {
+  "status": "found",
+  "found_text": "Main Base Kit Positioning in Ajaccio involves the strategic placement of essential components",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-182": {
+  "status": "found",
+  "found_text": "The contract will remain in effect until December 31st, 2035",
+  "value_ok": true,
+  "note": "Пресс-релиз 23.10.2024 → ~11 лет, верно."
+ },
+ "n4-184": {
+  "status": "found",
+  "found_text": "...including pool, repair, logistics and Main Base Kit positioning ... five-year agreement with Cambodia Airways",
+  "value_ok": true,
+  "note": "Начало «a comprehensive range of services» инструментом не выведено (лимит), ключевой фрагмент совпадает."
+ },
+ "n4-186": {
+  "status": "found",
+  "found_text": "A common rule of thumb for the basic fee is that it's 10% of the market rate of the airworthy component.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-187": {
+  "status": "found",
+  "found_text": "The airline then owes the distributor the unserviceable component that was removed from the aircraft, which is commonly called the 'core'.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-188": {
+  "status": "found",
+  "found_text": "Who pays for 'over and above' issues associated with overhauling the core component?",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-189": {
+  "status": "found",
+  "found_text": "...effective ways to mitigate the costs of delays, cancellations, and AOG",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-194": {
+  "status": "found",
+  "found_text": "This agreement aligns Cebu Pacific's maintenance costs to the utilization of the airline's engines.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-195": {
+  "status": "found",
+  "found_text": "The 12-year agreement provides comprehensive support for the GTF engines Cebu Pacific ordered in 2024.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-200": {
+  "status": "found",
+  "found_text": "Airlines that can schedule heavy checks during traditionally quieter periods usually obtain better pricing.",
+  "value_ok": true,
+  "note": "Pascal Parant, Vallair Group."
+ },
+ "n4-201": {
+  "status": "found",
+  "found_text": "...during peak seasons, prices are higher, and more competitive during low demand periods.",
+  "value_ok": true,
+  "note": "Инструмент подтвердил фрагмент «during peak seasons, prices are higher»."
+ },
+ "n4-202": {
+  "status": "found",
+  "found_text": "...it's not uncommon to see even 100% of the routine labour in NRCs!",
+  "value_ok": true,
+  "note": "Giovanni Renga, AMROS Global; относится к плохо обслуживавшимся ВС."
+ },
+ "n4-203": {
+  "status": "found",
+  "found_text": "...will likely last for around a two-month period.",
+  "value_ok": true,
+  "note": "Авторский текст статьи, не цитата эксперта."
+ },
+ "n4-206": {
+  "status": "found",
+  "found_text": "...the OEM will effectively share the risk of the new technology reliability with the airline.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-207": {
+  "status": "found",
+  "found_text": "Another benefit for the airline is a more predictable cost of operating the engine through its lifecycle",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-208": {
+  "status": "found",
+  "found_text": "an airline lessee may be able to avoid paying engine maintenance reserves to the lessor",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-210": {
+  "status": "found",
+  "found_text": "In the example below, the OEM assumes a 50% contract margin rate.",
+  "value_ok": true,
+  "note": "с. 3; иллюстрация аналитика, не факт."
+ },
+ "n4-211": {
+  "status": "found",
+  "found_text": "...which can be in the HSD to low DD range.",
+  "value_ok": true,
+  "note": "с. 5; начало фразы («annual price increases in excess of inflation») инструментом не выведено дословно."
+ },
+ "n4-212": {
+  "status": "found",
+  "found_text": "...which are typically ~10 years in duration depending on the engine.",
+  "value_ok": true,
+  "note": "с. 3."
+ },
+ "n4-213": {
+  "status": "found",
+  "found_text": "Approximately two-thirds of total costs are incurred during the shop visits",
+  "value_ok": true,
+  "note": "с. 4."
+ },
+ "n4-214": {
+  "status": "found",
+  "found_text": "This benefits the airlines operating the engine since they only pay when the engine functions.",
+  "value_ok": true,
+  "note": "с. 4."
+ },
+ "n4-216": {
+  "status": "found",
+  "found_text": "they may be higher over the long term due to the premium service levels and risk mitigation built into the PBH contracts.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-217": {
+  "status": "found",
+  "found_text": "The risk of unforeseen failures and associated costs are transferred from the airline to the service provider,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-218": {
+  "status": "found",
+  "found_text": "Suppliers might have better visibility and control over component health and lifecycle data,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-220": {
+  "status": "found",
+  "found_text": "Begley estimates that an average A check will take 150MH to perform.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-221": {
+  "status": "found",
+  "found_text": "So we divided the 750FH cards into 32 segmented checks.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-222": {
+  "status": "found",
+  "found_text": "...some operators have moved into an equalised maintenance programme, which spreads all A check items into more frequent checks with smaller workpacks.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-223": {
+  "status": "found",
+  "found_text": "A C1 check can take as little as three days, however.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-224": {
+  "status": "found",
+  "found_text": "Findings can easily add another week's downtime for the aircraft,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-225": {
+  "status": "found",
+  "found_text": "...a downtime of three weeks can be needed for the required inspections.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-226": {
+  "status": "found",
+  "found_text": "Assuming normal operator utilisation, there are six C checks in one C check cycle,",
+  "value_ok": true,
+  "note": "«~12 лет при 24 мес» — арифметика исследователя (6×24 мес), в цитате интервал не назван."
+ },
+ "n4-229": {
+  "status": "found",
+  "found_text": "availability and technical dispatch reliability at 98.63% and 99.57% respectively",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-230": {
+  "status": "found",
+  "found_text": "Between January 2019 and September 2025, the airline has avoided 171 major delays, 662 minor delays and 1,343 cancellations",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-231": {
+  "status": "found",
+  "found_text": "Between January 2019 and September 2025, the airline has avoided 171 major delays, 662 minor delays and 1,343 cancellations ... across its 350-strong fleet",
+  "value_ok": true,
+  "note": "1343 / ~6.7 года ≈ 200 отмен/год — арифметика верна; парк 350 ВС подтверждён."
+ },
+ "n4-232": {
+  "status": "found",
+  "found_text": "Today, easyJet operates 22 live Skywise SPM models",
+  "value_ok": true,
+  "note": "Часть «with a further 60 in calibration» инструментом не выведена (лимит длины)."
+ },
+ "n4-236": {
+  "status": "found",
+  "found_text": "78% of these component failures result in aircraft out of service time of over 3 hours",
+  "value_ok": true,
+  "note": "Слайд 9."
+ },
+ "n4-237": {
+  "status": "found",
+  "found_text": "Our data shows components removed via predictive maintenance have a 5% lower NFF rate",
+  "value_ok": true,
+  "note": "Инструмент указал слайд 8, а не 9 — несущественно."
+ },
+ "n4-238": {
+  "status": "found",
+  "found_text": "We've had 1964 interventions with only 13 live models.",
+  "value_ok": true,
+  "note": "Слайд 16."
+ },
+ "n4-241": {
+  "status": "found",
+  "found_text": "...будут совместно производить различные компоненты, от систем освещения до противопожарного оборудования",
+  "value_ok": true,
+  "note": "Росатом и Аэрофлот, со ссылкой на «Известия»."
+ },
+ "n4-243": {
+  "status": "found",
+  "found_text": "As of last November, Russian companies could repair only 178 out of 903 imported SuperJet parts.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-246": {
+  "status": "found",
+  "found_text": "Правительство России в конце декабря узаконило так называемую \"канибализацию\" самолетов — разрешило снимать запчасти с одних воздушных судов для ремонта других",
+  "value_ok": true,
+  "note": "Свобода, 16.01.2023."
+ },
+ "n4-251": {
+  "status": "found",
+  "found_text": "surplus inventory holding costs from stocking more parts due to supply chain uncertainty ($1.4 billion)",
+  "value_ok": true,
+  "note": "Источник оценки — IATA/Oliver Wyman «Reviving the Commercial Aircraft Supply Chain», пересказ на consulting.us."
+ },
+ "n4-252": {
+  "status": "found",
+  "found_text": "increased engine leasing cost from engines spending more time on the ground during maintenance ($2.6 billion)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-253": {
+  "status": "found",
+  "found_text": "additional maintenance cost of using older craft ($2.6 billion)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-256": {
+  "status": "found",
+  "found_text": "...historically high shop turnaround times (TATs), which were up by 35% or more for legacy engines",
+  "value_ok": true,
+  "note": "с. 2."
+ },
+ "n4-257": {
+  "status": "found",
+  "found_text": "...and more than 150% for new-generation engines",
+  "value_ok": true,
+  "note": "с. 2; «compared to pre-pandemic levels» инструментом не выведено, но предложение то же."
+ },
+ "n4-258": {
+  "status": "found",
+  "found_text": "In addition, the wait times just to secure an MRO slot rose by two to three months and, in some cases, six months.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-259": {
+  "status": "found",
+  "found_text": "Demand for OEM parts is outpacing supply by 10% to 20%.",
+  "value_ok": true,
+  "note": "с. 5."
+ },
+ "n4-260": {
+  "status": "found",
+  "found_text": "These uncommonly long delays to maintain and repair engines have reduced the availability of airline fleets.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-261": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Логика (запас ≈ поток × время ремонта) разумна; «пропорционально» — допущение. Источник OW/IATA прямо связывает $2.6 млрд с более долгим нахождением двигателей в ремонте — согласуется."
+ },
+ "n4-264": {
+  "status": "found",
+  "found_text": "...flexibility as to where it places its aircraft for upcoming winter maintenance seasons",
+  "value_ok": true,
+  "note": "Контекст: парк растёт за 600 ВС."
+ },
+ "n4-266": {
+  "status": "found",
+  "found_text": "The airline undertake 10 lines of heavy maintenance for the next 10 years at the MRO facility in Amman, Jordan.",
+  "value_ok": true,
+  "note": "12.02.2024."
+ },
+ "n4-267": {
+  "status": "found",
+  "found_text": "The announcement comes this week after Joramco successfully completed its 100th C check for Ryanair.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-269": {
+  "status": "found",
+  "found_text": "...a huge fleet that continues to require it to use a mixture of in- and outsourced maintenance provision.",
+  "value_ok": true,
+  "note": "600 ВС в статье — план к 2026, не фактический парк на дату статьи."
+ },
+ "n4-270": {
+  "status": "found",
+  "found_text": "...under which Ryanair aircraft will occupy up to six heavy maintenance bay slots at Joramco's facility",
+  "value_ok": true,
+  "note": "«на 5 зимних сезонов» инструментом не подтверждено/не проверено."
+ },
+ "n4-271": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Ryanair: Job Air (Чехия), Joramco (Иордания), зимние сезоны; сезонность цен — слова Vallair (общая, не про Ryanair). Вывод допустим."
+ },
+ "n4-274": {
+  "status": "found",
+  "found_text": "The most pressing need will be when an aircraft develops a technical problem and can't be flown.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-275": {
+  "status": "found",
+  "found_text": "...is when scheduled maintenance on an aircraft takes longer than planned",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-277": {
+  "status": "found",
+  "found_text": "ACMI is often used to temporarily cover additional aircraft demand that does not justify building up its own capacity,",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-278": {
+  "status": "found",
+  "found_text": "An ACMI contract can last from just a few flights to several months, if not years.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-280": {
+  "status": "found",
+  "found_text": "...decide which shall be done during a shorter (typically overnight) hangar event (often called A checks)",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-283": {
+  "status": "found",
+  "found_text": "Mieux, la grande visite des 6 ans pourra même être réduite, avec un temps d'immobilisation en baisse de 15%.",
+  "value_ok": false,
+  "note": "Цитата есть, но −15% простоя относится к 6-летней тяжёлой форме (grande visite des 6 ans) A380, а не к продлению A/C-check в целом. Интервалы подтверждены пересказом: A-check 750→1000 FH, C-check 24 мес/12000 FH → 36 мес/18000 FH. Тип — A380."
+ },
+ "n4-285": {
+  "status": "found",
+  "found_text": "...at our home bases, as overnight checks by our line mechanics.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-286": {
+  "status": "found",
+  "found_text": "Any simpler repair jobs would be carried out as well, but most would be deferred to the weekly Ramp check at home base.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-287": {
+  "status": "found",
+  "found_text": "...the aircraft doesn't see the home base during the week",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-288": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": false,
+  "note": "«Раз в 6–8 недель для A-check» из родителей не следует: при 750 FH и типичных 10–12 FH/сут интервал ≈ 9–11 недель, при 1000 FH — 12–14 недель (календарный лимит 4–6 мес). 6–8 недель только при ~13–18 FH/сут. Weekly на базе и daily ≤48 ч — подтверждены."
+ },
+ "n4-291": {
+  "status": "found",
+  "found_text": "Check | Hours Interval | Hours Remain | Cycles Interval | Cycles Remain | Due Date | Months Interval: 3 Year | 7500 | 5945 | 5000 | 4083 | 12/11/2026 | 24 ; Check TTSN Date: 3 Year 3113 13/11/2023",
+  "value_ok": true,
+  "note": "Таблица в PDF не извлекается дословно (текст перемешан), значения совпадают. ВНИМАНИЕ: в столбце «Months Interval» для «3 Year» стоит 24, а не 36; при этом срок 12/11/2026 = ровно 3 года от последней формы 13/11/2023, так что «24», вероятно, остаток месяцев на дату документа (30/09/2024) или ошибка шаблона. Утверждение «раз в 3 года» опирается на название формы и даты, не на столбец месяцев. Это mini-spec конкретного борта 9H-CHA (as of 30/09/2024), программа LYX-AMP-B737MAX Issue 10 от 02-07-2024."
+ },
+ "n4-292": {
+  "status": "found",
+  "found_text": "6 Year | – | – | – | – | 20/12/2026 | 72 ; 12 Year | ... | 20/12/2029 | 144",
+  "value_ok": true,
+  "note": "Таблица перемешана при извлечении; 6 Year — 72 мес, 12 Year — 144 мес подтверждены."
+ },
+ "n4-293": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Арифметика верна: 10×365×0.87=3175.5 FH/год → 7500/3175.5=2.36 г.; 16×365×0.87=5080.8 → 1.48 г.; 6×365=2190 FC → 5000/2190=2.28 г. Оговорка: в mini-spec SmartLynx столбец Months Interval для «3 Year» = 24 (не 36); «раз в 3 года» опирается на название формы и даты 13/11/2023→12/11/2026. Коэффициент 0.87 — допущение из n3."
+ },
+ "n4-296": {
+  "status": "found",
+  "found_text": "Its network gives members access to more than 6,600 parts across 350 stations",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-297": {
+  "status": "found",
+  "found_text": "...142 full member airlines, plus 50 sponsored airlines and 45 associate members",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-299": {
+  "status": "partial",
+  "found_text": "Eurowings' participation in the International Airline Technical Pool (IATP) is shaping up as a targeted extension of ... (окончание лида инструмент пересказал: авиакомпании ищут более быстрые способы восстановления ВС на выездных станциях на фоне проблем с цепочками поставок)",
+  "value_ok": true,
+  "note": "Смысл совпадает, дословно окончание фразы не подтверждено."
+ },
+ "n4-308": {
+  "status": "found",
+  "found_text": "Labour rates (Rate in USD, VAT excl.): Line maintenance service MH 88",
+  "value_ok": true,
+  "note": "Прайс S7 Technics «for non-residents of Russian Federation», ред. 2025."
+ },
+ "n4-309": {
+  "status": "found",
+  "found_text": "Call (including defect rectification up to 1 MH) 1 call 450 USD",
+  "value_ok": true,
+  "note": "Строка в разделе On-call services (Option 2 — без ежемесячной платы), а не в таблице фиксированных цен — локатор неточен."
+ },
+ "n4-310": {
+  "status": "found",
+  "found_text": "Transit Check Per event In accordance with actual Operator`s jobcards",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-313": {
+  "status": "found",
+  "found_text": "These parts are made available at the operator's facility but still belong to the supplier.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-314": {
+  "status": "found",
+  "found_text": "The operator is invoiced upon issuance of a purchase order once the part has been consumed.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-315": {
+  "status": "found",
+  "found_text": "...some suppliers may require a floor fee to keep the inventory at the operator's facility ... These charges may be referred to as access fees, floor fees, or monthly rates.",
+  "value_ok": true,
+  "note": "Инструмент подтвердил наличие фразы (раздел Advantages), дословно не выдал целиком — средняя уверенность."
+ },
+ "n4-318": {
+  "status": "found",
+  "found_text": "...average of 38 daily departures at IAH",
+  "value_ok": true,
+  "note": "Цитата Kevin Brickner (AA)."
+ },
+ "n4-319": {
+  "status": "found",
+  "found_text": "...up to 10 aircraft that remain at IAH overnight",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-320": {
+  "status": "found",
+  "found_text": "...approximately 46 AMTs ...",
+  "value_ok": true,
+  "note": "46/10 = 4.6 на ночующий борт — арифметика верна, но 46 — штат станции вместе с вспомогательным персоналом."
+ },
+ "n4-321": {
+  "status": "found",
+  "found_text": "...increasing the number of available aircraft ...",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-323": {
+  "status": "found",
+  "found_text": "As a result of this phenomenon, flight crew are increasingly reluctant to report aircraft defects when away from home base.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-324": {
+  "status": "found",
+  "found_text": "...inbound defects as high as 94% over only 6% outbound defects.",
+  "value_ok": true,
+  "note": "Опрос Airline Engineers International 2009."
+ },
+ "n4-325": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "38 вылетов/10 ночёвок/46 чел. подтверждены; «при 1–3 ночёвках выгоднее контракт» — суждение исследователя, в источниках числа нет (честно отмечено)."
+ },
+ "n4-328": {
+  "status": "found",
+  "found_text": "meaning 99.7 percent of all Next-Generation flights are ready to depart within 15 minutes of schedule.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-329": {
+  "status": "found",
+  "found_text": "Schedule reliability for the 737 MAX family was 99.5 percent as of February 2019.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-331": {
+  "status": "found",
+  "found_text": "...the Boeing 737 Max has registered a fleet-wide 99.4 percent dispatch reliability rate ... Tinseth added that the company's target of 99.7 percent by the end of this year appears clearly within reach.",
+  "value_ok": true,
+  "note": "AIN, 24.05.2018."
+ },
+ "n4-332": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "Диапазон 99.4 (737 MAX 2018) – 99.78 (flynas) ≈ 99.4–99.8% → 2–6 срывов/1000; 600 × 0.2–0.6% = 1.2–3.6 → «1–4 в день» — верно. Определения метрик у Airbus (OR) и Boeing (15 мин) близки, но не идентичны."
+ },
+ "n4-345": {
+  "status": "found",
+  "found_text": "Млн руб. | 4К 2024 | 4К2023 | Изм. | 12М2024 | 12М2023 | Изм. — Техническое обслуживание воздушных судов | 16 715 | 7 776 | 2,1х | 57 097 | 23 353 | 2,4х",
+  "value_ok": true,
+  "note": "Интерфакс, 04.03.2025 (МСФО за 2024). 57 097/23 353 = 2.44 — верно."
+ },
+ "n4-346": {
+  "status": "found",
+  "found_text": "Расходы выросли на фоне расширения производственной программы и увеличения провозных емкостей (кресло-километров) на 18%.",
+  "value_ok": true,
+  "note": "Фраза в статье относится к операционным расходам в целом; «рост ТО опережает рост объёма» — вывод исследователя (×2.4 против +18% ASK), арифметически корректен."
+ },
+ "n4-348": {
+  "status": "found",
+  "found_text": "Напротив, расходы на техническое обслуживание и ремонт воздушных судов сократились за полгода на 7,1 млрд руб., или на 17,6%.",
+  "value_ok": true,
+  "note": "Профиль, 31.07.2026, 1П 2026."
+ },
+ "n4-349": {
+  "status": "infer",
+  "found_text": "",
+  "value_ok": true,
+  "note": "57 097/23 353 = 2.44 (×2.4) и −17.6% верны. Но «причины в источниках не раскрыты» не совсем точно: Интерфакс (n4-346) объясняет рост расходов расширением программы и ёмкостей +18% (хотя для операционных расходов в целом)."
+ },
+ "n4-362": {
+  "status": "found",
+  "found_text": "EasyJet finds the equalized checks only work well for a certain period of time.",
+  "value_ok": true,
+  "note": ""
+ },
+ "n4-363": {
+  "status": "found",
+  "found_text": "EasyJet is finding that as some of its Airbus aircraft get older",
+  "value_ok": true,
+  "note": ""
+ }
+}

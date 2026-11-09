@@ -1,0 +1,120 @@
+{
+ "airline": "Norwegian Air Shuttle ASA (сегмент Norwegian)",
+ "code": "NAX",
+ "currency": "NOK",
+ "unit": "млн",
+ "fiscal_year_end": "12-31",
+ "scope": {
+  "own_staff": "не раскрыто",
+  "lease_provisions": "есть резерв 'provision for periodic maintenance' (1 884 млн NOK на 31.12.2022) по арендованным; куда идёт начисление — не прочитано",
+  "deferral": "не раскрыто (политика не прочитана)",
+  "pbh": "'power-by-the-hour (PBH) lease agreements' — это аренда ВС с оплатой за час (влияет на аренду, не ТОиР); PBH по двигателям не найден. Базовое ТО — Lufthansa Technik Budapest",
+  "evidence": [
+   "s1-254",
+   "s1-255",
+   "s1-280",
+   "s1-355"
+  ]
+ },
+ "years": {
+  "2020": {
+   "maint": 1791.8,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {},
+   "avg_age": null,
+   "sector_h": null,
+   "departures": null,
+   "note": "включает 787 (дальнемагистральный) и реструктуризацию — не однотипный",
+   "evidence": [
+    "s1-272"
+   ]
+  },
+  "2021": {
+   "maint": 855.5,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "total_operational": 51
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": null,
+   "sector_km": 960,
+   "note": "реструктуризация: cram down обязательств по ТО во 2 кв.; несопоставимо",
+   "evidence": [
+    "s1-272",
+    "s1-273",
+    "s1-274",
+    "s1-277",
+    "s1-278"
+   ]
+  },
+  "2022": {
+   "maint": 1665.9,
+   "block_h": 244915,
+   "hours_kind": "derived",
+   "fleet": {
+    "B738+B38M": 70
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": null,
+   "sector_km": 1168,
+   "util_h_day": 11.0,
+   "avg_aircraft": 61,
+   "evidence": [
+    "s1-277",
+    "s1-278",
+    "s1-250",
+    "s1-251",
+    "s1-252",
+    "s1-253",
+    "s1-256"
+   ]
+  },
+  "2023": {
+   "maint": null,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "B38M": 20,
+    "B738": 67
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": null,
+   "note": "ТОиР не получен; B738 = 87−20 (вывод)",
+   "evidence": [
+    "s1-265"
+   ]
+  },
+  "2025": {
+   "maint": null,
+   "block_h": null,
+   "hours_kind": null,
+   "fleet": {
+    "B738+B38M": 95
+   },
+   "avg_age": null,
+   "sector_h": null,
+   "departures": null,
+   "note": "ТОиР не получен; парк 2025 из пресс-релиза без даты",
+   "evidence": [
+    "s1-284"
+   ]
+  }
+ },
+ "gaps": [
+  "ТОиР 2023–2025 (отчёты Q4 доступны только на mnd-assets.mynewsdesk.com — robots запрещает; годовые отчёты обрезаются до финчасти)",
+  "учётная политика ТОиР",
+  "средний возраст парка",
+  "число вылетов",
+  "2016–2019 не собирались: в парке 787 (не однотипный)",
+  "с 2024 группа включает Widerøe — нужен сегмент Norwegian"
+ ],
+ "doubts": [
+  "единственный пригодный год — 2022 (block_h derived 11,0 ч/сут × 61 среднего борта × 365); выход из реструктуризации, резерв ТО мог доначисляться",
+  "консенсус аналитиков (Technical maintenance expenses (Norwegian segment)) отброшен — не факт"
+ ]
+}

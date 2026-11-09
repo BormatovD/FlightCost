@@ -1,0 +1,127 @@
+{
+ "carrier": "B6",
+ "cik": "1158463",
+ "name": "JetBlue Airways",
+ "unit": "млн USD",
+ "line_label": "Maintenance, materials and repairs (до 2016 — Maintenance materials and repairs)",
+ "mmr": {
+  "2010": {
+   "v": 172,
+   "evidence": [
+    "x2-140"
+   ]
+  },
+  "2011": {
+   "v": 227,
+   "evidence": [
+    "x2-140",
+    "x2-144"
+   ]
+  },
+  "2012": {
+   "v": 338,
+   "evidence": [
+    "x2-144"
+   ]
+  },
+  "2013": {
+   "v": 432,
+   "evidence": [
+    "x2-136"
+   ]
+  },
+  "2014": {
+   "v": 418,
+   "evidence": [
+    "x2-136"
+   ]
+  },
+  "2015": {
+   "v": 490,
+   "evidence": [
+    "x2-133"
+   ]
+  },
+  "2016": {
+   "v": 563,
+   "evidence": [
+    "x2-133"
+   ]
+  },
+  "2017": {
+   "v": 622,
+   "evidence": [
+    "x2-131"
+   ]
+  },
+  "2018": {
+   "v": 625,
+   "evidence": [
+    "x2-131"
+   ]
+  },
+  "2019": {
+   "v": 619,
+   "evidence": [
+    "x2-128"
+   ]
+  },
+  "2020": {
+   "v": 441,
+   "evidence": [
+    "x2-126",
+    "x2-128"
+   ]
+  },
+  "2021": {
+   "v": 626,
+   "evidence": [
+    "x2-126"
+   ]
+  },
+  "2022": {
+   "v": 591,
+   "evidence": [
+    "x2-123"
+   ]
+  },
+  "2023": {
+   "v": 654,
+   "evidence": [
+    "x2-123"
+   ]
+  },
+  "2024": {
+   "v": 628,
+   "evidence": [
+    "x2-120"
+   ]
+  },
+  "2025": {
+   "v": 791,
+   "evidence": [
+    "x2-120"
+   ]
+  }
+ },
+ "deferred_amort": {},
+ "capitalized": {},
+ "pbh": {},
+ "oem_credits": {},
+ "tags": {
+  "mmr": "не проверено",
+  "note": "тег XBRL не проверен: API data.sec.gov и R-страницы недоступны инструменту (PROVENANCE_REQUIRED); значения взяты из отчётов о прибылях в релизах Q4 (8-K Ex.99.1) и Financial_Report.xlsx"
+ },
+ "gaps": [
+  "deferred_amort/capitalized: неприменимо — метод direct_expense (см. result/<код>.json) — отложенного ТО нет; ряд неприменим",
+  "pbh: годовая сумма расходов по договорам за налёт не раскрыта в просмотренных источниках (релизы Q4, Financial_Report.xlsx); полные 10-K обрезаются инструментом до Item 1A–2",
+  "oem_credits: суммы компенсаций производителей двигателей, уменьшивших ТОиР, в просмотренных источниках не найдены",
+  "MMR 2009 не найден (x2-149)",
+  "oem_credits: компенсации P&W (GTF A320neo/A321neo) упоминаются как причина простоя ВС, сумм нет (x2-120, x2-151)",
+  "API XBRL (companyconcept/companyfacts) недоступен: WebFetch PROVENANCE_REQUIRED (x2-001)"
+ ],
+ "doubts": [
+  "2010 — только из перепечатки релиза на aviationpros.com (вторичный источник)",
+  "2010–2016 PDF/релизы с сайта IR и sec.gov"
+ ]
+}

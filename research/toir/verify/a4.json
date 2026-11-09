@@ -1,0 +1,140 @@
+{
+ "a4-048": {
+  "status": "found",
+  "found_text": "| Boeing 717 | 77 | 24.6 years |",
+  "value_ok": true,
+  "note": "Таблица совпадает по всем 10 строкам (717 77/24.6; A220 86/4.7; A319 57/24.4; A320 45/29.4; A321 226/5.2; A330 81/11.3; A350 41/5.7; 737 NG/Max 240/15.1; 757 90/27.4; 767 57/27.9). Даты на странице нет; оговорка сайта: возраст может быть приблизительным, т.к. считается только по поддерживаемым ВС."
+ },
+ "a4-058": {
+  "status": "found",
+  "found_text": "As of December 31, 2025 JetBlue's operating fleet was comprised of 129 Airbus A320 aircraft, 100 Airbus A321, and 59 Airbus A220, for a total of 288 aircraft.",
+  "value_ok": true,
+  "note": "E190: 'During the third quarter, we marked the official retirement of our Embraer E190 aircraft'. Итог 288 совпадает."
+ },
+ "a4-059": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, we had 637 total aircraft in our fleet, including 487 aircraft in scheduled service",
+  "value_ok": true,
+  "note": "Документ читался по первым 100 тыс. символов; формулировка 'in scheduled service' в оригинале, у исследователя 'по договорам code-share' — в таблице колонка 'In Scheduled Service or Under Contract'."
+ },
+ "a4-060": {
+  "status": "found",
+  "found_text": "| E175 | 270 | 270 | CRJ900 | 51 | 36 | CRJ700/CRJ550 | 178 | 123 | CRJ200 | 138 | 58 | Total Fleet | 637 | 487 |",
+  "value_ok": true,
+  "note": "Все числа совпадают с value."
+ },
+ "a4-061": {
+  "status": "found",
+  "found_text": "our fleet consisted of 62 A320ceos, 19 A320neos, 29 A321ceos and 21 A321neos",
+  "value_ok": true,
+  "note": "Сумма 131 = 48 + 83."
+ },
+ "a4-062": {
+  "status": "found",
+  "found_text": "the average age of the fleet was approximately 8 years",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-063": {
+  "status": "found",
+  "found_text": "we owned 48 aircraft, of which 21 aircraft were financed through fixed-rate long-term debt",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-064": {
+  "status": "found",
+  "found_text": "we had 83 leased aircraft, of which 70 aircraft were financed under operating leases",
+  "value_ok": true,
+  "note": "13 остальных: '13 aircraft would have been deemed finance leases resulting in failed sale leaseback transactions' — формулировка 'учитываются как финансовые' упрощает (по тексту это failed sale-leaseback)."
+ },
+ "a4-065": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, ... consisting of 6 A320ceos, 89 A320neos, 21 A321ceos and 60 A321neos.",
+  "value_ok": true,
+  "note": "Дата и числа совпадают (6+89+21+60=176)."
+ },
+ "a4-066": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, the average aircraft age of our fleet was approximately five years.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-067": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, all 176 aircraft in our fleet were financed under operating leases,",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-068": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, Republic had 311 regional jet aircraft as described in the following table.",
+  "value_ok": true,
+  "note": "Дата в документе стоит в тексте; замечание исследователя о пробеле перед запятой не проверялось (WebFetch нормализует)."
+ },
+ "a4-069": {
+  "status": "found",
+  "found_text": "| E170/175 | 311 | 193 | 11 | 107 | 13.0 | 65-76 seats |  (1) Includes five spare and 31 aircraft that have been leased to another airline.",
+  "value_ok": true,
+  "note": "193+11+107=311, сноска (1) совпадает."
+ },
+ "a4-070": {
+  "status": "found",
+  "found_text": "merged with and into Mesa Air Group, Inc. (the \"Merger\") in November 2025",
+  "value_ok": true,
+  "note": "Включены ли самолёты Mesa в 311 — в проверенной части не сказано, как и в note исследователя. Читалось ~100 тыс. из 113 тыс. символов."
+ },
+ "a4-071": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, Southwest had a total of 803 Boeing 737 aircraft in its fleet [and served 117 destinations in 42 states]",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-072": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, the Company had 300 Boeing 737-8 (\"-8\") aircraft in its fleet.",
+  "value_ok": true,
+  "note": "Разбивки остатка 503 (737-700/-800) на 31.12.2025 нет (только выбытие 48 737-700 и 7 737-800 в 2025). Арифметика 803-300=503 верна. Читалось ~100 тыс. из 118 тыс. символов."
+ },
+ "a4-073": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, our fleet consisted of 70 Boeing 737-NG aircraft.",
+  "value_ok": true,
+  "note": "Разбивки 737-800/900ER для 70 нет; три сданных — 737-900ER по глоссарию."
+ },
+ "a4-074": {
+  "status": "found",
+  "found_text": "This includes 47 aircraft in the passenger fleet, 20 cargo operated aircraft through the A&R ATSA with Amazon, and three aircraft that are currently on lease to unaffiliated airlines.",
+  "value_ok": true,
+  "note": "'The 20 cargo aircraft are subleased directly from Amazon'; 'increased ... from 12 to 20' подтверждено. 47+20+3=70."
+ },
+ "a4-075": {
+  "status": "found",
+  "found_text": "As of February 1, 2026, our operating fleet consisted of 16 Boeing 737 series aircraft and 106 Airbus A320 series aircraft.",
+  "value_ok": false,
+  "note": "Дата 01.02.2026 совпадает; 'we own or finance lease all but nine' подтверждено. Тип '737 (MAX)' в цитате не указан ('737 series'); уточнение MAX — допущение исследователя."
+ },
+ "a4-076": {
+  "status": "found",
+  "found_text": "As of December 31, 2025, we operated 1,013 mainline aircraft supported by our wholly-owned regional airline subsidiaries and third-party regional carriers, which together operated an additional 567 regional aircraft.",
+  "value_ok": true,
+  "note": ""
+ },
+ "a4-077": {
+  "status": "found",
+  "found_text": "Our global network is supported by a fleet of 1,314 aircraft as of December 31, 2025",
+  "value_ok": true,
+  "note": "Прочитано напрямую в sec.gov-документе (не в зеркале)."
+ },
+ "a4-079": {
+  "status": "found",
+  "found_text": "254 Boeing 737 - average age: 10.2 years",
+  "value_ok": true,
+  "note": "Строка дословно есть; 'As of July 2026'. Подтипы 80/79/20/59/2/11/3 суммируются в 254; E175: Horizon 49 + SkyWest 43 = 92 (6.9 г.)."
+ },
+ "a4-080": {
+  "status": "found",
+  "found_text": "19 Boeing 717 - average age: 24.2 years",
+  "value_ok": false,
+  "note": "Числа совпадают (717 19/24.2; A330 34/12.5; A321 18/7.6; 787 5/1.5; 24 A330-200 + 10 A330-300F). Но страница называет типы 'Airbus A321' и 'Boeing 787' — 'A321neo' и '787-9' (и привязка к бывшему парку Hawaiian) — уточнения исследователя, в проверенном тексте их нет."
+ }
+}

@@ -1,0 +1,183 @@
+{
+ "engine": "CFM56-5B",
+ "aircraft": [
+  "A318",
+  "A319",
+  "A320",
+  "A321"
+ ],
+ "per_aircraft": 2,
+ "thrust_klbf": [
+  null,
+  32.0
+ ],
+ "thrust_note": "верх: -5B3 = 32 000 lbf (AC No.128); семейство CFM56 18.5–32 klbf (e1-210); нижняя граница -5B (A318, -5B8/9) открытым источником не подтверждена",
+ "llp": {
+  "shipset_list_price": [
+   {
+    "usd": 4200000,
+    "year": 2020,
+    "note": "19 main LLPs в 4 модулях, каталог CFM (Aircraft Commerce No.128)",
+    "evidence": [
+     "e1-009"
+    ]
+   },
+   {
+    "usd": 2550000,
+    "year": 2014,
+    "note": "те же 19 деталей",
+    "evidence": [
+     "e1-010"
+    ]
+   }
+  ],
+  "modules": [
+   {
+    "module": "fan/LPC (3 LLP)",
+    "usd": 543200,
+    "year": 2020,
+    "evidence": [
+     "e1-011"
+    ]
+   },
+   {
+    "module": "HPC (6) + HPT (4)",
+    "usd": 2100000,
+    "year": 2020,
+    "evidence": [
+     "e1-014"
+    ]
+   }
+  ],
+  "limits_efc": [
+   {
+    "part": "fan/LPC (3 LLP)",
+    "efc": 30000,
+    "evidence": [
+     "e1-011"
+    ]
+   },
+   {
+    "part": "HPC и HPT LLP (лимитирующие)",
+    "efc": 20000,
+    "evidence": [
+     "e1-013"
+    ]
+   },
+   {
+    "part": "LPT (6 LLP)",
+    "efc": 25000,
+    "evidence": [
+     "e1-012"
+    ]
+   }
+  ],
+  "escalation": {
+   "2014-2020_cagr": 0.087,
+   "2023": 0.12
+  },
+  "escalation_notes": [
+   "2014→2020 CAGR 8.7% — собственный расчёт (e1-215)",
+   "~12% — Ishka 2023 для CFM56-5B/-7B (e1-044)",
+   "FTAI/MBA: ~7%+/год (e1-198)",
+   "CFM/GE: «double-digit increase on Nov. 1, 2022» и «high-single-digit spares price hikes in August» 2023 — запчасти в целом (e1-005..007, e1-118)",
+   "Aviation Week (2023): новые запчасти дорожают ~10%/год (e1-005); AW MRO 2025: стоимость SV растёт двузначно (e1-134)"
+  ]
+ },
+ "shop_visit": [
+  {
+   "which": "first (A319/A320)",
+   "interval_efh": null,
+   "interval_efc": 19000,
+   "interval_efc_range": [
+    18000,
+    20000
+   ],
+   "ratio_fh_fc": null,
+   "thrust": "-5B4/-5B5/-5B6/-5B7 (A319/A320)",
+   "cost_usd": 4300000,
+   "cost_year": 2020,
+   "includes_llp": null,
+   "cost_note": "только материалы + ремонт деталей; труд 3500–4000 ч (ядро) + 700–900 ч (LPT) сверху; в тексте рядом LLP $2.1 млн и прочие новые детали $2.4 млн — состав $4.3 млн неоднозначен",
+   "evidence": [
+    "e1-016",
+    "e1-017",
+    "e1-020",
+    "e1-021"
+   ]
+  },
+  {
+   "which": "second / third (A319/A320)",
+   "interval_efc_range": [
+    10000,
+    12000
+   ],
+   "interval_efc_third_range": [
+    8000,
+    10000
+   ],
+   "thrust": "A319/A320",
+   "cost_usd": null,
+   "cost_year": null,
+   "includes_llp": null,
+   "evidence": [
+    "e1-017"
+   ]
+  },
+  {
+   "which": "first (A321)",
+   "interval_efc": 9500,
+   "interval_efc_range": [
+    8000,
+    11000
+   ],
+   "thrust": "-5B1/-5B2/-5B3 (30–32K)",
+   "cost_usd": 3400000,
+   "cost_year": 2020,
+   "includes_llp": false,
+   "cost_note": "только новые лопатки + ремонт лопаток; без труда и LLP",
+   "evidence": [
+    "e1-018",
+    "e1-019",
+    "e1-023"
+   ]
+  },
+  {
+   "which": "typical CFM56 (FTAI, оба -5B/-7B)",
+   "interval_note": "раз в ~5 лет",
+   "cost_usd": 6800000,
+   "cost_year": 2023,
+   "includes_llp": true,
+   "cost_note": "лопатки + LLP = $5.5 млн из $6.8 млн",
+   "evidence": [
+    "e1-196",
+    "e1-197"
+   ]
+  }
+ ],
+ "reserves": [
+  {
+   "usd_per_efh": null,
+   "usd_per_efc_llp": 169,
+   "year": 2020,
+   "note": "LLP-резерв при 100% использовании ресурса, каталог 2020",
+   "evidence": [
+    "e1-015"
+   ]
+  }
+ ],
+ "issues": [
+  "A321 (высокая тяга): быстрая потеря запаса EGT, первые SV после 8–9 тыс. EFC (e1-019)"
+ ],
+ "gaps": [
+  "каталог LLP 2021–2026",
+  "полная стоимость SV с трудом по годам после 2020",
+  "ставка резерва $/EFH (свежая)"
+ ],
+ "doubts": [
+  "AC No.128 называет 6.8%/год для 2014→2020, а (4.2/2.55)^(1/6)−1 = 8.7% — вероятно, 6.8% относится к другому периоду; в JSON — собственный расчёт",
+  "число LLP в статье то 18, то 19"
+ ],
+ "checked_at": "2026-10-21",
+ "agent": "e1"
+}

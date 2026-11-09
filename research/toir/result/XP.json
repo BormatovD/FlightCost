@@ -1,0 +1,55 @@
+{
+ "carrier": "XP",
+ "name": "Avelo Airlines",
+ "checked_at": "2026-10-19",
+ "accounting": {
+  "policy": "unknown",
+  "detail": "Частная компания, 10-K нет; политика не найдена.",
+  "lessor_reserves": "не найдено",
+  "evidence": [
+   "a2-181"
+  ]
+ },
+ "engine_pbh": [],
+ "fleet": [
+  {
+   "icao": "B737",
+   "count": 8,
+   "avg_age_y": null,
+   "as_of": "~2026-01-06",
+   "owned": null,
+   "leased": null,
+   "source_grade": "press",
+   "evidence": [
+    "a2-177"
+   ]
+  },
+  {
+   "icao": "B738",
+   "count": 14,
+   "avg_age_y": null,
+   "as_of": "~2026-01-06",
+   "owned": null,
+   "leased": null,
+   "source_grade": "press",
+   "evidence": [
+    "a2-177"
+   ]
+  }
+ ],
+ "cpa": {
+  "role": "не применимо",
+  "who_pays_maintenance": "сам",
+  "evidence": []
+ },
+ "gaps": [
+  "Учётная политика ТОиР",
+  "Договоры на двигатели",
+  "Собственность/лизинг",
+  "Средний возраст"
+ ],
+ "doubts": [
+  "Численность парка — из прессы (airdatanews, 07.01.2026), не из первоисточника",
+  "Нулевые накладные в Form 41 не объяснены"
+ ]
+}

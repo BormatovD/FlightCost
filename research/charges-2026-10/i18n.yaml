@@ -1,0 +1,146 @@
+# Переводы строк из данных для статьи charges-2026-10 (Tr в _report.py):
+# регионы (_regional.yaml), причины (_todo.yaml), издатели тарифов (подписи источников).
+Европа:
+  en: Europe
+  de: Europa
+Россия и СНГ:
+  en: Russia and CIS
+  de: Russland und GUS
+Индия:
+  en: India
+  de: Indien
+Азия и Ближний Восток:
+  en: Asia and Middle East
+  de: Asien und Naher Osten
+Африка:
+  en: Africa
+  de: Afrika
+Мир (вне регионов):
+  en: World (outside the regions)
+  de: Welt (außerhalb der Regionen)
+Entgeltordnung 2026 найден, PDF без текстового слоя — нужен OCR или ручной ввод:
+  en: Entgeltordnung 2026 found, but the PDF has no text layer — needs OCR or manual entry
+  de: Entgeltordnung 2026 gefunden, PDF ohne Textebene — OCR oder manuelle Eingabe nötig
+'ADP: по пресс-релизу в 2026 действуют тарифы 2025, сетка не найдена':
+  en: 'ADP: according to a press release the 2025 tariffs apply in 2026; the rate table was not found'
+  de: 'ADP: laut Pressemitteilung gelten 2026 die Tarife von 2025, die Tariftabelle wurde nicht gefunden'
+'ADR: таблицы при извлечении перемешаны — нужен человек с PDF':
+  en: 'ADR: tables get scrambled on extraction — needs a person with the PDF'
+  de: 'ADR: Tabellen geraten beim Extrahieren durcheinander — es braucht einen Menschen mit dem PDF'
+ни AIP, ни тарифа оператора:
+  en: neither an AIP nor an operator tariff
+  de: weder AIP noch Tarif des Betreibers
+eAIP Марокко (ONDA) не открывается:
+  en: Morocco's eAIP (ONDA) does not open
+  de: eAIP Marokko (ONDA) öffnet nicht
+сайт OACA не открывается:
+  en: the OACA website does not open
+  de: Website der OACA öffnet nicht
+ордер AERA от 08.05.2025 не скачивается (aera.gov.in закрыт для агента):
+  en: AERA order of 8 May 2025 cannot be downloaded (aera.gov.in blocks the agent)
+  de: AERA-Anordnung vom 08.05.2025 lässt sich nicht herunterladen (aera.gov.in für den Agenten gesperrt)
+ордер AERA от 24.08.2026 не скачивается; ставки известны только из новостей:
+  en: AERA order of 24 August 2026 cannot be downloaded; rates are known only from the news
+  de: AERA-Anordnung vom 24.08.2026 lässt sich nicht herunterladen; Sätze nur aus Nachrichten bekannt
+адрес ордера не найден:
+  en: order URL not found
+  de: Adresse der Anordnung nicht gefunden
+тарифная карта в ордере — скан; контрольный период истёк 31.03.2026:
+  en: the tariff card in the order is a scan; the control period expired on 31 March 2026
+  de: Tarifkarte in der Anordnung ist ein Scan; die Kontrollperiode ist am 31.03.2026 abgelaufen
+ордер AAI 45/2021-22 — скан, истёк 31.03.2026; действующие ставки в AIC на aim-india.aai.aero:
+  en: AAI order 45/2021-22 is a scan, expired 31 March 2026; current rates are in the AIC on aim-india.aai.aero
+  de: AAI-Anordnung 45/2021-22 — Scan, abgelaufen am 31.03.2026; geltende Sätze im AIC auf aim-india.aai.aero
+ордер AAI 04/2022-23 — скан, истёк 31.03.2026:
+  en: AAI order 04/2022-23 is a scan, expired 31 March 2026
+  de: AAI-Anordnung 04/2022-23 — Scan, abgelaufen am 31.03.2026
+только предложение оператора; утверждённые ставки — AIC:
+  en: operator's proposal only; approved rates are in the AIC
+  de: nur Vorschlag des Betreibers; genehmigte Sätze im AIC
+ордер не найден; ставки — AIC:
+  en: order not found; rates are in the AIC
+  de: Anordnung nicht gefunden; Sätze im AIC
+TDSAT в 2025 отменил часть ордера, действующие ставки неясны:
+  en: TDSAT set aside part of the order in 2025; current rates are unclear
+  de: TDSAT hat 2025 einen Teil der Anordnung aufgehoben, geltende Sätze unklar
+Правительство Алжира (décret exécutif):
+  en: Government of Algeria (décret exécutif)
+  de: Regierung Algeriens (décret exécutif)
+Flughafen Berlin Brandenburg GmbH (FBB), утверждается MIL Brandenburg по §19b LuftVG:
+  en: Flughafen Berlin Brandenburg GmbH (FBB), approved by MIL Brandenburg under §19b LuftVG
+  de: Flughafen Berlin Brandenburg GmbH (FBB), genehmigt vom MIL Brandenburg nach §19b LuftVG
+Fraport AG, утверждается министерством Гессена:
+  en: Fraport AG, approved by the Hesse state ministry
+  de: Fraport AG, genehmigt vom hessischen Ministerium
+Gatwick Airport Limited, надзор UK CAA через обязательства вместо потолка:
+  en: Gatwick Airport Limited, UK CAA oversight through commitments instead of a price cap
+  de: Gatwick Airport Limited, Aufsicht der UK CAA über Verpflichtungszusagen statt Preisobergrenze
+Heathrow Airport Limited, ценовой потолок UK CAA (H7):
+  en: Heathrow Airport Limited, UK CAA price cap (H7)
+  de: Heathrow Airport Limited, Preisobergrenze der UK CAA (H7)
+Royal Schiphol Group N.V., надзор ACM:
+  en: Royal Schiphol Group N.V., ACM oversight
+  de: Royal Schiphol Group N.V., Aufsicht ACM
+daa plc, ценовой потолок утверждает Irish Aviation Authority:
+  en: daa plc, price cap set by the Irish Aviation Authority
+  de: daa plc, Preisobergrenze genehmigt von der Irish Aviation Authority
+Port Lotniczy Poznań-Ławica Sp. z o.o., тариф утверждает Urząd Lotnictwa Cywilnego:
+  en: Port Lotniczy Poznań-Ławica Sp. z o.o., tariff approved by Urząd Lotnictwa Cywilnego
+  de: Port Lotniczy Poznań-Ławica Sp. z o.o., Tarif genehmigt vom Urząd Lotnictwa Cywilnego
+Aena SME S.A., надзор — CNMC (DORA):
+  en: Aena SME S.A., oversight — CNMC (DORA)
+  de: Aena SME S.A., Aufsicht — CNMC (DORA)
+Aena SME S.A., надзор за тарифами — CNMC, рамка DORA:
+  en: Aena SME S.A., tariff oversight — CNMC, DORA framework
+  de: Aena SME S.A., Tarifaufsicht — CNMC, DORA-Rahmen
+Tirana International Airport SHPK (Kastrati Aviation Holding), концессия:
+  en: Tirana International Airport SHPK (Kastrati Aviation Holding), concession
+  de: Tirana International Airport SHPK (Kastrati Aviation Holding), Konzession
+Aeroporti di Puglia S.p.A., модель ART, надзор ENAC:
+  en: Aeroporti di Puglia S.p.A., ART model, ENAC oversight
+  de: Aeroporti di Puglia S.p.A., ART-Modell, Aufsicht ENAC
+GESAP S.p.A., модель ART, надзор ENAC:
+  en: GESAP S.p.A., ART model, ENAC oversight
+  de: GESAP S.p.A., ART-Modell, Aufsicht ENAC
+SEA S.p.A. (Società Esercizi Aeroportuali), регулятор ART:
+  en: SEA S.p.A. (Società Esercizi Aeroportuali), regulator ART
+  de: SEA S.p.A. (Società Esercizi Aeroportuali), Regulierer ART
+SACBO S.p.A., регулирует Autorità di Regolazione dei Trasporti, сбор PRM — ENAC:
+  en: SACBO S.p.A., regulated by the Autorità di Regolazione dei Trasporti, PRM charge — ENAC
+  de: SACBO S.p.A., reguliert von der Autorità di Regolazione dei Trasporti, PRM-Entgelt — ENAC
+ANA Aeroportos de Portugal (VINCI Airports), регулятор ANAC:
+  en: ANA Aeroportos de Portugal (VINCI Airports), regulator ANAC
+  de: ANA Aeroportos de Portugal (VINCI Airports), Regulierer ANAC
+ANA Aeroportos de Portugal (Vinci), тарифы утверждает ANAC:
+  en: ANA Aeroportos de Portugal (Vinci), tariffs approved by ANAC
+  de: ANA Aeroportos de Portugal (Vinci), Tarife genehmigt von der ANAC
+NAA — частная компания-оператор (Narita International Airport Corporation):
+  en: NAA — private operating company (Narita International Airport Corporation)
+  de: NAA — private Betreibergesellschaft (Narita International Airport Corporation)
+АО «АэроЧита», утверждает генеральный директор:
+  en: AeroChita JSC, approved by the CEO
+  de: AO AeroChita, genehmigt vom Generaldirektor
+ООО «Аэропорт Байкал»:
+  en: Baikal Airport LLC
+  de: OOO Flughafen Baikal
+ООО «Воздушные Ворота Северной Столицы» (оператор аэропорта по концессии):
+  en: Northern Capital Gateway LLC (airport operator under a concession)
+  de: OOO Northern Capital Gateway (Flughafenbetreiber im Rahmen einer Konzession)
+АО «Аэропорт Толмачёво» — утверждает генеральный директор:
+  en: Tolmachevo Airport JSC — approved by the CEO
+  de: AO Flughafen Tolmatschowo — genehmigt vom Generaldirektor
+? ООО «Аэродинамика» (оператор аэропорта Сочи). Ставки сборов не менялись с 01.01.2018 при ежегодной переутверждении прейскуранта — вероятно, воспроизводят регулируемые предельные ставки
+: en: Aerodinamika LLC (Sochi airport operator). Charge rates unchanged since 1 January 2018 despite the annual re-approval of the price list — probably reproducing the regulated maximum rates
+  de: OOO Aerodinamika (Betreiber des Flughafens Sotschi). Die Entgeltsätze sind seit dem 01.01.2018 trotz jährlicher Neugenehmigung der Preisliste unverändert — vermutlich die regulierten Höchstsätze
+'Регулируемый режим: ставки утверждает ФАС России приказом (предельные максимальные)':
+  en: 'Regulated regime: rates set by order of the FAS (Russian competition authority), as maximum rates'
+  de: 'Regulierte Entgelte: Sätze per Anordnung des FAS (russische Wettbewerbsbehörde), als Höchstsätze'
+Аэропорт Домодедово — дерегулированные сборы устанавливает сам аэропорт:
+  en: Domodedovo Airport — deregulated charges set by the airport itself
+  de: Flughafen Domodedowo — deregulierte Entgelte legt der Flughafen selbst fest
+АО «Международный аэропорт Шереметьево» (АО «МАШ»):
+  en: Sheremetyevo International Airport JSC (MASH)
+  de: AO Internationaler Flughafen Scheremetjewo (AO MASch)
+Управление гражданской авиации КНР (CAAC) совместно с NDRC — государственные базовые цены (基准价):
+  en: Civil Aviation Administration of China (CAAC) with the NDRC — state benchmark prices (基准价)
+  de: Zivilluftfahrtbehörde der VR China (CAAC) gemeinsam mit der NDRC — staatliche Basispreise (基准价)

@@ -1,0 +1,350 @@
+{
+ "items": [
+  {
+   "who": "Mesa Air Group (CPA United)",
+   "kind": "airline",
+   "engine": "CF34-8E5",
+   "aircraft": "E75L",
+   "amount_usd": 24800000,
+   "period": "9М FY2025 (окт 2024–июн 2025)",
+   "covers": "«engine overhaul expense», почти целиком pass-through United (24.7 млн); только капремонт (shop visits), рутинное ТО двигателей сюда не входит; включение LLP не раскрыто; 18 собственных E175 до продажи United шли по deferral и в сумму не попадают",
+   "denominator": {
+    "value": 122652,
+    "unit": "BH",
+    "how": "39 035 + 39 517 + 44 100 BH из пресс-релизов Q1–Q3 FY2025; налёт всего парка, вкл. 8→3→0 CRJ-900 и собственные E175 под deferral → знаменатель завышен"
+   },
+   "rate": {
+    "value": 202,
+    "unit": "USD/BH",
+    "how": "24.8 млн ÷ 122 652 BH = 202 USD/блок-час борта ≈ 101 USD на час двигателя (2 двиг.); нижняя граница"
+   },
+   "year": 2025,
+   "evidence": [
+    "c1-008",
+    "c1-009",
+    "c1-012",
+    "c1-016",
+    "c1-020",
+    "c1-023",
+    "c1-026",
+    "c1-013",
+    "c1-033"
+   ]
+  },
+  {
+   "who": "Mesa Air Group (CPA United)",
+   "kind": "airline",
+   "engine": "CF34-8E5",
+   "aircraft": "E75L",
+   "amount_usd": 5500000,
+   "period": "апр–июн 2025",
+   "covers": "капремонт двигателей, pass-through; парк — только 60 E175",
+   "denominator": {
+    "value": 44100,
+    "unit": "BH",
+    "how": "пресс-релиз Q3 FY2025"
+   },
+   "rate": {
+    "value": 125,
+    "unit": "USD/BH",
+    "how": "5.5 млн ÷ 44 100 BH ≈ 125 USD/BH ≈ 62 USD/EFH; один квартал, событийная сумма (соседние кварталы 10.1 и 9.2 млн)"
+   },
+   "year": 2025,
+   "evidence": [
+    "c1-010",
+    "c1-020",
+    "c1-021"
+   ]
+  },
+  {
+   "who": "Mesa Air Group",
+   "kind": "airline",
+   "engine": "CF34-8E5",
+   "aircraft": "E75L",
+   "amount_usd": 18100000,
+   "period": "9М FY2024 (окт 2023–июн 2024)",
+   "covers": "капремонт двигателей, pass-through (E175 United)",
+   "denominator": {
+    "value": 133741,
+    "unit": "BH",
+    "how": "46 658 + 43 270 + 43 813 BH; включает большой парк CRJ-900 (36 на 30.09.2024) → сильно завышен для E175"
+   },
+   "rate": {
+    "value": 135,
+    "unit": "USD/BH",
+    "how": "18.1 млн ÷ 133 741 BH; нижняя граница, по E175 реально выше"
+   },
+   "year": 2024,
+   "evidence": [
+    "c1-008",
+    "c1-016",
+    "c1-012",
+    "c1-010",
+    "c1-020",
+    "c1-023",
+    "c1-026",
+    "c1-034"
+   ]
+  },
+  {
+   "who": "Mesa Air Group",
+   "kind": "airline",
+   "engine": "CF34-8C5",
+   "aircraft": "CRJ9",
+   "amount_usd": 17700000,
+   "period": "9М FY2019 (окт 2018–июн 2019)",
+   "covers": "капремонт двигателей не-pass-through (собственные CRJ-900/700), direct expense; 20.7 млн всего минус 3.0 млн pass-through E175",
+   "denominator": {
+    "value": 197600,
+    "unit": "BH",
+    "how": "341 071 BH × 84/145 (доля CRJ-900/700 по числу бортов) — оценка, налёт по типам не раскрыт"
+   },
+   "rate": {
+    "value": 90,
+    "unit": "USD/BH",
+    "how": "17.7 млн ÷ ~197 600 BH ≈ 90 USD/BH ≈ 45 USD/EFH; за 9М FY2018 ~36.4 млн — вдвое выше; очень грубо"
+   },
+   "year": 2019,
+   "evidence": [
+    "c1-037",
+    "c1-038",
+    "c1-039",
+    "c1-041",
+    "c1-042"
+   ]
+  },
+  {
+   "who": "GE – Republic Airways (OnPoint)",
+   "kind": "contract",
+   "engine": "CF34-8E",
+   "aircraft": "E170",
+   "amount_usd": 150000000,
+   "period": "10 лет с 2005",
+   "covers": "maintenance, overhaul and repair; LLP не упомянуты; новые двигатели (первые 10 лет)",
+   "denominator": {
+    "value": 1100,
+    "unit": "engine-years",
+    "how": "110 двигателей × 10 лет"
+   },
+   "rate": {
+    "value": 136364,
+    "unit": "USD/engine-year",
+    "how": "150 млн ÷ 1 100 ≈ 136 тыс USD/дв-год; при ~2 700 ч/год ≈ 50 USD/EFH (цены 2005)"
+   },
+   "year": 2005,
+   "evidence": [
+    "c1-077",
+    "c1-078"
+   ]
+  },
+  {
+   "who": "GE – Republic Airways (OnPoint)",
+   "kind": "contract",
+   "engine": "CF34-8E",
+   "aircraft": "E170/E75L",
+   "amount_usd": 240000000,
+   "period": "10 лет с 2007",
+   "covers": "maintenance and overhaul CF34-8E; число двигателей не указано",
+   "denominator": {
+    "value": 2380,
+    "unit": "engine-years",
+    "how": "119 бортов × 2 × 10 лет (без запасных) — оценка"
+   },
+   "rate": {
+    "value": 100840,
+    "unit": "USD/engine-year",
+    "how": ">240 млн ÷ 2 380 ≈ 101 тыс; ≈ 37 USD/EFH при 2 700 ч/год"
+   },
+   "year": 2007,
+   "evidence": [
+    "c1-080"
+   ]
+  },
+  {
+   "who": "GE – SkyWest (OnPoint)",
+   "kind": "contract",
+   "engine": "CF34-8C5B1",
+   "aircraft": "CRJ7",
+   "amount_usd": 360000000,
+   "period": "15 лет с 2012",
+   "covers": "по GE — «for material to support» (материалы); AIN перечисляет и major overhauls — охват неясен",
+   "denominator": {
+    "value": 2250,
+    "unit": "engine-years",
+    "how": "150 двигателей × 15 лет"
+   },
+   "rate": {
+    "value": 160000,
+    "unit": "USD/engine-year",
+    "how": ">360 млн ÷ 2 250 = 160 тыс; ≈ 60 USD/EFH при 2 650 ч/год"
+   },
+   "year": 2012,
+   "evidence": [
+    "c1-087",
+    "c1-089"
+   ]
+  },
+  {
+   "who": "GE – Mesa (OnPoint)",
+   "kind": "contract",
+   "engine": "CF34-8C",
+   "aircraft": "CRJ9",
+   "amount_usd": 350000000,
+   "period": "11 лет с 2013",
+   "covers": "MRO парка из 138 CF34-8 (AviTrader)",
+   "denominator": {
+    "value": 1518,
+    "unit": "engine-years",
+    "how": "138 × 11"
+   },
+   "rate": {
+    "value": 230567,
+    "unit": "USD/engine-year",
+    "how": "350 млн ÷ 1 518 ≈ 231 тыс; ≈ 75–85 USD/EFH при 2 700–3 100 ч/год"
+   },
+   "year": 2013,
+   "evidence": [
+    "c1-092"
+   ]
+  },
+  {
+   "who": "GE – SkyWest (OnPoint)",
+   "kind": "contract",
+   "engine": "CF34-8E",
+   "aircraft": "E75L",
+   "amount_usd": 550000000,
+   "period": "18 лет с 2015",
+   "covers": "«material support» на весь срок жизни новых двигателей (включая зрелые годы)",
+   "denominator": {
+    "value": 1548,
+    "unit": "engine-years",
+    "how": "86 × 18"
+   },
+   "rate": {
+    "value": 355297,
+    "unit": "USD/engine-year",
+    "how": ">550 млн ÷ 1 548 ≈ 355 тыс; ≈ 135 USD/EFH при 2 650 ч/год (номинал с эскалацией за 18 лет)"
+   },
+   "year": 2015,
+   "evidence": [
+    "c1-084",
+    "c1-085"
+   ]
+  },
+  {
+   "who": "CFM – Alaska Airlines (RPFH)",
+   "kind": "contract",
+   "engine": "CFM56-7B",
+   "aircraft": "B738",
+   "amount_usd": 500000000,
+   "period": "9 лет с 2017",
+   "covers": "«complete engine maintenance and support», вкл. подменные двигатели; цена по прейскуранту",
+   "denominator": {
+    "value": 1152,
+    "unit": "engine-years",
+    "how": "128 двигателей (вкл. запасные) × 9 лет"
+   },
+   "rate": {
+    "value": 434028,
+    "unit": "USD/engine-year",
+    "how": "500 млн ÷ 1 152 ≈ 434 тыс; ≈ 130–145 USD/EFH при 3 000–3 300 ч/год (налёт — допущение)"
+   },
+   "year": 2017,
+   "evidence": [
+    "c1-120",
+    "c1-121",
+    "c1-122"
+   ]
+  },
+  {
+   "who": "CFM – Comair Ltd (RPFH)",
+   "kind": "contract",
+   "engine": "CFM56-7B",
+   "aircraft": "B738",
+   "amount_usd": 160000000,
+   "period": "8 лет с 2018",
+   "covers": "RPFH, по прейскуранту; 16 двигателей",
+   "denominator": {
+    "value": 128,
+    "unit": "engine-years",
+    "how": "16 × 8"
+   },
+   "rate": {
+    "value": 1250000,
+    "unit": "USD/engine-year",
+    "how": "160 млн ÷ 128 = 1.25 млн; ≈ 400 USD/EFH при 3 000 ч/год — выброс"
+   },
+   "year": 2018,
+   "evidence": [
+    "c1-124",
+    "c1-125"
+   ]
+  },
+  {
+   "who": "ОДК-Сатурн – Red Wings",
+   "kind": "contract",
+   "engine": "SaM146",
+   "aircraft": "SU95",
+   "amount_usd": 500000000,
+   "period": "20 лет с 2021",
+   "covers": "ТО двигателей SaM146 на 25 SSJ100 по фиксированной ставке за лётный час; «примерно», по источникам Коммерсанта",
+   "denominator": {
+    "value": 1000,
+    "unit": "engine-years",
+    "how": "25 × 2 × 20"
+   },
+   "rate": {
+    "value": 500000,
+    "unit": "USD/engine-year",
+    "how": "500 млн ÷ 1 000 = 500 тыс; ≈ 170–200 USD/EFH при 2 500–3 000 ч/год; по источникам — в 1.5–2 раза дешевле, чем у других эксплуатантов"
+   },
+   "year": 2021,
+   "evidence": [
+    "c1-099",
+    "c1-100",
+    "c1-101",
+    "c1-102"
+   ]
+  },
+  {
+   "who": "Icelandair",
+   "kind": "airline",
+   "engine": "RB211-535/CF6/CFM56/PW150A (смешано)",
+   "aircraft": "B752/B763/B38M/DH8D",
+   "amount_usd": 63500000,
+   "period": "2025",
+   "covers": "капитализированный капремонт собственных двигателей вместе с запчастями (Note 12); арендованные — через провизию отдельно",
+   "denominator": {
+    "value": null,
+    "unit": "BH",
+    "how": "не получен: налёт собственных бортов не раскрыт"
+   },
+   "rate": {
+    "value": null,
+    "unit": "USD/BH",
+    "how": "не рассчитан"
+   },
+   "year": 2025,
+   "evidence": [
+    "c1-149",
+    "c1-150"
+   ]
+  }
+ ],
+ "gaps": [
+  "SkyWest: двигатели большей части парка по ставке за час двигателя, но сумма не раскрыта; доступен только весь ТОиР 684.8 млн / 1 292 040 BH = 530 USD/BH (2024)",
+  "Republic: только весь ТОиР 320.9 млн / 699 313 BH = 459 USD/BH (2025); двигатели не выделены",
+  "Mesa июль–сен 2025: 5.9 млн капремонта, но блок-часы квартала не найдены (MD&A 10-Q не читается)",
+  "Hawaiian TotalCare Trent 700: суммы RR смешаны с покупкой двигателей",
+  "Horizon/Alaska PW150A, Air Wisconsin CF34-3B1, Jazz (только изменения г/г), Aegean (PDF заблокирован), Finnair, SAS, Qantas/QantasLink, Air NZ (только прирост NZ$139 млн) — уровня расходов на двигатели нет",
+  "Аэрофлот: договоры на SaM146 (PowerJet) и CFM56/A320 с суммой не найдены",
+  "EDGAR: WebFetch отдаёт только первые ~100 тыс. символов; R-страницы и индексные ссылки блокируются (provenance)"
+ ],
+ "doubts": [
+  "Mesa «engine overhaul expense» — только капремонт; LLP и рутинное ТО двигателей могут быть в других строках; знаменатель включает CRJ-900 и E175 под deferral → ставка занижена",
+  "Капремонт событийный: поквартально у Mesa 5.5–10.1 млн; 9-месячные окна дают разброс ±50%",
+  "Суммы контрактов — «over the life», часто «at list price» (завышены), с эскалацией; у SkyWest — возможно, только материалы; налёт на двигатель — моё допущение 2 500–3 300 ч/год",
+  "Модельные ставки CF34 по Mesa (~60–100 USD/EFH) и контрактам (40–135 USD/EFH) — у молодых/средних парков; против CFM56-7B 130–145 (Alaska) и выброса Comair ~400",
+  "Red Wings 500 млн — цифра из анонимных источников, не официальный релиз"
+ ]
+}
