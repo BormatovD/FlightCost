@@ -31,6 +31,55 @@ items:
     via: owner
     added: 2026-11-06
 
+  - id: verify-us-fleets
+    status: done
+    area: research
+    title:
+      ru: "Сверка модели на сетях Frontier и Southwest: 1,6 млн рейсов против отчётности 2025 года"
+      en: "Model check on the Frontier and Southwest networks: 1.6 million flights against 2025 reports"
+      de: "Modellprüfung an den Netzen von Frontier und Southwest: 1,6 Mio. Flüge gegen die Berichte 2025"
+    note:
+      ru: "Исправлены аэронавигация США, сборы аэропортов США, уровень оплаты экипажа и руление по аэропортам."
+      en: "Fixed US air navigation, US airport charges, crew pay level and taxi time by airport."
+      de: "Korrigiert: Flugsicherung USA, Flughafenentgelte USA, Lohnniveau der Crew und Rollzeit je Flughafen."
+    by: owner
+    via: owner
+    added: 2026-11-09
+    done: 2026-11-09
+
+  - id: boeing-burn-calib
+    status: next
+    area: calc
+    title:
+      ru: "Поправка расхода топлива для Boeing 737: сейчас 737-700 недобирает 14 %"
+      en: "Fuel burn correction for the Boeing 737: the 737-700 currently runs 14 % low"
+      de: "Verbrauchskorrektur für die Boeing 737: die 737-700 liegt derzeit 14 % zu niedrig"
+    by: owner
+    via: owner
+    added: 2026-11-09
+
+  - id: us-airport-tariffs
+    status: next
+    area: data
+    title:
+      ru: "Тарифы крупных аэропортов США вместо региональной оценки"
+      en: "Tariffs of major US airports instead of a regional estimate"
+      de: "Entgeltordnungen großer US-Flughäfen statt regionaler Schätzung"
+    by: owner
+    via: owner
+    added: 2026-11-09
+
+  - id: crew-by-carrier
+    status: next
+    area: calc
+    title:
+      ru: "Ставка экипажа как вход по перевозчику, с подсказкой по классу компании"
+      en: "Crew rate as a per-carrier input, with a hint by carrier class"
+      de: "Crew-Satz als Eingabe je Airline, mit Richtwert nach Airline-Typ"
+    by: owner
+    via: owner
+    added: 2026-11-09
+
   - id: monitor-page
     status: done
     area: site
