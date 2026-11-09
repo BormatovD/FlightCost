@@ -8,8 +8,8 @@
 
 - `/ru/`, `/en/`, `/de/` — та же витрина, но язык задан адресом, а в
   заголовке страницы — название, описание, связи языковых версий
-  (hreflang) и разметка schema.org. `/` остаётся как был (язык браузера)
-  и служит версией «по умолчанию» (x-default).
+  (hreflang) и разметка schema.org. `/` отдаёт главную на языке браузера,
+  но canonical у неё — языковая версия; x-default — `/en/`.
 - `/<язык>/about` — что считает сервис, откуда данные, вопросы и ответы.
 - `/<язык>/types` и `/<язык>/type/<ИКАО>` — страница каждого типа ВС из
   справочника: паспорт с источником у каждой величины и заготовка
@@ -708,8 +708,12 @@ ARCS = ('<svg class="arcs" viewBox="0 0 720 720" aria-hidden="true">'
         '</svg>')
 
 
-def landing(lang: str, sample: dict | None, canonical_root: bool = False) -> str:
-    """Главная: обложка, три входа (типы · расчёт · сеть), пример расчёта, коротко о сервисе."""
+def landing(lang: str, sample: dict | None) -> str:
+    """Главная: обложка, три входа (типы · расчёт · сеть), пример расчёта, коротко о сервисе.
+
+    Корень «/» отдаёт ту же страницу на языке браузера, но canonical у неё
+    всегда языковой: «/» и «/en/» с одинаковым текстом и разными canonical
+    Google считал копиями и выбирал сам (Search Console, ноябрь 2026)."""
     t, a = T[lang], ABOUT[lang]
     hero = (f'<section class="hero">{ARCS}<div class="in"><h1>{esc(t["hero_h"])}</h1><p>{esc(t["hero_p"])}</p>'
             f'<div class="btns"><a class="btn1" href="/{lang}/calc">{esc(t["go_calc"])}</a>'
@@ -736,8 +740,7 @@ def landing(lang: str, sample: dict | None, canonical_root: bool = False) -> str
     sec_h, items = a["sections"][0]
     body.append(f"<h2>{esc(t['what_h'])}</h2><ul>" + "".join(f"<li>{esc(x)}</li>" for x in items[:5]) + "</ul>"
                 f"<p class=dim>{esc(a['how'])}</p><p><a href=\"/{lang}/about\">{esc(t['more_about'])}</a></p>")
-    canon = f"{site()}/" if canonical_root else f"{site()}/{lang}/"
-    h = head(lang, t["home_title"], t["home_desc"], canon, alternates("/", "/"), [app_ld(lang)])
+    h = head(lang, t["home_title"], t["home_desc"], f"{site()}/{lang}/", alternates("/"), [app_ld(lang)])
     page = shell(lang, "/", h + LANDING_STYLE, "\n".join(body))
     return page.replace("<main>", hero + '<main class="wide">', 1)
 
@@ -1411,12 +1414,12 @@ def sitemap(types: list[dict]) -> str:
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for tail in tails:
-        alts = alternates(tail, "/" if tail == "/" else None)
+        alts = alternates(tail)
         for lg in LANGS:
             out.append(f"<url><loc>{esc(site())}/{lg}{esc(tail)}</loc>"
                        + "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{esc(u)}"/>' for h, u in alts)
                        + "</url>")
-    for p in ("/", "/data", "/map"):
+    for p in ("/data", "/map"):  # «/» не нужен: его canonical — языковая главная
         out.append(f"<url><loc>{esc(site())}{p}</loc></url>")
     out.append("</urlset>")
     return "\n".join(out)
@@ -1426,7 +1429,7 @@ def urls(types: list[dict]) -> list[str]:
     """Все адреса сайта для IndexNow."""
     tails = (["/", "/calc", "/about", "/types", "/research", "/monitor"] + _research_tails()
              + [f"/type/{quote(x['icao'])}" for x in public_types(types)])
-    return [f"{site()}/{lg}{tl}" for tl in tails for lg in LANGS] + [site() + p for p in ("/", "/data", "/map")]
+    return [f"{site()}/{lg}{tl}" for tl in tails for lg in LANGS] + [site() + p for p in ("/data", "/map")]
 
 
 def llms(types: list[dict]) -> str:

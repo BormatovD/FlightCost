@@ -121,8 +121,12 @@ class SeoHttp(unittest.TestCase):
     def test_root(self):
         st, body, _ = self.get("/", "de-DE,de")
         self.assertEqual(st, 200)
-        self.assertIn(f'<link rel="canonical" href="{seo.site()}/">', self.head_of(body))
+        # одна каноническая версия на язык: «/» не спорит с «/de/» за место в индексе
+        self.assertIn(f'<link rel="canonical" href="{seo.site()}/de/">', self.head_of(body))
+        self.assertIn(f'hreflang="x-default" href="{seo.site()}/en/"', self.head_of(body))
         self.assertIn('<html lang="de">', body)
+        st, body, _ = self.get("/")
+        self.assertIn(f'<link rel="canonical" href="{seo.site()}/en/">', self.head_of(body))
         self.assertNotIn("I18N", body)
         # ссылки промо и закладки с параметрами — сразу калькулятор
         st, body, _ = self.get("/?o=UUEE&d=EDDF&ac=A320")
@@ -255,6 +259,7 @@ class SeoHttp(unittest.TestCase):
             self.assertIn(f"{seo.site()}/{lg}/type/A320", locs)
             self.assertIn(f"{seo.site()}/{lg}/about", locs)
         self.assertEqual(len(locs), len(set(locs)))
+        self.assertNotIn(f"{seo.site()}/", locs, "в sitemap только канонические адреса")
         st, body, _ = self.get("/llms.txt")
         self.assertIn("# FlightCost", body)
         self.assertEqual(self.get(f"/{seo.INDEXNOW_KEY}.txt")[1], seo.INDEXNOW_KEY)

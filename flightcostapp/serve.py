@@ -552,8 +552,8 @@ class _Handler(BaseHTTPRequestHandler):
                     return self._send(200, seo.calc_page(None, _page().decode("utf-8")).encode("utf-8"),
                                       "text/html; charset=utf-8")
                 q_lang = q.get("lang") if q.get("lang") in seo.LANGS else None
-                return self._public(seo.landing(q_lang or self._pref_lang(), self.server.ctx.seo_sample(),
-                                                canonical_root=True).encode("utf-8"),
+                return self._public(seo.landing(q_lang or self._pref_lang(),
+                                                self.server.ctx.seo_sample()).encode("utf-8"),
                                     "text/html; charset=utf-8")
             if u.path == "/api/airports":
                 return self._json(ctx.airports())
