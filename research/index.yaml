@@ -7,7 +7,6 @@ items:
   - slug: verify-2026-11
     date: 2026-11-09
     report: verify-2026-11/report.html
-    draft: true
     calc: in_calc
     calc_note:
       ru: "Правки по сверке уже в расчёте: аэронавигация и сборы США, экипаж, руление, средний чек по потоку пары."
