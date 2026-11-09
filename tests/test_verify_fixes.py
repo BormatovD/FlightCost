@@ -59,3 +59,29 @@ class NavZones(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AirportFallback(unittest.TestCase):
+    """Запись аэропорта сменила ключ ИАТА и пропала из выгрузки — расчёт
+    находит её по ИКАО через указатель и называет это (09.11.2026, Палм-Бич)."""
+
+    def setUp(self):
+        import pathlib
+        import tempfile
+        from flightcostapp.store import Fact, Store
+        self.st = Store(pathlib.Path(tempfile.mkdtemp()) / "a.db")
+        f = lambda d, k, t: Fact(domain=d, key=k, valid_from="2026-08-01", value_text=t,  # noqa: E731
+                                 unit="", source_id="t", extracted_by="t")
+        self.st.commit_facts([f("airport", "DJT", "26.683201,-80.095596|KPBI|US|Palm Beach"),
+                              f("airport_code", "IATA/PBI", "KPBI")])
+        self.st.db.execute("UPDATE facts SET valid_to = '2026-09-29' WHERE domain = 'airport'")
+        self.st.db.commit()
+
+    def test_found_by_icao_and_named_stale(self):
+        ap = econ._airport(self.st, "PBI", "2026-11-09")
+        self.assertEqual(ap["icao"], "KPBI")
+        self.assertIn("снятая 2026-09-29", ap["stale"])
+
+    def test_unknown_still_raises(self):
+        with self.assertRaises(KeyError):
+            econ._airport(self.st, "QQQ", "2026-11-09")

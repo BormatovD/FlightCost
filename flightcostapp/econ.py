@@ -623,13 +623,39 @@ def _crossing_along(legs, prefer):
 
 
 def _airport(store: Store, code: str, as_of):
-    row = store.get("airport", code.upper(), as_of)
+    """Аэропорт по коду ИАТА (ключ справочника), а если его там нет — по ИКАО
+    через указатель кодов.
+
+    Ключ справочника — код ИАТА из OurAirports, и правка одной записи там
+    выбивает аэропорт из расчёта. 09.11.2026: Палм-Бич переименовали в
+    июле 2026, в OurAirports запись побыла с кодом «DJT», затем исчезла
+    из выгрузки — и 7 тыс. рейсов Frontier и Southwest выпали из сверки.
+    Поэтому: (1) ключ как есть; (2) ИАТА → ИКАО по указателю и действующая
+    запись с этим ИКАО под любым ключом; (3) последняя известная запись с
+    этим ИКАО, даже снятая, — с пометкой `stale`, расчёт назовёт это."""
+    code = code.upper()
+    row = store.get("airport", code, as_of)
+    stale = None
+    if row is None:
+        icao = code if len(code) == 4 else None
+        if icao is None:
+            r = store.db.execute("SELECT value_text FROM facts WHERE domain = 'airport_code' AND key = ? "
+                                 "ORDER BY valid_from DESC LIMIT 1", (f"IATA/{code}",)).fetchone()
+            icao = r[0] if r else None
+        if icao:
+            pat = f"%|{icao.upper()}|%"
+            row = store.db.execute(
+                "SELECT key, value_text, valid_to FROM facts WHERE domain = 'airport' AND value_text LIKE ? "
+                "ORDER BY (valid_to IS NULL) DESC, valid_from DESC LIMIT 1", (pat,)).fetchone()
+            if row is not None and row["valid_to"] is not None:
+                stale = (f"аэропорта {code} ({icao}) нет в последней выгрузке справочника — взята прежняя "
+                         f"запись «{row['key']}», снятая {row['valid_to']}")
     if row is None:
         raise KeyError(f"аэропорт {code} отсутствует в справочнике — "
                        f"запусти `fca refresh --only ourairports`")
     latlon, icao, iso, name = row["value_text"].split("|", 3)
     lat, lon = (float(x) for x in latlon.split(","))
-    return {"lat": lat, "lon": lon, "icao": icao, "country": iso, "name": name}
+    return {"lat": lat, "lon": lon, "icao": icao, "country": iso, "name": name, "stale": stale}
 
 
 # Домен локальных категорий ВС: «в этом аэропорту борт этого типа
@@ -828,6 +854,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             and all(isinstance(v, dict) for v in charge_ctx.values())
             else parse_context_sets(charge_ctx or {}))
     warnings: list[str] = []
+    warnings += [ap["stale"] for ap in (a, b) if ap.get("stale")]
     trace: list[Step] = []
     n = [0]
 
