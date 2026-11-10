@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from flightcostapp.parsers import eurostat_json, gisco_nuts, migrant_stock, visa_index, wb_wdi
+from flightcostapp.parsers import eurostat_json, gisco_nuts, lessor_xbrl, migrant_stock, visa_index, wb_wdi
 
 
 def ctx(**kw):
@@ -76,6 +76,21 @@ class Parsers(unittest.TestCase):
         k = {x.key: x.value for x in f}
         self.assertEqual(k["migrants/DE-TR/2024"], 1500000)
         self.assertEqual(len(k), 6)                   # только оба пола, без строки WORLD
+
+
+    def test_lessor_xbrl(self):
+        d = {"cik": 1487712, "entityName": "AIR LEASE CORP", "facts": {"us-gaap": {
+            "OperatingLeaseLeaseIncome": {"units": {"USD": [
+                {"val": 2000e6, "frame": "CY2023"}, {"val": 2300e6, "frame": "CY2024"}, {"val": 2500e6, "frame": "CY2025"},
+                {"val": 600e6, "frame": "CY2025Q3"}]}},
+            "PropertySubjectToOrAvailableForOperatingLeaseNet": {"units": {"USD": [
+                {"val": 22e9, "frame": "CY2022Q4I"}, {"val": 24e9, "frame": "CY2023Q4I"},
+                {"val": 26e9, "frame": "CY2024Q4I"}, {"val": 28e9, "frame": "CY2025Q4I"}]}}}}}
+        f = {x.key: x.value for x in lessor_xbrl.parse(json.dumps(d).encode(), ctx(ticker="AL"))}
+        self.assertAlmostEqual(f["lessor/AL/lease_yield/2024"], 2300e6 / 25e9)
+        self.assertNotIn("lessor/AL/lease_revenue/2025Q3", f)
+        with self.assertRaises(ValueError):
+            lessor_xbrl.parse(json.dumps({"facts": {"us-gaap": {}}}).encode(), ctx())
 
 
 if __name__ == "__main__":

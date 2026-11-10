@@ -1212,3 +1212,50 @@ sources:
       Methodology → M49 → Overview → кнопка CSV). Обновляется раз в 4–5 лет.
     validators:
       row_count_min: 5000
+
+  # ── Рынок лизинга: доходность парка лизингодателей (исследование цен, ноябрь 2026) ──
+
+  lessor_air_lease:
+    title: Air Lease — арендная плата и парк в операционной аренде (SEC XBRL), доходность парка
+    kind: url
+    contour: deterministic
+    url: https://data.sec.gov/api/xbrl/companyfacts/CIK0001487712.json
+    ticker: AL
+    public: full
+    license: отчётность эмитента в SEC — общедоступна, ограничений на использование нет
+    parser: lessor_xbrl
+    domain: macro
+    cadence_days: 90
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      SEC требует в User-Agent имя и контакт: по умолчанию — адрес сайта,
+      свой контакт — переменной окружения FCA_SEC_USER_AGENT («Имя
+      адрес@почты»). Ответ 403 — почти всегда именно это.
+    validators:
+      row_count_min: 10
+
+  lessor_aercap:
+    title: AerCap — арендная плата и парк в операционной аренде (SEC XBRL, 20-F), доходность парка
+    kind: url
+    contour: deterministic
+    url: https://data.sec.gov/api/xbrl/companyfacts/CIK0001378789.json
+    ticker: AER
+    public: full
+    license: отчётность эмитента в SEC — общедоступна, ограничений на использование нет
+    parser: lessor_xbrl
+    domain: macro
+    cadence_days: 90
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      Годовые 20-F по US GAAP. Средний парк здесь — по балансу на начало и
+      конец года; в пресс-релизах AerCap «average lease assets» считается
+      иначе (средняя по месяцам, с финансовым лизингом), поэтому ряд из
+      релизов лежит отдельно: data/prices/_lessor_yield.yaml.
+    validators:
+      row_count_min: 10

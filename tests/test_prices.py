@@ -79,6 +79,15 @@ class TypePage(unittest.TestCase):
             h = seo.prices_block("ru", "A21N", 400000, True)
             self.assertIn("class=l3", h)
             self.assertIn("для нового борта", h)
+            self.assertIn("доходность парка AerCap", h)
+            obs2 = obs["observations"] + [
+                {"icao": "A21N", "kind": "lease", "value": 380, "scale": "k", "currency": "USD", "month": "2024-02",
+                 "age": "new", "quote": "380", "source": "https://example.org/c"}]
+            self.assertEqual(PR.market_now(obs2, True, since=2023), (2024, 380.0))
+            self.assertIsNone(PR.market_now(obs2, False, since=2023))
+            self.assertIsNone(PR.market_now(obs["observations"], True, since=2023))   # только 2019 — не «сейчас»
+            r = PR.real_level(obs2, True, (2019, 2019), 2025, {2019: 100.0, 2024: 110.0, 2025: 120.0})
+            self.assertAlmostEqual(r, 480.0)
             pl = seo.param_lease_usd(100000, range(2019, 2027))
             self.assertAlmostEqual(pl[-1][1], 116.0, places=6)          # 2026: 100 тыс. EUR × 1,16
             self.assertLess(pl[0][1], pl[-1][1])                        # раньше — дешевле в номинале

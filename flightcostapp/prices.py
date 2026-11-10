@@ -34,7 +34,48 @@ BAND = {"list": (3e6, 5e8), "deal": (3e6, 5e8), "value": (1e6, 5e8), "lease": (3
 SCALE = {"": 1, "k": 1e3, "thousand": 1e3, "тыс": 1e3, "m": 1e6, "mn": 1e6, "million": 1e6, "млн": 1e6,
          "bn": 1e9, "billion": 1e9, "млрд": 1e9}
 PER_RUN = 4
+YIELD_PATH = ROOT / "data" / "prices" / "_lessor_yield.yaml"
 _CACHE: dict = {}
+
+
+def lessor_yield(who: str = "AER") -> dict[int, float]:
+    """Доходность парка лизингодателя по годам: арендная плата ÷ средний парк."""
+    d = load(YIELD_PATH).get(who) or {}
+    return {int(y): float(v["rents"]) / float(v["assets"]) for y, v in (d.get("years") or {}).items()}
+
+
+def real_level(obs: list[dict], new_gen: bool, years: tuple[int, int], to_year: int, cpi: dict) -> float | None:
+    """Медиана ставок лизинга нужного возраста за годы `years`, в долларах `to_year` по CPI, тыс. USD."""
+    import statistics
+    if not cpi:
+        return None
+    last = max(cpi)
+    g = cpi[last] / cpi[last - 1] if last - 1 in cpi else 1.03
+    ix = lambda y: cpi[y] if y in cpi else cpi[last] * g ** (y - last)       # noqa: E731
+    vals = []
+    for o in obs:
+        y = int(str(o["month"])[:4])
+        age_ok = str(o.get("age")) == "new" if new_gen else \
+            isinstance(o.get("age"), (int, float)) and 8 <= float(o["age"]) <= 14
+        if o["kind"] == "lease" and age_ok and years[0] <= y <= years[1] and usd(o):
+            vals.append(usd(o) * ix(to_year) / ix(y) / 1e3)
+    return statistics.median(vals) if vals else None
+
+
+def market_now(obs: list[dict], new_gen: bool, rates: dict | None = None,
+               since: int = date.today().year - 3) -> tuple[int, float] | None:
+    """Последний год с наблюдениями лизинга нужного возраста (новый / 8–14 лет) и медиана, тыс. USD."""
+    import statistics
+    ok = [o for o in obs if o["kind"] == "lease" and (str(o.get("age")) == "new" if new_gen
+          else isinstance(o.get("age"), (int, float)) and 8 <= float(o["age"]) <= 14)]
+    if not ok:
+        return None
+    y = max(int(str(o["month"])[:4]) for o in ok)
+    if y < since:                    # «сейчас» — не старше трёх лет; 2020 год рынком «сейчас» не назовёшь
+        return None
+    vals = [usd(o, rates) for o in ok if int(str(o["month"])[:4]) == y]
+    vals = [v for v in vals if v]
+    return (y, statistics.median(vals) / 1e3) if vals else None
 
 
 def load(path: Path | None = None) -> dict:

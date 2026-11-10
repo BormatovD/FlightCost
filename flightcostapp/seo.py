@@ -180,6 +180,12 @@ T = {
                           "Оценка — {age_for}; точки другого возраста с ней прямо не сравниваются."),
         "ts_age_new": "новый борт", "ts_age_cur": "борт около 12 лет",
         "ts_for_new": "для нового борта", "ts_for_cur": "для борта около 12 лет",
+        "ts_now": "Рынок {y} года по наблюдениям — {m} тыс. USD в месяц; заготовка в долларах {y} года — {p} тыс. ({d}).",
+        "ts_yield": ("Рынок лизинга восстанавливается после 2020 года: доходность парка AerCap (арендная плата ÷ средний "
+                     "парк) — {y19} в 2019, дно {ymin} в {ymin_y}, {ylast} в {ylast_y}, до уровня 2019 ещё не дошла."),
+        "ts_real": ("В долларах 2026 года: заготовка — {p} тыс., наблюдения 2018–2019 годов того же возраста — {r} тыс. "
+                    "Если рынок вернётся к доковидному уровню, заготовка окажется {where}."),
+        "ts_where": {"near": "рядом с ним", "above": "выше него", "below": "ниже него"},
         "fleet_h": "Лизинг и ТОиР: оценка стоимости владения и обслуживания",
         "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
                        "Это параметрика, а не данные эксплуатанта: в расчёте каждую можно заменить своей."),
@@ -323,6 +329,12 @@ T = {
                           "It is an estimate {age_for}; points of another age are not directly comparable."),
         "ts_age_new": "new aircraft", "ts_age_cur": "aircraft about 12 years old",
         "ts_for_new": "for a new aircraft", "ts_for_cur": "for an aircraft about 12 years old",
+        "ts_now": "Market in {y} by observations — USD {m}k a month; the default in {y} dollars — {p}k ({d}).",
+        "ts_yield": ("The lease market is recovering after 2020: AerCap's fleet yield (lease rents ÷ average lease "
+                     "assets) was {y19} in 2019, bottomed at {ymin} in {ymin_y}, {ylast} in {ylast_y} — not yet back to 2019."),
+        "ts_real": ("In 2026 dollars: the default is {p}k, observations of 2018–2019 for the same age {r}k. If the market "
+                    "returns to its pre-COVID level, the default will be {where}."),
+        "ts_where": {"near": "close to it", "above": "above it", "below": "below it"},
         "fleet_h": "Lease rate and maintenance cost: estimates for ownership and upkeep",
         "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
                        "count. These are parametric, not operator data: each one can be replaced in the calculation."),
@@ -466,6 +478,13 @@ T = {
                           "Jahre umgerechnet. Schätzung {age_for}; Punkte anderen Alters sind nicht direkt vergleichbar."),
         "ts_age_new": "neues Flugzeug", "ts_age_cur": "Flugzeug von etwa 12 Jahren",
         "ts_for_new": "für ein neues Flugzeug", "ts_for_cur": "für ein Flugzeug von etwa 12 Jahren",
+        "ts_now": "Markt {y} nach Beobachtungen — {m} Tsd. USD pro Monat; Voreinstellung in Dollar von {y} — {p} Tsd. ({d}).",
+        "ts_yield": ("Der Leasingmarkt erholt sich seit 2020: Die Flottenrendite von AerCap (Leasingerlöse ÷ "
+                     "durchschnittliches Leasingvermögen) lag 2019 bei {y19}, im Tief {ymin} ({ymin_y}), {ylast} ({ylast_y}) — "
+                     "das Niveau von 2019 ist noch nicht erreicht."),
+        "ts_real": ("In Dollar von 2026: Voreinstellung {p} Tsd., Beobachtungen 2018–2019 gleichen Alters {r} Tsd. Kehrt der "
+                    "Markt auf das Vor-Corona-Niveau zurück, liegt die Voreinstellung {where}."),
+        "ts_where": {"near": "nahe daran", "above": "darüber", "below": "darunter"},
         "fleet_h": "Leasingrate und Wartungskosten: Schätzung für Besitz und Instandhaltung",
         "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
                        "parametrische Werte, keine Betreiberdaten: jeder lässt sich in der Rechnung ersetzen."),
@@ -1491,6 +1510,24 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                 lines = [("l3", pl)]
                 note = (f'<p class=dim><span style="color:#2a9d8f">— —</span> {esc(t["ts_param"].format(age=age))}. '
                         f'{esc(t["ts_param_note"].format(eur=num(round(lease_eur, -3), lang, 0), fx=num(PARAM_USD_PER_EUR, lang, 2), age=age, age_for=t["ts_for_new"] if new_gen else t["ts_for_cur"]))}</p>')
+                mn = PR.market_now(obs, bool(new_gen))
+                if mn:
+                    py = dict((int(x), v) for x, v in pl).get(mn[0])
+                    if py:
+                        dd = (py / mn[1] - 1) * 100
+                        note += (f'<p>{esc(t["ts_now"].format(y=mn[0], m=num(round(mn[1]), lang, 0), p=num(round(py), lang, 0), d=("+" if dd >= 0 else "−") + num(abs(round(dd)), lang, 0) + " %"))}</p>')
+                ly = PR.lessor_yield()
+                if ly and 2019 in ly:
+                    after = {y: v for y, v in ly.items() if y >= 2020}
+                    ymin_y = min(after, key=after.get)
+                    pct = lambda v: num(v * 100, lang, 1) + " %"        # noqa: E731
+                    note += (f'<p class=dim>{esc(t["ts_yield"].format(y19=pct(ly[2019]), ymin=pct(ly[ymin_y]), ymin_y=ymin_y, ylast=pct(ly[max(ly)]), ylast_y=max(ly)))}</p>')
+                pre = PR.real_level(obs, bool(new_gen), (2018, 2019), PARAM_YEAR, us_cpi())
+                p26 = dict((int(x), v) for x, v in pl).get(PARAM_YEAR)
+                if pre and p26:
+                    rel = p26 / pre - 1
+                    w = "near" if abs(rel) <= 0.1 else ("above" if rel > 0 else "below")
+                    note += (f'<p class=dim>{esc(t["ts_real"].format(p=num(round(p26), lang, 0), r=num(round(pre), lang, 0), where=t["ts_where"][w]))}</p>')
         body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>' + _ts_svg(lines, lease, t["ts_k_usd"], lang, h=190) + note)
     c = t["ts_col"]
     body.append(f"</div><div class=tw><table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"

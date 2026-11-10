@@ -1,0 +1,19 @@
+# Доходность парка AerCap по годовым пресс-релизам: базовая арендная плата ÷ средний парк
+# (average lease assets, определение AerCap). Ряд для проверки «рынок лизинга догоняет
+# доковидный уровень» (исследование цен, ноябрь 2026). Обновляется раз в год вручную или
+# заменяется рядом из SEC (источник lessor_aercap) — тот считает средний парк иначе.
+AER:
+  name: AerCap
+  unit: млн USD
+  years:
+    2016: {rents: 4395.3, assets: 34857, net_spread: 0.095, source: "https://www.aercap.com/news-media/press-releases/detail/206/aercap-holdings-n-v-reports-financial-results-for-full"}
+    2017: {rents: 4194.2, assets: 34228, net_spread: 0.090, source: "https://www.aercap.com/news-media/press-releases/detail/206/aercap-holdings-n-v-reports-financial-results-for-full"}
+    2018: {rents: 4145.6, assets: 35369, net_spread: 0.084, source: "https://aercap.com/_assets/_1e29893e37b4b9c11a64a5cc851c9138/aercap/db/539/6546/earnings_release/aercap-2019-fourth-quarter-earnings-release-final.pdf"}
+    2019: {rents: 4281.3, assets: 37590, net_spread: 0.080, source: "https://aercap.com/_assets/_1e29893e37b4b9c11a64a5cc851c9138/aercap/db/539/6546/earnings_release/aercap-2019-fourth-quarter-earnings-release-final.pdf"}
+    2020: {rents: 3762, assets: 37145, net_spread: 0.068, source: "https://aercap.com/_assets/_23fb5e80611bd44ff74841e29abd8ee1/aercap/db/539/6554/earnings_release/aercap-2021-fourth-quarter-earnings-release-final.pdf"}
+    2021: {rents: 3891, assets: 40646, net_spread: 0.065, source: "https://aercap.com/_assets/_23fb5e80611bd44ff74841e29abd8ee1/aercap/db/539/6554/earnings_release/aercap-2021-fourth-quarter-earnings-release-final.pdf"}
+    2022: {rents: 5982, assets: 59745, net_spread: 0.076, source: "https://aercap.com/_assets/_228d44fc4589c87935d1bc29f64d3e8c/aercap/db/539/13449/earnings_release/AerCap+2023+Fourth+Quarter+Earnings+Release+V21.pdf"}
+    2023: {rents: 6249, assets: 59775, net_spread: 0.078, source: "https://aercap.com/_assets/_228d44fc4589c87935d1bc29f64d3e8c/aercap/db/539/13449/earnings_release/AerCap+2023+Fourth+Quarter+Earnings+Release+V21.pdf"}
+    2024: {rents: 6377, assets: 60845, net_spread: 0.075, source: "https://www.aercap.com/_assets/_51cac73cf6c793459e1623a8c623e08d/aercap/db/539/14594/earnings_release/AerCap+2025+Fourth+Quarter+Earnings+Release.pdf"}
+    2025: {rents: 6679, assets: 61907, net_spread: 0.078, source: "https://www.aercap.com/_assets/_51cac73cf6c793459e1623a8c623e08d/aercap/db/539/14594/earnings_release/AerCap+2025+Fourth+Quarter+Earnings+Release.pdf"}
+  note: "2022 — первый год с парком GECAS (покупка в ноябре 2021): состав парка сменился, сравнение 2021→2022 менее чистое."

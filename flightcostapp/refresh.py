@@ -102,7 +102,13 @@ def _package_fetch(package: str) -> tuple[bytes, str]:
 def _default_fetch(url: str, timeout: int = 60) -> tuple[bytes, str]:
     import requests
 
-    r = requests.get(url, timeout=timeout, headers={"User-Agent": "flightcostapp/0.1"})
+    ua = "flightcostapp/0.1"
+    if "sec.gov" in url:
+        # SEC отдаёт API только с подписью «кто и как связаться» в User-Agent (fair access policy);
+        # контакт задаётся в окружении, по умолчанию — адрес сайта проекта.
+        import os
+        ua = os.environ.get("FCA_SEC_USER_AGENT", "FlightCostApp research https://flightcost.app")
+    r = requests.get(url, timeout=timeout, headers={"User-Agent": ua})
     r.raise_for_status()
     return r.content, r.headers.get("Content-Type", "")
 
