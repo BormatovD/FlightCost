@@ -2,5 +2,1995 @@
 # Пополняет агент «цены»; приёмка дома — fca master drafts --accept-prices. Число — как напечатано:
 # value × scale в валюте currency; kind: list (каталог), deal (сделка за борт), value (оценка рынка),
 # lease (лизинг в месяц); age — лет или "new".
-observations: []
-searched: {}
+observations:
+- icao: A19N
+  kind: list
+  value: 101.5
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A319neo at US$ 101.5 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 379
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: A320 neo, New: 379'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 47.6
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: A320 neo, New: 47.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 397
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A320 neo, New: 397'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 49.5
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: A320 neo, New: 49.5'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: list
+  value: 110.6
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A320neo at US$110.6 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 384
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A320 neo, New: 384'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 313
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A320 neo, 5 yrs: 313'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 50.3
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A320 neo, New: 50.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 40.2
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2018: A320 neo, 5 yrs: 40.2'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 368
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A320 neo, New: 368'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 294
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A320 neo, 5 yrs: 294'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 52.0
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A320 neo, New: 52.0'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 39.1
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2019: A320 neo, 5 yrs: 39.1'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 256
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A320 neo, New: 256'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 209
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A320 neo, 5 yrs: 209'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 42.3
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A320 neo, New: 42.3'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: value
+  value: 32.2
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2020: A320 neo, 5 yrs: 32.2'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value: 324000
+  currency: USD
+  month: 2022-07
+  age: new
+  quote: leasing an Airbus A320neo can currently require a payment of up to $324,000 per month, up 14% from April
+    2020
+  source: https://airlinegeeks.com/2022/08/31/lease-rates-of-a320neo-737-max-rise-due-to-aircraft-shortage/
+  publisher: AirlineGeeks (данные IBA)
+  note: «до» — верх диапазона
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 455
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: A321 neo, New: 455'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 56.9
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: A321 neo, New: 56.9'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 458
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A321 neo, New: 458'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 58.3
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: A321 neo, New: 58.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: list
+  value: 129.5
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A321neo at US$129.5 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 453
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A321 neo, New: 453'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 59.2
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A321 neo, New: 59.2'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 406
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A321 neo, New: 406'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 58.3
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A321 neo, New: 58.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 302
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A321 neo, New: 302'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 285
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A321 neo, 5 yrs: 285'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 47.6
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A321 neo, New: 47.6'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: value
+  value: 41.3
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2020: A321 neo, 5 yrs: 41.3'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 375000
+  currency: USD
+  month: 2022-07
+  age: new
+  quote: The largest model in the family, the A321neo, could be leased for $375,000 per month in July this year.
+  source: https://airlinegeeks.com/2022/08/31/lease-rates-of-a320neo-737-max-rise-due-to-aircraft-shortage/
+  publisher: AirlineGeeks (данные IBA)
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 381000
+  currency: USD
+  month: 2023-02
+  age: new
+  quote: Mussten Airlines im Anfang Februar 2023 für einen fabrikneuen Airbus A321 Neo 381.000 Dollar pro Monat
+    bezahlen,
+  source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
+  publisher: aeroTELEGRAPH (данные OAG)
+  checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value: 402000
+  currency: USD
+  month: 2024-02
+  age: new
+  quote: '...liegen die Kosten ein Jahr später bei 402.000 Dollar.'
+  source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
+  publisher: aeroTELEGRAPH (данные OAG)
+  checked: '2026-11-10'
+- icao: A319
+  kind: list
+  value: 92.3
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A319 at US$92.3 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 190
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A320-200, 10 yrs: 190'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A320
+  kind: value
+  value: 17.4
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2017: A320-200, 10 yrs: 17.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A320
+  kind: list
+  value: 101
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A320 at US$101 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 172
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A320-200, 10 yrs: 172'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A320
+  kind: value
+  value: 16.8
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2018: A320-200, 10 yrs: 16.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 200
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A320-200, 10 yrs: 200'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A320
+  kind: value
+  value: 21.4
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2019: A320-200, 10 yrs: 21.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 144
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A320-200, 10 yrs: 144'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A320
+  kind: value
+  value: 17.5
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2020: A320-200, 10 yrs: 17.5'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 155000
+  currency: USD
+  month: 2023-01
+  age: 10
+  quote: '...mussten Fluggesellschaften für einen zehn Jahre alten Airbus A320 im Schnitt 155.000 Dollar pro Monat
+    ausgeben.'
+  source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
+  publisher: aeroTELEGRAPH (данные OAG)
+  checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value: 177000
+  currency: USD
+  month: 2024-01
+  age: 10
+  quote: Ein Jahr später kostete das gleiche Flugzeug schon 177.000 Dollar.
+  source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
+  publisher: aeroTELEGRAPH (данные OAG)
+  checked: '2026-11-10'
+- icao: A321
+  kind: lease
+  value: 411
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A321-200, New: 411'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A321
+  kind: value
+  value: 50.7
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: A321-200, New: 50.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A321
+  kind: list
+  value: 118.3
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: A321 at US$118.3 million
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A321
+  kind: lease
+  value: 383
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A321-200, New: 383'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A321
+  kind: value
+  value: 49.7
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A321-200, New: 49.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A321
+  kind: lease
+  value: 344
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A321-200, New: 344'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A321
+  kind: value
+  value: 48.4
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A321-200, New: 48.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A321
+  kind: lease
+  value: 236
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A321-200, New: 236'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A321
+  kind: value
+  value: 35.1
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A321-200, New: 35.1'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A332
+  kind: lease
+  value: 751
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A330-200, New: 751'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A332
+  kind: value
+  value: 83.8
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: A330-200, New: 83.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A332
+  kind: list
+  value: 238.5
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: US$238.5 million for the A330-200
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A332
+  kind: lease
+  value: 679
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A330-200, New: 679'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A332
+  kind: value
+  value: 78.7
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A330-200, New: 78.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A332
+  kind: lease
+  value: 621
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A330-200, New: 621'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A332
+  kind: value
+  value: 75.0
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A330-200, New: 75.0'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A332
+  kind: lease
+  value: 372
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A330-200, New: 372'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A332
+  kind: value
+  value: 47.8
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A330-200, New: 47.8'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A333
+  kind: list
+  value: 264.2
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: US$264.2 million for the A330-300
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A339
+  kind: list
+  value: 296.4
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: US$296.4 million for the A330-900neo
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A339
+  kind: lease
+  value: 893
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A330-900 neo, New: 893'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A339
+  kind: value
+  value: 114.9
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A330-900 neo, New: 114.9'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A339
+  kind: lease
+  value: 889
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A330-900 neo, New: 889'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A339
+  kind: value
+  value: 112.6
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A330-900 neo, New: 112.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A339
+  kind: lease
+  value: 571
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A330-900 neo, New: 571'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A339
+  kind: value
+  value: 76.2
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A330-900 neo, New: 76.2'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 1121
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: A350-900, New: 1121'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 142.8
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: A350-900, New: 142.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 1161
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: A350-900, New: 1161'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 145.2
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: A350-900, New: 145.2'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: list
+  value: 317.4
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: US$317.4 million for the A350-900
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 1212
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A350-900, New: 1212'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 149.9
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A350-900, New: 149.9'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 1172
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A350-900, New: 1172'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 887
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A350-900, 5 yrs: 887'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 150.0
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A350-900, New: 150.0'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 98.4
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2019: A350-900, 5 yrs: 98.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 789
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A350-900, New: 789'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 620
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A350-900, 5 yrs: 620'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 110.5
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A350-900, New: 110.5'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: value
+  value: 80.2
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2020: A350-900, 5 yrs: 80.2'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value: 1005000
+  currency: USD
+  month: 2024-02
+  quote: Die monatliche Rate für einen Airbus A350 ist innerhalb des letzten Jahres um elf Prozent auf 1.005.000
+    Dollar gestiegen.
+  source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
+  publisher: aeroTELEGRAPH (данные OAG)
+  note: A350 без уточнения модели и возраста
+  checked: '2026-11-10'
+- icao: A35K
+  kind: list
+  value: 366.5
+  scale: m
+  currency: USD
+  month: 2018-01
+  age: new
+  quote: US$366.5 million for the A350-1000
+  source: https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/
+  publisher: Business Traveller
+  note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 431
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: 737 MAX 8, New: 431'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B38M
+  kind: value
+  value: 53.5
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: 737 MAX 8, New: 53.5'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 431
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 737 MAX 8, New: 431'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B38M
+  kind: value
+  value: 50.4
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: 737 MAX 8, New: 50.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 412
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: 737 MAX 8, New: 412'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B38M
+  kind: value
+  value: 52.7
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: 737 MAX 8, New: 52.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 411
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: 737 MAX 8, New: 411'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B38M
+  kind: value
+  value: 53.4
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: 737 MAX 8, New: 53.4'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 248
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 737 MAX 8, New: 248'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B38M
+  kind: value
+  value: 42.4
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: 737 MAX 8, New: 42.4'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B38M
+  kind: lease
+  value: 316000
+  currency: USD
+  month: 2022-07
+  age: new
+  quote: leasing a new Boeing 737 MAX increased by more than 20% between April 2020 and July 2022, to $316,000 per
+    month
+  source: https://airlinegeeks.com/2022/08/31/lease-rates-of-a320neo-737-max-rise-due-to-aircraft-shortage/
+  publisher: AirlineGeeks (данные IBA)
+  checked: '2026-11-10'
+- icao: B39M
+  kind: lease
+  value: 468
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: 737 MAX 9, New: 468'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B39M
+  kind: value
+  value: 54.2
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: 737 MAX 9, New: 54.2'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B39M
+  kind: lease
+  value: 468
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 737 MAX 9, New: 468'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B39M
+  kind: value
+  value: 51.7
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: 737 MAX 9, New: 51.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B39M
+  kind: lease
+  value: 423
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: 737 MAX 9, New: 423'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B39M
+  kind: value
+  value: 53.5
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: 737 MAX 9, New: 53.5'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B39M
+  kind: lease
+  value: 413
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: 737 MAX 9, New: 413'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B39M
+  kind: value
+  value: 52.3
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: 737 MAX 9, New: 52.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B39M
+  kind: lease
+  value: 244
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 737 MAX 9, New: 244'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B39M
+  kind: value
+  value: 41.7
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: 737 MAX 9, New: 41.7'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B738
+  kind: lease
+  value: 212
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 737-800, 10 yrs: 212'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B738
+  kind: value
+  value: 20.3
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2017: 737-800, 10 yrs: 20.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B738
+  kind: lease
+  value: 184
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: 737-800, 10 yrs: 184'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B738
+  kind: value
+  value: 18.6
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2018: 737-800, 10 yrs: 18.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B738
+  kind: lease
+  value: 243
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: 737-800, 10 yrs: 243'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B738
+  kind: value
+  value: 27.8
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2019: 737-800, 10 yrs: 27.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B738
+  kind: lease
+  value: 131
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 737-800, 10 yrs: 131'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B738
+  kind: value
+  value: 14.8
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2020: 737-800, 10 yrs: 14.8'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value: 1492
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 777-300ER, New: 1492'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value: 1187
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 777-300ER, 5 yrs: 1187'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value: 887
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 777-300ER, 10 yrs: 887'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B77W
+  kind: value
+  value: 155.6
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: 777-300ER, New: 155.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B77W
+  kind: value
+  value: 119.6
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2017: 777-300ER, 5 yrs: 119.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B77W
+  kind: value
+  value: 83.6
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: 10
+  quote: 'Jet values ($m), as at end-October 2017: 777-300ER, 10 yrs: 83.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value: 828
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 777-300ER, New: 828'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value: 757
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 777-300ER, 5 yrs: 757'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B77W
+  kind: value
+  value: 92.3
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: 777-300ER, New: 92.3'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B77W
+  kind: value
+  value: 79.7
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: 5
+  quote: 'Jet values ($m), as at end-October 2020: 777-300ER, 5 yrs: 79.7'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B788
+  kind: lease
+  value: 931
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 787-8, New: 931'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B788
+  kind: value
+  value: 119.6
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: 787-8, New: 119.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B788
+  kind: lease
+  value: 886
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: 787-8, New: 886'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B788
+  kind: value
+  value: 121.8
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: 787-8, New: 121.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B788
+  kind: lease
+  value: 861
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: 787-8, New: 861'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B788
+  kind: value
+  value: 118.8
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: 787-8, New: 118.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B788
+  kind: lease
+  value: 525
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 787-8, New: 525'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B788
+  kind: value
+  value: 78
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: 787-8, New: 78'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value: 1173
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: 787-9, New: 1173'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B789
+  kind: value
+  value: 139.9
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: 787-9, New: 139.9'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value: 1176
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: 787-9, New: 1176'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B789
+  kind: value
+  value: 141.6
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: 787-9, New: 141.6'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value: 1164
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: 787-9, New: 1164'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B789
+  kind: value
+  value: 143.2
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: 787-9, New: 143.2'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value: 1100
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: 787-9, New: 1100'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B789
+  kind: value
+  value: 146.9
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: 787-9, New: 146.9'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value: 724
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: 787-9, New: 724'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: B789
+  kind: value
+  value: 107.7
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: 787-9, New: 107.7'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: lease
+  value: 282
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: A220-300, New: 282'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: value
+  value: 35.3
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: A220-300, New: 35.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: lease
+  value: 292
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: A220-300, New: 292'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: value
+  value: 37.7
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: A220-300, New: 37.7'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: lease
+  value: 218
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: A220-300, New: 218'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: BCS3
+  kind: value
+  value: 29.1
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: A220-300, New: 29.1'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E295
+  kind: lease
+  value: 219
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: Emb 195-E2, New: 219'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E295
+  kind: value
+  value: 27.5
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: Emb 195-E2, New: 27.5'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E75L
+  kind: lease
+  value: 233
+  scale: k
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2016: Emb 175, New: 233'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E75L
+  kind: value
+  value: 28.3
+  scale: m
+  currency: USD
+  month: 2016-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2016: Emb 175, New: 28.3'
+  source: https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E75L
+  kind: lease
+  value: 226
+  scale: k
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2017: Emb 175, New: 226'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E75L
+  kind: value
+  value: 28.1
+  scale: m
+  currency: USD
+  month: 2017-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2017: Emb 175, New: 28.1'
+  source: https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E75L
+  kind: lease
+  value: 206
+  scale: k
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2018: Emb 175, New: 206'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E75L
+  kind: value
+  value: 27.5
+  scale: m
+  currency: USD
+  month: 2018-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2018: Emb 175, New: 27.5'
+  source: https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E75L
+  kind: lease
+  value: 182
+  scale: k
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2019: Emb 175, New: 182'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E75L
+  kind: value
+  value: 26.8
+  scale: m
+  currency: USD
+  month: 2019-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2019: Emb 175, New: 26.8'
+  source: https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+- icao: E75L
+  kind: lease
+  value: 123
+  scale: k
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet lease rates ($''000s/month), as at end-October 2020: Emb 175, New: 123'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: ставка AVAC, рыночная, оценена отдельно от стоимости
+  checked: '2026-11-10'
+- icao: E75L
+  kind: value
+  value: 18.9
+  scale: m
+  currency: USD
+  month: 2020-10
+  age: new
+  quote: 'Jet values ($m), as at end-October 2020: Emb 175, New: 18.9'
+  source: https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates
+  publisher: Aviation Strategy (данные AVAC)
+  note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
+  checked: '2026-11-10'
+searched:
+  A19N: '2026-11-10'
+  A20N: '2026-11-10'
+  A21N: '2026-11-10'
+  A319: '2026-11-10'
+  A320: '2026-11-10'
+  A321: '2026-11-10'
+  A332: '2026-11-10'
+  A333: '2026-11-10'
+  A339: '2026-11-10'
+  A359: '2026-11-10'
+  A35K: '2026-11-10'
+  B38M: '2026-11-10'
+  B39M: '2026-11-10'
+  B738: '2026-11-10'
+  B77W: '2026-11-10'
+  B788: '2026-11-10'
+  B789: '2026-11-10'
+  BCS3: '2026-11-10'
+  E295: '2026-11-10'
+  E75L: '2026-11-10'
