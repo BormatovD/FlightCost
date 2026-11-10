@@ -1,8 +1,9 @@
-"""Запуск агента обновления данных — OpenClaw в клетке.
+"""Запуск агента обновления данных — OpenAI Responses через OpenClaw в клетке.
 
     python -m flightcostapp.agent_run submissions   # разобрать присланное боту
     python -m flightcostapp.agent_run charges       # следующий тариф из data/charges/_todo.yaml
     python -m flightcostapp.agent_run --check       # конфиг, ключ, бюджет — без вызова модели
+    python -m flightcostapp.agent_run smoke         # два коротких платных прогона, без документов
 
 Разделение труда (чекап, раздел 3): всё, что можно сделать программой,
 делает эта программа — скачать документ, вынуть из PDF текст, проверить
@@ -20,8 +21,9 @@
 Деньги: каждый запуск пишет costUsd из ответа OpenClaw в журнал
 ledger.jsonl. Месячный потолок FCA_AGENT_MONTH_USD — дальше задания не
 запускаются, владелец получает сообщение. Жёсткий потолок всё равно
-ставится в консоли Anthropic на рабочем пространстве ключа: программа
-узнаёт стоимость только после запуска.
+настраивается отдельно в проекте OpenAI API: уведомление о расходах само
+по себе не останавливает запросы. Программа узнаёт стоимость после запуска;
+ни этот порог, ни лимит платформы не обещают остановку с точностью до цента.
 """
 
 from __future__ import annotations
@@ -29,6 +31,7 @@ from __future__ import annotations
 import argparse
 import fcntl
 import json
+import math
 import os
 import re
 import shutil
@@ -51,16 +54,19 @@ KEEP_DAYS = 30
 UA = "FlightCostApp/1.0 (+https://flightcost.app)"
 MAX_DOC = 30 * 1024 * 1024
 
-# Модель — самая дешёвая из подходящих (решение чекапа): Haiku — разбор
-# присланного, Sonnet — тарифы (закрытая схема, условия, признаки
-# начисления). Opus — только руками, через --model, когда эти не справились.
+# Две прежние роли сохраняются: Luna — извлечение и регулярные проверки,
+# Sol — тарифы с закрытой схемой и условиями начисления. Astra доступна
+# только явно через --model. Модели, API и тарифы закреплены также в
+# deploy/agent/openclaw.json5; автоматического выбора другого провайдера нет.
+OPENAI_MODELS = {"openai/gpt-6-luna", "openai/gpt-6.1-sol", "openai/gpt-6-astra"}
 JOBS = {
-    "submissions": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
-    "charges": {"model": "anthropic/claude-sonnet-5-5", "timeout": 1500},
-    "watch": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
-    "fuel": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
-    "night": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
-    "prices": {"model": "anthropic/claude-haiku-5-5", "timeout": 1200},
+    "submissions": {"model": "openai/gpt-6-luna", "timeout": 600},
+    "charges": {"model": "openai/gpt-6.1-sol", "timeout": 1500},
+    "watch": {"model": "openai/gpt-6-luna", "timeout": 600},
+    "fuel": {"model": "openai/gpt-6-luna", "timeout": 900},
+    "night": {"model": "openai/gpt-6-luna", "timeout": 900},
+    "prices": {"model": "openai/gpt-6-luna", "timeout": 1200},
+    "smoke": {"model": "openai/gpt-6-luna", "timeout": 120},
 }
 
 RULES = """# Общие правила (для любого задания)
@@ -79,6 +85,8 @@ RULES = """# Общие правила (для любого задания)
 7. Ты ничего не принимаешь в справочник и ничего не публикуешь. Результат — один файл в
    `out/`; его проверяет программа и принимает человек.
 8. В конце ответь одной-двумя фразами: что сделано и в чём сомневаешься.
+9. Для PDF и XLSX сначала читай подготовленный рядом `*.txt`. Инструмент `pdf`
+   используй, если текста нет, он не извлечён или для ответа требуется сама таблица/изображение.
 """
 
 SUBMISSION_TASK = """# Задание: черновик разбора присланного
@@ -308,13 +316,40 @@ def _now() -> datetime:
 
 
 def _api_key() -> str | None:
+    """Ключ API из OPENAI_API_KEY, в службе — через /etc/fca/agent.env.
+
+    Файл и systemd credential остаются необязательными способами запуска.
+    Они не перекрывают ключ из окружения. Ключ Anthropic не читается.
+    """
+    key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if key:
+        return key
     cd = os.environ.get("CREDENTIALS_DIRECTORY")
-    for p in ([Path(cd) / "anthropic"] if cd else []) + [Path(os.environ.get("FCA_ANTHROPIC_KEY_FILE", "/nonexistent"))]:
+    key_file = os.environ.get("FCA_OPENAI_KEY_FILE")
+    if cd or key_file:
+        p = Path(cd) / "openai" if cd else Path(key_file)
         if p.is_file():
-            k = p.read_text("utf-8").strip()
-            if k:
-                return k
+            return p.read_text("utf-8").strip() or None
+        return None
     return None
+
+
+def _model(job: str, override: str | None = None) -> str:
+    model = override or JOBS[job]["model"]
+    if model.startswith("gpt-"):
+        model = "openai/" + model
+    if model not in OPENAI_MODELS:
+        raise ValueError("модель не настроена для OpenAI API: " + model
+                         + "; разрешены " + ", ".join(sorted(OPENAI_MODELS)))
+    return model
+
+
+def _reported_cost(result: dict) -> float | None:
+    """Недостоверный расход не превращается в бесплатный прогон."""
+    cost = result.get("costUsd")
+    if isinstance(cost, bool) or not isinstance(cost, (int, float)):
+        return None
+    return float(cost) if math.isfinite(cost) and cost >= 0 else None
 
 
 def month_spent(ledger: Path, now: datetime | None = None) -> float:
@@ -364,8 +399,11 @@ def extract_text(src: Path) -> str | None:
     return None
 
 
-AUTH_ERRORS = ("authentication_error", "invalid x-api-key", "couldn't sign in", "api key expired",
-               "permission_error")
+AUTH_ERRORS = ("authentication_error", "invalid_api_key", "incorrect api key", "api key expired",
+               "permission_error", "invalid api key", "401 unauthorized")
+QUOTA_ERRORS = ("insufficient_quota", "billing_hard_limit_reached", "project_spend_limit_exceeded",
+                "organization_spend_limit_exceeded", "organization_usage_limit_exceeded",
+                "credit_balance_exhausted")
 EXTRACT_TIMEOUT = 120
 EXTRACT_MEM = 1024 * 1024 * 1024
 
@@ -396,6 +434,9 @@ def extract_text_safe(src: Path) -> str | None:
     try:
         r = subprocess.run([sys.executable, "-m", "flightcostapp.agent_run", "--extract", str(src)],
                            capture_output=True, timeout=EXTRACT_TIMEOUT + 10, preexec_fn=_limits,
+                           env={k: v for k, v in os.environ.items()
+                                if k not in {"OPENAI_API_KEY", "ANTHROPIC_API_KEY",
+                                             "FCA_OPENAI_KEY_FILE", "CREDENTIALS_DIRECTORY"}},
                            cwd=str(ROOT))
     except subprocess.TimeoutExpired:
         return f"(текст не извлечён: разбор дольше {EXTRACT_TIMEOUT} с)"
@@ -437,6 +478,8 @@ class Runner:
     def __init__(self, home: Path = HOME, *, openclaw: str = OPENCLAW, config: str = CONFIG,
                  month_usd: float = MONTH_USD, run_usd: float = RUN_USD, spool: Path | None = None):
         self.home, self.openclaw, self.config = home, openclaw, config
+        if not all(math.isfinite(n) and n > 0 for n in (month_usd, run_usd)):
+            raise ValueError("бюджеты агента должны быть конечными положительными числами")
         self.month_usd, self.run_usd = month_usd, run_usd
         self.spool = spool
         self.ledger = home / "ledger.jsonl"
@@ -483,7 +526,7 @@ class Runner:
         """Прогоны и отложенные отправки — не дольше KEEP_DAYS: это копии
         присланного людьми, и политика не обещает хранить их вечно."""
         cutoff = time.time() - KEEP_DAYS * 86400
-        for root in (self.home / "runs", self.home / "queue" / "failed"):
+        for root in (self.home / "runs", self.home / "queue" / "failed", self.home / "queue" / "held-provider"):
             if not root.is_dir():
                 continue
             for d in root.iterdir():
@@ -491,24 +534,26 @@ class Runner:
                     shutil.rmtree(d, ignore_errors=True)
 
     def exec(self, job: str, ws: Path, task: str, model: str | None = None) -> dict:
-        """Один прогон OpenClaw. Возвращает конверт agent exec --json."""
+        """Один прогон OpenAI через закреплённый OpenClaw; прежний контракт черновиков."""
+        selected_model = _model(job, model)
         (ws / "TASK.md").write_text(RULES + "\n" + task, "utf-8")
         key = _api_key()
         if not key:
-            raise RuntimeError("нет ключа Anthropic: /etc/fca/anthropic.key (LoadCredential=anthropic)")
+            raise RuntimeError("нет ключа OpenAI: задайте OPENAI_API_KEY в /etc/fca/agent.env; "
+                               "локально — OPENAI_API_KEY или FCA_OPENAI_KEY_FILE")
         spec = JOBS[job]
         env = {"PATH": "/usr/local/bin:/usr/bin:/bin", "HOME": str(self.home / "home"),
-               "ANTHROPIC_API_KEY": key, "DO_NOT_TRACK": "1", "NO_COLOR": "1", "LANG": "C.UTF-8",
+               "OPENAI_API_KEY": key, "DO_NOT_TRACK": "1", "NO_COLOR": "1", "LANG": "C.UTF-8",
                "TZ": "UTC"}
         cmd = [self.openclaw, "agent", "exec", "--config", self.config, "--cwd", str(ws),
-               "--model", model or spec["model"], "--json", "--timeout", str(spec["timeout"]),
+               "--model", selected_model, "--json", "--timeout", str(spec["timeout"]),
                "--message-file", str(ws / "TASK.md")]
         t0 = time.time()
         # Строка журнала пишется ДО прогона, с пессимистичной оценкой
         # (порог прогона), и уточняется после. Прогон, упавший по времени
         # или с ошибкой, иначе не попадал бы в журнал и в месячный потолок.
         self._ledger_put(ws.name, {"ts": _now().isoformat(timespec="seconds"), "job": job, "run": ws.name,
-                                   "model": model or spec["model"], "status": "running",
+                                   "model": selected_model, "status": "running",
                                    "cost_usd": self.run_usd, "estimated": True})
         try:
             r = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=str(ws),
@@ -518,35 +563,55 @@ class Runner:
             stdout = ""
             stderr = (e.stderr.decode("utf-8", "replace") if isinstance(e.stderr, bytes) else (e.stderr or ""))
             stdout = '{"ok": false, "status": "timeout", "error": {"message": "прогон снят по времени"}}'
+        stdout, stderr = stdout.replace(key, "[REDACTED]"), stderr.replace(key, "[REDACTED]")
         (ws / "openclaw.stderr.log").write_text(stderr[-200_000:], "utf-8")
         try:
             env_out = json.loads(stdout)
         except ValueError:
             env_out = {"ok": False, "status": "error", "error": {"message": stdout[-500:] or stderr[-500:]}}
+        if not isinstance(env_out, dict):
+            env_out = {"ok": False, "status": "error", "error": {"message": "ответ агента не объект"}}
+        reported_cost = _reported_cost(env_out)
+        # В OpenClaw 2026.10.5 PDF вызывает дополнительную модель, но её
+        # usage не входит в costUsd и не возвращается в конверте. Не выдаём
+        # стоимость основного диалога за полную: резервируем бюджет и
+        # останавливаем пакет после этого документа. Проверено Cage.
+        pdf_usage_missing = "pdf" in (env_out.get("toolSummary") or {}).get("tools", [])
+        cost = None if pdf_usage_missing else reported_cost
+        reserve = (reported_cost or 0.0) + self.run_usd if pdf_usage_missing else self.run_usd
+        if pdf_usage_missing:
+            env_out["reportedCostUsd"] = reported_cost
+            env_out["costIncompleteReason"] = "pdf_auxiliary_usage_not_reported"
+        env_out["costUsd"] = cost
         (ws / "result.json").write_text(json.dumps(env_out, ensure_ascii=False, indent=1), "utf-8")
-        cost = env_out.get("costUsd")
         err = json.dumps(env_out.get("error") or {}, ensure_ascii=False).lower() + stderr[-4000:].lower()
         if env_out.get("status") != "ok" and any(m in err for m in AUTH_ERRORS):
-            # Ключ не принят — модель не вызывалась и денег не тратила. Это не
-            # «неизвестная стоимость», а истёкший или отозванный ключ: так и
-            # сказать, оценку в журнал не писать, прогоны остановить.
-            cost = 0.0
-            self.say("Агент: ключ Anthropic не принят — истёк или отозван. Новый ключ в пространстве "
-                     "flightcost-agent → /etc/fca/anthropic.key на сервере (deploy/README.md, «Бот и агент»).",
+            # Ошибка ключа на позднем шаге не отменяет оплаченные первые шаги.
+            # Ноль принимается только если сама оболочка сообщила costUsd=0.
+            self.say("Агент: ключ OpenAI не принят или не имеет доступа. Проверьте OPENAI_API_KEY "
+                     "в /etc/fca/agent.env на сервере (deploy/README.md, «Бот и агент»).",
                      "alert")
             self.stop = True
+        if env_out.get("status") != "ok" and any(m in err for m in QUOTA_ERRORS):
+            self.say("Агент: OpenAI API остановил запросы из-за баланса или лимита проекта. "
+                     "Проверьте Billing / Limits проекта flightcost-agent.", "alert")
+            self.stop = True
         self._ledger_put(ws.name, {"ts": _now().isoformat(timespec="seconds"), "job": job, "run": ws.name,
-                                   "model": env_out.get("model") or model or spec["model"],
+                                   "model": env_out.get("model") or selected_model,
+                                   "provider": "openai",
                                    "status": env_out.get("status"),
-                                   "cost_usd": cost if cost is not None else self.run_usd,
+                                   "cost_usd": cost if cost is not None else reserve,
+                                   "reported_cost_usd": reported_cost,
                                    "estimated": cost is None, "usage": env_out.get("usage"),
                                    "sec": round(time.time() - t0)})
         if cost is None:
             # Неизвестная стоимость — не предупреждение, а остановка: дальше
             # бюджет считать нечем. Записан порог прогона как оценка.
-            self.say(f"Агент «{job}»: OpenClaw не сообщил стоимость (статус {env_out.get('status')}). "
-                     f"В журнал записано {self.run_usd:.2f} USD как оценка; прогоны этого запуска "
-                     "остановлены — сверьте с консолью Anthropic.", "warn")
+            reason = ("OpenClaw не учитывает вспомогательный вызов модели для PDF в общей стоимости"
+                      if pdf_usage_missing else f"OpenClaw не сообщил стоимость (статус {env_out.get('status')})")
+            self.say(f"Агент «{job}»: {reason}. "
+                     f"В журнал записано {reserve:.2f} USD как оценка; прогоны этого запуска "
+                     "остановлены — сверьте с Usage проекта OpenAI API.", "warn")
             self.stop = True
         elif cost > self.run_usd:
             self.say(f"Агент «{job}»: прогон стоил {cost:.2f} USD (порог {self.run_usd:.2f}).", "warn")
@@ -572,6 +637,17 @@ class Runner:
             ws = self.workspace("sub", sid)
             corpus = []
             try:
+                # Прежняя форма бота называла Anthropic. Такие документы
+                # не отправляются новому обработчику автоматически.
+                meta = json.loads((item / "meta.json").read_text("utf-8"))
+                if meta.get("ai_provider") != "openai":
+                    held = queue / "held-provider"
+                    held.mkdir(exist_ok=True)
+                    item.rename(held / f"{item.name}-{_now():%Y%m%d%H%M%S}")
+                    self.say(f"Отправка #{sid} отложена в agent/queue/held-provider: в анкете нет "
+                             "согласия на обработку OpenAI. Разберите её вручную или попросите "
+                             "автора отправить через обновлённую форму; в API документы не переданы.", "warn")
+                    continue
                 self._prepare(item, ws, corpus)
                 res = self.exec("submissions", ws, SUBMISSION_TASK, model)
             except Exception as e:                                 # noqa: BLE001
@@ -587,6 +663,29 @@ class Runner:
             shutil.rmtree(item, ignore_errors=True)
             done += 1
         return done
+
+    def smoke(self, model: str | None = None) -> bool:
+        """Явная платная проверка двух рабочих моделей без пользовательских данных."""
+        models = [_model("smoke", model)] if model else list(dict.fromkeys(
+            spec["model"] for name, spec in JOBS.items() if name != "smoke"))
+        passed = True
+        for selected in models:
+            if self.stop or not self.budget_ok("smoke"):
+                return False
+            ws = self.workspace("smoke", selected.split("/", 1)[1])
+            res = self.exec("smoke", ws,
+                            'Проверка API. Не обращайся в интернет и не читай документы. '
+                            'Инструментом write запиши out/probe.json с содержимым '
+                            '{"provider":"openai","ok":true}. После записи ответь «готово».', selected)
+            try:
+                probe = json.loads((ws / "out" / "probe.json").read_text("utf-8"))
+            except (OSError, ValueError):
+                probe = None
+            ok = (res.get("status") == "ok" and _reported_cost(res) is not None
+                  and probe == {"provider": "openai", "ok": True})
+            passed = passed and ok
+            print(f"{selected}: {'OK' if ok else 'ОШИБКА'}; costUsd={res.get('costUsd')}")
+        return passed
 
     def _prepare(self, item: Path, ws: Path, corpus: list):
         for f in item.iterdir():
@@ -973,7 +1072,7 @@ def fill_source_url(path: Path, known: str | None, res: dict, ws: Path) -> str:
     for t in texts:
         for u in _URL_RX.findall(t):
             u = u.rstrip(".,;:")
-            if u not in seen and not re.search(r"anthropic|openclaw|github\.com|localhost", u):
+            if u not in seen and not re.search(r"openai|anthropic|openclaw|github\.com|localhost", u):
                 seen.append(u)
     docs = [u for u in seen if re.search(r"\.pdf(\?|$)|tariff|rates|charges|fees|rules|regulat", u, re.I)] or seen
     if len(docs) == 1:
@@ -988,7 +1087,7 @@ def fill_source_url(path: Path, known: str | None, res: dict, ws: Path) -> str:
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="python -m flightcostapp.agent_run")
     p.add_argument("job", nargs="?", choices=sorted(JOBS) + ["check"])
-    p.add_argument("--model", help="другая модель на один прогон, напр. anthropic/claude-opus-5-5")
+    p.add_argument("--model", help="модель OpenAI на один прогон, напр. openai/gpt-6-astra")
     p.add_argument("--only", help="charges: ИКАО через запятую")
     p.add_argument("--check", action="store_true")
     p.add_argument("--extract", help=argparse.SUPPRESS)       # служебное: текст файла в stdout
@@ -1010,17 +1109,33 @@ def main(argv=None) -> int:
             ok = v.returncode == 0
             ver = (v.stdout or v.stderr).strip().splitlines()[-1] if (v.stdout or v.stderr) else ""
         print(f"openclaw: {r.openclaw} — {ver if ok else 'НЕ ЗАПУСКАЕТСЯ ' + ver}")
-        print(f"конфиг:   {r.config} — {'есть' if Path(r.config).exists() else 'НЕТ'}")
-        print(f"ключ:     {'есть' if _api_key() else 'НЕТ'}")
+        valid_config = False
+        if ok and Path(r.config).is_file():
+            # validate проверяет схему локально; ключ и модель не вызывает.
+            v = subprocess.run([r.openclaw, "config", "validate", "--json"],
+                               capture_output=True, text=True, timeout=120,
+                               env={"PATH": "/usr/local/bin:/usr/bin:/bin", "HOME": str(HOME / "home"),
+                                    "OPENCLAW_CONFIG_PATH": r.config, "NO_COLOR": "1", "DO_NOT_TRACK": "1"})
+            valid_config = v.returncode == 0
+            if not valid_config:
+                print((v.stdout or v.stderr)[-2000:])
+        print(f"конфиг:   {r.config} — {'проверен' if valid_config else 'НЕ ПРОШЁЛ ПРОВЕРКУ'}")
+        print(f"API:      OpenAI Responses (ключ проекта, не вход в ChatGPT)")
+        print(f"модели:   {', '.join(sorted({s['model'] for s in JOBS.values()}))}")
+        print(f"ключ OpenAI: {'есть' if _api_key() else 'НЕТ'}")
         print(f"бюджет:   {month_spent(r.ledger):.2f} из {r.month_usd:.0f} USD за месяц")
-        return 0 if ok and _api_key() else 2
+        return 0 if ok and valid_config and _api_key() else 2
+    HOME.mkdir(parents=True, exist_ok=True)
     lock = open(HOME / ".lock", "w")
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
+        lock.close()
         print("другой прогон агента ещё идёт")
-        return 0
+        return 2 if a.job == "smoke" else 0
     r.prune()
+    if a.job == "smoke":
+        return 0 if r.smoke(a.model) else 2
     if a.job == "submissions":
         n = r.submissions(HOME / "queue", a.model)
         print(f"разобрано отправок: {n}")

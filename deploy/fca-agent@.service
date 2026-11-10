@@ -1,30 +1,30 @@
 # Агент обновления данных: один прогон задания %i (flightcostapp/agent_run.py,
 # внутри — OpenClaw `agent exec` с закреплённым конфигом deploy/agent/openclaw.json5).
-# Запускают таймеры fca-agent-submissions.timer и fca-agent-charges.timer.
+# Шесть заданий: submissions, charges, watch, fuel, night, prices.
 #
 # Клетка — здесь, а не в OpenClaw: отдельный пользователь agent, запись
 # только в /srv/fca/agent и в ящик сообщений; справочник, база витрины,
 # база наблюдений, бот и ключи закрыты. Сам OpenClaw лежит в
 # /srv/fca/openclaw (владелец root) — переписать свой бинарник агент не может.
-# Ключ Anthropic — через LoadCredential, в процесс модели не попадает.
+# Ключ OpenAI — OPENAI_API_KEY в /etc/fca/agent.env (root:root, 0600).
+# systemd передаёт его исполнителю, тот — OpenClaw; в файлы задания
+# и окружение парсера документов ключ не попадает.
 [Unit]
 Description=FlightCostApp — агент: %i
 After=network-online.target
 Wants=network-online.target
-ConditionPathExists=/etc/fca/anthropic.key
 OnFailure=fca-notify@%n.service
 
 [Service]
 Type=oneshot
 User=agent
 WorkingDirectory=/srv/fca/agent
-EnvironmentFile=-/etc/fca/agent.env
+EnvironmentFile=/etc/fca/agent.env
 Environment=FCA_AGENT_HOME=/srv/fca/agent
 Environment=FCA_SPOOL=/srv/fca/spool
 Environment=FCA_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/openclaw
 Environment=HOME=/srv/fca/agent/home
 Environment=PYTHONUNBUFFERED=1
-LoadCredential=anthropic:/etc/fca/anthropic.key
 ExecStart=/srv/fca/venv/bin/python -m flightcostapp.agent_run %i
 TimeoutStartSec=1h
 UMask=0007

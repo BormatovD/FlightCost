@@ -5,25 +5,86 @@
 // 18789, ни каналов: каждый прогон — один процесс, временное состояние,
 // уборка за собой.
 //
-// Модель видит ровно четыре инструмента: read, write (только в папке задания),
-// web_fetch и skills_read (встроенных навыков ноль). Командной строки нет:
+// Модель видит read, write (только в папке задания), web_fetch и pdf.
+// Встроенных навыков ноль. Командной строки нет:
 // exec запрещён и режимом, и списком. Проверяет tests/test_agent.py на макете
 // API — если новая версия OpenClaw добавит инструмент мимо этого списка, тест
 // упадёт до выкладки. Версия закреплена в deploy/bootstrap.sh (OPENCLAW_VERSION).
 //
-// Ключ Anthropic сюда не пишется: он приходит переменной окружения только в
+// Ключ OpenAI сюда не пишется: он приходит переменной окружения только в
 // процесс OpenClaw (systemd LoadCredential → agent_run.py).
 {
+  // Только Platform API key, Responses API и встроенная оболочка OpenClaw.
+  // Явный runtime не даёт openai/* автоматически перейти на Codex/OAuth.
+  // OpenClaw 2026.10.5 принудительно включает store:true для api.openai.com;
+  // отключение server compaction ниже НЕ отключает хранение Responses.
+  // Цены Standard за 1 млн токенов, проверены 10.11.2026:
+  // https://developers.openai.com/api/docs/models/gpt-6-luna
+  // https://developers.openai.com/api/docs/models/gpt-6.1-sol
+  // https://developers.openai.com/api/docs/models/gpt-6-astra
+  models: {
+    mode: "replace",
+    providers: {
+      openai: {
+        baseUrl: "https://api.openai.com/v1",
+        api: "openai-responses",
+        auth: "api-key",
+        apiKey: { source: "env", provider: "default", id: "OPENAI_API_KEY" },
+        agentRuntime: { id: "openclaw" },
+        models: [
+          { id: "gpt-6-luna", name: "GPT-6 Luna", reasoning: true, input: ["text", "image"],
+            contextWindow: 1050000, contextTokens: 262144, maxTokens: 32768,
+            cost: { input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite: 0.125,
+              tieredPricing: [
+                { range: [0, 272001], input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite: 0.125 },
+                { range: [272001], input: 0.2, output: 0.75, cacheRead: 0.02, cacheWrite: 0.25 },
+              ] },
+          },
+          { id: "gpt-6.1-sol", name: "GPT-6.1 Sol", reasoning: true, input: ["text", "image"],
+            contextWindow: 1050000, contextTokens: 262144, maxTokens: 32768,
+            cost: { input: 2, output: 10, cacheRead: 0.1, cacheWrite: 2.5,
+              tieredPricing: [
+                { range: [0, 272001], input: 2, output: 10, cacheRead: 0.1, cacheWrite: 2.5 },
+                { range: [272001], input: 4, output: 15, cacheRead: 0.2, cacheWrite: 5 },
+              ] },
+          },
+          { id: "gpt-6-astra", name: "GPT-6 Astra", reasoning: true, input: ["text", "image"],
+            contextWindow: 1050000, contextTokens: 262144, maxTokens: 32768,
+            cost: { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5,
+              tieredPricing: [
+                { range: [0, 272001], input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
+                { range: [272001], input: 20, output: 75, cacheRead: 2, cacheWrite: 25 },
+              ] },
+          },
+        ],
+      },
+    },
+  },
   agents: {
     defaults: {
-      model: { primary: "anthropic/claude-haiku-5-5" },
-      pdfModel: { primary: "anthropic/claude-haiku-5-5" },
+      model: { primary: "openai/gpt-6-luna", fallbacks: [] },
+      pdfModel: { primary: "openai/gpt-6-luna", fallbacks: [] },
+      modelPolicy: { allow: ["openai/gpt-6-luna", "openai/gpt-6.1-sol", "openai/gpt-6-astra"] },
+      // Пустой skills.allowBundled в OpenClaw означает «все»; этот фильтр — «ни одного».
+      skills: [],
+      thinkingDefault: "low",
+      models: {
+        "openai/gpt-6-luna": { params: { thinking: "low", serviceTier: "default", transport: "sse",
+          responsesServerCompaction: false, responsesCompactEndpoint: false } },
+        "openai/gpt-6.1-sol": { params: { thinking: "medium", serviceTier: "default", transport: "sse",
+          responsesServerCompaction: false, responsesCompactEndpoint: false } },
+        "openai/gpt-6-astra": { params: { thinking: "medium", serviceTier: "default", transport: "sse",
+          responsesServerCompaction: false, responsesCompactEndpoint: false } },
+      },
       pdfMaxMb: 30,
       sandbox: { mode: "off" },   // клетка — systemd (fca-agent@.service), не Docker
       skipBootstrap: true,
     },
   },
   tools: {
+    // agent exec по умолчанию выбирает coding, который отсекает pdf до allow.
+    // Полный профиль здесь всё равно ограничен точным списком allow ниже.
+    profile: "full",
     allow: ["read", "write", "web_fetch", "pdf"],
     deny: ["exec", "process", "terminal", "code_execution", "browser", "apply_patch", "edit",
            "web_search", "x_search", "message", "sessions_spawn", "subagents", "cron",
@@ -42,7 +103,11 @@
     },
   },
   skills: { allowBundled: [] },
-  plugins: { enabled: false },
+  // PDF — инструмент ядра, но в 2026.10.5 требует включённого провайдера.
+  // Только поставляемые с OpenClaw провайдер и локальный разбор документов.
+  // document-extract нужен pdf для текста/страниц перед передачей в OpenAI.
+  plugins: { enabled: true, allow: ["openai", "document-extract"],
+    entries: { openai: { enabled: true }, "document-extract": { enabled: true } } },
   telemetry: { enabled: false },
   update: { checkOnStart: false, auto: { enabled: false } },
 }

@@ -105,7 +105,7 @@ T = {
         "rates_check": "Ставки лизинга и ТОиР храним только для проверки — они нигде не публикуются.",
         "q_author": "Подписать? Напишите, как указать автора, или «Пропустить» — тогда анонимно.",
         "confirm": ("Проверьте и отправьте:\n\n{card}\n\nОтправляя, вы соглашаетесь: файлы и ответы хранятся "
-                    "на нашем сервере; документы может прочитать модель Claude (Anthropic, США), чтобы "
+                    "на нашем сервере; документы может прочитать модель OpenAI через API, чтобы "
                     "подготовить черновик разбора, — решение принимает человек. /privacy — подробнее."),
         "thanks": ("Спасибо! Принято под номером #{id}. Мы проверим и ответим здесь. "
                    "Чат храним только до ответа."),
@@ -117,7 +117,8 @@ T = {
         "rejected": "Ваша отправка #{id} ({what}) не принята. Причина: {why}",
         "privacy": ("Что бот хранит: присланные файлы и ответы на вопросы; номер чата — только до "
                     "нашего ответа (не дольше 90 дней). Имя и ник не сохраняем. Документы может прочитать "
-                    "модель Claude (Anthropic) для черновика разбора; Anthropic не обучает на них модели. "
+                    "модель OpenAI через API для черновика разбора; по умолчанию OpenAI не использует "
+                    "данные API для обучения моделей. "
                     "Отозвать согласие и удалить присланное — письмом по адресу из Impressum. Подробнее: "
                     "https://flightcost.app/datenschutz"),
     },
@@ -149,7 +150,7 @@ T = {
         "rates_check": "Lease and MRO rates are always kept check-only — they are never published.",
         "q_author": "Credit you? Type how to name the author, or “Skip” to stay anonymous.",
         "confirm": ("Please check and send:\n\n{card}\n\nBy sending you agree: files and answers are stored on "
-                    "our server; documents may be read by the Claude model (Anthropic, USA) to draft an "
+                    "our server; documents may be read by an OpenAI model through the API to draft an "
                     "extraction — a human decides. /privacy for details."),
         "thanks": ("Thank you! Received as #{id}. We will check it and reply here. "
                    "We keep this chat only until we reply."),
@@ -161,7 +162,8 @@ T = {
         "rejected": "Your submission #{id} ({what}) was not accepted. Reason: {why}",
         "privacy": ("What the bot stores: your files and answers; the chat id only until we reply "
                     "(at most 90 days). We don't store your name or username. Documents may be read by the "
-                    "Claude model (Anthropic) to draft an extraction; Anthropic does not train on them. To "
+                    "OpenAI model through the API to draft an extraction; OpenAI does not use API data "
+                    "to train models by default. To "
                     "withdraw consent and delete your submission, email the address in our Impressum. Details: "
                     "https://flightcost.app/datenschutz"),
     },
@@ -552,6 +554,7 @@ class FcaBot:
             shutil.copyfile(self.home / "files" / f["path"], d / Path(f["path"]).name, follow_symlinks=False)
         meta = {k: row[k] for k in ("id", "kind", "what", "origin", "as_of", "usage", "note")}
         meta["names"] = [f["name"] for f in files]
+        meta["ai_provider"] = "openai"
         (d / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1), "utf-8")
         d.rename(AGENT_QUEUE / f"sub-{sid}")
 

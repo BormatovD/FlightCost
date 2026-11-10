@@ -152,7 +152,7 @@ print(json.dumps({{"ok": True, "status": "ok", "final": "готово", "costUsd
         oc.chmod(oc.stat().st_mode | stat.S_IEXEC)
         key = tmp / "key"
         key.write_text("sk-test")
-        with mock.patch.dict(os.environ, {"FCA_ANTHROPIC_KEY_FILE": str(key)}):
+        with mock.patch.dict(os.environ, {"FCA_OPENAI_KEY_FILE": str(key), "CREDENTIALS_DIRECTORY": ""}):
             r = A.Runner(tmp / "agent", openclaw=str(oc), config=str(ROOT / "deploy" / "agent" / "openclaw.json5"),
                          spool=tmp / "spool")
             n = r.fuel(today=__import__("datetime").date(2026, 12, 8))

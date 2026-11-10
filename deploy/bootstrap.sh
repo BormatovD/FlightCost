@@ -331,7 +331,7 @@ else
 	echo "бот НЕ запущен: нужны /etc/fca/bot.token и /etc/fca/bot.env — deploy/README.md, «Бот и агент»"
 fi
 
-say "агент обновления данных (OpenClaw)"
+say "агент обновления данных (OpenClaw → OpenAI Responses API)"
 install -m 644 "$ROOT/app/deploy/fca-agent@.service" "$ROOT/app/deploy/fca-agent-submissions.timer" \
 	"$ROOT/app/deploy/fca-agent-charges.timer" "$ROOT/app/deploy/fca-agent-watch.timer" \
 	"$ROOT/app/deploy/fca-agent-fuel.timer" "$ROOT/app/deploy/fca-agent-night.timer" \
@@ -341,7 +341,15 @@ install -m 644 "$ROOT/app/deploy/fca-agent@.service" "$ROOT/app/deploy/fca-agent
 install -d /etc/systemd/system/fca-agent@.service.d
 printf '[Service]\nIPAddressDeny=%s\n' "$(hostname -I)" > /etc/systemd/system/fca-agent@.service.d/10-host.conf
 systemctl daemon-reload
-if [ -s /etc/fca/anthropic.key ]; then
+# agent.env читает systemd; не исполняем его как shell-скрипт. Учитываем
+# последнее присваивание: пустой ключ оставляет расписание выключенным.
+if [ -f /etc/fca/agent.env ] && awk '
+  /^[[:space:]]*OPENAI_API_KEY=/ {
+    value = substr($0, index($0, "=") + 1)
+    gsub(/^[[:space:]"\047]+|[[:space:]"\047]+$/, "", value)
+  }
+  END { exit (value == "") }
+' /etc/fca/agent.env; then
 	systemctl enable --now --quiet fca-agent-submissions.timer
 	systemctl enable --now --quiet fca-agent-charges.timer
 	systemctl enable --now --quiet fca-agent-watch.timer
@@ -350,7 +358,7 @@ if [ -s /etc/fca/anthropic.key ]; then
 	systemctl enable --now --quiet fca-agent-prices.timer
 	echo "таймеры агента включены"
 else
-	echo "агент НЕ включён: нет ключа /etc/fca/anthropic.key — deploy/README.md, «Бот и агент»"
+	echo "агент НЕ включён: нет OPENAI_API_KEY в /etc/fca/agent.env — deploy/README.md, «Бот и агент»"
 fi
 
 # Без домена — адрес сервера по http, а не `:80`: catch-all `:80` спорит с
