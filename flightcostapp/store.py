@@ -385,17 +385,20 @@ class Store:
                 out[icao] = key
         return out
 
-    def count_keys(self, domain: str, as_of=None) -> int:
+    def count_keys(self, domain: str, as_of=None, *, source_id: str | None = None) -> int:
         """Сколько ключей действует в домене. Дешёвый COUNT вместо обхода
         всех ключей через get(): на 48 тыс. аэропортов разница между одним
-        запросом и сорока восемью тысячами."""
+        запросом и сорока восемью тысячами. Для проверки полноты поставки
+        source_id ограничивает сравнение прежними данными того же источника."""
         as_of = _as_str(as_of or date.today())
-        return self.db.execute(
-            """SELECT COUNT(DISTINCT key) c FROM facts
-               WHERE domain = ? AND valid_from <= ?
-                 AND (valid_to IS NULL OR valid_to > ?)""",
-            (domain, as_of, as_of),
-        ).fetchone()["c"]
+        sql = """SELECT COUNT(DISTINCT key) c FROM facts
+                 WHERE domain = ? AND valid_from <= ?
+                   AND (valid_to IS NULL OR valid_to > ?)"""
+        params = [domain, as_of, as_of]
+        if source_id is not None:
+            sql += " AND source_id = ?"
+            params.append(source_id)
+        return self.db.execute(sql, params).fetchone()["c"]
 
     @staticmethod
     def _flat(value, field: str, key: str):

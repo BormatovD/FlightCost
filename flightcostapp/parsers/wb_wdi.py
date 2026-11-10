@@ -28,8 +28,15 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
         raise ValueError(f"ответ API не [meta, строки]: {str(d)[:200]}")
     meta, rows = d[0], d[1]
     if int(meta.get("pages", 1) or 1) > 1:
-        ctx.setdefault("summary", []).append(f"ВНИМАНИЕ: страниц {meta.get('pages')}, разобрана первая — "
-                                             "увеличьте per_page в адресе")
+        raise ValueError(f"неполный ответ API: страниц {meta.get('pages')}, получена только одна; "
+                         "увеличьте per_page в адресе")
+    if meta.get("total") is not None:
+        try:
+            total = int(str(meta["total"]))
+        except ValueError:
+            raise ValueError(f"некорректное число строк API total: {meta['total']!r}") from None
+        if total != len(rows):
+            raise ValueError(f"неполный ответ API: total={total}, получено строк {len(rows)}")
     out, kinds = [], set()
     for r in rows:
         v, ind, c, y = r.get("value"), (r.get("indicator") or {}).get("id"), (r.get("country") or {}).get("id"), r.get("date")

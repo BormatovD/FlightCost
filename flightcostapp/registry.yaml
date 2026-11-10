@@ -1031,7 +1031,7 @@ sources:
     title: Всемирный банк — население, ВВП на душу по ППС, въездной туризм по странам
     kind: url
     contour: deterministic
-    url: "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL;NY.GDP.PCAP.PP.KD;ST.INT.ARVL?source=2&format=json&per_page=50000&date=2005:2025"
+    url: "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL;NY.GDP.PCAP.PP.KD;ST.INT.ARVL?source=2&format=json&per_page=20000&date=2005:2025"
     public: full
     license: CC BY 4.0 (World Bank, World Development Indicators)
     parser: wb_wdi
@@ -1044,6 +1044,8 @@ sources:
     note: >
       Ключ не нужен. Строки агрегатов (регионы, группы дохода) остаются —
       к аэропорту по стране они не присоединяются.
+      Запрос с per_page=50000 API отклоняет; 20000 вмещает весь выбранный
+      ряд. Парсер проверяет pages и total, чтобы не принять часть ответа.
     validators:
       row_count_min: 3000
       row_count_drop_max_pct: 20
@@ -1092,7 +1094,7 @@ sources:
     title: Eurostat — ночёвки в гостиницах и прочем размещении по месяцам, регионы NUTS 2 (tour_occ_nin2m)
     kind: url
     contour: deterministic
-    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&sinceTimePeriod=2019-01"
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&sinceTimePeriod=2019"
     indicator: nights
     dims: {c_resid: [TOTAL, FOR]}
     unit_text: ночёвок в месяц

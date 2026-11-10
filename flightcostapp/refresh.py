@@ -312,7 +312,7 @@ def _process_directory(sid, src, store, files, report, today, dry_run,
         report["outcome"] = "unchanged"
         return report
 
-    prev_count = store.count_keys(src["domain"]) or None
+    prev_count = store.count_keys(src["domain"], source_id=sid) or None
     gate: GateResult = run_gate(facts, source=src, store=store,
                                 prev_count=prev_count, ctx=ctx_all)
     # Отвергнутый документ — находка уровня error, а не строка в поле,
@@ -424,7 +424,7 @@ def _process(sid, src, store, blob, media, url, report, today, dry_run,
         report["error"] = str(exc)
         return report
 
-    prev_count = store.count_keys(src["domain"]) or None
+    prev_count = store.count_keys(src["domain"], source_id=sid) or None
     gate: GateResult = run_gate(facts, source=src, store=store,
                                 prev_count=prev_count,
                                 ctx={"fx": _fx.make_fx(store, today)})

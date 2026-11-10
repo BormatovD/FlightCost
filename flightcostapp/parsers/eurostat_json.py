@@ -10,6 +10,8 @@ JSON-stat: `id` — порядок измерений, `size` — их разм�
 — код → позиция, `value` — словарь «плоский номер → значение» (пропуски не пишутся).
 
 Ключ: `nuts/<код NUTS>/<показатель>[.<код измерения>]/<период>`; период — год или ГГГГ-ММ.
+В tour_occ_nin2m год хранится в `time`, месяц — отдельно в `month` (M01–M12).
+Их объединяем в период; `month=TOTAL` — годовой итог, в месячный ряд не входит.
 Лицензия Eurostat — CC BY 4.0.
 """
 
@@ -21,11 +23,18 @@ import json
 
 from ..store import Fact
 
-WHO = "parser:eurostat_json@1"
+WHO = "parser:eurostat_json@2"
 
 
-def _period(p: str) -> tuple[str, str] | None:
+def _period(p: str, month: str | None = None) -> tuple[str, str] | None:
     p = p.strip()
+    if month is not None:
+        # У регионального туризма freq=A, хотя наблюдение относится к месяцу.
+        # TOTAL нельзя принять за январь или добавить к тем же месячным ключам.
+        if (len(p) != 4 or not p.isdigit() or len(month) != 3 or month[0] != "M"
+                or not month[1:].isdigit() or not 1 <= int(month[1:]) <= 12):
+            return None
+        p = f"{p}-{month[1:]}"
     if len(p) == 4 and p.isdigit():
         return p, f"{p}-01-01"
     if len(p) == 7 and p[4] in "-M" and p[:4].isdigit() and p[5:].isdigit():
@@ -70,10 +79,10 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     ind = ctx.get("indicator") or ctx["source_id"]
     want = ctx.get("dims") or {}
     unit = ctx.get("unit_text")
-    fixed = {"geo", "time", "freq"}
+    fixed = {"geo", "time", "freq", "month"}
     out, seen = [], set()
     for pos, v in decode(d):
-        per = _period(str(pos.get("time", "")))
+        per = _period(str(pos.get("time", "")), pos.get("month"))
         geo = pos.get("geo")
         if not per or not geo:
             continue
