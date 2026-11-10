@@ -71,6 +71,17 @@ class TypePage(unittest.TestCase):
             self.assertIn("Listenpreis", html)
             self.assertIn('href="https://example.org/a"', html)
             self.assertEqual(seo.prices_block("de", "A320"), "")
+            # заготовка лизинга — линией в долларах каждого года
+            obs = dict(OBS, observations=OBS["observations"] + [
+                {"icao": "A21N", "kind": "lease", "value": 400, "scale": "k", "currency": "USD", "month": "2019-10",
+                 "age": "new", "quote": "400", "source": "https://example.org/b"}])
+            p.write_text(yaml.safe_dump(obs), "utf-8")
+            h = seo.prices_block("ru", "A21N", 400000, True)
+            self.assertIn("class=l3", h)
+            self.assertIn("для нового борта", h)
+            pl = seo.param_lease_usd(100000, range(2019, 2027))
+            self.assertAlmostEqual(pl[-1][1], 116.0, places=6)          # 2026: 100 тыс. EUR × 1,16
+            self.assertLess(pl[0][1], pl[-1][1])                        # раньше — дешевле в номинале
         finally:
             PR.PATH = old
 

@@ -174,6 +174,12 @@ T = {
         "ts_kind": {"list": "каталог", "deal": "сделка", "value": "оценка рынка", "lease": "лизинг в месяц"},
         "ts_col": ("Месяц", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
         "ts_m_usd": "млн USD", "ts_k_usd": "тыс. USD в месяц",
+        "ts_param": "заготовка калькулятора ({age}), в долларах каждого года",
+        "ts_param_note": ("Линия — лизинг, который калькулятор подставляет без своих ставок: {eur} EUR в месяц на октябрь "
+                          "2026 года по курсу {fx} USD/EUR, пересчитан в доллары прошлых лет по индексу цен CPI-U США. "
+                          "Оценка — {age_for}; точки другого возраста с ней прямо не сравниваются."),
+        "ts_age_new": "новый борт", "ts_age_cur": "борт около 12 лет",
+        "ts_for_new": "для нового борта", "ts_for_cur": "для борта около 12 лет",
         "fleet_h": "Лизинг и ТОиР: оценка стоимости владения и обслуживания",
         "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
                        "Это параметрика, а не данные эксплуатанта: в расчёте каждую можно заменить своей."),
@@ -311,6 +317,12 @@ T = {
         "ts_kind": {"list": "list price", "deal": "deal", "value": "appraisal", "lease": "lease per month"},
         "ts_col": ("Month", "Kind", "Value", "Age", "Source"), "ts_new": "new",
         "ts_m_usd": "USD m", "ts_k_usd": "USD k per month",
+        "ts_param": "calculator default ({age}), in dollars of each year",
+        "ts_param_note": ("The line is the lease the calculator uses without your own rates: EUR {eur} a month as of "
+                          "October 2026 at {fx} USD/EUR, restated in dollars of earlier years by the US CPI-U price index. "
+                          "It is an estimate {age_for}; points of another age are not directly comparable."),
+        "ts_age_new": "new aircraft", "ts_age_cur": "aircraft about 12 years old",
+        "ts_for_new": "for a new aircraft", "ts_for_cur": "for an aircraft about 12 years old",
         "fleet_h": "Lease rate and maintenance cost: estimates for ownership and upkeep",
         "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
                        "count. These are parametric, not operator data: each one can be replaced in the calculation."),
@@ -448,6 +460,12 @@ T = {
         "ts_kind": {"list": "Listenpreis", "deal": "Kauf", "value": "Gutachten", "lease": "Leasing pro Monat"},
         "ts_col": ("Monat", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
         "ts_m_usd": "Mio. USD", "ts_k_usd": "Tsd. USD pro Monat",
+        "ts_param": "Voreinstellung des Rechners ({age}), in Dollar des jeweiligen Jahres",
+        "ts_param_note": ("Die Linie ist das Leasing, das der Rechner ohne eigene Sätze ansetzt: {eur} EUR pro Monat, "
+                          "Stand Oktober 2026, zu {fx} USD/EUR, mit dem US-Verbraucherpreisindex CPI-U in Dollar früherer "
+                          "Jahre umgerechnet. Schätzung {age_for}; Punkte anderen Alters sind nicht direkt vergleichbar."),
+        "ts_age_new": "neues Flugzeug", "ts_age_cur": "Flugzeug von etwa 12 Jahren",
+        "ts_for_new": "für ein neues Flugzeug", "ts_for_cur": "für ein Flugzeug von etwa 12 Jahren",
         "fleet_h": "Leasingrate und Wartungskosten: Schätzung für Besitz und Instandhaltung",
         "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
                        "parametrische Werte, keine Betreiberdaten: jeder lässt sich in der Rechnung ersetzen."),
@@ -608,7 +626,8 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .sil{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap;margin:8px 0 4px}
 .ts svg{width:100%;max-width:680px;height:auto;display:block}.ts .ax{stroke:var(--line)}
 .ts text{font:11px var(--sans);fill:var(--dim)}.ts .l1{stroke:var(--accent);fill:none;stroke-width:2}
-.ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}.ts .p1{fill:var(--accent)}
+.ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}
+.ts .l3{stroke:#2a9d8f;fill:none;stroke-width:2;stroke-dasharray:6 4;opacity:.8}.ts .p1{fill:var(--accent)}
 .ts .k-list{fill:#8a6fd1}.ts .k-deal{fill:var(--accent)}.ts .k-value{fill:#d08a2a}.ts .k-lease{fill:#2a9d8f}
 .ts .lg{font-size:12.5px;color:var(--dim);margin:4px 0 8px}.ts .lg i{display:inline-block;width:10px;height:10px;
   border-radius:50%;margin:0 5px 0 12px;vertical-align:-1px}
@@ -1320,7 +1339,9 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
                 body.append(f"<tr><td>{esc(lab)}</td><td class='r guess'>{num(v, lang, 0)}</td></tr>")
         body.append("</table></div>")
     body.append(toir_block(lang, icao))
-    body.append(prices_block(lang, icao))
+    from .fleet import generation
+    body.append(prices_block(lang, icao, (info.get("fleet_default") or {}).get("lease_eur_month"),
+                             generation(icao) == "new"))
     me = seats_of(entry) or 0
     has_cmp = bool(econ) and entry.get("usable")      # таблица класса уже ведёт к соседям
     sim = [] if has_cmp else sorted((x for x in public_types(types) if x["icao"] != icao and x.get("usable")
@@ -1414,7 +1435,36 @@ def toir_block(lang: str, icao: str) -> str:
             f'<p class=dim>{esc(t["ts_src"])} <a href="/{lang}/research/toir">→</a></p>')
 
 
-def prices_block(lang: str, icao: str) -> str:
+US_CPI = Path(__file__).resolve().parents[1] / "data" / "macro" / "_us_cpi.yaml"
+PARAM_USD_PER_EUR, PARAM_YEAR = 1.16, 2026      # опора заготовки лизинга: fleet.py, октябрь 2026
+
+
+def us_cpi() -> dict[int, float]:
+    try:
+        mt = US_CPI.stat().st_mtime
+    except OSError:
+        return {}
+    if _TS_CACHE.get("cpi_mt") != mt:
+        import yaml
+        _TS_CACHE.update(cpi_mt=mt, cpi={int(k): float(v) for k, v in
+                                         ((yaml.safe_load(US_CPI.read_text("utf-8")) or {}).get("years") or {}).items()})
+    return _TS_CACHE["cpi"]
+
+
+def param_lease_usd(eur_month: float, years: range) -> list[tuple[float, float]]:
+    """Заготовка лизинга (EUR, октябрь 2026) в долларах каждого года: × курс опоры × CPI(год)/CPI(2026).
+    Года после последнего в ряду CPI — продлены его последним годовым ростом."""
+    cpi = us_cpi()
+    if not cpi:
+        return []
+    last = max(cpi)
+    g = cpi[last] / cpi[last - 1] if last - 1 in cpi else 1.03
+    ix = lambda y: cpi[y] if y in cpi else cpi[last] * g ** (y - last)       # noqa: E731
+    usd = eur_month * PARAM_USD_PER_EUR
+    return [(y + 0.5, usd * ix(y) / ix(PARAM_YEAR) / 1e3) for y in years if y >= min(cpi)]
+
+
+def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: bool | None = None) -> str:
     from . import prices as PR
     t, obs = T[lang], PR.of(icao)
     if not obs:
@@ -1432,7 +1482,16 @@ def prices_block(lang: str, icao: str) -> str:
     if craft:
         body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>' + _ts_svg([], craft, t["ts_m_usd"], lang))
     if lease:
-        body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>' + _ts_svg([], lease, t["ts_k_usd"], lang, h=170))
+        lines, note = [], ""
+        if lease_eur:
+            y0 = int(min(x for _, x, _ in lease))
+            pl = param_lease_usd(lease_eur, range(y0, PARAM_YEAR + 1))
+            if pl:
+                age = t["ts_age_new"] if new_gen else t["ts_age_cur"]
+                lines = [("l3", pl)]
+                note = (f'<p class=dim><span style="color:#2a9d8f">— —</span> {esc(t["ts_param"].format(age=age))}. '
+                        f'{esc(t["ts_param_note"].format(eur=num(round(lease_eur, -3), lang, 0), fx=num(PARAM_USD_PER_EUR, lang, 2), age=age, age_for=t["ts_for_new"] if new_gen else t["ts_for_cur"]))}</p>')
+        body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>' + _ts_svg(lines, lease, t["ts_k_usd"], lang, h=190) + note)
     c = t["ts_col"]
     body.append(f"</div><div class=tw><table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
                 f"<th class=r>{c[3]}</th><th>{c[4]}</th></tr>")

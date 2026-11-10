@@ -71,7 +71,23 @@ def main() -> int:
                    + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), "utf-8")
     print(f"{OUT.relative_to(ROOT)}: типов {len(types)}, наследников {len(succ)}")
     series()
+    cpi()
     return 0
+
+
+CPI = ROOT / "data" / "macro" / "_us_cpi.yaml"
+
+
+def cpi() -> None:
+    """CPI-U США, среднее за год (BLS через Minneapolis Fed) — для пересчёта заготовки калькулятора в
+    доллары прошлых лет на графиках цен страницы типа. Ряд тот же, что в статье «ТОиР» (index.json)."""
+    ix = json.loads((HERE / "index.json").read_text("utf-8"))["cpiu_annual"]
+    CPI.parent.mkdir(parents=True, exist_ok=True)
+    CPI.write_text("# Сгенерировано research/toir/bin/export_calc.py — руками не править.\n"
+                   + yaml.safe_dump({"source": "BLS CPI-U, среднее за год (Minneapolis Fed)", "base": "1982-84=100",
+                                     "years": {int(k): float(v) for k, v in sorted(ix.items())}},
+                                    allow_unicode=True, sort_keys=False), "utf-8")
+    print(f"{CPI.relative_to(ROOT)}: лет {len(ix)}")
 
 
 SERIES = ROOT / "data" / "maintenance" / "_toir_series.yaml"
