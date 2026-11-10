@@ -114,9 +114,10 @@ T = {
                 "narrow": "Узкофюзеляжные (100–240 кресел в типовой компоновке)", "wide": "Широкофюзеляжные (более 240 кресел в типовой компоновке)"},
         "col_type": "Тип", "col_seats": "Кресел, макс.", "col_mtow": "MTOW, т", "col_status": "",
         "card_only": "только карточка",
-        "type_title": "{name} ({icao}) — характеристики и стоимость эксплуатации | FlightCost",
-        "type_desc": ("{name}: {facts}. Бесплатный расчёт экономики маршрута на {icao} — топливо, сборы, экипаж, "
-                      "ТОиР, лизинг, безубыточная загрузка."),
+        "type_title": "{name} ({icao}) — характеристики, лизинг и стоимость эксплуатации | FlightCost",
+        "type_desc": ("{name}: {facts}.{rates} Бесплатный расчёт экономики маршрута на {icao} — топливо, сборы, "
+                      "экипаж, ТОиР, лизинг, безубыточная загрузка."),
+        "type_rates": " Лизинг — около {lease} EUR в месяц, ТОиР — около {mfh} EUR на лётный час (оценка).",
         "type_h1": "{name} — характеристики и экономика маршрута",
         "type_lead": ("{name} ({icao}){facts}. На FlightCost можно бесплатно посчитать любой маршрут на этом типе: "
                       "топливо, сборы аэропортов и аэронавигации, экипаж, ТОиР, лизинг и безубыточную загрузку — "
@@ -158,7 +159,7 @@ T = {
         "ed_fail": "Не сохранено:", "ed_seats_err": "Кресел в типовой компоновке больше, чем по сертификату — поправьте одно из двух.",
         "ed_suggest": "Предложить в общий каталог — скоро: с источником по каждому изменённому полю.",
         "specs_h": "Характеристики", "col_param": "Параметр", "col_value": "Значение", "col_src": "Источник",
-        "fleet_h": "Заготовка калькулятора",
+        "fleet_h": "Лизинг и ТОиР: оценка стоимости владения и обслуживания",
         "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
                        "Это параметрика, а не данные эксплуатанта: в расчёте каждую можно заменить своей."),
         "f_lease": "Лизинг, EUR в месяц", "f_hours": "Налёт борта, часов в месяц",
@@ -235,9 +236,10 @@ T = {
                 "narrow": "Narrowbody (100–240 seats in a typical layout)", "wide": "Widebody (more than 240 seats in a typical layout)"},
         "col_type": "Type", "col_seats": "Seats, max", "col_mtow": "MTOW, t", "col_status": "",
         "card_only": "card only",
-        "type_title": "{name} ({icao}) — specifications and operating cost | FlightCost",
-        "type_desc": ("{name}: {facts}. Free route economics on the {icao} — fuel, charges, crew, maintenance, "
-                      "leasing, break-even load factor."),
+        "type_title": "{name} ({icao}) — specs, lease rate and operating cost | FlightCost",
+        "type_desc": ("{name}: {facts}.{rates} Free route economics on the {icao} — fuel, charges, crew, "
+                      "maintenance, leasing, break-even load factor."),
+        "type_rates": " Lease rate about EUR {lease} a month, maintenance about EUR {mfh} per flight hour (estimate).",
         "type_h1": "{name} — specifications and route economics",
         "type_lead": ("{name} ({icao}){facts}. With FlightCost you can calculate any route on this type for free: "
                       "fuel, airport and air navigation charges, crew, maintenance, leasing and the break-even "
@@ -279,7 +281,7 @@ T = {
         "ed_fail": "Not saved:", "ed_seats_err": "More seats in the typical layout than certified — correct one of the two.",
         "ed_suggest": "Suggesting it for the shared catalogue — coming soon, with a source for every changed field.",
         "specs_h": "Specifications", "col_param": "Parameter", "col_value": "Value", "col_src": "Source",
-        "fleet_h": "Calculator defaults",
+        "fleet_h": "Lease rate and maintenance cost: estimates for ownership and upkeep",
         "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
                        "count. These are parametric, not operator data: each one can be replaced in the calculation."),
         "f_lease": "Lease, EUR per month", "f_hours": "Utilisation, flight hours per month",
@@ -297,11 +299,11 @@ T = {
     },
     "de": {
         "brand_tag": "Streckenwirtschaftlichkeit",
-        "home_title": "Flugkosten & Streckenwirtschaftlichkeit kostenlos berechnen — Break-even-Auslastung | FlightCost",
+        "home_title": "Flugkosten-Rechner kostenlos — Kosten eines Fluges und Break-even-Auslastung | FlightCost",
         "home_desc": ("Kostenloser Online-Rechner für die Kosten eines Fluges: Treibstoff, Flughafen- und "
                       "Flugsicherungsgebühren, Crew, Wartung, Leasing, Break-even-Preis und -Auslastung. Jede Strecke "
                       "und jeder Flugzeugtyp, mit Quelle für jede Zahl. Ohne Anmeldung, Open Source."),
-        "home_h1": "Streckenwirtschaftlichkeit kostenlos berechnen",
+        "home_h1": "Flugkosten-Rechner: Streckenwirtschaftlichkeit kostenlos berechnen",
         "calc_title": "Flugkostenrechner: Kosten je Flug und Break-even | FlightCost",
         "calc_desc": ("Einen Flug nach Positionen berechnen: Treibstoff, Flughafen- und Flugsicherungsgebühren, Crew, "
                       "Wartung, Leasing; Break-even-Preis und -Auslastung. Jede Strecke, jeder Typ, kostenlos."),
@@ -356,9 +358,10 @@ T = {
                 "narrow": "Schmalrumpf (100–240 Sitze in typischer Bestuhlung)", "wide": "Großraum (mehr als 240 Sitze in typischer Bestuhlung)"},
         "col_type": "Typ", "col_seats": "Sitze, max.", "col_mtow": "MTOW, t", "col_status": "",
         "card_only": "nur Karte",
-        "type_title": "{name} ({icao}) — technische Daten und Betriebskosten | FlightCost",
-        "type_desc": ("{name}: {facts}. Streckenwirtschaftlichkeit mit der {icao} kostenlos berechnen — Treibstoff, "
-                      "Gebühren, Crew, Wartung, Leasing, Break-even-Auslastung."),
+        "type_title": "{name} ({icao}) — technische Daten, Leasingrate und Betriebskosten | FlightCost",
+        "type_desc": ("{name}: {facts}.{rates} Streckenwirtschaftlichkeit mit der {icao} kostenlos berechnen — "
+                      "Treibstoff, Gebühren, Crew, Wartung, Leasing, Break-even-Auslastung."),
+        "type_rates": " Leasingrate etwa {lease} EUR im Monat, Wartung etwa {mfh} EUR je Flugstunde (Schätzung).",
         "type_h1": "{name} — technische Daten und Streckenwirtschaftlichkeit",
         "type_lead": ("{name} ({icao}){facts}. Mit FlightCost berechnen Sie jede Strecke mit diesem Typ kostenlos: "
                       "Treibstoff, Flughafen- und Flugsicherungsgebühren, Crew, Wartung, Leasing und die "
@@ -400,7 +403,7 @@ T = {
         "ed_fail": "Nicht gespeichert:", "ed_seats_err": "Mehr Sitze in der typischen Bestuhlung als zugelassen — bitte eines von beiden korrigieren.",
         "ed_suggest": "Vorschlag für den gemeinsamen Katalog — bald, mit Quelle für jedes geänderte Feld.",
         "specs_h": "Technische Daten", "col_param": "Parameter", "col_value": "Wert", "col_src": "Quelle",
-        "fleet_h": "Standardsätze des Rechners",
+        "fleet_h": "Leasingrate und Wartungskosten: Schätzung für Besitz und Instandhaltung",
         "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
                        "parametrische Werte, keine Betreiberdaten: jeder lässt sich in der Rechnung ersetzen."),
         "f_lease": "Leasing, EUR pro Monat", "f_hours": "Auslastung, Flugstunden pro Monat",
@@ -1272,7 +1275,13 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     if sim:
         body.append(f"<h2>{esc(t['similar_h'])}</h2><div class=chips>" + "".join(
             f'<a href="{type_url(lang, x["icao"])}">{esc(name_of(x, lang))}</a>' for x in sim) + "</div>")
-    desc = t["type_desc"].format(name=name, icao=icao, facts=facts or icao)
+    # Ставки — в описание для выдачи: по запросам «a321neo price», «maintenance rates»
+    # человек видит цифру уже в сниппете (Search Console, ноябрь 2026).
+    rates = ""
+    if fd and entry.get("usable") and fd.get("lease_eur_month") and fd.get("maint_eur_per_fh"):
+        rates = t["type_rates"].format(lease=num(round(fd["lease_eur_month"], -3), lang, 0),
+                                       mfh=num(round(fd["maint_eur_per_fh"], -1), lang, 0))
+    desc = t["type_desc"].format(name=name, icao=icao, facts=facts or icao, rates=rates)
     h = head(lang, t["type_title"].format(name=name, icao=icao), desc[:300], site() + type_url(lang, icao),
              alternates(f"/type/{quote(icao)}"),
              [crumbs_ld([("FlightCost", f"{site()}/{lang}/"), (t["nav_types"], f"{site()}/{lang}/types"),

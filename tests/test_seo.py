@@ -73,6 +73,18 @@ class SeoHttp(unittest.TestCase):
     def head_of(self, body):
         return body.split("</head>", 1)[0]
 
+    def test_type_page_rates_in_snippet(self):
+        """Ставки лизинга и ТОиР — в заголовке блока и в описании для выдачи (запросы «price», «maintenance rates»)."""
+        st, body, _ = self.get("/en/type/A320")
+        self.assertEqual(st, 200)
+        h = self.head_of(body)
+        self.assertIn("lease rate and operating cost", h)
+        if "Lease rate and maintenance cost" in body:
+            self.assertRegex(h, r'name="description" content="[^"]*Lease rate about EUR [\d,]+ a month, '
+                                r'maintenance about EUR [\d,]+ per flight hour')
+        st, body, _ = self.get("/de/")
+        self.assertIn("<title>Flugkosten-Rechner", body)
+
     def test_language_calc(self):
         for lg in seo.LANGS:
             st, body, _ = self.get(f"/{lg}/calc")
