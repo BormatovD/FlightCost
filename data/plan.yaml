@@ -34,6 +34,22 @@ items:
     via: owner
     added: 2026-11-10
 
+  - id: research-demand
+    status: now
+    order: 2
+    area: research
+    title:
+      ru: "Исследование: спрос между городами — доход, туризм, деловая активность, диаспоры, визы"
+      en: "Research: demand between cities — income, tourism, business activity, diasporas, visas"
+      de: "Recherche: Nachfrage zwischen Städten — Einkommen, Tourismus, Geschäftsaktivität, Diaspora, Visa"
+    note:
+      ru: "Гравитационная модель калькулятора знает только жителей и расстояние. Открытые таблицы Всемирного банка, Eurostat и ООН подключены 10.11.2026; дальше — сколько точности даёт каждый фактор, профиль сезонности и поток для новых пар. Первая часть будущего коридора цен."
+      en: "The calculator's gravity model knows only population and distance. Open World Bank, Eurostat and UN tables were connected on 10 Nov 2026; next — how much accuracy each factor adds, a seasonality profile and traffic for new pairs. The first part of a future price corridor."
+      de: "Das Gravitationsmodell des Rechners kennt nur Einwohner und Entfernung. Offene Tabellen von Weltbank, Eurostat und UN sind seit 10.11.2026 angebunden; als Nächstes — wie viel Genauigkeit jeder Faktor bringt, ein Saisonprofil und Verkehr für neue Paare. Der erste Teil eines künftigen Preiskorridors."
+    by: owner
+    via: owner
+    added: 2026-11-10
+
   - id: research-pricing
     status: done
     area: research

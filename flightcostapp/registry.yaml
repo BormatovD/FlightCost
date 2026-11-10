@@ -1022,3 +1022,193 @@ sources:
     validators:
       row_count_min: 3000
       row_count_drop_max_pct: 20
+
+  # ── Макрофакторы спроса (исследование «Спрос», ноябрь 2026) ─────────────
+  # Входы гравитационной модели: доход, туристичность, деловая активность,
+  # диаспоры, визы. Всё — открытые таблицы, их забирает refresh, а не агент.
+
+  wb_wdi:
+    title: Всемирный банк — население, ВВП на душу по ППС, въездной туризм по странам
+    kind: url
+    contour: deterministic
+    url: "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL;NY.GDP.PCAP.PP.KD;ST.INT.ARVL?source=2&format=json&per_page=50000&date=2005:2025"
+    public: full
+    license: CC BY 4.0 (World Bank, World Development Indicators)
+    parser: wb_wdi
+    domain: macro
+    cadence_days: 90
+    sla_days: 400
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      Ключ не нужен. Строки агрегатов (регионы, группы дохода) остаются —
+      к аэропорту по стране они не присоединяются.
+    validators:
+      row_count_min: 3000
+      row_count_drop_max_pct: 20
+
+  eurostat_gdp_nuts3:
+    title: Eurostat — ВВП на жителя по ППС, регионы NUTS 3 (nama_10r_3gdp)
+    kind: url
+    contour: deterministic
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10r_3gdp?format=JSON&lang=EN&unit=PPS_EU27_2020_HAB&sinceTimePeriod=2015"
+    indicator: gdp_pc_pps
+    unit_text: PPS (ЕС-27 2020) на жителя
+    public: full
+    license: CC BY 4.0 (Eurostat)
+    parser: eurostat_json
+    domain: macro
+    cadence_days: 90
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_macro
+    validators:
+      row_count_min: 3000
+      row_count_drop_max_pct: 20
+
+  eurostat_pop_nuts3:
+    title: Eurostat — население на 1 января, регионы NUTS 3 (demo_r_pjanaggr3)
+    kind: url
+    contour: deterministic
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_r_pjanaggr3?format=JSON&lang=EN&unit=NR&sex=T&age=TOTAL&sinceTimePeriod=2015"
+    indicator: pop
+    unit_text: человек
+    public: full
+    license: CC BY 4.0 (Eurostat)
+    parser: eurostat_json
+    domain: macro
+    cadence_days: 90
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_macro
+    validators:
+      row_count_min: 3000
+      row_count_drop_max_pct: 20
+
+  eurostat_nights_nuts2:
+    title: Eurostat — ночёвки в гостиницах и прочем размещении по месяцам, регионы NUTS 2 (tour_occ_nin2m)
+    kind: url
+    contour: deterministic
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&sinceTimePeriod=2019-01"
+    indicator: nights
+    dims: {c_resid: [TOTAL, FOR]}
+    unit_text: ночёвок в месяц
+    public: full
+    license: CC BY 4.0 (Eurostat)
+    parser: eurostat_json
+    domain: macro
+    cadence_days: 30
+    sla_days: 240
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      Туристичность региона и, главное, профиль сезонности по месяцам:
+      его можно дать паре, у которой нет своей истории. FOR — ночёвки
+      нерезидентов страны: туризм издалека, то есть самолётом.
+    validators:
+      row_count_min: 5000
+      row_count_drop_max_pct: 20
+
+  eurostat_emp_nuts2:
+    title: Eurostat — занятые по отраслям, регионы NUTS 2 (lfst_r_lfe2en2)
+    kind: url
+    contour: deterministic
+    url: "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/lfst_r_lfe2en2?format=JSON&lang=EN&unit=THS_PER&sex=T&nace_r2=TOTAL&nace_r2=K&nace_r2=M&nace_r2=N&sinceTimePeriod=2015"
+    indicator: emp
+    dims: {nace_r2: [TOTAL, K, M, N], age: [Y15-74, Y_GE15]}
+    unit_text: тыс. занятых
+    public: full
+    license: CC BY 4.0 (Eurostat)
+    parser: eurostat_json
+    domain: macro
+    cadence_days: 90
+    sla_days: 500
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      Деловая активность региона: доля финансов (K) и профессиональных
+      услуг (M, N) в занятых. Если в ответе обе возрастные группы, в ключе
+      будет и код возраста — разбор берёт любую, сравнение идёт долями.
+    validators:
+      row_count_min: 1000
+      row_count_drop_max_pct: 20
+
+  gisco_nuts3:
+    title: GISCO — центры регионов NUTS 3 (точки подписи), для привязки аэропорта к региону
+    kind: url
+    contour: deterministic
+    url: https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_LB_2021_4326_LEVL_3.geojson
+    public: full
+    license: © EuroGeographics для административных границ; условия GISCO — некоммерческое и коммерческое использование с атрибуцией
+    parser: gisco_nuts
+    domain: macro
+    cadence_days: 365
+    sla_days: 1500
+    tier: 2
+    gate: auto
+    node: src_macro
+    validators:
+      row_count_min: 1000
+
+  gisco_nuts2:
+    title: GISCO — центры регионов NUTS 2 (точки подписи)
+    kind: url
+    contour: deterministic
+    url: https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_LB_2021_4326_LEVL_2.geojson
+    public: full
+    license: © EuroGeographics для административных границ; условия GISCO — использование с атрибуцией
+    parser: gisco_nuts
+    domain: macro
+    cadence_days: 365
+    sla_days: 1500
+    tier: 2
+    gate: auto
+    node: src_macro
+    validators:
+      row_count_min: 200
+
+  visa_index:
+    title: Визовый режим между странами — Passport Index (199 стран)
+    kind: url
+    contour: deterministic
+    url: https://raw.githubusercontent.com/imorte/passport-index-data/main/passport-index-tidy-iso2.csv
+    public: full
+    license: MIT (Passport Index Dataset)
+    parser: visa_index
+    domain: macro
+    cadence_days: 90
+    sla_days: 400
+    tier: 2
+    gate: auto
+    node: src_macro
+    validators:
+      row_count_min: 30000
+      row_count_drop_max_pct: 10
+
+  migrant_stock:
+    title: ООН — мигранты по стране проживания и стране рождения (International Migrant Stock)
+    kind: directory
+    contour: deterministic
+    path: data/raw/migrant_stock
+    glob: "*.[xXcC][lLsS]*"
+    public: full
+    license: © ООН, свободное использование с указанием источника (UN DESA Population Division)
+    parser: migrant_stock
+    domain: macro
+    cadence_days: 365
+    sla_days: 1500
+    tier: 2
+    gate: auto
+    node: src_macro
+    note: >
+      Две таблицы в одну папку: xlsx «International Migrant Stock — by
+      destination and origin» (un.org/development/desa/pd → International
+      Migrant Stock → Data) и CSV кодов стран M49 (unstats.un.org →
+      Methodology → M49 → Overview → кнопка CSV). Обновляется раз в 4–5 лет.
+    validators:
+      row_count_min: 5000
