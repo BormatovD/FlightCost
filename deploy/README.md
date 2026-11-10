@@ -343,6 +343,13 @@ cd /srv/fca/app && FCA_TEST_OPENCLAW=/srv/fca/openclaw/node_modules/.bin/opencla
 цитатой. Дома `fca master drafts` сверяет часы с цитатой; `--accept-night`
 пишет в `data/airports/_night.yaml`. В режиме «Сеть» запрет базы сужает окно.
 
+Цены самолётов (`fca-agent-prices.timer`, по средам): четыре типа за прогон,
+давно не искавшиеся — первыми; каталог, цена сделки за борт, оценка рынка,
+ставка лизинга — числом, как напечатано, с цитатой. Начинает с лент новостей
+поиска (RSS). Дома `fca master drafts` сверяет число с цитатой и полосы
+правдоподобия; `--accept-prices` пишет в `data/prices/_observations.yaml`,
+страница типа рисует ряд.
+
 Расходы: `/srv/fca/agent/ledger.jsonl` (строка на прогон, `cost_usd` из ответа
 OpenClaw). Модель по заданиям — `JOBS` в `agent_run.py`; Opus — только
 разовым прогоном с `--model`, когда дешёвая не справилась.

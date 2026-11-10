@@ -27,6 +27,7 @@ import html
 import json
 import os
 import re
+from pathlib import Path
 from urllib.parse import quote
 
 LANGS = ("ru", "en", "de")
@@ -159,6 +160,20 @@ T = {
         "ed_fail": "Не сохранено:", "ed_seats_err": "Кресел в типовой компоновке больше, чем по сертификату — поправьте одно из двух.",
         "ed_suggest": "Предложить в общий каталог — скоро: с источником по каждому изменённому полю.",
         "specs_h": "Характеристики", "col_param": "Параметр", "col_value": "Значение", "col_src": "Источник",
+        "ts_m_h": "ТОиР по годам — отчётность перевозчиков США (Form 41)",
+        "ts_m_lead": ("Затраты на ТОиР на блок-час, как их отчитали перевозчики США с этим типом: прямые (работа, "
+                      "материалы, подряд) и полные — с накладными службы ТО. Доллары каждого года, без пересчёта. "
+                      "2020 год выше соседних: налёт упал, а постоянная часть затрат осталась."),
+        "ts_direct": "прямые", "ts_total": "с накладными", "ts_unit": "USD за блок-час",
+        "ts_last": "{y}: прямые {d} USD, с накладными {t} USD за блок-час, перевозчиков {n}",
+        "ts_src": "Источник: BTS, Form 41 Schedule P-5.2; разбор — в исследовании «ТОиР».",
+        "ts_p_h": "Цена и лизинг по публикациям",
+        "ts_p_lead": ("Числа из новостей, отчётов лизингодателей и оценок, каждое со ссылкой: каталог, цена сделки "
+                      "за борт, рыночная оценка, ставка лизинга в месяц. Это разные величины — каталог в 1,5–2 раза "
+                      "выше реальной цены нового борта."),
+        "ts_kind": {"list": "каталог", "deal": "сделка", "value": "оценка рынка", "lease": "лизинг в месяц"},
+        "ts_col": ("Месяц", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
+        "ts_m_usd": "млн USD", "ts_k_usd": "тыс. USD в месяц",
         "fleet_h": "Лизинг и ТОиР: оценка стоимости владения и обслуживания",
         "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
                        "Это параметрика, а не данные эксплуатанта: в расчёте каждую можно заменить своей."),
@@ -281,6 +296,21 @@ T = {
         "ed_fail": "Not saved:", "ed_seats_err": "More seats in the typical layout than certified — correct one of the two.",
         "ed_suggest": "Suggesting it for the shared catalogue — coming soon, with a source for every changed field.",
         "specs_h": "Specifications", "col_param": "Parameter", "col_value": "Value", "col_src": "Source",
+        "ts_m_h": "Maintenance by year — US carriers' reports (Form 41)",
+        "ts_m_lead": ("Maintenance cost per block hour as reported by US carriers flying this type: direct (labour, "
+                      "materials, outside services) and full — with the maintenance department's overheads. Dollars of "
+                      "each year, not restated. 2020 stands above its neighbours: flying dropped, the fixed part of the "
+                      "cost stayed."),
+        "ts_direct": "direct", "ts_total": "with overheads", "ts_unit": "USD per block hour",
+        "ts_last": "{y}: direct USD {d}, with overheads USD {t} per block hour, {n} carriers",
+        "ts_src": "Source: BTS, Form 41 Schedule P-5.2; analysis in the “Maintenance” research.",
+        "ts_p_h": "Price and lease rate from publications",
+        "ts_p_lead": ("Figures from news, lessor reports and appraisals, each with a link: list price, deal price per "
+                      "aircraft, market appraisal, monthly lease rate. They are different quantities — the list price "
+                      "is 1.5–2 times the real price of a new aircraft."),
+        "ts_kind": {"list": "list price", "deal": "deal", "value": "appraisal", "lease": "lease per month"},
+        "ts_col": ("Month", "Kind", "Value", "Age", "Source"), "ts_new": "new",
+        "ts_m_usd": "USD m", "ts_k_usd": "USD k per month",
         "fleet_h": "Lease rate and maintenance cost: estimates for ownership and upkeep",
         "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
                        "count. These are parametric, not operator data: each one can be replaced in the calculation."),
@@ -403,6 +433,21 @@ T = {
         "ed_fail": "Nicht gespeichert:", "ed_seats_err": "Mehr Sitze in der typischen Bestuhlung als zugelassen — bitte eines von beiden korrigieren.",
         "ed_suggest": "Vorschlag für den gemeinsamen Katalog — bald, mit Quelle für jedes geänderte Feld.",
         "specs_h": "Technische Daten", "col_param": "Parameter", "col_value": "Wert", "col_src": "Quelle",
+        "ts_m_h": "Instandhaltung nach Jahren — Berichte der US-Airlines (Form 41)",
+        "ts_m_lead": ("Instandhaltungskosten je Blockstunde, wie sie die US-Airlines mit diesem Typ berichten: direkt "
+                      "(Arbeit, Material, Fremdleistungen) und voll — mit Gemeinkosten der Technik. Dollar des jeweiligen "
+                      "Jahres, nicht umgerechnet. 2020 liegt über den Nachbarjahren: Es wurde weniger geflogen, der feste "
+                      "Kostenanteil blieb."),
+        "ts_direct": "direkt", "ts_total": "mit Gemeinkosten", "ts_unit": "USD je Blockstunde",
+        "ts_last": "{y}: direkt {d} USD, mit Gemeinkosten {t} USD je Blockstunde, {n} Airlines",
+        "ts_src": "Quelle: BTS, Form 41 Schedule P-5.2; Auswertung in der Studie „Instandhaltung“.",
+        "ts_p_h": "Preis und Leasingrate aus Veröffentlichungen",
+        "ts_p_lead": ("Zahlen aus Nachrichten, Berichten von Leasinggebern und Gutachten, jede mit Link: Listenpreis, "
+                      "Kaufpreis je Flugzeug, Marktwertgutachten, Leasingrate pro Monat. Das sind verschiedene Größen — "
+                      "der Listenpreis liegt beim 1,5–2-Fachen des realen Preises eines neuen Flugzeugs."),
+        "ts_kind": {"list": "Listenpreis", "deal": "Kauf", "value": "Gutachten", "lease": "Leasing pro Monat"},
+        "ts_col": ("Monat", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
+        "ts_m_usd": "Mio. USD", "ts_k_usd": "Tsd. USD pro Monat",
         "fleet_h": "Leasingrate und Wartungskosten: Schätzung für Besitz und Instandhaltung",
         "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
                        "parametrische Werte, keine Betreiberdaten: jeder lässt sich in der Rechnung ersetzen."),
@@ -561,6 +606,12 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .p-doc{color:var(--doc)}.p-calc{color:var(--calc)}.p-guess{color:var(--guess)}
 .warn{border:1px solid var(--warn);border-radius:8px;padding:10px 12px;color:var(--ink);margin:10px 0}
 .sil{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap;margin:8px 0 4px}
+.ts svg{width:100%;max-width:680px;height:auto;display:block}.ts .ax{stroke:var(--line)}
+.ts text{font:11px var(--sans);fill:var(--dim)}.ts .l1{stroke:var(--accent);fill:none;stroke-width:2}
+.ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}.ts .p1{fill:var(--accent)}
+.ts .k-list{fill:#8a6fd1}.ts .k-deal{fill:var(--accent)}.ts .k-value{fill:#d08a2a}.ts .k-lease{fill:#2a9d8f}
+.ts .lg{font-size:12.5px;color:var(--dim);margin:4px 0 8px}.ts .lg i{display:inline-block;width:10px;height:10px;
+  border-radius:50%;margin:0 5px 0 12px;vertical-align:-1px}
 .sil svg{max-width:100%;height:auto}.sil .lgd{font-size:12.5px;color:var(--dim)}
 .sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
 .sil .lgd i.o{border-top:2px dashed var(--dim)}
@@ -1268,6 +1319,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
             if v is not None:
                 body.append(f"<tr><td>{esc(lab)}</td><td class='r guess'>{num(v, lang, 0)}</td></tr>")
         body.append("</table></div>")
+    body.append(toir_block(lang, icao))
+    body.append(prices_block(lang, icao))
     me = seats_of(entry) or 0
     has_cmp = bool(econ) and entry.get("usable")      # таблица класса уже ведёт к соседям
     sim = [] if has_cmp else sorted((x for x in public_types(types) if x["icao"] != icao and x.get("usable")
@@ -1287,6 +1340,111 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
              [crumbs_ld([("FlightCost", f"{site()}/{lang}/"), (t["nav_types"], f"{site()}/{lang}/types"),
                          (name, site() + type_url(lang, icao))])])
     return shell(lang, f"/type/{quote(icao)}", h, "\n".join(body), on="types")
+
+
+# ── ряды на странице типа: ТОиР по Form 41, цены и лизинг из публикаций ──
+
+def _ts_svg(lines: list[tuple[str, list[tuple[float, float]]]], points: list[tuple[str, float, float]] | None = None,
+            unit: str = "", lang: str = "ru", w: int = 680, h: int = 220) -> str:
+    """Линии [(css-класс, [(x, y)])] и точки [(css-класс, x, y)] — один SVG, оси с подписями."""
+    xs = [x for _, ps in lines for x, _ in ps] + [x for _, x, _ in points or []]
+    ys = [y for _, ps in lines for _, y in ps] + [y for _, _, y in points or []]
+    if not xs:
+        return ""
+    x0, x1 = min(xs), max(xs)
+    if x1 == x0:
+        x0, x1 = x0 - 1, x1 + 1
+    if points and not lines:                       # точки у края не срезаются
+        x0, x1 = x0 - 0.3, x1 + 0.3
+    y1 = max(ys) * 1.1 or 1
+    L, R, T, B = 48, 20, 10, 26
+    X = lambda x: L + (x - x0) / (x1 - x0) * (w - L - R)        # noqa: E731
+    Y = lambda y: h - B - y / y1 * (h - T - B)                   # noqa: E731
+    out = [f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="{esc(unit)}">',
+           f'<line class=ax x1="{L}" y1="{h - B}" x2="{w - R}" y2="{h - B}"/>']
+    import math
+    raw = y1 / 5
+    mag = 10 ** math.floor(math.log10(raw)) if raw > 0 else 1
+    step = next(mag * k for k in (1, 2, 5, 10) if mag * k >= raw)
+    y = step
+    while y < y1:
+        out.append(f'<line class=ax x1="{L}" y1="{Y(y):.1f}" x2="{w - R}" y2="{Y(y):.1f}" opacity=".5"/>'
+                   f'<text x="{L - 6}" y="{Y(y) + 4:.1f}" text-anchor="end">{num(y, lang, 0)}</text>')
+        y += step
+    span = int(x1) - int(x0)
+    ev = 1 if span <= 10 else 2 if span <= 20 else 5
+    for yr in range(int(x0) + (-int(x0)) % ev, int(x1) + 1, ev):
+        out.append(f'<text x="{X(yr):.1f}" y="{h - 8}" text-anchor="middle">{yr}</text>')
+    for cls, ps in lines:
+        if len(ps) > 1:
+            out.append(f'<polyline class={cls} points="' + " ".join(f"{X(x):.1f},{Y(y):.1f}" for x, y in ps) + '"/>')
+    for cls, x, y in points or []:
+        out.append(f'<circle class={cls} cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4"/>')
+    return "".join(out) + "</svg>"
+
+
+TOIR_SERIES = Path(__file__).resolve().parents[1] / "data" / "maintenance" / "_toir_series.yaml"
+_TS_CACHE: dict = {}
+
+
+def toir_series(icao: str) -> dict:
+    try:
+        mt = TOIR_SERIES.stat().st_mtime
+    except OSError:
+        return {}
+    if _TS_CACHE.get("mt") != mt:
+        import yaml
+        _TS_CACHE.update(mt=mt, d=(yaml.safe_load(TOIR_SERIES.read_text("utf-8")) or {}).get("types") or {})
+    return _TS_CACHE["d"].get(icao.upper()) or {}
+
+
+def toir_block(lang: str, icao: str) -> str:
+    t, ser = T[lang], toir_series(icao)
+    if len(ser) < 3:
+        return ""
+    ys = sorted(ser)
+    svg = _ts_svg([("l2", [(y, ser[y][1]) for y in ys]), ("l1", [(y, ser[y][0]) for y in ys])],
+                  [("p1", y, ser[y][0]) for y in ys], t["ts_unit"], lang)
+    last = ys[-1]
+    d, tot, n, _ = ser[last]
+    return (f'<h2>{esc(t["ts_m_h"])}</h2><p class=dim>{esc(t["ts_m_lead"])}</p><div class=ts>'
+            f'<div class=lg><i style="background:var(--accent)"></i>{esc(t["ts_direct"])}'
+            f'<i style="background:var(--dim)"></i>{esc(t["ts_total"])} · {esc(t["ts_unit"])}</div>{svg}</div>'
+            f'<p>{esc(t["ts_last"].format(y=last, d=num(d, lang, 0), t=num(tot, lang, 0), n=n))}</p>'
+            f'<p class=dim>{esc(t["ts_src"])} <a href="/{lang}/research/toir">→</a></p>')
+
+
+def prices_block(lang: str, icao: str) -> str:
+    from . import prices as PR
+    t, obs = T[lang], PR.of(icao)
+    if not obs:
+        return ""
+    def yx(o):
+        m = str(o["month"])
+        return int(m[:4]) + (int(m[5:7]) - 0.5) / 12
+    craft = [(f"k-{o['kind']}", yx(o), PR.usd(o) / 1e6) for o in obs if o["kind"] != "lease" and PR.usd(o)]
+    lease = [(f"k-{o['kind']}", yx(o), PR.usd(o) / 1e3) for o in obs if o["kind"] == "lease" and PR.usd(o)]
+    colors = (("list", "#8a6fd1"), ("deal", "var(--accent)"), ("value", "#d08a2a"), ("lease", "#2a9d8f"))
+    lg = "".join(f'<i style="background:{c}"></i>{esc(t["ts_kind"][k])}'
+                 for k, c in colors if any(o["kind"] == k for o in obs))
+    body = [f'<h2>{esc(t["ts_p_h"])}</h2><p class=dim>{esc(t["ts_p_lead"])}</p><div class=ts>'
+            f'<div class=lg>{lg}</div>']
+    if craft:
+        body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>' + _ts_svg([], craft, t["ts_m_usd"], lang))
+    if lease:
+        body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>' + _ts_svg([], lease, t["ts_k_usd"], lang, h=170))
+    c = t["ts_col"]
+    body.append(f"</div><div class=tw><table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
+                f"<th class=r>{c[3]}</th><th>{c[4]}</th></tr>")
+    for o in sorted(obs, key=lambda o: str(o["month"]), reverse=True)[:12]:
+        sc = {"m": " m", "mn": " m", "million": " m", "млн": " m", "k": " k", "bn": " bn"}.get(str(o.get("scale") or "").lower(), "")
+        age = t["ts_new"] if str(o.get("age")) == "new" else ("" if o.get("age") in (None, "") else num(o["age"], lang, 0))
+        pub = o.get("publisher") or re.sub(r"^https?://(www\.)?([^/]+).*", r"\2", str(o.get("source", "")))
+        body.append(f"<tr><td>{esc(str(o['month']))}</td><td>{esc(t['ts_kind'][o['kind']])}</td>"
+                    f"<td class=r>{esc(o.get('currency') or 'USD')} {num(o['value'], lang, 0 if float(o['value']).is_integer() else 1)}{sc}</td><td class=r>{esc(age)}</td>"
+                    f'<td class=s><a href="{esc(o["source"])}" rel="nofollow">{esc(pub)}</a></td></tr>')
+    body.append("</table></div>")
+    return "".join(body)
 
 
 # ── свой вариант типа со страницы типа (решение 231) ─────────────────────

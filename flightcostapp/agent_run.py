@@ -60,6 +60,7 @@ JOBS = {
     "watch": {"model": "anthropic/claude-haiku-5-5", "timeout": 600},
     "fuel": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
     "night": {"model": "anthropic/claude-haiku-5-5", "timeout": 900},
+    "prices": {"model": "anthropic/claude-haiku-5-5", "timeout": 1200},
 }
 
 RULES = """# Общие правила (для любого задания)
@@ -263,6 +264,42 @@ ban — запрещены взлёты и посадки (исключения 
 к сборам за ночь. none — прямо сказано, что аэропорт круглосуточный без ограничений. Не нашёл —
 "kind": null. Часы — в 24-часовом формате, как в документе: «23:00–06:00» → from "23:00", to "06:00".
 """
+
+
+PRICES_TASK = """# Задание: цены и ставки лизинга самолётов в открытых публикациях
+
+Типы: {types}.
+
+Найди опубликованные числа за последние годы по каждому типу:
+- list — каталожная цена производителя (или «по каталогу» в оценке консультанта);
+- deal — цена сделки ЗА ОДИН БОРТ: продажа, обратный лизинг, покупка у лизингодателя. Из заказа —
+  только если цена за борт названа прямо; сумму заказа на число бортов не дели;
+- value — рыночная стоимость по оценке (appraisal; отчёты по облигациям под залог самолётов —
+  EETC, ABS; годовые отчёты лизингодателей);
+- lease — ставка лизинга в месяц.
+
+Поиска у тебя нет — только web_fetch. Начни с лент новостей поиска (они отдают RSS):
+{feeds}
+и иди по ссылкам на сами статьи; число и цитату бери из статьи, а не из ленты. Годятся также
+пресс-релизы и отчёты лизингодателей (AerCap, Air Lease, Avolon, SMBC), отчёты по облигациям в SEC.
+
+Запиши `out/prices.json`:
+{{"observations": [{{"icao": "A21N", "kind": "list|deal|value|lease", "value": 129.5, "scale": "m",
+                    "currency": "USD", "month": "ГГГГ-ММ (дата публикации или оценки)",
+                    "age": "new" или лет числом или null, "quote": "дословная строка до 300 знаков с числом",
+                    "source": "адрес статьи", "publisher": "издание", "note": "что за борт, если важно"}}],
+ "searched": ["типы, по которым искал"], "doubts": ["что смутило"]}}
+
+value — число как напечатано, scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Тип —
+код ИКАО (A320neo — A20N, A321neo — A21N, 737 MAX 8 — B38M, 787-9 — B789, A350-900 — A359). Нашёл
+одно и то же число в нескольких статьях — запиши одну, первоисточник. Не нашёл — пустой список.
+"""
+PRICE_TYPES = ["A20N", "A21N", "B38M", "B39M", "A320", "B738", "A359", "B789", "B77W", "A339", "BCS3",
+               "E295", "E75L", "AT76", "A321", "B788", "A332", "B772", "CRJ9", "DH8D"]
+PRICE_NAMES = {"A20N": "A320neo", "A21N": "A321neo", "B38M": "737 MAX 8", "B39M": "737 MAX 9", "A320": "A320",
+               "B738": "737-800", "A359": "A350-900", "B789": "787-9", "B77W": "777-300ER", "A339": "A330-900",
+               "BCS3": "A220-300", "E295": "E195-E2", "E75L": "E175", "AT76": "ATR 72-600", "A321": "A321ceo",
+               "B788": "787-8", "A332": "A330-200", "B772": "777-200ER", "CRJ9": "CRJ900", "DH8D": "Dash 8-400"}
 
 
 # ── вспомогательное ──────────────────────────────────────────────────────
@@ -757,6 +794,47 @@ class Runner:
                  "info" if got else "warn", attach=str(dst))
         return len(got)
 
+    def prices(self, model: str | None = None, per_run: int | None = None) -> int:
+        """Цены и ставки лизинга по нескольким типам за прогон (страница типа, ряд цен)."""
+        from urllib.parse import quote_plus
+        from . import prices as PR
+        want = PR.due(PRICE_TYPES, PR.load(), limit=per_run or PR.PER_RUN)
+        if not want or not self.budget_ok("prices"):
+            return 0
+        feeds = []
+        for t in want:
+            n = PRICE_NAMES.get(t, t)
+            for q in (f'"{n}" price million', f'"{n}" lease rate', f'"{n}" sale leaseback'):
+                feeds.append(f"- https://news.google.com/rss/search?q={quote_plus(q)}&hl=en-US&gl=US&ceid=US:en")
+            feeds.append(f"- https://www.bing.com/news/search?q={quote_plus(n + ' aircraft price')}&format=rss")
+        ws = self.workspace("prices", f"{_now():%Y%m%d}")
+        try:
+            res = self.exec("prices", ws, PRICES_TASK.format(
+                types=", ".join(f"{t} ({PRICE_NAMES.get(t, t)})" for t in want), feeds="\n".join(feeds)), model)
+        except Exception as e:                                     # noqa: BLE001
+            self.say(f"Агент «цены»: не запущен: {e}", "alert")
+            return 0
+        try:
+            d = json.loads((ws / "out" / "prices.json").read_text("utf-8"))
+        except (OSError, ValueError):
+            self.say(f"Агент «цены»: файла нет или не JSON — {res.get('status')}: "
+                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}", "warn")
+            return 0
+        d.setdefault("searched", want)
+        got = d.get("observations") or []
+        self.out.mkdir(parents=True, exist_ok=True)
+        dst = self.out / f"prices-{_now():%Y-%m-%d}.json"
+        dst.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
+        os.chmod(dst, 0o640)
+        cost = res.get("costUsd")
+        self.say(f"Цены самолётов — черновик агента ({', '.join(want)}): наблюдений {len(got)}.\n"
+                 + "\n".join(f"{p.get('icao')} {p.get('kind')}: {p.get('value')} {p.get('scale') or ''} "
+                              f"{p.get('currency') or ''} ({p.get('month')})" for p in got[:15])
+                 + (f"\nстоимость {cost:.2f} USD" if cost else "")
+                 + "\nДома: fca master drafts — сверит число с цитатой и полосы; принять — --accept-prices.",
+                 "info", attach=str(dst))
+        return len(got)
+
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:
         """До `per_run` аэропортов за прогон; останавливается, когда кандидаты
         кончились, кончился бюджет или ключ не принят."""
@@ -952,6 +1030,8 @@ def main(argv=None) -> int:
         print(f"значений: {r.fuel(a.model)}")
     elif a.job == "night":
         print(f"аэропортов: {r.night(a.model)}")
+    elif a.job == "prices":
+        print(f"наблюдений: {r.prices(a.model)}")
     else:
         r.charges(a.model, a.only)
     return 0

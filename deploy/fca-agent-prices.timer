@@ -1,0 +1,12 @@
+# Цены и ставки лизинга самолётов (страница типа, ряд цен): раз в неделю по четыре
+# типа, давно не искавшиеся — первыми. Приёмка дома: fca master drafts --accept-prices.
+[Unit]
+Description=FlightCostApp — агент: цены и лизинг самолётов
+
+[Timer]
+OnCalendar=Wed *-*-* 07:50:00 UTC
+Persistent=true
+Unit=fca-agent@prices.service
+
+[Install]
+WantedBy=timers.target

@@ -70,7 +70,45 @@ def main() -> int:
     OUT.write_text("# Сгенерировано research/toir/bin/export_calc.py — руками не править.\n"
                    + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), "utf-8")
     print(f"{OUT.relative_to(ROOT)}: типов {len(types)}, наследников {len(succ)}")
+    series()
     return 0
+
+
+SERIES = ROOT / "data" / "maintenance" / "_toir_series.yaml"
+
+
+def series() -> None:
+    """Ряд для страницы типа: затраты на ТОиР по годам, как их отчитали перевозчики США.
+
+    Form 41 P-5.2 (panel.json): прямые затраты и полные (с накладными) на блок-час, номинальные
+    доллары года, сумма по перевозчикам ÷ сумма блок-часов. Строки — от трёх кварталов и от 5 тыс.
+    блок-часов; тип — от трёх лет. Это отчётность как есть, без модели статьи: в ней видны и
+    смена учёта у перевозчиков, и 2020 год (часов мало, затраты постоянные)."""
+    import collections
+    rows = json.loads((HERE / "panel.json").read_text("utf-8"))["rows"]
+    agg = collections.defaultdict(lambda: collections.defaultdict(lambda: [0.0, 0.0, 0.0, set()]))
+    for r in rows:
+        if r["quarters"] < 3 or r["block_h"] < 5000:
+            continue
+        a = agg[r["icao"]][r["year"]]
+        a[0] += r["direct"] or 0
+        a[1] += r["total"] or 0
+        a[2] += r["block_h"]
+        a[3].add(r["carrier"])
+    out = {}
+    for icao, ys in sorted(agg.items()):
+        if len(ys) < 3:
+            continue
+        out[icao] = {y: [round(v[0] / v[2]), round(v[1] / v[2]), len(v[3]), round(v[2])]
+                     for y, v in sorted(ys.items())}
+    SERIES.write_text("# Сгенерировано research/toir/bin/export_calc.py — руками не править.\n"
+                      "# Form 41 P-5.2, перевозчики США: тип → год → [прямые USD/блок-ч, полные USD/блок-ч, "
+                      "перевозчиков, блок-часов]; номинальные доллары года.\n"
+                      + yaml.safe_dump({"source": "https://www.transtats.bts.gov/ (Form 41 Schedule P-5.2)",
+                                        "research": "/ru/research/toir", "types": out},
+                                       allow_unicode=True, sort_keys=False, width=200, default_flow_style=None),
+                      "utf-8")
+    print(f"{SERIES.relative_to(ROOT)}: типов {len(out)}")
 
 
 if __name__ == "__main__":

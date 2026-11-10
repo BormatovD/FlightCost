@@ -27,9 +27,9 @@ items:
       en: "Research: what an aircraft costs — list price, market value by age, lease rates"
       de: "Recherche: was ein Flugzeug kostet — Listenpreis, Marktwert nach Alter, Leasingraten"
     note:
-      ru: "Самый частый неохваченный запрос к сайту по Search Console. Лизинг в калькуляторе сейчас — параметрика от массы; нужна ставка по типу и возрасту с источником."
-      en: "The most frequent uncovered search query to the site per Search Console. Lease in the calculator is now parametric from weight; a rate by type and age with a source is needed."
-      de: "Laut Search Console die häufigste nicht abgedeckte Suchanfrage. Leasing im Rechner ist derzeit parametrisch nach Masse; gebraucht wird ein Satz nach Typ und Alter mit Quelle."
+      ru: "Самый частый неохваченный запрос к сайту по Search Console. С 10.11.2026 агент по средам собирает из публикаций каталог, цены сделок, оценки и ставки лизинга — ряд на странице типа; рядом ряд ТОиР по Form 41. Дальше — статья и ставка лизинга по типу и возрасту в калькуляторе."
+      en: "The most frequent uncovered search query to the site per Search Console. Since 10 Nov 2026 an agent collects list prices, deal prices, appraisals and lease rates from publications every Wednesday — a series on the type page, next to the Form 41 maintenance series. Next — the article and a lease rate by type and age in the calculator."
+      de: "Laut Search Console die häufigste nicht abgedeckte Suchanfrage. Seit 10.11.2026 sammelt ein Agent mittwochs Listenpreise, Kaufpreise, Gutachten und Leasingraten aus Veröffentlichungen — eine Reihe auf der Typseite, neben der Form-41-Reihe zur Instandhaltung. Weiter — der Artikel und eine Leasingrate nach Typ und Alter im Rechner."
     by: owner
     via: owner
     added: 2026-11-10

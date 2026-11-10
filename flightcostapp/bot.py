@@ -796,7 +796,7 @@ def stash_draft(name: str, data: bytes, drafts: Path | None = None) -> bool:
     боту и читается группой fcaxfer — той же, через которую дом забирает
     главную базу; агенту туда писать нельзя, поэтому копирует бот."""
     drafts = DRAFTS if drafts is None else drafts
-    if not (name.startswith(("charges-", "fuel-", "night-")) and name.endswith(".json")) or "/" in name:
+    if not (name.startswith(("charges-", "fuel-", "night-", "prices-")) and name.endswith(".json")) or "/" in name:
         return False
     try:
         drafts.mkdir(parents=True, exist_ok=True)

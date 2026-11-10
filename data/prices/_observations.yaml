@@ -1,0 +1,6 @@
+# Цены и ставки лизинга самолётов из открытых публикаций (flightcostapp/prices.py).
+# Пополняет агент «цены»; приёмка дома — fca master drafts --accept-prices. Число — как напечатано:
+# value × scale в валюте currency; kind: list (каталог), deal (сделка за борт), value (оценка рынка),
+# lease (лизинг в месяц); age — лет или "new".
+observations: []
+searched: {}
