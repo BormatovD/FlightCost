@@ -1006,6 +1006,8 @@ class Context:
             # Кресла рейсом: положения «по сертификату» и «своя». Пусто —
             # компоновка перевозчика (`operator`), как и раньше.
             seats=int(float(q["seats"])) if q.get("seats") else None,
+            # Возраст борта для ТОиР (план toir-calc); пусто — средняя за срок службы.
+            aircraft_age=min(max(float(q["age"]), 0.0), 40.0) if q.get("age") else None,
         )
         sets = [x for x in q.get("set", "").split("~") if x]
         own = self._settings_overrides()
@@ -1920,6 +1922,9 @@ class Context:
             num = {f["field"]: f["value"] for f in fields if isinstance(f["value"], (int, float))}
             if num.get("mtow_t"):
                 pe = parametric(icao, num["mtow_t"], num.get("seats_typical") or num.get("seats_max") or 150)
+                from . import toir
+                toir.apply(pe, icao, year=date.today().year,
+                           usd_per_eur=self.store.value("fx", "USD", date.today().isoformat()))
                 fleet_default = {k: getattr(pe, k) for k in (
                     "lease_eur_month", "monthly_hours", "maint_eur_per_fh", "maint_eur_per_fc",
                     "crew_eur_per_fh", "crew_eur_per_fc")}

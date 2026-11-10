@@ -239,29 +239,50 @@ def build() -> str:
         "bereits; in der Typkarte wird die Instandhaltung in Euro getrennt je Flugstunde und je Zyklus eingegeben: Auf kurzen "
         "Flügen wiegt der Zyklusanteil mehr. Tabellensätze sind direkte Kosten, ohne Gemeinkosten. Das Leasing im Rechner ist "
         "ohne Instandhaltungsrücklagen: Rücklagen im Leasingsatz würden die Instandhaltung doppelt zählen.")}</li>
-<li>{mark('planned')}{T("<b>Ставка зрелого борта по модели</b> из этой статьи — в полосу рядом с отчётностью 2025 года.",
-                         "<b>The modelled mature-aircraft rate</b> from this article — into the band next to the 2025 reports.",
-                         "<b>Der modellierte Satz des reifen Flugzeugs</b> aus diesem Artikel — ins Band neben den Berichten 2025.")}</li>
-<li>{mark('planned')}{T("<b>Возраст борта.</b> Множитель кривой возраста: новый борт — 0,4–0,6 зрелой ставки, средний за срок "
-                         "службы — ×0,9–1,15 по классу.",
-                         "<b>Aircraft age.</b> An age-curve multiplier: a new aircraft — 0.4–0.6 of the mature rate, the "
-                         "service-life average — ×0.9–1.15 by class.",
-                         "<b>Flugzeugalter.</b> Ein Altersfaktor: neues Flugzeug — 0,4–0,6 des reifen Satzes, Durchschnitt über "
-                         "die Nutzungsdauer — ×0,9–1,15 je nach Klasse.")}</li>
-<li>{mark('planned')}{T("<b>Рост во времени.</b> Для расчёта на будущие годы — индекс ТОиР +3 % в год, а не каталог 6–9 %; "
-                         "сценарий «дорогой каталог» — отдельная надбавка на двигательную часть.",
-                         "<b>Growth over time.</b> For future years — the maintenance index +3 % a year, not the catalogue "
-                         "6–9 %; an “expensive catalogue” scenario — a separate surcharge on the engine part.",
-                         "<b>Anstieg über die Zeit.</b> Für künftige Jahre — der Instandhaltungsindex +3 % pro Jahr, nicht der "
-                         "Katalog mit 6–9 %; ein Szenario „teurer Katalog“ — ein eigener Aufschlag auf den Triebwerksanteil.")}</li>
-<li>{mark('planned')}{T("<b>Новые типы</b> без истории в США (LEAP, GTF, ПД-14) — расчёт «снизу» по каталогу с множителем "
-                         "факт/каталог 0,55–0,67: каталог и резервы лизингодателей в 1,5–2,5 раза выше фактических затрат.",
-                         "<b>New types</b> without US history (LEAP, GTF, PD-14) — a bottom-up estimate from the catalogue "
-                         "with an actual/catalogue factor of 0.55–0.67: catalogue and lessor reserves are 1.5–2.5 times "
-                         "actual costs.",
-                         "<b>Neue Typen</b> ohne US-Historie (LEAP, GTF, PD-14) — eine Bottom-up-Schätzung aus dem Katalog "
-                         "mit einem Faktor Ist/Katalog von 0,55–0,67: Katalog und Leasinggeber-Rücklagen liegen 1,5–2,5-mal "
-                         "über den tatsächlichen Kosten.")}</li></ol></section>"""
+<li>{mark('in_calc')}{T("<b>Ставка типа по модели</b> из этой статьи — заготовка ТОиР калькулятора с 10.11.2026 для 36 типов "
+                         "(не меньше 8 точек в панели): прямые затраты, USD 2025 за блок-час в евро по курсу дня, доля цикловой "
+                         "части 39 % на опорном секторе класса. Типам без ставки остаётся параметрика.",
+                         "<b>The modelled type rate</b> from this article — the calculator's maintenance default since 10 Nov 2026 "
+                         "for 36 types (at least 8 points in the panel): direct costs, 2025 USD per block hour in euros at the "
+                         "day's rate, a 39 % cycle share at the class reference sector. Types without a rate keep the parametric "
+                         "default.",
+                         "<b>Der modellierte Typsatz</b> aus diesem Artikel — seit 10.11.2026 die Instandhaltungs-Voreinstellung des "
+                         "Rechners für 36 Typen (mindestens 8 Punkte im Panel): direkte Kosten, USD 2025 je Blockstunde in Euro zum "
+                         "Tageskurs, Zyklusanteil 39 % beim Referenzsektor der Klasse. Typen ohne Satz behalten die "
+                         "parametrische Voreinstellung.")}</li>
+<li>{mark('in_calc')}{T("<b>Возраст борта</b> — поле калькулятора: зрелая ставка × кривая возраста класса; пусто — средняя за "
+                         "срок службы. Проверка на парке 2025 года с фактическим возрастом: Southwest −2 %, Frontier +14 % к Form 41 "
+                         "(у сверхлоукостеров ТОиР дешевле среднего перевозчика); без возраста Frontier был бы +49 %.",
+                         "<b>Aircraft age</b> — a calculator field: mature rate × the class age curve; empty — the service-life "
+                         "average. Checked on the 2025 fleets with actual ages: Southwest −2 %, Frontier +14 % against Form 41 "
+                         "(ultra-low-cost carriers maintain cheaper than the average carrier); without age Frontier would be +49 %.",
+                         "<b>Flugzeugalter</b> — ein Feld im Rechner: reifer Satz × Alterskurve der Klasse; leer — Mittel über die "
+                         "Nutzungsdauer. Geprüft an den Flotten 2025 mit tatsächlichem Alter: Southwest −2 %, Frontier +14 % gegen "
+                         "Form 41 (Ultra-Low-Cost-Airlines warten günstiger als der Durchschnitt); ohne Alter läge Frontier bei "
+                         "+49 %.")}</li>
+<li>{mark('in_calc')}{T("<b>Рост во времени.</b> Ставка растёт на индекс ТОиР +3 % в год от 2025 года к году расчёта, а не на "
+                         f"каталог 6–9 %. {mark('planned')}Сценарий «дорогой каталог» — отдельная надбавка на двигательную часть.",
+                         "<b>Growth over time.</b> The rate grows with the maintenance index, +3 % a year from 2025 to the year "
+                         f"of the calculation, not with the catalogue's 6–9 %. {mark('planned')}An “expensive catalogue” scenario — "
+                         "a separate surcharge on the engine part.",
+                         "<b>Anstieg über die Zeit.</b> Der Satz wächst mit dem Instandhaltungsindex, +3 % pro Jahr von 2025 bis "
+                         f"zum Rechenjahr, nicht mit dem Katalog von 6–9 %. {mark('planned')}Ein Szenario „teurer Katalog“ — ein "
+                         "eigener Aufschlag auf den Triebwerksanteil.")}</li>
+<li>{mark('in_calc')}{T("<b>Новые типы</b> без истории в США (A320neo, A319neo, 737 MAX 7 и 10, A330neo, 787-10) — по "
+                         "предшественнику × 0,7: так соотносятся новое и старое поколение в одном возрасте в парах панели "
+                         f"(B38M/B738, B39M/B739, A21N/A321). {mark('planned')}Расчёт «снизу» по каталогу с множителем "
+                         "факт/каталог 0,55–0,67 (каталог и резервы лизингодателей в 1,5–2,5 раза выше фактических затрат) — "
+                         "для типов без предшественника: ПД-14, C919.",
+                         "<b>New types</b> without US history (A320neo, A319neo, 737 MAX 7 and 10, A330neo, 787-10) — from "
+                         "their predecessor × 0.7: that is how new and old generations of the same age compare in the panel "
+                         f"pairs (B38M/B738, B39M/B739, A21N/A321). {mark('planned')}A bottom-up estimate from the catalogue with "
+                         "an actual/catalogue factor of 0.55–0.67 (catalogue and lessor reserves are 1.5–2.5 times actual "
+                         "costs) — for types without a predecessor: PD-14, C919.",
+                         "<b>Neue Typen</b> ohne US-Historie (A320neo, A319neo, 737 MAX 7 und 10, A330neo, 787-10) — nach dem "
+                         "Vorgänger × 0,7: So verhalten sich neue und alte Generation gleichen Alters in den Paaren des Panels "
+                         f"(B38M/B738, B39M/B739, A21N/A321). {mark('planned')}Eine Bottom-up-Schätzung aus dem Katalog mit einem "
+                         "Faktor Ist/Katalog von 0,55–0,67 (Katalog und Leasinggeber-Rücklagen liegen 1,5–2,5-mal über den "
+                         "tatsächlichen Kosten) — für Typen ohne Vorgänger: PD-14, C919.")}</li></ol></section>"""
 
     report = f"""<section><h2>{T("Как проверялось", "How it was checked", "Wie geprüft wurde")}</h2>
 <p>{T("Ставки — модель по панели Form 41 (BTS) 1991–2025: тип + перевозчик + возраст + длина сектора + доработка перед "

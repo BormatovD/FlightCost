@@ -180,11 +180,11 @@ items:
   - slug: toir
     date: 2026-10-30
     report: toir/report.html
-    calc: on_input
+    calc: in_calc
     calc_note:
-      ru: "Ставки ТОиР задаются в карточке типа (за час и за цикл); статья — ориентир при вводе, полоса Form 41 уже рядом с заготовкой."
-      en: "Maintenance rates are entered in the type card (per hour and per cycle); the article is a guide for input, the Form 41 band is already shown."
-      de: "Instandhaltungssätze stehen in der Typkarte (pro Stunde und pro Zyklus); der Artikel hilft bei der Eingabe, das Form-41-Band ist schon sichtbar."
+      ru: "В расчёте: ставка ТОиР типа по Form 41 — средняя за срок службы или по возрасту борта, с ростом +3 % в год; новые типы — по предшественнику × 0,7."
+      en: "In the calculator: the type's maintenance rate from Form 41 — service-life average or by aircraft age, growing 3 % a year; new types from their predecessor × 0.7."
+      de: "Im Rechner: Instandhaltungssatz des Typs aus Form 41 — Mittel über die Nutzungsdauer oder nach Flugzeugalter, +3 % pro Jahr; neue Typen nach dem Vorgänger × 0,7."
     lang: ru                       # язык самого отчёта
     title:
       ru: "ТОиР: сколько стоит и как быстро дорожает"

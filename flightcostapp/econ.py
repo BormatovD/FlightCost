@@ -924,6 +924,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
                     via: list | None = None,
                     _trade: bool = True,
                     freshness: list[dict] | None = None,
+                    aircraft_age: float | None = None,
                     _ctx_scope: bool = True) -> Result:
     as_of = as_of or date.today().isoformat()
     # Один ключ `--set` на входе, два механизма внутри: переопределения
@@ -1896,7 +1897,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # не только величиной, но и формой — цикловые статьи не зависят от
     # длительности рейса, и плоская ставка занижала короткие плечи.
     fe = load_fleet(res_, ac.icao, operator=operator,
-                    mtow_t=ac.mtow_t, seats=seats)
+                    mtow_t=ac.mtow_t, seats=seats, age=aircraft_age)
     # Происхождение по полю (решение 190): у своего типа лизинг может быть
     # назван автором, а экипаж — оставаться заготовкой.
     def _pair(a: str, b: str) -> str:
@@ -1962,6 +1963,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
         f"{fe.maint_eur_per_fc:,.0f} EUR за рейс (шасси, ВСУ, ресурсные "
         f"детали, линейное обслуживание). Вторая часть от длительности "
         f"рейса не зависит, поэтому ставка на час падает с ростом плеча"
+        + (f". {fe.maint_note}" if fe.maint_note and p_maint == "derived" else "")
         + band("maint_per_bh"),
         node="v_maint_rate",
         ref=fe.field_ref.get("maint_eur_per_fh") if p_maint == "store" else None)
@@ -2022,7 +2024,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
                          # «час · блок + цикл» под ним (решение 193).
                          "fleet": {f: getattr(fe, f) for f in _fields}
                                   | {"prov": {f: fe.prov(f) for f in _fields},
-                                     "block_h": block_h, "note": fe.note},
+                                     "block_h": block_h, "note": fe.note,
+                                     "maint_note": fe.maint_note, "age": aircraft_age},
                          "via": [list(w) for w in (via or [])]},
                  charge_gaps=charge_gaps, charge_lines=apt_lines,
                  feasibility=feasibility, caveats=caveats,

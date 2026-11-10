@@ -18,6 +18,22 @@
 #             без неё пункт идёт после пронумерованных, по дате в плане.
 
 items:
+  - id: research-aircraft-prices
+    status: now
+    order: 1
+    area: research
+    title:
+      ru: "Исследование: сколько стоит самолёт — каталог, рынок по возрасту, ставки лизинга"
+      en: "Research: what an aircraft costs — list price, market value by age, lease rates"
+      de: "Recherche: was ein Flugzeug kostet — Listenpreis, Marktwert nach Alter, Leasingraten"
+    note:
+      ru: "Самый частый неохваченный запрос к сайту по Search Console. Лизинг в калькуляторе сейчас — параметрика от массы; нужна ставка по типу и возрасту с источником."
+      en: "The most frequent uncovered search query to the site per Search Console. Lease in the calculator is now parametric from weight; a rate by type and age with a source is needed."
+      de: "Laut Search Console die häufigste nicht abgedeckte Suchanfrage. Leasing im Rechner ist derzeit parametrisch nach Masse; gebraucht wird ein Satz nach Typ und Alter mit Quelle."
+    by: owner
+    via: owner
+    added: 2026-11-10
+
   - id: research-pricing
     status: done
     area: research
@@ -53,8 +69,7 @@ items:
     link: /ru/research/network-2026-10
 
   - id: toir-calc
-    status: now
-    order: 1
+    status: done
     area: calc
     title:
       ru: "ТОиР по возрасту борта и рост ставок во времени; новые типы — расчёт «снизу» с поправкой факт/каталог"
@@ -62,7 +77,12 @@ items:
       de: "Instandhaltung nach Flugzeugalter und Kostenwachstum; neue Typen von unten mit Faktor Ist/Katalog"
     by: owner
     via: owner
+    note:
+      ru: "Сделано 10.11.2026: ставка типа по Form 41 (36 типов), возраст борта полем калькулятора, +3 % в год, новые типы по предшественнику × 0,7 (пары B38M/B738, B39M/B739, A21N/A321). Проверка: Southwest −2 %, Frontier +14 % — у сверхлоукостеров ТОиР дешевле среднего перевозчика США. Расчёт «снизу» по каталогу двигателя — позже."
+      en: "Done 10 Nov 2026: type rate from Form 41 (36 types), aircraft age as a calculator field, +3 % a year, new types from their predecessor × 0.7 (pairs B38M/B738, B39M/B739, A21N/A321). Check: Southwest −2 %, Frontier +14 % — ultra-low-cost carriers maintain cheaper than the average US carrier. Bottom-up from engine catalogues — later."
+      de: "Erledigt am 10.11.2026: Typsatz aus Form 41 (36 Typen), Flugzeugalter als Rechnerfeld, +3 % pro Jahr, neue Typen nach dem Vorgänger × 0,7 (Paare B38M/B738, B39M/B739, A21N/A321). Prüfung: Southwest −2 %, Frontier +14 % — Ultra-Low-Cost-Airlines warten günstiger als die durchschnittliche US-Airline. Bottom-up aus Triebwerkskatalogen — später."
     added: 2026-11-09
+    done: 2026-11-10
     link: /ru/research/toir
 
   - id: benchmark-bands

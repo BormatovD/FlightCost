@@ -1,0 +1,844 @@
+# Сгенерировано research/toir/bin/export_calc.py — руками не править.
+method: Прямые затраты на ТОиР перевозчиков США (Form 41), USD 2025 за блок-час, без накладных; модель тип + перевозчик
+  + возраст + длина сектора по панели 1991–2025 (research/toir). mature — борт 12 лет; life — средняя за срок службы;
+  shape — множитель возраста к зрелой ставке по классу; cycle_share — доля цикловой части на опорном секторе класса,
+  из эластичности ставки по длине сектора; growth — индекс ТОиР в год. Типы меньше чем с 8 точками не взяты.
+source: /ru/research/toir
+usd_year: 2025
+growth: 0.03
+cycle_share: 0.391
+sector_ref:
+  regional: 1.5
+  narrow: 2.5
+  wide: 8.0
+life:
+  regional: 1.157
+  narrow: 0.862
+  wide: 0.972
+shape:
+  regional:
+    0: 0.581
+    2: 0.753
+    4: 0.994
+    6: 1.056
+    8: 1.149
+    10: 1.006
+    12: 1.0
+    14: 1.239
+    16: 1.711
+    18: 1.559
+    20: 1.367
+    22: 1.367
+    24: 1.367
+    26: 1.367
+  narrow:
+    0: 0.327
+    2: 0.512
+    4: 0.609
+    6: 0.852
+    8: 0.941
+    10: 1.025
+    12: 1.0
+    14: 1.071
+    16: 0.935
+    18: 0.988
+    20: 0.954
+    22: 1.012
+    24: 1.098
+    26: 1.089
+  wide:
+    0: 0.7
+    2: 0.719
+    4: 0.879
+    6: 0.921
+    8: 1.012
+    10: 0.99
+    12: 1.0
+    14: 0.949
+    16: 1.08
+    18: 1.147
+    20: 1.204
+    22: 1.039
+    24: 1.01
+    26: 1.01
+types:
+  A21N:
+    cls: narrow
+    mature_usd_bh: 1654
+    life_usd_bh: 1426
+    lo: 785
+    hi: 2638
+    n: 20
+    carriers:
+    - AA
+    - AS
+    - B6
+    - HA
+    - UA
+    ages:
+    - 0.0
+    - 5.8
+    years:
+    - 2019
+    - 2025
+    young_only: true
+  A319:
+    cls: narrow
+    mature_usd_bh: 800
+    life_usd_bh: 690
+    lo: 620
+    hi: 953
+    n: 56
+    carriers:
+    - AA
+    - AS
+    - DL
+    - G4
+    - HP
+    - NW
+    - UA
+    - US
+    - VX
+    ages:
+    - 0.6
+    - 23.5
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  A320:
+    cls: narrow
+    mature_usd_bh: 1075
+    life_usd_bh: 926
+    lo: 755
+    hi: 1299
+    n: 74
+    carriers:
+    - AA
+    - AS
+    - B6
+    - DL
+    - G4
+    - HP
+    - NW
+    - UA
+    - US
+    - VX
+    ages:
+    - 2.6
+    - 25.2
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  A321:
+    cls: narrow
+    mature_usd_bh: 1271
+    life_usd_bh: 1096
+    lo: 502
+    hi: 1518
+    n: 28
+    carriers:
+    - AA
+    - B6
+    - DL
+    - US
+    ages:
+    - 0.7
+    - 12.9
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  A332:
+    cls: wide
+    mature_usd_bh: 1559
+    life_usd_bh: 1515
+    lo: 1148
+    hi: 1806
+    n: 34
+    carriers:
+    - AA
+    - DL
+    - HA
+    - NW
+    - US
+    ages:
+    - 0.0
+    - 15.3
+    years:
+    - 2007
+    - 2024
+    young_only: false
+  A333:
+    cls: wide
+    mature_usd_bh: 1193
+    life_usd_bh: 1159
+    lo: 847
+    hi: 2020
+    n: 10
+    carriers:
+    - AA
+    - DL
+    ages:
+    - 5.8
+    - 18.7
+    years:
+    - 2011
+    - 2020
+    young_only: false
+  AT76:
+    cls: regional
+    mature_usd_bh: 869
+    life_usd_bh: 1005
+    lo: 761
+    hi: 934
+    n: 8
+    carriers:
+    - EV
+    - OW
+    ages:
+    - 11.3
+    - 15.3
+    years:
+    - 2006
+    - 2010
+    young_only: false
+  B38M:
+    cls: narrow
+    mature_usd_bh: 705
+    life_usd_bh: 607
+    lo: 350
+    hi: 2438
+    n: 13
+    carriers:
+    - AA
+    - UA
+    - WN
+    ages:
+    - 0.2
+    - 3.4
+    years:
+    - 2018
+    - 2025
+    young_only: true
+  B712:
+    cls: narrow
+    mature_usd_bh: 732
+    life_usd_bh: 631
+    lo: 577
+    hi: 1191
+    n: 33
+    carriers:
+    - DL
+    - FL
+    - HA
+    - YX (1)
+    ages:
+    - 0.0
+    - 22.6
+    years:
+    - 2006
+    - 2024
+    young_only: false
+  B733:
+    cls: narrow
+    mature_usd_bh: 930
+    life_usd_bh: 801
+    lo: 838
+    hi: 1136
+    n: 22
+    carriers:
+    - CO
+    - HP
+    - UA
+    - US
+    - WN
+    ages:
+    - 14.8
+    - 22.5
+    years:
+    - 2006
+    - 2015
+    young_only: false
+  B734:
+    cls: narrow
+    mature_usd_bh: 1056
+    life_usd_bh: 910
+    lo: 844
+    hi: 1307
+    n: 17
+    carriers:
+    - AS
+    - US
+    ages:
+    - 11.1
+    - 22.9
+    years:
+    - 2006
+    - 2014
+    young_only: false
+  B735:
+    cls: narrow
+    mature_usd_bh: 615
+    life_usd_bh: 530
+    lo: 556
+    hi: 677
+    n: 15
+    carriers:
+    - CO
+    - UA
+    - WN
+    ages:
+    - 10.1
+    - 23.4
+    years:
+    - 2006
+    - 2015
+    young_only: false
+  B737:
+    cls: narrow
+    mature_usd_bh: 738
+    life_usd_bh: 636
+    lo: 578
+    hi: 1082
+    n: 69
+    carriers:
+    - AQ
+    - AS
+    - CO
+    - DL
+    - FL
+    - UA
+    - WN
+    ages:
+    - 0.5
+    - 22.2
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B738:
+    cls: narrow
+    mature_usd_bh: 931
+    life_usd_bh: 803
+    lo: 749
+    hi: 1027
+    n: 69
+    carriers:
+    - AA
+    - AS
+    - CO
+    - DL
+    - UA
+    - WN
+    ages:
+    - 0.2
+    - 21.5
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B739:
+    cls: narrow
+    mature_usd_bh: 986
+    life_usd_bh: 850
+    lo: 784
+    hi: 1098
+    n: 40
+    carriers:
+    - AS
+    - CO
+    - DL
+    - UA
+    ages:
+    - 0.4
+    - 10.3
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B744:
+    cls: wide
+    mature_usd_bh: 1438
+    life_usd_bh: 1397
+    lo: 928
+    hi: 1757
+    n: 22
+    carriers:
+    - DL
+    - NW
+    - UA
+    ages:
+    - 10.9
+    - 23.4
+    years:
+    - 2006
+    - 2017
+    young_only: false
+  B752:
+    cls: narrow
+    mature_usd_bh: 1402
+    life_usd_bh: 1209
+    lo: 1090
+    hi: 1691
+    n: 68
+    carriers:
+    - AA
+    - CO
+    - DL
+    - G4
+    - NW
+    - UA
+    - US
+    ages:
+    - 9.3
+    - 28.4
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B753:
+    cls: narrow
+    mature_usd_bh: 1335
+    life_usd_bh: 1151
+    lo: 922
+    hi: 2219
+    n: 33
+    carriers:
+    - CO
+    - DL
+    - NW
+    - UA
+    ages:
+    - 2.0
+    - 22.8
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B762:
+    cls: wide
+    mature_usd_bh: 862
+    life_usd_bh: 838
+    lo: 507
+    hi: 1205
+    n: 23
+    carriers:
+    - AA
+    - CO
+    - UA
+    - US
+    ages:
+    - 5.2
+    - 25.7
+    years:
+    - 2006
+    - 2014
+    young_only: false
+  B763:
+    cls: wide
+    mature_usd_bh: 896
+    life_usd_bh: 871
+    lo: 771
+    hi: 1480
+    n: 48
+    carriers:
+    - AA
+    - DL
+    - HA
+    - UA
+    ages:
+    - 8.3
+    - 23.0
+    years:
+    - 2006
+    - 2020
+    young_only: false
+  B764:
+    cls: wide
+    mature_usd_bh: 1072
+    life_usd_bh: 1041
+    lo: 804
+    hi: 1386
+    n: 30
+    carriers:
+    - CO
+    - DL
+    - UA
+    ages:
+    - 4.6
+    - 23.6
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B772:
+    cls: wide
+    mature_usd_bh: 1724
+    life_usd_bh: 1675
+    lo: 1350
+    hi: 1891
+    n: 58
+    carriers:
+    - AA
+    - CO
+    - DL
+    - UA
+    ages:
+    - 4.9
+    - 26.0
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  B77W:
+    cls: wide
+    mature_usd_bh: 2742
+    life_usd_bh: 2664
+    lo: 2513
+    hi: 2809
+    n: 12
+    carriers:
+    - AA
+    ages:
+    - 0.7
+    - 11.3
+    years:
+    - 2014
+    - 2025
+    young_only: false
+  B788:
+    cls: wide
+    mature_usd_bh: 2187
+    life_usd_bh: 2125
+    lo: 1473
+    hi: 2600
+    n: 21
+    carriers:
+    - AA
+    - UA
+    ages:
+    - 0.0
+    - 12.2
+    years:
+    - 2015
+    - 2025
+    young_only: false
+  B789:
+    cls: wide
+    mature_usd_bh: 915
+    life_usd_bh: 889
+    lo: 915
+    hi: 2901
+    n: 11
+    carriers:
+    - AA
+    - UA
+    ages:
+    - 0.1
+    - 6.7
+    years:
+    - 2015
+    - 2025
+    young_only: false
+  CRJ2:
+    cls: regional
+    mature_usd_bh: 544
+    life_usd_bh: 630
+    lo: 376
+    hi: 862
+    n: 59
+    carriers:
+    - 9E
+    - EV
+    - G7
+    - OH
+    - OH (1)
+    - OO
+    - XJ
+    - YV
+    ages:
+    - 0.5
+    - 19.8
+    years:
+    - 2006
+    - 2022
+    young_only: false
+  CRJ7:
+    cls: regional
+    mature_usd_bh: 597
+    life_usd_bh: 690
+    lo: 469
+    hi: 758
+    n: 84
+    carriers:
+    - 9E
+    - EV
+    - G7
+    - MQ
+    - OH
+    - OH (1)
+    - OO
+    - QX
+    - YV
+    ages:
+    - 0.9
+    - 19.7
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  CRJ9:
+    cls: regional
+    mature_usd_bh: 453
+    life_usd_bh: 524
+    lo: 293
+    hi: 629
+    n: 52
+    carriers:
+    - 9E
+    - EV
+    - G7
+    - OH
+    - OH (1)
+    - OO
+    - XJ
+    - YV
+    ages:
+    - 0.4
+    - 13.6
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  DH8D:
+    cls: regional
+    mature_usd_bh: 688
+    life_usd_bh: 796
+    lo: 688
+    hi: 844
+    n: 14
+    carriers:
+    - 9L
+    - QX
+    ages:
+    - 1.3
+    - 13.0
+    years:
+    - 2009
+    - 2021
+    young_only: false
+  E135:
+    cls: regional
+    mature_usd_bh: 441
+    life_usd_bh: 510
+    lo: 382
+    hi: 546
+    n: 14
+    carriers:
+    - EV
+    - MQ
+    - RP
+    - XE (1)
+    ages:
+    - 6.0
+    - 18.9
+    years:
+    - 2006
+    - 2021
+    young_only: false
+  E145:
+    cls: regional
+    mature_usd_bh: 535
+    life_usd_bh: 619
+    lo: 435
+    hi: 716
+    n: 34
+    carriers:
+    - AX
+    - C5
+    - EV
+    - MQ
+    - PT
+    - RP
+    - XE (1)
+    - YV
+    ages:
+    - 4.0
+    - 21.8
+    years:
+    - 2006
+    - 2025
+    young_only: false
+  E170:
+    cls: regional
+    mature_usd_bh: 557
+    life_usd_bh: 645
+    lo: 349
+    hi: 746
+    n: 19
+    carriers:
+    - MQ
+    - S5
+    - YX
+    ages:
+    - 3.2
+    - 19.9
+    years:
+    - 2009
+    - 2025
+    young_only: false
+  E190:
+    cls: regional
+    mature_usd_bh: 877
+    life_usd_bh: 1015
+    lo: 381
+    hi: 1043
+    n: 22
+    carriers:
+    - AA
+    - B6
+    - US
+    - YX
+    ages:
+    - 3.0
+    - 15.1
+    years:
+    - 2010
+    - 2024
+    young_only: false
+  E75L:
+    cls: regional
+    mature_usd_bh: 594
+    life_usd_bh: 687
+    lo: 493
+    hi: 733
+    n: 39
+    carriers:
+    - MQ
+    - OO
+    - QX
+    - S5
+    - YV
+    - YX
+    ages:
+    - 0.4
+    - 11.9
+    years:
+    - 2011
+    - 2025
+    young_only: false
+  MD80:
+    cls: narrow
+    mature_usd_bh: 710
+    life_usd_bh: 612
+    lo: 565
+    hi: 877
+    n: 38
+    carriers:
+    - AA
+    - AS
+    - DL
+    - G4
+    - YX (1)
+    ages:
+    - 13.8
+    - 28.1
+    years:
+    - 2006
+    - 2019
+    young_only: false
+  MD90:
+    cls: narrow
+    mature_usd_bh: 696
+    life_usd_bh: 600
+    lo: 522
+    hi: 852
+    n: 11
+    carriers:
+    - DL
+    ages:
+    - 7.4
+    - 22.3
+    years:
+    - 2007
+    - 2019
+    young_only: false
+successors:
+  A20N:
+    base: A320
+    ratio: 0.7
+  A19N:
+    base: A319
+    ratio: 0.7
+  B37M:
+    base: B737
+    ratio: 0.7
+  B3XM:
+    base: B739
+    ratio: 0.7
+  A339:
+    base: A333
+    ratio: 0.7
+  A338:
+    base: A332
+    ratio: 0.7
+  B78X:
+    base: B788
+    ratio: 0.7
+  B779:
+    base: B77W
+    ratio: 0.7
+  B748:
+    base: B744
+    ratio: 1.0
+  B77L:
+    base: B772
+    ratio: 1.0
+  E290:
+    base: E190
+    ratio: 0.7
+  E295:
+    base: E190
+    ratio: 0.7
+  E195:
+    base: E190
+    ratio: 1.0
+  E275:
+    base: E75L
+    ratio: 0.7
+  AT72:
+    base: AT76
+    ratio: 1.0
+  CRJX:
+    base: CRJ9
+    ratio: 0.7
+  A35K:
+    base: A332
+    ratio: 0.7
+successor_pairs:
+- new: B38M
+  old: B738
+  ratio_same_age: 0.69
+- new: B39M
+  old: B739
+  ratio_same_age: 0.64
+- new: A21N
+  old: A321
+  ratio_same_age: 1.11
+- new: B788
+  old: B763
+  ratio_same_age: 2.44
+- new: B789
+  old: B764
+  ratio_same_age: 0.7
+- new: B789
+  old: A332
+  ratio_same_age: 0.57
+- new: E75L
+  old: CRJ9
+  ratio_same_age: 1.31
+- new: B39M
+  old: B753
+  ratio_same_age: 0.31

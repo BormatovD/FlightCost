@@ -441,6 +441,8 @@ def main(argv=None) -> int:
                             "коммерческая нагрузка завышена")
     route.add_argument("--freq", type=float, default=None, metavar="N",
                        help="рейсов в неделю в одну сторону")
+    route.add_argument("--age", type=float, default=None, metavar="ЛЕТ",
+                       help="возраст борта для ТОиР; по умолчанию — средняя ставка за срок службы типа")
     route.add_argument("--util", default="fleet_average",
                        choices=["fleet_average", "dedicated", "marginal"],
                        help="как относить лизинг: типовой налёт перевозчика, "
@@ -1319,7 +1321,7 @@ def main(argv=None) -> int:
         # разъезжались, и они разъезжались — не на разборе аргументов, а
         # на месте вызова.
         base = dict(aircraft=a.ac, load_factor=a.lf, fare_eur=a.fare,
-                    as_of=a.as_of, freq_week=a.freq, util_mode=a.util,
+                    as_of=a.as_of, freq_week=a.freq, util_mode=a.util, aircraft_age=getattr(a, 'age', None),
                     month=a.month, alternate_nm=a.alternate_nm,
                     operator=a.operator, overrides=parse_set(a.overrides))
         sol = solve(store, a.origin, a.destination, param=a.param,
@@ -1373,7 +1375,7 @@ def main(argv=None) -> int:
     if a.cmd in ("econ", "explain"):
         res = route_economics(store, a.origin, a.destination, aircraft=a.ac,
                               load_factor=a.lf, fare_eur=a.fare, as_of=a.as_of,
-                              freq_week=a.freq, util_mode=a.util,
+                              freq_week=a.freq, util_mode=a.util, aircraft_age=getattr(a, 'age', None),
                               operator=a.operator,
                               month=a.month, alternate_nm=a.alternate_nm,
                               overrides=parse_set(a.overrides),
@@ -1388,7 +1390,7 @@ def main(argv=None) -> int:
                 mg = margins(store, a.origin, a.destination,
                              dict(aircraft=a.ac, load_factor=a.lf,
                                   fare_eur=a.fare, as_of=a.as_of,
-                                  freq_week=a.freq, util_mode=a.util,
+                                  freq_week=a.freq, util_mode=a.util, aircraft_age=getattr(a, 'age', None),
                                   operator=a.operator,
                                   overrides=parse_set(a.overrides)), a.ac)
             path = _write_explain(res, want, mg)

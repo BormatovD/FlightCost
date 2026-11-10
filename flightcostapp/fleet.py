@@ -177,6 +177,7 @@ class FleetEconomics:
     # шесть ставок выдавала заготовку за данные, а данные — за заготовку.
     field_prov: dict = field(default_factory=dict)
     field_ref: dict = field(default_factory=dict)
+    maint_note: str = ""          # откуда заготовка ТОиР (toir.py), если не параметрика
 
     def prov(self, name: str) -> str:
         """`store` · `override` · `default` для одного поля."""
@@ -310,7 +311,7 @@ def fit_rates(points, prior_cycle_share: float | None = None,
 
 
 def load(res, icao: str, as_of=None, operator: str = "*",
-         mtow_t: float | None = None, seats: float | None = None):
+         mtow_t: float | None = None, seats: float | None = None, age: float | None = None):
     """Ставки из хранилища, иначе заготовка.
 
     Порядок: сначала ставки конкретного перевозчика, затем общие для
@@ -342,6 +343,17 @@ def load(res, icao: str, as_of=None, operator: str = "*",
     # ставку и оставить пять заготовкой — обычный случай, а не ошибка.
     fe = parametric(icao, mtow_t, seats)
     fe.field_prov = {f: "default" for f in fields}
+    # ТОиР — ставка статьи по типу, возрасту и году, если тип в таблице Form 41
+    # (план toir-calc); иначе остаётся параметрика от массы.
+    from . import toir
+    when = str(as_of or getattr(res, "as_of", "") or "")
+    try:
+        usd = res.value("fx", "USD")
+    except Exception:                                      # noqa: BLE001
+        usd = None
+    tr = toir.apply(fe, icao, age=age, year=int(when[:4]) if when[:4].isdigit() else None, usd_per_eur=usd)
+    if tr:
+        fe.maint_note = tr["note"]
     touched, named = [], []
     for f in fields:
         done = False
