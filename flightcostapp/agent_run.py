@@ -278,7 +278,8 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
 
 Типы: {types}.
 
-Найди опубликованные числа за последние годы по каждому типу:
+Найди опубликованные числа по каждому типу. Приоритет — 2021 год и позже; более ранние
+открытые оценки тоже полезны для исторического ряда, но указывай их настоящую дату:
 - list — каталожная цена производителя (или «по каталогу» в оценке консультанта);
 - deal — цена сделки ЗА ОДИН БОРТ: продажа, обратный лизинг, покупка у лизингодателя. Из заказа —
   только если цена за борт названа прямо; сумму заказа на число бортов не дели;
@@ -286,21 +287,34 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
   EETC, ABS; годовые отчёты лизингодателей);
 - lease — ставка лизинга в месяц.
 
-Поиска у тебя нет — только web_fetch. Начни с лент новостей поиска (они отдают RSS):
+Сначала прочитай `in/price_sources.json`: там открытые отчёты, подготовленные рядом тексты
+с номерами страниц и адреса ранее использованных публикаций. Начни с текстов отчётов,
+относящихся к заданным типам. В source ставь URL оригинала, в note — страницу, дату оценки
+и условия. Дата в пути URL не обязательно совпадает с датой оценки: сверяй текст отчёта.
+
+Затем проверь свежие публикации. Поиска у тебя нет — только web_fetch; эти ленты отдают RSS:
 {feeds}
-и иди по ссылкам на сами статьи; число и цитату бери из статьи, а не из ленты. Годятся также
+Иди по ссылкам на сами статьи; число и цитату бери из статьи, а не из ленты. Если вместо статьи
+пришла пустая страница или обёртка Google News, это не прочитанный источник: попробуй другую
+ссылку или сайт издателя, а недоступный адрес укажи в doubts. Годятся также
 пресс-релизы и отчёты лизингодателей (AerCap, Air Lease, Avolon, SMBC), отчёты по облигациям в SEC.
+Диапазон цен не превращай в его середину или произвольно выбранную границу. Если нет отдельного
+скалярного значения, приведи диапазон с адресом и условиями в doubts. Base value и балансовая
+стоимость не являются current market value: такие числа не записывай как рыночную оценку.
+Числа осей и легенды графика в извлечённом TXT не задают точек кривой: по ним цены не восстанавливай.
 
 Запиши `out/prices.json`:
 {{"observations": [{{"icao": "A21N", "kind": "list|deal|value|lease", "value": 129.5, "scale": "m",
                     "currency": "USD", "month": "ГГГГ-ММ (дата публикации или оценки)",
                     "age": "new" или лет числом или null, "quote": "дословная строка до 300 знаков с числом",
                     "source": "адрес статьи", "publisher": "издание", "note": "что за борт, если важно"}}],
- "searched": ["типы, по которым искал"], "doubts": ["что смутило"]}}
+ "searched": {searched}, "doubts": ["что смутило"]}}
 
 value — число как напечатано, scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Тип —
 код ИКАО (A320neo — A20N, A321neo — A21N, 737 MAX 8 — B38M, 787-9 — B789, A350-900 — A359). Нашёл
 одно и то же число в нескольких статьях — запиши одну, первоисточник. Не нашёл — пустой список.
+Для каждого типа без наблюдений объясни в doubts причину и перечисли просмотренные адреса.
+searched — только приведённые выше коды ИКАО, без названий в скобках.
 """
 PRICE_TYPES = ["A20N", "A21N", "B38M", "B39M", "A320", "B738", "A359", "B789", "B77W", "A339", "BCS3",
                "E295", "E75L", "AT76", "A321", "B788", "A332", "B772", "CRJ9", "DH8D"]
@@ -308,6 +322,21 @@ PRICE_NAMES = {"A20N": "A320neo", "A21N": "A321neo", "B38M": "737 MAX 8", "B39M"
                "B738": "737-800", "A359": "A350-900", "B789": "787-9", "B77W": "777-300ER", "A339": "A330-900",
                "BCS3": "A220-300", "E295": "E195-E2", "E75L": "E175", "AT76": "ATR 72-600", "A321": "A321ceo",
                "B788": "787-8", "A332": "A330-200", "B772": "777-200ER", "CRJ9": "CRJ900", "DH8D": "Dash 8-400"}
+
+# Проверенные открытые отчёты: обычный загрузчик готовит текст до вызова модели.
+# Это стартовые документы, а не заранее принятые наблюдения или текущие котировки.
+PRICE_REPORTS = (
+    {"id": "truenoord-turboprops", "types": ["AT76", "DH8D"],
+     "url": "https://www.truenoord.com/wp-content/uploads/2020/06/Large_Turboprop_Report.pdf",
+     "title": "TrueNoord — Large Turboprop Report",
+     "note": "Основной отчёт — декабрь 2019; отдельное COVID-дополнение — июнь 2020. "
+             "Lease Rates на стр. 10 относятся к основному отчёту. Не датировать весь PDF июнем 2020."},
+    {"id": "truenoord-regional-jets", "types": ["CRJ9", "E75L"],
+     "url": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
+     "title": "TrueNoord — Regional Jet Market Report, July 2022",
+     "note": "Раздел 6.3, стр. 33–35: оценки и ставки лизинга. Сравнения с 2019 годом "
+             "отделять от 2022; диапазоны не превращать в одну придуманную точку."},
+)
 
 
 # ── вспомогательное ──────────────────────────────────────────────────────
@@ -517,7 +546,13 @@ class Runner:
         os.replace(tmp, f)
 
     def workspace(self, job: str, tag: str) -> Path:
-        ws = self.home / "runs" / f"{_now():%Y%m%d-%H%M%S}-{job}-{tag}"
+        base = self.home / "runs" / f"{_now():%Y%m%d-%H%M%S}-{job}-{tag}"
+        ws, suffix = base, 1
+        # Успешные быстрые прогоны могут закончиться в одну секунду.
+        # Повторное имя не должно заменять ни исходный JSON, ни экспорт.
+        while ws.exists():
+            suffix += 1
+            ws = base.with_name(f"{base.name}-{suffix}")
         for sub in ("in", "out"):
             (ws / sub).mkdir(parents=True, exist_ok=True)
         return ws
@@ -893,45 +928,143 @@ class Runner:
                  "info" if got else "warn", attach=str(dst))
         return len(got)
 
+    def prices_state(self) -> dict:
+        """Выполненные попытки поиска; приёмка наблюдений ведётся отдельно."""
+        path = self.home / "prices_state.json"
+        if not path.exists():
+            return {}
+        state = json.loads(path.read_text("utf-8"))
+        if not isinstance(state, dict):
+            raise ValueError("prices_state.json должен содержать объект")
+        return state
+
+    def save_prices_state(self, state: dict) -> None:
+        path = self.home / "prices_state.json"
+        tmp = path.with_suffix(".tmp")
+        tmp.write_text(json.dumps(state, ensure_ascii=False, indent=1, sort_keys=True), "utf-8")
+        tmp.replace(path)
+
+    def prepare_price_sources(self, ws: Path, want: list[str], doc: dict) -> None:
+        """Публичные PDF в текст через существующий изолированный разборщик, без API модели."""
+        sources = []
+        for report in PRICE_REPORTS:
+            if not set(want).intersection(report["types"]):
+                continue
+            source = dict(report)
+            sources.append(source)
+            pdf = ws / "in" / f"{report['id']}.pdf"
+            try:
+                req = urllib.request.Request(report["url"], headers={"User-Agent": UA})
+                with urllib.request.urlopen(req, timeout=60) as response:
+                    blob = response.read(MAX_DOC + 1)
+                if len(blob) > MAX_DOC or not blob.startswith(b"%PDF-"):
+                    raise ValueError("ответ не PDF или больше 30 МБ")
+                pdf.write_bytes(blob)
+                source["pdf"] = f"in/{pdf.name}"
+                text = extract_text_safe(pdf)
+                if not text or text.startswith("(текст не извлечён:"):
+                    raise ValueError(text or "PDF не содержит извлекаемого текста")
+                txt = pdf.with_suffix(".txt")
+                txt.write_text(text, "utf-8")
+                source["text"] = f"in/{txt.name}"
+            except Exception as exc:                              # noqa: BLE001
+                # Одна недоступная публикация не отменяет остальные источники.
+                source["error"] = f"{type(exc).__name__}: {exc}"[:300]
+        known = []
+        for row in sorted(doc.get("observations") or [], key=lambda x: str(x.get("month", "")), reverse=True):
+            url = row.get("source")
+            if row.get("icao") in want and isinstance(url, str) and url.startswith("https://") and url not in known:
+                known.append(url)
+                if len(known) == 8:
+                    break
+        (ws / "in" / "price_sources.json").write_text(
+            json.dumps({"reports": sources, "known_publications": known}, ensure_ascii=False, indent=1), "utf-8")
+
     def prices(self, model: str | None = None, per_run: int | None = None) -> int:
         """Цены и ставки лизинга по нескольким типам за прогон (страница типа, ряд цен)."""
         from urllib.parse import quote_plus
         from . import prices as PR
-        want = PR.due(PRICE_TYPES, PR.load(), limit=per_run or PR.PER_RUN)
-        if not want or not self.budget_ok("prices"):
+        if not self.budget_ok("prices"):
+            return 0
+        doc = PR.load()
+        state = self.prices_state()
+        searched = dict(doc.get("searched") or {})
+        for code, attempt in state.items():
+            if code in PRICE_TYPES and isinstance(attempt, dict):
+                at = str(attempt.get("at") or "")
+                searched[code] = max(str(searched.get(code) or ""), at)
+        want = PR.due(PRICE_TYPES, {**doc, "searched": searched}, limit=per_run or PR.PER_RUN)
+        if not want:
             return 0
         feeds = []
         for t in want:
             n = PRICE_NAMES.get(t, t)
-            for q in (f'"{n}" price million', f'"{n}" lease rate', f'"{n}" sale leaseback'):
-                feeds.append(f"- https://news.google.com/rss/search?q={quote_plus(q)}&hl=en-US&gl=US&ceid=US:en")
-            feeds.append(f"- https://www.bing.com/news/search?q={quote_plus(n + ' aircraft price')}&format=rss")
+            for q in (f'"{n}" price million', f'"{n}" lease rate', f'"{n}" sale leaseback',
+                      f'"{n}" aircraft market value'):
+                feeds.append(f"- https://www.bing.com/news/search?q={quote_plus(q)}&format=rss")
         ws = self.workspace("prices", f"{_now():%Y%m%d}")
+        self.prepare_price_sources(ws, want, doc)
         try:
             res = self.exec("prices", ws, PRICES_TASK.format(
-                types=", ".join(f"{t} ({PRICE_NAMES.get(t, t)})" for t in want), feeds="\n".join(feeds)), model)
+                types=", ".join(f"{t} ({PRICE_NAMES.get(t, t)})" for t in want),
+                searched=json.dumps(want), feeds="\n".join(feeds)), model)
         except Exception as e:                                     # noqa: BLE001
             self.say(f"Агент «цены»: не запущен: {e}", "alert")
             return 0
+        if res.get("status") != "ok":
+            self.say(f"Агент «цены»: прогон завершился со статусом {res.get('status')}; "
+                     f"очередь не продвинута. Диагностика: runs/{ws.name}/result.json", "warn")
+            return 0
         try:
             d = json.loads((ws / "out" / "prices.json").read_text("utf-8"))
-        except (OSError, ValueError):
-            self.say(f"Агент «цены»: файла нет или не JSON — {res.get('status')}: "
-                     f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}", "warn")
+            if (not isinstance(d, dict) or not isinstance(d.get("observations"), list)
+                    or not all(isinstance(row, dict) for row in d["observations"])
+                    or not isinstance(d.get("doubts", []), list)):
+                raise ValueError("ожидается объект с observations (список объектов) и doubts (список)")
+            for row in d["observations"]:
+                codes = PR.normalize_searched([row.get("icao")])
+                if len(codes) != 1 or codes[0] not in want:
+                    raise ValueError("у наблюдения нет кода из назначенного списка типов")
+                row["icao"] = codes[0]
+                value = row.get("value")
+                if (isinstance(value, bool) or not isinstance(value, (int, float))
+                        or not math.isfinite(value)):
+                    raise ValueError("значение наблюдения должно быть конечным числом")
+                for field in ("source", "quote", "currency", "publisher", "note"):
+                    if row.get(field) is not None and not isinstance(row[field], str):
+                        raise ValueError(f"поле {field} должно быть текстом")
+            # Служебные коды назначенного задания известны исполнителю.
+            d["searched"] = want
+            checked = PR.check(json.dumps(d).encode("utf-8"), doc)
+            if any(row["verdict"] == "reject" for row in checked["rows"]):
+                raise ValueError("наблюдение не прошло формальную проверку вида, числа, масштаба или месяца")
+        except (OSError, ValueError, TypeError) as exc:
+            self.say(f"Агент «цены»: нет корректного черновика ({str(exc)[:300]}); "
+                     f"очередь не продвинута. Прогон: {ws.name}", "warn")
             return 0
-        d.setdefault("searched", want)
+        d["run"] = ws.name
+        d["searched_at"] = _now().isoformat(timespec="seconds")
+        (ws / "out" / "prices.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
         got = d.get("observations") or []
         self.out.mkdir(parents=True, exist_ok=True)
-        dst = self.out / f"prices-{_now():%Y-%m-%d}.json"
+        dst = self.out / f"prices-{ws.name}.json"
         dst.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
         os.chmod(dst, 0o640)
+        for code in want:
+            state[code] = {"at": d["searched_at"], "run": ws.name,
+                           "observations": sum(str(row.get("icao") or "").upper() == code for row in got)}
+        self.save_prices_state(state)
         cost = res.get("costUsd")
+        details = ("\n".join(f"{p.get('icao')} {p.get('kind')}: {p.get('value')} {p.get('scale') or ''} "
+                             f"{p.get('currency') or ''} ({p.get('month')})" for p in got[:15])
+                   if got else "Проверяемых чисел не найдено. Попытка учтена, очередь типов продвинута.")
+        doubts = "\n".join(f"· {str(item)[:350]}" for item in d.get("doubts", [])[:3])
         self.say(f"Цены самолётов — черновик агента ({', '.join(want)}): наблюдений {len(got)}.\n"
-                 + "\n".join(f"{p.get('icao')} {p.get('kind')}: {p.get('value')} {p.get('scale') or ''} "
-                              f"{p.get('currency') or ''} ({p.get('month')})" for p in got[:15])
-                 + (f"\nстоимость {cost:.2f} USD" if cost else "")
-                 + "\nДома: fca master drafts — сверит число с цитатой и полосы; принять — --accept-prices.",
-                 "info", attach=str(dst))
+                 + details + (f"\n{doubts}" if doubts else "")
+                 + (f"\nстоимость {cost:.4f} USD" if cost is not None else "")
+                 + ("\nДома: fca master drafts — сверит число с цитатой и полосы; принять — --accept-prices."
+                    if got else "\nПустой черновик приложен для проверки причин; принимать цены нечего."),
+                 "info" if got else "warn", attach=str(dst))
         return len(got)
 
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:

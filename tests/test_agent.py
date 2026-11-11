@@ -10,6 +10,7 @@ API OpenAI Responses, запускает `agent exec` с закреплённы�
 from __future__ import annotations
 
 import http.server
+import io
 import json
 import os
 import re
@@ -23,6 +24,7 @@ from pathlib import Path
 from unittest import mock
 
 from flightcostapp import agent_run as A
+from flightcostapp import prices as PR
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "deploy" / "agent" / "openclaw.json5"
@@ -289,6 +291,209 @@ class Smoke(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, mock.patch.object(A, "HOME", Path(tmp)), \
                 mock.patch.object(A.fcntl, "flock", side_effect=BlockingIOError):
             self.assertEqual(A.main(["smoke"]), 2)
+
+
+class PricesRunner(unittest.TestCase):
+    """Успешный поиск продвигает очередь отдельно от приёмки цен; сбой — нет."""
+
+    WANTED = ["AT76", "B772", "CRJ9", "DH8D"]
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory(prefix="fca-price-runner-")
+        self.addCleanup(tmp.cleanup)
+        self.tmp = Path(tmp.name)
+        self.home = self.tmp / "agent"
+        self.doc = {"observations": [], "searched": {
+            code: "2026-11-01" for code in A.PRICE_TYPES if code not in self.WANTED}}
+        self.original_doc = json.loads(json.dumps(self.doc))
+        self.load = self.enterContext(mock.patch.object(PR, "load", return_value=self.doc))
+        self.merge = self.enterContext(mock.patch.object(PR, "merge"))
+        self.prepare = self.enterContext(mock.patch.object(A.Runner, "prepare_price_sources"))
+        self.now = self.enterContext(mock.patch.object(A, "_now", return_value=
+            A.datetime(2026, 11, 10, 21, 3, 2, tzinfo=A.timezone.utc)))
+        self.enterContext(mock.patch.object(A, "_api_key", side_effect=AssertionError("API не нужен")))
+        self.runner = A.Runner(self.home, spool=self.tmp / "spool")
+
+    def run_prices(self, draft, *, status="ok", runner=None, cost=0.006035):
+        runner = runner or self.runner
+
+        def execute(job, ws, task, model):
+            self.assertEqual(job, "prices")
+            self.assertIn("in/price_sources.json", task)
+            self.assertIn("https://www.bing.com/news/search?", task)
+            self.assertNotIn("https://news.google.com/rss/", task)
+            if draft is not None:
+                (ws / "out" / "prices.json").write_text(
+                    draft if isinstance(draft, str) else json.dumps(draft, ensure_ascii=False), "utf-8")
+            return {"status": status, "costUsd": cost}
+
+        with mock.patch.object(runner, "exec", side_effect=execute) as execute_mock:
+            result = runner.prices()
+        execute_mock.assert_called_once()
+        return result
+
+    def test_empty_draft_is_exported_and_next_runner_moves_on_without_acceptance(self):
+        # Формат searched из реального пустого production-черновика.
+        draft = {"observations": [], "searched": [
+            "AT76 (ATR 72-600)", "B772 (777-200ER)", "CRJ9 (CRJ900)", "DH8D (Dash 8-400)"],
+            "doubts": ["ATR: первичная статья вернула 403.", "WLFC: цена за борт не указана."]}
+        self.assertEqual(self.run_prices(draft), 0)
+        self.assertEqual(self.prepare.call_args.args[1], self.WANTED)
+        first_path = next(self.runner.out.glob("prices-*.json"))
+        first_bytes = first_path.read_bytes()
+        exported = json.loads(first_bytes)
+        self.assertEqual(exported["searched"], self.WANTED)
+        self.assertEqual(exported["observations"], [])
+        self.assertEqual(exported["doubts"], draft["doubts"])
+        self.assertEqual(exported["searched_at"], "2026-11-10T21:03:02+00:00")
+        state = json.loads((self.home / "prices_state.json").read_text())
+        self.assertEqual(set(state), set(self.WANTED))
+        for code in self.WANTED:
+            self.assertEqual(state[code], {"at": exported["searched_at"],
+                                         "run": exported["run"], "observations": 0})
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["attach"], str(first_path))
+        self.assertEqual(message["level"], "warn")
+        self.assertIn("очередь типов продвинута", message["text"])
+        self.assertIn("стоимость 0.0060 USD", message["text"])
+        self.assertIn("принимать цены нечего", message["text"])
+        for doubt in draft["doubts"]:
+            self.assertIn(doubt, message["text"])
+
+        # Второй процесс в тот же день получает прежний принятый справочник,
+        # но читает сохранённые попытки. Первый черновик должен сохраниться.
+        self.now.return_value = A.datetime(2026, 11, 10, 21, 5, 30, tzinfo=A.timezone.utc)
+        second = A.Runner(self.home, spool=self.tmp / "spool")
+        self.assertEqual(self.run_prices({"observations": [], "doubts": ["Второй поиск пуст."]},
+                                         runner=second), 0)
+        self.assertEqual(self.prepare.call_args.args[1], ["A20N", "A21N", "B38M", "B39M"])
+        outputs = list(second.out.glob("prices-*.json"))
+        self.assertEqual(len(outputs), 2)
+        self.assertEqual(first_path.read_bytes(), first_bytes)
+        second_path = next(p for p in outputs if p != first_path)
+        self.assertEqual(json.loads(second_path.read_text())["searched"], ["A20N", "A21N", "B38M", "B39M"])
+        self.assertEqual({json.loads(p.read_text())["attach"] for p in (self.tmp / "spool").glob("*.json")},
+                         {str(first_path), str(second_path)})
+        self.assertEqual(self.doc, self.original_doc, "поиск не должен менять принятые данные")
+        self.merge.assert_not_called()
+
+    def test_api_error_or_timeout_never_exports_even_when_model_wrote_json(self):
+        for status in ("error", "timeout"):
+            with self.subTest(status=status):
+                runner = A.Runner(self.tmp / status, spool=self.tmp / "spool")
+                self.assertEqual(self.run_prices({"observations": [], "searched": self.WANTED,
+                                                  "doubts": ["Неполная попытка."]},
+                                                 status=status, runner=runner), 0)
+                self.assertTrue(list((runner.home / "runs").glob("*/out/prices.json")),
+                                "для регрессии нужен файл, созданный до ошибки API")
+                self.assertFalse((runner.home / "prices_state.json").exists())
+                self.assertEqual(list(runner.out.glob("*.json")), [])
+
+        self.assertTrue(all("attach" not in json.loads(p.read_text())
+                            for p in (self.tmp / "spool").glob("*.json")))
+        self.assertEqual(self.doc, self.original_doc)
+        self.merge.assert_not_called()
+
+    def test_successful_scalar_draft_remains_for_manual_acceptance(self):
+        observation = {"icao": "at76", "kind": "lease", "value": 180000,
+                       "currency": "USD", "month": "2019-12", "age": "new",
+                       "source": "https://example.org/report.pdf",
+                       "quote": "Lease rate US$180,000 per month."}
+        self.assertEqual(self.run_prices({"observations": [observation], "searched": 42}), 1)
+        exported = json.loads(next(self.runner.out.glob("*.json")).read_text())
+        self.assertEqual(exported["observations"][0]["icao"], "AT76")
+        self.assertEqual(exported["observations"][0]["value"], 180000)
+        self.assertEqual(exported["searched"], self.WANTED)
+        self.assertEqual(self.runner.prices_state()["AT76"]["observations"], 1)
+        self.merge.assert_not_called()
+
+    def test_invalid_observation_does_not_export_or_advance_queue(self):
+        valid = {"icao": "AT76", "kind": "lease", "value": 180000,
+                 "currency": "USD", "month": "2019-12",
+                 "source": "https://example.org/report.pdf", "quote": "US$180,000 per month"}
+        invalid = [{}, {**valid, "source": [valid["source"]]},
+                   {**valid, "value": float("nan")}, {**valid, "value": True},
+                   {**valid, "icao": "A21N"}, {**valid, "kind": "unknown"}]
+        for i, observation in enumerate(invalid):
+            with self.subTest(i=i):
+                runner = A.Runner(self.tmp / f"bad-row-{i}", spool=self.tmp / "spool")
+                self.assertEqual(self.run_prices({"observations": [observation]}, runner=runner), 0)
+                self.assertFalse((runner.home / "prices_state.json").exists())
+                self.assertEqual(list(runner.out.glob("*.json")), [])
+
+    def test_same_second_runs_keep_both_drafts(self):
+        # Часы намеренно заморожены: одной секундной метки для имени мало.
+        self.run_prices({"observations": [], "doubts": ["Первый поиск."]})
+        first = next(self.runner.out.glob("*.json"))
+        original = first.read_bytes()
+        self.run_prices({"observations": [], "doubts": ["Второй поиск."]})
+        self.assertEqual(len(list(self.runner.out.glob("*.json"))), 2)
+        self.assertEqual(len(list((self.home / "runs").iterdir())), 2)
+        self.assertEqual(first.read_bytes(), original)
+
+    def test_missing_invalid_or_wrong_shape_json_never_advances_or_exports(self):
+        for i, draft in enumerate((None, "not JSON", "[]", "null", "{}",
+                                   '{"observations":{}}', '{"observations":[1]}',
+                                   '{"observations":[],"doubts":"not a list"}')):
+            with self.subTest(draft=draft):
+                runner = A.Runner(self.tmp / f"invalid-{i}", spool=self.tmp / "spool")
+                self.assertEqual(self.run_prices(draft, runner=runner), 0)
+                self.assertEqual(self.prepare.call_args.args[1], self.WANTED)
+                self.assertFalse((runner.home / "prices_state.json").exists())
+                self.assertEqual(list(runner.out.glob("*.json")), [])
+        self.assertEqual(self.doc, self.original_doc)
+        self.merge.assert_not_called()
+
+
+class PriceSourcePreparation(unittest.TestCase):
+    """Загрузка опорных документов — локальный текст, отказ одного не отменяет остальные."""
+
+    def test_unavailable_report_does_not_discard_other_text_or_known_publications(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = A.Runner(Path(tmp), spool=Path(tmp) / "spool")
+            ws = runner.workspace("prices", "sources")
+            reports = A.PRICE_REPORTS
+            text = "=== стр. 33 ===\nLease rates are stated in USD per month."
+            doc = {"observations": [
+                {"icao": "AT76", "month": "2025-01", "source": "https://example.org/a"},
+                {"icao": "AT76", "month": "2026-01", "source": "https://example.org/a"},
+                {"icao": "CRJ9", "month": "2026-02", "source": "https://example.org/b"},
+                {"icao": "B772", "month": "2026-03", "source": "https://example.org/unrelated"},
+                {"icao": "AT76", "month": "2026-03", "source": "file:///private/document"}]}
+            with mock.patch.object(A.urllib.request, "urlopen", side_effect=[
+                    io.BytesIO(b"<html>Access denied</html>"), io.BytesIO(b"%PDF-1.4 fixture")]) as fetch, \
+                    mock.patch.object(A, "extract_text_safe", return_value=text) as extract:
+                runner.prepare_price_sources(ws, ["AT76", "CRJ9"], doc)
+            self.assertEqual([c.args[0].full_url for c in fetch.call_args_list],
+                             [report["url"] for report in reports])
+            sources = json.loads((ws / "in" / "price_sources.json").read_text())
+            self.assertIn("не PDF", sources["reports"][0]["error"])
+            self.assertNotIn("text", sources["reports"][0])
+            ready = sources["reports"][1]
+            self.assertEqual((ws / ready["text"]).read_text(), text)
+            self.assertEqual(ready["url"], reports[1]["url"])
+            extract.assert_called_once_with(ws / ready["pdf"])
+            self.assertEqual(sources["known_publications"], ["https://example.org/b", "https://example.org/a"])
+
+    def test_oversized_report_is_bounded_and_not_sent_to_extractor(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = A.Runner(Path(tmp), spool=Path(tmp) / "spool")
+            ws = runner.workspace("prices", "sources")
+            response = mock.MagicMock()
+            response.__enter__.return_value = response
+            response.read.return_value = b"%PDF-1.4X"
+            with mock.patch.object(A, "MAX_DOC", 8), \
+                    mock.patch.object(A.urllib.request, "urlopen", return_value=response) as fetch, \
+                    mock.patch.object(A, "extract_text_safe") as extract:
+                runner.prepare_price_sources(ws, ["AT76"], {})
+            fetch.assert_called_once()
+            response.read.assert_called_once_with(9)
+            extract.assert_not_called()
+            sources = json.loads((ws / "in" / "price_sources.json").read_text())
+            self.assertEqual(len(sources["reports"]), 1)
+            self.assertIn("error", sources["reports"][0])
+            self.assertNotIn("text", sources["reports"][0])
+            self.assertEqual(list((ws / "in").glob("*.pdf")), [])
 
 
 @unittest.skipUnless(os.environ.get("FCA_TEST_OPENCLAW"), "FCA_TEST_OPENCLAW не задан")

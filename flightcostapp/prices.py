@@ -109,9 +109,31 @@ def usd(o: dict, rates: dict | None = None) -> float | None:
 
 # ── агент и приёмка ──────────────────────────────────────────────────────
 
+def normalize_searched(values) -> list[str]:
+    """Коды из служебного поля searched: CODE или CODE (название), без угадывания по названию."""
+    if isinstance(values, str):
+        values = [values]
+    out = []
+    for value in values or []:
+        if not isinstance(value, str):
+            continue
+        m = re.fullmatch(r"([A-Z0-9]{4})(?:\s+\([^()\r\n]+\))?", value.strip().upper())
+        if m and m[1] not in out:
+            out.append(m[1])
+    return out
+
+
+def _searched_dates(values: dict) -> dict[str, str]:
+    seen = {}
+    for label, when in values.items():
+        for code in normalize_searched([label]):
+            seen[code] = max(seen.get(code, ""), str(when))
+    return seen
+
+
 def due(types: list[str], doc: dict, today: date | None = None, limit: int = PER_RUN) -> list[str]:
     """Типы по очереди: давно не искали — первыми (поле searched в справочнике)."""
-    seen = (doc.get("searched") or {})
+    seen = _searched_dates(doc.get("searched") or {})
     return sorted(types, key=lambda t: str(seen.get(t, "")))[:limit]
 
 
@@ -161,7 +183,7 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
             r["reasons"].append("похоже на сумму заказа, а не цену за борт")
         r["verdict"] = "look" if r["reasons"] else "clean"
     return {"rows": rows, "doubts": [str(x) for x in d.get("doubts") or []],
-            "searched": [str(x).upper() for x in d.get("searched") or []]}
+            "searched": normalize_searched(d.get("searched"))}
 
 
 FIELDS = ("icao", "kind", "value", "scale", "currency", "month", "age", "quote", "source", "publisher", "note")
@@ -181,9 +203,9 @@ def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date 
         done.append(f"{o['icao']} {KIND_RU[o['kind']]} {o['value']} {o.get('scale', '')} {o.get('currency', 'USD')} "
                     f"({o['month']})")
     doc["observations"] = sorted(obs, key=lambda o: (o["icao"], str(o["month"]), o["kind"]))
-    s = doc.setdefault("searched", {})
-    for t in searched:
-        s[t] = str(today or date.today())
+    s = _searched_dates(doc.get("searched") or {})
+    for t in normalize_searched(searched):
+        s[t] = max(s.get(t, ""), str(today or date.today()))
     doc["searched"] = dict(sorted(s.items()))
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(head + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), "utf-8")
