@@ -80,3 +80,5 @@ data/tkp/
 data/fuel/*.local.json
 # черновики тарифов агента до приёмки (fca master drafts)
 data/charges/_inbox/
+#работа с данными
+/analysis/
