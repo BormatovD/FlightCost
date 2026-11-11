@@ -1073,7 +1073,18 @@
   "Возраст борта, лет": "Flugzeugalter, Jahre",
   "средний за срок службы": "Mittel über die Nutzungsdauer",
   "ставка типа по Form 41 с поправкой на возраст и год": "Typsatz aus Form 41, angepasst an Alter und Jahr",
-  "Возраст влияет на ТОиР сильнее всего: новый узкофюзеляжный борт обходится в треть ставки зрелого (12 лет), к шести годам — в 0,85. Кривая и ставки типов — по Form 41 перевозчиков США 1991–2025, прямые затраты (исследование «ТОиР»). Пусто — средняя за срок службы. Для типов без истории в США ставка берётся по предшественнику.": "Das Alter bewegt die Wartungskosten am stärksten: Ein neues Schmalrumpfflugzeug kostet ein Drittel des reifen Satzes (12 Jahre), mit sechs Jahren 0,85. Kurve und Typsätze stammen aus Form 41 der US-Airlines 1991–2025, direkte Kosten (Studie „Instandhaltung“). Leer — Mittel über die Nutzungsdauer. Typen ohne US-Historie erhalten den Satz des Vorgängers."
+  "Возраст влияет на ТОиР сильнее всего: новый узкофюзеляжный борт обходится в треть ставки зрелого (12 лет), к шести годам — в 0,85. Кривая и ставки типов — по Form 41 перевозчиков США 1991–2025, прямые затраты (исследование «ТОиР»). Пусто — средняя за срок службы. Для типов без истории в США ставка берётся по предшественнику.": "Das Alter bewegt die Wartungskosten am stärksten: Ein neues Schmalrumpfflugzeug kostet ein Drittel des reifen Satzes (12 Jahre), mit sechs Jahren 0,85. Kurve und Typsätze stammen aus Form 41 der US-Airlines 1991–2025, direkte Kosten (Studie „Instandhaltung“). Leer — Mittel über die Nutzungsdauer. Typen ohne US-Historie erhalten den Satz des Vorgängers.",
+  "Применяется ручная ставка; выбор публикации сохранён.": "Der manuelle Satz wird verwendet; die ausgewählte Veröffentlichung bleibt gespeichert.",
+  "Проверяем выбранное наблюдение…": "Die ausgewählte Beobachtung wird geprüft…",
+  "Ставка из публикации": "Rate aus einer Veröffentlichung",
+  "Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.": "Szenario mit einer veröffentlichten Rate; Berechnungsdatum und Flugzeugalter bleiben wie eingegeben.",
+  "Убрать выбор публикации": "Auswahl der Veröffentlichung aufheben",
+  "Условия источника": "Bedingungen der Quelle",
+  "возраст не указан": "Alter nicht angegeben",
+  "из публикации": "aus einer Veröffentlichung",
+  "лет": "Jahre",
+  "новый борт": "neues Flugzeug",
+  "середина": "Mittelpunkt"
  },
  "en": {
   "(его ещё нет)": "(not available yet)",
@@ -2149,6 +2160,17 @@
   "Возраст борта, лет": "Aircraft age, years",
   "средний за срок службы": "service-life average",
   "ставка типа по Form 41 с поправкой на возраст и год": "type rate from Form 41, adjusted for age and year",
-  "Возраст влияет на ТОиР сильнее всего: новый узкофюзеляжный борт обходится в треть ставки зрелого (12 лет), к шести годам — в 0,85. Кривая и ставки типов — по Form 41 перевозчиков США 1991–2025, прямые затраты (исследование «ТОиР»). Пусто — средняя за срок службы. Для типов без истории в США ставка берётся по предшественнику.": "Age moves maintenance cost more than anything else: a new narrow-body costs a third of the mature (12-year) rate, at six years 0.85. The curve and type rates come from Form 41 of US carriers 1991–2025, direct costs (the “Maintenance” research). Empty — the service-life average. Types without US history take their predecessor's rate."
+  "Возраст влияет на ТОиР сильнее всего: новый узкофюзеляжный борт обходится в треть ставки зрелого (12 лет), к шести годам — в 0,85. Кривая и ставки типов — по Form 41 перевозчиков США 1991–2025, прямые затраты (исследование «ТОиР»). Пусто — средняя за срок службы. Для типов без истории в США ставка берётся по предшественнику.": "Age moves maintenance cost more than anything else: a new narrow-body costs a third of the mature (12-year) rate, at six years 0.85. The curve and type rates come from Form 41 of US carriers 1991–2025, direct costs (the “Maintenance” research). Empty — the service-life average. Types without US history take their predecessor's rate.",
+  "Применяется ручная ставка; выбор публикации сохранён.": "The manual rate is applied; the publication selection is retained.",
+  "Проверяем выбранное наблюдение…": "Checking the selected observation…",
+  "Ставка из публикации": "Rate from a publication",
+  "Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.": "Scenario using a published rate; the calculation date and aircraft age stay as entered.",
+  "Убрать выбор публикации": "Clear publication selection",
+  "Условия источника": "Source conditions",
+  "возраст не указан": "age not stated",
+  "из публикации": "from a publication",
+  "лет": "years",
+  "новый борт": "new aircraft",
+  "середина": "midpoint"
  }
 }

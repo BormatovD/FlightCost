@@ -583,9 +583,14 @@ def _prices_drafts(a, st, seen: set) -> int:
         r = PR.check(f.read_bytes(), rates=rates)
         print(f"\n{f.name}" + (f": {r['error']}" if r.get("error") else "") + f"  (искал: {', '.join(r['searched'])})")
         for x in r["rows"]:
+            amount = (f"{x.get('value_low')}–{x.get('value_high')}"
+                      if "value_low" in x or "value_high" in x else str(x.get("value")))
             print(f"{mark[x['verdict']]:9} {x['icao']:5} {PR.KIND_RU.get(x.get('kind'), x.get('kind')):14} "
-                  f"{x.get('value')} {x.get('scale') or ''} {x.get('currency') or ''}  {x.get('month')}  "
+                  f"{amount} {x.get('scale') or ''} {x.get('currency') or ''}  {x.get('month')}  "
                   f"возраст {x.get('age')}  {x.get('source') or ''}")
+            if PR.is_range(x) and x["verdict"] in ("clean", "look", "skip"):
+                print(f"          расчётная середина: {PR.midpoint(x):g} {x.get('scale') or ''} "
+                      f"{x.get('currency') or ''}; опубликованы границы диапазона")
             if x.get("quote"):
                 print(f"          « {str(x['quote'])[:180]} »")
             for why in x["reasons"]:

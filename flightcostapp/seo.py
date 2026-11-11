@@ -174,6 +174,11 @@ T = {
         "ts_kind": {"list": "каталог", "deal": "сделка", "value": "оценка рынка", "lease": "лизинг в месяц"},
         "ts_col": ("Месяц", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
         "ts_m_usd": "млн USD", "ts_k_usd": "тыс. USD в месяц",
+        "ts_range": "диапазон источника", "ts_midpoint": "вычисленная середина",
+        "ts_range_note": ("Вертикальный интервал — опубликованный диапазон, точка и центральная линия — вычисленная середина. "
+                          "Между датами заливка линейно соединяет диапазоны одного вида, возраста и источника."),
+        "ts_age_unknown": "не указан", "ts_source_context": "Контекст и цитата",
+        "ts_use_midpoint": "В калькулятор по середине",
         "ts_param": "заготовка калькулятора ({age}), в долларах каждого года",
         "ts_param_note": ("Линия — лизинг, который калькулятор подставляет без своих ставок: {eur} EUR в месяц на октябрь "
                           "2026 года по курсу {fx} USD/EUR, пересчитан в доллары прошлых лет по индексу цен CPI-U США. "
@@ -323,6 +328,11 @@ T = {
         "ts_kind": {"list": "list price", "deal": "deal", "value": "appraisal", "lease": "lease per month"},
         "ts_col": ("Month", "Kind", "Value", "Age", "Source"), "ts_new": "new",
         "ts_m_usd": "USD m", "ts_k_usd": "USD k per month",
+        "ts_range": "published range", "ts_midpoint": "computed midpoint",
+        "ts_range_note": ("The vertical interval shows the published range; the dot and centre line show computed midpoints. "
+                          "Between dates, shading linearly joins ranges of the same kind, aircraft age and source."),
+        "ts_age_unknown": "not stated", "ts_source_context": "Context and quote",
+        "ts_use_midpoint": "Use midpoint in calculator",
         "ts_param": "calculator default ({age}), in dollars of each year",
         "ts_param_note": ("The line is the lease the calculator uses without your own rates: EUR {eur} a month as of "
                           "October 2026 at {fx} USD/EUR, restated in dollars of earlier years by the US CPI-U price index. "
@@ -472,6 +482,12 @@ T = {
         "ts_kind": {"list": "Listenpreis", "deal": "Kauf", "value": "Gutachten", "lease": "Leasing pro Monat"},
         "ts_col": ("Monat", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
         "ts_m_usd": "Mio. USD", "ts_k_usd": "Tsd. USD pro Monat",
+        "ts_range": "veröffentlichte Spanne", "ts_midpoint": "berechneter Mittelwert",
+        "ts_range_note": ("Das vertikale Intervall zeigt die veröffentlichte Spanne, Punkt und Mittellinie die berechneten "
+                          "Mittelwerte. Zwischen den Daten verbindet die Fläche Spannen gleicher Art, gleichen "
+                          "Flugzeugalters und derselben Quelle linear."),
+        "ts_age_unknown": "nicht angegeben", "ts_source_context": "Kontext und Zitat",
+        "ts_use_midpoint": "Mittelwert im Rechner verwenden",
         "ts_param": "Voreinstellung des Rechners ({age}), in Dollar des jeweiligen Jahres",
         "ts_param_note": ("Die Linie ist das Leasing, das der Rechner ohne eigene Sätze ansetzt: {eur} EUR pro Monat, "
                           "Stand Oktober 2026, zu {fx} USD/EUR, mit dem US-Verbraucherpreisindex CPI-U in Dollar früherer "
@@ -648,12 +664,22 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}
 .ts .l3{stroke:#2a9d8f;fill:none;stroke-width:2;stroke-dasharray:6 4;opacity:.8}.ts .p1{fill:var(--accent)}
 .ts .k-list{fill:#8a6fd1}.ts .k-deal{fill:var(--accent)}.ts .k-value{fill:#d08a2a}.ts .k-lease{fill:#2a9d8f}
+.ts .k-list{color:#8a6fd1}.ts .k-deal{color:var(--accent)}.ts .k-value{color:#d08a2a}.ts .k-lease{color:#2a9d8f}
+.ts .range-band{fill-opacity:.18;stroke:none}.ts .range-bar{fill:none;stroke:currentColor;stroke-width:2;
+  vector-effect:non-scaling-stroke}.ts .midpoint{stroke:var(--bg);stroke-width:1.5}
+.ts .range-midline{fill:none;stroke:currentColor;stroke-width:1.5}
+.ts .range-label{fill:var(--ink)}
+.price-mid{display:block;font-size:12px;color:var(--dim);white-space:normal;max-width:25ch;margin-left:auto}
+.price-use{display:block;font-size:12px;white-space:normal;max-width:25ch;margin-left:auto}
+.price-source{font-size:12px;border:0;margin:4px 0 0;padding:0}.price-source p{margin:5px 0}
+.price-source blockquote{margin:5px 0;padding-left:8px;border-left:2px solid var(--line);overflow-wrap:anywhere}
 .ts .lg{font-size:12.5px;color:var(--dim);margin:4px 0 8px}.ts .lg i{display:inline-block;width:10px;height:10px;
   border-radius:50%;margin:0 5px 0 12px;vertical-align:-1px}
 .sil svg{max-width:100%;height:auto}.sil .lgd{font-size:12.5px;color:var(--dim)}
 .sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
 .sil .lgd i.o{border-top:2px dashed var(--dim)}
 @media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}
+  .ts .range-label{font-size:16px}
   /* Паспорт на телефоне: строка — сетка «параметр | значение», источник под ними. */
   table.spec tr:first-child{display:none}
   table.spec tr{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:7px 10px;
@@ -1385,22 +1411,29 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
 # ── ряды на странице типа: ТОиР по Form 41, цены и лизинг из публикаций ──
 
 def _ts_svg(lines: list[tuple[str, list[tuple[float, float]]]], points: list[tuple[str, float, float]] | None = None,
-            unit: str = "", lang: str = "ru", w: int = 680, h: int = 220) -> str:
-    """Линии [(css-класс, [(x, y)])] и точки [(css-класс, x, y)] — один SVG, оси с подписями."""
-    xs = [x for _, ps in lines for x, _ in ps] + [x for _, x, _ in points or []]
-    ys = [y for _, ps in lines for _, y in ps] + [y for _, _, y in points or []]
+            unit: str = "", lang: str = "ru", w: int = 680, h: int = 220,
+            ranges: list[tuple[str, list[tuple[float, float, float, str]]]] | None = None) -> str:
+    """Линии, точки и диапазоны [(css-класс, [(x, низ, верх, подпись)])].
+
+    Каждая серия диапазонов уже сопоставима по виду, возрасту и источнику.
+    Одна дата даёт только вертикальный интервал; полоса появляется между датами.
+    """
+    intervals = [(cls, x, lo, hi, label) for cls, ps in ranges or [] for x, lo, hi, label in ps]
+    xs = [x for _, ps in lines for x, _ in ps] + [x for _, x, _ in points or []] + [p[1] for p in intervals]
+    ys = [y for _, ps in lines for _, y in ps] + [y for _, _, y in points or []] + [y for p in intervals for y in p[2:4]]
     if not xs:
         return ""
     x0, x1 = min(xs), max(xs)
     if x1 == x0:
         x0, x1 = x0 - 1, x1 + 1
-    if points and not lines:                       # точки у края не срезаются
+    if (points or intervals) and not lines:        # точки и засечки у края не срезаются
         x0, x1 = x0 - 0.3, x1 + 0.3
     y1 = max(ys) * 1.1 or 1
-    L, R, T, B = 48, 20, 10, 26
+    L, R, Tp, B = 48, 20, 10, 26
     X = lambda x: L + (x - x0) / (x1 - x0) * (w - L - R)        # noqa: E731
-    Y = lambda y: h - B - y / y1 * (h - T - B)                   # noqa: E731
-    out = [f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="{esc(unit)}">',
+    Y = lambda y: h - B - y / y1 * (h - Tp - B)                  # noqa: E731
+    description = "; ".join([unit, *[p[4] for p in intervals]])
+    out = [f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="{esc(description)}">',
            f'<line class=ax x1="{L}" y1="{h - B}" x2="{w - R}" y2="{h - B}"/>']
     import math
     raw = y1 / 5
@@ -1413,11 +1446,30 @@ def _ts_svg(lines: list[tuple[str, list[tuple[float, float]]]], points: list[tup
         y += step
     span = int(x1) - int(x0)
     ev = 1 if span <= 10 else 2 if span <= 20 else 5
-    for yr in range(int(x0) + (-int(x0)) % ev, int(x1) + 1, ev):
+    for yr in range(math.ceil(x0 / ev) * ev, math.floor(x1) + 1, ev):
         out.append(f'<text x="{X(yr):.1f}" y="{h - 8}" text-anchor="middle">{yr}</text>')
+    for cls, ps in ranges or []:
+        if len(ps) > 1:
+            up = " ".join(f"{X(x):.1f},{Y(hi):.1f}" for x, _, hi, _ in ps)
+            dn = " ".join(f"{X(x):.1f},{Y(lo):.1f}" for x, lo, _, _ in reversed(ps))
+            out.append(f'<polygon class="range-band {esc(cls)}" points="{up} {dn}"/>')
+            mid = " ".join(f"{X(x):.1f},{Y((lo + hi) / 2):.1f}" for x, lo, hi, _ in ps)
+            out.append(f'<polyline class="range-midline {esc(cls)}" points="{mid}"/>')
     for cls, ps in lines:
         if len(ps) > 1:
             out.append(f'<polyline class={cls} points="' + " ".join(f"{X(x):.1f},{Y(y):.1f}" for x, y in ps) + '"/>')
+    for cls, x, lo, hi, label in intervals:
+        px, yl, yh, ym = X(x), Y(lo), Y(hi), Y((lo + hi) / 2)
+        out.append(f'<g class="price-interval" role="img" aria-label="{esc(label)}"><title>{esc(label)}</title>'
+                   f'<path class="range-bar {esc(cls)}" d="M{px:.1f},{yh:.1f}V{yl:.1f}'
+                   f'M{px - 5:.1f},{yh:.1f}H{px + 5:.1f}M{px - 5:.1f},{yl:.1f}H{px + 5:.1f}"/>'
+                   f'<circle class="midpoint {esc(cls)}" cx="{px:.1f}" cy="{ym:.1f}" r="4">'
+                   f'<title>{esc(label)}</title></circle></g>')
+        if len(intervals) == 1:                    # одиночный диапазон читается без наведения
+            mid = num((lo + hi) / 2, lang, 6).rstrip("0").rstrip(".,")
+            left = px > w * 0.55
+            out.append(f'<text class="range-label" x="{px + (-10 if left else 10):.1f}" y="{ym + 4:.1f}"'
+                       f' text-anchor="{"end" if left else "start"}">{esc(mid)} · {esc(T[lang]["ts_midpoint"])}</text>')
     for cls, x, y in points or []:
         out.append(f'<circle class={cls} cx="{X(x):.1f}" cy="{Y(y):.1f}" r="4"/>')
     return "".join(out) + "</svg>"
@@ -1484,26 +1536,79 @@ def param_lease_usd(eur_month: float, years: range) -> list[tuple[float, float]]
 
 
 def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: bool | None = None) -> str:
+    from decimal import Decimal
     from . import prices as PR
     t, obs = T[lang], PR.of(icao)
     if not obs:
         return ""
+
+    def pnum(v, mid_bounds=None):
+        # Сохраняем дробные опубликованные границы и половину шага у середины.
+        digits = max(max(0, -Decimal(str(x)).normalize().as_tuple().exponent) for x in mid_bounds or (v,))
+        digits += int(mid_bounds is not None)
+        text = num(v, lang, digits)
+        return text.rstrip("0").rstrip(".,") if digits else text
+
+    def age_label(o):
+        if str(o.get("age")) == "new":
+            return t["ts_new"]
+        if o.get("age") in (None, ""):
+            return t["ts_age_unknown"] if PR.is_range(o) else ""
+        return num(o["age"], lang, 0)
+
+    def publisher(o):
+        return o.get("publisher") or re.sub(r"^https?://(www\.)?([^/]+).*", r"\2", str(o.get("source", "")))
+
     def yx(o):
         m = str(o["month"])
         return int(m[:4]) + (int(m[5:7]) - 0.5) / 12
-    craft = [(f"k-{o['kind']}", yx(o), PR.usd(o) / 1e6) for o in obs if o["kind"] != "lease" and PR.usd(o)]
-    lease = [(f"k-{o['kind']}", yx(o), PR.usd(o) / 1e3) for o in obs if o["kind"] == "lease" and PR.usd(o)]
+
+    def chart(want_lease, divisor, unit):
+        points, ranges, groups = [], [], {}
+        for o in sorted(obs, key=lambda o: str(o["month"])):
+            if (o["kind"] == "lease") != want_lease:
+                continue
+            values = PR.usd_bounds(o)
+            if values is None:
+                continue
+            # Разные оценки и возраста не превращаются в один рыночный коридор.
+            key = (o["kind"], o.get("age"), o["source"])
+            groups.setdefault(key, []).append((o, values))
+        for (kind, _, _), entries in groups.items():
+            cls, segment = f"k-{kind}", []
+            for o, values in entries:
+                x, (lo, hi) = yx(o), (v / divisor for v in values)
+                if not PR.is_range(o):
+                    points.append((cls, x, lo))
+                    if segment:                   # скалярная публикация прерывает полосу
+                        ranges.append((cls, segment))
+                        segment = []
+                    continue
+                label = (f"{o['month']} · {t['ts_kind'][kind]} · {t['ts_col'][3]}: {age_label(o)} · "
+                         f"{t['ts_range']}: {pnum(lo)}–{pnum(hi)} {unit}; "
+                         f"{t['ts_midpoint']}: {pnum((lo + hi) / 2, (lo, hi))} {unit} · {publisher(o)}")
+                if segment and x <= segment[-1][0]:
+                    ranges.append((cls, segment))  # две оценки одного месяца — отдельные интервалы
+                    segment = []
+                segment.append((x, lo, hi, label))
+            if segment:
+                ranges.append((cls, segment))
+        return points, ranges
+
+    craft, craft_ranges = chart(False, 1e6, t["ts_m_usd"])
+    lease, lease_ranges = chart(True, 1e3, t["ts_k_usd"])
     colors = (("list", "#8a6fd1"), ("deal", "var(--accent)"), ("value", "#d08a2a"), ("lease", "#2a9d8f"))
     lg = "".join(f'<i style="background:{c}"></i>{esc(t["ts_kind"][k])}'
                  for k, c in colors if any(o["kind"] == k for o in obs))
     body = [f'<h2>{esc(t["ts_p_h"])}</h2><p class=dim>{esc(t["ts_p_lead"])}</p><div class=ts>'
             f'<div class=lg>{lg}</div>']
-    if craft:
-        body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>' + _ts_svg([], craft, t["ts_m_usd"], lang))
-    if lease:
+    if craft or craft_ranges:
+        body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>'
+                    + _ts_svg([], craft, t["ts_m_usd"], lang, ranges=craft_ranges))
+    if lease or lease_ranges:
         lines, note = [], ""
         if lease_eur:
-            y0 = int(min(x for _, x, _ in lease))
+            y0 = int(min([x for _, x, _ in lease] + [x for _, ps in lease_ranges for x, _, _, _ in ps]))
             pl = param_lease_usd(lease_eur, range(y0, PARAM_YEAR + 1))
             if pl:
                 age = t["ts_age_new"] if new_gen else t["ts_age_cur"]
@@ -1528,17 +1633,36 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                     rel = p26 / pre - 1
                     w = "near" if abs(rel) <= 0.1 else ("above" if rel > 0 else "below")
                     note += (f'<p class=dim>{esc(t["ts_real"].format(p=num(round(p26), lang, 0), r=num(round(pre), lang, 0), where=t["ts_where"][w]))}</p>')
-        body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>' + _ts_svg(lines, lease, t["ts_k_usd"], lang, h=190) + note)
+        body.append(f'<p class=dim>{esc(t["ts_k_usd"])}</p>'
+                    + _ts_svg(lines, lease, t["ts_k_usd"], lang, h=190, ranges=lease_ranges) + note)
+    if craft_ranges or lease_ranges:
+        body.append(f'<p class=dim>{esc(t["ts_range_note"])}</p>')
     c = t["ts_col"]
     body.append(f"</div><div class=tw><table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
                 f"<th class=r>{c[3]}</th><th>{c[4]}</th></tr>")
     for o in sorted(obs, key=lambda o: str(o["month"]), reverse=True)[:12]:
-        sc = {"m": " m", "mn": " m", "million": " m", "млн": " m", "k": " k", "bn": " bn"}.get(str(o.get("scale") or "").lower(), "")
-        age = t["ts_new"] if str(o.get("age")) == "new" else ("" if o.get("age") in (None, "") else num(o["age"], lang, 0))
-        pub = o.get("publisher") or re.sub(r"^https?://(www\.)?([^/]+).*", r"\2", str(o.get("source", "")))
+        sc = {"m": " m", "mn": " m", "million": " m", "млн": " m", "k": " k", "thousand": " k", "тыс": " k",
+              "bn": " bn", "billion": " bn", "млрд": " bn"}.get(str(o.get("scale") or "").lower(), "")
+        lo, hi = PR.bounds(o)
+        cur = str(o.get("currency") or "USD")
+        value = f"{esc(cur)} {pnum(lo)}" + (f"–{pnum(hi)}" if PR.is_range(o) else "") + sc
+        context = ""
+        if PR.is_range(o):
+            value += (f'<span class=price-mid>{esc(t["ts_midpoint"])}: '
+                      f'{esc(cur)} {pnum(PR.midpoint(o), (lo, hi))}{sc}</span>')
+            if o["kind"] == "lease":
+                calc = f"/{lang}/calc?ac={quote(icao)}&lease_observation={quote(PR.observation_id(o))}"
+                value += f'<a class=price-use href="{esc(calc)}">{esc(t["ts_use_midpoint"])}</a>'
+            if o.get("note") or o.get("quote"):
+                context = f'<details class=price-source><summary>{esc(t["ts_source_context"])}</summary>'
+                if o.get("note"):
+                    context += f'<p>{esc(o["note"])}</p>'
+                if o.get("quote"):
+                    context += f'<blockquote>{esc(o["quote"])}</blockquote>'
+                context += "</details>"
         body.append(f"<tr><td>{esc(str(o['month']))}</td><td>{esc(t['ts_kind'][o['kind']])}</td>"
-                    f"<td class=r>{esc(o.get('currency') or 'USD')} {num(o['value'], lang, 0 if float(o['value']).is_integer() else 1)}{sc}</td><td class=r>{esc(age)}</td>"
-                    f'<td class=s><a href="{esc(o["source"])}" rel="nofollow">{esc(pub)}</a></td></tr>')
+                    f"<td class=r>{value}</td><td class=r>{esc(age_label(o))}</td>"
+                    f'<td class=s><a href="{esc(o["source"])}" rel="nofollow">{esc(publisher(o))}</a>{context}</td></tr>')
     body.append("</table></div>")
     return "".join(body)
 

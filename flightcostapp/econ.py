@@ -925,6 +925,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
                     _trade: bool = True,
                     freshness: list[dict] | None = None,
                     aircraft_age: float | None = None,
+                    lease_observation: dict | None = None,
                     _ctx_scope: bool = True) -> Result:
     as_of = as_of or date.today().isoformat()
     # Один ключ `--set` на входе, два механизма внутри: переопределения
@@ -1904,6 +1905,13 @@ def route_economics(store: Store, origin: str, destination: str, *,
         pa, pb = fe.prov(a), fe.prov(b)
         return pa if pa == pb else ("override" if "override" in (pa, pb) else "store")
     p_util, p_lease = fe.prov("monthly_hours"), fe.prov("lease_eur_month")
+    selected_lease = None
+    if lease_observation and lease_observation.get("icao") == ac.icao:
+        selected_lease = dict(lease_observation)
+        # Солвер может изменить ставку после выбора публикации. Источник
+        # не приписывается изменённой сумме, даже если metadata сохранена.
+        selected_lease["applied"] = (bool(selected_lease.get("applied"))
+                                     and fe.lease_eur_month == selected_lease.get("lease_eur_month"))
     p_maint = _pair("maint_eur_per_fh", "maint_eur_per_fc")
     p_crew = _pair("crew_eur_per_fh", "crew_eur_per_fc")
     from .fleet import crew_region as _crew_region
@@ -1942,9 +1950,23 @@ def route_economics(store: Store, origin: str, destination: str, *,
         "типовой по флоту — борт летает и на других линиях; из частоты — "
         "маршруту нужен свой борт; борт уже оплачен — владение не начисляется"
         + band("util_h_month"), node="v_util")
-    rec(G6, "Ставка лизинга", "за месяц", f"{fe.lease_eur_month:,.0f}",
+    lease_formula, lease_subst = "за месяц", f"{fe.lease_eur_month:,.0f}"
+    lease_src = ""
+    if selected_lease and selected_lease["applied"]:
+        sl = selected_lease
+        age = "новый" if sl["age"] == "new" else (
+            "возраст не указан" if sl["age"] is None else f"возраст {sl['age']:g} лет")
+        lease_formula = "середина опубликованного диапазона / курс валюты за EUR"
+        lease_subst = (f"({sl['low']:,.0f} + {sl['high']:,.0f}) / 2 / {sl['fx']['rate']:g}"
+                       f" = {fe.lease_eur_month:,.0f}")
+        lease_src = (f"Выбранный сценарий: публикация {sl['month']}, {age}; "
+                     f"{sl['currency']}/мес. Курс: {sl['fx']['provenance']}"
+                     f"{', ' + sl['fx']['date'] if sl['fx'].get('date') else ''}. "
+                     "Ставка не приведена к текущему рынку или другому возрасту. "
+                     f"{sl.get('note') or ''} Источник: {sl['source']}")
+    rec(G6, "Ставка лизинга", lease_formula, lease_subst,
         fe.lease_eur_month, "EUR/мес", p_lease,
-        band("own_per_ac_month", " — по балансу: аренда и амортизация, старый парк "
+        lease_src or band("own_per_ac_month", " — по балансу: аренда и амортизация, старый парк "
              "самортизирован, для нового борта нижняя оценка").lstrip(" ·"),
         node="d_fleet",
         # Адрес есть, ТОЛЬКО если значение пришло из хранилища. У
@@ -2025,7 +2047,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
                          "fleet": {f: getattr(fe, f) for f in _fields}
                                   | {"prov": {f: fe.prov(f) for f in _fields},
                                      "block_h": block_h, "note": fe.note,
-                                     "maint_note": fe.maint_note, "age": aircraft_age},
+                                     "maint_note": fe.maint_note, "age": aircraft_age}
+                                  | ({"lease_observation": selected_lease} if selected_lease else {}),
                          "via": [list(w) for w in (via or [])]},
                  charge_gaps=charge_gaps, charge_lines=apt_lines,
                  feasibility=feasibility, caveats=caveats,
@@ -2034,7 +2057,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # Слой сценария: что подменили и что задали впустую
     for x in res_.applied():
         was = f"{x['was']:,.2f}" if x["was"] is not None else "не было"
-        res.warnings.append(f"задано вручную {x['path']}: {was} → {x['now']:,.2f}")
+        label = ("выбрано из публикации" if selected_lease and selected_lease["applied"]
+                 and x["path"] == f"fleet_economics.*/{ac.icao}/lease_eur_month" else "задано вручную")
+        res.warnings.append(f"{label} {x['path']}: {was} → {x['now']:,.2f}")
     for k in res_.unused():
         res.warnings.append(f"ключ {k} задан, но в расчёте не используется — "
                             f"проверь написание")
@@ -2054,7 +2079,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
             load_factor=lf_ok, fare_eur=fare_eur, fuel_eur_per_kg=fuel_eur_per_kg,
             operator=operator, freq_week=freq_week, util_mode=util_mode,
             month=month, charge_ctx=cctx, overrides=overrides, seats=seats_given,
-            via=via, _trade=False)
+            via=via, _trade=False, lease_observation=lease_observation)
         if alt.feasible:
             lost = int(round(pax)) - fr.feasible.max_pax
             res.trade = {

@@ -136,7 +136,9 @@ class TypePlan:
         self.res = res
         self.net = res.get("network") or {}
         fl = res.get("fleet") or {}
-        self.lease = float(self.net.get("lease_eur_month") or fl.get("lease_eur_month") or 0.0)
+        lease = self.net.get("lease_eur_month")
+        self.lease = float(lease if lease is not None else fl.get("lease_eur_month") or 0.0)
+        self.lease_observation = self.net.get("lease_observation") or fl.get("lease_observation")
         self.util = float(self.net.get("util_h_month") or fl.get("util_h_month") or 0.0)
         # Налёт из плеч сети уже снят на резервные борта (их доля — в util_shares); отчёт
         # заводит резерв отдельной строкой бортов, поэтому делит на борт в работе.
@@ -392,6 +394,8 @@ def build(results: dict, *, assume: dict | None = None, chosen: str = "",
         r.update(plan=pl, seats=tp.seats, lease_eur_month=tp.lease, util_h_month=tp.util,
                  rates=tp.rates, prov=tp.prov, cut=tp.cut, parts_ok=tp.has_parts,
                  pairs_ok=len(tp.pairs), curve=tp.leg_curve(a))
+        if tp.lease_observation:
+            r["lease_observation"] = dict(tp.lease_observation)
         if pl["pax"] == 0:
             r.update(status="failed",
                      why=("ни одна пара не летается — частоты нулевые или парку не хватает часов"

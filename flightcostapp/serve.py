@@ -984,7 +984,7 @@ class Context:
                 return a["key"]
         return c
 
-    def _kwargs(self, q: dict) -> dict:
+    def _kwargs(self, q: dict, *, manual_lease: bool = False) -> dict:
         """Параметры запроса -> аргументы `route_economics`.
 
         ОДИН разбор на маршрут и порог. Пока `solve` собирал аргументы
@@ -1015,7 +1015,44 @@ class Context:
             # Своё из места — под явным `set`: заданное в запросе главнее
             # сохранённого, как флаг главнее файла настроек.
             kw["overrides"] = {**parse_set(own), **parse_set(sets)} if own else parse_set(sets)
+        if q.get("lease_observation"):
+            self._select_lease_observation(kw, str(q["lease_observation"]), manual_lease=manual_lease)
         return kw
+
+    def _select_lease_observation(self, kw: dict, observation_id: str, *, manual_lease: bool = False) -> None:
+        """Явный сценарий из принятой публикации; URL и суммы с клиента не читаются."""
+        import math
+        from . import prices, fx
+        obs = prices.find_observation(observation_id)
+        if obs is None:
+            raise ValueError("выбранное наблюдение лизинга не найдено в принятом справочнике")
+        icao = str(kw["aircraft"]).upper()
+        if obs.get("kind") != "lease" or str(obs.get("icao", "")).upper() != icao:
+            raise ValueError(f"выбранное наблюдение не является ставкой лизинга для {icao}")
+        lo, hi = prices.amount_bounds(obs)
+        midpoint = lo / 2 + hi / 2
+        cur = str(obs.get("currency") or "USD").upper()
+        when = str(kw.get("as_of") or date.today())
+        overrides = kw.setdefault("overrides", {})
+        paths = {f"fleet_economics.{op}/{icao}/lease_eur_month"
+                 for op in (kw.get("operator") or "*", "*")}
+        manual = manual_lease or any(path in overrides for path in paths)
+        with self.lock:
+            rate = fx.quote(self.store, cur, when)
+        k = rate.get("rate")
+        has_fx = isinstance(k, (int, float)) and math.isfinite(k) and k > 0
+        if not has_fx and not manual:
+            raise ValueError(f"для выбранного наблюдения лизинга нет курса {cur}/EUR на {when}")
+        eur = midpoint / k if has_fx else None
+        kw["lease_observation"] = {
+            "id": observation_id, "icao": icao, "month": obs.get("month"),
+            "age": obs.get("age"), "currency": cur, "low": lo, "high": hi,
+            "midpoint": midpoint, "lease_eur_month": eur,
+            "source": obs.get("source"), "quote": obs.get("quote"), "note": obs.get("note"),
+            "fx": {**rate, "as_of": when}, "applied": not manual,
+        }
+        if not manual:
+            overrides[f"fleet_economics.*/{icao}/lease_eur_month"] = eur
 
     def route(self, q: dict) -> dict:
         from .econ import route_economics
@@ -1145,7 +1182,8 @@ class Context:
         from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
                     "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h")
-        kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY})
+        kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY},
+                          manual_lease=q.get("lease") not in (None, ""))
         airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
         base = self.resolve(q.get("base") or (airports[0] if airports else "FRA"))
         if len(set(airports) | {base}) < 2:
@@ -1185,12 +1223,18 @@ class Context:
         if fleet is None:
             out["error"] = "ни одной пары с правом летать — сети нет"
             return out
+        selection = kw.get("lease_observation")
+        fleet_json = _jsonable(fleet)
+        if selection:
+            # Кэш хранит числа парка; источник относится к текущему выбору,
+            # даже когда у двух публикаций одна и та же середина диапазона.
+            fleet_json["lease_observation"] = dict(selection)
         freq = self._pairs_q(q.get("freqs", ""), int) or None
         try:
             net = simulate(pairs, fleet=fleet, fleet_n=int(float(q.get("fleet") or 1)),
                            freq=freq,
                            util_h_month=float(q["util_h"]) if q.get("util_h") else None,
-                           lease_eur_month=float(q["lease"]) if q.get("lease") else None,
+                           lease_eur_month=float(q["lease"]) if q.get("lease") not in (None, "") else None,
                            maint_fh=float(q["maint_fh"]) if q.get("maint_fh") else None,
                            maint_fc=float(q["maint_fc"]) if q.get("maint_fc") else None,
                            fare_mult=float(q.get("fare_mult") or 1.0),
@@ -1203,11 +1247,14 @@ class Context:
         except ValueError as exc:
             out["error"] = str(exc)
             out["pairs"] = [_jsonable(p) for p in pairs]     # с причинами «нет цены»
-            out["fleet"] = _jsonable(fleet)
+            out["fleet"] = fleet_json
             return out
         out["network"] = _jsonable(net)
+        if selection:
+            out["network"]["lease_observation"] = {
+                **selection, "applied": selection["applied"] and q.get("lease") in (None, "")}
         out["pairs"] = [_jsonable(p) for p in pairs]
-        out["fleet"] = _jsonable(fleet)
+        out["fleet"] = fleet_json
         return out
 
     NET_CMP_MAX = 5
@@ -1292,7 +1339,7 @@ class Context:
             if t != chosen:
                 # Кресла шапки — компоновка выбранного типа; чужому типу —
                 # его собственная, если в панели не задана своя.
-                for k in ("util_h", "lease", "maint_fh", "maint_fc", "seats"):
+                for k in ("util_h", "lease", "lease_observation", "maint_fh", "maint_fc", "seats"):
                     q2.pop(k, None)
                 q2["set"] = "~".join(foreign_sets)
             q2.update(ts.get(t) or {})
@@ -1364,6 +1411,10 @@ class Context:
                   "fares": self._pairs_q(q.get("fares", "")),
                   "market": self._pairs_q(q.get("market", "")),
                   "lf": float(q.get("lf") or 0.8)}
+        chosen_result = results.get(chosen) or {}
+        selection = (chosen_result.get("network") or chosen_result.get("fleet") or {}).get("lease_observation")
+        if selection:
+            inputs["lease_observation"] = dict(selection)
         rep = build(results, assume=assume, chosen=chosen, names=names, geom=geom, context={
             "base": any_r.get("base"), "carrier": any_r.get("carrier"),
             "airports": sorted({p.get("a") for p in any_r.get("pairs") or []}
@@ -1434,6 +1485,7 @@ class Context:
                "own_rates": own, "pairs_total": len(pairs), "cut": cut,
                "lease_eur_month": (n or fl).get("lease_eur_month"),
                "lease_prov": (n or fl).get("lease_prov"),
+               "lease_observation": (n or fl).get("lease_observation"),
                "util_h_month": (n or fl).get("util_h_month"),
                "util_prov": (n or fl).get("util_prov"),
                "maint_fh": (n or fl).get("maint_fh"), "maint_fc": (n or fl).get("maint_fc"),
@@ -1606,13 +1658,11 @@ class Context:
         dropped = sorted({x.split("=")[0].split(".")[-1] for x in sets
                           if x.startswith("charge_context.")
                           and x.split("=")[0].split(".")[-1] in self.TYPE_CTX})
-        keep = [x for x in sets if not (x.startswith("charge_context.")
-                                        and x.split("=")[0].split(".")[-1] in self.TYPE_CTX)]
-        if keep:
-            from .overrides import parse_set
-            kw["overrides"] = parse_set(keep)
-        else:
-            kw.pop("overrides", None)
+        # Снять только условия типа: _kwargs уже объединил ручные ставки,
+        # настройки места и явно выбранную публикацию лизинга.
+        kw["overrides"] = {k: v for k, v in (kw.get("overrides") or {}).items()
+                           if not (k.startswith("charge_context.")
+                                   and k.split(".")[-1] in self.TYPE_CTX)}
         pax = float(q.get("pax") or 0)
         try:
             legs = self._legs(q, pax)
@@ -1692,6 +1742,12 @@ class Context:
             per, cost = [], 0.0
             for lg in legs:
                 k = dict(kw, aircraft=t, load_factor=lg["pax"] / ac.seats)
+                if (k.get("lease_observation") or {}).get("icao") != t:
+                    other = k.pop("lease_observation", None)
+                    if other and other.get("applied"):
+                        path = f"fleet_economics.*/{other['icao']}/lease_eur_month"
+                        k["overrides"] = {key: value for key, value in (k.get("overrides") or {}).items()
+                                          if key != path}
                 with self.lock:
                     res = route_economics(self.store, lg["o"], lg["d"], **k)
                 tier = next((st for st in res.trace if st.label == "Ярус расхода"), None)

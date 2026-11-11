@@ -14,11 +14,15 @@
             годовые отчёты лизингодателей);
   lease   — ставка лизинга в месяц.
 Числа в справочнике — как напечатаны (валюта и единица рядом); пересчёт — при показе.
+Скаляр хранится как value, опубликованный интервал — как value_low/value_high.
+Для расчётов используется середина интервала, его исходные границы сохраняются.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
+import math
 import re
 from datetime import date
 from pathlib import Path
@@ -45,7 +49,7 @@ def lessor_yield(who: str = "AER") -> dict[int, float]:
 
 
 def real_level(obs: list[dict], new_gen: bool, years: tuple[int, int], to_year: int, cpi: dict) -> float | None:
-    """Медиана ставок лизинга нужного возраста за годы `years`, в долларах `to_year` по CPI, тыс. USD."""
+    """Медиана ставок/середин интервалов нужного возраста за `years`, по CPI, тыс. USD `to_year`."""
     import statistics
     if not cpi:
         return None
@@ -64,7 +68,7 @@ def real_level(obs: list[dict], new_gen: bool, years: tuple[int, int], to_year: 
 
 def market_now(obs: list[dict], new_gen: bool, rates: dict | None = None,
                since: int = date.today().year - 3) -> tuple[int, float] | None:
-    """Последний год с наблюдениями лизинга нужного возраста (новый / 8–14 лет) и медиана, тыс. USD."""
+    """Последний год для нужного возраста (новый / 8–14 лет), медиана ставок/середин, тыс. USD."""
     import statistics
     ok = [o for o in obs if o["kind"] == "lease" and (str(o.get("age")) == "new" if new_gen
           else isinstance(o.get("age"), (int, float)) and 8 <= float(o["age"]) <= 14)]
@@ -97,14 +101,83 @@ def of(icao: str, doc: dict | None = None) -> list[dict]:
                   key=lambda o: str(o.get("month")))
 
 
-def usd(o: dict, rates: dict | None = None) -> float | None:
-    """Значение в USD: «value» × масштаб; EUR и др. — по `rates` (единиц валюты за 1 USD)."""
-    v = float(o["value"]) * SCALE.get(str(o.get("scale") or "").lower(), 1)
+def is_range(o: dict) -> bool:
+    """У наблюдения есть обе исходные границы; их корректность проверяет bounds."""
+    return "value_low" in o and "value_high" in o
+
+
+def bounds(o: dict) -> tuple[float, float]:
+    """Исходные числа без масштаба/конвертации: (value, value) либо (value_low, value_high)."""
+    if "value" in o and not ("value_low" in o or "value_high" in o):
+        values = (o["value"], o["value"])
+    elif is_range(o) and "value" not in o:
+        values = (o["value_low"], o["value_high"])
+    else:
+        raise ValueError("нужно либо value, либо оба value_low/value_high, без смешивания")
+    if any(isinstance(v, bool) or not isinstance(v, (int, float)) for v in values):
+        raise ValueError("цена и границы должны быть положительными конечными числами")
+    try:
+        lo, hi = map(float, values)
+    except OverflowError:
+        raise ValueError("цена и границы должны быть конечными числами") from None
+    if not all(math.isfinite(v) and v > 0 for v in (lo, hi)):
+        raise ValueError("цена и границы должны быть положительными конечными числами")
+    if lo > hi:
+        raise ValueError("value_low больше value_high")
+    return lo, hi
+
+
+def midpoint(o: dict) -> float:
+    """Число для расчёта в исходных единицах; середина диапазона не является отдельной котировкой."""
+    lo, hi = bounds(o)
+    return lo / 2 + hi / 2
+
+
+def amount_bounds(o: dict) -> tuple[float, float]:
+    """Границы в исходной валюте с уже применённым scale."""
+    factor = SCALE.get(str(o.get("scale") or "").lower(), 1)
+    lo, hi = bounds(o)
+    return lo * factor, hi * factor
+
+
+def usd_bounds(o: dict, rates: dict | None = None) -> tuple[float, float] | None:
+    """Границы × масштаб в USD; rates — единиц исходной валюты за 1 USD."""
+    lo, hi = amount_bounds(o)
     cur = str(o.get("currency") or "USD").upper()
     if cur == "USD":
-        return v
+        return lo, hi
     k = (rates or {}).get(cur)
-    return v / k if k else None
+    return (lo / k, hi / k) if k else None
+
+
+def usd(o: dict, rates: dict | None = None) -> float | None:
+    """Скаляр или середина диапазона в USD; прежний числовой контракт потребителей."""
+    pair = usd_bounds(o, rates)
+    return pair[0] / 2 + pair[1] / 2 if pair is not None else None
+
+
+def _identity(o: dict) -> tuple:
+    age = o.get("age")
+    if isinstance(age, (int, float)) and not isinstance(age, bool):
+        age = float(age)
+    return (o.get("source"), str(o.get("icao") or "").upper(), o.get("kind"),
+            str(o.get("month") or ""), age, str(o.get("currency") or "USD").upper(), *amount_bounds(o))
+
+
+def observation_id(o: dict) -> str:
+    """Стабильный SHA-256 семантического наблюдения; примечания и checked в ID не входят."""
+    payload = json.dumps(_identity(o), ensure_ascii=False, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def find_observation(id: str, doc: dict | None = None) -> dict | None:
+    """Только принятое наблюдение из справочника; внешние черновики здесь не загружаются."""
+    if not isinstance(id, str) or not re.fullmatch(r"[0-9a-f]{64}", id):
+        return None
+    for o in (load() if doc is None else doc).get("observations") or []:
+        if observation_id(o) == id:
+            return dict(o)
+    return None
 
 
 # ── агент и приёмка ──────────────────────────────────────────────────────
@@ -149,44 +222,165 @@ def _num_in(quote: str, value: float) -> bool:
     return False
 
 
+def _money_amount(number: str, unit: str | None) -> float:
+    number = re.sub(r"[\s'’]", "", number)
+    if "," in number and "." in number:
+        # Последний разделитель — десятичный: 100,000.50 / 100.000,50.
+        decimal = "," if number.rfind(",") > number.rfind(".") else "."
+        number = number.replace("." if decimal == "," else ",", "").replace(decimal, ".")
+    elif re.fullmatch(r"[1-9]\d{0,2}(?:[.,]\d{3})+", number):
+        number = number.replace(",", "").replace(".", "")
+    else:
+        number = number.replace(",", ".")
+    return float(number) * SCALE.get((unit or "").lower().rstrip("."), 1)
+
+
+def _money_evidence(quote: str, currency: str) -> tuple[list, list[float]]:
+    """Денежные интервалы и самостоятельные суммы вне них; модели/возраст/годы не подходят."""
+    cur = {"USD": r"(?:U\.?S\.?\s*(?:\$|dollars?)|USD|\$|dollars?)",
+           "EUR": r"(?:EUR|€|euros?)", "GBP": r"(?:GBP|£|pounds?)"}.get(
+               currency.upper(), re.escape(currency))
+    number = r"\d+(?:[.,]\d+)*(?:[\s'’]\d{3})*(?:[.,]\d+)?"
+    unit = r"(?:thousand|million|billion|тыс\.?|млн|млрд|bn|mn|k|m)(?!\w)"
+
+    def part(prefix):
+        return rf"(?P<{prefix}c>{cur})?\s*(?P<{prefix}n>{number})\s*(?P<{prefix}u>{unit})?"
+
+    # В «737-800 US$48 million» валюта относится к следующему числу,
+    # а не к суффиксу диапазона/предыдущего скаляра.
+    suffix = rf"\s*(?:(?P<c>{cur})(?!\s*\d))?"
+    patterns = [rf"(?<!\w){part('a')}\s*(?:[-–—−]|\bto\b|\bдо\b)\s*{part('b')}{suffix}"]
+    # «and/и» само по себе связывает и независимые цены. Диапазоном
+    # считаем только явную пару «between … and …» / «между … и …».
+    patterns += [rf"(?<!\w){start}\s+{part('a')}\s+{link}\s+{part('b')}{suffix}"
+                 for start, link in (("between", "and"), ("между", "и"))]
+    ranges = sorted((m for pattern in patterns for m in re.finditer(pattern, quote, re.I)
+                     if m['ac'] or m['bc'] or m['c']), key=lambda m: m.start())
+    # Не брать границу, середину или иное число из диапазона. Сохраняем
+    # только возможность подтвердить ту же сумму отдельным скаляром.
+    for m in reversed(ranges):
+        quote = quote[:m.start()] + " " * (m.end() - m.start()) + quote[m.end():]
+    scalars = []
+    for m in re.finditer(rf"(?<!\w){part('s')}{suffix}", quote, re.I):
+        if not (m['sc'] or m['c']):
+            continue
+        try:
+            scalar = _money_amount(m['sn'], m['su'])
+        except ValueError:
+            continue
+        scalars.append(scalar)
+    return ranges, scalars
+
+
+def _money_equal(a: float, b: float) -> bool:
+    return abs(a - b) <= max(0.01, abs(b) * 1e-9)
+
+
+def _money_range_only(quote: str, amount: float, currency: str) -> bool:
+    ranges, scalars = _money_evidence(quote, currency)
+    return bool(ranges) and not any(_money_equal(value, amount) for value in scalars)
+
+
+def _quoted_bounds(m) -> tuple[float, float]:
+    a, b = _money_amount(m['an'], None), _money_amount(m['bn'], None)
+    au, bu = m['au'] or m['bu'], m['bu'] or m['au']
+    # US$100,000–115k / US$100k–115,000: полное число уже в валюте.
+    if not m['au'] and a >= 1000 > b:
+        au = None
+    if not m['bu'] and b >= 1000 > a:
+        bu = None
+    lo, hi = _money_amount(m['an'], au), _money_amount(m['bn'], bu)
+    if not m['au'] and not m['bu'] and a < 1000:
+        grouped = re.fullmatch(r"\d{1,3}((?:[.,\s'’]\d{3})+)", m['bn'])
+        if grouped:
+            # Публикуемая сокращённая запись US$100–115,000 означает
+            # 100,000–115,000, а US$20–21,000,000 — 20–21 млн.
+            factor = 1000 ** len(re.findall(r"[.,\s'’]\d{3}", grouped[1]))
+            if a * factor <= hi:
+                lo = a * factor
+    return lo, hi
+
+
+def _range_in(quote: str, pair: tuple[float, float], currency: str) -> bool:
+    for m in _money_evidence(quote, currency)[0]:
+        try:
+            lo, hi = _quoted_bounds(m)
+        except ValueError:
+            continue
+        if _money_equal(lo, pair[0]) and _money_equal(hi, pair[1]):
+            return True
+    return False
+
+
 def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> dict:
     doc = load() if doc is None else doc
     try:
         d = json.loads(blob)
     except ValueError as e:
         return {"rows": [], "error": f"не JSON: {e}", "doubts": [], "searched": []}
-    have = {(o.get("source"), o.get("icao"), o.get("kind"), float(o.get("value", 0))) for o in doc.get("observations") or []}
+    have = {_identity(o) for o in doc.get("observations") or []}
     rows = []
     for p in d.get("observations") or []:
+        if not isinstance(p, dict):
+            rows.append({"icao": "", "verdict": "reject", "reasons": ["наблюдение должно быть объектом"]})
+            continue
         r = {**p, "icao": str(p.get("icao") or "").upper(), "reasons": []}
+        r.pop("rejection_code", None)       # служебный маркер вычисляет проверка, не модель
         rows.append(r)
-        if p.get("kind") not in KINDS or not isinstance(p.get("value"), (int, float)) or p["value"] <= 0 \
+        if p.get("kind") not in KINDS \
                 or not re.fullmatch(r"\d{4}-\d{2}", str(p.get("month") or "")):
-            r.update(verdict="reject", reasons=[f"вид не из {KINDS}, значение не число или месяц не ГГГГ-ММ"])
+            r.update(verdict="reject", reasons=[f"вид не из {KINDS} или месяц не ГГГГ-ММ"])
+            continue
+        try:
+            raw_pair = bounds(p)
+        except ValueError as exc:
+            r.update(verdict="reject", reasons=[str(exc)])
+            continue
+        if any(p.get(k) is not None and not isinstance(p[k], str) for k in ("scale", "currency", "quote", "source")):
+            r.update(verdict="reject", reasons=["scale, currency, quote и source должны быть строками"])
+            continue
+        age = p.get("age")
+        if age is not None and age != "new" and (isinstance(age, bool) or not isinstance(age, (int, float))
+                                                or not math.isfinite(age) or age < 0):
+            r.update(verdict="reject", reasons=["age должен быть new, числом лет или null"])
             continue
         if str(p.get("scale") or "").lower() not in SCALE:
             r.update(verdict="reject", reasons=[f"масштаб {p.get('scale')!r} не из {sorted(SCALE)}"])
             continue
+        quote, currency = str(p.get("quote") or ""), str(p.get("currency") or "USD")
+        if is_range(p) and not _range_in(quote, amount_bounds(p), currency):
+            r.update(verdict="reject", rejection_code="range_evidence",
+                     reasons=["обе границы с масштабом и валютой должны совпадать с денежным диапазоном в цитате"])
+            continue
+        if not is_range(p) and _money_range_only(quote, amount_bounds(p)[0], currency):
+            r.update(verdict="reject", rejection_code="money_range",
+                     reasons=["в цитате денежный диапазон, а не отдельная цена или ставка; "
+                              "сохраните обе границы в value_low/value_high вместо скалярного value"])
+            continue
         if not str(p.get("source") or "").startswith("http"):
             r["reasons"].append("нет адреса страницы")
-        if not _num_in(str(p.get("quote") or ""), float(p["value"])):
+        if not is_range(p) and not _num_in(quote, raw_pair[0]):
             r["reasons"].append("числа нет в цитате")
-        u = usd(r, rates)
+        pair = usd_bounds(r, rates)
         lo, hi = BAND[p["kind"]]
-        if u is not None and not lo <= u <= hi:
-            r["reasons"].append(f"{u:,.0f} USD вне полосы {lo:,.0f}–{hi:,.0f} для «{KIND_RU[p['kind']]}»")
-        if (p.get("source"), r["icao"], p["kind"], float(p["value"])) in have:
+        if pair is not None and not (lo <= pair[0] <= pair[1] <= hi):
+            shown = f"{pair[0]:,.0f}–{pair[1]:,.0f}" if is_range(r) else f"{pair[0]:,.0f}"
+            r["reasons"].append(f"{shown} USD вне полосы {lo:,.0f}–{hi:,.0f} для «{KIND_RU[p['kind']]}»")
+        identity = _identity(r)
+        if identity in have:
             r.update(verdict="skip", reasons=["уже есть"])
             continue
         if p["kind"] == "deal" and re.search(r"\border|заказ", str(p.get("quote") or ""), re.I) \
                 and not re.search(r"\beach\b|per aircraft|за борт|за самол", str(p.get("quote") or ""), re.I):
             r["reasons"].append("похоже на сумму заказа, а не цену за борт")
         r["verdict"] = "look" if r["reasons"] else "clean"
+        have.add(identity)
     return {"rows": rows, "doubts": [str(x) for x in d.get("doubts") or []],
             "searched": normalize_searched(d.get("searched"))}
 
 
-FIELDS = ("icao", "kind", "value", "scale", "currency", "month", "age", "quote", "source", "publisher", "note")
+FIELDS = ("icao", "kind", "value", "value_low", "value_high", "scale", "currency", "month", "age", "quote", "source",
+          "publisher", "note")
 
 
 def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date | None = None) -> list[str]:
@@ -200,7 +394,9 @@ def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date 
         o["quote"] = str(o.get("quote", ""))[:300]
         o["checked"] = str(today or date.today())
         obs.append(o)
-        done.append(f"{o['icao']} {KIND_RU[o['kind']]} {o['value']} {o.get('scale', '')} {o.get('currency', 'USD')} "
+        lo, hi = bounds(o)
+        shown = f"{lo:g}–{hi:g}" if is_range(o) else f"{lo:g}"
+        done.append(f"{o['icao']} {KIND_RU[o['kind']]} {shown} {o.get('scale', '')} {o.get('currency', 'USD')} "
                     f"({o['month']})")
     doc["observations"] = sorted(obs, key=lambda o: (o["icao"], str(o["month"]), o["kind"]))
     s = _searched_dates(doc.get("searched") or {})

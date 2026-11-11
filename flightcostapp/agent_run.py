@@ -298,8 +298,12 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
 пришла пустая страница или обёртка Google News, это не прочитанный источник: попробуй другую
 ссылку или сайт издателя, а недоступный адрес укажи в doubts. Годятся также
 пресс-релизы и отчёты лизингодателей (AerCap, Air Lease, Avolon, SMBC), отчёты по облигациям в SEC.
-Диапазон цен не превращай в его середину или произвольно выбранную границу. Если нет отдельного
-скалярного значения, приведи диапазон с адресом и условиями в doubts. Base value и балансовая
+Опубликованный диапазон сохраняй обеими границами: value_low и value_high вместо value.
+Обе границы должны относиться к одному типу, периоду, возрасту и условиям и иметь одинаковые
+scale и currency. Например, US$100–115,000 в месяц → value_low: 100, value_high: 115, scale: "k".
+Не записывай середину или выбранную границу как опубликованное скалярное value: середину вычислит
+калькулятор. Если одна граница неизвестна, не додумывай вторую — опиши ограничение в doubts.
+Base value и балансовая
 стоимость не являются current market value: такие числа не записывай как рыночную оценку.
 Числа осей и легенды графика в извлечённом TXT не задают точек кривой: по ним цены не восстанавливай.
 
@@ -310,7 +314,9 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
                     "source": "адрес статьи", "publisher": "издание", "note": "что за борт, если важно"}}],
  "searched": {searched}, "doubts": ["что смутило"]}}
 
-value — число как напечатано, scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Тип —
+Для одиночной оценки value — опубликованное число. Для диапазона вместо value запиши ОБА
+числа value_low и value_high; поле value при этом пропусти. Цитата должна содержать обе границы.
+scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Тип —
 код ИКАО (A320neo — A20N, A321neo — A21N, 737 MAX 8 — B38M, 787-9 — B789, A350-900 — A359). Нашёл
 одно и то же число в нескольких статьях — запиши одну, первоисточник. Не нашёл — пустой список.
 Для каждого типа без наблюдений объясни в doubts причину и перечисли просмотренные адреса.
@@ -335,7 +341,7 @@ PRICE_REPORTS = (
      "url": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
      "title": "TrueNoord — Regional Jet Market Report, July 2022",
      "note": "Раздел 6.3, стр. 33–35: оценки и ставки лизинга. Сравнения с 2019 годом "
-             "отделять от 2022; диапазоны не превращать в одну придуманную точку."},
+             "отделять от 2022; у диапазонов сохранять обе границы, не заменять их скалярной точкой."},
 )
 
 
@@ -1026,17 +1032,22 @@ class Runner:
                 if len(codes) != 1 or codes[0] not in want:
                     raise ValueError("у наблюдения нет кода из назначенного списка типов")
                 row["icao"] = codes[0]
-                value = row.get("value")
-                if (isinstance(value, bool) or not isinstance(value, (int, float))
-                        or not math.isfinite(value)):
-                    raise ValueError("значение наблюдения должно быть конечным числом")
+                numbers = {"value", "value_low", "value_high"}.intersection(row)
+                if numbers not in ({"value"}, {"value_low", "value_high"}):
+                    raise ValueError("нужно value либо пара value_low/value_high, без смешивания")
+                for field in numbers:
+                    value = row[field]
+                    if (isinstance(value, bool) or not isinstance(value, (int, float))
+                            or not math.isfinite(value)):
+                        raise ValueError(f"поле {field} должно быть конечным числом")
                 for field in ("source", "quote", "currency", "publisher", "note"):
                     if row.get(field) is not None and not isinstance(row[field], str):
                         raise ValueError(f"поле {field} должно быть текстом")
             # Служебные коды назначенного задания известны исполнителю.
             d["searched"] = want
             checked = PR.check(json.dumps(d).encode("utf-8"), doc)
-            if any(row["verdict"] == "reject" for row in checked["rows"]):
+            if any(row["verdict"] == "reject" and row.get("rejection_code") not in ("money_range", "range_evidence")
+                   for row in checked["rows"]):
                 raise ValueError("наблюдение не прошло формальную проверку вида, числа, масштаба или месяца")
         except (OSError, ValueError, TypeError) as exc:
             self.say(f"Агент «цены»: нет корректного черновика ({str(exc)[:300]}); "
@@ -1045,7 +1056,12 @@ class Runner:
         d["run"] = ws.name
         d["searched_at"] = _now().isoformat(timespec="seconds")
         (ws / "out" / "prices.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
-        got = d.get("observations") or []
+        # Сохраняем все исходные строки для ручного просмотра в master drafts.
+        # Ошибочное наблюдение не отменяет соседнюю корректную точку, но не
+        # считается результатом поиска. Дубликаты тоже не новые наблюдения.
+        got = [row for row in checked["rows"] if row["verdict"] in ("clean", "look")]
+        rejected = [row for row in checked["rows"] if row["verdict"] == "reject"]
+        skipped = sum(row["verdict"] == "skip" for row in checked["rows"])
         self.out.mkdir(parents=True, exist_ok=True)
         dst = self.out / f"prices-{ws.name}.json"
         dst.write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
@@ -1055,16 +1071,35 @@ class Runner:
                            "observations": sum(str(row.get("icao") or "").upper() == code for row in got)}
         self.save_prices_state(state)
         cost = res.get("costUsd")
-        details = ("\n".join(f"{p.get('icao')} {p.get('kind')}: {p.get('value')} {p.get('scale') or ''} "
-                             f"{p.get('currency') or ''} ({p.get('month')})" for p in got[:15])
-                   if got else "Проверяемых чисел не найдено. Попытка учтена, очередь типов продвинута.")
-        doubts = "\n".join(f"· {str(item)[:350]}" for item in d.get("doubts", [])[:3])
-        self.say(f"Цены самолётов — черновик агента ({', '.join(want)}): наблюдений {len(got)}.\n"
-                 + details + (f"\n{doubts}" if doubts else "")
+        if got:
+            def describe(p):
+                lo, hi = PR.bounds(p)
+                value = f"{lo:g}–{hi:g}" if PR.is_range(p) else f"{lo:g}"
+                middle = f"; расчётная середина {PR.midpoint(p):g}" if PR.is_range(p) else ""
+                return (f"{p.get('icao')} {p.get('kind')}: {value} {p.get('scale') or ''} "
+                        f"{p.get('currency') or ''} ({p.get('month')}){middle}")
+            details = "\n".join(describe(p) for p in got[:15])
+        elif rejected:
+            details = ("Все найденные наблюдения отвергнуты проверкой; допустимых новых точек нет."
+                       if not skipped else
+                       "Новые наблюдения отвергнуты проверкой; остальные уже есть в справочнике.")
+        elif skipped:
+            details = "Все найденные наблюдения уже есть в справочнике; новых точек нет."
+        else:
+            details = "Проверяемых чисел не найдено. Попытка учтена, очередь типов продвинута."
+        rejected_details = "\n".join(
+            f"ОТВЕРГНУТ {row.get('icao')}: {'; '.join(row['reasons'])[:240]}" for row in rejected[:3])
+        doubts = "\n".join(f"· {str(item)[:500]}" for item in d.get("doubts", [])[:5])
+        if len(d.get("doubts", [])) > 5 or any(len(str(item)) > 500 for item in d.get("doubts", [])):
+            doubts += "\nПолный список замечаний — в приложенном черновике."
+        self.say(f"Цены самолётов — черновик агента ({', '.join(want)}): "
+                 f"допустимых наблюдений {len(got)}; отвергнуто {len(rejected)}; уже есть {skipped}.\n"
+                 + details + (f"\n{rejected_details}" if rejected_details else "")
+                 + (f"\n{doubts}" if doubts else "")
                  + (f"\nстоимость {cost:.4f} USD" if cost is not None else "")
-                 + ("\nДома: fca master drafts — сверит число с цитатой и полосы; принять — --accept-prices."
-                    if got else "\nПустой черновик приложен для проверки причин; принимать цены нечего."),
-                 "info" if got else "warn", attach=str(dst))
+                 + ("\nДома: fca master drafts — проверить строки и замечания; принять — --accept-prices."
+                    if got else "\nЧерновик приложен для проверки причин; принимать цены нечего."),
+                 "info" if got and not rejected else "warn", attach=str(dst))
         return len(got)
 
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:

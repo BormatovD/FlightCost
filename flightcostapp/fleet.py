@@ -320,12 +320,17 @@ def load(res, icao: str, as_of=None, operator: str = "*",
     fields = ("lease_eur_month", "monthly_hours", "maint_eur_per_fh",
               "maint_eur_per_fc", "crew_eur_per_fh", "crew_eur_per_fc")
     ops = [operator, "*"] if operator != "*" else ["*"]
+    # Любая явно заданная ставка старше справочника, в том числе общая
+    # ставка типа поверх полного набора конкретного перевозчика.
+    explicit = {f: next((f"{op}/{icao}/{f}" for op in ops
+                         if res.has_override("fleet_economics", f"{op}/{icao}/{f}")), None)
+                for f in fields}
     for op in ops:
-        got = {f: res.value("fleet_economics", f"{op}/{icao}/{f}") for f in fields}
+        got = {f: res.value("fleet_economics", explicit[f] or f"{op}/{icao}/{f}") for f in fields}
         if all(v is not None for v in got.values()):
             # Слой сценария перебивает и полный набор: значение он уже
             # подставил через `value`, здесь — только честная метка.
-            fp = {f: ("override" if res.has_override("fleet_economics", f"{op}/{icao}/{f}")
+            fp = {f: ("override" if explicit[f]
                       else "store") for f in fields}
             return FleetEconomics(icao=icao, operator=op,
                                   provenance="mixed" if "override" in fp.values() else "store",
@@ -356,17 +361,16 @@ def load(res, icao: str, as_of=None, operator: str = "*",
         fe.maint_note = tr["note"]
     touched, named = [], []
     for f in fields:
+        if explicit[f]:
+            was = getattr(fe, f)
+            setattr(fe, f, res.value("fleet_economics", explicit[f]))
+            res.note_baseline("fleet_economics", explicit[f], was)
+            fe.field_prov[f] = "override"
+            touched.append(f)
+            continue
         done = False
         for op in ops:
             key = f"{op}/{icao}/{f}"
-            if res.has_override("fleet_economics", key):
-                was = getattr(fe, f)
-                setattr(fe, f, res.value("fleet_economics", key))
-                res.note_baseline("fleet_economics", key, was)
-                fe.field_prov[f] = "override"
-                touched.append(f)
-                done = True
-                break
             v = res.value("fleet_economics", key)
             if v is not None:
                 setattr(fe, f, v)

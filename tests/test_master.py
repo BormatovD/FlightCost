@@ -7,10 +7,14 @@
 from __future__ import annotations
 
 import json
+import io
 import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
+from contextlib import redirect_stdout
+from types import SimpleNamespace
+from unittest import mock
 
 from flightcostapp import master as M
 from flightcostapp.store import Fact, Store
@@ -159,6 +163,43 @@ class Master(unittest.TestCase):
         self.assertTrue((d / "charges").is_symlink())
         self.assertFalse((d / "raw").is_symlink())
         self.assertFalse((d / "flightcost.db").exists())
+
+
+class PriceDraftIntervals(unittest.TestCase):
+
+    def test_acceptance_keeps_both_published_bounds_and_does_not_accept_fake_scalar(self):
+        from flightcostapp import prices as PR
+        from datetime import date
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            prices = root / "prices.yaml"
+            prices.write_text("observations: []\nsearched: {}\n")
+            inbox = root / "inbox"
+            inbox.mkdir()
+            observation = {"icao": "CRJ9", "kind": "lease", "value_low": 100, "value_high": 115,
+                           "scale": "k", "currency": "USD", "month": "2022-07",
+                           "quote": "these may now be as low as US$100-115,000 per month",
+                           "source": "https://example.org/report.pdf"}
+            scalar = {k: v for k, v in observation.items() if k not in ("value_low", "value_high")}
+            scalar["value"] = 100
+            draft = inbox / "prices-test.json"
+            draft.write_text(json.dumps({"observations": [observation, scalar], "searched": ["CRJ9"]}))
+            original_merge = PR.merge
+            store = mock.Mock()
+            store.value.return_value = None
+            output = io.StringIO()
+            with mock.patch.object(M, "DRAFTS_INBOX", inbox), mock.patch.object(PR, "PATH", prices), \
+                    mock.patch.object(PR, "merge", side_effect=lambda rows, searched:
+                        original_merge(rows, searched, prices, date(2026, 11, 11))), redirect_stdout(output):
+                self.assertEqual(M._prices_drafts(SimpleNamespace(accept_prices=True), store, set()), 1)
+            accepted = PR.load(prices)["observations"]
+            self.assertEqual(len(accepted), 1)
+            self.assertEqual((accepted[0]["value_low"], accepted[0]["value_high"]), (100, 115))
+            self.assertNotIn("value", accepted[0])
+            self.assertIn("100–115", output.getvalue())
+            self.assertIn("расчётная середина: 107.5", output.getvalue())
+            self.assertIn("ОТВЕРГНУТ", output.getvalue())
+            self.assertIn(draft.name, (inbox / ".accepted").read_text())
 
 
 if __name__ == "__main__":

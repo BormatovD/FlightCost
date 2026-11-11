@@ -1,6 +1,7 @@
 # Цены и ставки лизинга самолётов из открытых публикаций (flightcostapp/prices.py).
 # Пополняет агент «цены»; приёмка дома — fca master drafts --accept-prices. Число — как напечатано:
-# value × scale в валюте currency; kind: list (каталог), deal (сделка за борт), value (оценка рынка),
+# value × scale либо границы value_low/value_high × scale в валюте currency;
+# середина диапазона вычисляется отдельно. kind: list (каталог), deal (сделка за борт), value (оценка рынка),
 # lease (лизинг в месяц); age — лет или "new".
 observations:
 - icao: A19N
@@ -1074,6 +1075,20 @@ observations:
   publisher: Business Traveller
   note: средняя каталожная цена Airbus 2018 — последний опубликованный каталог
   checked: '2026-11-10'
+- icao: AT76
+  kind: lease
+  value: 180
+  scale: k
+  currency: USD
+  month: 2019-12
+  age: new
+  quote: New ATR72-600 lease rates are in the range of US$180,000 per month, although naked, almost new, unplaced
+    aircraft from previous forward orders have been recently offered for lower rates
+  source: https://www.truenoord.com/wp-content/uploads/2020/06/Large_Turboprop_Report.pdf
+  publisher: TrueNoord
+  note: Стр. 10; приблизительный уровень лизинга новых ATR72-600. Основной отчёт датирован декабрём 2019; июнь 2020
+    — дата отдельного COVID-дополнения. Это историческая оценка, не цена сделки.
+  checked: '2026-11-11'
 - icao: B38M
   kind: lease
   value: 431
@@ -1829,6 +1844,20 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: CRJ9
+  kind: lease
+  value_low: 100
+  value_high: 115
+  scale: k
+  currency: USD
+  month: 2022-07
+  quote: these may now be as low as US$100-115,000 in order to ensure that stored inventory is returned to service
+  source: https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf
+  publisher: TrueNoord
+  note: Стр. 33, раздел 6.3.1 CRJ900; возможный низкий диапазон месячной аренды для возврата находящихся на хранении
+    самолётов в эксплуатацию. Июль 2022; точный возраст не указан. Середина диапазона вычисляется отдельно и не
+    является опубликованной ставкой.
+  checked: '2026-11-11'
 - icao: E295
   kind: lease
   value: 219
@@ -1985,6 +2014,7 @@ searched:
   A339: '2026-11-10'
   A359: '2026-11-10'
   A35K: '2026-11-10'
+  AT76: '2026-11-11'
   B38M: '2026-11-10'
   B39M: '2026-11-10'
   B738: '2026-11-10'
@@ -1992,5 +2022,6 @@ searched:
   B788: '2026-11-10'
   B789: '2026-11-10'
   BCS3: '2026-11-10'
+  CRJ9: '2026-11-11'
   E295: '2026-11-10'
   E75L: '2026-11-10'

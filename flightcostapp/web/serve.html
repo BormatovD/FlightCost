@@ -708,6 +708,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     <div class="grp2">Флот<button type="button" class="hint" data-hk="fleet" aria-label="пояснение">i</button></div>
     <div class="field"><label for="lease"><span id="leasel">Лизинг, EUR в месяц</span><button type="button" class="hint" data-hk="lease" aria-label="пояснение">i</button></label>
       <input id="lease" type="number" placeholder="—" step="1000"></div>
+    <div id="leaseobs" class="note quiet" hidden></div>
     <div class="field"><label for="hours">Налёт борта, часов в месяц<button type="button" class="hint" data-hk="hours" aria-label="пояснение">i</button></label>
       <input id="hours" type="number" placeholder="—" step="10"></div>
     <!-- ТОиР двумя числами, как в модели (решение 193): за час налёта и за
@@ -753,6 +754,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     </div>
     <div class="field"><label for="nlease"><span id="nleasel">Лизинг, EUR в месяц на борт</span><button type="button" class="hint" data-hk="nlease" aria-label="пояснение">i</button></label>
       <input id="nlease" type="number" placeholder="—" step="1000"></div>
+    <div id="nleaseobs" class="note quiet" hidden></div>
     <div class="field pair">
       <div><label for="nmfh"><span id="nmfhl">ТОиР, EUR/ч</span><button type="button" class="hint" data-hk="nmaint" aria-label="пояснение">i</button></label>
         <input id="nmfh" type="number" placeholder="—" min="0" step="10"></div>
@@ -1201,6 +1203,47 @@ function markNext() {
 // `op` — режим компоновки: `*` типовая, код перевозчика, `max` по
 // сертификату, `own` своё число кресел (поле рядом).
 const CHOSEN = {o: null, d: null, ac: "A320", op: "*"};
+// В ссылке хранится только ID принятой публикации. Число, валюту и
+// источник проверяет сервер; ручное поле остаётся независимым вводом.
+let LEASE_OBSERVATION = null;
+function leaseObservationId(){
+  return LEASE_OBSERVATION && LEASE_OBSERVATION.icao === CHOSEN.ac ? LEASE_OBSERVATION.id : "";
+}
+function setLeaseObservation(id){
+  LEASE_OBSERVATION = id ? {id: String(id), icao: CHOSEN.ac, meta: null} : null;
+  const url = new URL(location.href);
+  url.searchParams.set("ac", CHOSEN.ac);
+  if (id) url.searchParams.set("lease_observation", String(id));
+  else url.searchParams.delete("lease_observation");
+  history.replaceState(null, "", url);
+  leaseObservationNotice(); leaseObservationNotice(null, true);
+}
+function leaseObservationNotice(metadata = null, network = false, error = ""){
+  const box = $(network ? "#nleaseobs" : "#leaseobs"), id = leaseObservationId();
+  box.hidden = !id;
+  if (!id) { box.innerHTML = ""; return; }
+  const current = metadata && metadata.id === id && metadata.icao === CHOSEN.ac ? metadata : null;
+  if (current) LEASE_OBSERVATION.meta = current;
+  const m = current || LEASE_OBSERVATION.meta;
+  const manual = $(network ? "#nlease" : "#lease").value !== "" || (current && current.applied === false);
+  let text = `<b>${_t("Ставка из публикации")}</b>`;
+  if (m) {
+    const age = m.age === "new" ? _t("новый борт") : m.age == null ? _t("возраст не указан") : `${f0(m.age)} ${_t("лет")}`;
+    text += `<br>${esc(m.month)} · ${age}<br>${f0(m.low)}–${f0(m.high)} ${esc(m.currency)}/${_t("мес")}<br>${_t("середина")}: <b>${f0(m.midpoint)} ${esc(m.currency)}</b>`;
+    if (m.lease_eur_month != null) text += ` = ${m0(m.lease_eur_month)} ${CUR.code}`;
+    if (m.fx && m.fx.rate && m.currency !== "EUR") text += `<br>1 EUR = ${esc(m.fx.rate)} ${esc(m.currency)} · ${esc(m.fx.source || m.fx.provenance)}${m.fx.date ? ", " + esc(m.fx.date) : ""}`;
+    text += `<br>${_t("Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.")}`;
+    if (m.note || m.quote) text += `<details><summary>${_t("Условия источника")}</summary>${esc(m.note || "")}${m.quote ? `<br>«${esc(m.quote)}»` : ""}</details>`;
+    if (/^https?:\/\//i.test(m.source || "")) text += `<br><a href="${esc(m.source)}" target="_blank" rel="noopener">${_t("источник")}</a>`;
+  } else if (!error) text += `<br>${_t("Проверяем выбранное наблюдение…")}`;
+  if (manual) text += `<br><b>${_t("Применяется ручная ставка; выбор публикации сохранён.")}</b>`;
+  if (error) text += `<br>${esc(error)}`;
+  box.innerHTML = text + `<br><button type="button" class="chipb">${_t("Убрать выбор публикации")}</button>`;
+  box.querySelector("button").onclick = () => {
+    setLeaseObservation(null); draw();
+    if (NET.on) netSoft();
+  };
+}
 
 // Поиск по ПОДСТРОКЕ, а не по началу: «форт» находит Франкфурт, «шере» —
 // Шереметьево. Искать по первым буквам удобно только тому, кто уже знает
@@ -1519,6 +1562,7 @@ function setAc(icao) {
   if (!t) return;
   const changed = CHOSEN.ac !== t.icao;
   CHOSEN.ac = t.icao;
+  if (changed) setLeaseObservation(null);
   if (changed && NET.on) { NET.dirty = true; netChips(); }
   $("#ac").value = acLabel(t);
   markClear($("#ac"));
@@ -1557,6 +1601,11 @@ setHint("ngo", _t("ядро считает каждое плечо: первый
 const FLEET_PROV = () => ({default: _t("параметрическая заготовка от массы и кресел"),
   store: _t("ставка из справочника"), override: _t("ваша ставка из рабочего места"),
   input: _t("задано вами"), derived: _t("ставка типа по Form 41 с поправкой на возраст и год")});
+function leaseOrigin(fl){
+  if (fl.lease_observation && fl.lease_observation.applied) return _t("из публикации");
+  return ["input", "override"].includes(fl.lease_prov) ? _t("задано")
+    : fl.lease_prov === "store" ? _t("справочник") : _t("заготовка");
+}
 const ROLE_RU = () => ({derived: _t("вычислено"), store: _t("справочник"), input: _t("ввод"),
   default: _t("заготовка"), source: _t("источник"), fleet: _t("тип ВС")});
 function stepOf(r, node) { return r && (r.trace || []).find(x => x.node === node); }
@@ -1566,6 +1615,7 @@ function fleetHints(){
   if (lease && $("#lease").value === "") $("#lease").placeholder = m0(lease.value);
   if (util && $("#hours").value === "") $("#hours").placeholder = f0(util.value);
   const fl = r && r.inputs && r.inputs.fleet;
+  leaseObservationNotice(fl && fl.lease_observation);
   if (fl) {
     if ($("#mfh").value === "") $("#mfh").placeholder = m0(fl.maint_eur_per_fh);
     if ($("#mfc").value === "") $("#mfc").placeholder = m0(fl.maint_eur_per_fc);
@@ -1585,7 +1635,8 @@ function fleetHints(){
     <b>${f(x.p50)}</b> ${unit} (p25–p75 ${f(x.p25)}–${f(x.p75)})` : "";
   const k = x => m0(x / 1000) + " " + _t("тыс.");
   setHint("lease", (lease ? `${_t("В расчёте")}: <b>${m0(lease.value)} ${CUR.code}</b> — ${
-      esc(FLEET_PROV()[lease.prov] || lease.prov)}.<br>` : "")
+      esc(fl && fl.lease_observation && fl.lease_observation.applied ? _t("из публикации")
+        : FLEET_PROV()[lease.prov] || lease.prov)}.<br>` : "")
     + _t("ноль в лизинге — борт уже оплачен, владение не начисляется")
     + (b ? us(b.own_per_ac_month, k, CUR.code + "/" + _t("мес")) + " — "
          + _t("владение — аренда и амортизация, для нового борта нижняя оценка") : ""));
@@ -1933,6 +1984,7 @@ async function boot(){
   setPick("o", qa("o", v => APTS.some(x => x.icao === v), "EDDF"));
   setPick("d", qa("d", v => APTS.some(x => x.icao === v), "LEBL"));
   setAc(qa("ac", v => ACS.some(x => x.icao === v && x.usable), "A320"));
+  if (QP.get("lease_observation")) setLeaseObservation(QP.get("lease_observation"));
   $("#layout").addEventListener("change", () => {
     CHOSEN.op = $("#layout").value;
     const own = CHOSEN.op === "own";
@@ -2037,6 +2089,7 @@ function params(){
   if ($("#mfc").value !== "") sets.push(
     `fleet_economics.${CHOSEN.ac}.maint_eur_per_fc=${Math.round(toEur($("#mfc").value))}`);
   if (sets.length) p.set = sets.join("~");
+  if (leaseObservationId()) p.lease_observation = leaseObservationId();
   return new URLSearchParams(p);
 }
 
@@ -2060,7 +2113,7 @@ function draw(){
     if (my !== seq) return;                 // ответ обогнал более свежий
     $("#stat").textContent = `${Math.round(performance.now()-t0)} ${_t("мс")}`;
     drawGlobe();
-    if (r.error) { $("#main").innerHTML =
+    if (r.error) { leaseObservationNotice(null, false, r.error); $("#main").innerHTML =
       `<div class="note"><b>${_t("Отказ расчёта.")}</b> ${esc(r.error)}</div>`; return; }
     render(r);
   }, 120);
@@ -3467,6 +3520,7 @@ function netParams(){
   // налёт сюда не идут: у сети они свои поля.
   const sets = (params().get("set") || "").split("~").filter(x => x && !x.startsWith("fleet_economics."));
   if (sets.length) p.set("set", sets.join("~"));
+  if (leaseObservationId()) p.set("lease_observation", leaseObservationId());
   return p;
 }
 // Сравнение и отчёт — те же вводы плюс свои у каждого типа и режим
@@ -3598,7 +3652,7 @@ function netRender(){
       + kpiCell(_t("Цена в ноль"), n.fare_mult_breakeven == null ? "—" : `× ${f2(n.fare_mult_breakeven)}`,
         `${_t("наша цена к рынку")} × ${f2(n.fare_mult)}`, n.fare_mult_breakeven != null && n.fare_mult_breakeven > n.fare_mult)
       + kpiCell(_t("Лизинг в ноль"), n.lease_breakeven == null ? "—" : `${kNum(n.lease_breakeven)}<small>${kUnit(n.lease_breakeven)}/${_t("мес")}</small>`,
-        `${n.lease_prov === "input" ? _t("задано") : _t("заготовка")} ${kMoney(n.lease_eur_month)}`, n.lease_breakeven != null && n.lease_breakeven < 0)
+        `${leaseOrigin(n)} ${kMoney(n.lease_eur_month)}`, n.lease_breakeven != null && n.lease_breakeven < 0)
       + kpiCell(_t("Топливо в ноль"), n.fuel_price_breakeven == null ? "—" : `${m2(n.fuel_price_breakeven)}<small>${CUR.code}/${_t("кг")}</small>`,
         n.fuel_price_now == null ? "" : `${_t("сейчас")} ${m2(n.fuel_price_now)}`, n.fuel_price_breakeven != null && n.fuel_price_now != null && n.fuel_price_breakeven < n.fuel_price_now);
   }
@@ -3629,13 +3683,16 @@ function netFleetHints(){
   if (!fl && LAST && LAST.route && LAST.route.aircraft === CHOSEN.ac) {
     const ls = stepOf(LAST, "d_fleet"), us = stepOf(LAST, "v_util");
     if (ls || us) fl = {lease_eur_month: ls ? ls.value : null, lease_prov: ls ? ls.prov : "",
-                        util_h_month: us ? us.value : null, util_prov: us ? us.prov : ""};
+                        util_h_month: us ? us.value : null, util_prov: us ? us.prov : "",
+                        lease_observation: LAST.inputs && LAST.inputs.fleet && LAST.inputs.fleet.lease_observation
+                          ? {...LAST.inputs.fleet.lease_observation, applied: undefined} : null};
   }
+  leaseObservationNotice(fl && fl.lease_observation, true, NET.msg || "");
   const P = FLEET_PROV();
   $("#nlease").placeholder = fl && fl.lease_eur_month != null ? m0(fl.lease_eur_month) : "—";
   $("#nutil").placeholder = fl && fl.util_h_month != null ? f0(fl.util_h_month) : "—";
   setHint("nlease", fl && fl.lease_eur_month != null
-    ? `${_t("В расчёте")}: <b>${m0(fl.lease_eur_month)} ${CUR.code}</b> ${_t("на борт в месяц")} — ${esc(P[fl.lease_prov] || fl.lease_prov || "")}.<br>${_t("ноль в лизинге — борт уже оплачен, владение не начисляется")}`
+    ? `${_t("В расчёте")}: <b>${m0(fl.lease_eur_month)} ${CUR.code}</b> ${_t("на борт в месяц")} — ${esc(fl.lease_observation && fl.lease_observation.applied ? _t("из публикации") : P[fl.lease_prov] || fl.lease_prov || "")}.<br>${_t("ноль в лизинге — борт уже оплачен, владение не начисляется")}`
     : _t("ставка типа появится после расчёта"));
   // ТОиР: те же два поля, что у маршрута; формула — на самом длинном
   // плече сети, где цикловая часть весит меньше всего.
@@ -3782,7 +3839,7 @@ function tabNetTypes() {
       <div class="mv">${x.fare_mult_breakeven == null ? "—" : "× " + f2(x.fare_mult_breakeven)}</div>
       <div class="mv">${x.need_max == null ? "—" : (x.need_max > 1 ? `<span style="color:var(--warn)">${pct(x.need_max)}</span>` : pct(x.need_max))}</div>
       <div class="mt">${_t("пар в сети")} ${x.pairs_in} ${_t("из")} ${x.pairs_total}${cutTxt ? ` (${_t("отсечено:")} ${cutTxt})` : ""} · ${_t("лизинг")} ${kMoney(x.lease_eur_month)}
-        <span class="chip ${x.lease_prov === "input" ? "user" : "guess"}">${x.lease_prov === "input" ? _t("задано") : _t("заготовка")}</span>${
+        <span class="chip ${["input", "override"].includes(x.lease_prov) ? "user" : "guess"}">${leaseOrigin(x)}</span>${
         x.lease_breakeven != null ? `, ${_t("в ноль")} ${kMoney(x.lease_breakeven)}` : ""} · ${_t("налёт")} ${f0((x.hours_used || 0) / (x.fleet || 1))} ${_t("ч/мес из")} ${f0(x.util_h_month)}${
         cur ? "" : ` · <a href="#" data-use="${esc(x.icao)}">${_t("считать сеть на нём")}</a>`}</div></div>`;
   }
@@ -4084,7 +4141,7 @@ function tabNet(){
     h += `<h3>${_t("Парк")}</h3><dl class="kv">
       <dt>${_t("налёт на борт")}</dt><dd>${f0(n.hours_used / n.fleet)} ${_t("ч/мес из")} ${f0(n.util_h_month)} <span class="chip ${n.util_prov === "input" ? "user" : "guess"}">${n.util_prov === "input" ? _t("задано") : _t("заготовка")}</span></dd>
       <dt>${_t("рейсов в неделю")}</dt><dd>${n.pairs.reduce((a, x) => a + x.freq_week, 0)} ${_t("туда-обратно")}</dd>
-      <dt>${_t("лизинг парка")}</dt><dd>${m0(n.fleet * n.lease_eur_month)} ${CUR.code}/${_t("мес")} <span class="chip ${n.lease_prov === "input" ? "user" : "guess"}">${n.lease_prov === "input" ? _t("задано") : _t("заготовка")}</span></dd>
+      <dt>${_t("лизинг парка")}</dt><dd>${m0(n.fleet * n.lease_eur_month)} ${CUR.code}/${_t("мес")} <span class="chip ${["input", "override"].includes(n.lease_prov) ? "user" : "guess"}">${leaseOrigin(n)}</span></dd>
       <dt>${_t("перевозчик")}</dt><dd>${esc(r.carrier || "—")} · ${_t("страна базы")}</dd></dl>`;
   }
   h += `<p class="lede" style="margin-top:10px"><a href="#" id="nshowrights">${NET.showRights ? _t("скрыть отсечённые правами на глобусе") : _t("показать отсечённые правами на глобусе")}</a>${NET.ms ? ` · ${NET.ms} ${_t("мс")}${r.cached ? " · " + _t("из кэша") : ""}` : ""}</p>`;
@@ -4210,6 +4267,7 @@ function netZonesApply(){
 // ── рабочее место: сети документами ─────────────────────────────────────
 function netState(){
   return {airports: NET.airports, base: NET.base, ac: CHOSEN.ac, fleet: +$("#nfleet").value || 1,
+    lease_observation: leaseObservationId() || null,
     util: $("#nutil").value || null, lease_eur: $("#nlease").value === "" ? null : Math.round(toEur($("#nlease").value)),
     maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
     maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
@@ -4221,6 +4279,7 @@ function netState(){
 function netApply(st){
   NET.airports = st.airports || []; NET.base = st.base || NET.airports[0] || null;
   if (st.ac && ACS.some(t => t.icao === st.ac)) setAc(st.ac);
+  setLeaseObservation(st.lease_observation || null);
   $("#nfleet").value = st.fleet || 1; $("#nutil").value = st.util || "";
   $("#nlease").value = st.lease_eur == null ? "" : String(Math.round(M(st.lease_eur)));
   $("#nmfh").value = st.maint_fh_eur == null ? "" : String(Math.round(M(st.maint_fh_eur)));

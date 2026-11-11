@@ -332,6 +332,37 @@ class PricesRunner(unittest.TestCase):
         execute_mock.assert_called_once()
         return result
 
+    @staticmethod
+    def production_range_draft():
+        # Фактические цитаты из прогона 11.11.2026: первая содержит одно число,
+        # несмотря на слова «in the range of», вторая — две границы диапазона.
+        return {"observations": [
+            {"icao": "AT76", "kind": "lease", "value": 180, "scale": "k", "currency": "USD",
+             "month": "2019-12", "age": "new", "publisher": "TrueNoord",
+             "quote": "New ATR72-600 lease rates are in the range of US$180,000 per month, although "
+                      "naked, almost new, unplaced aircraft from previous forward orders have been "
+                      "recently offered for lower rates",
+             "source": "https://www.truenoord.com/wp-content/uploads/2020/06/Large_Turboprop_Report.pdf",
+             "note": "Стр. 10; основной отчёт датирован декабрём 2019, не COVID-дополнение июня 2020."},
+            {"icao": "CRJ9", "kind": "lease", "value": 100, "scale": "k", "currency": "USD",
+             "month": "2022-07", "age": None, "publisher": "TrueNoord",
+             "quote": "these may now be as low as US$100-115,000 in order to ensure that stored "
+                      "inventory is returned to service",
+             "source": "https://www.truenoord.com/wp-content/uploads/2022/07/"
+                       "TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
+             "note": "Стр. 33; публикация даёт диапазон US$100–115 тыс., поэтому скаляр нижней "
+                     "границы не является отдельной оценкой."}],
+            "searched": ["AT76", "B772", "CRJ9", "DH8D"],
+            "doubts": ["AT76: CMV опубликована диапазоном.", "DH8D: ставки опубликованы диапазонами.",
+                       "CRJ9: график в TXT не содержит численных точек кривой.",
+                       "B772: в проверенном RSS-запросе по market value обнаружены только Seeking Alpha "
+                       "(2016; не открытая актуальная оценка) и нерелевантные материалы; нет проверенной "
+                       "статьи с допустимым числом. Проверен адрес ленты: "
+                       "https://www.bing.com/news/search?q=%22777-200ER%22+aircraft+market+value&format=rss. "
+                       "Остальные 15 лент типов AT76, B772, CRJ9 и DH8D не были проверены из-за "
+                       "ограниченного результата поиска; для AT76/CRJ9/DH8D использованы указанные "
+                       "открытые отчёты."]}
+
     def test_empty_draft_is_exported_and_next_runner_moves_on_without_acceptance(self):
         # Формат searched из реального пустого production-черновика.
         draft = {"observations": [], "searched": [
@@ -405,6 +436,111 @@ class PricesRunner(unittest.TestCase):
         self.assertEqual(exported["observations"][0]["value"], 180000)
         self.assertEqual(exported["searched"], self.WANTED)
         self.assertEqual(self.runner.prices_state()["AT76"]["observations"], 1)
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "info")
+        self.assertIn("допустимых наблюдений 1", message["text"])
+        self.merge.assert_not_called()
+
+    def test_money_range_keeps_good_point_and_preserves_rejected_row_for_review(self):
+        draft = self.production_range_draft()
+        self.assertEqual(self.run_prices(draft), 1)
+        exported_path = next(self.runner.out.glob("*.json"))
+        exported = json.loads(exported_path.read_text())
+        self.assertEqual(exported["observations"], draft["observations"],
+                         "исходные строки нужны master для независимой проверки")
+        reviewed = PR.check(exported_path.read_bytes(), self.doc)["rows"]
+        self.assertEqual([row["verdict"] for row in reviewed], ["clean", "reject"])
+        self.assertEqual(reviewed[1]["rejection_code"], "money_range")
+        state = self.runner.prices_state()
+        self.assertEqual({code: state[code]["observations"] for code in self.WANTED},
+                         {"AT76": 1, "B772": 0, "CRJ9": 0, "DH8D": 0})
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "warn")
+        self.assertEqual(message["attach"], str(exported_path))
+        self.assertIn("допустимых наблюдений 1", message["text"])
+        self.assertIn("отвергнуто 1", message["text"])
+        self.assertIn("CRJ9", message["text"])
+        self.assertIn(reviewed[1]["reasons"][0], message["text"])
+        self.merge.assert_not_called()
+
+    def test_published_range_is_exported_with_bounds_and_computed_midpoint(self):
+        draft = self.production_range_draft()
+        interval = draft["observations"][1]
+        interval.pop("value")
+        interval.update(value_low=100, value_high=115)
+        self.assertEqual(self.run_prices(draft), 2)
+        exported_path = next(self.runner.out.glob("*.json"))
+        exported = json.loads(exported_path.read_text())
+        self.assertEqual(exported["observations"], draft["observations"])
+        self.assertNotIn("value", exported["observations"][1], "середина не опубликованный скаляр")
+        self.assertEqual([row["verdict"] for row in PR.check(exported_path.read_bytes(), self.doc)["rows"]],
+                         ["clean", "clean"])
+        self.assertEqual(self.runner.prices_state()["CRJ9"]["observations"], 1)
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "info")
+        self.assertIn("допустимых наблюдений 2", message["text"])
+        self.assertIn("100–115 k USD", message["text"])
+        self.assertIn("расчётная середина 107.5", message["text"])
+        self.merge.assert_not_called()
+
+    def test_unconfirmed_range_preserves_valid_neighbour_for_review(self):
+        draft = self.production_range_draft()
+        interval = draft["observations"][1]
+        interval.pop("value")
+        interval.update(value_low=100, value_high=125)     # в цитате верхняя граница 115
+        self.assertEqual(self.run_prices(draft), 1)
+        exported_path = next(self.runner.out.glob("*.json"))
+        reviewed = PR.check(exported_path.read_bytes(), self.doc)["rows"]
+        self.assertEqual([row["verdict"] for row in reviewed], ["clean", "reject"])
+        self.assertEqual(reviewed[1]["rejection_code"], "range_evidence")
+        self.assertEqual(self.runner.prices_state()["CRJ9"]["observations"], 0)
+        self.assertEqual(self.runner.prices_state()["AT76"]["observations"], 1)
+        self.merge.assert_not_called()
+
+    def test_all_unmarked_range_scalars_are_reported_as_rejected_not_empty_search(self):
+        draft = self.production_range_draft()
+        draft["observations"] = draft["observations"][1:]
+        self.assertEqual(self.run_prices(draft), 0)
+        exported = json.loads(next(self.runner.out.glob("*.json")).read_text())
+        self.assertEqual(exported["observations"], draft["observations"])
+        self.assertEqual(set(self.runner.prices_state()), set(self.WANTED))
+        self.assertTrue(all(row["observations"] == 0 for row in self.runner.prices_state().values()))
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "warn")
+        self.assertIn("допустимых наблюдений 0", message["text"])
+        self.assertIn("отвергнуто 1", message["text"])
+        self.assertIn("Все найденные наблюдения отвергнуты проверкой", message["text"])
+        self.assertNotIn("Проверяемых чисел не найдено", message["text"])
+        self.merge.assert_not_called()
+
+    def test_five_doubts_show_incomplete_coverage_from_real_fourth_doubt(self):
+        draft = self.production_range_draft()
+        draft["observations"] = []
+        draft["doubts"] += ["Пятое замечание: источник недоступен.", "Шестое замечание: только во вложении."]
+        self.assertEqual(self.run_prices(draft), 0)
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertIn("Остальные 15 лент типов AT76, B772, CRJ9 и DH8D не были проверены", message["text"])
+        self.assertIn(draft["doubts"][4], message["text"])
+        self.assertNotIn(draft["doubts"][5], message["text"])
+        exported = json.loads(next(self.runner.out.glob("*.json")).read_text())
+        self.assertEqual(exported["doubts"], draft["doubts"])
+
+    def test_already_known_point_does_not_increase_result_or_state_count(self):
+        known = self.production_range_draft()["observations"][0]
+        self.doc["observations"] = [known]
+        new = {**known, "icao": "DH8D", "value": 190,
+               "quote": "New aircraft lease rate US$190,000 per month."}
+        self.assertEqual(self.run_prices({"observations": [known, new]}), 1)
+        exported_path = next(self.runner.out.glob("*.json"))
+        self.assertEqual(json.loads(exported_path.read_text())["observations"], [known, new])
+        self.assertEqual([r["verdict"] for r in PR.check(exported_path.read_bytes(), self.doc)["rows"]],
+                         ["skip", "clean"])
+        state = self.runner.prices_state()
+        self.assertEqual(state["AT76"]["observations"], 0)
+        self.assertEqual(state["DH8D"]["observations"], 1)
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "info")
+        self.assertIn("допустимых наблюдений 1", message["text"])
         self.merge.assert_not_called()
 
     def test_invalid_observation_does_not_export_or_advance_queue(self):
@@ -413,7 +549,14 @@ class PricesRunner(unittest.TestCase):
                  "source": "https://example.org/report.pdf", "quote": "US$180,000 per month"}
         invalid = [{}, {**valid, "source": [valid["source"]]},
                    {**valid, "value": float("nan")}, {**valid, "value": True},
-                   {**valid, "icao": "A21N"}, {**valid, "kind": "unknown"}]
+                   {**valid, "icao": "A21N"}, {**valid, "kind": "unknown"},
+                   {**valid, "kind": "unknown", "rejection_code": "money_range"},
+                   {**valid, "value_low": 100, "value_high": 115}]
+        no_scalar = {k: v for k, v in valid.items() if k != "value"}
+        invalid += [{**no_scalar, "value_low": 100},
+                    {**no_scalar, "value_low": 115, "value_high": 100},
+                    {**no_scalar, "value_low": True, "value_high": 115},
+                    {**no_scalar, "value_low": 100, "value_high": float("inf")}]
         for i, observation in enumerate(invalid):
             with self.subTest(i=i):
                 runner = A.Runner(self.tmp / f"bad-row-{i}", spool=self.tmp / "spool")
