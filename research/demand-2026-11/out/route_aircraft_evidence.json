@@ -1,0 +1,220 @@
+{
+  "as_of": "2026-11-11",
+  "status": "primary_evidence_and_testable_hypotheses_not_fitted_route_forecasts",
+  "sources": [
+    {
+      "id": "ec-average-flight-2025",
+      "url": "https://www.eurocontrol.int/publication/eurocontrol-data-snapshot-60-what-2025-data-reveal-about-average-flight-europe",
+      "title": "EUROCONTROL Data Snapshot #60: average flight in Europe",
+      "published": "2026-06-12",
+      "facts": {
+        "seats_per_flight_2025": 184,
+        "change_seats_2025_vs_2024": 1,
+        "regional_jet_flight_share_2018": 0.09,
+        "regional_jet_flight_share_2025": 0.06,
+        "mean_mtow_t_2025": 90.9,
+        "a321neo_rank_2025": 4
+      },
+      "scope": "EUROCONTROL area, observed fleet mix; seats exclude military/cargo/business/other; NOT global demand forecast; traffic mix can change the aggregate.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "ec-autumn-2026",
+      "url": "https://www.eurocontrol.int/publication/eurocontrol-forecast-2026-2032",
+      "title": "EUROCONTROL Seven-Year Forecast, Autumn 2026",
+      "published": "2026-10-20",
+      "facts": {
+        "base_flight_cagr_2026_2032": 0.021,
+        "range_pp": 1.9,
+        "base_flights_2032_million": 12.8
+      },
+      "scope": "External ECAC flight forecast, scenarios are conditional and not a route or passenger forecast. Full low/base/high range required; latest report supersedes Spring 2026.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "airbus-a321neo-lr",
+      "url": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321neo",
+      "title": "Airbus A321neo/A321LR technical page",
+      "published": null,
+      "facts": {
+        "length_m": 44.51,
+        "typical_seats_min": 180,
+        "typical_seats_max": 220,
+        "max_seats": 244,
+        "lr_range_nm_with_206_pax": 4000
+      },
+      "scope": "OEM capability statements, not route-specific payload/range or full economic comparison. A321neo page range refers to LR variant; do not apply LR range to every A321neo.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "airbus-a321xlr",
+      "url": "https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr",
+      "title": "Airbus A321XLR technical page",
+      "published": null,
+      "facts": {
+        "length_m": 44.51,
+        "max_range_nm": 4700,
+        "max_range_km": 8700,
+        "mtow_t": 101.5,
+        "typical_seats_min": 180,
+        "typical_seats_max": 220,
+        "max_seats": 244,
+        "rear_tank_l": 12900
+      },
+      "scope": "Published maxima are not a simultaneous maximum-payload-and-range mission guarantee. Actual cabin, winds, reserve, alternate, runway and cargo matter.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "iberia-xlr-2025",
+      "url": "https://grupo.iberia.com/news/14112025/iberia-strengthens-its-long-haul-leadership-with-the-a321xlr-as-it-marks-one-year-since-its-global-launch",
+      "title": "Iberia: one year with the A321XLR",
+      "published": "2025-11-14",
+      "facts": {
+        "cabin_seats": 182,
+        "boston_daily_flights_from": 1,
+        "boston_daily_flights_to": 2,
+        "washington_year_round": true,
+        "recife_launch_as_announced": "2025-12-13",
+        "fortaleza_launch_as_announced": "2026-01-19",
+        "brazil_weekly_flights_as_announced": 3
+      },
+      "scope": "Operator-reported network changes. New Brazil launches were plans at publication; not independent route profitability proof. Primary example demonstrates frequency plus seasonality plus route opening.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "airbus-a220",
+      "url": "https://www.airbus.com/en/products-services/commercial-aircraft/passenger-aircraft/a220-family",
+      "title": "Airbus A220 Family specifications",
+      "published": null,
+      "facts": {
+        "a220_100_typical_seats_min": 100,
+        "a220_100_typical_seats_max": 120,
+        "a220_100_max_range_nm": 3600,
+        "a220_300_seats_min": 120,
+        "a220_300_seats_max": 160,
+        "a220_300_max_range_nm": 3450
+      },
+      "scope": "Current OEM page; maxima by configuration. New cabin 160 seats should not be treated as every existing operator layout.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "airasia-a220-2026",
+      "url": "https://www.airbus.com/en/newsroom/press-releases/2026-05-airasia-places-landmark-order-for-150-a220s",
+      "title": "AirAsia orders 150 A220-300s",
+      "published": "2026-05-06",
+      "facts": {
+        "firm_order_aircraft": 150,
+        "new_cabin_seats": 160
+      },
+      "scope": "Firm order and stated network strategy; new cabin launch customer, not proof of deliveries, route success or earned profit.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "airbaltic-h1-2026",
+      "url": "https://assets.airbaltic.com/f/236210/x/5f37f5cef3/air-baltic-corporation-as-consolidated-interim-financial-statements-h1-2026.pdf",
+      "title": "airBaltic condensed consolidated interim financial statements H1 2026",
+      "published": "2026-10-12",
+      "facts": {
+        "operating_revenue_eur_thousand": 399185,
+        "loss_eur_thousand": 128212,
+        "engine_aog_h1_2026": 0,
+        "average_engine_aog_h1_2025": 11
+      },
+      "pages": [
+        5,
+        14
+      ],
+      "scope": "Whole-group H1 figures, seasonality and financing effects; not a causal estimate of A220 economics. Engine shortages in 2025 must not be described as still occurring in this operator in H1 2026.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "boeing-commercial-2026",
+      "url": "https://www.boeing.com/Commercial",
+      "title": "Boeing commercial product catalogue",
+      "published": null,
+      "facts": {
+        "listed_current_families": [
+          "737 MAX",
+          "787",
+          "777",
+          "777X",
+          "767 freighter"
+        ],
+        "nma_listed": false
+      },
+      "scope": "Absence from current catalogue does not prove permanent cancellation. Treat NMA as unconfirmed hypothetical scenario; do not specify delivery year, purchase price or performance as available facts.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "boeing-73710-2026",
+      "url": "https://investors.boeing.com/investors/news/press-release-details/2026/U-S--FAA-certifies-Boeing-737-10-largest-member-of-737-MAX-family/default.aspx",
+      "title": "Boeing: US FAA certifies 737-10",
+      "published": "2026-10-20",
+      "facts": {
+        "faa_certified_as_reported": true,
+        "max_seats": 230
+      },
+      "scope": "Manufacturer report of certification; do not imply an available near-term delivery slot for a new buyer or in-service fleet already established.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "embraer-e195e2-spec",
+      "url": "https://www.embraercommercialaviation.com/wp-content/uploads/2017/02/Embraer_Spec_E195-E2.pdf",
+      "title": "Embraer E195-E2 specification",
+      "published": null,
+      "facts": {
+        "single_class_seats_at31in": 132,
+        "single_class_seats_at28in": 146
+      },
+      "scope": "Used only for size-class alternative; dated PDF range not imported as a current maximum. Manufacturer source required when updating performance.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    },
+    {
+      "id": "atr72-spec",
+      "url": "https://www.atr-aircraft.com/regional-mobility/regional-aircraft/atr-72-600/",
+      "title": "ATR 72-600 specifications",
+      "published": null,
+      "facts": {
+        "seats_at29in": 72,
+        "max_seats": 78,
+        "range_max_pax_nm": 740,
+        "mtow_t": 23
+      },
+      "scope": "Manufacturer nominal performance, not dispatch planning; preserve short thin regional class rather than assuming all new routes need A220.",
+      "checked_at": "2026-11-11",
+      "primary_source": true
+    }
+  ],
+  "algebra": {
+    "identity": "PAS_BRD = CAF_PAS * (ST_PAS / CAF_PAS) * (PAS_BRD / ST_PAS)",
+    "annual_aggregation": "sum passenger/seat/flight counts before computing ratios; same reporter intersection and pair cohort",
+    "decomposition": "log(P1/P0) = log(F1/F0) + log(S1/S0) + log(LF1/LF0)",
+    "forecast_aircraft_demand": "required_seats = captured_passenger_segments / (operated_flight_segments * target_load_factor)",
+    "profit_gate": "passenger revenue + ancillary + cargo - full route cost; compare fleet commonality, seasonal utilisation, lease, reserves and reliability at each feasible frequency",
+    "example_assumptions": {
+      "annual_captured_both_direction_pax": 90000,
+      "flights_per_direction_per_day": 1,
+      "operating_days": 365,
+      "load_factor_target": 0.8,
+      "required_seats": 154.1095890410959
+    },
+    "example_not_forecast": true
+  },
+  "no_claims": [
+    "No global shift share is estimated from the five-country 2005-2024 panel.",
+    "No airline profitability ranking is justified by aircraft type alone.",
+    "NMA has no confirmed availability input in this evidence set.",
+    "No link between published manufacturer per-seat fuel percentage and route net profit is inferred."
+  ]
+}

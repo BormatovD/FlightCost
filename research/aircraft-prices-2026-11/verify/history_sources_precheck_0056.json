@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-11-11",
+  "status": "superseded_by_final_audit",
+  "source": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+  "source_ref": "turn99view0",
+  "raw_sha256": "efc609503f714fb3a30043ccd8961e1d81700447f858797fe1318d16e9935749",
+  "pages_visually_reviewed": [
+    52,
+    54
+  ],
+  "findings": [
+    {
+      "figure": "6.1",
+      "page": 52,
+      "meaning": "Historical average current-market valuations, with separate constant-age lines.",
+      "source_appraisers": [
+        "Avitas",
+        "mba",
+        "Ascend by Cirium"
+      ],
+      "age_labels_years": [
+        0,
+        3,
+        5,
+        10
+      ]
+    },
+    {
+      "figure": "6.3",
+      "page": 54,
+      "meaning": "Historical monthly lease-rate appraisal curves, separately by constant age.",
+      "new_dh8d_last_year": 2021,
+      "later_aged_curves_through": 2023
+    },
+    {
+      "figure": "6.2",
+      "page": 53,
+      "meaning": "Future base-value profile from the 2023 appraisal date; must not be treated as observed market history.",
+      "include_in_historical_panel": false
+    }
+  ],
+  "review_requirements": [
+    "Keep chart-derived values distinguishable from explicitly printed numbers.",
+    "Keep digitization precision separate from a published market interval.",
+    "Do not extend a line beyond its printed domain or combine ages and appraisal bases.",
+    "The narrative and chart endpoint for ATR72 have different approximate levels; preserve their different locators and do not force agreement.",
+    "All 2023 observations remain historical in a 2026 article."
+  ],
+  "limits": [
+    "Only the source semantics and visible axes have been checked so far; no submitted extracted panel existed at this checkpoint.",
+    "The publisher aggregates appraisers rather than disclosing completed transaction prices.",
+    "Annual source-curve sampling must preserve year precision and approximate-extraction status."
+  ],
+  "initial_status": "primary_source_checked_extraction_pending",
+  "superseded_by": [
+    "history_0056.json",
+    "history_trace_0056.json",
+    "review_0056.json"
+  ],
+  "note": "The initial source check is retained as audit history. Final extraction and multilingual report checks are complete in the referenced 0056 records."
+}

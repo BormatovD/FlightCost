@@ -1,0 +1,1199 @@
+{
+  "stage": "0056-v2",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "data_sha256": "657d65052edb272c8bceff5146102b1eee219d120e789ad2bc79824f4df7932d",
+  "rows": 451,
+  "quality_counts": {
+    "published_table": 180,
+    "published_number": 22,
+    "chart_digitized": 249
+  },
+  "segments": 4,
+  "types": 15,
+  "segment_sizes": {
+    "turboprop": 3,
+    "regional": 4,
+    "narrowbody": 4,
+    "widebody": 4
+  },
+  "avac_cell_checks": [
+    {
+      "id": "history-avac-2016-a20n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a20n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a20n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a20n-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a20n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a20n-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a20n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a20n-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-a20n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a20n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a20n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a20n-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a20n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a20n-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a20n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a20n-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-a21n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a21n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a21n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a21n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a21n-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a21n-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-a21n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a21n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a21n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a21n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a21n-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a21n-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b38m-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b38m-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b38m-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b38m-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b38m-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b38m-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b38m-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b38m-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b38m-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b38m-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b738-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b738-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b738-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b738-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b738-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b738-lease-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-lease-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-lease-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b738-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b738-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b738-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b738-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b738-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b738-value-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b738-value-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b738-value-20",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-crj9-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-crj9-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-crj9-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-crj9-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-crj9-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-crj9-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-crj9-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-crj9-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e195-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e195-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e195-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e195-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e295-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e295-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e75l-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e75l-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e75l-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e75l-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e75l-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e75l-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e75l-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e75l-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-e75l-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-e75l-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e75l-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-e75l-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e75l-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-e75l-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e75l-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-e75l-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a332-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a332-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a332-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a332-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a332-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a332-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a332-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a332-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a332-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a332-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-a359-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a359-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a359-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a359-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a359-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a359-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a359-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-a359-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-a359-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-a359-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a359-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-a359-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a359-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-a359-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-lease-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b77w-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b77w-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b77w-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b77w-value-10",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b77w-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b77w-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b789-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b789-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b789-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b789-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b789-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b789-lease-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b789-lease-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2016-b789-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2017-b789-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2018-b789-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b789-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2019-b789-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b789-value-new",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    },
+    {
+      "id": "history-avac-2020-b789-value-5",
+      "status": "pass",
+      "method": "independent pandas/lxml HTML cell and year-specific footnote legend"
+    }
+  ],
+  "chart_checks": [
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.1(i)",
+      "pdf_page": 52,
+      "icao": "AT46",
+      "kind": "value",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 49134.79283604771,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.1(ii)",
+      "pdf_page": 52,
+      "icao": "AT76",
+      "kind": "value",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 43998.876194057986,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.1(iii)",
+      "pdf_page": 52,
+      "icao": "DH8D",
+      "kind": "value",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 46799.295843143016,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.3(i)",
+      "pdf_page": 54,
+      "icao": "AT46",
+      "kind": "lease",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 485.9163823447889,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.3(ii)",
+      "pdf_page": 54,
+      "icao": "AT76",
+      "kind": "lease",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 483.603397467552,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-turboprop-2023",
+      "figure": "6.3(iii)",
+      "pdf_page": 54,
+      "icao": "DH8D",
+      "kind": "lease",
+      "checked_points": 30,
+      "maximum_rounding_distance_usd": 480.84482020653377,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-regional-2025",
+      "figure": "6.3",
+      "pdf_page": 43,
+      "icao": "E75L",
+      "kind": "lease",
+      "checked_points": 9,
+      "maximum_rounding_distance_usd": 393.88942674105056,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-regional-2025",
+      "figure": "6.5",
+      "pdf_page": 44,
+      "icao": "CRJ9",
+      "kind": "value",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 49283.7445655223,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-regional-2025",
+      "figure": "6.6",
+      "pdf_page": 45,
+      "icao": "CRJ9",
+      "kind": "lease",
+      "checked_points": 27,
+      "maximum_rounding_distance_usd": 451.1455297464272,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-regional-2022",
+      "figure": "32",
+      "pdf_page": 35,
+      "icao": "E195",
+      "kind": "value",
+      "checked_points": 21,
+      "maximum_rounding_distance_usd": 45091.94373907149,
+      "printed_grid_checked": true,
+      "curve_age_legend_visually_checked": true,
+      "status": "pass"
+    }
+  ],
+  "new_printed_number_checks": [
+    {
+      "source_id": "oriel-istat-e2-2026",
+      "icao": "E295",
+      "kind": "value",
+      "age": 0,
+      "status": "pass"
+    },
+    {
+      "source_id": "oriel-istat-e2-2026",
+      "icao": "E295",
+      "kind": "lease",
+      "age": 0,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-crossover-2021",
+      "icao": "E295",
+      "kind": "value",
+      "age": 0,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-crossover-2021",
+      "icao": "E295",
+      "kind": "lease",
+      "age": 0,
+      "status": "pass"
+    },
+    {
+      "source_id": "truenoord-regional-2022",
+      "icao": "E195",
+      "kind": "lease",
+      "age": 10,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "A332",
+      "kind": "value",
+      "age": 12,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "B77W",
+      "kind": "value",
+      "age": 12,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "A332",
+      "kind": "lease",
+      "age": 12,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "B77W",
+      "kind": "lease",
+      "age": 12,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "A359",
+      "kind": "lease",
+      "age": 0,
+      "status": "pass"
+    },
+    {
+      "source_id": "iba-iclg-2026",
+      "icao": "B789",
+      "kind": "lease",
+      "age": 0,
+      "status": "pass"
+    }
+  ],
+  "inherited_printed_number_scope": "Previously verified 0055 IBA rows retain their source/age/variant checks. The 0056 printed anchors are rerun against the independently verified source values; external-source traces are unchanged.",
+  "prior_visual_calibration_retained": true,
+  "coverage_checks": [
+    {
+      "icao": "AT46",
+      "observations": 54
+    },
+    {
+      "icao": "AT76",
+      "observations": 54
+    },
+    {
+      "icao": "DH8D",
+      "observations": 57
+    },
+    {
+      "icao": "E75L",
+      "observations": 25
+    },
+    {
+      "icao": "E195",
+      "observations": 46
+    },
+    {
+      "icao": "E295",
+      "observations": 6
+    },
+    {
+      "icao": "CRJ9",
+      "observations": 62
+    },
+    {
+      "icao": "A20N",
+      "observations": 20
+    },
+    {
+      "icao": "A21N",
+      "observations": 14
+    },
+    {
+      "icao": "B738",
+      "observations": 30
+    },
+    {
+      "icao": "B38M",
+      "observations": 11
+    },
+    {
+      "icao": "A332",
+      "observations": 22
+    },
+    {
+      "icao": "A359",
+      "observations": 16
+    },
+    {
+      "icao": "B77W",
+      "observations": 18
+    },
+    {
+      "icao": "B789",
+      "observations": 16
+    }
+  ],
+  "series_semantics_checked": 128,
+  "failed_checks": [],
+  "limitations": [
+    "Digitized points reproduce drawn appraiser-average curves, not precise transaction data. The independently checked PDF geometry does not establish market accuracy.",
+    "Year-axis line alignment is approximate artwork. Rounding and digitization tolerance must remain visible and are not confidence bounds or observed market ranges.",
+    "The 2023 turboprop narrative and plotted averages differ; source locators and bases remain separate.",
+    "New DH8D source curves end in 2021; no new 2023 point is inferred from old-vintage values.",
+    "AVAC age labels are nominal; e.g. five can mean four to six years. Different technical specifications stay in different series.",
+    "Oriel text 45m is rounded; the January 2026 value table has 45.31m. Its date is not assigned to the separate rent statement.",
+    "CMV historical charts exclude future base-value curves. Current 2026 source points are not joined across incompatible appraiser/age/technical bases.",
+    "History is research-only and does not alter accepted production prices or calculator coefficients."
+  ]
+}

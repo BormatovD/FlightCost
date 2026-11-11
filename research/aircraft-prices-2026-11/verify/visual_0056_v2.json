@@ -1,0 +1,22 @@
+{
+  "checked_on": "2026-11-11",
+  "status": "pass_static_render_with_scope_limits",
+  "method": "WeasyPrint static render with SVG class styles resolved in scratch QA copies; original report CSS unchanged by renderer. Desktop and narrow table enhancement mirrored from the article helper.",
+  "observed": {
+    "cashflow": "Purchase/monthly/sale rendered in RU and DE; RU purchase/monthly and DE sale inspected visually. Actor note wrapping avoids overlapping block labels.",
+    "model_charts": "All four lease panels rendered; narrowbody and regional visually inspected. Market points and dash-dot model lines distinguishable; explicit model ages visible. All plotted coordinates independently audited.",
+    "demand": "Supply/migrant/next-data sections inspected at 1100px and 390px; no detected text overflow. Wide tables collapse into cards per the article stylesheet."
+  },
+  "limitations": [
+    "No live-browser or JavaScript interaction test; browser session unavailable.",
+    "Narrow SVG charts and cashflow diagrams intentionally retain a minimum readable width and horizontal scrolling. Static rendering does not verify touch scrolling."
+  ],
+  "report_sha256": {
+    "research/aircraft-prices-2026-11/report.html": "57fb3a3544ccd7aacb103e57b7aeea507337ad7521cb994887540b4f9a146152",
+    "research/aircraft-prices-2026-11/report.en.html": "20425775209f5e1f10aac738837b2e794c16e2d9f11b135f692459a2847e4f4b",
+    "research/aircraft-prices-2026-11/report.de.html": "a3facfc35bd281d2a55005b1668a9ccb45d4eeb3cf14501eebcf08080d42fde0",
+    "research/demand-2026-11/report.html": "9e2a8b90adcb50d639bfb5336360f6b63d26f3ea658524e39e41a7753200d2cf",
+    "research/demand-2026-11/report.en.html": "b78dee64e0709aad9e27f2236d99bc4d1a88afe1c05df353d8782651c1cdafa8",
+    "research/demand-2026-11/report.de.html": "823f6f68f7d09bd0cf58b3ebf40e63efe3bb3fe6b70863b1dede966e388daf55"
+  }
+}

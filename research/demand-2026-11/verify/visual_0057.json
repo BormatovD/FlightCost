@@ -1,0 +1,62 @@
+{
+  "stage": "0057",
+  "status": "pass_with_rendering_limits",
+  "checked_at": "2026-11-11",
+  "method": "Static WeasyPrint render plus independent markup/data audits. CSS custom properties and SVG font declarations resolved in temporary QA copies only. For mobile tables the existing TABLE_JS transformation was reproduced; the renderer did not execute browser JavaScript.",
+  "report_sha256": {
+    "report.de.html": "4453d63a6e6721ce322b949cbfbac78acdaa3c6deecde2bb91bb667bfd679c95",
+    "report.en.html": "09a5aa834c9f89e5cfc45fb0de2507244e3822aad1e65ad0861fb521567b2198",
+    "report.html": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1"
+  },
+  "viewports_css_px": [
+    1100,
+    390
+  ],
+  "inspected": [
+    "Russian forecast/cohort chapter at desktop width; Russian and German mobile table-card layout.",
+    "Four route archetypes at desktop and mobile width; table content fits the mobile column.",
+    "Eight signed bars, unbroken legend labels, aligned prose/table/chart outer column."
+  ],
+  "limitations": [
+    "No browser interaction test; native details toggling, horizontal scrolling and currency controls are not claimed as browser-verified.",
+    "Mobile SVGs retain the existing horizontal-scroll design; a static preview cannot demonstrate scrolling.",
+    "Screenshots and QA-only CSS transformations are not shipped as article assets."
+  ],
+  "static_layout_checks": [
+    {
+      "report": "research/demand-2026-11/report.html",
+      "sha256": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1",
+      "width": 1100,
+      "pages": 2,
+      "overflow_text_boxes": []
+    },
+    {
+      "report": "research/demand-2026-11/report.html",
+      "sha256": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1",
+      "width": 390,
+      "pages": 3,
+      "overflow_text_boxes": []
+    },
+    {
+      "report": "research/demand-2026-11/report.de.html",
+      "sha256": "4453d63a6e6721ce322b949cbfbac78acdaa3c6deecde2bb91bb667bfd679c95",
+      "width": 390,
+      "pages": 3,
+      "overflow_text_boxes": []
+    },
+    {
+      "report": "research/demand-2026-11/report.html",
+      "sha256": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1",
+      "width": 1100,
+      "pages": 1,
+      "overflow_text_boxes": []
+    },
+    {
+      "report": "research/demand-2026-11/report.html",
+      "sha256": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1",
+      "width": 390,
+      "pages": 1,
+      "overflow_text_boxes": []
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "stage": "0056",
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "baseline_0055_preserved": true,
+  "scope": "Source-panel integrity, coverage and multiyear evaluation readiness, external scenario inputs, trace and three-language HTML; no new fitted demand forecasts.",
+  "checks": [
+    {
+      "file": "demand_collection_0056.json",
+      "status": "pass_with_limitations",
+      "sha256": "db38458e39733cdeb739d9071141b4880b9d530883bceb26aa4a89b0e2269271"
+    },
+    {
+      "file": "collection_trace_0056.json",
+      "status": "pass",
+      "sha256": "57b23575ab95268f760ff9ea9d0e4cee5ed99b1e5af05c353f420f4c6afc24b1"
+    },
+    {
+      "file": "review_0056.json",
+      "status": "pass",
+      "sha256": "6e50df05eae7d8769588f4b94b733817c8c1dca5cbeab486a46adf7782d4597d"
+    }
+  ],
+  "findings": [
+    "All 649,932 source pair-month aggregates were independently rebuilt; 104 non-airport/ambiguous groups (2,115 months) are retained separately. The working EU panel contains 6,214 airport pairs and 647,817 pair-months.",
+    "Both independently downloaded FRA–BCN reporter series match the collected panel over 240 months each. Source-update and mirror-index dates remain distinct.",
+    "With five full training years, the EU archive has 13/11/6 candidate origins and 15,868/14,653/6,331 complete pair-targets for 3/5/10 years. These are coverage counts, not model scores or independent experiments.",
+    "Regional units, all normalized rows and quality flags were checked. India duplicates, missing directions, missing months and annual completeness were independently rebuilt.",
+    "WDI history, WPP/IMF projections and all eight visa snapshots were independently normalized from raw rows. The five January 2026 Togo Medium replacements and warnings on unrevised Low/High variants pass.",
+    "Final RU/EN/DE numerical tables and twenty historical chart points pass; the older 2023–2024 experiment remains explicitly separated in closed details."
+  ],
+  "limitations": [
+    "The Eurostat source is accessed through a dated DBnomics archive covering five reporters, not all Europe. PAS_CRD is on-flight O/D, not full journey demand.",
+    "DGCA original publications were not independently matched to the public Vonter transcription; the complete transcription and its processing were audited.",
+    "Current data revisions are not historical forecast vintages. The 2024 observed baseline requires a separate 2025–2026 nowcast before a 2026 issue can call 2029/2031/2036 its 3/5/10-year targets.",
+    "India domestic lacks May 2021 and May 2024 entirely; neither India panel currently supplies a ten-year evaluation window with five complete training years.",
+    "Airport/city identities, NUTS boundary harmonization, source flags and future feature vintages require modelling decisions before fitting. Missing target records are not zero demand.",
+    "External population variants and IMF projections are not a passenger forecast or confidence interval. No source GDP projection for 2036 was fabricated.",
+    "Visa snapshots are curator observations rather than independently verified legal histories. Passport citizenship is not inferred from departure country.",
+    "No fitted route or aircraft-choice result is claimed in this collection stage."
+  ],
+  "production_changed_by_verifier": false,
+  "reproduction": {
+    "report_runtime": "Python 3.12 with lxml 6.1.1",
+    "data_audit_dependencies": "pandas 2.2.3; price-history PDF audit also uses pdfplumber/pdfminer",
+    "raw_cache_location": "outside repository; supplied explicitly to independent verification scripts"
+  },
+  "final_html_refresh": "Numerical/static audits rerun after horizontal chart wrappers and four-year demand x-axis labels; source data and previous source audits unchanged."
+}

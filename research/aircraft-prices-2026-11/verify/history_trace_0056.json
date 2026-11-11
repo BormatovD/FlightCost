@@ -1,0 +1,160 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "trace_sha256": "87525d8a441effea8a22be2f514c64a22e9dbb2aee2240944fc5969cac1cca86",
+  "trace_rows": 29,
+  "new_quote_checks": [
+    {
+      "trace_id": "history-008",
+      "url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 6,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-009",
+      "url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 8,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-012",
+      "url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 8,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-013",
+      "url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 7,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-016",
+      "url": "https://www.truenoord.com/wp-content/uploads/2021/05/TrueNoord-Insight-Crossover-Jets-Market-Report-2021.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 2,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-017",
+      "url": "https://www.truenoord.com/wp-content/uploads/2021/05/TrueNoord-Insight-Crossover-Jets-Market-Report-2021.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 2,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-018",
+      "url": "https://www.truenoord.com/wp-content/uploads/2021/05/TrueNoord-Insight-Crossover-Jets-Market-Report-2021.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 8,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-020",
+      "url": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 6,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-021",
+      "url": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 11,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-024",
+      "url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 11,
+      "source_opened_independently": true
+    },
+    {
+      "trace_id": "history-025",
+      "url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+      "status": "pass",
+      "literal_quote": true,
+      "quote_words": 5,
+      "source_opened_independently": true
+    }
+  ],
+  "inherited_quote_references": [
+    {
+      "trace_id": "history-002",
+      "reference": "trace/prices.jsonl#prices-020",
+      "exists": true
+    },
+    {
+      "trace_id": "history-003",
+      "reference": "trace/prices.jsonl#prices-023",
+      "exists": true
+    },
+    {
+      "trace_id": "history-004",
+      "reference": "trace/prices.jsonl#prices-005",
+      "exists": true
+    },
+    {
+      "trace_id": "history-005",
+      "reference": "trace/prices.jsonl#prices-028",
+      "exists": true
+    },
+    {
+      "trace_id": "history-006",
+      "reference": "trace/prices.jsonl#prices-006",
+      "exists": true
+    },
+    {
+      "trace_id": "history-022",
+      "reference": "trace/prices.jsonl#prices-013",
+      "exists": true
+    },
+    {
+      "trace_id": "history-022",
+      "reference": "trace/prices.jsonl#prices-014",
+      "exists": true
+    }
+  ],
+  "all_price_research_quote_words_by_url": {
+    "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates": 12,
+    "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates": 16,
+    "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/": 22,
+    "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update": 20,
+    "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates": 10,
+    "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates": 10,
+    "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates": 10,
+    "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf": 14,
+    "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf": 15,
+    "https://www.truenoord.com/wp-content/uploads/2021/05/TrueNoord-Insight-Crossover-Jets-Market-Report-2021.pdf": 12,
+    "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf": 17,
+    "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2": 16,
+    "https://www.iata.org/globalassets/iata/programs/operations-infrastructure/technical-operations/gmbp-al-4.1ed.pdf": 10,
+    "https://www.aercap.com/investors/shareholder-services/sec-filings/content/0001628280-26-007513/aer-20251231.htm": 12,
+    "https://www.sec.gov/Archives/edgar/data/1487712/000162828026007707/al-20251231.htm": 18,
+    "https://report.lufthansagroup.com/2025/annual-report/en/consolidated-financial-statements/notes-to-the-consolidated-financial-statements/notes-to-the-consolidated-statement-of-financial-position/assets-1/": 13,
+    "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-16-leases/": 11,
+    "https://awg.aero/project/standardized-documents-to-facilitate-aircraft-transfers/": 6,
+    "https://www.avolon.aero/newsrooms/avolon-agrees-sale-and-leaseback-taag-october-2025": 14
+  },
+  "max_words_per_source": 22,
+  "notes": [
+    "No quotations duplicated in verification output.",
+    "Numerical and graphical extraction checked separately in history_0056.json.",
+    "Raw source PDFs and HTML were independently retrieved outside the repository."
+  ]
+}

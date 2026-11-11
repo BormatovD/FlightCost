@@ -1,0 +1,85 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "trace_sha256": "9d2eb589ce7ed8724f63cd0a814f9ddf8099ac77d2eb841fd0c65013ff1e3276",
+  "trace_rows": 7,
+  "checks": [
+    {
+      "trace_id": "lease-001",
+      "url": "https://www.iata.org/globalassets/iata/programs/operations-infrastructure/technical-operations/gmbp-al-4.1ed.pdf",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 10,
+      "independent_locator": "IATA PDF physical p.26 (printed p.11), section 2.5.3; sections 2.1 and 2.5.4 for process and reserves.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-002",
+      "url": "https://www.aercap.com/investors/shareholder-services/sec-filings/content/0001628280-26-007513/aer-20251231.htm",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 12,
+      "independent_locator": "AerCap 20-F Aviation leases and transactions; maintenance rights and leasing-expense policies.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-003",
+      "url": "https://www.sec.gov/Archives/edgar/data/1487712/000162828026007707/al-20251231.htm",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 18,
+      "independent_locator": "Air Lease 10-K Interest Rate Risk, printed p.65; forward-delivery adjusters in the following paragraph.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-004",
+      "url": "https://report.lufthansagroup.com/2025/annual-report/en/consolidated-financial-statements/notes-to-the-consolidated-financial-statements/notes-to-the-consolidated-statement-of-financial-position/assets-1/",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 13,
+      "independent_locator": "Lufthansa Assets: sale-and-lease-back paragraph and subsequent age/proceeds paragraph.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-005",
+      "url": "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-16-leases/",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 11,
+      "independent_locator": "IFRS Foundation About IFRS 16: objective and lessee recognition; scope exceptions stated.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-006",
+      "url": "https://awg.aero/project/standardized-documents-to-facilitate-aircraft-transfers/",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 6,
+      "independent_locator": "AWG 2024 lease transfer documentation: first paragraph and document list including novation.",
+      "finding_supported_in_context": true
+    },
+    {
+      "trace_id": "lease-007",
+      "url": "https://www.avolon.aero/newsrooms/avolon-agrees-sale-and-leaseback-taag-october-2025",
+      "status": "pass",
+      "primary_source_opened_independently": true,
+      "quote_literal_after_whitespace_normalization": true,
+      "quote_words": 14,
+      "independent_locator": "Avolon announcement opening paragraph, 23 October 2025; one new Boeing 787-9, delivered end September.",
+      "finding_supported_in_context": true
+    }
+  ],
+  "notes": [
+    "No new duplicate quotations are reproduced in verification output.",
+    "Lufthansa discloses aggregate proceeds for a mixed fleet, not a comparable per-aircraft purchase price.",
+    "The IATA statement describes common practice and expressly allows other payment timing; the example separately evaluates arrears and advance.",
+    "Air Lease fixed rent is generally fixed after delivery, with forward-delivery adjusters and commercial exceptions; this is not an unconditional claim about every lease.",
+    "Illustrative model parameters are assumptions and are not represented as facts drawn from these sources."
+  ]
+}

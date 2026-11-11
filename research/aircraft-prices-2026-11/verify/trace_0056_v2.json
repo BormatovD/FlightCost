@@ -1,0 +1,230 @@
+{
+  "stage": "0056-v2",
+  "status": "pass",
+  "independent": true,
+  "method": "Literal local-primary-code checks and cumulative quotation budget across all price-research traces. Prior external-source verification is retained only for the exact unchanged trace digest.",
+  "new_trace_sha256": "04c449a31e6380bf6be3efd4b4f57c6f96e954197eb7b2c362ada6a0763fdee9",
+  "new_quote_checks": [
+    {
+      "id": "model-001",
+      "literal_after_whitespace_normalization": true,
+      "checked_against": "flightcostapp/fleet.py",
+      "source_sha256": "240eb1e1a3772543325aacbdf5c6f68d42606feccc23eefc15fb7d676875c9d9"
+    },
+    {
+      "id": "model-002",
+      "literal_after_whitespace_normalization": true,
+      "checked_against": "flightcostapp/seo.py",
+      "source_sha256": "80aac25673aa6f2ec32321ac53bc1099323d8f687b84b0e1457c9ef33777686d"
+    },
+    {
+      "id": "model-003",
+      "literal_after_whitespace_normalization": true,
+      "checked_against": "flightcostapp/serve.py",
+      "source_sha256": "7702db40593269ee539bcb43b6b4210064e145de79ed5656b85689b2148d1795"
+    },
+    {
+      "id": "model-004",
+      "literal_after_whitespace_normalization": true,
+      "checked_against": "data/macro/_us_cpi.yaml",
+      "source_sha256": "df887a116bd0b79e48a03394031d03316c1d0dbab678ebcc761ce57f7405c984"
+    },
+    {
+      "id": "model-005",
+      "literal_after_whitespace_normalization": true,
+      "checked_against": "installed OpenAP 2.6.2 a20n.yml",
+      "source_sha256": "66e5b15d927d6abf8d0204b98fca46bc141f3bac3224d15b8186f510869eeaef"
+    }
+  ],
+  "url_quote_budgets": [
+    {
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "quote_words_total": 10,
+      "trace_ids": [
+        "prices-020"
+      ]
+    },
+    {
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "quote_words_total": 10,
+      "trace_ids": [
+        "prices-023"
+      ]
+    },
+    {
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "quote_words_total": 12,
+      "trace_ids": [
+        "prices-005"
+      ]
+    },
+    {
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "quote_words_total": 10,
+      "trace_ids": [
+        "prices-028"
+      ]
+    },
+    {
+      "url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "quote_words_total": 16,
+      "trace_ids": [
+        "prices-006"
+      ]
+    },
+    {
+      "url": "https://awg.aero/project/standardized-documents-to-facilitate-aircraft-transfers/",
+      "quote_words_total": 6,
+      "trace_ids": [
+        "lease-006"
+      ]
+    },
+    {
+      "url": "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update",
+      "quote_words_total": 20,
+      "trace_ids": [
+        "prices-015",
+        "prices-016"
+      ]
+    },
+    {
+      "url": "https://github.com/BormatovD/FlightCost/blob/2ffe474b05db38d146150bebfa800fe0855a555c/data/macro/_us_cpi.yaml",
+      "quote_words_total": 4,
+      "trace_ids": [
+        "model-004"
+      ]
+    },
+    {
+      "url": "https://github.com/BormatovD/FlightCost/blob/2ffe474b05db38d146150bebfa800fe0855a555c/flightcostapp/fleet.py",
+      "quote_words_total": 7,
+      "trace_ids": [
+        "model-001"
+      ]
+    },
+    {
+      "url": "https://github.com/BormatovD/FlightCost/blob/2ffe474b05db38d146150bebfa800fe0855a555c/flightcostapp/seo.py",
+      "quote_words_total": 5,
+      "trace_ids": [
+        "model-002"
+      ]
+    },
+    {
+      "url": "https://github.com/BormatovD/FlightCost/blob/2ffe474b05db38d146150bebfa800fe0855a555c/flightcostapp/serve.py",
+      "quote_words_total": 9,
+      "trace_ids": [
+        "model-003"
+      ]
+    },
+    {
+      "url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "quote_words_total": 22,
+      "trace_ids": [
+        "prices-013",
+        "prices-014"
+      ]
+    },
+    {
+      "url": "https://pypi.org/project/openap/2.6.2/",
+      "quote_words_total": 2,
+      "trace_ids": [
+        "model-005"
+      ]
+    },
+    {
+      "url": "https://report.lufthansagroup.com/2025/annual-report/en/consolidated-financial-statements/notes-to-the-consolidated-financial-statements/notes-to-the-consolidated-statement-of-financial-position/assets-1/",
+      "quote_words_total": 13,
+      "trace_ids": [
+        "lease-004"
+      ]
+    },
+    {
+      "url": "https://www.aercap.com/investors/shareholder-services/sec-filings/content/0001628280-26-007513/aer-20251231.htm",
+      "quote_words_total": 12,
+      "trace_ids": [
+        "lease-002"
+      ]
+    },
+    {
+      "url": "https://www.avolon.aero/newsrooms/avolon-agrees-sale-and-leaseback-taag-october-2025",
+      "quote_words_total": 14,
+      "trace_ids": [
+        "lease-007"
+      ]
+    },
+    {
+      "url": "https://www.iata.org/globalassets/iata/programs/operations-infrastructure/technical-operations/gmbp-al-4.1ed.pdf",
+      "quote_words_total": 10,
+      "trace_ids": [
+        "lease-001"
+      ]
+    },
+    {
+      "url": "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-16-leases/",
+      "quote_words_total": 11,
+      "trace_ids": [
+        "lease-005"
+      ]
+    },
+    {
+      "url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+      "quote_words_total": 16,
+      "trace_ids": [
+        "history-024",
+        "history-025"
+      ]
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1487712/000162828026007707/al-20251231.htm",
+      "quote_words_total": 18,
+      "trace_ids": [
+        "lease-003"
+      ]
+    },
+    {
+      "url": "https://www.truenoord.com/wp-content/uploads/2021/05/TrueNoord-Insight-Crossover-Jets-Market-Report-2021.pdf",
+      "quote_words_total": 12,
+      "trace_ids": [
+        "history-016",
+        "history-017",
+        "history-018"
+      ]
+    },
+    {
+      "url": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf",
+      "quote_words_total": 17,
+      "trace_ids": [
+        "history-020",
+        "history-021"
+      ]
+    },
+    {
+      "url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+      "quote_words_total": 14,
+      "trace_ids": [
+        "history-008",
+        "history-009"
+      ]
+    },
+    {
+      "url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+      "quote_words_total": 15,
+      "trace_ids": [
+        "history-012",
+        "history-013"
+      ]
+    }
+  ],
+  "retained_source_audits": [
+    {
+      "prior_audit": "lease_economics_sources_0056.json",
+      "prior_status": "pass",
+      "trace_unchanged": true,
+      "trace_sha256": "9d2eb589ce7ed8724f63cd0a814f9ddf8099ac77d2eb841fd0c65013ff1e3276"
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "This update does not claim new HTTP retrieval of the unchanged 0056 financial source set.",
+    "The OpenAP quotation is checked against the pinned installed data file, not asserted to appear verbatim on the PyPI landing page."
+  ]
+}

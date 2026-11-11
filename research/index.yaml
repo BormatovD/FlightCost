@@ -6,7 +6,7 @@
 items:
   - slug: aircraft-prices-2026-11
     date: 2026-11-11
-    draft: true
+    draft: false
     report: aircraft-prices-2026-11/report.html
     calc: on_input
     calc_note:
@@ -15,13 +15,13 @@ items:
       de: "Ein Leasingszenario lässt sich als Monatsrate eingeben; die allgemeine Kalibrierung nach Typ und Alter wird noch untersucht."
     lang: ru
     title:
-      ru: "Сколько стоит самолёт: каталог, рыночная оценка, возраст и лизинг"
-      en: "What an aircraft costs: list price, market appraisal, age and leasing"
-      de: "Was ein Flugzeug kostet: Listenpreis, Marktwert, Alter und Leasing"
+      ru: "Сколько стоит самолёт: цена, лизинг и стоимость рейса"
+      en: "Aircraft cost: Airbus and Boeing prices, leasing and flight cost"
+      de: "Was kostet ein Flugzeug? Kaufpreis, Leasing und Flugkosten"
     lede:
-      ru: "Проверяем цены и лизинг по открытым публикациям, включая диапазоны I квартала 2026 года, и считаем влияние на условный рейс A320neo."
-      en: "Checking aircraft prices and leases against public sources, including Q1 2026 ranges, and calculating the effect on an illustrative A320neo flight."
-      de: "Flugzeugpreise und Leasingraten aus öffentlichen Quellen, einschließlich Spannen für das erste Quartal 2026, und ihre Wirkung auf einen A320neo-Beispielflug."
+      ru: "Цены самолётов Airbus и Boeing по публикациям, диапазоны лизинга 2026 года, четыре исторических графика и пример стоимости владения на рейс."
+      en: "Published Airbus and Boeing appraisals, 2026 lease ranges, four history charts and an illustrative ownership cost per flight."
+      de: "Veröffentlichte Airbus- und Boeing-Bewertungen, Leasingspannen 2026, vier historische Diagramme und ein Beispiel der Besitzkosten je Flug."
     tags:
       ru: [стоимость ВС, лизинг, возраст, исследование]
       en: [aircraft value, leasing, age, research]
@@ -32,18 +32,18 @@ items:
     report: demand-2026-11/report.html
     calc: planned
     calc_note:
-      ru: "Первый исследовательский эксперимент; коэффициенты и макрофакторы ещё не перенесены в калькулятор."
-      en: "An initial research experiment; coefficients and macro factors have not yet been transferred to the calculator."
-      de: "Ein erster Forschungsversuch; Koeffizienten und Makrofaktoren sind noch nicht in den Rechner übernommen."
+      ru: "Проверены базовые прогнозы на 3/5/10 лет и изменения вместимости; прогнозы новых рынков и автоматический выбор ВС ещё исследуются."
+      en: "Baseline forecasts at 3/5/10 years and capacity changes have been tested; new-market forecasts and automatic aircraft choice remain research."
+      de: "Basisprognosen für 3/5/10 Jahre und Kapazitätsänderungen sind geprüft; neue Märkte und automatische Flugzeugwahl bleiben Forschungsaufgaben."
     lang: ru
     title:
-      ru: "Спрос между городами: что можно проверить по открытым данным"
-      en: "Demand between cities: what public data can test"
-      de: "Nachfrage zwischen Städten: was sich mit offenen Daten prüfen lässt"
+      ru: "Спрос между городами: проверка прогнозов на 3, 5 и 10 лет"
+      en: "Demand between cities: testing three-, five- and ten-year forecasts"
+      de: "Nachfrage zwischen Städten: Prüfung von Drei-, Fünf- und Zehnjahresprognosen"
     lede:
-      ru: "Прогноз известной пары и оценка пары, исключённой из обучения: два отдельных теста. Проверяем добавочную пользу ВВП и ночёвок; деловая активность, диаспоры, визы и сезонность — следующие этапы."
-      en: "Forecasting a known pair and estimating a pair held out of training: two separate tests. Testing the added value of GDP and accommodation nights; business activity, diaspora, visas and seasonality follow."
-      de: "Prognose eines bekannten Paars und Schätzung eines vom Training ausgeschlossenen Paars: zwei getrennte Tests. Mehrwert von BIP und Übernachtungen; Geschäftsaktivität, Diaspora, Visa und Saisonalität folgen."
+      ru: "Что показали временные проверки спроса и сравнение рейсов с вместимостью. Условия для A321, A220 и дальних тонких маршрутов; база и план сценариев 2029/2031/2036."
+      en: "Results from demand backtests and flight-versus-capacity comparisons. Conditions for A321, A220 and long thin routes; inputs and plans for 2029/2031/2036 scenarios."
+      de: "Ergebnisse zeitlicher Nachfragetests und des Vergleichs von Flügen und Kapazität. Bedingungen für A321, A220 und dünne Langstrecken; Szenarienplan 2029/2031/2036."
     tags:
       ru: [спрос, пассажиропоток, проверка модели, макрофакторы]
       en: [demand, passenger traffic, model validation, macro factors]

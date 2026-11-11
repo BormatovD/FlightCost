@@ -1,0 +1,215 @@
+{
+  "stage": "0056-v2",
+  "status": "pass",
+  "independent": true,
+  "scope": "Final RU/EN/DE supply and birthplace tables, coverage counts and citations; static content verification, not a browser layout claim.",
+  "source_summary_digests": {
+    "supply": "c771f9464ba7f23865678c6e767f6fb23de34b8873fb7360be2d29b10a64c210",
+    "migrant": "b5e339ba261af9616dc38a7a359dda2a39fbd3d4f75eb4553ea3dbb4c6094004"
+  },
+  "retained_prior_data_audit": {
+    "collection_summary": true,
+    "data_inventory": true
+  },
+  "checks": [
+    {
+      "language": "ru",
+      "file": "report.html",
+      "sha256": "9e2a8b90adcb50d639bfb5336360f6b63d26f3ea658524e39e41a7753200d2cf",
+      "diagnostic_pair_values": {
+        "EDDF-LEBL": [
+          "947 853,5",
+          "4 997",
+          "85,1%",
+          "189,7"
+        ],
+        "EDDL-LEPA": [
+          "1 502 145,5",
+          "7 859",
+          "91,0%",
+          "191,1"
+        ],
+        "EDDF-LIMC": [
+          "460 612,5",
+          "3 338,5",
+          "69,4%",
+          "138,0"
+        ],
+        "EDDF-VIDP": [
+          "596 552",
+          "2 092",
+          "83,4%",
+          "285,2"
+        ],
+        "EHAM-LFRN": [
+          "63 886",
+          "713",
+          "82,1%",
+          "89,6"
+        ]
+      },
+      "foreign_birth_origin_coverage": {
+        "DE": [
+          "Нет детализации",
+          "—"
+        ],
+        "ES": [
+          "51",
+          "51"
+        ],
+        "FR": [
+          "26",
+          "0"
+        ],
+        "IT": [
+          "221",
+          "221"
+        ],
+        "NL": [
+          "221",
+          "199"
+        ]
+      },
+      "broken_internal_links": [],
+      "new_section_present": true
+    },
+    {
+      "language": "en",
+      "file": "report.en.html",
+      "sha256": "b78dee64e0709aad9e27f2236d99bc4d1a88afe1c05df353d8782651c1cdafa8",
+      "diagnostic_pair_values": {
+        "EDDF-LEBL": [
+          "947,853.5",
+          "4,997",
+          "85.1%",
+          "189.7"
+        ],
+        "EDDL-LEPA": [
+          "1,502,145.5",
+          "7,859",
+          "91.0%",
+          "191.1"
+        ],
+        "EDDF-LIMC": [
+          "460,612.5",
+          "3,338.5",
+          "69.4%",
+          "138.0"
+        ],
+        "EDDF-VIDP": [
+          "596,552",
+          "2,092",
+          "83.4%",
+          "285.2"
+        ],
+        "EHAM-LFRN": [
+          "63,886",
+          "713",
+          "82.1%",
+          "89.6"
+        ]
+      },
+      "foreign_birth_origin_coverage": {
+        "DE": [
+          "No country detail",
+          "—"
+        ],
+        "ES": [
+          "51",
+          "51"
+        ],
+        "FR": [
+          "26",
+          "0"
+        ],
+        "IT": [
+          "221",
+          "221"
+        ],
+        "NL": [
+          "221",
+          "199"
+        ]
+      },
+      "broken_internal_links": [],
+      "new_section_present": true
+    },
+    {
+      "language": "de",
+      "file": "report.de.html",
+      "sha256": "823f6f68f7d09bd0cf58b3ebf40e63efe3bb3fe6b70863b1dede966e388daf55",
+      "diagnostic_pair_values": {
+        "EDDF-LEBL": [
+          "947.853,5",
+          "4.997",
+          "85,1%",
+          "189,7"
+        ],
+        "EDDL-LEPA": [
+          "1.502.145,5",
+          "7.859",
+          "91,0%",
+          "191,1"
+        ],
+        "EDDF-LIMC": [
+          "460.612,5",
+          "3.338,5",
+          "69,4%",
+          "138,0"
+        ],
+        "EDDF-VIDP": [
+          "596.552",
+          "2.092",
+          "83,4%",
+          "285,2"
+        ],
+        "EHAM-LFRN": [
+          "63.886",
+          "713",
+          "82,1%",
+          "89,6"
+        ]
+      },
+      "foreign_birth_origin_coverage": {
+        "DE": [
+          "Keine Länderdetails",
+          "—"
+        ],
+        "ES": [
+          "51",
+          "51"
+        ],
+        "FR": [
+          "26",
+          "0"
+        ],
+        "IT": [
+          "221",
+          "221"
+        ],
+        "NL": [
+          "221",
+          "199"
+        ]
+      },
+      "broken_internal_links": [],
+      "new_section_present": true
+    }
+  ],
+  "failures": [],
+  "manual_semantic_review": [
+    "Supply examples use both directions and all airlines; averaged reporter totals can be fractional, as stated.",
+    "Every 2024 example requires twelve matched months; ratios use sums, and no PAS_CRD/seat ratio is called occupancy.",
+    "Market growth, changed capacity, aircraft gauge and causal demand remain distinct. Average seats per flight does not identify an aircraft type.",
+    "The migrant table counts foreign birth-country/territory categories with data, not persons; own-country births are excluded.",
+    "DE lack of individual-origin coverage is labelled missing detail, not zero migrants. FR/ES changing detail remains explicit.",
+    "Neither the country stock nor high realized occupancy is represented as a fitted diaspora effect, hidden demand or airline market share.",
+    "The next comparison uses the same time splits and past-only baselines. Future observed capacity is not permitted as information available at the forecast origin.",
+    "Future Aena/CAA/BTS source work is a collection queue, not a claim of downloaded or validated new data."
+  ],
+  "limitations": [
+    "The five-country archive ends in 2024; an observed 2026 route anchor remains unresolved.",
+    "The added section does not deliver fitted 3/5/10-year forecasts or aircraft recommendations.",
+    "Historical publication vintages, fares, competitors, complete connecting journeys and city allocation remain separate work."
+  ]
+}

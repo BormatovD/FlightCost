@@ -1,0 +1,58 @@
+{
+  "stage": "0056-v2",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "panel_sha256": "a706f406994bb934a41696c43c6bd06d006305fca89655ca649b08087d8fc787",
+  "summary_sha256": "b5e339ba261af9616dc38a7a359dda2a39fbd3d4f75eb4553ea3dbb4c6094004",
+  "method": "Independent Cartesian JSON-stat decoding; every numeric, missing and flag cell compared. Long-table pandas groupby recalculates all overall, category, residence and annual coverage measures. No collection module imported.",
+  "checks": [
+    {
+      "residence": "DE",
+      "source_cells": 6447,
+      "numeric_cells": 172,
+      "raw_sha256": "a98fa7cb3e0d567429a3194da8d4c73a28153fa3d6cc122b88f3a3af55b6057c"
+    },
+    {
+      "residence": "ES",
+      "source_cells": 6447,
+      "numeric_cells": 1682,
+      "raw_sha256": "7013573b269c586da10aee141c5f36cf012c21236c957bdca83abfdc1dd073c7"
+    },
+    {
+      "residence": "FR",
+      "source_cells": 6447,
+      "numeric_cells": 1211,
+      "raw_sha256": "484c5d1f79e525adcc26106dc11bbbd0ba5c8c1a63645eae8029fc033224bb30"
+    },
+    {
+      "residence": "IT",
+      "source_cells": 6447,
+      "numeric_cells": 5417,
+      "raw_sha256": "aa2b335cdab4698232a36ac6f365add9d13027599f36c1148b6f95092888e0d9"
+    },
+    {
+      "residence": "NL",
+      "source_cells": 6447,
+      "numeric_cells": 5338,
+      "raw_sha256": "2fcde1a046b5fd48d407ddec284d01d95a42412525fbf5de3490608cc5f5c398"
+    }
+  ],
+  "cells_checked": 32235,
+  "series_checked": 1535,
+  "numeric_values_checked": 13820,
+  "country_pair_numeric_values": 11513,
+  "failures": [],
+  "manual_semantics": [
+    "The measure is resident population on 1 January by country of birth, not nationality or annual journeys.",
+    "The origin catalogue mixes individual countries/territories, overlapping aggregate groups, historical entities and old NUTS areas; they stay separate.",
+    "Original Eurostat EL/UK and other geography labels remain unchanged. No ISO or sovereignty harmonization is silently performed.",
+    "Own-country birth rows are marked non-cross-border; NAT is reporter-relative and is not invented as another country code.",
+    "Current revised history is not a vintage database proving what was known at an old forecast origin."
+  ],
+  "limitations": [
+    "DE has zero individual-origin observations in the selected slice, not a zero foreign-born population.",
+    "ES and FR have sparse/changing individual-origin coverage; latest aggregate totals must not fill missing bilateral cells.",
+    "Country-level stocks cannot allocate passengers to city pairs without additional geography and a tested trip-frequency relationship.",
+    "The collected panel does not estimate the diaspora coefficient or resolve causal travel demand."
+  ]
+}

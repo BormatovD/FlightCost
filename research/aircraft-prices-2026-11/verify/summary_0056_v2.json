@@ -1,0 +1,76 @@
+{
+  "stage": "0056-v2",
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "scope": "Replacement draft patch: preserved historical evidence, actual production lease baseline, three-phase directed cash-flow diagrams and final RU/EN/DE static content.",
+  "checks": [
+    {
+      "file": "history_0056_v2.json",
+      "status": "pass_with_limitations",
+      "sha256": "021a7ec5bad25f344f1f4dc065db69966f306bf8f4d1808d637f7ea69e8a3032"
+    },
+    {
+      "file": "model_reference_0056_v2.json",
+      "status": "pass",
+      "sha256": "a5ef4fc644cd378245639704f050d1672b1209c418cd78a9dd28814de1b9f8a6"
+    },
+    {
+      "file": "trace_0056_v2.json",
+      "status": "pass",
+      "sha256": "07dd8620e34012e1a10e584b3d70ba7aebe77d5b3973d6aed75fc8f1656c5a2e"
+    },
+    {
+      "file": "review_0056_v2.json",
+      "status": "pass",
+      "sha256": "2d9d1a49a10ea29c276780b6153032e3baa65da2d584983c5465c537bb357576"
+    }
+  ],
+  "retained_unchanged_financial_audits": [
+    {
+      "file": "lease_economics_0056.json",
+      "status": "pass",
+      "sha256": "89a31db4621638c93c6299360e827beae8cb86408ab3a9a038310aaf00e87f37"
+    },
+    {
+      "file": "lease_economics_sources_0056.json",
+      "status": "pass",
+      "sha256": "60036aceffd3f8ebf41056d8caa9b041884a8f368eea6245aa57208ad1a9cfca"
+    }
+  ],
+  "findings": [
+    "The current 451-observation history was independently rerun against the retained raw source cache: 180 AVAC table cells, 249 PDF-curve points and 11 new printed anchors pass. The unchanged external trace retains the earlier source-context review.",
+    "The three final language versions each retain 160 new-aircraft data points, 108 within-series links and four published-range bars. Source basis, age, variant and technical specifications are not silently joined.",
+    "All 15 model references and 165 annual USD values were independently recalculated from pinned OpenAP inputs or accepted aircraft cards, the production constants and the committed CPI table. All 1147 checks pass.",
+    "The actual model uses 200000 or 345000 EUR per month at 78 tonnes, multiplied by (MTOW/78)^1.10. ICAO selects generation; the lease formula has no segment, seat-count or continuous-age coefficient.",
+    "Six model types use a new-aircraft basis and 9 use an approximate age-12 basis. The latter curves are labelled contextual alongside new-aircraft observations; no model-error or calibration claim is inferred from that mismatch.",
+    "Every language contains 15 distinguishable model curves on the four lease graphs. Purchase-value graphs have no invented model valuation.",
+    "All 12 directed cash-flow edges per language agree with the verified illustrative economics, including the ten-year maturity, fifteen-year scheduled amortization and terminal debt balloon after the regular month-120 payment. The lessor cash balance closes at each stage.",
+    "Independent present-value sums close for the asset at 8%, the lender at 6% and equity at the stored IRR. The unchanged economics input still matches the previous 53-check audit.",
+    "The six additional deposit, maintenance-reserve, maintenance-payment, reimbursement and return-condition flows remain qualitative and contract-dependent. They are not presented as unconditional profit.",
+    "New local-code quotations are literal and the cumulative quotation count remains within 25 words per URL across the price-research traces."
+  ],
+  "limitations": [
+    "The public input snapshot cannot establish private operator, server-only or manual scenario overrides. An explicitly selected market midpoint is not an independent model benchmark.",
+    "The model comparison uses the existing fixed 1.16 USD/EUR convention and CPI restatement. CPI for 2026 is extrapolated from 2025 growth; this is not a historical lease forecast or a contract escalator.",
+    "The general article currency widget uses a separate saved FX snapshot; graph units are explicitly USD.",
+    "Digitized appraisal histories remain approximate and are not transaction prices or observed market uncertainty intervals.",
+    "The 50m purchase, 35m debt and 6% debt rate are hypothetical retained assumptions, not a current financing quote. Taxes, defaults and downtime are outside this example.",
+    "Production calculator coefficients and accepted publication data are unchanged. The articles remain drafts.",
+    "Root reports readable static RU/DE cash-flow renders and distinguishable lease lines. Browser interaction was unavailable and is not claimed as verified."
+  ],
+  "source_data_sha256": {
+    "history": "657d65052edb272c8bceff5146102b1eee219d120e789ad2bc79824f4df7932d",
+    "model_reference": "5f8849919f4f9a788ca328f5186bb6b9f38af6f16c1be09814667d66df7453a4",
+    "lease_economics": "513876c27b3794513ca7a5b5f069d7d697d3d5aa633a5b0e10de193f803c6e05"
+  },
+  "production_changed_by_verifier": false,
+  "prior_0056_audits_preserved": true,
+  "reproduction": {
+    "model": "verify/verify_model_reference_0056_v2.py --openap-root <pinned OpenAP 2.6.2 package>",
+    "history": "verify/verify_history_0056_v2.py --html-cache <independent AVAC cache> --pdf-cache <independent PDF cache>",
+    "trace": "verify/verify_trace_0056_v2.py --openap-root <pinned package>",
+    "report": "verify/verify_report_0056_v2.py",
+    "raw_cache": "outside repository"
+  }
+}

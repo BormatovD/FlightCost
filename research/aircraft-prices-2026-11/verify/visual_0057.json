@@ -1,0 +1,24 @@
+{
+  "stage": "0057",
+  "status": "pass_with_rendering_limits",
+  "checked_at": "2026-11-11",
+  "method": "Static WeasyPrint render plus independent markup/data audits. CSS custom properties and SVG font declarations resolved in temporary QA copies only. For mobile tables the existing TABLE_JS transformation was reproduced; the renderer did not execute browser JavaScript.",
+  "report_sha256": {
+    "report.de.html": "0d2f27e47e553e8aa5e5f584a01a06fa91b2091b2e546c66d881c91986ceb731",
+    "report.en.html": "29acc36c1c28e3613a4ee4bb001225cbe8b6a80b5425557b5c71b7029905b739",
+    "report.html": "d871bfc1c094b1d7e487be41f111917fa5740ddd7551bb3f844e11d07b6780cb"
+  },
+  "viewports_css_px": [
+    1100
+  ],
+  "inspected": [
+    "Four lease panels: two aircraft, right-hand formula cards with non-crossing links, five dated source corrections, all purchase panels closed.",
+    "Russian narrowbody, turboprop and widebody panels; German regional panel; formula and amount text fits card geometry.",
+    "Shared prose width equals the content column; full history and cash-flow content retained."
+  ],
+  "limitations": [
+    "No browser interaction test; native details toggling, horizontal scrolling and currency controls are not claimed as browser-verified.",
+    "Mobile SVGs retain the existing horizontal-scroll design; a static preview cannot demonstrate scrolling.",
+    "Screenshots and QA-only CSS transformations are not shipped as article assets."
+  ]
+}

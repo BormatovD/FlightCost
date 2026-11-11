@@ -1,0 +1,389 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "independent": true,
+  "input_sha256": "513876c27b3794513ca7a5b5f069d7d697d3d5aa633a5b0e10de193f803c6e05",
+  "method": "Explicit monthly discounted cash-flow sums; closed-form debt balance; annual log-rate Newton IRR; no producer module imported.",
+  "checks": [
+    {
+      "name": "monthly_rent_arrears",
+      "independent_value": 479263.3084005908,
+      "stored_value": 479263.30840059015,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "monthly_rent_advance_operating_costs_still_arrears",
+      "independent_value": 476199.42694923305,
+      "stored_value": 476199.4269492324,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "monthly_debt_payment",
+      "independent_value": 292352.934941646,
+      "stored_value": 292352.9349416457,
+      "absolute_difference": 2.9103830456733704e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "debt_balloon_after_last_scheduled_payment",
+      "independent_value": 15180081.63514886,
+      "stored_value": 15180081.635148862,
+      "absolute_difference": 1.862645149230957e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sale_less_cost_less_balloon",
+      "independent_value": 9319918.36485114,
+      "stored_value": 9319918.364851138,
+      "absolute_difference": 1.862645149230957e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "time_zero_equity",
+      "independent_value": 15500000.0,
+      "stored_value": 15500000.0,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "equity_annual_effective_irr",
+      "independent_value": 0.12195250117595993,
+      "stored_value": 0.1219525011759579,
+      "absolute_difference": 2.0261570199409107e-15,
+      "tolerance": 1e-12
+    },
+    {
+      "name": "equity_irr_zero_npv",
+      "independent_value": 1.8189894035458565e-09,
+      "stored_value": 0,
+      "absolute_difference": 1.8189894035458565e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "all_equity_cashflows_max_error",
+      "independent_value": 1.862645149230957e-09,
+      "stored_value": 0,
+      "absolute_difference": 1.862645149230957e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "120_month_schedule_remaining_debt_usd_max_error",
+      "independent_value": 1.4901161193847656e-08,
+      "stored_value": 0,
+      "absolute_difference": 1.4901161193847656e-08,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "120_month_schedule_interest_usd_max_error",
+      "independent_value": 4.3655745685100555e-10,
+      "stored_value": 0,
+      "absolute_difference": 4.3655745685100555e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "120_month_schedule_principal_usd_max_error",
+      "independent_value": 1.414446160197258e-08,
+      "stored_value": 0,
+      "absolute_difference": 1.414446160197258e-08,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "120_month_schedule_debt_service_usd_max_error",
+      "independent_value": 2.9103830456733704e-10,
+      "stored_value": 0,
+      "absolute_difference": 2.9103830456733704e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "120_month_schedule_equity_operating_cash_usd_max_error",
+      "independent_value": 3.4924596548080444e-10,
+      "stored_value": 0,
+      "absolute_difference": 3.4924596548080444e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "first_year_interest_usd",
+      "independent_value": 2004538.4808638084,
+      "stored_value": 2004538.4808638038,
+      "absolute_difference": 4.6566128730773926e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "first_year_principal_repaid_usd",
+      "independent_value": 1503696.7384359427,
+      "stored_value": 1503696.7384359448,
+      "absolute_difference": 2.0954757928848267e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "first_year_depreciation_usd",
+      "independent_value": 1720000.0,
+      "stored_value": 1720000.0,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "first_year_accounting_profit_usd_before_tax_and_other_items",
+      "independent_value": 1906621.2199432803,
+      "stored_value": 1906621.2199432775,
+      "absolute_difference": 2.7939677238464355e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "first_year_equity_cash_usd_before_tax_and_terminal_sale",
+      "independent_value": 2122924.4815073377,
+      "stored_value": 2122924.481507333,
+      "absolute_difference": 4.6566128730773926e-09,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "cash_profit_reconciliation",
+      "independent_value": 2122924.4815073377,
+      "stored_value": 2122924.4815073377,
+      "absolute_difference": 0.0,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "asset_npv_target",
+      "independent_value": -3.2014213502407074e-10,
+      "stored_value": 0,
+      "absolute_difference": 3.2014213502407074e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "asset_irr_target",
+      "independent_value": 0.08000000000000007,
+      "stored_value": 0.08,
+      "absolute_difference": 6.938893903907228e-17,
+      "tolerance": 1e-12
+    },
+    {
+      "name": "advance_rent_asset_npv_target",
+      "independent_value": 5.820766091346741e-10,
+      "stored_value": 0,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_40000000_arrears",
+      "independent_value": 359405.7812061654,
+      "stored_value": 359405.7812061648,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_40000000_advance",
+      "independent_value": 357108.1367020969,
+      "stored_value": 357108.13670209626,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_50000000_arrears",
+      "independent_value": 479263.3084005908,
+      "stored_value": 479263.30840059015,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_50000000_advance",
+      "independent_value": 476199.42694923305,
+      "stored_value": 476199.4269492324,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_60000000_arrears",
+      "independent_value": 599120.8355950161,
+      "stored_value": 599120.8355950156,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_purchase_usd_60000000_advance",
+      "independent_value": 595290.7171963692,
+      "stored_value": 595290.7171963686,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.05_arrears",
+      "independent_value": 384177.2205575599,
+      "stored_value": 384177.22055756085,
+      "absolute_difference": 9.313225746154785e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.05_advance",
+      "independent_value": 382618.3858915381,
+      "stored_value": 382618.385891539,
+      "absolute_difference": 8.731149137020111e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.08_arrears",
+      "independent_value": 479263.3084005908,
+      "stored_value": 479263.30840059015,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.08_advance",
+      "independent_value": 476199.42694923305,
+      "stored_value": 476199.4269492324,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.11_arrears",
+      "independent_value": 574559.4478157217,
+      "stored_value": 574559.4478157215,
+      "absolute_difference": 2.3283064365386963e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_asset_return_annual_effective_0.11_advance",
+      "independent_value": 569584.359784754,
+      "stored_value": 569584.3597847539,
+      "absolute_difference": 1.1641532182693481e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_15000000_arrears",
+      "independent_value": 534780.5344949816,
+      "stored_value": 534780.5344949812,
+      "absolute_difference": 4.656612873077393e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_15000000_advance",
+      "independent_value": 531361.7370793095,
+      "stored_value": 531361.7370793092,
+      "absolute_difference": 3.4924596548080444e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_25000000_arrears",
+      "independent_value": 479263.3084005908,
+      "stored_value": 479263.30840059015,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_25000000_advance",
+      "independent_value": 476199.42694923305,
+      "stored_value": 476199.4269492324,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_35000000_arrears",
+      "independent_value": 423746.0823062,
+      "stored_value": 423746.0823061992,
+      "absolute_difference": 8.149072527885437e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_resale_usd_35000000_advance",
+      "independent_value": 421037.1168191565,
+      "stored_value": 421037.1168191557,
+      "absolute_difference": 8.149072527885437e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_96_arrears",
+      "independent_value": 531509.0056957535,
+      "stored_value": 531509.0056957528,
+      "absolute_difference": 6.984919309616089e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_96_advance",
+      "independent_value": 528111.1228300373,
+      "stored_value": 528111.1228300367,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_120_arrears",
+      "independent_value": 479263.3084005908,
+      "stored_value": 479263.30840059015,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_120_advance",
+      "independent_value": 476199.42694923305,
+      "stored_value": 476199.4269492324,
+      "absolute_difference": 6.402842700481415e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_144_arrears",
+      "independent_value": 445106.95135540783,
+      "stored_value": 445106.95135540725,
+      "absolute_difference": 5.820766091346741e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "sensitivity_lease_months_144_advance",
+      "independent_value": 442261.4280110913,
+      "stored_value": 442261.4280110908,
+      "absolute_difference": 5.238689482212067e-10,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "residual_15000000_irr",
+      "independent_value": 0.0606580940394691,
+      "stored_value": 0.0606580940394712,
+      "absolute_difference": 2.1024848528838902e-15,
+      "tolerance": 1e-12
+    },
+    {
+      "name": "residual_15000000_npv",
+      "independent_value": -4631934.880846842,
+      "stored_value": -4631934.880846809,
+      "absolute_difference": 3.3527612686157227e-08,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "residual_25000000_irr",
+      "independent_value": 0.08000000000000007,
+      "stored_value": 0.07999999999999963,
+      "absolute_difference": 4.440892098500626e-16,
+      "tolerance": 1e-12
+    },
+    {
+      "name": "residual_25000000_npv",
+      "independent_value": -3.2014213502407074e-10,
+      "stored_value": 5.061156116425991e-08,
+      "absolute_difference": 5.093170329928398e-08,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "residual_35000000_irr",
+      "independent_value": 0.0960807475277059,
+      "stored_value": 0.09608074752770501,
+      "absolute_difference": 8.881784197001252e-16,
+      "tolerance": 1e-12
+    },
+    {
+      "name": "residual_35000000_npv",
+      "independent_value": 4631934.880846839,
+      "stored_value": 4631934.880846906,
+      "absolute_difference": 6.705522537231445e-08,
+      "tolerance": 1e-05
+    }
+  ],
+  "failed_checks": [],
+  "scope": [
+    "All inputs are illustrative assumptions, not actual market observations or disclosed deal terms.",
+    "Gross rent/purchase ratios are not net investment returns.",
+    "Asset NPV excludes financing; equity cash flows subtract both scheduled service and residual debt exactly once.",
+    "Advance rent is solved with owner expenses still at month end.",
+    "Accounting depreciation and terminal market resale are deliberately different concepts.",
+    "Sensitivity holds absolute resale fixed when purchase price or tenor changes; it is a partial sensitivity, not a new market forecast."
+  ]
+}

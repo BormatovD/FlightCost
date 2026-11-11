@@ -1,0 +1,79 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "trace_sha256": "5f1b8364d0c0cf1c224998c7cabf258064858826b06ac74a39a1460b6a14ab34",
+  "entries": 21,
+  "literal_quotes_checked": [
+    {
+      "trace_id": "d2-001",
+      "quote_literal_match": true,
+      "words": 3,
+      "source_cache_sha256": "5746055af33ef1bc86f4cc14b1dbb83722c74b65cca47b3e4fa42268cf7f3290"
+    },
+    {
+      "trace_id": "d2-002",
+      "quote_literal_match": true,
+      "words": 2,
+      "source_cache_sha256": "2115d2e5afa0cb7229fa8ed19fdc3948a8fb1e316c816a191f9f34be57d0383a"
+    },
+    {
+      "trace_id": "d2-007",
+      "quote_literal_match": true,
+      "words": 10,
+      "source_cache_sha256": "4cba3b6475c23b859748879affdee83b9f0158586eec616cf92acc49e9a2dd12"
+    },
+    {
+      "trace_id": "d2-010",
+      "quote_literal_match": true,
+      "words": 8,
+      "source_cache_sha256": "fc79a5d4c177e096982cbc98bd7850a1ffc3f31f80a5b0425131e92776bf34d3"
+    },
+    {
+      "trace_id": "d2-012",
+      "quote_literal_match": true,
+      "words": 4,
+      "source_cache_sha256": "23355e0c77ea57b0c1f1e76cdf7d1a18ee90738cca73cef4727259d8838cbe1e"
+    },
+    {
+      "trace_id": "d2-013",
+      "quote_literal_match": true,
+      "words": 5,
+      "source_cache_sha256": "84672672f700c85407489442f4ab1b8b826b5fc5cd1c1c402c251bae6830f916"
+    },
+    {
+      "trace_id": "d2-014",
+      "quote_literal_match": true,
+      "words": 5,
+      "source_cache_sha256": "5a088f7691f39ad5f1a7e11dccd149b481f88adf77705ffc907a31cada07df1a"
+    },
+    {
+      "trace_id": "d2-015",
+      "quote_literal_match": true,
+      "words": 9,
+      "source_cache_sha256": "5a088f7691f39ad5f1a7e11dccd149b481f88adf77705ffc907a31cada07df1a"
+    },
+    {
+      "trace_id": "d2-016",
+      "quote_literal_match": true,
+      "words": 6,
+      "source_cache_sha256": "c6063ba18b23e899c02bb7f9c78b6e410f25b30cb9d40b66eda032e1127bea49"
+    },
+    {
+      "trace_id": "d2-017",
+      "quote_literal_match": true,
+      "words": 5,
+      "source_cache_sha256": "0237c9006063522f2828e7ea8675ba74aea83b18fe6e7e0347c500a0414ec0a5"
+    }
+  ],
+  "total_new_quoted_words": 57,
+  "max_quoted_words_per_url_including_0055": 14,
+  "failures": [],
+  "source_review": [
+    "New trace derived totals and readiness match the independent full-row collection audit.",
+    "The two FRA–BCN reporters were downloaded independently; all 480 reporter-month values match the source panel.",
+    "Publisher catalog confirms the WPP January 2026 Togo Medium correction and unrevised alternative variants; raw correction values are independently parsed in the collection audit.",
+    "The original provider is distinguished from the mirror or curator. DGCA primary publication tables were not independently matched to the Vonter transcription.",
+    "Visa snapshots describe observed curator categories, not independently verified immigration law.",
+    "Access failures are scoped to attempted endpoints, not claims that all data from the provider are unavailable."
+  ]
+}

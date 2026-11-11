@@ -1,0 +1,1357 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "checked_on": "2026-11-11",
+    "dataset": "migr_pop3ctb",
+    "period": [
+      2005,
+      2025
+    ],
+    "unit": "persons",
+    "country_of_residence": [
+      "DE",
+      "ES",
+      "FR",
+      "IT",
+      "NL"
+    ],
+    "source_access": "official Eurostat statistics API",
+    "raw_data_bytes": 235933,
+    "panel_file": "out/migrant_stock.json.gz",
+    "code_sha256": "1549ea030437a4ca50ec3c34486324d9872e3082e24892778eb4dc24267b6d1a",
+    "panel_sha256": "a706f406994bb934a41696c43c6bd06d006305fca89655ca649b08087d8fc787"
+  },
+  "all_categories": {
+    "series": 1535,
+    "series_with_any_numeric_value": 964,
+    "series_with_all_21_numeric_values": 501,
+    "expected_cells": 32235,
+    "numeric_cells": 13820,
+    "missing_cells": 18415,
+    "observed_zero_cells": 910,
+    "first_year_with_numeric_value": 2005,
+    "last_year_with_numeric_value": 2025,
+    "flags": {
+      "b": 333,
+      "be": 5,
+      "e": 28,
+      "p": 100
+    }
+  },
+  "category_groups": {
+    "country_series": {
+      "series": 1210,
+      "series_with_any_numeric_value": 754,
+      "series_with_all_21_numeric_values": 474,
+      "expected_cells": 25410,
+      "numeric_cells": 11513,
+      "missing_cells": 13897,
+      "observed_zero_cells": 713,
+      "first_year_with_numeric_value": 2005,
+      "last_year_with_numeric_value": 2025,
+      "flags": {
+        "b": 250,
+        "p": 78
+      }
+    },
+    "aggregate_series": {
+      "series": 260,
+      "series_with_any_numeric_value": 184,
+      "series_with_all_21_numeric_values": 16,
+      "expected_cells": 5460,
+      "numeric_cells": 1877,
+      "missing_cells": 3583,
+      "observed_zero_cells": 8,
+      "first_year_with_numeric_value": 2005,
+      "last_year_with_numeric_value": 2025,
+      "flags": {
+        "b": 64,
+        "be": 3,
+        "e": 18,
+        "p": 16
+      }
+    },
+    "other_series": {
+      "series": 65,
+      "series_with_any_numeric_value": 26,
+      "series_with_all_21_numeric_values": 11,
+      "expected_cells": 1365,
+      "numeric_cells": 430,
+      "missing_cells": 935,
+      "observed_zero_cells": 189,
+      "first_year_with_numeric_value": 2005,
+      "last_year_with_numeric_value": 2025,
+      "flags": {
+        "b": 19,
+        "be": 2,
+        "e": 10,
+        "p": 6
+      }
+    }
+  },
+  "reporters": {
+    "DE": {
+      "all_categories": {
+        "series": 307,
+        "series_with_any_numeric_value": 25,
+        "series_with_all_21_numeric_values": 1,
+        "expected_cells": 6447,
+        "numeric_cells": 172,
+        "missing_cells": 6275,
+        "observed_zero_cells": 3,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 25,
+          "be": 5,
+          "e": 28
+        }
+      },
+      "country_or_territory": {
+        "series": 242,
+        "series_with_any_numeric_value": 0,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 5082,
+        "numeric_cells": 0,
+        "missing_cells": 5082,
+        "observed_zero_cells": 0,
+        "first_year_with_numeric_value": null,
+        "last_year_with_numeric_value": null,
+        "flags": {}
+      },
+      "cross_border_country_pairs": {
+        "series": 241,
+        "series_with_any_numeric_value": 0,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 5061,
+        "numeric_cells": 0,
+        "missing_cells": 5061,
+        "observed_zero_cells": 0,
+        "first_year_with_numeric_value": null,
+        "last_year_with_numeric_value": null,
+        "flags": {}
+      },
+      "aggregates": {
+        "series": 52,
+        "series_with_any_numeric_value": 23,
+        "series_with_all_21_numeric_values": 1,
+        "expected_cells": 1092,
+        "numeric_cells": 138,
+        "missing_cells": 954,
+        "observed_zero_cells": 0,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 19,
+          "be": 3,
+          "e": 18
+        }
+      },
+      "other_categories": {
+        "series": 13,
+        "series_with_any_numeric_value": 2,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 273,
+        "numeric_cells": 34,
+        "missing_cells": 239,
+        "observed_zero_cells": 3,
+        "first_year_with_numeric_value": 2009,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 6,
+          "be": 2,
+          "e": 10
+        }
+      },
+      "annual_coverage": [
+        {
+          "year": 2005,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2006,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2007,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2008,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2009,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2010,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2011,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2012,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2013,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2014,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2015,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2016,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2017,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2018,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2019,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2020,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2021,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2022,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2023,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2024,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2025,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        }
+      ],
+      "latest_total_population": {
+        "c_birth": "TOTAL",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 83577140,
+        "flag": null
+      },
+      "latest_foreign_born_aggregate": {
+        "c_birth": "FOR",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 17153545,
+        "flag": "e"
+      },
+      "latest_native_born": {
+        "c_birth": "NAT",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 65853411,
+        "flag": "e"
+      },
+      "latest_unknown_birthplace": {
+        "c_birth": "UNK",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 570184,
+        "flag": "e"
+      },
+      "bilateral_country_input_available": false
+    },
+    "ES": {
+      "all_categories": {
+        "series": 307,
+        "series_with_any_numeric_value": 119,
+        "series_with_all_21_numeric_values": 58,
+        "expected_cells": 6447,
+        "numeric_cells": 1682,
+        "missing_cells": 4765,
+        "observed_zero_cells": 30,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "country_or_territory": {
+        "series": 242,
+        "series_with_any_numeric_value": 70,
+        "series_with_all_21_numeric_values": 52,
+        "expected_cells": 5082,
+        "numeric_cells": 1236,
+        "missing_cells": 3846,
+        "observed_zero_cells": 9,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "cross_border_country_pairs": {
+        "series": 241,
+        "series_with_any_numeric_value": 69,
+        "series_with_all_21_numeric_values": 51,
+        "expected_cells": 5061,
+        "numeric_cells": 1215,
+        "missing_cells": 3846,
+        "observed_zero_cells": 9,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "aggregates": {
+        "series": 52,
+        "series_with_any_numeric_value": 46,
+        "series_with_all_21_numeric_values": 3,
+        "expected_cells": 1092,
+        "numeric_cells": 383,
+        "missing_cells": 709,
+        "observed_zero_cells": 0,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "other_categories": {
+        "series": 13,
+        "series_with_any_numeric_value": 3,
+        "series_with_all_21_numeric_values": 3,
+        "expected_cells": 273,
+        "numeric_cells": 63,
+        "missing_cells": 210,
+        "observed_zero_cells": 21,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "annual_coverage": [
+        {
+          "year": 2005,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2006,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2007,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2008,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2009,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2010,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2011,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 1
+        },
+        {
+          "year": 2012,
+          "country_territory_origins_numeric": 70,
+          "cross_border_origins_numeric": 69,
+          "country_territory_origins_missing": 172,
+          "observed_zero_country_territory_origins": 2
+        },
+        {
+          "year": 2013,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2014,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2015,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2016,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2017,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2018,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2019,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2020,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2021,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2022,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2023,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2024,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2025,
+          "country_territory_origins_numeric": 52,
+          "cross_border_origins_numeric": 51,
+          "country_territory_origins_missing": 190,
+          "observed_zero_country_territory_origins": 0
+        }
+      ],
+      "latest_total_population": {
+        "c_birth": "TOTAL",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 49128297,
+        "flag": null
+      },
+      "latest_foreign_born_aggregate": {
+        "c_birth": "FOR",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 9464210,
+        "flag": null
+      },
+      "latest_native_born": {
+        "c_birth": "NAT",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 39664087,
+        "flag": null
+      },
+      "latest_unknown_birthplace": {
+        "c_birth": "UNK",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 0,
+        "flag": null
+      },
+      "bilateral_country_input_available": true
+    },
+    "FR": {
+      "all_categories": {
+        "series": 307,
+        "series_with_any_numeric_value": 259,
+        "series_with_all_21_numeric_values": 1,
+        "expected_cells": 6447,
+        "numeric_cells": 1211,
+        "missing_cells": 5236,
+        "observed_zero_cells": 29,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 46,
+          "p": 100
+        }
+      },
+      "country_or_territory": {
+        "series": 242,
+        "series_with_any_numeric_value": 225,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 5082,
+        "numeric_cells": 999,
+        "missing_cells": 4083,
+        "observed_zero_cells": 10,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 28,
+          "p": 78
+        }
+      },
+      "cross_border_country_pairs": {
+        "series": 241,
+        "series_with_any_numeric_value": 224,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 5061,
+        "numeric_cells": 996,
+        "missing_cells": 4065,
+        "observed_zero_cells": 10,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 27,
+          "p": 78
+        }
+      },
+      "aggregates": {
+        "series": 52,
+        "series_with_any_numeric_value": 30,
+        "series_with_all_21_numeric_values": 1,
+        "expected_cells": 1092,
+        "numeric_cells": 177,
+        "missing_cells": 915,
+        "observed_zero_cells": 4,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 14,
+          "p": 16
+        }
+      },
+      "other_categories": {
+        "series": 13,
+        "series_with_any_numeric_value": 4,
+        "series_with_all_21_numeric_values": 0,
+        "expected_cells": 273,
+        "numeric_cells": 35,
+        "missing_cells": 238,
+        "observed_zero_cells": 15,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 4,
+          "p": 6
+        }
+      },
+      "annual_coverage": [
+        {
+          "year": 2005,
+          "country_territory_origins_numeric": 225,
+          "cross_border_origins_numeric": 224,
+          "country_territory_origins_missing": 17,
+          "observed_zero_country_territory_origins": 10
+        },
+        {
+          "year": 2006,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2007,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2008,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2009,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2010,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2011,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2012,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2013,
+          "country_territory_origins_numeric": 0,
+          "cross_border_origins_numeric": 0,
+          "country_territory_origins_missing": 242,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2014,
+          "country_territory_origins_numeric": 28,
+          "cross_border_origins_numeric": 27,
+          "country_territory_origins_missing": 214,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2015,
+          "country_territory_origins_numeric": 138,
+          "cross_border_origins_numeric": 138,
+          "country_territory_origins_missing": 104,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2016,
+          "country_territory_origins_numeric": 141,
+          "cross_border_origins_numeric": 140,
+          "country_territory_origins_missing": 101,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2017,
+          "country_territory_origins_numeric": 141,
+          "cross_border_origins_numeric": 141,
+          "country_territory_origins_missing": 101,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2018,
+          "country_territory_origins_numeric": 142,
+          "cross_border_origins_numeric": 142,
+          "country_territory_origins_missing": 100,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2019,
+          "country_territory_origins_numeric": 27,
+          "cross_border_origins_numeric": 27,
+          "country_territory_origins_missing": 215,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2020,
+          "country_territory_origins_numeric": 27,
+          "cross_border_origins_numeric": 27,
+          "country_territory_origins_missing": 215,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2021,
+          "country_territory_origins_numeric": 26,
+          "cross_border_origins_numeric": 26,
+          "country_territory_origins_missing": 216,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2022,
+          "country_territory_origins_numeric": 26,
+          "cross_border_origins_numeric": 26,
+          "country_territory_origins_missing": 216,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2023,
+          "country_territory_origins_numeric": 26,
+          "cross_border_origins_numeric": 26,
+          "country_territory_origins_missing": 216,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2024,
+          "country_territory_origins_numeric": 26,
+          "cross_border_origins_numeric": 26,
+          "country_territory_origins_missing": 216,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2025,
+          "country_territory_origins_numeric": 26,
+          "cross_border_origins_numeric": 26,
+          "country_territory_origins_missing": 216,
+          "observed_zero_country_territory_origins": 0
+        }
+      ],
+      "latest_total_population": {
+        "c_birth": "TOTAL",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 68882600,
+        "flag": "p"
+      },
+      "latest_foreign_born_aggregate": {
+        "c_birth": "FOR",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 9633730,
+        "flag": "p"
+      },
+      "latest_native_born": {
+        "c_birth": "NAT",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 59248870,
+        "flag": "p"
+      },
+      "latest_unknown_birthplace": {
+        "c_birth": "UNK",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 0,
+        "flag": "p"
+      },
+      "bilateral_country_input_available": true
+    },
+    "IT": {
+      "all_categories": {
+        "series": 307,
+        "series_with_any_numeric_value": 265,
+        "series_with_all_21_numeric_values": 234,
+        "expected_cells": 6447,
+        "numeric_cells": 5417,
+        "missing_cells": 1030,
+        "observed_zero_cells": 594,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 262
+        }
+      },
+      "country_or_territory": {
+        "series": 242,
+        "series_with_any_numeric_value": 222,
+        "series_with_all_21_numeric_values": 222,
+        "expected_cells": 5082,
+        "numeric_cells": 4662,
+        "missing_cells": 420,
+        "observed_zero_cells": 488,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 222
+        }
+      },
+      "cross_border_country_pairs": {
+        "series": 241,
+        "series_with_any_numeric_value": 221,
+        "series_with_all_21_numeric_values": 221,
+        "expected_cells": 5061,
+        "numeric_cells": 4641,
+        "missing_cells": 420,
+        "observed_zero_cells": 488,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 221
+        }
+      },
+      "aggregates": {
+        "series": 52,
+        "series_with_any_numeric_value": 34,
+        "series_with_all_21_numeric_values": 5,
+        "expected_cells": 1092,
+        "numeric_cells": 600,
+        "missing_cells": 492,
+        "observed_zero_cells": 0,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 31
+        }
+      },
+      "other_categories": {
+        "series": 13,
+        "series_with_any_numeric_value": 9,
+        "series_with_all_21_numeric_values": 7,
+        "expected_cells": 273,
+        "numeric_cells": 155,
+        "missing_cells": 118,
+        "observed_zero_cells": 106,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {
+          "b": 9
+        }
+      },
+      "annual_coverage": [
+        {
+          "year": 2005,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2006,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2007,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2008,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2009,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2010,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2011,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 26
+        },
+        {
+          "year": 2012,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2013,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2014,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2015,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2016,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2017,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2018,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2019,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 25
+        },
+        {
+          "year": 2020,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 22
+        },
+        {
+          "year": 2021,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 19
+        },
+        {
+          "year": 2022,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 21
+        },
+        {
+          "year": 2023,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 17
+        },
+        {
+          "year": 2024,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 14
+        },
+        {
+          "year": 2025,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 13
+        }
+      ],
+      "latest_total_population": {
+        "c_birth": "TOTAL",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 58943464,
+        "flag": null
+      },
+      "latest_foreign_born_aggregate": {
+        "c_birth": "FOR",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 6928045,
+        "flag": null
+      },
+      "latest_native_born": {
+        "c_birth": "NAT",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 52015419,
+        "flag": null
+      },
+      "latest_unknown_birthplace": {
+        "c_birth": "UNK",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 0,
+        "flag": null
+      },
+      "bilateral_country_input_available": true
+    },
+    "NL": {
+      "all_categories": {
+        "series": 307,
+        "series_with_any_numeric_value": 296,
+        "series_with_all_21_numeric_values": 207,
+        "expected_cells": 6447,
+        "numeric_cells": 5338,
+        "missing_cells": 1109,
+        "observed_zero_cells": 254,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "country_or_territory": {
+        "series": 242,
+        "series_with_any_numeric_value": 237,
+        "series_with_all_21_numeric_values": 200,
+        "expected_cells": 5082,
+        "numeric_cells": 4616,
+        "missing_cells": 466,
+        "observed_zero_cells": 206,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "cross_border_country_pairs": {
+        "series": 241,
+        "series_with_any_numeric_value": 236,
+        "series_with_all_21_numeric_values": 199,
+        "expected_cells": 5061,
+        "numeric_cells": 4595,
+        "missing_cells": 466,
+        "observed_zero_cells": 206,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "aggregates": {
+        "series": 52,
+        "series_with_any_numeric_value": 51,
+        "series_with_all_21_numeric_values": 6,
+        "expected_cells": 1092,
+        "numeric_cells": 579,
+        "missing_cells": 513,
+        "observed_zero_cells": 4,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "other_categories": {
+        "series": 13,
+        "series_with_any_numeric_value": 8,
+        "series_with_all_21_numeric_values": 1,
+        "expected_cells": 273,
+        "numeric_cells": 143,
+        "missing_cells": 130,
+        "observed_zero_cells": 44,
+        "first_year_with_numeric_value": 2005,
+        "last_year_with_numeric_value": 2025,
+        "flags": {}
+      },
+      "annual_coverage": [
+        {
+          "year": 2005,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 14
+        },
+        {
+          "year": 2006,
+          "country_territory_origins_numeric": 208,
+          "cross_border_origins_numeric": 207,
+          "country_territory_origins_missing": 34,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2007,
+          "country_territory_origins_numeric": 208,
+          "cross_border_origins_numeric": 207,
+          "country_territory_origins_missing": 34,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2008,
+          "country_territory_origins_numeric": 207,
+          "cross_border_origins_numeric": 206,
+          "country_territory_origins_missing": 35,
+          "observed_zero_country_territory_origins": 0
+        },
+        {
+          "year": 2009,
+          "country_territory_origins_numeric": 221,
+          "cross_border_origins_numeric": 220,
+          "country_territory_origins_missing": 21,
+          "observed_zero_country_territory_origins": 17
+        },
+        {
+          "year": 2010,
+          "country_territory_origins_numeric": 220,
+          "cross_border_origins_numeric": 219,
+          "country_territory_origins_missing": 22,
+          "observed_zero_country_territory_origins": 17
+        },
+        {
+          "year": 2011,
+          "country_territory_origins_numeric": 221,
+          "cross_border_origins_numeric": 220,
+          "country_territory_origins_missing": 21,
+          "observed_zero_country_territory_origins": 17
+        },
+        {
+          "year": 2012,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 18
+        },
+        {
+          "year": 2013,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 15
+        },
+        {
+          "year": 2014,
+          "country_territory_origins_numeric": 223,
+          "cross_border_origins_numeric": 222,
+          "country_territory_origins_missing": 19,
+          "observed_zero_country_territory_origins": 11
+        },
+        {
+          "year": 2015,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 11
+        },
+        {
+          "year": 2016,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 10
+        },
+        {
+          "year": 2017,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 9
+        },
+        {
+          "year": 2018,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 9
+        },
+        {
+          "year": 2019,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 9
+        },
+        {
+          "year": 2020,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 9
+        },
+        {
+          "year": 2021,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 8
+        },
+        {
+          "year": 2022,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 8
+        },
+        {
+          "year": 2023,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 8
+        },
+        {
+          "year": 2024,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 8
+        },
+        {
+          "year": 2025,
+          "country_territory_origins_numeric": 222,
+          "cross_border_origins_numeric": 221,
+          "country_territory_origins_missing": 20,
+          "observed_zero_country_territory_origins": 8
+        }
+      ],
+      "latest_total_population": {
+        "c_birth": "TOTAL",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 18044027,
+        "flag": null
+      },
+      "latest_foreign_born_aggregate": {
+        "c_birth": "FOR",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 3025656,
+        "flag": null
+      },
+      "latest_native_born": {
+        "c_birth": "NAT",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 15018371,
+        "flag": null
+      },
+      "latest_unknown_birthplace": {
+        "c_birth": "UNK",
+        "year": 2025,
+        "reference_date": "2025-01-01",
+        "persons": 0,
+        "flag": null
+      },
+      "bilateral_country_input_available": true
+    }
+  },
+  "origin_categories": {
+    "aggregate": 52,
+    "country_or_territory": 242,
+    "historical_geography": 5,
+    "other_special_category": 2,
+    "reporter_relative_native_born": 1,
+    "subnational_geography": 4,
+    "unknown_country_of_birth": 1
+  },
+  "interpretation": {
+    "data_collected": true,
+    "coefficient_estimated": false,
+    "city_allocation_available": false,
+    "true_od_measured": false,
+    "calculator_changed": false,
+    "de_country_detail_note": "No individual country-of-birth observations in the extracted DE slice; group totals do not fill that bilateral gap."
+  },
+  "limitations": [
+    "This is a potential country-pair explanatory input, not an estimated demand coefficient or a forecast.",
+    "No missing country-of-birth stock is inferred from citizenship, aggregate foreign-born counts, interpolation or zero filling.",
+    "Aggregates overlap one another and must not be added to individual origins; historical countries and subnational origins are not automatically remapped.",
+    "A year labels population on 1 January; publication/update time is different and retained for later availability-lag treatment.",
+    "This current snapshot is revised history, not a set of vintage files proving what forecasters knew in each earlier year.",
+    "Residence and country-of-birth concepts and census revisions require attention to country metadata and preserved break/estimate/provisional flags.",
+    "Stock at country level cannot be allocated to airports or inferred to represent two-way travel without further data and estimation."
+  ]
+}

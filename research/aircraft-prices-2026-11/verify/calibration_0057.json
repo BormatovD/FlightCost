@@ -1,0 +1,131 @@
+{
+  "stage": "0057",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "checked_at": "2026-11-11",
+  "input_sha256": {
+    "research/aircraft-prices-2026-11/lease_calibration.py": "2bd866c64c197f69eedbe342afa87bd2d5f368caa28267c0ae8fa0a12ec79cb4",
+    "research/aircraft-prices-2026-11/out/lease_calibration.json": "3df7edcb654bcdea3fb6f0cf08e88ef6fcac6103fd89e3a931aaf5928eefd53c",
+    "research/aircraft-prices-2026-11/out/model_reference.json": "5f8849919f4f9a788ca328f5186bb6b9f38af6f16c1be09814667d66df7453a4",
+    "research/aircraft-prices-2026-11/model_cards.py": "5764b8817a288eb9a7d6c8bcb523d2f3f711e46d3273629175d83b59397aebb3",
+    "research/aircraft-prices-2026-11/report_extensions.py": "d8eb7ad6395e8526cd34d8a4ee4b2ea79ba59ae06ef530716b621587958c33b1"
+  },
+  "checks_count": 672,
+  "samples": [
+    {
+      "icao": "E295",
+      "mass_t": 61.5,
+      "age": 0,
+      "period": "2026",
+      "before_usd_month": 308131.1811381903,
+      "source_low_usd": 285000,
+      "source_high_usd": 285000,
+      "midpoint_usd": 285000.0,
+      "factor": 0.9249307354979551,
+      "change_pct": -7.506926450204487
+    },
+    {
+      "icao": "A20N",
+      "mass_t": 79.0,
+      "age": 0,
+      "period": "2026-Q1",
+      "before_usd_month": 405847.4501732494,
+      "source_low_usd": 395000,
+      "source_high_usd": 424000,
+      "midpoint_usd": 409500.0,
+      "factor": 1.008999809719616,
+      "change_pct": 0.8999809719616003
+    },
+    {
+      "icao": "A21N",
+      "mass_t": 97.0,
+      "age": 0,
+      "period": "2026-Q1",
+      "before_usd_month": 508653.3733296874,
+      "source_low_usd": 456000,
+      "source_high_usd": 488000,
+      "midpoint_usd": 472000.0,
+      "factor": 0.927940371082666,
+      "change_pct": -7.205962891733398
+    },
+    {
+      "icao": "A359",
+      "mass_t": 280.0,
+      "age": 0,
+      "period": "2026-Q1",
+      "before_usd_month": 1632476.190367921,
+      "source_low_usd": 1190000,
+      "source_high_usd": 1250000,
+      "midpoint_usd": 1220000.0,
+      "factor": 0.7473309609036571,
+      "change_pct": -25.266903909634287
+    },
+    {
+      "icao": "B789",
+      "mass_t": 254.0,
+      "age": 0,
+      "period": "2026-Q1",
+      "before_usd_month": 1466527.1570362498,
+      "source_low_usd": 1070000,
+      "source_high_usd": 1150000,
+      "midpoint_usd": 1110000.0,
+      "factor": 0.7568901773651662,
+      "change_pct": -24.310982263483382
+    }
+  ],
+  "fx_scenarios": {
+    "chart_usd_per_eur": 1.16,
+    "flight_example_usd_per_eur": 1.113,
+    "a20n_chart_change_pct": 0.8999809719616003,
+    "a20n_flight_scenario_change_pct": 5.160806763230408,
+    "same_market_midpoint_usd": 409500.0,
+    "explanation": "Different declared FX scenarios; not two market-error estimates."
+  },
+  "source_rechecks": [
+    {
+      "url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "checked": "Four new-aircraft ranges, Q1 context and credit-range basis; no new quotations added."
+    },
+    {
+      "url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+      "checked": "E195-E2 new rent 285000 USD/month; year resolution retained, source dated 2026-03-12; no new quotations added."
+    }
+  ],
+  "trace_quote_word_counts": {
+    "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/": 22,
+    "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2": 16
+  },
+  "html": [
+    {
+      "file": "report.html",
+      "sha256": "d871bfc1c094b1d7e487be41f111917fa5740ddd7551bb3f844e11d07b6780cb",
+      "charts": 8,
+      "model_cards": 8,
+      "source_correction_marks": 5
+    },
+    {
+      "file": "report.en.html",
+      "sha256": "29acc36c1c28e3613a4ee4bb001225cbe8b6a80b5425557b5c71b7029905b739",
+      "charts": 8,
+      "model_cards": 8,
+      "source_correction_marks": 5
+    },
+    {
+      "file": "report.de.html",
+      "sha256": "0d2f27e47e553e8aa5e5f584a01a06fa91b2091b2e546c66d881c91986ceb731",
+      "charts": 8,
+      "model_cards": 8,
+      "source_correction_marks": 5
+    }
+  ],
+  "failures": [],
+  "method": "Direct source masses and production AST constants; independent exponential form, source-bound midpoint ratios and CPI arithmetic; primary pages reopened. No producer or renderer imported.",
+  "limitations": [
+    "Matching a source by construction is not independent predictive validation.",
+    "ATR/E175 corrections deliberately unavailable because new-aircraft points differ from the approximately age-12 production basis.",
+    "Historical diagnostic uses current-vintage full-year CPI and a present-day model, so it is not a real-time out-of-sample backtest.",
+    "Prior AVAC historical source audits are inherited; this audit rechecks their diagnostic arithmetic, not every historical source PDF.",
+    "Markup audit is not browser layout/interaction verification.",
+    "The current public snapshot does not establish private/server/operator overrides."
+  ]
+}

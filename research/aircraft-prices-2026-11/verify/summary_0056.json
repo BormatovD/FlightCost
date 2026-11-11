@@ -1,0 +1,55 @@
+{
+  "stage": "0056",
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "baseline_0055_preserved": true,
+  "scope": "Expanded price/lease history, illustrative asset/debt/equity cash flows, primary-source trace and three-language HTML.",
+  "checks": [
+    {
+      "file": "history_0056.json",
+      "status": "pass_with_limitations",
+      "sha256": "45b7b66fb815f370e0c8f80f3b118ca837ae19fd5085a0a2eac8f3f7c9a4d80b"
+    },
+    {
+      "file": "history_trace_0056.json",
+      "status": "pass",
+      "sha256": "c6dd766bfa31646da6bced7a8bfd5f672b2ad28e4787e8060562ec9fab8bcd84"
+    },
+    {
+      "file": "lease_economics_0056.json",
+      "status": "pass",
+      "sha256": "89a31db4621638c93c6299360e827beae8cb86408ab3a9a038310aaf00e87f37"
+    },
+    {
+      "file": "lease_economics_sources_0056.json",
+      "status": "pass",
+      "sha256": "60036aceffd3f8ebf41056d8caa9b041884a8f368eea6245aa57208ad1a9cfca"
+    },
+    {
+      "file": "review_0056.json",
+      "status": "pass",
+      "sha256": "ef27b59526a8cea03dbb2325686e14d0aab92c73b9431b1cce3b4df007911d0f"
+    }
+  ],
+  "findings": [
+    "451 research observations cover 15 types in four segments (3/4/4/4); 180 AVAC cells, 249 chart readings and 22 printed-number observations.",
+    "All AVAC cells were independently read using an alternate table parser; all 249 chart points were checked with an alternate PDF extraction method and visual calibration.",
+    "The eight main historical SVGs contain 160 new-aircraft points, 108 comparable-series edges and four published-range bars per language. Ages, source families and technical bases are not silently joined.",
+    "All 53 independent cash-flow checks pass: asset NPV, month-end and advance rent, amortizing debt and terminal balloon, equity IRR, sensitivities, depreciation and first-year profit/cash flow.",
+    "The final RU/EN/DE tables, numerical examples and source/navigation anchors pass. Browser visual layout review is owned by the parent agent."
+  ],
+  "limitations": [
+    "Chart-derived values are approximate readings, not published market uncertainty bounds; no false precision or interpolation through missing years is implied.",
+    "Appraisal definitions, age bands and aircraft configurations vary. Cross-source curves are not one homogeneous price index; gross rent/value is not net yield.",
+    "All lease-economics inputs are explicit hypothetical assumptions, not an observed commercial deal or an investment recommendation.",
+    "The data remain research-only and are not automatically imported into the production calculator."
+  ],
+  "production_changed_by_verifier": false,
+  "reproduction": {
+    "report_runtime": "Python 3.12 with lxml 6.1.1",
+    "data_audit_dependencies": "pandas 2.2.3; price-history PDF audit also uses pdfplumber/pdfminer",
+    "raw_cache_location": "outside repository; supplied explicitly to independent verification scripts"
+  },
+  "final_html_refresh": "Numerical/static audits rerun after horizontal chart wrappers and four-year demand x-axis labels; source data and previous source audits unchanged."
+}

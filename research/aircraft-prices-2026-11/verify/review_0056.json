@@ -1,0 +1,81 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "scope": "Content, numerical and SVG data verification; no screenshot-based layout claim.",
+  "checks": [
+    {
+      "language": "ru",
+      "file": "report.html",
+      "sha256": "56bb48bfadf009abee7a07e8f6ea22248dbe5b7143745962fd5e58be5d81acb2",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    },
+    {
+      "language": "en",
+      "file": "report.en.html",
+      "sha256": "19d6832cb8dbea475ff0724114a69a093d5317d65dbec2925ec98c3256bfba56",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    },
+    {
+      "language": "de",
+      "file": "report.de.html",
+      "sha256": "f85b8220c06d0ff6eec067c3286a1e23f4e8efee2b4ba6c51f8687004af11b1c",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    }
+  ],
+  "failures": [],
+  "manual_semantic_review": [
+    "All three languages distinguish required model rent from negotiated market rent.",
+    "Nominal historical periods, coarse dates, new versus aged aircraft, appraiser bases, chart digitization and published ranges remain explicit.",
+    "Range midpoint is a scenario convention, not a published transaction mean.",
+    "Debt cash flows are separate from the unlevered asset valuation; residual debt is repaid at sale.",
+    "Accounting residual and depreciation differ from ten-year resale; initial costs are capitalized.",
+    "Gross rent/price, asset IRR, equity IRR, accounting profit and equity cash flow are correctly distinguished.",
+    "IFRS 16 recognition is described with exceptions; deposits and maintenance reserves are not automatically profit, and reimbursed maintenance is not double counted.",
+    "Lufthansa transaction counts and tenors agree with its primary report; no per-aircraft transaction price is inferred."
+  ],
+  "final_layout_static_check": {
+    "status": "pass",
+    "scope": "DOM and stylesheet properties only; no screenshot-based claim",
+    "checks": [
+      {
+        "language": "ru",
+        "scroll_wrapper_count": 8,
+        "wrapper_class": "segment-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true
+      },
+      {
+        "language": "en",
+        "scroll_wrapper_count": 8,
+        "wrapper_class": "segment-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true
+      },
+      {
+        "language": "de",
+        "scroll_wrapper_count": 8,
+        "wrapper_class": "segment-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true
+      }
+    ]
+  }
+}

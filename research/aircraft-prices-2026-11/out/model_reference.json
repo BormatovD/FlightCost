@@ -1,0 +1,1977 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "as_of": "2026-11-11",
+    "base_commit": "2ffe474b05db38d146150bebfa800fe0855a555c",
+    "scope": "research_only; existing calculator assumptions, no production change",
+    "method": "production fleet.parametric; isolated fleet.load; production seo.param_lease_usd",
+    "openap_version": "2.6.2",
+    "inputs_sha256": {
+      "flightcostapp/fleet.py": "240eb1e1a3772543325aacbdf5c6f68d42606feccc23eefc15fb7d676875c9d9",
+      "flightcostapp/seo.py": "80aac25673aa6f2ec32321ac53bc1099323d8f687b84b0e1457c9ef33777686d",
+      "flightcostapp/serve.py": "7702db40593269ee539bcb43b6b4210064e145de79ed5656b85689b2148d1795",
+      "flightcostapp/overrides.py": "8a25480ed8e085cf2adcbdcc6320582c5277db2bf96c5ce32be1dd73c3af0a04",
+      "flightcostapp/store.py": "70a5062249e8880438beac7e173d8c5b5ed737f8b3b6e273de7d2f3dccd9828c",
+      "flightcostapp/parsers/openap_aircraft.py": "9e32f4b58acafceef1b74bc7c5021386d30a272f2f85b3d202b9f523b54279b3",
+      "flightcostapp/parsers/aircraft_user.py": "b0f2c0250a43eaa0262052c630e4016bea9e8ac3062d32659014b30cfeb7bd07",
+      "data/macro/_us_cpi.yaml": "df887a116bd0b79e48a03394031d03316c1d0dbab678ebcc761ce57f7405c984",
+      "data/fleet/reference.yaml": "d94400c460a670757187f29d05b0676df5d18e55ae3dbe94e31aa6d689fa908c",
+      "research/_fx.json": "d5c94ef0811c78ab59b619890aee7b5a90daaf2f282fd103e6a7c3c86dc03006",
+      "research/aircraft-prices-2026-11/out/segments_history.json": "657d65052edb272c8bceff5146102b1eee219d120e789ad2bc79824f4df7932d",
+      "research/aircraft-prices-2026-11/model_reference.py": "64f73923f955c5f2a35f6b6248e988308f47513fcb1459aabf3dce165affea50",
+      "data/aircraft/catalog/AT46.json": "1535535bc863c36cf71c75f3a9bbc57f23507cda82d4aad3554b190a0fe0a417",
+      "data/aircraft/catalog/AT76.json": "5805e69b6011e2b2abd39dd877628aa89dcb2e745ebb8e248bf55a52ec19e1c7",
+      "data/aircraft/catalog/DH8D.json": "95ca674befe9a38bd2ef3bed95f1fb3934b6ae07e1f0703b4101f4ae888be17c",
+      "data/aircraft/catalog/E295.json": "3a04eaa6d3e813da35ec401c7e0701a5b7ec3eedfbc38e4ed71772b3405348ac"
+    },
+    "openap_package_inputs_sha256": {
+      "data/aircraft/a20n.yml": "66e5b15d927d6abf8d0204b98fca46bc141f3bac3224d15b8186f510869eeaef",
+      "data/aircraft/a21n.yml": "10f3f6c95807728b984102ee1a516b78c62cd375056fc1b3fc6c846904baa157",
+      "data/aircraft/a332.yml": "5809562cb23c456c4b3113f110e112c48ebed6344d2bee78253efeb8dccce5cd",
+      "data/aircraft/a359.yml": "db5118cc006c0a99d61b63f38e132ee9edb03bd5abb122dffc832b9b7d9323fd",
+      "data/aircraft/b38m.yml": "b371abccd2d42f76ec81b633e367040ee0dd17f06ebef2d7f4e6d09b6d5536c8",
+      "data/aircraft/b738.yml": "be9001602c3677298315d52bbb373782d892e04f0b32d08167f53f025ba3ab30",
+      "data/aircraft/b77w.yml": "677a6d6cc848e2497eecb531a7d922e5a59ab6582e9af0e420dac1855dfd2807",
+      "data/aircraft/b789.yml": "648bbb3887c3dc746d0738e7916eac75b5d549098b2a2081b2e3f2b85a66d0de",
+      "data/aircraft/crj9.yml": "5f0ebd0c7d66ad61c6f8125052269725bb1c85e1b555b5179f73a16d5f689f0c",
+      "data/aircraft/e195.yml": "8751690e3a13d8b6509251a2296d93f781e19f5fe75cc6e91002163d21cb2b08",
+      "data/aircraft/e75l.yml": "2347883f68d141e872e58cbe4ffe3d908afc301abd8d3846c4215292a4b9f5b0"
+    },
+    "aircraft_count": 15,
+    "new_aircraft_comparable_count": 6,
+    "formula": "lease_EUR_month = L_ref(generation) * (MTOW_t / 78)^1.10",
+    "reference_mtow_t": 78.0,
+    "mtow_exponent": 1.1,
+    "generation_reference_eur_month": {
+      "current": 200000.0,
+      "new": 345000.0
+    },
+    "lease_uses_seats": false,
+    "lease_uses_segment_coefficient": false,
+    "lease_uses_continuous_age_curve": false,
+    "purchase_price_model_available": false,
+    "historical_display": {
+      "currency": "USD",
+      "unit": "USD per month (nominal dollars of each year)",
+      "calculator_base_currency": "EUR",
+      "calculator_base_period": "2026-10",
+      "base_year": 2026,
+      "usd_per_eur": 1.16,
+      "fx_kind": "fixed calibration convention from production type-page comparator, not live spot FX",
+      "formula": "USD_y = EUR_2026 * 1.16 * CPI_y / CPI_2026",
+      "cpi_series": "data/macro/_us_cpi.yaml; US CPI-U annual averages",
+      "cpi_last_observed_year": 2025,
+      "cpi_last_annual_growth_factor": 1.0261396238444374,
+      "cpi_base_year_value": 330.3143449155244,
+      "cpi_base_year_is_extrapolated": true,
+      "years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "point_position": "year + 0.5, annual display convention; not a source observation month",
+      "meaning": "A static current-model rent expressed in each year's nominal USD, not a historical prediction.",
+      "not_a_lease_contract_index": true,
+      "research_currency_widget_usd_per_eur": 1.113,
+      "research_currency_widget_as_of": "2026-10-29",
+      "currency_widget_note": "The general research money widget uses a separate FX snapshot; charts stay in explicitly labelled USD."
+    },
+    "plot_rules": [
+      "Use raw_parametric_lease_eur_month for the independent model benchmark; never fit it to the plotted market observations.",
+      "Draw model references only on lease-rate charts. There is no production purchase-price model to draw on value charts.",
+      "Label every model reference with its type and age basis; a current-generation line is approximately age 12, not new.",
+      "For current-generation types, show the line as contextual only or use a separate aged panel; do not calculate a new-aircraft over/underpricing claim.",
+      "A user-selected market midpoint is an explicit calculator override, not an independent reference line.",
+      "Currency conversion and CPI normalization do not correct aircraft-age or contract-condition differences."
+    ],
+    "load_precedence": [
+      "Explicit scenario/manual lease override; operator-specific before wildcard. A deliberately selected accepted market observation creates this override only when no manual lease is supplied.",
+      "A complete six-field fleet_economics bundle is selected operator-first, wildcard-second, retaining explicit overrides.",
+      "If no complete bundle exists: individual fleet_economics fields operator-first, wildcard-second.",
+      "Aircraft-card fleet_lease_eur_month if present and the higher layers lack a lease value.",
+      "Parametric generation/MTOW fallback. The age input affects TOiR maintenance, not this lease fallback."
+    ],
+    "public_default_limit": "This reproducible public source snapshot cannot establish operator, user or server-only overrides in a live calculation."
+  },
+  "segments": [
+    {
+      "id": "turboprop",
+      "title_ru": "Турбовинтовые",
+      "types": [
+        "AT46",
+        "AT76",
+        "DH8D"
+      ]
+    },
+    {
+      "id": "regional",
+      "title_ru": "Региональные реактивные",
+      "types": [
+        "E75L",
+        "E195",
+        "E295",
+        "CRJ9"
+      ]
+    },
+    {
+      "id": "narrowbody",
+      "title_ru": "Узкофюзеляжные",
+      "types": [
+        "A20N",
+        "A21N",
+        "B738",
+        "B38M"
+      ]
+    },
+    {
+      "id": "widebody",
+      "title_ru": "Широкофюзеляжные",
+      "types": [
+        "A332",
+        "A359",
+        "B77W",
+        "B789"
+      ]
+    }
+  ],
+  "aircraft": [
+    {
+      "icao": "AT46",
+      "label": "ATR 42-600",
+      "segment": "turboprop",
+      "mtow_t": 18.6,
+      "seats_for_public_default": 48.0,
+      "aircraft_input": {
+        "source": "aircraft_catalog",
+        "repository_path": "data/aircraft/catalog/AT46.json",
+        "sha256": "1535535bc863c36cf71c75f3a9bbc57f23507cda82d4aad3554b190a0fe0a417",
+        "url": "https://www.atr-aircraft.com/wp-content/uploads/2022/06/ATR_Fiche42-600-3.pdf",
+        "publisher": "ATR",
+        "source_title": "ATR fact sheet ATR 42-600 (2022, с PW127XT-M)",
+        "method": "production aircraft_user.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 41322.84091910513,
+      "effective_public_default_lease_eur_month": 41322.84091910513,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 34828.27521408738,
+          "lease_thousand_usd_month": 34.82827521408738,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 35568.376062386735,
+          "lease_thousand_usd_month": 35.56837606238673,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 36439.082942738925,
+          "lease_thousand_usd_month": 36.43908294273893,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 37106.62488434226,
+          "lease_thousand_usd_month": 37.10662488434226,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 37556.490105857556,
+          "lease_thousand_usd_month": 37.556490105857556,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 39326.927429240335,
+          "lease_thousand_usd_month": 39.326927429240335,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 42475.9839798474,
+          "lease_thousand_usd_month": 42.4759839798474,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 44217.39774055177,
+          "lease_thousand_usd_month": 44.217397740551775,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 45523.45806108005,
+          "lease_thousand_usd_month": 45.52345806108005,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 46713.424130894695,
+          "lease_thousand_usd_month": 46.713424130894694,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 47934.49546616195,
+          "lease_thousand_usd_month": 47.93449546616195,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "AT76",
+      "label": "ATR 72-600",
+      "segment": "turboprop",
+      "mtow_t": 23.0,
+      "seats_for_public_default": 72.0,
+      "aircraft_input": {
+        "source": "aircraft_catalog",
+        "repository_path": "data/aircraft/catalog/AT76.json",
+        "sha256": "5805e69b6011e2b2abd39dd877628aa89dcb2e745ebb8e248bf55a52ec19e1c7",
+        "url": "https://www.atr-aircraft.com/wp-content/uploads/2020/07/Factsheets_-_ATR_72-600.pdf",
+        "publisher": "ATR",
+        "source_title": "ATR fact sheet ATR 72-600 (2020)",
+        "method": "production aircraft_user.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 52194.71761805188,
+      "effective_public_default_lease_eur_month": 52194.71761805188,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 43991.45725439762,
+          "lease_thousand_usd_month": 43.991457254397616,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 44926.275721053564,
+          "lease_thousand_usd_month": 44.926275721053564,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 46026.06215241351,
+          "lease_thousand_usd_month": 46.026062152413516,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 46869.23174978946,
+          "lease_thousand_usd_month": 46.86923174978946,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 47437.45473932543,
+          "lease_thousand_usd_month": 47.43745473932543,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 49673.68714975731,
+          "lease_thousand_usd_month": 49.673687149757306,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 53651.2480765091,
+          "lease_thousand_usd_month": 53.651248076509106,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 55850.82093922898,
+          "lease_thousand_usd_month": 55.85082093922898,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 57500.50058626889,
+          "lease_thousand_usd_month": 57.50050058626889,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 59003.5420424608,
+          "lease_thousand_usd_month": 59.0035420424608,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 60545.872436940175,
+          "lease_thousand_usd_month": 60.54587243694017,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "DH8D",
+      "label": "Dash 8-400",
+      "segment": "turboprop",
+      "mtow_t": 29.574,
+      "seats_for_public_default": 82.0,
+      "aircraft_input": {
+        "source": "aircraft_catalog",
+        "repository_path": "data/aircraft/catalog/DH8D.json",
+        "sha256": "95ca674befe9a38bd2ef3bed95f1fb3934b6ae07e1f0703b4101f4ae888be17c",
+        "url": "https://dehavilland.com/wp-content/uploads/2026/07/DHC_Dash8_Spec-Sheet_v11_Digital.pdf",
+        "publisher": "De Havilland Aircraft of Canada",
+        "source_title": "DHC Dash 8 Spec Sheet v11 (07.2026)",
+        "method": "production aircraft_user.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 68821.95544255013,
+      "effective_public_default_lease_eur_month": 68821.95544255013,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 58005.45053562841,
+          "lease_thousand_usd_month": 58.00545053562841,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 59238.06635951052,
+          "lease_thousand_usd_month": 59.23806635951052,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 60688.202622901226,
+          "lease_thousand_usd_month": 60.68820262290123,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 61799.97375816744,
+          "lease_thousand_usd_month": 61.79997375816744,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 62549.21082758598,
+          "lease_thousand_usd_month": 62.54921082758598,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 65497.82122981375,
+          "lease_thousand_usd_month": 65.49782122981375,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 70742.4807157435,
+          "lease_thousand_usd_month": 70.7424807157435,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 73642.75324252492,
+          "lease_thousand_usd_month": 73.64275324252492,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 75817.95763761098,
+          "lease_thousand_usd_month": 75.81795763761097,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 77799.8105309116,
+          "lease_thousand_usd_month": 77.79981053091161,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 79833.46831335814,
+          "lease_thousand_usd_month": 79.83346831335814,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "E75L",
+      "label": "E175",
+      "segment": "regional",
+      "mtow_t": 38.79,
+      "seats_for_public_default": 78.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/e75l.yml",
+        "sha256": "2347883f68d141e872e58cbe4ffe3d908afc301abd8d3846c4215292a4b9f5b0",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 92750.80556498095,
+      "effective_public_default_lease_eur_month": 92750.80556498095,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 78173.4873666914,
+          "lease_thousand_usd_month": 78.1734873666914,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 79834.6739732336,
+          "lease_thousand_usd_month": 79.8346739732336,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 81789.01115740089,
+          "lease_thousand_usd_month": 81.78901115740089,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 83287.33633192914,
+          "lease_thousand_usd_month": 83.28733633192914,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 84297.07721041558,
+          "lease_thousand_usd_month": 84.29707721041558,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 88270.89615155572,
+          "lease_thousand_usd_month": 88.27089615155572,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 95339.08230096074,
+          "lease_thousand_usd_month": 95.33908230096074,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 99247.7566692953,
+          "lease_thousand_usd_month": 99.2477566692953,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 102179.26244554622,
+          "lease_thousand_usd_month": 102.17926244554621,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 104850.18993057485,
+          "lease_thousand_usd_month": 104.85018993057486,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 107590.9344553779,
+          "lease_thousand_usd_month": 107.59093445537789,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "E195",
+      "label": "E195-E1",
+      "segment": "regional",
+      "mtow_t": 50.79,
+      "seats_for_public_default": 116.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/e195.yml",
+        "sha256": "8751690e3a13d8b6509251a2296d93f781e19f5fe75cc6e91002163d21cb2b08",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 124761.89620975534,
+      "effective_public_default_lease_eur_month": 124761.89620975534,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 105153.50737697691,
+          "lease_thousand_usd_month": 105.1535073769769,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 107388.01940873766,
+          "lease_thousand_usd_month": 107.38801940873766,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 110016.85709316206,
+          "lease_thousand_usd_month": 110.01685709316206,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 112032.29931788745,
+          "lease_thousand_usd_month": 112.03229931788745,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 113390.53212150677,
+          "lease_thousand_usd_month": 113.39053212150677,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 118735.83541316974,
+          "lease_thousand_usd_month": 118.73583541316974,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 128243.46503850473,
+          "lease_thousand_usd_month": 128.24346503850472,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 133501.14040735358,
+          "lease_thousand_usd_month": 133.50114040735357,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 137444.3969339902,
+          "lease_thousand_usd_month": 137.44439693399022,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 141037.14176937024,
+          "lease_thousand_usd_month": 141.03714176937024,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 144723.79960331618,
+          "lease_thousand_usd_month": 144.72379960331617,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "E295",
+      "label": "E195-E2",
+      "segment": "regional",
+      "mtow_t": 61.5,
+      "seats_for_public_default": 138.0,
+      "aircraft_input": {
+        "source": "aircraft_catalog",
+        "repository_path": "data/aircraft/catalog/E295.json",
+        "sha256": "3a04eaa6d3e813da35ec401c7e0701a5b7ec3eedfbc38e4ed71772b3405348ac",
+        "url": "https://www.embraer.com/media/vmsjxvk5/e-jets-e2_apm_e-jetse2.pdf",
+        "publisher": "Embraer",
+        "source_title": "Embraer E-Jets E2 Airport Planning Manual, Rev 25 (29.11.2024) + спецификация E195-E2",
+        "method": "production aircraft_user.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 265630.32856740546,
+      "effective_public_default_lease_eur_month": 265630.32856740546,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 223882.14321142566,
+          "lease_thousand_usd_month": 223.88214321142567,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 228639.63875466844,
+          "lease_thousand_usd_month": 228.63963875466845,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 234236.69233495407,
+          "lease_thousand_usd_month": 234.23669233495409,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 238527.76674650642,
+          "lease_thousand_usd_month": 238.52776674650642,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 241419.57776298732,
+          "lease_thousand_usd_month": 241.41957776298733,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 252800.25337623482,
+          "lease_thousand_usd_month": 252.80025337623482,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 273042.93049160123,
+          "lease_thousand_usd_month": 273.0429304916012,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 284237.0376521725,
+          "lease_thousand_usd_month": 284.2370376521725,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 292632.61802260095,
+          "lease_thousand_usd_month": 292.6326180226009,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 300281.92458232463,
+          "lease_thousand_usd_month": 300.2819245823246,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 308131.1811381903,
+          "lease_thousand_usd_month": 308.1311811381903,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "CRJ9",
+      "label": "CRJ900",
+      "segment": "regional",
+      "mtow_t": 37.421,
+      "seats_for_public_default": 78.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/crj9.yml",
+        "sha256": "5f0ebd0c7d66ad61c6f8125052269725bb1c85e1b555b5179f73a16d5f689f0c",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 89156.46908912617,
+      "effective_public_default_lease_eur_month": 89156.46908912617,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 75144.06012478982,
+          "lease_thousand_usd_month": 75.14406012478982,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 76740.8714024416,
+          "lease_thousand_usd_month": 76.7408714024416,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 78619.47290556134,
+          "lease_thousand_usd_month": 78.61947290556134,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 80059.73405795314,
+          "lease_thousand_usd_month": 80.05973405795315,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 81030.34483456502,
+          "lease_thousand_usd_month": 81.03034483456503,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 84850.1678909085,
+          "lease_thousand_usd_month": 84.85016789090851,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 91644.44332719158,
+          "lease_thousand_usd_month": 91.64444332719158,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 95401.64633343107,
+          "lease_thousand_usd_month": 95.40164633343107,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 98219.54858811069,
+          "lease_thousand_usd_month": 98.21954858811068,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 100786.97064237433,
+          "lease_thousand_usd_month": 100.78697064237433,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 103421.50414338634,
+          "lease_thousand_usd_month": 103.42150414338634,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "A20N",
+      "label": "A320neo",
+      "segment": "narrowbody",
+      "mtow_t": 79.0,
+      "seats_for_public_default": 180.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/a20n.yml",
+        "sha256": "66e5b15d927d6abf8d0204b98fca46bc141f3bac3224d15b8186f510869eeaef",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 349868.4915286633,
+      "effective_public_default_lease_eur_month": 349868.4915286633,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 294880.8901002774,
+          "lease_thousand_usd_month": 294.8808901002774,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 301147.10901490826,
+          "lease_thousand_usd_month": 301.14710901490827,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 308519.1312674152,
+          "lease_thousand_usd_month": 308.51913126741516,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 314171.01499433717,
+          "lease_thousand_usd_month": 314.17101499433716,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 317979.89315813244,
+          "lease_thousand_usd_month": 317.9798931581324,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 332969.67173822987,
+          "lease_thousand_usd_month": 332.96967173822986,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 359631.8188847966,
+          "lease_thousand_usd_month": 359.6318188847966,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 374375.8633898105,
+          "lease_thousand_usd_month": 374.3758633898105,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 385433.8967685709,
+          "lease_thousand_usd_month": 385.4338967685709,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 395508.99384699704,
+          "lease_thousand_usd_month": 395.50899384699704,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 405847.4501732494,
+          "lease_thousand_usd_month": 405.8474501732494,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "A21N",
+      "label": "A321neo",
+      "segment": "narrowbody",
+      "mtow_t": 97.0,
+      "seats_for_public_default": 220.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/a21n.yml",
+        "sha256": "10f3f6c95807728b984102ee1a516b78c62cd375056fc1b3fc6c846904baa157",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 438494.28735317884,
+      "effective_public_default_lease_eur_month": 438494.28735317884,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 369577.68101274944,
+          "lease_thousand_usd_month": 369.57768101274945,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 377431.20673427044,
+          "lease_thousand_usd_month": 377.43120673427046,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 386670.6487595891,
+          "lease_thousand_usd_month": 386.67064875958914,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 393754.22097900015,
+          "lease_thousand_usd_month": 393.75422097900014,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 398527.93269208155,
+          "lease_thousand_usd_month": 398.52793269208155,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 417314.7981435629,
+          "lease_thousand_usd_month": 417.31479814356294,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 450730.7801351324,
+          "lease_thousand_usd_month": 450.73078013513236,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 469209.66418576986,
+          "lease_thousand_usd_month": 469.20966418576984,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 483068.82722374797,
+          "lease_thousand_usd_month": 483.068827223748,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 495696.06465835025,
+          "lease_thousand_usd_month": 495.6960646583503,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 508653.3733296874,
+          "lease_thousand_usd_month": 508.6533733296874,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "B738",
+      "label": "737-800",
+      "segment": "narrowbody",
+      "mtow_t": 79.0,
+      "seats_for_public_default": 189.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/b738.yml",
+        "sha256": "be9001602c3677298315d52bbb373782d892e04f0b32d08167f53f025ba3ab30",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 202822.31392965987,
+      "effective_public_default_lease_eur_month": 202822.31392965987,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 170945.44353639265,
+          "lease_thousand_usd_month": 170.94544353639265,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 174578.03421154097,
+          "lease_thousand_usd_month": 174.57803421154097,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 178851.6702999508,
+          "lease_thousand_usd_month": 178.85167029995083,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 182128.12463439835,
+          "lease_thousand_usd_month": 182.12812463439835,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 184336.1699467434,
+          "lease_thousand_usd_month": 184.3361699467434,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 193025.8966598434,
+          "lease_thousand_usd_month": 193.0258966598434,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 208482.21384625885,
+          "lease_thousand_usd_month": 208.48221384625884,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 217029.4860230785,
+          "lease_thousand_usd_month": 217.0294860230785,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 223439.9401556932,
+          "lease_thousand_usd_month": 223.43994015569322,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 229280.57614318663,
+          "lease_thousand_usd_month": 229.28057614318664,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 235273.88415840545,
+          "lease_thousand_usd_month": 235.27388415840545,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "B38M",
+      "label": "737 MAX 8",
+      "segment": "narrowbody",
+      "mtow_t": 82.0,
+      "seats_for_public_default": 178.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/b38m.yml",
+        "sha256": "b371abccd2d42f76ec81b633e367040ee0dd17f06ebef2d7f4e6d09b6d5536c8",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 364510.69029104814,
+      "effective_public_default_lease_eur_month": 364510.69029104814,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 307221.82593365887,
+          "lease_thousand_usd_month": 307.22182593365886,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 313750.2897347491,
+          "lease_thousand_usd_month": 313.7502897347491,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 321430.8353830906,
+          "lease_thousand_usd_month": 321.4308353830906,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 327319.2537134857,
+          "lease_thousand_usd_month": 327.31925371348575,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 331287.53563179553,
+          "lease_thousand_usd_month": 331.28753563179555,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 346904.6451167565,
+          "lease_thousand_usd_month": 346.9046451167565,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 374682.61854492483,
+          "lease_thousand_usd_month": 374.6826185449248,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 390043.7098416078,
+          "lease_thousand_usd_month": 390.0437098416078,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 401564.52831412,
+          "lease_thousand_usd_month": 401.56452831412,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 412061.27403352,
+          "lease_thousand_usd_month": 412.06127403352,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 422832.4007376158,
+          "lease_thousand_usd_month": 422.83240073761584,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "A332",
+      "label": "A330-200",
+      "segment": "widebody",
+      "mtow_t": 230.0,
+      "seats_for_public_default": 260.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/a332.yml",
+        "sha256": "5809562cb23c456c4b3113f110e112c48ebed6344d2bee78253efeb8dccce5cd",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 657092.5637078624,
+      "effective_public_default_lease_eur_month": 657092.5637078624,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 553819.6343941803,
+          "lease_thousand_usd_month": 553.8196343941803,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 565588.3016250567,
+          "lease_thousand_usd_month": 565.5883016250566,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 579433.7924849112,
+          "lease_thousand_usd_month": 579.4337924849111,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 590048.6688107996,
+          "lease_thousand_usd_month": 590.0486688107997,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 597202.1724217245,
+          "lease_thousand_usd_month": 597.2021724217245,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 625354.6705034287,
+          "lease_thousand_usd_month": 625.3546705034287,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 675429.1957799024,
+          "lease_thousand_usd_month": 675.4291957799024,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 703120.1774996115,
+          "lease_thousand_usd_month": 703.1201774996115,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 723888.4137893931,
+          "lease_thousand_usd_month": 723.8884137893931,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 742810.5846311942,
+          "lease_thousand_usd_month": 742.8105846311943,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 762227.3739011204,
+          "lease_thousand_usd_month": 762.2273739011204,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "A359",
+      "label": "A350-900",
+      "segment": "widebody",
+      "mtow_t": 280.0,
+      "seats_for_public_default": 350.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/a359.yml",
+        "sha256": "db5118cc006c0a99d61b63f38e132ee9edb03bd5abb122dffc832b9b7d9323fd",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 1407307.0606620004,
+      "effective_public_default_lease_eur_month": 1407307.0606620004,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 1186125.5550027643,
+          "lease_thousand_usd_month": 1186.1255550027643,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 1211330.723046573,
+          "lease_thousand_usd_month": 1211.3307230465732,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 1240983.8619216422,
+          "lease_thousand_usd_month": 1240.9838619216423,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 1263717.9350591952,
+          "lease_thousand_usd_month": 1263.717935059195,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 1279038.723477981,
+          "lease_thousand_usd_month": 1279.038723477981,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 1339333.4391906215,
+          "lease_thousand_usd_month": 1339.3334391906214,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 1446578.9581221212,
+          "lease_thousand_usd_month": 1446.578958122121,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 1505885.2358722596,
+          "lease_thousand_usd_month": 1505.8852358722595,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 1550364.944184863,
+          "lease_thousand_usd_month": 1550.364944184863,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 1590890.9006474577,
+          "lease_thousand_usd_month": 1590.8909006474578,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 1632476.1903679203,
+          "lease_thousand_usd_month": 1632.4761903679203,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "B77W",
+      "label": "777-300ER",
+      "segment": "widebody",
+      "mtow_t": 351.5,
+      "seats_for_public_default": 451.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/b77w.yml",
+        "sha256": "677a6d6cc848e2497eecb531a7d922e5a59ab6582e9af0e420dac1855dfd2807",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "current",
+      "generation_label_ru": "текущее поколение, борт около 12 лет",
+      "model_age_years": 12,
+      "model_age_is_approximate": true,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": false,
+      "age_comparison_note": "Calculator basis is approximately 12 years old. The main history panel is new aircraft; do not interpret their gap as model error. No age normalization is invented.",
+      "reference_lease_eur_month": 200000.0,
+      "raw_parametric_lease_eur_month": 1047716.527814066,
+      "effective_public_default_lease_eur_month": 1047716.527814066,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 883050.6026555772,
+          "lease_thousand_usd_month": 883.0506026555772,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 901815.4279620082,
+          "lease_thousand_usd_month": 901.8154279620081,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 923891.6930283976,
+          "lease_thousand_usd_month": 923.8916930283976,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 940816.829579296,
+          "lease_thousand_usd_month": 940.816829579296,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 952222.8998635975,
+          "lease_thousand_usd_month": 952.2228998635975,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 997111.3054985893,
+          "lease_thousand_usd_month": 997.1113054985893,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 1076953.7974886976,
+          "lease_thousand_usd_month": 1076.9537974886975,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 1121106.3276214765,
+          "lease_thousand_usd_month": 1121.1063276214766,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 1154220.7252210607,
+          "lease_thousand_usd_month": 1154.2207252210608,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 1184391.6208117928,
+          "lease_thousand_usd_month": 1184.3916208117928,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 1215351.1722643166,
+          "lease_thousand_usd_month": 1215.3511722643166,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    },
+    {
+      "icao": "B789",
+      "label": "787-9",
+      "segment": "widebody",
+      "mtow_t": 254.0,
+      "seats_for_public_default": 290.0,
+      "aircraft_input": {
+        "source": "aircraft_openap",
+        "package": "openap",
+        "package_version": "2.6.2",
+        "package_path": "data/aircraft/b789.yml",
+        "sha256": "648bbb3887c3dc746d0738e7916eac75b5d549098b2a2081b2e3f2b85a66d0de",
+        "url": "https://pypi.org/project/openap/2.6.2/",
+        "method": "production openap_aircraft.parse"
+      },
+      "generation": "new",
+      "generation_label_ru": "новое поколение, новый борт",
+      "model_age_years": 0,
+      "model_age_is_approximate": false,
+      "model_age_is_continuous_input": false,
+      "comparable_with_new_aircraft": true,
+      "age_comparison_note": "New-aircraft basis matches the main history panel; calendar/condition/contract differences remain.",
+      "reference_lease_eur_month": 345000.0,
+      "raw_parametric_lease_eur_month": 1264247.5491691807,
+      "effective_public_default_lease_eur_month": 1264247.5491691807,
+      "effective_public_default_provenance": "default",
+      "effective_public_default_source": null,
+      "effective_scope": "public input snapshot; operator='*'; no scenario or market observation selected",
+      "public_default_equals_raw_parametric": true,
+      "nominal_usd_points": [
+        {
+          "year": 2016,
+          "x": 2016.5,
+          "lease_usd_month": 1065550.2042416986,
+          "lease_thousand_usd_month": 1065.5502042416986,
+          "cpi": 240.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2017,
+          "x": 2017.5,
+          "lease_usd_month": 1088193.1460818346,
+          "lease_thousand_usd_month": 1088.1931460818346,
+          "cpi": 245.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2018,
+          "x": 2018.5,
+          "lease_usd_month": 1114831.9011878772,
+          "lease_thousand_usd_month": 1114.831901187877,
+          "cpi": 251.1,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2019,
+          "x": 2019.5,
+          "lease_usd_month": 1135254.9467691765,
+          "lease_thousand_usd_month": 1135.2549467691765,
+          "cpi": 255.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2020,
+          "x": 2020.5,
+          "lease_usd_month": 1149018.303573965,
+          "lease_thousand_usd_month": 1149.018303573965,
+          "cpi": 258.8,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2021,
+          "x": 2021.5,
+          "lease_usd_month": 1203183.7722895846,
+          "lease_thousand_usd_month": 1203.1837722895846,
+          "cpi": 271.0,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2022,
+          "x": 2022.5,
+          "lease_usd_month": 1299527.269923105,
+          "lease_thousand_usd_month": 1299.527269923105,
+          "cpi": 292.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2023,
+          "x": 2023.5,
+          "lease_usd_month": 1352804.7801351899,
+          "lease_thousand_usd_month": 1352.80478013519,
+          "cpi": 304.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2024,
+          "x": 2024.5,
+          "lease_usd_month": 1392762.9127942536,
+          "lease_thousand_usd_month": 1392.7629127942535,
+          "cpi": 313.7,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2025,
+          "x": 2025.5,
+          "lease_usd_month": 1429169.211439178,
+          "lease_thousand_usd_month": 1429.169211439178,
+          "cpi": 321.9,
+          "cpi_extrapolated": false
+        },
+        {
+          "year": 2026,
+          "x": 2026.5,
+          "lease_usd_month": 1466527.1570362495,
+          "lease_thousand_usd_month": 1466.5271570362495,
+          "cpi": 330.3143449155244,
+          "cpi_extrapolated": true
+        }
+      ],
+      "purchase_price_reference": null,
+      "market_observation_selected": false
+    }
+  ]
+}

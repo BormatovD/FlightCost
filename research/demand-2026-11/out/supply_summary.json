@@ -1,0 +1,1792 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-11-11",
+  "status": "collected_archive",
+  "scope": "All monthly flight-stage series in five fixed reporting countries; no survivor or minimum-traffic filtering",
+  "series": {
+    "CAF_PAS": 8087,
+    "PAS_BRD": 8091,
+    "ST_PAS": 8066
+  },
+  "reporting_countries": {
+    "DE": {
+      "series": 6096,
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    "ES": {
+      "series": 5613,
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    "FR": {
+      "series": 4750,
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    "IT": {
+      "series": 6374,
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    "NL": {
+      "series": 1411,
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    }
+  },
+  "pairs": 6296,
+  "first_month": "2005-01",
+  "last_month": "2024-12",
+  "pair_months_any_measure": 650397,
+  "pair_months_matched_triplet": 639097,
+  "reporter_month_rows": 818280,
+  "pax_reporter_values": 818280,
+  "seats_reporter_values": 803778,
+  "flights_reporter_values": 817548,
+  "overlap_with_pas_crd_panel": {
+    "baseline_pairs": 6214,
+    "pairs_with_both_datasets": 6193,
+    "supply_pairs_not_in_baseline": 103,
+    "baseline_pairs_without_supply": 21,
+    "matching_pair_month_keys": 643055,
+    "meaning": "key alignment only; PAS_CRD and PAS_BRD are different quantities"
+  },
+  "excluded_groups": 114,
+  "excluded_reason_counts": {
+    "unknown_airport": 73,
+    "airspace_control_area": 32,
+    "administrative_location": 3,
+    "city_location_needs_airport_identity": 2,
+    "self_pair": 2,
+    "airport_system": 2
+  },
+  "source_missing_values": {},
+  "quality": {
+    "one_common_reporter": 475143,
+    "no_complete_common_reporter": 11300,
+    "positive_activity_with_zero_capacity_or_flights": 496,
+    "source_quality_flag_present": 53,
+    "passengers_exceed_available_seats": 632,
+    "two_common_reporters": 163954,
+    "reporter_disagreement_above_10pct": 19757
+  },
+  "year_coverage": {
+    "2005": {
+      "pair_months_any_measure": 26418,
+      "pair_months_matched_triplet": 21264,
+      "pairs_with_12_matched_months": 1567
+    },
+    "2006": {
+      "pair_months_any_measure": 27594,
+      "pair_months_matched_triplet": 22063,
+      "pairs_with_12_matched_months": 1626
+    },
+    "2007": {
+      "pair_months_any_measure": 29206,
+      "pair_months_matched_triplet": 29185,
+      "pairs_with_12_matched_months": 2139
+    },
+    "2008": {
+      "pair_months_any_measure": 30919,
+      "pair_months_matched_triplet": 30901,
+      "pairs_with_12_matched_months": 2258
+    },
+    "2009": {
+      "pair_months_any_measure": 30534,
+      "pair_months_matched_triplet": 30512,
+      "pairs_with_12_matched_months": 2224
+    },
+    "2010": {
+      "pair_months_any_measure": 32733,
+      "pair_months_matched_triplet": 32714,
+      "pairs_with_12_matched_months": 2353
+    },
+    "2011": {
+      "pair_months_any_measure": 33487,
+      "pair_months_matched_triplet": 33467,
+      "pairs_with_12_matched_months": 2363
+    },
+    "2012": {
+      "pair_months_any_measure": 34081,
+      "pair_months_matched_triplet": 34061,
+      "pairs_with_12_matched_months": 2373
+    },
+    "2013": {
+      "pair_months_any_measure": 34287,
+      "pair_months_matched_triplet": 34273,
+      "pairs_with_12_matched_months": 2408
+    },
+    "2014": {
+      "pair_months_any_measure": 34252,
+      "pair_months_matched_triplet": 34224,
+      "pairs_with_12_matched_months": 2443
+    },
+    "2015": {
+      "pair_months_any_measure": 34317,
+      "pair_months_matched_triplet": 34314,
+      "pairs_with_12_matched_months": 2442
+    },
+    "2016": {
+      "pair_months_any_measure": 35022,
+      "pair_months_matched_triplet": 35014,
+      "pairs_with_12_matched_months": 2474
+    },
+    "2017": {
+      "pair_months_any_measure": 36524,
+      "pair_months_matched_triplet": 36512,
+      "pairs_with_12_matched_months": 2606
+    },
+    "2018": {
+      "pair_months_any_measure": 37994,
+      "pair_months_matched_triplet": 37985,
+      "pairs_with_12_matched_months": 2744
+    },
+    "2019": {
+      "pair_months_any_measure": 38391,
+      "pair_months_matched_triplet": 38378,
+      "pairs_with_12_matched_months": 2733
+    },
+    "2020": {
+      "pair_months_any_measure": 17714,
+      "pair_months_matched_triplet": 17494,
+      "pairs_with_12_matched_months": 378
+    },
+    "2021": {
+      "pair_months_any_measure": 22719,
+      "pair_months_matched_triplet": 22617,
+      "pairs_with_12_matched_months": 1147
+    },
+    "2022": {
+      "pair_months_any_measure": 35904,
+      "pair_months_matched_triplet": 35871,
+      "pairs_with_12_matched_months": 2359
+    },
+    "2023": {
+      "pair_months_any_measure": 38480,
+      "pair_months_matched_triplet": 38453,
+      "pairs_with_12_matched_months": 2664
+    },
+    "2024": {
+      "pair_months_any_measure": 39821,
+      "pair_months_matched_triplet": 39795,
+      "pairs_with_12_matched_months": 2824
+    }
+  },
+  "diagnostic_annual": {
+    "EDDF-LEBL": {
+      "2005": {
+        "months": 12,
+        "pax_brd": 609423.5,
+        "seats": 878849.5,
+        "flights": 5608.5,
+        "seat_load_factor": 0.6934332897725948,
+        "seats_per_flight": 156.69956316305607,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2006": {
+        "months": 12,
+        "pax_brd": 680685.5,
+        "seats": 926853.5,
+        "flights": 5637.0,
+        "seat_load_factor": 0.7344046281316303,
+        "seats_per_flight": 164.42318609189286,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2007": {
+        "months": 12,
+        "pax_brd": 663397.5,
+        "seats": 893183.0,
+        "flights": 5264.5,
+        "seat_load_factor": 0.742734131751276,
+        "seats_per_flight": 169.66150631588945,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2008": {
+        "months": 12,
+        "pax_brd": 645792.5,
+        "seats": 877436.0,
+        "flights": 4953.0,
+        "seat_load_factor": 0.7359995486850323,
+        "seats_per_flight": 177.1524328689683,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2009": {
+        "months": 12,
+        "pax_brd": 593327.5,
+        "seats": 781971.5,
+        "flights": 4368.0,
+        "seat_load_factor": 0.7587584713765143,
+        "seats_per_flight": 179.0227793040293,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2010": {
+        "months": 12,
+        "pax_brd": 578817.5,
+        "seats": 715465.0,
+        "flights": 4128.5,
+        "seat_load_factor": 0.8090088264275681,
+        "seats_per_flight": 173.2990190141698,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2011": {
+        "months": 12,
+        "pax_brd": 625675.0,
+        "seats": 774492.5,
+        "flights": 4305.0,
+        "seat_load_factor": 0.807851593140024,
+        "seats_per_flight": 179.90534262485482,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2012": {
+        "months": 12,
+        "pax_brd": 639136.0,
+        "seats": 795116.5,
+        "flights": 4328.0,
+        "seat_load_factor": 0.803826860592127,
+        "seats_per_flight": 183.71453327171903,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2013": {
+        "months": 12,
+        "pax_brd": 835680.5,
+        "seats": 1033512.0,
+        "flights": 5631.0,
+        "seat_load_factor": 0.8085832578625115,
+        "seats_per_flight": 183.53969099627065,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2014": {
+        "months": 12,
+        "pax_brd": 1015561.0,
+        "seats": 1227738.0,
+        "flights": 6603.5,
+        "seat_load_factor": 0.827180554808925,
+        "seats_per_flight": 185.922313924434,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2015": {
+        "months": 12,
+        "pax_brd": 1020569.0,
+        "seats": 1198312.5,
+        "flights": 6443.5,
+        "seat_load_factor": 0.8516718301778543,
+        "seats_per_flight": 185.97229766431286,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2016": {
+        "months": 12,
+        "pax_brd": 1012690.0,
+        "seats": 1158091.5,
+        "flights": 6137.0,
+        "seat_load_factor": 0.874447312669163,
+        "seats_per_flight": 188.70645266416815,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2017": {
+        "months": 12,
+        "pax_brd": 933834.5,
+        "seats": 1061628.5,
+        "flights": 5500.5,
+        "seat_load_factor": 0.8796245579315175,
+        "seats_per_flight": 193.00581765294064,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2018": {
+        "months": 12,
+        "pax_brd": 1011672.0,
+        "seats": 1157569.5,
+        "flights": 5988.5,
+        "seat_load_factor": 0.8739622113402262,
+        "seats_per_flight": 193.2987392502296,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2019": {
+        "months": 12,
+        "pax_brd": 1034921.5,
+        "seats": 1173932.0,
+        "flights": 6090.5,
+        "seat_load_factor": 0.8815855603220629,
+        "seats_per_flight": 192.74805024218045,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2020": {
+        "months": 12,
+        "pax_brd": 255862.0,
+        "seats": 391895.0,
+        "flights": 2255.5,
+        "seat_load_factor": 0.6528840633332909,
+        "seats_per_flight": 173.7508313012636,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2021": {
+        "months": 12,
+        "pax_brd": 385079.0,
+        "seats": 510789.0,
+        "flights": 2792.0,
+        "seat_load_factor": 0.753890549718181,
+        "seats_per_flight": 182.94734957020057,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2022": {
+        "months": 12,
+        "pax_brd": 780323.0,
+        "seats": 906509.0,
+        "flights": 4823.0,
+        "seat_load_factor": 0.8608000582454228,
+        "seats_per_flight": 187.95542193655402,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2023": {
+        "months": 12,
+        "pax_brd": 818139.5,
+        "seats": 933006.5,
+        "flights": 4801.5,
+        "seat_load_factor": 0.8768851020866414,
+        "seats_per_flight": 194.31563053212537,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2024": {
+        "months": 12,
+        "pax_brd": 806775.0,
+        "seats": 947853.5,
+        "flights": 4997.0,
+        "seat_load_factor": 0.8511600157619295,
+        "seats_per_flight": 189.68451070642385,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      }
+    },
+    "EDDL-LEPA": {
+      "2005": {
+        "months": 12,
+        "pax_brd": 976784.0,
+        "seats": 1142472.0,
+        "flights": 5754.5,
+        "seat_load_factor": 0.8549741262805566,
+        "seats_per_flight": 198.5354070727257,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2006": {
+        "months": 12,
+        "pax_brd": 1026038.0,
+        "seats": 1214202.0,
+        "flights": 6023.0,
+        "seat_load_factor": 0.8450307280007775,
+        "seats_per_flight": 201.59422214843102,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2007": {
+        "months": 12,
+        "pax_brd": 987260.5,
+        "seats": 1177553.5,
+        "flights": 6058.5,
+        "seat_load_factor": 0.8383996990370289,
+        "seats_per_flight": 194.3638689444582,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2008": {
+        "months": 12,
+        "pax_brd": 923599.5,
+        "seats": 1068395.0,
+        "flights": 5417.0,
+        "seat_load_factor": 0.8644738135240243,
+        "seats_per_flight": 197.2300166143622,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2009": {
+        "months": 12,
+        "pax_brd": 896024.0,
+        "seats": 1036605.0,
+        "flights": 4613.5,
+        "seat_load_factor": 0.8643832510937146,
+        "seats_per_flight": 224.6894982117698,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2010": {
+        "months": 12,
+        "pax_brd": 906566.5,
+        "seats": 1056160.0,
+        "flights": 4863.5,
+        "seat_load_factor": 0.8583609490986214,
+        "seats_per_flight": 217.1604811349851,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2011": {
+        "months": 12,
+        "pax_brd": 950727.0,
+        "seats": 1076478.0,
+        "flights": 4748.5,
+        "seat_load_factor": 0.8831829354617559,
+        "seats_per_flight": 226.69853637990946,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2012": {
+        "months": 12,
+        "pax_brd": 991454.0,
+        "seats": 1150339.5,
+        "flights": 5439.0,
+        "seat_load_factor": 0.8618794712343617,
+        "seats_per_flight": 211.49834528405958,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2013": {
+        "months": 12,
+        "pax_brd": 1096436.0,
+        "seats": 1269957.5,
+        "flights": 5979.0,
+        "seat_load_factor": 0.8633643251841104,
+        "seats_per_flight": 212.40299381167418,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2014": {
+        "months": 12,
+        "pax_brd": 1167017.5,
+        "seats": 1319735.0,
+        "flights": 6213.5,
+        "seat_load_factor": 0.8842816929156232,
+        "seats_per_flight": 212.398004345377,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2015": {
+        "months": 12,
+        "pax_brd": 1207836.0,
+        "seats": 1369102.0,
+        "flights": 6353.5,
+        "seat_load_factor": 0.8822103831562587,
+        "seats_per_flight": 215.4878413472889,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2016": {
+        "months": 12,
+        "pax_brd": 1276817.5,
+        "seats": 1457381.5,
+        "flights": 7431.5,
+        "seat_load_factor": 0.8761038204478374,
+        "seats_per_flight": 196.10865908632175,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2017": {
+        "months": 12,
+        "pax_brd": 1271970.0,
+        "seats": 1429383.0,
+        "flights": 7284.0,
+        "seat_load_factor": 0.8898734628857347,
+        "seats_per_flight": 196.23599670510708,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2018": {
+        "months": 12,
+        "pax_brd": 1509777.5,
+        "seats": 1790820.5,
+        "flights": 9292.0,
+        "seat_load_factor": 0.8430646734276271,
+        "seats_per_flight": 192.72713086526045,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2019": {
+        "months": 12,
+        "pax_brd": 1555747.0,
+        "seats": 1724396.0,
+        "flights": 9167.0,
+        "seat_load_factor": 0.9021982189705845,
+        "seats_per_flight": 188.109086942293,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2020": {
+        "months": 12,
+        "pax_brd": 282136.0,
+        "seats": 451856.5,
+        "flights": 2599.0,
+        "seat_load_factor": 0.6243929212039663,
+        "seats_per_flight": 173.85782993459023,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2021": {
+        "months": 12,
+        "pax_brd": 691607.5,
+        "seats": 865405.5,
+        "flights": 4935.0,
+        "seat_load_factor": 0.7991716022142221,
+        "seats_per_flight": 175.36079027355623,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2022": {
+        "months": 12,
+        "pax_brd": 1279183.0,
+        "seats": 1467072.0,
+        "flights": 7890.0,
+        "seat_load_factor": 0.8719292577324085,
+        "seats_per_flight": 185.94068441064638,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2023": {
+        "months": 12,
+        "pax_brd": 1304128.0,
+        "seats": 1422817.5,
+        "flights": 7393.0,
+        "seat_load_factor": 0.9165813605750562,
+        "seats_per_flight": 192.45468686595427,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2024": {
+        "months": 12,
+        "pax_brd": 1366926.5,
+        "seats": 1502145.5,
+        "flights": 7859.0,
+        "seat_load_factor": 0.9099827546665752,
+        "seats_per_flight": 191.13697671459474,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      }
+    },
+    "EDDF-LIMC": {
+      "2005": {
+        "months": 12,
+        "pax_brd": 448689.0,
+        "seats": 667616.0,
+        "flights": 6089.0,
+        "seat_load_factor": 0.672076463116522,
+        "seats_per_flight": 109.6429627196584,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2006": {
+        "months": 12,
+        "pax_brd": 468763.0,
+        "seats": 685180.0,
+        "flights": 6249.5,
+        "seat_load_factor": 0.6841457719139497,
+        "seats_per_flight": 109.63757100568046,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2007": {
+        "months": 12,
+        "pax_brd": 432907.5,
+        "seats": 693295.5,
+        "flights": 6163.5,
+        "seat_load_factor": 0.6244198902199711,
+        "seats_per_flight": 112.48405938184473,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2008": {
+        "months": 12,
+        "pax_brd": 344588.0,
+        "seats": 549316.5,
+        "flights": 4084.0,
+        "seat_load_factor": 0.6273032031624756,
+        "seats_per_flight": 134.50452987267386,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2009": {
+        "months": 12,
+        "pax_brd": 311065.5,
+        "seats": 488943.5,
+        "flights": 3594.0,
+        "seat_load_factor": 0.6361992745583078,
+        "seats_per_flight": 136.0443795214246,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2010": {
+        "months": 12,
+        "pax_brd": 311503.5,
+        "seats": 450957.0,
+        "flights": 3474.5,
+        "seat_load_factor": 0.6907609816457001,
+        "seats_per_flight": 129.7904734494172,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2011": {
+        "months": 12,
+        "pax_brd": 335831.5,
+        "seats": 515555.0,
+        "flights": 3528.0,
+        "seat_load_factor": 0.6513980079719913,
+        "seats_per_flight": 146.13236961451247,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2012": {
+        "months": 12,
+        "pax_brd": 317688.0,
+        "seats": 514863.0,
+        "flights": 3338.5,
+        "seat_load_factor": 0.6170340459500877,
+        "seats_per_flight": 154.21985921821178,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2013": {
+        "months": 12,
+        "pax_brd": 323505.0,
+        "seats": 498862.5,
+        "flights": 3214.5,
+        "seat_load_factor": 0.6484853040667519,
+        "seats_per_flight": 155.19132057862808,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2014": {
+        "months": 12,
+        "pax_brd": 335947.5,
+        "seats": 500154.0,
+        "flights": 3185.0,
+        "seat_load_factor": 0.6716881200590218,
+        "seats_per_flight": 157.0342229199372,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2015": {
+        "months": 12,
+        "pax_brd": 330577.0,
+        "seats": 447875.5,
+        "flights": 3197.0,
+        "seat_load_factor": 0.7381002086517346,
+        "seats_per_flight": 140.09243040350327,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2016": {
+        "months": 12,
+        "pax_brd": 316120.0,
+        "seats": 403947.0,
+        "flights": 3202.0,
+        "seat_load_factor": 0.7825779124489104,
+        "seats_per_flight": 126.15459088069956,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2017": {
+        "months": 12,
+        "pax_brd": 337302.5,
+        "seats": 439064.0,
+        "flights": 3210.5,
+        "seat_load_factor": 0.7682308273964615,
+        "seats_per_flight": 136.75876031770753,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2018": {
+        "months": 12,
+        "pax_brd": 378330.5,
+        "seats": 550736.5,
+        "flights": 3603.5,
+        "seat_load_factor": 0.6869537428516178,
+        "seats_per_flight": 152.83377272096573,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2019": {
+        "months": 12,
+        "pax_brd": 485008.5,
+        "seats": 729418.0,
+        "flights": 5079.0,
+        "seat_load_factor": 0.6649253240254559,
+        "seats_per_flight": 143.6144910415436,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2021": {
+        "months": 12,
+        "pax_brd": 96027.5,
+        "seats": 162443.5,
+        "flights": 1262.0,
+        "seat_load_factor": 0.5911439977592209,
+        "seats_per_flight": 128.71909667194927,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2022": {
+        "months": 12,
+        "pax_brd": 292524.0,
+        "seats": 424656.0,
+        "flights": 2959.5,
+        "seat_load_factor": 0.6888493274556347,
+        "seats_per_flight": 143.48910288900151,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2023": {
+        "months": 12,
+        "pax_brd": 335142.0,
+        "seats": 480888.0,
+        "flights": 3145.5,
+        "seat_load_factor": 0.6969231920946249,
+        "seats_per_flight": 152.88125894134478,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2024": {
+        "months": 12,
+        "pax_brd": 319842.0,
+        "seats": 460612.5,
+        "flights": 3338.5,
+        "seat_load_factor": 0.6943841081169095,
+        "seats_per_flight": 137.96989666017672,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      }
+    },
+    "EDDF-VIDP": {
+      "2005": {
+        "months": 12,
+        "pax_brd": 326410.0,
+        "seats": 388266.0,
+        "flights": 1089.0,
+        "seat_load_factor": 0.8406865396403497,
+        "seats_per_flight": 356.534435261708,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2006": {
+        "months": 12,
+        "pax_brd": 309808.0,
+        "seats": 399513.0,
+        "flights": 1077.0,
+        "seat_load_factor": 0.7754641275753229,
+        "seats_per_flight": 370.949860724234,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2007": {
+        "months": 12,
+        "pax_brd": 315132.0,
+        "seats": 369624.0,
+        "flights": 1098.0,
+        "seat_load_factor": 0.8525745081488215,
+        "seats_per_flight": 336.6338797814208,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2008": {
+        "months": 12,
+        "pax_brd": 268422.0,
+        "seats": 328345.0,
+        "flights": 961.0,
+        "seat_load_factor": 0.8174998857908602,
+        "seats_per_flight": 341.67013527575443,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2009": {
+        "months": 12,
+        "pax_brd": 333318.0,
+        "seats": 430404.0,
+        "flights": 1280.0,
+        "seat_load_factor": 0.7744305350322023,
+        "seats_per_flight": 336.253125,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2010": {
+        "months": 12,
+        "pax_brd": 318130.0,
+        "seats": 413634.0,
+        "flights": 1429.0,
+        "seat_load_factor": 0.7691098894191484,
+        "seats_per_flight": 289.45696291112665,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2011": {
+        "months": 12,
+        "pax_brd": 318609.0,
+        "seats": 412775.0,
+        "flights": 1447.0,
+        "seat_load_factor": 0.7718708739628126,
+        "seats_per_flight": 285.2626123013131,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2012": {
+        "months": 12,
+        "pax_brd": 362451.0,
+        "seats": 431874.0,
+        "flights": 1389.0,
+        "seat_load_factor": 0.8392517261979189,
+        "seats_per_flight": 310.9244060475162,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2013": {
+        "months": 12,
+        "pax_brd": 382585.0,
+        "seats": 475187.0,
+        "flights": 1443.0,
+        "seat_load_factor": 0.8051251402079602,
+        "seats_per_flight": 329.3049203049203,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2014": {
+        "months": 12,
+        "pax_brd": 377791.0,
+        "seats": 473699.0,
+        "flights": 1440.0,
+        "seat_load_factor": 0.7975338769978404,
+        "seats_per_flight": 328.9576388888889,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2015": {
+        "months": 12,
+        "pax_brd": 445021.0,
+        "seats": 548649.0,
+        "flights": 1435.0,
+        "seat_load_factor": 0.8111215002670196,
+        "seats_per_flight": 382.3337979094077,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2016": {
+        "months": 12,
+        "pax_brd": 447734.0,
+        "seats": 549834.0,
+        "flights": 1446.0,
+        "seat_load_factor": 0.8143075910183801,
+        "seats_per_flight": 380.2448132780083,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2017": {
+        "months": 12,
+        "pax_brd": 463622.0,
+        "seats": 552414.0,
+        "flights": 1449.0,
+        "seat_load_factor": 0.8392654784274113,
+        "seats_per_flight": 381.23809523809524,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2018": {
+        "months": 12,
+        "pax_brd": 475985.0,
+        "seats": 557743.0,
+        "flights": 1459.0,
+        "seat_load_factor": 0.8534127725493641,
+        "seats_per_flight": 382.27758738862235,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2019": {
+        "months": 12,
+        "pax_brd": 494750.0,
+        "seats": 562713.0,
+        "flights": 1483.0,
+        "seat_load_factor": 0.8792226232555495,
+        "seats_per_flight": 379.4423465947404,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2021": {
+        "months": 12,
+        "pax_brd": 233612.0,
+        "seats": 331873.0,
+        "flights": 1146.0,
+        "seat_load_factor": 0.7039198729634529,
+        "seats_per_flight": 289.59249563699825,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2022": {
+        "months": 12,
+        "pax_brd": 423049.0,
+        "seats": 515580.0,
+        "flights": 1716.0,
+        "seat_load_factor": 0.8205302765817138,
+        "seats_per_flight": 300.45454545454544,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2023": {
+        "months": 12,
+        "pax_brd": 518168.0,
+        "seats": 612349.0,
+        "flights": 2034.0,
+        "seat_load_factor": 0.8461971849386543,
+        "seats_per_flight": 301.0565388397247,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2024": {
+        "months": 12,
+        "pax_brd": 497781.0,
+        "seats": 596552.0,
+        "flights": 2092.0,
+        "seat_load_factor": 0.8344301921710094,
+        "seats_per_flight": 285.1586998087954,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      }
+    },
+    "EHAM-LFRN": {
+      "2016": {
+        "months": 12,
+        "pax_brd": 21035.0,
+        "seats": 27415.0,
+        "flights": 551.0,
+        "seat_load_factor": 0.767280685755973,
+        "seats_per_flight": 49.75499092558984,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2017": {
+        "months": 12,
+        "pax_brd": 36789.0,
+        "seats": 47987.0,
+        "flights": 901.0,
+        "seat_load_factor": 0.7666451330568695,
+        "seats_per_flight": 53.25971143174251,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2018": {
+        "months": 12,
+        "pax_brd": 64442.0,
+        "seats": 93516.0,
+        "flights": 1002.0,
+        "seat_load_factor": 0.6891013302536464,
+        "seats_per_flight": 93.32934131736526,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2019": {
+        "months": 12,
+        "pax_brd": 48402.0,
+        "seats": 57301.0,
+        "flights": 794.0,
+        "seat_load_factor": 0.8446973002216366,
+        "seats_per_flight": 72.16750629722922,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2022": {
+        "months": 12,
+        "pax_brd": 31495.0,
+        "seats": 42721.0,
+        "flights": 540.0,
+        "seat_load_factor": 0.7372252522178788,
+        "seats_per_flight": 79.11296296296297,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2023": {
+        "months": 12,
+        "pax_brd": 44801.0,
+        "seats": 54680.0,
+        "flights": 616.0,
+        "seat_load_factor": 0.8193306510607169,
+        "seats_per_flight": 88.76623376623377,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      },
+      "2024": {
+        "months": 12,
+        "pax_brd": 52464.0,
+        "seats": 63886.0,
+        "flights": 713.0,
+        "seat_load_factor": 0.821212785273769,
+        "seats_per_flight": 89.60168302945301,
+        "definition": "flight-stage, all three metrics from common reporters per month"
+      }
+    }
+  },
+  "diagnostic_reporting_airports": {
+    "EDDF-LEBL": [
+      "EDDF",
+      "LEBL"
+    ],
+    "EDDF-LIMC": [
+      "EDDF",
+      "LIMC"
+    ],
+    "EDDF-VIDP": [
+      "EDDF"
+    ],
+    "EDDL-LEPA": [
+      "EDDL",
+      "LEPA"
+    ],
+    "EHAM-LFRN": [
+      "LFRN"
+    ]
+  },
+  "sources": [
+    {
+      "cache_name": "supply_de_00000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4672811,
+      "sha256": "f8c88df60d0558b6434550ab50123d230876f8412a5e0e8a18bb7c1b4d1790ec",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_01000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3157278,
+      "sha256": "233d62d95b6181eb1149b4bef9b10408364030991a410596c24ff496fc2fd624",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_02000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4845193,
+      "sha256": "944fe1fab2c70fcfc21e3f17a9846b38748a530144e386c398c99ee15bee866b",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_03000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3406038,
+      "sha256": "d7d831d1da09351463ea6866213b02a741787f6b18a51d9f5acfa71ee85dcde9",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_04000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4759017,
+      "sha256": "a8ef79cd96a901d7372392a2cbf9231d12a0a0a4367926e95d94034a970b87ff",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_05000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3533926,
+      "sha256": "352f6cf09b52b47168bf9ecf5e669931cf66f9b0dc52756dcf4b23793f3ed4c9",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_de_06000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=6000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 369844,
+      "sha256": "7054559f24ae09c9193828d2aac742d681d488ef0f5b9f54d0c74eda6b636c4d",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_00000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4461180,
+      "sha256": "fe3a3881c22abcf827f5db2df1b5bde897a46fa589365906e8f5f820a8264832",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_01000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4452291,
+      "sha256": "eb816522b4417dd53032776a36a0c5e7d9be2f36498e6cee58bbebcf3c1cee18",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_02000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4794945,
+      "sha256": "612e8289cac5e8d1f7e05e78dc77eb9faeaae4bace701c5e1734b383a04c7b6e",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_03000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4574897,
+      "sha256": "dd60ec9d3135b673420b499e9a24218bcb93f9deab46fddb1beb6914d9908d7c",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_04000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4837435,
+      "sha256": "43157103bbbd4b6128a13b7d4e07d5bceeb8ecc136350dde10e9beb0a0373f81",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_es_05000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 2594921,
+      "sha256": "633d4779f6c6d3db95486c968737cff8941dde6bc9013309ccfb308a3721cdf1",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-11-19T23:00:00+01:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_fr_00000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4101565,
+      "sha256": "c066b5e6314a9dfbc91292c0a2c9470ab7fd9dbfd123b822342fe326cd4ec9c4",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_fr_01000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4056545,
+      "sha256": "946d5f6c14f678134db4e71f94b11572adb22e6da4a774a8e46028d72b50915e",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_fr_02000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4562026,
+      "sha256": "0a4b1e66073f8e1a8f0d6ab3277cfbb195d18c286eaf4e69efdb5cbe7d414dea",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_fr_03000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3868925,
+      "sha256": "223176b076f5fd73007de7847edf9aaeb7e0f34864b3db753efc35609016ce5e",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_fr_04000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3289575,
+      "sha256": "1fd598be14bc343ac2dc36afecc1ad644e5651fca6a48881c6f06570cf80cbca",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_00000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3568693,
+      "sha256": "f820d01616055e39be4a1ab5350bc4ac321a924d1a24a9621a130dece1a6f17f",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_01000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3541562,
+      "sha256": "b8e18fab398ec7d1110b556ae1be7868089a3a70b4653328f6288f10c97e7c1d",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_02000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3717484,
+      "sha256": "4fdd153f2eb2da15f683e1f4943220bd6f92484a171d48d38e8ba51658b4b8c3",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_03000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3707181,
+      "sha256": "c4a1b78ebfbed33ebee96bebe83d56fcf6889c61f1f4b4660c978322c285997b",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_04000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3780753,
+      "sha256": "deecf14a3b7771c6659af917e842a2f6c6fbd81d6758b6b97189ef4edb7b5b91",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_05000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 3580773,
+      "sha256": "50f667a20fe6cf3e109ad7156ef44f5b426d53b484544e72962e988d1f725e25",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_it_06000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=6000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 1724841,
+      "sha256": "300294bb126d7c37f9d345cf16e03e7ec0baae9cecc71a0dcdbe38ecdc897b77",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_nl_00000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_nl?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 4513975,
+      "sha256": "a2f4f7c488d3d1f4160aab0fe7b53c50f0e6cf567491c338e43a19fc74695e9b",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    },
+    {
+      "cache_name": "supply_nl_01000",
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_nl?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+      "http_status": 200,
+      "retrieved_on": "2026-11-11",
+      "bytes": 1793793,
+      "sha256": "a77d7d87cfdacd595f272d8e8eff8ab46e97c81fdcf9da567eea875081a2ab8d",
+      "provider": "Eurostat",
+      "access_channel": "DBnomics archive",
+      "source_updated_at": "2025-10-22T11:00:00+02:00",
+      "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+    }
+  ],
+  "primary_access_probes": [
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=DE_EDDF_ES_LEBL&sinceTimePeriod=2024-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "content_type": "application/json",
+      "bytes": 3165,
+      "sha256": "f95c0df12751108e24f1eeca55637b1d8896c1802b67ae7df83a04a9785ab731",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": "2024-12",
+      "published_values": 12,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "error": null
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2005-01",
+      "status": 413,
+      "retrieved_on": "2026-11-11",
+      "content_type": "application/json",
+      "bytes": 142,
+      "sha256": "c88ad56ee59f7d75e87a1a36177b28fe90142d263b008d2d1b0699eeb6815bda",
+      "classification": "not_dataset",
+      "last_time_axis_period": null,
+      "published_values": null,
+      "source_updated_at": null,
+      "error": [
+        {
+          "status": 413,
+          "id": 413,
+          "label": "ASYNCHRONOUS_RESPONSE. Your request will be treated asynchronously. Please try again later."
+        }
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:14:24.710776+00:00",
+      "content_type": "application/json",
+      "bytes": 224007,
+      "sha256": "3b1abf160617d1d6378369ceb2a1a461c2bc78d50f9202f2f2370cc76e7376fa",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": null,
+      "published_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "error": null
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_es?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:14:24.931348+00:00",
+      "content_type": "application/json",
+      "bytes": 200829,
+      "sha256": "2a9a348635ba43b72af920d2b9dc61f80077e8bbae4752f3c1ff11a91b518b9b",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": null,
+      "published_values": 0,
+      "source_updated_at": "2025-11-19T23:00:00+0100",
+      "error": null
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fr?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:14:25.062774+00:00",
+      "content_type": "application/json",
+      "bytes": 201237,
+      "sha256": "d14c5ac10eb53205cd2aa6f103e27d966ca9750ab198d69e056d873fe31b3cd1",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": null,
+      "published_values": 0,
+      "source_updated_at": "2026-09-14T23:00:00+0200",
+      "error": null
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_it?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:14:31.400557+00:00",
+      "content_type": "application/json",
+      "bytes": 221317,
+      "sha256": "a101af3beee33b0fb91b2dd7acd6fe9eeda616879dd6e44404aaa3ff3c29428f",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": null,
+      "published_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "error": null
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_nl?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "status": 200,
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:14:30.313250+00:00",
+      "content_type": "application/json",
+      "bytes": 50697,
+      "sha256": "14b24471c9ffd44fe29019bec29a5ee2b41e1e8dab14e49c3cc5b96674f292c8",
+      "classification": "valid_primary_json_stat",
+      "last_time_axis_period": null,
+      "published_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "error": null
+    }
+  ],
+  "primary_comparisons": [
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=DE_EDDF_ES_LEBL&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:37.719629+00:00",
+      "content_type": "application/json",
+      "bytes": 13019,
+      "sha256": "40306d5d42ff9fe4e10d0eff257a58924f6591ada1820c21e63fe7baa4f45690",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "EDDF",
+      "measure": "CAF_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=DE_EDDF_ES_LEBL&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:37.407623+00:00",
+      "content_type": "application/json",
+      "bytes": 13491,
+      "sha256": "6888974240750a55a89e46b1ef1bdca7875c84f5de724a4867fa24adf78b4f64",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "EDDF",
+      "measure": "PAS_BRD",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=DE_EDDF_ES_LEBL&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:37.639684+00:00",
+      "content_type": "application/json",
+      "bytes": 13535,
+      "sha256": "ff50b54f6c0b106ba71f03b0f290ccc466a456e5d518d79ebd016cffb5550dda",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "EDDF",
+      "measure": "ST_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=DE_EDDF_IN_VIDP&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:09:00.126293+00:00",
+      "content_type": "application/json",
+      "bytes": 12942,
+      "sha256": "e5c7399a4ec947a2bf2c6ca31420da71dabec6ef0a214dd0ac19b226aa3a8185",
+      "pair": "EDDF-VIDP",
+      "reporting_airport": "EDDF",
+      "measure": "CAF_PAS",
+      "checked_values": 239,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=DE_EDDF_IN_VIDP&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:59.940033+00:00",
+      "content_type": "application/json",
+      "bytes": 13468,
+      "sha256": "338485c1920f9bd35d9c30022cd1578c5c973f342a3c84c8fa01ed34b08646e6",
+      "pair": "EDDF-VIDP",
+      "reporting_airport": "EDDF",
+      "measure": "PAS_BRD",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=DE_EDDF_IN_VIDP&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:59.951505+00:00",
+      "content_type": "application/json",
+      "bytes": 13486,
+      "sha256": "538f7cc9e7249ac438459c0e915f1e6f9a74f5bfc31c58500b10dcf992113246",
+      "pair": "EDDF-VIDP",
+      "reporting_airport": "EDDF",
+      "measure": "ST_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=DE_EDDF_IT_LIMC&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:54.587361+00:00",
+      "content_type": "application/json",
+      "bytes": 12991,
+      "sha256": "c2b5d0d148178a70da17949a63830bb567b31fc4850d9413b2445d6e52a8e1a0",
+      "pair": "EDDF-LIMC",
+      "reporting_airport": "EDDF",
+      "measure": "CAF_PAS",
+      "checked_values": 238,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=DE_EDDF_IT_LIMC&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:54.571569+00:00",
+      "content_type": "application/json",
+      "bytes": 13447,
+      "sha256": "a94d8903f895324b87126229c7a92fb709359736b0527296fcef96168e98cb15",
+      "pair": "EDDF-LIMC",
+      "reporting_airport": "EDDF",
+      "measure": "PAS_BRD",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=DE_EDDF_IT_LIMC&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:54.812287+00:00",
+      "content_type": "application/json",
+      "bytes": 13471,
+      "sha256": "e352ad8121bcc46c0edcc5c09680ce7a49033ceff16b5cb43b8b07b0a1c49953",
+      "pair": "EDDF-LIMC",
+      "reporting_airport": "EDDF",
+      "measure": "ST_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=DE_EDDL_ES_LEPA&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:48.943371+00:00",
+      "content_type": "application/json",
+      "bytes": 12929,
+      "sha256": "637de250ee4445f3911cf3c0e2ddfd9c0e30c7cc210bd41eba32807cfb5d8ae9",
+      "pair": "EDDL-LEPA",
+      "reporting_airport": "EDDL",
+      "measure": "CAF_PAS",
+      "checked_values": 222,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=DE_EDDL_ES_LEPA&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:49.153147+00:00",
+      "content_type": "application/json",
+      "bytes": 13431,
+      "sha256": "5001c8ac373fded01102d333aaf57c86940edf6021fdfc85993f0c5e43bc274f",
+      "pair": "EDDL-LEPA",
+      "reporting_airport": "EDDL",
+      "measure": "PAS_BRD",
+      "checked_values": 222,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=DE_EDDL_ES_LEPA&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:48.927615+00:00",
+      "content_type": "application/json",
+      "bytes": 13456,
+      "sha256": "70a2703bd1c35ea1af4849013ff894ae0c6fd6f1385f90ef513698f30fc97c54",
+      "pair": "EDDL-LEPA",
+      "reporting_airport": "EDDL",
+      "measure": "ST_PAS",
+      "checked_values": 222,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_es?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=ES_LEBL_DE_EDDF&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:43.543797+00:00",
+      "content_type": "application/json",
+      "bytes": 13016,
+      "sha256": "31288aac370cce0f53e6720b2b929add87715d4f6d7bb31eba073523437e7c65",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "LEBL",
+      "measure": "CAF_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-11-19T23:00:00+0100",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_es?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=ES_LEBL_DE_EDDF&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:43.463805+00:00",
+      "content_type": "application/json",
+      "bytes": 13489,
+      "sha256": "3590bbf97224d2b1d30b419317e852392afafb2db7f6c9896009d4ef17708ac4",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "LEBL",
+      "measure": "PAS_BRD",
+      "checked_values": 240,
+      "source_updated_at": "2025-11-19T23:00:00+0100",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_es?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=ES_LEBL_DE_EDDF&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:08:43.535513+00:00",
+      "content_type": "application/json",
+      "bytes": 13532,
+      "sha256": "e97fd2fb49deacbb5b295f60c4a8175d6cec0ce9018cc1899c589a8eb073f349",
+      "pair": "EDDF-LEBL",
+      "reporting_airport": "LEBL",
+      "measure": "ST_PAS",
+      "checked_values": 240,
+      "source_updated_at": "2025-11-19T23:00:00+0100",
+      "first_month": "2005-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fr?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=FR_LFRN_NL_EHAM&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:10:42.611553+00:00",
+      "content_type": "application/json",
+      "bytes": 12005,
+      "sha256": "bc4cd3e95a5c95f38997368347d2887587e94006ae610c52a22995a1151b109c",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "LFRN",
+      "measure": "CAF_PAS",
+      "checked_values": 84,
+      "source_updated_at": "2026-09-14T23:00:00+0200",
+      "first_month": "2016-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fr?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=FR_LFRN_NL_EHAM&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:10:41.019591+00:00",
+      "content_type": "application/json",
+      "bytes": 12151,
+      "sha256": "baa1e305542e25f7074c0e962c2a319aab5545b981a82e420055db7138f003bf",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "LFRN",
+      "measure": "PAS_BRD",
+      "checked_values": 84,
+      "source_updated_at": "2026-09-14T23:00:00+0200",
+      "first_month": "2016-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fr?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=FR_LFRN_NL_EHAM&sinceTimePeriod=2005-01",
+      "status": "matched_primary",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:10:42.483743+00:00",
+      "content_type": "application/json",
+      "bytes": 12166,
+      "sha256": "61d36429e8727d7616109a42de39d5c4059fa8a02361ba5aca9cabe0a7d55ea0",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "LFRN",
+      "measure": "ST_PAS",
+      "checked_values": 84,
+      "source_updated_at": "2026-09-14T23:00:00+0200",
+      "first_month": "2016-01",
+      "last_month": "2024-12",
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_nl?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&airp_pr=NL_EHAM_FR_LFRN&sinceTimePeriod=2005-01",
+      "status": "no_published_values",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:09:07.334119+00:00",
+      "content_type": "application/json",
+      "bytes": 11503,
+      "sha256": "661fdc2a969e79c774a1334d70cc8afbebd5cc92fa8c2a6f3c5a33c3d8c80a84",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "EHAM",
+      "measure": "CAF_PAS",
+      "checked_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": null,
+      "last_month": null,
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_nl?lang=EN&freq=M&unit=PAS&tra_meas=PAS_BRD&airp_pr=NL_EHAM_FR_LFRN&sinceTimePeriod=2005-01",
+      "status": "no_published_values",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:09:07.252085+00:00",
+      "content_type": "application/json",
+      "bytes": 11487,
+      "sha256": "f931cd50c9b9dcdc4dbbeea80e3a1a99611de0b865214ed274d73344d9d33dfd",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "EHAM",
+      "measure": "PAS_BRD",
+      "checked_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": null,
+      "last_month": null,
+      "disagreements": []
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_nl?lang=EN&freq=M&unit=SEAT&tra_meas=ST_PAS&airp_pr=NL_EHAM_FR_LFRN&sinceTimePeriod=2005-01",
+      "status": "no_published_values",
+      "retrieved_on": "2026-11-11",
+      "retrieved_at": "2026-11-11T10:09:07.236877+00:00",
+      "content_type": "application/json",
+      "bytes": 11501,
+      "sha256": "95e32d541f17432aada28a5e1d368e22db86444be360760dee772d44e58adcbd",
+      "pair": "EHAM-LFRN",
+      "reporting_airport": "EHAM",
+      "measure": "ST_PAS",
+      "checked_values": 0,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "first_month": null,
+      "last_month": null,
+      "disagreements": []
+    }
+  ],
+  "inputs_sha256": {
+    "baseline_pas_crd_panel": "e2b3c242927fdb773d56c03b2f1b75cbad9dc915339887c091528c7b0c4386a2",
+    "baseline_excluded_groups": "0ba684ffe440108dfe6b6a066f4f43754a767cbd8ed1e78d32caa53fa107baf9"
+  },
+  "limitations": [
+    "Historical archive ends at its source horizon; retrieval in 2026 is not 2026 traffic.",
+    "PAS_BRD includes direct transit on a flight stage; it does not equal PAS_CRD on-flight origin/destination.",
+    "Seat load factor uses only matched flight-stage passenger, seat and flight reports, never PAS_CRD divided by seats.",
+    "Common-reporting sets may change by month. Reporter differences and statistical breaks are preserved for modelling.",
+    "Realized occupancy does not identify suppressed demand or causal effects of capacity and frequency.",
+    "Aircraft type, operator identity, fares, actual departures by direction and timetable timings are absent from this aggregate panel.",
+    "Historical airport and country codes still require longitudinal reconciliation."
+  ],
+  "artifacts": [
+    {
+      "file": "supply_excluded_groups.json.gz",
+      "bytes": 27841,
+      "sha256": "f644d84a5eca7fe97b67f8343c23715d75217a6160aa0312ea1c554712a42713"
+    },
+    {
+      "file": "supply_pair_panel.json.gz",
+      "bytes": 11963927,
+      "sha256": "3e1d7e13584f2db48afd155a3124de95e7aa8f8852e596a3c70e024c70e4a2a3"
+    },
+    {
+      "file": "supply_reporter_panel.json.gz",
+      "bytes": 7717011,
+      "sha256": "fee3cff387a95f85a7cce0dcc65832124ae909013894b540ae453c1146c4716b"
+    }
+  ]
+}

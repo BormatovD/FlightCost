@@ -1,0 +1,61 @@
+{
+  "stage": "0056-v2",
+  "checked_at": "2026-11-11",
+  "status": "UN_access_blocked_Eurostat_alternative_collected_and_verified",
+  "independent": true,
+  "scope": "Initial read-only source discovery and access checks, followed by a separate collector and independent full-row audit of the official Eurostat alternative. This record does not claim the UN file was obtained.",
+  "sources": [
+    {
+      "publisher": "United Nations DESA Population Division",
+      "dataset": "International Migrant Stock 2024",
+      "landing_url": "https://www.un.org/development/desa/pd/content/international-migrant-stock",
+      "bilateral_file_url": "https://www.un.org/development/desa/pd/sites/www.un.org.development.desa.pd/files/undesa_pd_2024_ims_stock_by_sex_destination_and_origin.xlsx",
+      "landing_access": "HTTP 403",
+      "file_access": "HTTP 403",
+      "file_web_reference": "turn141view0",
+      "data_collected": false,
+      "coverage_from_primary_search_metadata": "1990–2024; 233 countries and areas; 60 fully reassessed for the 2024 edition, with the remaining estimates extrapolated from the 2020 edition.",
+      "limitation": "The file was not read. Do not represent its bilateral rows as collected or verified. No proxy, origin substitution, special-header retry or access-control workaround was attempted."
+    },
+    {
+      "publisher": "Eurostat",
+      "dataset": "migr_pop3ctb — Population on 1 January by age group, sex and country of birth",
+      "landing_url": "https://ec.europa.eu/eurostat/databrowser/product/page/migr_pop3ctb",
+      "catalog_url": "https://data.europa.eu/data/datasets/dnjbcepirkfmggun65g?locale=en",
+      "access": "Official Data Browser landing resolves but its client-rendered table is not exposed to the web reader. The official catalogue/search metadata describes annual coverage from 1998 to 2025.",
+      "data_collected": true,
+      "intended_dimensions": "Reporting destination × country of birth, with total age and sex selected once.",
+      "limitations": [
+        "European reporting destinations, not a global bilateral matrix.",
+        "Country of birth must not be substituted with citizenship without recording the concept change.",
+        "Age/sex totals must not be added to their component rows.",
+        "Availability, suppressed values and reporting breaks must be audited after extraction."
+      ],
+      "subsequent_collection": "A separate collector obtained five official API slices for DE/ES/FR/IT/NL, 2005–2025, age TOTAL, sex T, unit NR.",
+      "independent_audit": "migrant_stock_0056_v2.json",
+      "collected_scope_limit": "Individual-origin data are absent in the selected DE slice; ES/FR coverage is sparse. The successful alternative does not supply a global bilateral matrix."
+    },
+    {
+      "publisher": "OECD",
+      "dataset": "Database on Immigrants in OECD and non-OECD Countries (DIOC)",
+      "landing_url": "https://www.oecd.org/en/data/datasets/database-on-immigrants-in-oecd-and-non-oecd-countries.html",
+      "access": "Primary landing opened successfully.",
+      "web_reference": "turn141view1",
+      "independent_locator": "About and DIOC sections, including Reference years 2020/21.",
+      "coverage_from_primary_landing": "34 destination countries and more than 200 origins; 2020/21 full dataset is marked provisional. Earlier census reference rounds are listed separately.",
+      "candidate_official_download_directory": "https://webfs.oecd.org/Els-com/Migration/Databases/Database%20on%20Immigrants%20in%20OECD%20and%20non-OECD%20Countries%20DIOC/DIOC%20database%20-%20click%20here/Reference%20years%202020-2021/",
+      "data_collected": false,
+      "limitations": [
+        "Census reference rounds are not an annual migration-stock time series.",
+        "File-specific coverage, age filters, coding and weights still require extraction and verification.",
+        "DIOC-E lists broader destination coverage but older reference rounds; it is not interchangeable with provisional DIOC 2020/21."
+      ]
+    }
+  ],
+  "model_limitations": [
+    "A bilateral migrant stock is a candidate explanatory factor, not observed passenger journeys or visiting-friends-and-relatives trip frequency.",
+    "Country-level migrant stock requires an explicit allocation assumption before it can support a city-pair forecast.",
+    "A newer census release cannot be used as information available in an earlier backtest origin without a stated retrospective-data limitation.",
+    "Any additional predictive value must be evaluated against a traffic-only baseline on held-out periods and routes."
+  ]
+}

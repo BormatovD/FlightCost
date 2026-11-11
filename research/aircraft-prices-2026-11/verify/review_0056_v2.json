@@ -1,0 +1,113 @@
+{
+  "extensions": {
+    "reports": [
+      {
+        "language": "ru",
+        "model_curves": 15,
+        "model_annual_points": 165,
+        "max_model_svg_coordinate_error_px": 0.00499295438133629,
+        "cash_flow_diagrams": 3,
+        "cash_flow_edges": 12,
+        "lessor_balance_usd": {
+          "purchase": 0.0,
+          "monthly": -2.9103830456733704e-11,
+          "sale": 5.000084638595581e-05
+        },
+        "qualitative_contract_flows": 6
+      },
+      {
+        "language": "en",
+        "model_curves": 15,
+        "model_annual_points": 165,
+        "max_model_svg_coordinate_error_px": 0.00499295438133629,
+        "cash_flow_diagrams": 3,
+        "cash_flow_edges": 12,
+        "lessor_balance_usd": {
+          "purchase": 0.0,
+          "monthly": -2.9103830456733704e-11,
+          "sale": 5.000084638595581e-05
+        },
+        "qualitative_contract_flows": 6
+      },
+      {
+        "language": "de",
+        "model_curves": 15,
+        "model_annual_points": 165,
+        "max_model_svg_coordinate_error_px": 0.00499295438133629,
+        "cash_flow_diagrams": 3,
+        "cash_flow_edges": 12,
+        "lessor_balance_usd": {
+          "purchase": 0.0,
+          "monthly": -2.9103830456733704e-11,
+          "sale": 5.000084638595581e-05
+        },
+        "qualitative_contract_flows": 6
+      }
+    ],
+    "asset_npv_usd": -4.284083843231201e-08,
+    "lender_npv_usd": -1.862645149230957e-08,
+    "equity_npv_usd": 1.2619420886039734e-07,
+    "unchanged_53_check_cash_input": true,
+    "prior_financial_audit": "lease_economics_0056.json",
+    "manual_semantics": [
+      "Ten-year loan maturity and fifteen-year scheduled amortization are explicitly distinguished.",
+      "Resale amounts come after the ordinary payment in month 120, so principal is not deducted twice.",
+      "Debt repayment and equity cash are not labelled net accounting profit.",
+      "Deposits, maintenance reserve payments, reimbursements and return-condition compensation are qualitative and contract-dependent.",
+      "All displayed lease-model ages match the actual production classification.",
+      "Model purchase price is absent; CPI-adjusted rent is not a historical prediction."
+    ]
+  },
+  "stage": "0056-v2",
+  "status": "pass",
+  "scope": "Content, numerical and SVG data verification; no screenshot-based layout claim.",
+  "checks": [
+    {
+      "language": "ru",
+      "file": "report.html",
+      "sha256": "57fb3a3544ccd7aacb103e57b7aeea507337ad7521cb994887540b4f9a146152",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    },
+    {
+      "language": "en",
+      "file": "report.en.html",
+      "sha256": "20425775209f5e1f10aac738837b2e794c16e2d9f11b135f692459a2847e4f4b",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    },
+    {
+      "language": "de",
+      "file": "report.de.html",
+      "sha256": "a3facfc35bd281d2a55005b1668a9ccb45d4eeb3cf14501eebcf08080d42fde0",
+      "main_history_graphs": 8,
+      "new_aircraft_points": 160,
+      "comparable_series_edges": 108,
+      "published_range_bars": 4,
+      "maximum_svg_coordinate_error_px": 0.0049999999999954525,
+      "finance_amounts_checked": 12,
+      "broken_internal_links": []
+    }
+  ],
+  "failures": [],
+  "manual_semantic_review": [
+    "All three languages distinguish required model rent from negotiated market rent.",
+    "Nominal historical periods, coarse dates, new versus aged aircraft, appraiser bases, chart digitization and published ranges remain explicit.",
+    "Range midpoint is a scenario convention, not a published transaction mean.",
+    "Debt cash flows are separate from the unlevered asset valuation; residual debt is repaid at sale.",
+    "Accounting residual and depreciation differ from ten-year resale; initial costs are capitalized.",
+    "Gross rent/price, asset IRR, equity IRR, accounting profit and equity cash flow are correctly distinguished.",
+    "IFRS 16 recognition is described with exceptions; deposits and maintenance reserves are not automatically profit, and reimbursed maintenance is not double counted.",
+    "Lufthansa transaction counts and tenors agree with its primary report; no per-aircraft transaction price is inferred."
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "stage": "0056",
+  "status": "pass",
+  "scope": "Multilingual content, table and SVG data verification; not a browser screenshot layout audit.",
+  "summary_sha256": "44830510fb3202e3b1c6ee3e86b9b20e182ca48d69f9e1ff3c62bae41ab3b772",
+  "checks": [
+    {
+      "language": "ru",
+      "file": "report.html",
+      "sha256": "a66960be4fd6cafedd3aa1dcc4fc971d4ae184c7c5b1fed214a94525f8d6e725",
+      "new_data_tables_checked": 5,
+      "route_2024_totals": {
+        "EDDF-LEBL": 806777.0,
+        "EDDL-LEPA": 1366991.0,
+        "EDDF-LIMC": 319759.5,
+        "EDDF-VIDP": 497146.0,
+        "EHAM-LFRN": 52464.0
+      },
+      "historical_chart_years": [
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "historical_chart_points": 20,
+      "maximum_chart_fit_error_px": 0.05247608609116128,
+      "broken_internal_links": [],
+      "initial_experiment_preserved_in_closed_details": true
+    },
+    {
+      "language": "en",
+      "file": "report.en.html",
+      "sha256": "384e0e1c458c2439b40ad89215a2f1cc8ee64d99d3a7fd3a6b08b1d1947cf16d",
+      "new_data_tables_checked": 5,
+      "route_2024_totals": {
+        "EDDF-LEBL": 806777.0,
+        "EDDL-LEPA": 1366991.0,
+        "EDDF-LIMC": 319759.5,
+        "EDDF-VIDP": 497146.0,
+        "EHAM-LFRN": 52464.0
+      },
+      "historical_chart_years": [
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "historical_chart_points": 20,
+      "maximum_chart_fit_error_px": 0.05247608609116128,
+      "broken_internal_links": [],
+      "initial_experiment_preserved_in_closed_details": true
+    },
+    {
+      "language": "de",
+      "file": "report.de.html",
+      "sha256": "41bd90adc1bfa0c37ab8ed2c3e73492b75d1fafa0b5e6d29ae51344991ac9201",
+      "new_data_tables_checked": 5,
+      "route_2024_totals": {
+        "EDDF-LEBL": 806777.0,
+        "EDDL-LEPA": 1366991.0,
+        "EDDF-LIMC": 319759.5,
+        "EDDF-VIDP": 497146.0,
+        "EHAM-LFRN": 52464.0
+      },
+      "historical_chart_years": [
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "historical_chart_points": 20,
+      "maximum_chart_fit_error_px": 0.05247608609116128,
+      "broken_internal_links": [],
+      "initial_experiment_preserved_in_closed_details": true
+    }
+  ],
+  "failures": [],
+  "manual_semantic_review": [
+    "Eurostat remains the statistical provider and DBnomics the dated access channel; five reporters do not cover all Europe.",
+    "PAS_CRD is observed on-flight origin/destination, not unconstrained city demand or complete transfer journeys.",
+    "The source is city-pair data for India; quarterly observations are not interpolated into months.",
+    "The coverage table is not a fitted 3/5/10-year accuracy result; five training years and overlapping origins are stated.",
+    "Pair eligibility precedes target availability checks; missing rows are not treated as zero.",
+    "Current revisions are distinguished from historical publication vintages and the 2024-to-2026 nowcast gap is explicit.",
+    "WPP Low/High are demographic variants rather than passenger confidence bounds; IMF data are not extrapolated to 2036.",
+    "Regional PPS, NUTS boundaries, M_N aggregation and incomplete current-year coverage remain qualifications.",
+    "Visa snapshot date is not legal effective date and departure country does not identify passport citizenship.",
+    "Market profiles and aircraft candidates are hypotheses, not route-opening recommendations or fitted future passenger forecasts.",
+    "Monthly symmetric two-way passenger-to-frequency and block-hour identities are dimensionally correct; scheduling and asymmetry constraints are stated."
+  ],
+  "limits": [
+    "DGCA original publication tables were not independently matched; the Vonter public transcription and its complete normalization were checked.",
+    "Historical airport IDs and geographic boundary harmonization remain work for modelling; these are collected data, not production-ready forecast inputs."
+  ],
+  "final_layout_static_check": {
+    "status": "pass",
+    "scope": "DOM and stylesheet properties only; no screenshot-based claim",
+    "checks": [
+      {
+        "language": "ru",
+        "scroll_wrapper_count": 1,
+        "wrapper_class": "demand-history-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true,
+        "historical_x_labels": [
+          "2005",
+          "2009",
+          "2013",
+          "2017",
+          "2021",
+          "2024"
+        ]
+      },
+      {
+        "language": "en",
+        "scroll_wrapper_count": 1,
+        "wrapper_class": "demand-history-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true,
+        "historical_x_labels": [
+          "2005",
+          "2009",
+          "2013",
+          "2017",
+          "2021",
+          "2024"
+        ]
+      },
+      {
+        "language": "de",
+        "scroll_wrapper_count": 1,
+        "wrapper_class": "demand-history-scroll",
+        "minimum_chart_width_px": 620,
+        "overflow_x_auto": true,
+        "historical_x_labels": [
+          "2005",
+          "2009",
+          "2013",
+          "2017",
+          "2021",
+          "2024"
+        ]
+      }
+    ]
+  }
+}

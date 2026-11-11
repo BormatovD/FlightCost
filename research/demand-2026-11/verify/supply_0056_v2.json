@@ -1,0 +1,51 @@
+{
+  "stage": "0056-v2",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "summary_sha256": "c771f9464ba7f23865678c6e767f6fb23de34b8873fb7360be2d29b10a64c210",
+  "method": "Normalized SQL source cells, independent pivot and matched-reporting aggregate; all stored reporter and pair rows compared. No collector module imported.",
+  "checks": {
+    "raw_pages": 27,
+    "source_series": {
+      "CAF_PAS": 8087,
+      "PAS_BRD": 8091,
+      "ST_PAS": 8066
+    },
+    "source_values": 2446185,
+    "reporter_rows_checked": 818280,
+    "pair_months_checked": 650397,
+    "matched_triplets": 639097,
+    "primary_singleton_values_checked": 3795,
+    "primary_files_with_no_published_values": [
+      "supply_primary_NL_EHAM_FR_LFRN_CAF_PAS.raw",
+      "supply_primary_NL_EHAM_FR_LFRN_PAS_BRD.raw",
+      "supply_primary_NL_EHAM_FR_LFRN_ST_PAS.raw"
+    ],
+    "quality": {
+      "one_common_reporter": 475143,
+      "no_complete_common_reporter": 11300,
+      "positive_activity_with_zero_capacity_or_flights": 496,
+      "source_quality_flag_present": 53,
+      "passengers_exceed_available_seats": 632,
+      "two_common_reporters": 163954,
+      "reporter_disagreement_above_10pct": 19757
+    },
+    "PAS_CRD_key_overlap": {
+      "baseline_pairs": 6214,
+      "pairs_with_both_datasets": 6193,
+      "supply_pairs_not_in_baseline": 103,
+      "baseline_pairs_without_supply": 21,
+      "matching_pair_month_keys": 643055,
+      "meaning": "key alignment only; PAS_CRD and PAS_BRD are different quantities"
+    }
+  },
+  "failures": [],
+  "limitations": [
+    "The five-country cohort and archive horizon are preserved; historical retrieval in 2026 is not current 2026 traffic.",
+    "Primary Eurostat singleton comparisons confirm the listed examples only. Full archive provenance remains explicitly DBnomics rather than a fresh primary bulk export.",
+    "PAS_BRD/ST_PAS is realized flight-stage occupancy. PAS_CRD is used only for key overlap, never as the occupancy numerator.",
+    "Nonphysical or inconsistent ratios remain flagged, not silently clipped or interpreted as unmet demand.",
+    "Aircraft type, airline, fare and within-day schedule are absent; gauge is seats per reported flight, not an identified aircraft type.",
+    "Airport identity exclusions are kept separate without a minimum-demand or survival filter."
+  ]
+}

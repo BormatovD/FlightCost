@@ -1,0 +1,965 @@
+{
+  "stage": "0056",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "summary_sha256": "44830510fb3202e3b1c6ee3e86b9b20e182ca48d69f9e1ff3c62bae41ab3b772",
+  "inventory_sha256": "62f8d21b43529f11dbe14401da46cdcc7c8ec373dbb181910afd5caf40af4ec6",
+  "method": "Independent raw-row reconstruction, pandas annual pivot and origin-cohort audit; no author parser imported.",
+  "checks": {
+    "eu_routes": {
+      "pairs": 6214,
+      "pair_months": 647817,
+      "excluded_non_airport_pairs": 104,
+      "excluded_pair_months": 2115,
+      "all_source_pairs": 6318,
+      "all_source_pair_months": 649932,
+      "raw_series": {
+        "DE": 1992,
+        "ES": 1866,
+        "FR": 1560,
+        "IT": 2130,
+        "NL": 471
+      },
+      "raw_aggregation_rows_checked": 649932,
+      "source_vintages": {
+        "DE": {
+          "source_updated_at": "2025-10-22T11:00:00+02:00",
+          "mirror_indexed_at": "2026-01-22T22:10:23.499Z",
+          "series": 1992
+        },
+        "ES": {
+          "source_updated_at": "2025-11-19T23:00:00+01:00",
+          "mirror_indexed_at": "2026-01-22T22:10:23.499Z",
+          "series": 1866
+        },
+        "FR": {
+          "source_updated_at": "2025-10-22T11:00:00+02:00",
+          "mirror_indexed_at": "2026-01-22T22:10:23.499Z",
+          "series": 1560
+        },
+        "IT": {
+          "source_updated_at": "2025-10-22T11:00:00+02:00",
+          "mirror_indexed_at": "2026-01-22T22:10:23.499Z",
+          "series": 2130
+        },
+        "NL": {
+          "source_updated_at": "2025-10-22T11:00:00+02:00",
+          "mirror_indexed_at": "2026-01-22T22:10:23.499Z",
+          "series": 471
+        }
+      },
+      "counterpart_reports": "arithmetic mean, not sum; reporter identities and spread retained",
+      "historical_airports_retained": true,
+      "readiness_horizons": {
+        "3": {
+          "n_origins": 13,
+          "origins": [
+            {
+              "origin_year": 2009,
+              "target_year": 2012,
+              "train_years": [
+                2005,
+                2006,
+                2007,
+                2008,
+                2009
+              ],
+              "eligible_origin_pairs": 1503,
+              "complete_target_pairs": 1350,
+              "target_missing_or_incomplete": 153,
+              "target_observed_zero": 0,
+              "target_positive": 1350
+            },
+            {
+              "origin_year": 2010,
+              "target_year": 2013,
+              "train_years": [
+                2006,
+                2007,
+                2008,
+                2009,
+                2010
+              ],
+              "eligible_origin_pairs": 1567,
+              "complete_target_pairs": 1394,
+              "target_missing_or_incomplete": 173,
+              "target_observed_zero": 0,
+              "target_positive": 1394
+            },
+            {
+              "origin_year": 2011,
+              "target_year": 2014,
+              "train_years": [
+                2007,
+                2008,
+                2009,
+                2010,
+                2011
+              ],
+              "eligible_origin_pairs": 1583,
+              "complete_target_pairs": 1449,
+              "target_missing_or_incomplete": 134,
+              "target_observed_zero": 0,
+              "target_positive": 1449
+            },
+            {
+              "origin_year": 2012,
+              "target_year": 2015,
+              "train_years": [
+                2008,
+                2009,
+                2010,
+                2011,
+                2012
+              ],
+              "eligible_origin_pairs": 1655,
+              "complete_target_pairs": 1508,
+              "target_missing_or_incomplete": 147,
+              "target_observed_zero": 0,
+              "target_positive": 1508
+            },
+            {
+              "origin_year": 2013,
+              "target_year": 2016,
+              "train_years": [
+                2009,
+                2010,
+                2011,
+                2012,
+                2013
+              ],
+              "eligible_origin_pairs": 1678,
+              "complete_target_pairs": 1526,
+              "target_missing_or_incomplete": 152,
+              "target_observed_zero": 0,
+              "target_positive": 1526
+            },
+            {
+              "origin_year": 2014,
+              "target_year": 2017,
+              "train_years": [
+                2010,
+                2011,
+                2012,
+                2013,
+                2014
+              ],
+              "eligible_origin_pairs": 1755,
+              "complete_target_pairs": 1608,
+              "target_missing_or_incomplete": 147,
+              "target_observed_zero": 0,
+              "target_positive": 1608
+            },
+            {
+              "origin_year": 2015,
+              "target_year": 2018,
+              "train_years": [
+                2011,
+                2012,
+                2013,
+                2014,
+                2015
+              ],
+              "eligible_origin_pairs": 1822,
+              "complete_target_pairs": 1705,
+              "target_missing_or_incomplete": 117,
+              "target_observed_zero": 0,
+              "target_positive": 1705
+            },
+            {
+              "origin_year": 2016,
+              "target_year": 2019,
+              "train_years": [
+                2012,
+                2013,
+                2014,
+                2015,
+                2016
+              ],
+              "eligible_origin_pairs": 1860,
+              "complete_target_pairs": 1695,
+              "target_missing_or_incomplete": 165,
+              "target_observed_zero": 0,
+              "target_positive": 1695
+            },
+            {
+              "origin_year": 2017,
+              "target_year": 2020,
+              "train_years": [
+                2013,
+                2014,
+                2015,
+                2016,
+                2017
+              ],
+              "eligible_origin_pairs": 1905,
+              "complete_target_pairs": 391,
+              "target_missing_or_incomplete": 1514,
+              "target_observed_zero": 0,
+              "target_positive": 391
+            },
+            {
+              "origin_year": 2018,
+              "target_year": 2021,
+              "train_years": [
+                2014,
+                2015,
+                2016,
+                2017,
+                2018
+              ],
+              "eligible_origin_pairs": 1962,
+              "complete_target_pairs": 918,
+              "target_missing_or_incomplete": 1044,
+              "target_observed_zero": 0,
+              "target_positive": 918
+            },
+            {
+              "origin_year": 2019,
+              "target_year": 2022,
+              "train_years": [
+                2015,
+                2016,
+                2017,
+                2018,
+                2019
+              ],
+              "eligible_origin_pairs": 1973,
+              "complete_target_pairs": 1581,
+              "target_missing_or_incomplete": 392,
+              "target_observed_zero": 0,
+              "target_positive": 1581
+            },
+            {
+              "origin_year": 2020,
+              "target_year": 2023,
+              "train_years": [
+                2016,
+                2017,
+                2018,
+                2019,
+                2020
+              ],
+              "eligible_origin_pairs": 407,
+              "complete_target_pairs": 392,
+              "target_missing_or_incomplete": 15,
+              "target_observed_zero": 0,
+              "target_positive": 392
+            },
+            {
+              "origin_year": 2021,
+              "target_year": 2024,
+              "train_years": [
+                2017,
+                2018,
+                2019,
+                2020,
+                2021
+              ],
+              "eligible_origin_pairs": 361,
+              "complete_target_pairs": 351,
+              "target_missing_or_incomplete": 10,
+              "target_observed_zero": 0,
+              "target_positive": 351
+            }
+          ],
+          "sum_complete_pair_targets": 15868
+        },
+        "5": {
+          "n_origins": 11,
+          "origins": [
+            {
+              "origin_year": 2009,
+              "target_year": 2014,
+              "train_years": [
+                2005,
+                2006,
+                2007,
+                2008,
+                2009
+              ],
+              "eligible_origin_pairs": 1503,
+              "complete_target_pairs": 1310,
+              "target_missing_or_incomplete": 193,
+              "target_observed_zero": 0,
+              "target_positive": 1310
+            },
+            {
+              "origin_year": 2010,
+              "target_year": 2015,
+              "train_years": [
+                2006,
+                2007,
+                2008,
+                2009,
+                2010
+              ],
+              "eligible_origin_pairs": 1567,
+              "complete_target_pairs": 1336,
+              "target_missing_or_incomplete": 231,
+              "target_observed_zero": 0,
+              "target_positive": 1336
+            },
+            {
+              "origin_year": 2011,
+              "target_year": 2016,
+              "train_years": [
+                2007,
+                2008,
+                2009,
+                2010,
+                2011
+              ],
+              "eligible_origin_pairs": 1583,
+              "complete_target_pairs": 1397,
+              "target_missing_or_incomplete": 186,
+              "target_observed_zero": 0,
+              "target_positive": 1397
+            },
+            {
+              "origin_year": 2012,
+              "target_year": 2017,
+              "train_years": [
+                2008,
+                2009,
+                2010,
+                2011,
+                2012
+              ],
+              "eligible_origin_pairs": 1655,
+              "complete_target_pairs": 1470,
+              "target_missing_or_incomplete": 185,
+              "target_observed_zero": 0,
+              "target_positive": 1470
+            },
+            {
+              "origin_year": 2013,
+              "target_year": 2018,
+              "train_years": [
+                2009,
+                2010,
+                2011,
+                2012,
+                2013
+              ],
+              "eligible_origin_pairs": 1678,
+              "complete_target_pairs": 1514,
+              "target_missing_or_incomplete": 164,
+              "target_observed_zero": 0,
+              "target_positive": 1514
+            },
+            {
+              "origin_year": 2014,
+              "target_year": 2019,
+              "train_years": [
+                2010,
+                2011,
+                2012,
+                2013,
+                2014
+              ],
+              "eligible_origin_pairs": 1755,
+              "complete_target_pairs": 1535,
+              "target_missing_or_incomplete": 220,
+              "target_observed_zero": 0,
+              "target_positive": 1535
+            },
+            {
+              "origin_year": 2015,
+              "target_year": 2020,
+              "train_years": [
+                2011,
+                2012,
+                2013,
+                2014,
+                2015
+              ],
+              "eligible_origin_pairs": 1822,
+              "complete_target_pairs": 385,
+              "target_missing_or_incomplete": 1437,
+              "target_observed_zero": 0,
+              "target_positive": 385
+            },
+            {
+              "origin_year": 2016,
+              "target_year": 2021,
+              "train_years": [
+                2012,
+                2013,
+                2014,
+                2015,
+                2016
+              ],
+              "eligible_origin_pairs": 1860,
+              "complete_target_pairs": 877,
+              "target_missing_or_incomplete": 983,
+              "target_observed_zero": 0,
+              "target_positive": 877
+            },
+            {
+              "origin_year": 2017,
+              "target_year": 2022,
+              "train_years": [
+                2013,
+                2014,
+                2015,
+                2016,
+                2017
+              ],
+              "eligible_origin_pairs": 1905,
+              "complete_target_pairs": 1481,
+              "target_missing_or_incomplete": 424,
+              "target_observed_zero": 0,
+              "target_positive": 1481
+            },
+            {
+              "origin_year": 2018,
+              "target_year": 2023,
+              "train_years": [
+                2014,
+                2015,
+                2016,
+                2017,
+                2018
+              ],
+              "eligible_origin_pairs": 1962,
+              "complete_target_pairs": 1643,
+              "target_missing_or_incomplete": 319,
+              "target_observed_zero": 0,
+              "target_positive": 1643
+            },
+            {
+              "origin_year": 2019,
+              "target_year": 2024,
+              "train_years": [
+                2015,
+                2016,
+                2017,
+                2018,
+                2019
+              ],
+              "eligible_origin_pairs": 1973,
+              "complete_target_pairs": 1705,
+              "target_missing_or_incomplete": 268,
+              "target_observed_zero": 0,
+              "target_positive": 1705
+            }
+          ],
+          "sum_complete_pair_targets": 14653
+        },
+        "10": {
+          "n_origins": 6,
+          "origins": [
+            {
+              "origin_year": 2009,
+              "target_year": 2019,
+              "train_years": [
+                2005,
+                2006,
+                2007,
+                2008,
+                2009
+              ],
+              "eligible_origin_pairs": 1503,
+              "complete_target_pairs": 1215,
+              "target_missing_or_incomplete": 288,
+              "target_observed_zero": 0,
+              "target_positive": 1215
+            },
+            {
+              "origin_year": 2010,
+              "target_year": 2020,
+              "train_years": [
+                2006,
+                2007,
+                2008,
+                2009,
+                2010
+              ],
+              "eligible_origin_pairs": 1567,
+              "complete_target_pairs": 339,
+              "target_missing_or_incomplete": 1228,
+              "target_observed_zero": 0,
+              "target_positive": 339
+            },
+            {
+              "origin_year": 2011,
+              "target_year": 2021,
+              "train_years": [
+                2007,
+                2008,
+                2009,
+                2010,
+                2011
+              ],
+              "eligible_origin_pairs": 1583,
+              "complete_target_pairs": 761,
+              "target_missing_or_incomplete": 822,
+              "target_observed_zero": 0,
+              "target_positive": 761
+            },
+            {
+              "origin_year": 2012,
+              "target_year": 2022,
+              "train_years": [
+                2008,
+                2009,
+                2010,
+                2011,
+                2012
+              ],
+              "eligible_origin_pairs": 1655,
+              "complete_target_pairs": 1234,
+              "target_missing_or_incomplete": 421,
+              "target_observed_zero": 0,
+              "target_positive": 1234
+            },
+            {
+              "origin_year": 2013,
+              "target_year": 2023,
+              "train_years": [
+                2009,
+                2010,
+                2011,
+                2012,
+                2013
+              ],
+              "eligible_origin_pairs": 1678,
+              "complete_target_pairs": 1343,
+              "target_missing_or_incomplete": 335,
+              "target_observed_zero": 0,
+              "target_positive": 1343
+            },
+            {
+              "origin_year": 2014,
+              "target_year": 2024,
+              "train_years": [
+                2010,
+                2011,
+                2012,
+                2013,
+                2014
+              ],
+              "eligible_origin_pairs": 1755,
+              "complete_target_pairs": 1439,
+              "target_missing_or_incomplete": 316,
+              "target_observed_zero": 0,
+              "target_positive": 1439
+            }
+          ],
+          "sum_complete_pair_targets": 6331
+        }
+      }
+    },
+    "independent_mirror_probes": [
+      {
+        "probe": "mirror-fra-bcn",
+        "sha256": "2115d2e5afa0cb7229fa8ed19fdc3948a8fb1e316c816a191f9f34be57d0383a",
+        "reporter_months_compared": 240,
+        "dataset_updated_at": "2025-10-22T11:00:00+02:00",
+        "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+      },
+      {
+        "probe": "mirror-bcn-fra",
+        "sha256": "1b2aa029e065b8d93cb37b0a03dd752e95f4d9f0ef8e194a05fa58ad4cfe5ee2",
+        "reporter_months_compared": 240,
+        "dataset_updated_at": "2025-11-19T23:00:00+01:00",
+        "mirror_indexed_at": "2026-01-22T22:10:23.499Z"
+      }
+    ],
+    "regional": {
+      "gdp": {
+        "observations": 3523,
+        "regions": 190,
+        "first_period": "2005",
+        "last_period": "2023",
+        "by_year": {
+          "2005": 178,
+          "2006": 179,
+          "2007": 179,
+          "2008": 185,
+          "2009": 185,
+          "2010": 186,
+          "2011": 186,
+          "2012": 186,
+          "2013": 186,
+          "2014": 189,
+          "2015": 189,
+          "2016": 189,
+          "2017": 189,
+          "2018": 189,
+          "2019": 189,
+          "2020": 187,
+          "2021": 188,
+          "2022": 182,
+          "2023": 182
+        },
+        "source_flags": {
+          "p": 605,
+          "b": 107,
+          "e": 29
+        }
+      },
+      "pop": {
+        "observations": 3641,
+        "regions": 191,
+        "first_period": "2005",
+        "last_period": "2025",
+        "by_year": {
+          "2005": 168,
+          "2006": 168,
+          "2007": 172,
+          "2008": 172,
+          "2009": 172,
+          "2010": 172,
+          "2011": 176,
+          "2012": 180,
+          "2013": 182,
+          "2014": 187,
+          "2015": 187,
+          "2016": 187,
+          "2017": 189,
+          "2018": 189,
+          "2019": 189,
+          "2020": 189,
+          "2021": 189,
+          "2022": 189,
+          "2023": 190,
+          "2024": 190,
+          "2025": 4
+        },
+        "source_flags": {
+          "b": 94,
+          "p": 68,
+          "ep": 24,
+          "e": 96
+        }
+      },
+      "emp": {
+        "observations": 9040,
+        "regions": 190,
+        "first_period": "2008",
+        "last_period": "2024",
+        "by_year": {
+          "2008": 455,
+          "2009": 501,
+          "2010": 506,
+          "2011": 510,
+          "2012": 517,
+          "2013": 541,
+          "2014": 542,
+          "2015": 543,
+          "2016": 553,
+          "2017": 551,
+          "2018": 547,
+          "2019": 551,
+          "2020": 544,
+          "2021": 545,
+          "2022": 544,
+          "2023": 546,
+          "2024": 544
+        },
+        "source_flags": {
+          "b": 1345,
+          "u": 398,
+          "bu": 91,
+          "bd": 94,
+          "d": 282,
+          "bdu": 8,
+          "du": 19
+        }
+      },
+      "nights": {
+        "observations": 19907,
+        "regions": 169,
+        "first_period": "2020-01",
+        "last_period": "2024-12",
+        "by_year": {
+          "2020": 3904,
+          "2021": 3974,
+          "2022": 3985,
+          "2023": 4034,
+          "2024": 4010
+        },
+        "source_flags": {
+          "e": 456,
+          "u": 91
+        }
+      }
+    },
+    "india_domestic": {
+      "raw_rows": 66453,
+      "pair_periods": 66422,
+      "usable_pair_periods": 66391,
+      "quality_counts": {
+        "observed": 66391,
+        "conflicting_duplicate": 31
+      },
+      "readiness_horizons": {
+        "3": {
+          "n_origins": 1,
+          "origins": [
+            {
+              "origin_year": 2020,
+              "target_year": 2023,
+              "train_years": [
+                2016,
+                2017,
+                2018,
+                2019,
+                2020
+              ],
+              "eligible_origin_pairs": 6,
+              "complete_target_pairs": 6,
+              "target_missing_or_incomplete": 0,
+              "target_observed_zero": 0,
+              "target_positive": 6
+            }
+          ],
+          "sum_complete_pair_targets": 6
+        },
+        "5": {
+          "n_origins": 1,
+          "origins": [
+            {
+              "origin_year": 2020,
+              "target_year": 2025,
+              "train_years": [
+                2016,
+                2017,
+                2018,
+                2019,
+                2020
+              ],
+              "eligible_origin_pairs": 6,
+              "complete_target_pairs": 4,
+              "target_missing_or_incomplete": 2,
+              "target_observed_zero": 0,
+              "target_positive": 4
+            }
+          ],
+          "sum_complete_pair_targets": 4
+        },
+        "10": {
+          "n_origins": 0,
+          "origins": [],
+          "sum_complete_pair_targets": 0
+        }
+      },
+      "city_labels_not_airport_assumptions": true
+    },
+    "india_international": {
+      "raw_rows": 16142,
+      "pair_periods": 16139,
+      "usable_pair_periods": 16106,
+      "quality_counts": {
+        "observed": 16104,
+        "deduplicated_identical": 2,
+        "missing_direction": 33
+      },
+      "readiness_horizons": {
+        "3": {
+          "n_origins": 4,
+          "origins": [
+            {
+              "origin_year": 2019,
+              "target_year": 2022,
+              "train_years": [
+                2015,
+                2016,
+                2017,
+                2018,
+                2019
+              ],
+              "eligible_origin_pairs": 239,
+              "complete_target_pairs": 193,
+              "target_missing_or_incomplete": 46,
+              "target_observed_zero": 5,
+              "target_positive": 188
+            },
+            {
+              "origin_year": 2020,
+              "target_year": 2023,
+              "train_years": [
+                2016,
+                2017,
+                2018,
+                2019,
+                2020
+              ],
+              "eligible_origin_pairs": 187,
+              "complete_target_pairs": 169,
+              "target_missing_or_incomplete": 18,
+              "target_observed_zero": 6,
+              "target_positive": 163
+            },
+            {
+              "origin_year": 2021,
+              "target_year": 2024,
+              "train_years": [
+                2017,
+                2018,
+                2019,
+                2020,
+                2021
+              ],
+              "eligible_origin_pairs": 165,
+              "complete_target_pairs": 156,
+              "target_missing_or_incomplete": 9,
+              "target_observed_zero": 2,
+              "target_positive": 154
+            },
+            {
+              "origin_year": 2022,
+              "target_year": 2025,
+              "train_years": [
+                2018,
+                2019,
+                2020,
+                2021,
+                2022
+              ],
+              "eligible_origin_pairs": 156,
+              "complete_target_pairs": 149,
+              "target_missing_or_incomplete": 7,
+              "target_observed_zero": 1,
+              "target_positive": 148
+            }
+          ],
+          "sum_complete_pair_targets": 667
+        },
+        "5": {
+          "n_origins": 2,
+          "origins": [
+            {
+              "origin_year": 2019,
+              "target_year": 2024,
+              "train_years": [
+                2015,
+                2016,
+                2017,
+                2018,
+                2019
+              ],
+              "eligible_origin_pairs": 239,
+              "complete_target_pairs": 200,
+              "target_missing_or_incomplete": 39,
+              "target_observed_zero": 4,
+              "target_positive": 196
+            },
+            {
+              "origin_year": 2020,
+              "target_year": 2025,
+              "train_years": [
+                2016,
+                2017,
+                2018,
+                2019,
+                2020
+              ],
+              "eligible_origin_pairs": 187,
+              "complete_target_pairs": 173,
+              "target_missing_or_incomplete": 14,
+              "target_observed_zero": 3,
+              "target_positive": 170
+            }
+          ],
+          "sum_complete_pair_targets": 373
+        },
+        "10": {
+          "n_origins": 0,
+          "origins": [],
+          "sum_complete_pair_targets": 0
+        }
+      },
+      "city_labels_not_airport_assumptions": true
+    },
+    "country_history": {
+      "records": 11646,
+      "countries": 217,
+      "source_updated": "2026-10-08",
+      "raw_values_checked": true
+    },
+    "scenario_inputs": {
+      "records": 6199,
+      "series_counts": {
+        "UN WPP 2024 | population | Medium": 1185,
+        "UN WPP 2024 | population | High": 1185,
+        "UN WPP 2024 | population | Low": 1185,
+        "World Economic Outlook (October 2026) | NGDP_RPCH | WEO central": 1322,
+        "World Economic Outlook (October 2026) | LP | WEO central": 1322
+      },
+      "weo_gdp_last_year": 2031,
+      "wpp_unit_multiplier": 1000,
+      "wpp_reference_date": "1 July",
+      "togo_interim_medium_revision": [
+        {
+          "year": 2025,
+          "persons": 8591626.0
+        },
+        {
+          "year": 2026,
+          "persons": 8780006.0
+        },
+        {
+          "year": 2029,
+          "persons": 9360330.0
+        },
+        {
+          "year": 2031,
+          "persons": 9767541.0
+        },
+        {
+          "year": 2036,
+          "persons": 10833231.0
+        }
+      ],
+      "unrevised_togo_low_high_warning": true,
+      "own_route_forecasts": false,
+      "source_scenarios_not_confidence_intervals": true
+    },
+    "visa": {
+      "rows": 316410,
+      "snapshot_counts": {
+        "2019-11-23": 39402,
+        "2020-02-07": 39402,
+        "2021-01-25": 39601,
+        "2022-01-05": 39601,
+        "2023-01-11": 39601,
+        "2024-01-05": 39601,
+        "2025-01-02": 39601,
+        "2026-02-17": 39601
+      },
+      "legacy_codes_not_interpreted_as_days": true,
+      "snapshot_not_law_effective_date": true
+    },
+    "provenance": {
+      "raw_hashes_checked": 63,
+      "derived_artifact_hashes": {
+        "country_history.json.gz": "7076f37b153b6b828f20427dc9dfeb735efe84b073618fe6fdd1a721e8bd28f6",
+        "eu_excluded_groups.json.gz": "0ba684ffe440108dfe6b6a066f4f43754a767cbd8ed1e78d32caa53fa107baf9",
+        "eu_monthly_panel.json.gz": "e2b3c242927fdb773d56c03b2f1b75cbad9dc915339887c091528c7b0c4386a2",
+        "india_domestic_panel.json.gz": "0ce5fa8742e41b8318be3efd277b180a6e6b854e510e954046de15a1e076354a",
+        "india_international_panel.json.gz": "6a73d520ec85093ccd8d534273e05eaf236b8b91a68da3950e8b5564bb8e7aed",
+        "regional_history.json.gz": "64499bf7963301432b614c4f2ee0cf8fd7b9d16fa4bcae11b9f772f275ce10bd",
+        "scenario_inputs.json.gz": "0971a1329edb6ba41123755ff55cc69aae32ab13b1cd7dab75dd62952ec46522",
+        "visa_snapshots.json.gz": "20bb52219e64b6af9f43edcd4da05ec5c160443445e04f573d65695f6aa899fb"
+      },
+      "primary_vs_mirror_distinguished": true
+    }
+  },
+  "failures": [],
+  "limitations": [
+    "The source is Eurostat; the access channel is an explicitly dated DBnomics archive. Independent probes confirm primary API HTTP200 HTML maintenance and mirror JSON for both FRA–BCN reporters.",
+    "PAS_CRD is on-flight origin/destination, not flight-stage PAS_BRD or complete passenger journeys. Two reporting airports observe the same traffic; their reports are averaged, not summed.",
+    "Historical codes and geography are retained but not fully harmonized. Five reporting countries are not all Europe; no current-airport survivorship filter is used.",
+    "Readiness counts are data coverage, not predictive accuracy. Origins overlap and are not independent experiments; route-missing targets must remain unscorable rather than assumed zero.",
+    "Origin is the last complete observation year, not proof that its figures were published then. Current-revision history is not an archived information set; future GDP realizations cannot be used as known predictors.",
+    "The latest EU observation is 2024 while issue year is 2026. Targets2029/2031/2036 need a2025–2026 nowcast or newer data before calling them3/5/10-year forecasts from the current market state.",
+    "Regional codes are not proof of constant NUTS boundaries. Employment break/provisional/low-reliability flags and GDP/tourism flags are retained; handling them belongs to later modelling.",
+    "Regional tourism2020–2024 and visa snapshots2019 onward cannot support all historical10-year origins. Predictor-specific eligibility must be audited separately.",
+    "India domestic has entire missing months and conflicting records. Its calendar span alone does not establish usable multiyear backtests; international city labels are not assigned to a main airport.",
+    "UN low/high fertility variants are not predictive confidence bounds. IMF growth stops at its source horizon; no2036 GDP projection was fabricated.",
+    "There are no new route-demand forecasts or fitted aircraft-choice conclusions in this data-collection stage."
+  ]
+}

@@ -1,0 +1,567 @@
+{
+  "stage": "0056-v2",
+  "status": "pass",
+  "independent": true,
+  "trace_digests": {
+    "supply.jsonl": "b48f2ae969cebe0103191d34770a012be1286fdb357a3fc09b33b3a5d0999772",
+    "migrant_stock.jsonl": "118b29dbd7aac56aeef7e5ddb3c1173026f163c82c2eacce0ee63b20ba755dd8"
+  },
+  "trace_checks": [
+    {
+      "trace_id": "ds-001",
+      "method": "independent primary web open",
+      "primary_source_ref": "turn148view0",
+      "quote_literal": true,
+      "locator": "Eurostat aviation metadata §3.4, Passengers on board"
+    },
+    {
+      "trace_id": "ds-002",
+      "source_sha256": "f8c88df60d0558b6434550ab50123d230876f8412a5e0e8a18bb7c1b4d1790ec",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-003",
+      "source_sha256": "233d62d95b6181eb1149b4bef9b10408364030991a410596c24ff496fc2fd624",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-004",
+      "source_sha256": "944fe1fab2c70fcfc21e3f17a9846b38748a530144e386c398c99ee15bee866b",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-005",
+      "source_sha256": "d7d831d1da09351463ea6866213b02a741787f6b18a51d9f5acfa71ee85dcde9",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-006",
+      "source_sha256": "a8ef79cd96a901d7372392a2cbf9231d12a0a0a4367926e95d94034a970b87ff",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-007",
+      "source_sha256": "352f6cf09b52b47168bf9ecf5e669931cf66f9b0dc52756dcf4b23793f3ed4c9",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-008",
+      "source_sha256": "7054559f24ae09c9193828d2aac742d681d488ef0f5b9f54d0c74eda6b636c4d",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-009",
+      "source_sha256": "fe3a3881c22abcf827f5db2df1b5bde897a46fa589365906e8f5f820a8264832",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-010",
+      "source_sha256": "eb816522b4417dd53032776a36a0c5e7d9be2f36498e6cee58bbebcf3c1cee18",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-011",
+      "source_sha256": "612e8289cac5e8d1f7e05e78dc77eb9faeaae4bace701c5e1734b383a04c7b6e",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-012",
+      "source_sha256": "dd60ec9d3135b673420b499e9a24218bcb93f9deab46fddb1beb6914d9908d7c",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-013",
+      "source_sha256": "43157103bbbd4b6128a13b7d4e07d5bceeb8ecc136350dde10e9beb0a0373f81",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-014",
+      "source_sha256": "633d4779f6c6d3db95486c968737cff8941dde6bc9013309ccfb308a3721cdf1",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-015",
+      "source_sha256": "c066b5e6314a9dfbc91292c0a2c9470ab7fd9dbfd123b822342fe326cd4ec9c4",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-016",
+      "source_sha256": "946d5f6c14f678134db4e71f94b11572adb22e6da4a774a8e46028d72b50915e",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-017",
+      "source_sha256": "0a4b1e66073f8e1a8f0d6ab3277cfbb195d18c286eaf4e69efdb5cbe7d414dea",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-018",
+      "source_sha256": "223176b076f5fd73007de7847edf9aaeb7e0f34864b3db753efc35609016ce5e",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-019",
+      "source_sha256": "1fd598be14bc343ac2dc36afecc1ad644e5651fca6a48881c6f06570cf80cbca",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-020",
+      "source_sha256": "f820d01616055e39be4a1ab5350bc4ac321a924d1a24a9621a130dece1a6f17f",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-021",
+      "source_sha256": "b8e18fab398ec7d1110b556ae1be7868089a3a70b4653328f6288f10c97e7c1d",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-022",
+      "source_sha256": "4fdd153f2eb2da15f683e1f4943220bd6f92484a171d48d38e8ba51658b4b8c3",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-023",
+      "source_sha256": "c4a1b78ebfbed33ebee96bebe83d56fcf6889c61f1f4b4660c978322c285997b",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-024",
+      "source_sha256": "deecf14a3b7771c6659af917e842a2f6c6fbd81d6758b6b97189ef4edb7b5b91",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-025",
+      "source_sha256": "50f667a20fe6cf3e109ad7156ef44f5b426d53b484544e72962e988d1f725e25",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-026",
+      "source_sha256": "300294bb126d7c37f9d345cf16e03e7ec0baae9cecc71a0dcdbe38ecdc897b77",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-027",
+      "source_sha256": "a2f4f7c488d3d1f4160aab0fe7b53c50f0e6cf567491c338e43a19fc74695e9b",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-028",
+      "source_sha256": "a77d7d87cfdacd595f272d8e8eff8ab46e97c81fdcf9da567eea875081a2ab8d",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-029",
+      "source_sha256": "40306d5d42ff9fe4e10d0eff257a58924f6591ada1820c21e63fe7baa4f45690",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-030",
+      "source_sha256": "6888974240750a55a89e46b1ef1bdca7875c84f5de724a4867fa24adf78b4f64",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-031",
+      "source_sha256": "ff50b54f6c0b106ba71f03b0f290ccc466a456e5d518d79ebd016cffb5550dda",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-032",
+      "source_sha256": "e5c7399a4ec947a2bf2c6ca31420da71dabec6ef0a214dd0ac19b226aa3a8185",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-033",
+      "source_sha256": "338485c1920f9bd35d9c30022cd1578c5c973f342a3c84c8fa01ed34b08646e6",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-034",
+      "source_sha256": "538f7cc9e7249ac438459c0e915f1e6f9a74f5bfc31c58500b10dcf992113246",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-035",
+      "source_sha256": "c2b5d0d148178a70da17949a63830bb567b31fc4850d9413b2445d6e52a8e1a0",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-036",
+      "source_sha256": "a94d8903f895324b87126229c7a92fb709359736b0527296fcef96168e98cb15",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-037",
+      "source_sha256": "e352ad8121bcc46c0edcc5c09680ce7a49033ceff16b5cb43b8b07b0a1c49953",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-038",
+      "source_sha256": "637de250ee4445f3911cf3c0e2ddfd9c0e30c7cc210bd41eba32807cfb5d8ae9",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-039",
+      "source_sha256": "5001c8ac373fded01102d333aaf57c86940edf6021fdfc85993f0c5e43bc274f",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-040",
+      "source_sha256": "70a2703bd1c35ea1af4849013ff894ae0c6fd6f1385f90ef513698f30fc97c54",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-041",
+      "source_sha256": "31288aac370cce0f53e6720b2b929add87715d4f6d7bb31eba073523437e7c65",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-042",
+      "source_sha256": "3590bbf97224d2b1d30b419317e852392afafb2db7f6c9896009d4ef17708ac4",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-043",
+      "source_sha256": "e97fd2fb49deacbb5b295f60c4a8175d6cec0ce9018cc1899c589a8eb073f349",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-044",
+      "source_sha256": "bc4cd3e95a5c95f38997368347d2887587e94006ae610c52a22995a1151b109c",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-045",
+      "source_sha256": "baa1e305542e25f7074c0e962c2a319aab5545b981a82e420055db7138f003bf",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-046",
+      "source_sha256": "61d36429e8727d7616109a42de39d5c4059fa8a02361ba5aca9cabe0a7d55ea0",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-047",
+      "source_sha256": "661fdc2a969e79c774a1334d70cc8afbebd5cc92fa8c2a6f3c5a33c3d8c80a84",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-048",
+      "source_sha256": "f931cd50c9b9dcdc4dbbeea80e3a1a99611de0b865214ed274d73344d9d33dfd",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-049",
+      "source_sha256": "95e32d541f17432aada28a5e1d368e22db86444be360760dee772d44e58adcbd",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-050",
+      "source_sha256": "f95c0df12751108e24f1eeca55637b1d8896c1802b67ae7df83a04a9785ab731",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-051",
+      "source_sha256": "c88ad56ee59f7d75e87a1a36177b28fe90142d263b008d2d1b0699eeb6815bda",
+      "http_status": 413,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-052",
+      "source_sha256": "3b1abf160617d1d6378369ceb2a1a461c2bc78d50f9202f2f2370cc76e7376fa",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-053",
+      "source_sha256": "2a9a348635ba43b72af920d2b9dc61f80077e8bbae4752f3c1ff11a91b518b9b",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-054",
+      "source_sha256": "d14c5ac10eb53205cd2aa6f103e27d966ca9750ab198d69e056d873fe31b3cd1",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-055",
+      "source_sha256": "a101af3beee33b0fb91b2dd7acd6fe9eeda616879dd6e44404aaa3ff3c29428f",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "ds-056",
+      "source_sha256": "14b24471c9ffd44fe29019bec29a5ee2b41e1e8dab14e49c3cc5b96674f292c8",
+      "http_status": 200,
+      "quote_literal": null
+    },
+    {
+      "trace_id": "migrant-stock-de",
+      "source_sha256": "a98fa7cb3e0d567429a3194da8d4c73a28153fa3d6cc122b88f3a3af55b6057c",
+      "http_status": 200,
+      "quote_literal": true
+    },
+    {
+      "trace_id": "migrant-stock-es",
+      "source_sha256": "7013573b269c586da10aee141c5f36cf012c21236c957bdca83abfdc1dd073c7",
+      "http_status": 200,
+      "quote_literal": true
+    },
+    {
+      "trace_id": "migrant-stock-fr",
+      "source_sha256": "484c5d1f79e525adcc26106dc11bbbd0ba5c8c1a63645eae8029fc033224bb30",
+      "http_status": 200,
+      "quote_literal": true
+    },
+    {
+      "trace_id": "migrant-stock-it",
+      "source_sha256": "aa2b335cdab4698232a36ac6f365add9d13027599f36c1148b6f95092888e0d9",
+      "http_status": 200,
+      "quote_literal": true
+    },
+    {
+      "trace_id": "migrant-stock-nl",
+      "source_sha256": "2fcde1a046b5fd48d407ddec284d01d95a42412525fbf5de3490608cc5f5c398",
+      "http_status": 200,
+      "quote_literal": true
+    },
+    {
+      "trace_id": "migrant-stock-definitions",
+      "source_sha256": "444932323ffd33f2cfec62ce0fca522ba012f9ebcc566e0f16dc076904416803",
+      "http_status": 200,
+      "quote_literal": true
+    }
+  ],
+  "cumulative_quote_budgets": [
+    {
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de/M.PAS.PAS_CRD.DE_EDDF_ES_LEBL?observations=1",
+      "words": 2,
+      "ids": [
+        "d2-002"
+      ]
+    },
+    {
+      "url": "https://api.db.nomics.world/v22/series/Eurostat/lfst_r_lfe2en2?limit=5&offset=0&observations=1&dimensions=%7B%22geo%22%3A%5B%22DE71%22%5D%2C%22sex%22%3A%5B%22T%22%5D%2C%22nace_r2%22%3A%5B%22TOTAL%22%2C%22K%22%2C%22M%22%2C%22N%22%5D%2C%22unit%22%3A%5B%22THS_PER%22%5D%7D",
+      "words": 10,
+      "ids": [
+        "d2-007"
+      ]
+    },
+    {
+      "url": "https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD",
+      "words": 8,
+      "ids": [
+        "d1-009"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/avia_par_de?format=TSV&compressed=true",
+      "words": 3,
+      "ids": [
+        "d2-001"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop3ctb?lang=EN&geo=DE&sex=T&age=TOTAL&unit=NR&sinceTimePeriod=2005&untilTimePeriod=2025",
+      "words": 12,
+      "ids": [
+        "migrant-stock-de"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop3ctb?lang=EN&geo=ES&sex=T&age=TOTAL&unit=NR&sinceTimePeriod=2005&untilTimePeriod=2025",
+      "words": 12,
+      "ids": [
+        "migrant-stock-es"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop3ctb?lang=EN&geo=FR&sex=T&age=TOTAL&unit=NR&sinceTimePeriod=2005&untilTimePeriod=2025",
+      "words": 12,
+      "ids": [
+        "migrant-stock-fr"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop3ctb?lang=EN&geo=IT&sex=T&age=TOTAL&unit=NR&sinceTimePeriod=2005&untilTimePeriod=2025",
+      "words": 12,
+      "ids": [
+        "migrant-stock-it"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop3ctb?lang=EN&geo=NL&sex=T&age=TOTAL&unit=NR&sinceTimePeriod=2005&untilTimePeriod=2025",
+      "words": 12,
+      "ids": [
+        "migrant-stock-nl"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/avia_pa_esms.htm",
+      "words": 16,
+      "ids": [
+        "ds-001",
+        "d1-003",
+        "d1-004"
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_pop_esms.htm",
+      "words": 11,
+      "ids": [
+        "migrant-stock-definitions"
+      ]
+    },
+    {
+      "url": "https://github.com/Vonter/india-aviation-traffic",
+      "words": 8,
+      "ids": [
+        "d2-010"
+      ]
+    },
+    {
+      "url": "https://github.com/ilyankou/passport-index-dataset",
+      "words": 4,
+      "ids": [
+        "d2-012"
+      ]
+    },
+    {
+      "url": "https://github.com/imorte/passport-index-data",
+      "words": 5,
+      "ids": [
+        "d2-013"
+      ]
+    },
+    {
+      "url": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_notes.csv",
+      "words": 6,
+      "ids": [
+        "d2-016"
+      ]
+    },
+    {
+      "url": "https://population.un.org/wpp/assets/downloads.json",
+      "words": 14,
+      "ids": [
+        "d2-014",
+        "d2-015"
+      ]
+    },
+    {
+      "url": "https://www.imf.org/external/datamapper/api/v1/indicators",
+      "words": 5,
+      "ids": [
+        "d2-017"
+      ]
+    }
+  ],
+  "recent_primary_probes": [
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_de?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "http_status": 200,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "published_values": 0,
+      "time_axis_periods": 0,
+      "meaning": "No published cells in this bounded response; not a statement of zero traffic."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_es?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "http_status": 200,
+      "source_updated_at": "2025-11-19T23:00:00+0100",
+      "published_values": 0,
+      "time_axis_periods": 0,
+      "meaning": "No published cells in this bounded response; not a statement of zero traffic."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_fr?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "http_status": 200,
+      "source_updated_at": "2026-09-14T23:00:00+0200",
+      "published_values": 0,
+      "time_axis_periods": 0,
+      "meaning": "No published cells in this bounded response; not a statement of zero traffic."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_it?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "http_status": 200,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "published_values": 0,
+      "time_axis_periods": 0,
+      "meaning": "No published cells in this bounded response; not a statement of zero traffic."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_nl?lang=EN&freq=M&unit=FLIGHT&tra_meas=CAF_PAS&sinceTimePeriod=2025-01",
+      "http_status": 200,
+      "source_updated_at": "2025-10-22T11:00:00+0200",
+      "published_values": 0,
+      "time_axis_periods": 0,
+      "meaning": "No published cells in this bounded response; not a statement of zero traffic."
+    }
+  ],
+  "failures": [],
+  "primary_definition_review": [
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/avia_pa_esms.htm",
+      "web_reference": "turn148view0",
+      "scope": "§3.1 total arrivals/departures; §3.4 flight-stage PAS_BRD includes direct transit while on-flight O&D PAS_CRD excludes it; publication thresholds prevent treating every absent route as zero."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/demo_pop_esms.htm",
+      "web_reference": "turn148view1",
+      "scope": "Population on 1 January, country of birth distinct from citizenship; §6.1 individual-country detail is voluntary, §7.2 describes German estimation/confidentiality; revised census data and status flags affect comparability."
+    }
+  ],
+  "limitations": [
+    "A successful primary singleton or limited-period response does not verify every archival route or establish 2025–2026 traffic coverage.",
+    "The new country-of-birth source is an official Eurostat collection. It is not the inaccessible UN bilateral file and does not remove global/DE coverage gaps."
+  ]
+}

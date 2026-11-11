@@ -1,0 +1,74 @@
+{
+  "stage": "0056-v2",
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "independent": true,
+  "scope": "New aircraft-capacity/flight-stage panel, official country-of-birth stocks, provenance and final RU/EN/DE tables; no forecast fitting.",
+  "checks": [
+    {
+      "file": "supply_0056_v2.json",
+      "status": "pass_with_limitations",
+      "sha256": "09d9639eb964d921651f41ee67599477847690662eb81dd3c376fd61724cac5e"
+    },
+    {
+      "file": "migrant_stock_0056_v2.json",
+      "status": "pass_with_limitations",
+      "sha256": "0bff0b303a54f75bdd95295d7deb037f70ed1623e3898b28890f21204b8c55c5"
+    },
+    {
+      "file": "new_traces_0056_v2.json",
+      "status": "pass",
+      "sha256": "0a63fd58dfb49cae63c54a2f9cf286dd8ca0ba114e7bddffc1bd882e04d115ff"
+    },
+    {
+      "file": "review_0056_v2.json",
+      "status": "pass",
+      "sha256": "23251a8823d43dc98f9addefeb2a548800afdacf3868affc11a4d05d65cba1d3"
+    }
+  ],
+  "retained_baseline_audit": {
+    "file": "demand_collection_0056.json",
+    "status": "pass_with_limitations",
+    "sha256": "db38458e39733cdeb739d9071141b4880b9d530883bceb26aa4a89b0e2269271"
+  },
+  "findings": [
+    "All 27 archival pages and 24244 monthly source series were audited. The normalized source cells contain 2446185 published numbers; every one of the 818280 retained reporter rows and 650397 pair-month rows was compared.",
+    "The usable supply panel has 6296 airport pairs and 639097 matched passenger/seat/flight triplets. Means use the same reporting-airport set for all three measures; counterpart reports are not summed.",
+    "PAS_BRD, ST_PAS and CAF_PAS have a shared flight-stage basis. PAS_CRD is used only for key alignment with the previous on-flight O&D panel, never divided by seats to construct occupancy.",
+    "All 3795 published diagnostic values from official Eurostat singleton responses match the archive. Three empty Netherlands/Rennes responses remain missing. Five bounded recent-period queries have no published cells, not observed zero traffic.",
+    "Source flags and quality findings remain visible: 11300 pair-months lack a matched triplet, 632 have passengers above seats, 496 have positive activity with zero capacity/flights and 19757 have reporter disagreements above 10% for at least one metric.",
+    "Official migr_pop3ctb replies for DE/ES/FR/IT/NL were independently decoded across all 32235 cells, including missing values and flags: 1535 source series, 13820 numeric cells and 11513 individual-origin numeric cells (including the country of residence where reported).",
+    "Individual countries/territories, overlapping aggregates, historical entities, NUTS areas and reporter-relative native-born categories remain separate. No citizenship substitution, interpolation or zero filling was used.",
+    "The foreign-birth-origin table correctly shows 2025 availability of 51 ES, 26 FR, 221 IT and 221 NL origins; DE is labelled no country detail. Native-country birth rows are excluded from these displayed counts.",
+    "All five 2024 supply examples and five residence rows, their numerical formatting and primary references pass in RU/EN/DE. New source/coverage definitions and internal navigation anchors pass.",
+    "The existing 0056 collection summary and inventory digests are unchanged. Previous collected-data verification remains applicable; old audit files are retained.",
+    "All 62 new trace records and five recent-period probes passed provenance checks. Cumulative quotes remain within 25 words per URL.",
+    "The next modelling step is explicitly past-only baseline evaluation on matched time splits. Future realized capacity is not treated as information available at an earlier forecast origin."
+  ],
+  "limitations": [
+    "The five reporting countries do not cover all world routes. Archive traffic ends in December 2024; the requested 2026 starting point still needs a recent observation bridge.",
+    "Eurostat publication thresholds and incomplete source rows mean absent route observations cannot be recoded as zero demand.",
+    "Realized occupancy and average seats per flight do not identify latent demand, a future airline share or an aircraft type.",
+    "Country-of-birth coverage is uneven: DE provides no individual-origin observations in this slice, while FR/ES have sparse and changing detail. Country aggregates do not fill the bilateral gaps.",
+    "The UN bilateral XLSX remains inaccessible with HTTP 403; the collected Eurostat alternative is not a complete global matrix. The separate access record describes OECD as a future primary alternative.",
+    "Country-level stock needs geographic allocation and an empirically tested link to journeys. Current revised history is not a historical-vintage archive.",
+    "No diaspora coefficient, 3/5/10-year forecast, route opening recommendation or aircraft recommendation has been fitted or published.",
+    "Fares, airline competition, full connecting journeys, city catchments, operating constraints and current observations remain explicit next inputs. Aena/CAA/BTS are a collection queue, not claimed completed extraction.",
+    "The audit verifies data and static content. Root owns static rendering review; browser interaction is not claimed."
+  ],
+  "source_data_sha256": {
+    "supply_summary": "c771f9464ba7f23865678c6e767f6fb23de34b8873fb7360be2d29b10a64c210",
+    "migrant_stock": "a706f406994bb934a41696c43c6bd06d006305fca89655ca649b08087d8fc787",
+    "migrant_stock_summary": "b5e339ba261af9616dc38a7a359dda2a39fbd3d4f75eb4553ea3dbb4c6094004"
+  },
+  "access_record": "diaspora_access_0056_v2.json",
+  "production_changed_by_verifier": false,
+  "prior_0056_audits_preserved": true,
+  "reproduction": {
+    "supply": "verify/verify_supply_0056_v2.py --raw-dir <collection cache> --work-dir <external verification cache>",
+    "migrant": "verify/verify_migrant_stock_0056_v2.py --raw-dir <collection cache>",
+    "trace": "verify/verify_new_traces_0056_v2.py --raw-dir <collection cache>",
+    "report": "verify/verify_report_0056_v2.py",
+    "raw_cache": "outside repository"
+  }
+}

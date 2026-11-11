@@ -1,0 +1,71 @@
+{
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "scope": "Structural HTML/data-binding/coordinate audit; not independent economics validation or browser pixel QA.",
+  "checks": {
+    "layout": 117,
+    "html_ru": 1340,
+    "html_en": 1340,
+    "html_de": 1340
+  },
+  "checks_total": 4137,
+  "failure_count": 0,
+  "failures": [],
+  "shared_layout": {
+    "reports_with_shared_fix": 30,
+    "other_reports_content_preserved": 24,
+    "rule": ".wrap p,.wrap li{max-width:none}",
+    "previous_rule": "p,li{max-width:80ch}",
+    "meaning": "All paragraph/list blocks now share their existing parent width; no new horizontal translation or font family is introduced."
+  },
+  "price_reports": [
+    {
+      "language": "ru",
+      "history_panels": 4,
+      "visible_lease_charts": 4,
+      "collapsed_purchase_charts": 4,
+      "market_observations_displayed": 107,
+      "raw_model_curves": 8,
+      "formula_cards": 8,
+      "dated_calibration_markers": 5,
+      "full_model_table_types": 15
+    },
+    {
+      "language": "en",
+      "history_panels": 4,
+      "visible_lease_charts": 4,
+      "collapsed_purchase_charts": 4,
+      "market_observations_displayed": 107,
+      "raw_model_curves": 8,
+      "formula_cards": 8,
+      "dated_calibration_markers": 5,
+      "full_model_table_types": 15
+    },
+    {
+      "language": "de",
+      "history_panels": 4,
+      "visible_lease_charts": 4,
+      "collapsed_purchase_charts": 4,
+      "market_observations_displayed": 107,
+      "raw_model_curves": 8,
+      "formula_cards": 8,
+      "dated_calibration_markers": 5,
+      "full_model_table_types": 15
+    }
+  ],
+  "inputs_sha256": {
+    "research/aircraft-prices-2026-11/report.html": "d871bfc1c094b1d7e487be41f111917fa5740ddd7551bb3f844e11d07b6780cb",
+    "research/aircraft-prices-2026-11/report.en.html": "29acc36c1c28e3613a4ee4bb001225cbe8b6a80b5425557b5c71b7029905b739",
+    "research/aircraft-prices-2026-11/report.de.html": "0d2f27e47e553e8aa5e5f584a01a06fa91b2091b2e546c66d881c91986ceb731",
+    "research/_report.py": "c3e3aed8de49e6426ea2b11693f9f27984ebce8a1a301d979309f1abde00831c",
+    "research/aircraft-prices-2026-11/model_cards.py": "5764b8817a288eb9a7d6c8bcb523d2f3f711e46d3273629175d83b59397aebb3",
+    "research/aircraft-prices-2026-11/report_extensions.py": "d8eb7ad6395e8526cd34d8a4ee4b2ea79ba59ae06ef530716b621587958c33b1",
+    "research/aircraft-prices-2026-11/out/lease_calibration.json": "3df7edcb654bcdea3fb6f0cf08e88ef6fcac6103fd89e3a931aaf5928eefd53c"
+  },
+  "limitations": [
+    "The author of lease_calibration.py performed this display audit; economic values are treated as input, not independently revalidated here.",
+    "No browser was available; details interaction, actual font shaping and pixel alignment require separate visual review.",
+    "Numeric labels intentionally round card amounts; coordinates and data attributes are checked against full precision.",
+    "The old formula describes an approximately twelve-year-old aircraft for ATR/E175; the audit checks that no same-age correction is claimed."
+  ]
+}

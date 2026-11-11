@@ -1,0 +1,194 @@
+{
+  "title": {
+    "ru": "Каким маршрутам нужны A321, A220 и самолёт среднего рынка",
+    "en": "Which routes need an A321, an A220 or a middle-market aircraft",
+    "de": "Welche Strecken brauchen A321, A220 oder ein Mittelmarktflugzeug?"
+  },
+  "intro": {
+    "ru": "Гипотезу о росте спроса на A321 и A220 полезно разделить на три задачи: перевезти больше людей за один вылет, сделать прямым более дальний маршрут и открыть направление с небольшим потоком. Эти задачи могут расти одновременно, хотя требуют разной вместимости. Название самолёта само по себе не определяет выгодную бизнес-модель.",
+    "en": "The A321 and A220 hypothesis combines three different needs: carrying more people per departure, making a longer journey nonstop, and opening a route with limited traffic. All three can grow together while requiring different capacities. An aircraft name alone does not determine a profitable business model.",
+    "de": "Die Hypothese zu A321 und A220 verbindet drei Aufgaben: mehr Menschen je Abflug befördern, eine längere Verbindung nonstop bedienen und eine Strecke mit geringem Verkehrsaufkommen eröffnen. Alle drei können gleichzeitig wachsen, obwohl sie unterschiedliche Kapazitäten erfordern. Der Flugzeugtyp allein bestimmt kein profitables Geschäftsmodell."
+  },
+  "paragraphs": [
+    {
+      "sources": [
+        "ec-average-flight-2025"
+      ],
+      "ru": "Увеличение среднего самолёта уже видно в Европе: EUROCONTROL сообщает о 184 креслах на рейс в 2025 году, на одно больше, чем годом ранее; A321neo впервые вошёл в четвёрку самых часто используемых типов. Это наблюдение по европейскому движению. Из него нельзя вывести долю A321 в мировом парке через десять лет.",
+      "en": "Larger average aircraft are already visible in Europe: EUROCONTROL reports 184 seats per flight in 2025, one more than a year earlier, and the A321neo entered the four most-used types. This is an observation about European traffic, not an estimate of the A321’s global fleet share ten years ahead.",
+      "de": "Größere Flugzeuge sind im europäischen Durchschnitt bereits erkennbar: EUROCONTROL meldet 184 Sitze je Flug für 2025, einen mehr als im Vorjahr; die A321neo erreichte erstmals die vier meistgenutzten Typen. Daraus lässt sich kein weltweiter A321-Flottenanteil in zehn Jahren ableiten."
+    },
+    {
+      "sources": [
+        "airbus-a321neo-lr",
+        "airbus-a321xlr"
+      ],
+      "ru": "У A321 важно различать вместимость и дальность. A321neo и A321XLR имеют одинаковую длину — 44,51 м; XLR получает дополнительную дальность благодаря топливу и конструктивным изменениям. Для расчёта это отдельная модификация с собственными ограничениями по массе и полезной нагрузке. Одна строка A21N не описывает все варианты одинаково.",
+      "en": "For the A321, capacity and range must be separated. A321neo and A321XLR share the same 44.51 m length; the XLR gains range through fuel capacity and design changes. The calculation needs a distinct variant with its own weight and payload constraints. One A21N entry cannot represent every variant equally.",
+      "de": "Bei der A321 sind Kapazität und Reichweite zu trennen. A321neo und A321XLR sind beide 44,51 m lang; zusätzliche Treibstoffkapazität und Konstruktionsänderungen erhöhen die XLR-Reichweite. Die Berechnung benötigt eine eigene Variante mit ihren Gewichts- und Nutzlastgrenzen. Ein A21N-Datensatz bildet nicht alle Varianten gleichermaßen ab."
+    },
+    {
+      "sources": [
+        "iberia-xlr-2025"
+      ],
+      "ru": "Реальная эксплуатация показывает несколько способов использовать такую гибкость. Iberia сообщает, что с A321XLR увеличила частоты в Бостон и Сан-Хуан и сделала Вашингтон круглогодичным. Её салон вмещает 182 пассажира. Это пример изменения сети и сезонности, но опубликованного доказательства прибыльности каждого из этих рейсов здесь нет.",
+      "en": "Actual operations show several uses for this flexibility. Iberia reports that the A321XLR supported more frequencies to Boston and San Juan and year-round Washington service. Its cabin has 182 seats. These are network and seasonality changes; the source does not establish the profitability of each route.",
+      "de": "Der Betrieb zeigt mehrere Einsatzmöglichkeiten. Iberia berichtet von mehr Frequenzen nach Boston und San Juan sowie einer ganzjährigen Washington-Verbindung mit Unterstützung der A321XLR. Ihre Kabine hat 182 Sitze. Das belegt Netz- und Saisonanpassungen, nicht die Rentabilität jeder einzelnen Strecke."
+    },
+    {
+      "sources": [
+        "airasia-a220-2026"
+      ],
+      "ru": "Для A220 есть и сигнал намерений: заказ AirAsia на 150 A220-300 сопровождается планом развивать направления ASEAN и Центральной Азии, освобождая более крупные самолёты для дальних линий. Заказ показывает выбранную стратегию; её будущую прибыльность ещё нужно проверять.",
+      "en": "The A220 also has a signal of strategic intent: AirAsia’s order for 150 A220-300s supports ASEAN and Central Asian routes while releasing larger aircraft for longer services. An order reveals a chosen strategy; its future profitability still needs to be tested.",
+      "de": "Auch bei der A220 gibt es ein Strategiesignal: AirAsias Bestellung über 150 A220-300 soll ASEAN- und Zentralasienstrecken bedienen und größere Flugzeuge für längere Verbindungen freisetzen. Eine Bestellung zeigt die gewählte Strategie, belegt aber noch nicht ihre künftige Rentabilität."
+    },
+    {
+      "sources": [
+        "boeing-commercial-2026"
+      ],
+      "ru": "Boeing NMA оставляем сценарием для проверки потребности среднего рынка. В просмотренном текущем каталоге Boeing такой доступной программы нет. Пока нет подтверждённых характеристик, сроков поставки и цены, нельзя включать NMA в базовый прогноз как самолёт, который авиакомпания точно получит.",
+      "en": "Boeing NMA remains a scenario for testing middle-market demand. It is not an available programme in the current Boeing catalogue reviewed here. Without confirmed specifications, delivery timing and price, it cannot enter the baseline as an aircraft an airline will actually receive.",
+      "de": "Boeing NMA bleibt ein Szenario zur Prüfung des Mittelmarktbedarfs. Im hier geprüften aktuellen Boeing-Katalog ist es kein verfügbares Programm. Ohne bestätigte Eigenschaften, Liefertermine und Preise gehört es nicht als sicher verfügbarer Flugzeugtyp in die Basisprognose."
+    },
+    {
+      "sources": [
+        "airbaltic-h1-2026"
+      ],
+      "ru": "Выбор современного типа не гарантирует результата компании. В первом полугодии 2026 года airBaltic сообщила об устранении простоев из-за отсутствия двигателей, но получила чистый убыток 128,2 млн EUR. Это результат всей группы, включая финансирование и сезонность, а не измерение убыточности A220; он показывает, почему прогноз спроса должен отдельно проверять доходы и полные затраты.",
+      "en": "A modern aircraft does not guarantee company performance. airBaltic reported no engine-related groundings in H1 2026 but a EUR 128.2 million net loss. This is a group result including financing and seasonality, not a measure of A220 profitability; it demonstrates why demand, revenue and full costs need separate tests.",
+      "de": "Ein modernes Flugzeug garantiert keinen Unternehmenserfolg. airBaltic meldete für das erste Halbjahr 2026 keine triebwerksbedingten Stillstände, aber einen Nettoverlust von 128,2 Mio. EUR. Das Konzernergebnis umfasst Finanzierung und Saisonalität und misst nicht die A220-Rentabilität. Nachfrage, Erlöse und Vollkosten müssen getrennt geprüft werden."
+    }
+  ],
+  "archetype_columns": {
+    "ru": [
+      "Маршрут",
+      "Что проверяем",
+      "Кандидаты для сравнения",
+      "Что может изменить выбор"
+    ],
+    "en": [
+      "Route",
+      "What to test",
+      "Aircraft to compare",
+      "What could change the choice"
+    ],
+    "de": [
+      "Strecke",
+      "Zu prüfen",
+      "Vergleichskandidaten",
+      "Was die Wahl verändern kann"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "dense-slot-limited",
+      "sources": [
+        "airbus-a321neo-lr",
+        "boeing-73710-2026"
+      ],
+      "ru": [
+        "Растущий плотный маршрут, дефицит удобных слотов",
+        "Можно ли увеличить кресла на вылет, сохранив загрузку и доход на пассажира",
+        "A321neo, 737-10 и меньший тип с большей частотой",
+        "Провал зимнего спроса, доступность парка, желание пассажиров лететь чаще"
+      ],
+      "en": [
+        "Growing dense route with scarce attractive slots",
+        "Can seats per departure grow without sacrificing load factor and passenger revenue?",
+        "A321neo, 737-10, and a smaller aircraft at higher frequency",
+        "Weak winter demand, aircraft availability, passengers valuing frequency"
+      ],
+      "de": [
+        "Wachsende dichte Strecke mit knappen attraktiven Slots",
+        "Mehr Sitze je Abflug ohne Verlust bei Auslastung und Passagiererlös?",
+        "A321neo, 737-10 und kleineres Flugzeug mit höherer Frequenz",
+        "Schwache Winternachfrage, Flottenverfügbarkeit, Frequenzpräferenzen"
+      ]
+    },
+    {
+      "id": "long-thin",
+      "sources": [
+        "airbus-a321xlr",
+        "iberia-xlr-2025"
+      ],
+      "ru": [
+        "Дальний маршрут с умеренным потоком или слабой зимой",
+        "Хватит ли дальности с нужным салоном, багажом и резервом; есть ли платёжеспособный спрос",
+        "A321LR/XLR против небольшого широкофюзеляжного ВС",
+        "Встречный ветер, грузовая выручка, спрос на премиальные места, сетевые стыковки"
+      ],
+      "en": [
+        "Long route with moderate traffic or weak winters",
+        "Range with the actual cabin, baggage and reserves; willingness to pay",
+        "A321LR/XLR versus a smaller widebody",
+        "Headwinds, cargo revenue, premium demand, connecting network"
+      ],
+      "de": [
+        "Lange Strecke mit mäßiger Nachfrage oder schwachem Winter",
+        "Reichweite mit tatsächlicher Kabine, Gepäck und Reserve; Zahlungsbereitschaft",
+        "A321LR/XLR gegenüber kleinerem Großraumflugzeug",
+        "Gegenwind, Frachterlöse, Premium-Nachfrage, Umsteigeverbindungen"
+      ]
+    },
+    {
+      "id": "thin-regional-medium",
+      "sources": [
+        "airbus-a220",
+        "embraer-e195e2-spec"
+      ],
+      "ru": [
+        "Новое направление с небольшим потоком, где важна частота",
+        "Можно ли удержать удобное расписание при меньшем числе кресел",
+        "A220 и E195-E2 против A320/737 с меньшей частотой",
+        "Лизинг, обслуживание нового подфлота, налёт зимой и фактическая выручка"
+      ],
+      "en": [
+        "New thin route where frequency matters",
+        "Can a useful timetable be sustained with fewer seats?",
+        "A220 and E195-E2 versus less frequent A320/737 service",
+        "Lease cost, subfleet overhead, winter utilisation and actual revenue"
+      ],
+      "de": [
+        "Neue dünne Strecke mit hoher Frequenzbedeutung",
+        "Lässt sich ein nützlicher Flugplan mit weniger Sitzen halten?",
+        "A220 und E195-E2 gegenüber selteneren A320/737-Flügen",
+        "Leasing, Teilflottenkosten, Winterauslastung und tatsächliche Erlöse"
+      ]
+    },
+    {
+      "id": "very-thin-short",
+      "sources": [
+        "atr72-spec"
+      ],
+      "ru": [
+        "Короткое и очень небольшое региональное направление",
+        "Не слишком ли велик даже A220; какие условия на аэродроме",
+        "ATR 42/72 и региональные реактивные типы",
+        "Время в пути, взлётная полоса, зимняя доступность, наземная альтернатива"
+      ],
+      "en": [
+        "Very thin short regional route",
+        "Is even an A220 too large, and what are the airfield constraints?",
+        "ATR 42/72 and regional jets",
+        "Travel time, runway, winter accessibility, surface alternatives"
+      ],
+      "de": [
+        "Sehr dünne kurze Regionalstrecke",
+        "Ist selbst eine A220 zu groß; welche Flugplatzgrenzen gelten?",
+        "ATR 42/72 und Regionaljets",
+        "Reisezeit, Startbahn, Winterzugang, Landverkehrsalternativen"
+      ]
+    }
+  ],
+  "formula_explanation": {
+    "ru": "Для каждой пары сначала оцениваем пассажиров, которые сможет привлечь авиакомпания, по месяцам и направлениям. Затем сравниваем частоты и салоны: требуемые кресла на рейс = привлечённые пассажиры / число рейсов / целевая загрузка. Результат ещё проходит проверку дальности, полосы, расписания, выручки и полной себестоимости.",
+    "en": "For each city pair, first estimate the passengers the airline can attract by month and direction. Then compare frequencies and cabins: required seats per flight = captured passengers / flight count / target load factor. Range, runway, timetable, revenue and full operating cost remain separate feasibility tests.",
+    "de": "Zuerst werden je Städtepaar die gewinnbaren Passagiere nach Monat und Richtung geschätzt. Dann folgen Frequenzen und Kabinen: benötigte Sitze je Flug = gewonnene Passagiere / Flugzahl / Zielauslastung. Reichweite, Startbahn, Flugplan, Erlöse und Vollkosten bleiben eigene Machbarkeitstests."
+  },
+  "conclusion": {
+    "ru": "Рабочий вывод: вероятно, одновременно нужны более вместительные самолёты на плотных линиях и меньшие самолёты для частоты и открытия новых направлений. Преимущество получит сочетание подходящего маршрута, расписания, затрат и доступного парка. В следующем расчёте проверяем эти условия для 2029, 2031 и 2036 годов; заранее объявлять победителей по одному типу ВС данных недостаточно.",
+    "en": "The working hypothesis is simultaneous demand for larger aircraft on dense services and smaller aircraft for frequency and route opening. Advantage depends on the route, timetable, costs and available fleet together. The next calculation tests these conditions for 2029, 2031 and 2036; aircraft type alone cannot identify winners.",
+    "de": "Arbeitshypothese: Größere Flugzeuge auf dichten Strecken und kleinere für Frequenz und neue Verbindungen können gleichzeitig gefragt sein. Entscheidend sind Strecke, Flugplan, Kosten und verfügbare Flotte zusammen. Die nächste Berechnung prüft dies für 2029, 2031 und 2036; allein der Flugzeugtyp bestimmt keine Gewinner."
+  }
+}

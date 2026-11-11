@@ -1,0 +1,1624 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "as_of": "2026-11-11",
+    "scope": "research_only; five dated reference corrections, no production change",
+    "inputs_sha256": {
+      "out/segments_history.json": "657d65052edb272c8bceff5146102b1eee219d120e789ad2bc79824f4df7932d",
+      "out/model_reference.json": "5f8849919f4f9a788ca328f5186bb6b9f38af6f16c1be09814667d66df7453a4",
+      "lease_calibration.py": "2bd866c64c197f69eedbe342afa87bd2d5f368caa28267c0ae8fa0a12ec79cb4"
+    },
+    "selected_aircraft_count": 8,
+    "age_matched_calibration_count": 5,
+    "age_mismatch_count": 3,
+    "formula_before": "lease_EUR_month = L_ref(generation) * (MTOW_t / 78)^1.10",
+    "formula_after": "L_refined(type,age,t0) = L_before(type,age,t0) * k(type,age,t0)",
+    "formula_coefficient": "k = ((source_low + source_high) / 2) / L_before_at_same_year_and_age",
+    "formula_range": "[k_low, k_high] = [source_low, source_high] / L_before_at_same_year_and_age",
+    "midpoint_meaning": "arithmetic midpoint for a scenario, not an observed transaction mean",
+    "cpi_and_fx_convention": {
+      "currency": "USD",
+      "unit": "USD per month (nominal dollars of each year)",
+      "calculator_base_currency": "EUR",
+      "calculator_base_period": "2026-10",
+      "base_year": 2026,
+      "usd_per_eur": 1.16,
+      "fx_kind": "fixed calibration convention from production type-page comparator, not live spot FX",
+      "formula": "USD_y = EUR_2026 * 1.16 * CPI_y / CPI_2026",
+      "cpi_series": "data/macro/_us_cpi.yaml; US CPI-U annual averages",
+      "cpi_last_observed_year": 2025,
+      "cpi_last_annual_growth_factor": 1.0261396238444374,
+      "cpi_base_year_value": 330.3143449155244,
+      "cpi_base_year_is_extrapolated": true,
+      "years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "point_position": "year + 0.5, annual display convention; not a source observation month",
+      "meaning": "A static current-model rent expressed in each year's nominal USD, not a historical prediction.",
+      "not_a_lease_contract_index": true,
+      "research_currency_widget_usd_per_eur": 1.113,
+      "research_currency_widget_as_of": "2026-10-29",
+      "currency_widget_note": "The general research money widget uses a separate FX snapshot; charts stay in explicitly labelled USD."
+    },
+    "selection_reason": "Two readable examples per segment; retained types have dated new-aircraft history and explicit model metadata.",
+    "current_model_age_is_not_changed_by_display": true,
+    "publish_or_calculator_acceptance": "owner review; no accepted prices or production model written"
+  },
+  "segments": [
+    {
+      "id": "turboprop",
+      "types": [
+        "AT46",
+        "AT76"
+      ]
+    },
+    {
+      "id": "regional",
+      "types": [
+        "E75L",
+        "E295"
+      ]
+    },
+    {
+      "id": "narrowbody",
+      "types": [
+        "A20N",
+        "A21N"
+      ]
+    },
+    {
+      "id": "widebody",
+      "types": [
+        "A359",
+        "B789"
+      ]
+    }
+  ],
+  "aircraft": [
+    {
+      "icao": "AT46",
+      "label": "ATR 42-600",
+      "segment": "turboprop",
+      "mtow_t": 18.6,
+      "raw_model_age_years": 12,
+      "raw_model_age_is_approximate": true,
+      "raw_reference_eur_month": 200000.0,
+      "raw_lease_eur_2026_month": 41322.84091910513,
+      "raw_lease_usd_2026_month": 47934.49546616195,
+      "calibration": {
+        "status": "unavailable_age_mismatch",
+        "period": "2023",
+        "period_precision": "year",
+        "age_years": null,
+        "model_before_year": 2023,
+        "model_before_usd_month": 44217.39774055177,
+        "amount_low_usd": null,
+        "amount_high_usd": null,
+        "amount_mid_usd": null,
+        "multiplier_low": null,
+        "multiplier_high": null,
+        "multiplier_mid": null,
+        "change_pct": null,
+        "calibrated_lease_eur_2026_month": null,
+        "source_observation_id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-0-2023",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "display_span_x": null,
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": false,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Production basis is approximately 12 years; the available recent reference is new. No age-12 correction is inferred."
+      },
+      "anchor_observation": {
+        "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-0-2023",
+        "icao": "AT46",
+        "period": "2023",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "ATR 42-600",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 130000,
+        "amount_high_usd": 130000,
+        "estimate_type": "point",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+        "locator": "PDF p.54, Figure 6.3(i), 0-year curve, year 2023",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-140fa6d3cf592c8f",
+        "amount_mid_usd": 130000.0,
+        "display_span_x": [
+          2023.0,
+          2024.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-0-2023",
+        "icao": "AT46",
+        "period": "2023",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "ATR 42-600",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 130000,
+        "amount_high_usd": 130000,
+        "estimate_type": "point",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+        "locator": "PDF p.54, Figure 6.3(i), 0-year curve, year 2023",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-140fa6d3cf592c8f",
+        "amount_mid_usd": 130000.0,
+        "display_span_x": [
+          2023.0,
+          2024.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2023-06",
+      "reference_age_calendar_years": 3,
+      "old_anchor_is_not_2026_market": true,
+      "same_period_age_snapshot": [
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-0-2023",
+          "icao": "AT46",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "new",
+            "years": 0,
+            "basis": "source_new_or_zero_year_column"
+          },
+          "variant": "ATR 42-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 130000,
+          "amount_high_usd": 130000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(i), 0-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-140fa6d3cf592c8f",
+          "amount_mid_usd": 130000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 1.0
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-3-2023",
+          "icao": "AT46",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 3,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 42-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 107000,
+          "amount_high_usd": 107000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(i), 3-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-b2a68f5e39b02787",
+          "amount_mid_usd": 107000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.823076923076923
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-5-2023",
+          "icao": "AT46",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 5,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 42-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 91000,
+          "amount_high_usd": 91000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(i), 5-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-0d4caf8f6ef024c7",
+          "amount_mid_usd": 91000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.7
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(i)-at46-lease-10-2023",
+          "icao": "AT46",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 10,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 42-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 63000,
+          "amount_high_usd": 63000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(i), 10-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-b9efdff72aab3cb2",
+          "amount_mid_usd": 63000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.4846153846153846
+        }
+      ],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "AT76",
+      "label": "ATR 72-600",
+      "segment": "turboprop",
+      "mtow_t": 23.0,
+      "raw_model_age_years": 12,
+      "raw_model_age_is_approximate": true,
+      "raw_reference_eur_month": 200000.0,
+      "raw_lease_eur_2026_month": 52194.71761805188,
+      "raw_lease_usd_2026_month": 60545.872436940175,
+      "calibration": {
+        "status": "unavailable_age_mismatch",
+        "period": "2023",
+        "period_precision": "year",
+        "age_years": null,
+        "model_before_year": 2023,
+        "model_before_usd_month": 55850.82093922898,
+        "amount_low_usd": null,
+        "amount_high_usd": null,
+        "amount_mid_usd": null,
+        "multiplier_low": null,
+        "multiplier_high": null,
+        "multiplier_mid": null,
+        "change_pct": null,
+        "calibrated_lease_eur_2026_month": null,
+        "source_observation_id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-0-2023",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "display_span_x": null,
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": false,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Production basis is approximately 12 years; the available recent reference is new. No age-12 correction is inferred."
+      },
+      "anchor_observation": {
+        "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-0-2023",
+        "icao": "AT76",
+        "period": "2023",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "ATR 72-600",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 162000,
+        "amount_high_usd": 162000,
+        "estimate_type": "point",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+        "locator": "PDF p.54, Figure 6.3(ii), 0-year curve, year 2023",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-3c73981f9b68b1a9",
+        "amount_mid_usd": 162000.0,
+        "display_span_x": [
+          2023.0,
+          2024.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-0-2023",
+        "icao": "AT76",
+        "period": "2023",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "ATR 72-600",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 162000,
+        "amount_high_usd": 162000,
+        "estimate_type": "point",
+        "source_id": "truenoord-turboprop-2023",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+        "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+        "locator": "PDF p.54, Figure 6.3(ii), 0-year curve, year 2023",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-3c73981f9b68b1a9",
+        "amount_mid_usd": 162000.0,
+        "display_span_x": [
+          2023.0,
+          2024.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2023-06",
+      "reference_age_calendar_years": 3,
+      "old_anchor_is_not_2026_market": true,
+      "same_period_age_snapshot": [
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-0-2023",
+          "icao": "AT76",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "new",
+            "years": 0,
+            "basis": "source_new_or_zero_year_column"
+          },
+          "variant": "ATR 72-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 162000,
+          "amount_high_usd": 162000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(ii), 0-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-3c73981f9b68b1a9",
+          "amount_mid_usd": 162000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 1.0
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-3-2023",
+          "icao": "AT76",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 3,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 72-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 137000,
+          "amount_high_usd": 137000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(ii), 3-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-61a47b6092b77eb9",
+          "amount_mid_usd": 137000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.845679012345679
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-5-2023",
+          "icao": "AT76",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 5,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 72-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 121000,
+          "amount_high_usd": 121000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(ii), 5-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-895c2aad3c5ecdf2",
+          "amount_mid_usd": 121000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.7469135802469136
+        },
+        {
+          "id": "history-truenoord-turboprop-2023-fig6.3(ii)-at76-lease-10-2023",
+          "icao": "AT76",
+          "period": "2023",
+          "period_precision": "year",
+          "age": {
+            "category": "aged",
+            "years": 10,
+            "basis": "constant_age_appraisal_column"
+          },
+          "variant": "ATR 72-600",
+          "valuation_basis": "average_appraised_monthly_lease",
+          "amount_low_usd": 92000,
+          "amount_high_usd": 92000,
+          "estimate_type": "point",
+          "source_id": "truenoord-turboprop-2023",
+          "source_url": "https://www.truenoord.com/wp-content/uploads/2023/06/Turboprop_report_onscreen.pdf",
+          "source_family": "TrueNoord average Avitas/mba/Cirium 2023",
+          "locator": "PDF p.54, Figure 6.3(ii), 10-year curve, year 2023",
+          "quality": "chart_digitized",
+          "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+          "digitization_tolerance_usd": 2000,
+          "notes": [
+            "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+            "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+          ],
+          "series_key": "series-6d500e66697e3ca7",
+          "amount_mid_usd": 92000.0,
+          "display_span_x": [
+            2023.0,
+            2024.0
+          ],
+          "range_is_confidence_interval": false,
+          "ratio_to_new_midpoint": 0.5679012345679012
+        }
+      ],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "E75L",
+      "label": "E175",
+      "segment": "regional",
+      "mtow_t": 38.79,
+      "raw_model_age_years": 12,
+      "raw_model_age_is_approximate": true,
+      "raw_reference_eur_month": 200000.0,
+      "raw_lease_eur_2026_month": 92750.80556498095,
+      "raw_lease_usd_2026_month": 107590.9344553779,
+      "calibration": {
+        "status": "unavailable_age_mismatch",
+        "period": "2024",
+        "period_precision": "year",
+        "age_years": null,
+        "model_before_year": 2024,
+        "model_before_usd_month": 102179.26244554622,
+        "amount_low_usd": null,
+        "amount_high_usd": null,
+        "amount_mid_usd": null,
+        "multiplier_low": null,
+        "multiplier_high": null,
+        "multiplier_mid": null,
+        "change_pct": null,
+        "calibrated_lease_eur_2026_month": null,
+        "source_observation_id": "history-truenoord-regional-2025-fig6.3-e75l-lease-0-2024",
+        "source_id": "truenoord-regional-2025",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+        "display_span_x": null,
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": false,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Production basis is approximately 12 years; the available recent reference is new. No age-12 correction is inferred."
+      },
+      "anchor_observation": {
+        "id": "history-truenoord-regional-2025-fig6.3-e75l-lease-0-2024",
+        "icao": "E75L",
+        "period": "2024",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "E175",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 193000,
+        "amount_high_usd": 193000,
+        "estimate_type": "point",
+        "source_id": "truenoord-regional-2025",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+        "source_family": "TrueNoord average Avitas/IBA/mba/Cirium 2025",
+        "locator": "PDF p.43, Figure 6.3, 0-year curve, year 2024",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-85d0a911e1f66e9e",
+        "amount_mid_usd": 193000.0,
+        "display_span_x": [
+          2024.0,
+          2025.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-truenoord-regional-2025-fig6.3-e75l-lease-0-2024",
+        "icao": "E75L",
+        "period": "2024",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "E175",
+        "valuation_basis": "average_appraised_monthly_lease",
+        "amount_low_usd": 193000,
+        "amount_high_usd": 193000,
+        "estimate_type": "point",
+        "source_id": "truenoord-regional-2025",
+        "source_url": "https://www.truenoord.com/wp-content/uploads/2025/06/Regional-Jet-Market-Report_4-pages.pdf",
+        "source_family": "TrueNoord average Avitas/IBA/mba/Cirium 2025",
+        "locator": "PDF p.43, Figure 6.3, 0-year curve, year 2024",
+        "quality": "chart_digitized",
+        "extraction_basis": "pdf_vector_curve_at_printed_annual_axis",
+        "digitization_tolerance_usd": 2000,
+        "notes": [
+          "Value read from the published historical line at the labelled annual position, not a tabulated source number.",
+          "Geometric interpolation stays within the drawn source line; no absent years are extrapolated."
+        ],
+        "series_key": "series-85d0a911e1f66e9e",
+        "amount_mid_usd": 193000.0,
+        "display_span_x": [
+          2024.0,
+          2025.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2025-05",
+      "reference_age_calendar_years": 2,
+      "old_anchor_is_not_2026_market": true,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "E295",
+      "label": "E195-E2",
+      "segment": "regional",
+      "mtow_t": 61.5,
+      "raw_model_age_years": 0,
+      "raw_model_age_is_approximate": false,
+      "raw_reference_eur_month": 345000.0,
+      "raw_lease_eur_2026_month": 265630.32856740546,
+      "raw_lease_usd_2026_month": 308131.1811381903,
+      "calibration": {
+        "status": "dated_age_matched_reference",
+        "period": "2026",
+        "period_precision": "year",
+        "age_years": 0,
+        "model_before_year": 2026,
+        "model_before_usd_month": 308131.1811381903,
+        "amount_low_usd": 285000,
+        "amount_high_usd": 285000,
+        "amount_mid_usd": 285000.0,
+        "multiplier_low": 0.9249307354979551,
+        "multiplier_high": 0.9249307354979551,
+        "multiplier_mid": 0.9249307354979551,
+        "change_pct": -7.506926450204487,
+        "calibrated_lease_eur_2026_month": 245689.65517241383,
+        "source_observation_id": "history-oriel-2026-e295-lease",
+        "source_id": "oriel-istat-e2-2026",
+        "source_url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+        "display_span_x": [
+          2026.0,
+          2027.0
+        ],
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": true,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Same type and new-aircraft age basis; source-level/condition/credit differences remain."
+      },
+      "anchor_observation": {
+        "id": "history-oriel-2026-e295-lease",
+        "icao": "E295",
+        "period": "2026",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "E195-E2, PW1923G",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 285000,
+        "amount_high_usd": 285000,
+        "estimate_type": "point",
+        "source_id": "oriel-istat-e2-2026",
+        "source_url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+        "source_family": "Oriel",
+        "locator": "Values and Lease Rates; new E195-E2; footnote to value table",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Current opinion published 2026-03-12 after start-of-year revision; exact valuation month not stated, so year precision retained.",
+          "New values have full-life condition; this is not the half-life basis of all used ages.",
+          "The value uses the rounded USD45m prose figure; the January 2026 value table separately lists USD45.31m. The table date is not assumed for the lease rate."
+        ],
+        "series_key": "series-a5dbcda3820b759c",
+        "amount_mid_usd": 285000.0,
+        "display_span_x": [
+          2026.0,
+          2027.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-oriel-2026-e295-lease",
+        "icao": "E295",
+        "period": "2026",
+        "period_precision": "year",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "E195-E2, PW1923G",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 285000,
+        "amount_high_usd": 285000,
+        "estimate_type": "point",
+        "source_id": "oriel-istat-e2-2026",
+        "source_url": "https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2",
+        "source_family": "Oriel",
+        "locator": "Values and Lease Rates; new E195-E2; footnote to value table",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Current opinion published 2026-03-12 after start-of-year revision; exact valuation month not stated, so year precision retained.",
+          "New values have full-life condition; this is not the half-life basis of all used ages.",
+          "The value uses the rounded USD45m prose figure; the January 2026 value table separately lists USD45.31m. The table date is not assumed for the lease rate."
+        ],
+        "series_key": "series-a5dbcda3820b759c",
+        "amount_mid_usd": 285000.0,
+        "display_span_x": [
+          2026.0,
+          2027.0
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2026-03-12",
+      "reference_age_calendar_years": 0,
+      "old_anchor_is_not_2026_market": false,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "A20N",
+      "label": "A320neo",
+      "segment": "narrowbody",
+      "mtow_t": 79.0,
+      "raw_model_age_years": 0,
+      "raw_model_age_is_approximate": false,
+      "raw_reference_eur_month": 345000.0,
+      "raw_lease_eur_2026_month": 349868.4915286633,
+      "raw_lease_usd_2026_month": 405847.4501732494,
+      "calibration": {
+        "status": "dated_age_matched_reference",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age_years": 0,
+        "model_before_year": 2026,
+        "model_before_usd_month": 405847.4501732494,
+        "amount_low_usd": 395000,
+        "amount_high_usd": 424000,
+        "amount_mid_usd": 409500.0,
+        "multiplier_low": 0.9732720997295442,
+        "multiplier_high": 1.044727519709688,
+        "multiplier_mid": 1.008999809719616,
+        "change_pct": 0.8999809719616003,
+        "calibrated_lease_eur_2026_month": 353017.2413793104,
+        "source_observation_id": "history-iba-2026q1-a20n-a320-200n-lease",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": true,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Same type and new-aircraft age basis; source-level/condition/credit differences remain."
+      },
+      "anchor_observation": {
+        "id": "history-iba-2026q1-a20n-a320-200n-lease",
+        "icao": "A20N",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A320-200N",
+        "valuation_basis": "lessee_credit_range",
+        "amount_low_usd": 395000,
+        "amount_high_usd": 424000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [],
+        "series_key": "series-2439a1bbf6080f32",
+        "amount_mid_usd": 409500.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-iba-podcast-20260508-a20n-lease",
+        "icao": "A20N",
+        "period": "2026-05",
+        "period_precision": "month",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A320neo",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 400000,
+        "amount_high_usd": 400000,
+        "estimate_type": "approximate_point",
+        "source_id": "iba-podcast-2026-05",
+        "source_url": "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update",
+        "source_family": "IBA",
+        "locator": "Impact on Lease Rates and Extensions; James Hallas, 33:21; current new-aircraft rate, not the later forecast",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [],
+        "series_key": "series-3af0229281cdfc79",
+        "amount_mid_usd": 400000.0,
+        "display_span_x": [
+          2026.3333333333333,
+          2026.4166666666665
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Q1 2026 credit range retained as the explicit comparable band; May 2026 approx. USD400k is a later same-provider check, not an independent range replacement.",
+      "anchor_source_published": "2026-06-03",
+      "reference_age_calendar_years": 0,
+      "old_anchor_is_not_2026_market": false,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "A21N",
+      "label": "A321neo",
+      "segment": "narrowbody",
+      "mtow_t": 97.0,
+      "raw_model_age_years": 0,
+      "raw_model_age_is_approximate": false,
+      "raw_reference_eur_month": 345000.0,
+      "raw_lease_eur_2026_month": 438494.28735317884,
+      "raw_lease_usd_2026_month": 508653.3733296874,
+      "calibration": {
+        "status": "dated_age_matched_reference",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age_years": 0,
+        "model_before_year": 2026,
+        "model_before_usd_month": 508653.3733296874,
+        "amount_low_usd": 456000,
+        "amount_high_usd": 488000,
+        "amount_mid_usd": 472000.0,
+        "multiplier_low": 0.8964847652832536,
+        "multiplier_high": 0.9593959768820784,
+        "multiplier_mid": 0.927940371082666,
+        "change_pct": -7.205962891733398,
+        "calibrated_lease_eur_2026_month": 406896.551724138,
+        "source_observation_id": "history-iba-2026q1-a21n-a321-200nx-lease",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": true,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Same type and new-aircraft age basis; source-level/condition/credit differences remain."
+      },
+      "anchor_observation": {
+        "id": "history-iba-2026q1-a21n-a321-200nx-lease",
+        "icao": "A21N",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A321-200NX",
+        "valuation_basis": "lessee_credit_range",
+        "amount_low_usd": 456000,
+        "amount_high_usd": 488000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [],
+        "series_key": "series-94d632ba01aadad1",
+        "amount_mid_usd": 472000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-iba-2026q1-a21n-a321-200nx-lease",
+        "icao": "A21N",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A321-200NX",
+        "valuation_basis": "lessee_credit_range",
+        "amount_low_usd": 456000,
+        "amount_high_usd": 488000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [],
+        "series_key": "series-94d632ba01aadad1",
+        "amount_mid_usd": 472000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2026-06-03",
+      "reference_age_calendar_years": 0,
+      "old_anchor_is_not_2026_market": false,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "A359",
+      "label": "A350-900",
+      "segment": "widebody",
+      "mtow_t": 280.0,
+      "raw_model_age_years": 0,
+      "raw_model_age_is_approximate": false,
+      "raw_reference_eur_month": 345000.0,
+      "raw_lease_eur_2026_month": 1407307.0606620004,
+      "raw_lease_usd_2026_month": 1632476.1903679203,
+      "calibration": {
+        "status": "dated_age_matched_reference",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age_years": 0,
+        "model_before_year": 2026,
+        "model_before_usd_month": 1632476.1903679203,
+        "amount_low_usd": 1190000,
+        "amount_high_usd": 1250000,
+        "amount_mid_usd": 1220000.0,
+        "multiplier_low": 0.7289539700617643,
+        "multiplier_high": 0.7657079517455507,
+        "multiplier_mid": 0.7473309609036575,
+        "change_pct": -25.26690390963425,
+        "calibrated_lease_eur_2026_month": 1051724.1379310347,
+        "source_observation_id": "history-iba-2026q1-a359-lease-new",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": true,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Same type and new-aircraft age basis; source-level/condition/credit differences remain."
+      },
+      "anchor_observation": {
+        "id": "history-iba-2026q1-a359-lease-new",
+        "icao": "A359",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A350-900",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 1190000,
+        "amount_high_usd": 1250000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Widebody Aircraft, latest-generation market lease rates",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Appraisal opinion, not a disclosed deal. The reference period is Q1, not an invented month."
+        ],
+        "series_key": "series-9cf54b8e6ebcf5db",
+        "amount_mid_usd": 1220000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-iba-2026q1-a359-lease-new",
+        "icao": "A359",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "A350-900",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 1190000,
+        "amount_high_usd": 1250000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Widebody Aircraft, latest-generation market lease rates",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Appraisal opinion, not a disclosed deal. The reference period is Q1, not an invented month."
+        ],
+        "series_key": "series-9cf54b8e6ebcf5db",
+        "amount_mid_usd": 1220000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2026-06-03",
+      "reference_age_calendar_years": 0,
+      "old_anchor_is_not_2026_market": false,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    },
+    {
+      "icao": "B789",
+      "label": "787-9",
+      "segment": "widebody",
+      "mtow_t": 254.0,
+      "raw_model_age_years": 0,
+      "raw_model_age_is_approximate": false,
+      "raw_reference_eur_month": 345000.0,
+      "raw_lease_eur_2026_month": 1264247.5491691807,
+      "raw_lease_usd_2026_month": 1466527.1570362495,
+      "calibration": {
+        "status": "dated_age_matched_reference",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age_years": 0,
+        "model_before_year": 2026,
+        "model_before_usd_month": 1466527.1570362495,
+        "amount_low_usd": 1070000,
+        "amount_high_usd": 1150000,
+        "amount_mid_usd": 1110000.0,
+        "multiplier_low": 0.7296148556583134,
+        "multiplier_high": 0.7841654990720192,
+        "multiplier_mid": 0.7568901773651663,
+        "change_pct": -24.31098226348337,
+        "calibrated_lease_eur_2026_month": 956896.551724138,
+        "source_observation_id": "history-iba-2026q1-b789-lease-new",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "display_span_meaning": "precision of appraisal period, not a guaranteed rent duration",
+        "annual_points": [],
+        "historical_backcast_allowed": false,
+        "future_extrapolation_allowed": false,
+        "range_is_confidence_interval": false,
+        "fitted_to_anchor": true,
+        "independently_validated": false,
+        "production_changed": false,
+        "reason": "Same type and new-aircraft age basis; source-level/condition/credit differences remain."
+      },
+      "anchor_observation": {
+        "id": "history-iba-2026q1-b789-lease-new",
+        "icao": "B789",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "787-9",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 1070000,
+        "amount_high_usd": 1150000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Widebody Aircraft, latest-generation market lease rates",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Appraisal opinion, not a disclosed deal. The reference period is Q1, not an invented month."
+        ],
+        "series_key": "series-5f1200e19217deae",
+        "amount_mid_usd": 1110000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "latest_new_observation": {
+        "id": "history-iba-2026q1-b789-lease-new",
+        "icao": "B789",
+        "period": "2026-Q1",
+        "period_precision": "quarter",
+        "age": {
+          "category": "new",
+          "years": 0,
+          "basis": "source_new_or_zero_year_column"
+        },
+        "variant": "787-9",
+        "valuation_basis": "market_monthly_lease",
+        "amount_low_usd": 1070000,
+        "amount_high_usd": 1150000,
+        "estimate_type": "range",
+        "source_id": "iba-iclg-2026",
+        "source_url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+        "source_family": "IBA",
+        "locator": "Widebody Aircraft, latest-generation market lease rates",
+        "quality": "published_number",
+        "extraction_basis": "published_text_or_table",
+        "notes": [
+          "Appraisal opinion, not a disclosed deal. The reference period is Q1, not an invented month."
+        ],
+        "series_key": "series-5f1200e19217deae",
+        "amount_mid_usd": 1110000.0,
+        "display_span_x": [
+          2026.0,
+          2026.25
+        ],
+        "range_is_confidence_interval": false
+      },
+      "new_observation_selection": "Latest stored new-aircraft observation, retaining its original period precision.",
+      "anchor_source_published": "2026-06-03",
+      "reference_age_calendar_years": 0,
+      "old_anchor_is_not_2026_market": false,
+      "same_period_age_snapshot": [],
+      "age_curve_fitted": false,
+      "age_extrapolation_allowed": false
+    }
+  ],
+  "temporal_diagnostic": {
+    "status": "retrospective_diagnostic_not_operational_backtest",
+    "current_coefficients_validated": false,
+    "training_rule": "previous annual observation only, same aircraft/age/series_key",
+    "source_family": "AVAC",
+    "target_observation_used_for_prediction": false,
+    "rows": [
+      {
+        "icao": "A20N",
+        "series_key": "series-85f149d8cd16829d",
+        "origin_period": "2016-10",
+        "target_period": "2017-10",
+        "training_observation_id": "history-avac-2016-a20n-lease-new",
+        "target_observation_id": "history-avac-2017-a20n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 397000.0,
+        "old_model_usd_month": 301147.10901490826,
+        "last_anchor_cpi_usd_month": 387053.75,
+        "last_anchor_nominal_usd_month": 379000.0,
+        "cpi_ratio": 1.02125
+      },
+      {
+        "icao": "A21N",
+        "series_key": "series-7c1f241eaa6e9a47",
+        "origin_period": "2016-10",
+        "target_period": "2017-10",
+        "training_observation_id": "history-avac-2016-a21n-lease-new",
+        "target_observation_id": "history-avac-2017-a21n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 458000.0,
+        "old_model_usd_month": 377431.20673427044,
+        "last_anchor_cpi_usd_month": 464668.75,
+        "last_anchor_nominal_usd_month": 455000.0,
+        "cpi_ratio": 1.02125
+      },
+      {
+        "icao": "A359",
+        "series_key": "series-d7eb69f5074eac3d",
+        "origin_period": "2016-10",
+        "target_period": "2017-10",
+        "training_observation_id": "history-avac-2016-a359-lease-new",
+        "target_observation_id": "history-avac-2017-a359-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 1161000.0,
+        "old_model_usd_month": 1211330.723046573,
+        "last_anchor_cpi_usd_month": 1144821.25,
+        "last_anchor_nominal_usd_month": 1121000.0,
+        "cpi_ratio": 1.02125
+      },
+      {
+        "icao": "B789",
+        "series_key": "series-ab6762ab9873d74b",
+        "origin_period": "2016-10",
+        "target_period": "2017-10",
+        "training_observation_id": "history-avac-2016-b789-lease-new",
+        "target_observation_id": "history-avac-2017-b789-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 1176000.0,
+        "old_model_usd_month": 1088193.1460818346,
+        "last_anchor_cpi_usd_month": 1197926.25,
+        "last_anchor_nominal_usd_month": 1173000.0,
+        "cpi_ratio": 1.02125
+      },
+      {
+        "icao": "A20N",
+        "series_key": "series-85f149d8cd16829d",
+        "origin_period": "2017-10",
+        "target_period": "2018-10",
+        "training_observation_id": "history-avac-2017-a20n-lease-new",
+        "target_observation_id": "history-avac-2018-a20n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 384000.0,
+        "old_model_usd_month": 308519.1312674152,
+        "last_anchor_cpi_usd_month": 406718.48225214204,
+        "last_anchor_nominal_usd_month": 397000.0,
+        "cpi_ratio": 1.0244798041615668
+      },
+      {
+        "icao": "A21N",
+        "series_key": "series-7c1f241eaa6e9a47",
+        "origin_period": "2017-10",
+        "target_period": "2018-10",
+        "training_observation_id": "history-avac-2017-a21n-lease-new",
+        "target_observation_id": "history-avac-2018-a21n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 453000.0,
+        "old_model_usd_month": 386670.6487595891,
+        "last_anchor_cpi_usd_month": 469211.7503059976,
+        "last_anchor_nominal_usd_month": 458000.0,
+        "cpi_ratio": 1.0244798041615668
+      },
+      {
+        "icao": "A359",
+        "series_key": "series-d7eb69f5074eac3d",
+        "origin_period": "2017-10",
+        "target_period": "2018-10",
+        "training_observation_id": "history-avac-2017-a359-lease-new",
+        "target_observation_id": "history-avac-2018-a359-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 1212000.0,
+        "old_model_usd_month": 1240983.8619216422,
+        "last_anchor_cpi_usd_month": 1189421.052631579,
+        "last_anchor_nominal_usd_month": 1161000.0,
+        "cpi_ratio": 1.0244798041615668
+      },
+      {
+        "icao": "B789",
+        "series_key": "series-ab6762ab9873d74b",
+        "origin_period": "2017-10",
+        "target_period": "2018-10",
+        "training_observation_id": "history-avac-2017-b789-lease-new",
+        "target_observation_id": "history-avac-2018-b789-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "age_years": 0,
+        "actual_usd_month": 1164000.0,
+        "old_model_usd_month": 1114831.9011878772,
+        "last_anchor_cpi_usd_month": 1204788.2496940026,
+        "last_anchor_nominal_usd_month": 1176000.0,
+        "cpi_ratio": 1.0244798041615668
+      },
+      {
+        "icao": "A20N",
+        "series_key": "series-85f149d8cd16829d",
+        "origin_period": "2018-10",
+        "target_period": "2019-10",
+        "training_observation_id": "history-avac-2018-a20n-lease-new",
+        "target_observation_id": "history-avac-2019-a20n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 368000.0,
+        "old_model_usd_month": 314171.01499433717,
+        "last_anchor_cpi_usd_month": 391034.6475507766,
+        "last_anchor_nominal_usd_month": 384000.0,
+        "cpi_ratio": 1.0183193946634808
+      },
+      {
+        "icao": "A21N",
+        "series_key": "series-7c1f241eaa6e9a47",
+        "origin_period": "2018-10",
+        "target_period": "2019-10",
+        "training_observation_id": "history-avac-2018-a21n-lease-new",
+        "target_observation_id": "history-avac-2019-a21n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 406000.0,
+        "old_model_usd_month": 393754.22097900015,
+        "last_anchor_cpi_usd_month": 461298.6857825568,
+        "last_anchor_nominal_usd_month": 453000.0,
+        "cpi_ratio": 1.0183193946634808
+      },
+      {
+        "icao": "A359",
+        "series_key": "series-d7eb69f5074eac3d",
+        "origin_period": "2018-10",
+        "target_period": "2019-10",
+        "training_observation_id": "history-avac-2018-a359-lease-new",
+        "target_observation_id": "history-avac-2019-a359-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 1172000.0,
+        "old_model_usd_month": 1263717.9350591952,
+        "last_anchor_cpi_usd_month": 1234203.1063321386,
+        "last_anchor_nominal_usd_month": 1212000.0,
+        "cpi_ratio": 1.0183193946634808
+      },
+      {
+        "icao": "B789",
+        "series_key": "series-ab6762ab9873d74b",
+        "origin_period": "2018-10",
+        "target_period": "2019-10",
+        "training_observation_id": "history-avac-2018-b789-lease-new",
+        "target_observation_id": "history-avac-2019-b789-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 1100000.0,
+        "old_model_usd_month": 1135254.9467691765,
+        "last_anchor_cpi_usd_month": 1185323.7753882916,
+        "last_anchor_nominal_usd_month": 1164000.0,
+        "cpi_ratio": 1.0183193946634808
+      },
+      {
+        "icao": "A20N",
+        "series_key": "series-85f149d8cd16829d",
+        "origin_period": "2019-10",
+        "target_period": "2020-10",
+        "training_observation_id": "history-avac-2019-a20n-lease-new",
+        "target_observation_id": "history-avac-2020-a20n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 256000.0,
+        "old_model_usd_month": 317979.89315813244,
+        "last_anchor_cpi_usd_month": 372461.4782948768,
+        "last_anchor_nominal_usd_month": 368000.0,
+        "cpi_ratio": 1.0121235823230348
+      },
+      {
+        "icao": "A21N",
+        "series_key": "series-7c1f241eaa6e9a47",
+        "origin_period": "2019-10",
+        "target_period": "2020-10",
+        "training_observation_id": "history-avac-2019-a21n-lease-new",
+        "target_observation_id": "history-avac-2020-a21n-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 302000.0,
+        "old_model_usd_month": 398527.93269208155,
+        "last_anchor_cpi_usd_month": 410922.1744231521,
+        "last_anchor_nominal_usd_month": 406000.0,
+        "cpi_ratio": 1.0121235823230348
+      },
+      {
+        "icao": "A359",
+        "series_key": "series-d7eb69f5074eac3d",
+        "origin_period": "2019-10",
+        "target_period": "2020-10",
+        "training_observation_id": "history-avac-2019-a359-lease-new",
+        "target_observation_id": "history-avac-2020-a359-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 789000.0,
+        "old_model_usd_month": 1279038.723477981,
+        "last_anchor_cpi_usd_month": 1186208.8384825967,
+        "last_anchor_nominal_usd_month": 1172000.0,
+        "cpi_ratio": 1.0121235823230348
+      },
+      {
+        "icao": "B789",
+        "series_key": "series-ab6762ab9873d74b",
+        "origin_period": "2019-10",
+        "target_period": "2020-10",
+        "training_observation_id": "history-avac-2019-b789-lease-new",
+        "target_observation_id": "history-avac-2020-b789-lease-new",
+        "training_source_url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "target_source_url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+        "age_years": 0,
+        "actual_usd_month": 724000.0,
+        "old_model_usd_month": 1149018.303573965,
+        "last_anchor_cpi_usd_month": 1113335.9405553383,
+        "last_anchor_nominal_usd_month": 1100000.0,
+        "cpi_ratio": 1.0121235823230348
+      }
+    ],
+    "metrics": {
+      "all_2017_2020": {
+        "old_model_usd_month": {
+          "n": 16,
+          "wape": 0.15632129323724311,
+          "signed_bias": 0.06583672094410513,
+          "mae_usd_month": 112570.87129246969
+        },
+        "last_anchor_cpi_usd_month": {
+          "n": 16,
+          "wape": 0.12105589970754127,
+          "signed_bias": 0.11260182101140849,
+          "mae_usd_month": 87175.37977689315
+        },
+        "last_anchor_nominal_usd_month": {
+          "n": 16,
+          "wape": 0.11169935775039055,
+          "signed_bias": 0.09173754556500607,
+          "mae_usd_month": 80437.5
+        }
+      },
+      "pre_pandemic_2017_2019": {
+        "old_model_usd_month": {
+          "n": 12,
+          "wape": 0.07698329147998677,
+          "signed_bias": -0.03332918783030166,
+          "mae_usd_month": 60630.757314779585
+        },
+        "last_anchor_cpi_usd_month": {
+          "n": 12,
+          "wape": 0.04051186590565302,
+          "signed_bias": 0.030205242824831755,
+          "mae_usd_month": 31906.470389527225
+        },
+        "last_anchor_nominal_usd_month": {
+          "n": 12,
+          "wape": 0.033012379642365884,
+          "signed_bias": 0.00867633054703206,
+          "mae_usd_month": 26000.0
+        }
+      },
+      "pandemic_2020": {
+        "old_model_usd_month": {
+          "n": 4,
+          "wape": 0.5183799386297248,
+          "signed_bias": 0.5183799386297248,
+          "mae_usd_month": 268391.21322554
+        },
+        "last_anchor_cpi_usd_month": {
+          "n": 4,
+          "wape": 0.48861826738578656,
+          "signed_bias": 0.48861826738578656,
+          "mae_usd_month": 252982.107938991
+        },
+        "last_anchor_nominal_usd_month": {
+          "n": 4,
+          "wape": 0.47078705939159826,
+          "signed_bias": 0.47078705939159826,
+          "mae_usd_month": 243750.0
+        }
+      }
+    },
+    "limitations": [
+      "Only four new-aircraft types and sixteen one-year comparisons; correlated appraiser opinions, not deals.",
+      "The 2026 production formula is a present-day comparator, not a formula known to a forecaster in 2016.",
+      "Uses today's annual CPI series, including the target year's full-year CPI; not available at each October origin.",
+      "The 2026 calibration observations are not holdout tests: they define the coefficients by construction.",
+      "No out-of-source or multi-year validation; no evidence for a universal time-invariant correction."
+    ]
+  },
+  "limitations": [
+    "The after marker is anchored to an appraisal by construction, not evidence that the formula predicts market prices.",
+    "No calibrated historical or future line is emitted; the horizontal marker shows only source-period precision.",
+    "ATR and E175 new-aircraft history cannot calibrate the production model's approximately 12-year-old basis.",
+    "ATR 2023 and E175 2024 appraisals are not relabelled as the 2026 market.",
+    "Type-specific anchors are not transferred to unobserved aircraft, segments, variants or ages.",
+    "CPI converts the display convention; it is not an aircraft-price index or a lease-contract escalator."
+  ]
+}

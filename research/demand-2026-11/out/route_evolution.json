@@ -1,0 +1,1699 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-11",
+  "status": "descriptive_historical_evolution_not_forecast",
+  "quantity": "flight-stage PAS_BRD, ST_PAS, CAF_PAS; both directions, all carriers; counterpart reporters averaged",
+  "source_urls": [
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_de?limit=1000&offset=6000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_es?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_fr?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=2000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=3000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=4000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=5000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_it?limit=1000&offset=6000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_nl?limit=1000&offset=0&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D",
+    "https://api.db.nomics.world/v22/series/Eurostat/avia_par_nl?limit=1000&offset=1000&observations=1&dimensions=%7B%22freq%22%3A%5B%22M%22%5D%2C%22tra_meas%22%3A%5B%22PAS_BRD%22%2C%22ST_PAS%22%2C%22CAF_PAS%22%5D%7D"
+  ],
+  "inputs": [
+    {
+      "path": "out/supply_reporter_panel.json.gz",
+      "sha256": "fee3cff387a95f85a7cce0dcc65832124ae909013894b540ae453c1146c4716b"
+    },
+    {
+      "path": "out/supply_pair_panel.json.gz",
+      "sha256": "3e1d7e13584f2db48afd155a3124de95e7aa8f8852e596a3c70e024c70e4a2a3"
+    },
+    {
+      "path": "../routes-2026-11/out/airports.json",
+      "sha256": "2dea5597faf59c2b6bf8c925dbe059378010d453cd1005ffd6512ca3bebca508",
+      "role": "fixed coordinates for descriptive great-circle distance, never current airport activity"
+    }
+  ],
+  "policy": {
+    "years": [
+      2015,
+      2019,
+      2024
+    ],
+    "main_cohort": "One fixed airport-pair cohort with 12 clean months in 2015, 2019 and 2024, using the identical reporting-airport intersection across all three years.",
+    "quality": "All monthly triplets finite/nonnegative; source flags rejected; passengers cannot exceed seats; positive traffic/capacity requires flights; no monthly counterpart disagreement >10% in selected years. All-zero months are allowed, annual totals must be positive.",
+    "no_fill": "Missing months are not zeros. No interpolation or inferred closures.",
+    "selection": "Retrospective endpoint-balanced routes; excludes unobserved entrants, exits and incomplete routes. Not total Europe or causal fleet demand.",
+    "same_reporters": "One identical reporting-airport set throughout all selected years; counterpart observations never summed.",
+    "identity": "P = flights * (seats/flights) * (passengers/seats)",
+    "lmdi": "For P0,P1 >0: contribution_k = (P1-P0)/ln(P1/P0) * ln(factor1_k/factor0_k); equal P uses limit P0.",
+    "aggregate_caveat": "Aggregate seats/flight includes route mix within the fixed cohort. Median paired changes and summed within-pair LMDI are provided separately.",
+    "capacity_groups": "Assigned by observed mean seats/flight in 2015; no reassignment using future outcomes.",
+    "distance": "Great-circle distance from pinned route-research airport coordinates; not payload-range feasibility or current routing.",
+    "types": "Average seats/flight does not identify an aircraft type, seating configuration or carrier. No airline profitability claim follows."
+  },
+  "input_pairs": 6296,
+  "main_pairs": 1537,
+  "relaxed_pairs": 1740,
+  "main_pairs_with_coordinates": 1536,
+  "annual_reporter_rejections_by_first_reason": {
+    "incomplete_months": 2220,
+    "missing_or_invalid_triplet": 10,
+    "passengers_exceed_seats": 17
+  },
+  "main_pair_exclusions_by_first_reason": {
+    "no_complete_clean_reporter_in_every_year": 4554,
+    "reporter_disagreement_above_10pct": 203,
+    "no_same_reporter_across_years": 2
+  },
+  "relaxed_pair_exclusions_by_first_reason": {
+    "no_complete_clean_reporter_in_every_year": 4554,
+    "no_same_reporter_across_years": 2
+  },
+  "periods": [
+    {
+      "pairs": 1537,
+      "start": 2015,
+      "end": 2019,
+      "aggregates": {
+        "2015": {
+          "passengers": 397970859.5,
+          "seats": 497168416.5,
+          "flights": 2960499.0,
+          "seats_per_flight": 167.93399237763634,
+          "load_factor": 0.8004749422774324
+        },
+        "2019": {
+          "passengers": 474305113.0,
+          "seats": 575017212.5,
+          "flights": 3268785.0,
+          "seats_per_flight": 175.91160400576973,
+          "load_factor": 0.8248537655731479
+        }
+      },
+      "aggregate_decomposition": {
+        "passenger_change_fraction": 0.19180865050246232,
+        "factor_change_fraction": {
+          "flights": 0.10413312080159454,
+          "seats_per_flight": 0.04750444811788901,
+          "load_factor": 0.030455448394618445
+        },
+        "log_percentage_points": {
+          "flights": 9.906052102189406,
+          "seats_per_flight": 4.641061921839896,
+          "load_factor": 3.0000887414888977
+        },
+        "lmdi_passenger_contribution": {
+          "flights": 43093540.46097174,
+          "seats_per_flight": 20189656.550108336,
+          "load_factor": 13051056.488919895
+        },
+        "lmdi_identity_residual": -2.9802322387695312e-08
+      },
+      "within_pair_lmdi_passenger_contributions_summed": {
+        "flights": 46077700.871939,
+        "seats_per_flight": 18389299.354865577,
+        "load_factor": 11867253.273195421
+      },
+      "within_pair_identity_residual": 0.0,
+      "within_pair": {
+        "median_seats_per_flight_change": 0.023421600832131517,
+        "median_flights_change": 0.07466496490108487,
+        "median_passengers_change": 0.17654327633626643,
+        "seats_per_flight_increased": 1028,
+        "seats_per_flight_increased_over_5pct": 560,
+        "flights_decreased": 490,
+        "larger_average_with_fewer_flights": 336
+      },
+      "same_cohort_relaxed_reporter_disagreement": {
+        "pairs": 1740,
+        "start": 2015,
+        "end": 2019,
+        "aggregates": {
+          "2015": {
+            "passengers": 432878099.5,
+            "seats": 550217000.5,
+            "flights": 3242025.0,
+            "seats_per_flight": 169.71399063856694,
+            "load_factor": 0.7867406843238752
+          },
+          "2019": {
+            "passengers": 518484983.0,
+            "seats": 628934787.5,
+            "flights": 3604363.0,
+            "seats_per_flight": 174.49263226262173,
+            "load_factor": 0.8243859193430289
+          }
+        },
+        "aggregate_decomposition": {
+          "passenger_change_fraction": 0.19776210346257073,
+          "factor_change_fraction": {
+            "flights": 0.11176286425922077,
+            "seats_per_flight": 0.028157028221861058,
+            "load_factor": 0.04784961013107636
+          },
+          "log_percentage_points": {
+            "flights": 10.594692152159347,
+            "seats_per_flight": 2.7767906556279263,
+            "load_factor": 4.674007381816029
+          },
+          "lmdi_passenger_contribution": {
+            "flights": 50260678.277989686,
+            "seats_per_flight": 13172953.001697013,
+            "load_factor": 22173252.220313415
+          },
+          "lmdi_identity_residual": 1.1920928955078125e-07
+        },
+        "within_pair_lmdi_passenger_contributions_summed": {
+          "flights": 53271221.26528241,
+          "seats_per_flight": 19186508.33686366,
+          "load_factor": 13149153.897853933
+        },
+        "within_pair_identity_residual": 0.0,
+        "within_pair": {
+          "median_seats_per_flight_change": 0.023936862254296254,
+          "median_flights_change": 0.07210893991371425,
+          "median_passengers_change": 0.1758488349292584,
+          "seats_per_flight_increased": 1176,
+          "seats_per_flight_increased_over_5pct": 639,
+          "flights_decreased": 562,
+          "larger_average_with_fewer_flights": 388
+        }
+      },
+      "pairwise_endpoint_cohort_sensitivity": {
+        "pairs": 1844,
+        "start": 2015,
+        "end": 2019,
+        "aggregates": {
+          "2015": {
+            "passengers": 445734074.0,
+            "seats": 559056945.0,
+            "flights": 3367949.0,
+            "seats_per_flight": 165.99329295069492,
+            "load_factor": 0.7972963720180598
+          },
+          "2019": {
+            "passengers": 527303330.5,
+            "seats": 642258688.5,
+            "flights": 3695194.5,
+            "seats_per_flight": 173.80916985560572,
+            "load_factor": 0.8210139308999009
+          }
+        },
+        "aggregate_decomposition": {
+          "passenger_change_fraction": 0.18299982267005244,
+          "factor_change_fraction": {
+            "flights": 0.09716462452370855,
+            "seats_per_flight": 0.04708549825101871,
+            "load_factor": 0.029747481255695263
+          },
+          "log_percentage_points": {
+            "flights": 9.272923796812794,
+            "seats_per_flight": 4.601058877503373,
+            "load_factor": 2.9313608354557914
+          },
+          "lmdi_passenger_contribution": {
+            "flights": 45008630.692217216,
+            "seats_per_flight": 22332477.25834596,
+            "load_factor": 14228148.549436701
+          },
+          "lmdi_identity_residual": -1.1920928955078125e-07
+        },
+        "within_pair_lmdi_passenger_contributions_summed": {
+          "flights": 48825680.98032762,
+          "seats_per_flight": 19918708.216351263,
+          "load_factor": 12824867.303321123
+        },
+        "within_pair_identity_residual": 0.0,
+        "within_pair": {
+          "median_seats_per_flight_change": 0.020287001992077003,
+          "median_flights_change": 0.06535393505433085,
+          "median_passengers_change": 0.16186202625115376,
+          "seats_per_flight_increased": 1216,
+          "seats_per_flight_increased_over_5pct": 662,
+          "flights_decreased": 624,
+          "larger_average_with_fewer_flights": 416
+        },
+        "exclusions": {
+          "no_complete_clean_reporter_in_every_year": 4252,
+          "reporter_disagreement_above_10pct": 200
+        }
+      }
+    },
+    {
+      "pairs": 1537,
+      "start": 2019,
+      "end": 2024,
+      "aggregates": {
+        "2019": {
+          "passengers": 474305113.0,
+          "seats": 575017212.5,
+          "flights": 3268785.0,
+          "seats_per_flight": 175.91160400576973,
+          "load_factor": 0.8248537655731479
+        },
+        "2024": {
+          "passengers": 483479876.0,
+          "seats": 576441826.0,
+          "flights": 3169115.5,
+          "seats_per_flight": 181.8935996494921,
+          "load_factor": 0.838731428208334
+        }
+      },
+      "aggregate_decomposition": {
+        "passenger_change_fraction": 0.019343588649022303,
+        "factor_change_fraction": {
+          "flights": -0.030491298754736107,
+          "seats_per_flight": 0.03400569096923345,
+          "load_factor": 0.016824391442940456
+        },
+        "log_percentage_points": {
+          "flights": -3.096582935748381,
+          "seats_per_flight": 3.3440279909808392,
+          "load_factor": 1.6684429042584852
+        },
+        "lmdi_passenger_contribution": {
+          "flights": -14828849.674948687,
+          "seats_per_flight": 16013809.226488903,
+          "load_factor": 7989803.448459701
+        },
+        "lmdi_identity_residual": -8.195638656616211e-08
+      },
+      "within_pair_lmdi_passenger_contributions_summed": {
+        "flights": -1578142.4650211546,
+        "seats_per_flight": 6793446.975798518,
+        "load_factor": 3959458.4892226323
+      },
+      "within_pair_identity_residual": -3.725290298461914e-09,
+      "within_pair": {
+        "median_seats_per_flight_change": 0.012000751908801899,
+        "median_flights_change": 0.01692307692307682,
+        "median_passengers_change": 0.047122825049555894,
+        "seats_per_flight_increased": 974,
+        "seats_per_flight_increased_over_5pct": 437,
+        "flights_decreased": 718,
+        "larger_average_with_fewer_flights": 473
+      },
+      "same_cohort_relaxed_reporter_disagreement": {
+        "pairs": 1740,
+        "start": 2019,
+        "end": 2024,
+        "aggregates": {
+          "2019": {
+            "passengers": 518484983.0,
+            "seats": 628934787.5,
+            "flights": 3604363.0,
+            "seats_per_flight": 174.49263226262173,
+            "load_factor": 0.8243859193430289
+          },
+          "2024": {
+            "passengers": 528965420.5,
+            "seats": 630226140.5,
+            "flights": 3485351.0,
+            "seats_per_flight": 180.821426737221,
+            "load_factor": 0.8393263727212851
+          }
+        },
+        "aggregate_decomposition": {
+          "passenger_change_fraction": 0.020213579647686775,
+          "factor_change_fraction": {
+            "flights": -0.03301887185058772,
+            "seats_per_flight": 0.03626969455692586,
+            "load_factor": 0.01812313023269807
+          },
+          "log_percentage_points": {
+            "flights": -3.357629959372426,
+            "seats_per_flight": 3.5627432890552,
+            "load_factor": 1.7960863891403878
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -17584167.4403311,
+            "seats_per_flight": 18658361.79081869,
+            "load_factor": 9406243.149512336
+          },
+          "lmdi_identity_residual": -7.450580596923828e-08
+        },
+        "within_pair_lmdi_passenger_contributions_summed": {
+          "flights": -2809020.950282726,
+          "seats_per_flight": 8729247.374850288,
+          "load_factor": 4560211.075432436
+        },
+        "within_pair_identity_residual": -1.862645149230957e-09,
+        "within_pair": {
+          "median_seats_per_flight_change": 0.011653681265960447,
+          "median_flights_change": 0.01831935084582581,
+          "median_passengers_change": 0.049456785199728626,
+          "seats_per_flight_increased": 1107,
+          "seats_per_flight_increased_over_5pct": 493,
+          "flights_decreased": 809,
+          "larger_average_with_fewer_flights": 536
+        }
+      },
+      "pairwise_endpoint_cohort_sensitivity": {
+        "pairs": 2015,
+        "start": 2019,
+        "end": 2024,
+        "aggregates": {
+          "2019": {
+            "passengers": 538183379.0,
+            "seats": 651374912.0,
+            "flights": 3712008.0,
+            "seats_per_flight": 175.4777769875496,
+            "load_factor": 0.8262267537255104
+          },
+          "2024": {
+            "passengers": 555522758.0,
+            "seats": 660235649.0,
+            "flights": 3632624.0,
+            "seats_per_flight": 181.7517169407018,
+            "load_factor": 0.8414007314530816
+          }
+        },
+        "aggregate_decomposition": {
+          "passenger_change_fraction": 0.03221834727081019,
+          "factor_change_fraction": {
+            "flights": -0.021385729772134154,
+            "seats_per_flight": 0.03575347295171949,
+            "load_factor": 0.018365391412406895
+          },
+          "log_percentage_points": {
+            "flights": -2.161771794458723,
+            "seats_per_flight": 3.512915504889281,
+            "load_factor": 1.8198784388648728
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -11820724.892747426,
+            "seats_per_flight": 19208876.65442061,
+            "load_factor": 9951227.238326836
+          },
+          "lmdi_identity_residual": 2.2351741790771484e-08
+        },
+        "within_pair_lmdi_passenger_contributions_summed": {
+          "flights": 2590874.7389807603,
+          "seats_per_flight": 9419463.29514303,
+          "load_factor": 5329040.965876205
+        },
+        "within_pair_identity_residual": -3.725290298461914e-09,
+        "within_pair": {
+          "median_seats_per_flight_change": 0.012708195065937566,
+          "median_flights_change": 0.033734939759036076,
+          "median_passengers_change": 0.06955453576229553,
+          "seats_per_flight_increased": 1312,
+          "seats_per_flight_increased_over_5pct": 570,
+          "flights_decreased": 885,
+          "larger_average_with_fewer_flights": 588
+        },
+        "exclusions": {
+          "no_complete_clean_reporter_in_every_year": 4169,
+          "reporter_disagreement_above_10pct": 110,
+          "no_same_reporter_across_years": 2
+        }
+      }
+    }
+  ],
+  "by_2015_capacity": [
+    {
+      "group": "under100",
+      "assignment_year": 2015,
+      "periods": [
+        {
+          "pairs": 133,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 19793546.0,
+              "seats": 28309423.0,
+              "flights": 352762.0,
+              "seats_per_flight": 80.25077247549339,
+              "load_factor": 0.6991857799433072
+            },
+            "2019": {
+              "passengers": 26091076.0,
+              "seats": 35238643.5,
+              "flights": 381036.5,
+              "seats_per_flight": 92.4810182226637,
+              "load_factor": 0.7404109071338117
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.31816077826580447,
+            "factor_change_fraction": {
+              "flights": 0.08015177371712379,
+              "seats_per_flight": 0.15240034917925716,
+              "load_factor": 0.05896162132165683
+            },
+            "log_percentage_points": {
+              "flights": 7.7101562482100565,
+              "seats_per_flight": 14.184702722997555,
+              "load_factor": 5.728882547310225
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 1757724.9716603742,
+              "seats_per_flight": 3233761.4685279513,
+              "load_factor": 1306043.5598116734
+            },
+            "lmdi_identity_residual": -9.313225746154785e-10
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 1525043.4245340142,
+            "seats_per_flight": 3597611.815160887,
+            "load_factor": 1174874.7603050987
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.10693912992325405,
+            "median_flights_change": 0.0,
+            "median_passengers_change": 0.2374101885115365,
+            "seats_per_flight_increased": 106,
+            "seats_per_flight_increased_over_5pct": 84,
+            "flights_decreased": 66,
+            "larger_average_with_fewer_flights": 52
+          }
+        },
+        {
+          "pairs": 133,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 26091076.0,
+              "seats": 35238643.5,
+              "flights": 381036.5,
+              "seats_per_flight": 92.4810182226637,
+              "load_factor": 0.7404109071338117
+            },
+            "2024": {
+              "passengers": 23894019.0,
+              "seats": 31599352.5,
+              "flights": 324233.5,
+              "seats_per_flight": 97.45862935199479,
+              "load_factor": 0.7561553357778454
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": -0.08420722089039179,
+            "factor_change_fraction": {
+              "flights": -0.1490749573859722,
+              "seats_per_flight": 0.0538230571526217,
+              "load_factor": 0.021264447204028425
+            },
+            "log_percentage_points": {
+              "flights": -16.143123582280154,
+              "seats_per_flight": 5.2424558561866,
+              "load_factor": 2.104151368102546
+            },
+            "lmdi_passenger_contribution": {
+              "flights": -4031978.2542203846,
+              "seats_per_flight": 1309379.0618103596,
+              "load_factor": 525542.1924100281
+            },
+            "lmdi_identity_residual": 2.7939677238464355e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": -4345716.285997442,
+            "seats_per_flight": 1759071.7433112315,
+            "load_factor": 389587.542686211
+          },
+          "within_pair_identity_residual": 4.656612873077393e-10,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.042497436653353926,
+            "median_flights_change": -0.12459131247080801,
+            "median_passengers_change": -0.06808229922552289,
+            "seats_per_flight_increased": 93,
+            "seats_per_flight_increased_over_5pct": 64,
+            "flights_decreased": 96,
+            "larger_average_with_fewer_flights": 67
+          }
+        }
+      ]
+    },
+    {
+      "group": "100to149",
+      "assignment_year": 2015,
+      "periods": [
+        {
+          "pairs": 245,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 65591181.5,
+              "seats": 87276967.5,
+              "flights": 674125.0,
+              "seats_per_flight": 129.4670387539403,
+              "load_factor": 0.751529107607915
+            },
+            "2019": {
+              "passengers": 78671102.0,
+              "seats": 101291663.0,
+              "flights": 715717.5,
+              "seats_per_flight": 141.52464205500075,
+              "load_factor": 0.776678945433051
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.19941583915514616,
+            "factor_change_fraction": {
+              "flights": 0.061698498053031736,
+              "seats_per_flight": 0.09313261056334676,
+              "load_factor": 0.03346488854594987
+            },
+            "log_percentage_points": {
+              "flights": 5.98699823740856,
+              "seats_per_flight": 8.904752897424345,
+              "load_factor": 3.2917126215650634
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 4306630.57534296,
+              "seats_per_flight": 6405460.561906039,
+              "load_factor": 2367829.3627509936
+            },
+            "lmdi_identity_residual": -7.450580596923828e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 4669466.431107397,
+            "seats_per_flight": 6480689.825002567,
+            "load_factor": 1929764.2438900357
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.09772649168856362,
+            "median_flights_change": 0.032351057014734064,
+            "median_passengers_change": 0.19707392565686432,
+            "seats_per_flight_increased": 199,
+            "seats_per_flight_increased_over_5pct": 155,
+            "flights_decreased": 83,
+            "larger_average_with_fewer_flights": 66
+          }
+        },
+        {
+          "pairs": 245,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 78671102.0,
+              "seats": 101291663.0,
+              "flights": 715717.5,
+              "seats_per_flight": 141.52464205500075,
+              "load_factor": 0.776678945433051
+            },
+            "2024": {
+              "passengers": 73676191.5,
+              "seats": 93057288.5,
+              "flights": 623959.0,
+              "seats_per_flight": 149.14006929942514,
+              "load_factor": 0.7917294033341623
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": -0.06349104528877703,
+            "factor_change_fraction": {
+              "flights": -0.1282049132513876,
+              "seats_per_flight": 0.053809902882247185,
+              "load_factor": 0.01937796561836702
+            },
+            "log_percentage_points": {
+              "flights": -13.720087494893063,
+              "seats_per_flight": 5.241207605601786,
+              "load_factor": 1.9192603640526342
+            },
+            "lmdi_passenger_contribution": {
+              "flights": -10447345.12809518,
+              "seats_per_flight": 3990988.014041525,
+              "load_factor": 1461446.614053663
+            },
+            "lmdi_identity_residual": 8.381903171539307e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": -9018677.50546998,
+            "seats_per_flight": 3642799.2934621177,
+            "load_factor": 380967.71200786
+          },
+          "within_pair_identity_residual": -1.862645149230957e-09,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.03344607915301512,
+            "median_flights_change": -0.10187050359712235,
+            "median_passengers_change": -0.04603704469587311,
+            "seats_per_flight_increased": 167,
+            "seats_per_flight_increased_over_5pct": 104,
+            "flights_decreased": 161,
+            "larger_average_with_fewer_flights": 110
+          }
+        }
+      ]
+    },
+    {
+      "group": "150to199",
+      "assignment_year": 2015,
+      "periods": [
+        {
+          "pairs": 850,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 216167781.0,
+              "seats": 266239091.0,
+              "flights": 1535394.0,
+              "seats_per_flight": 173.40115371038314,
+              "load_factor": 0.8119310360776435
+            },
+            "2019": {
+              "passengers": 256828396.5,
+              "seats": 306273987.0,
+              "flights": 1723337.0,
+              "seats_per_flight": 177.72147119222763,
+              "load_factor": 0.8385576555673989
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.18809748294543494,
+            "factor_change_fraction": {
+              "flights": 0.12240701735189785,
+              "seats_per_flight": 0.024915159959433275,
+              "load_factor": 0.03279418855372973
+            },
+            "log_percentage_points": {
+              "flights": 11.547550188198848,
+              "seats_per_flight": 2.460983839339757,
+              "load_factor": 3.2267933650004736
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 27242331.258097127,
+              "seats_per_flight": 5805814.729485448,
+              "load_factor": 7612469.512417337
+            },
+            "lmdi_identity_residual": -8.940696716308594e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 27945860.16460864,
+            "seats_per_flight": 6042763.123412031,
+            "load_factor": 6671992.211979333
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.013698768878144696,
+            "median_flights_change": 0.11690038013157789,
+            "median_passengers_change": 0.18085010363217324,
+            "seats_per_flight_increased": 548,
+            "seats_per_flight_increased_over_5pct": 218,
+            "flights_decreased": 252,
+            "larger_average_with_fewer_flights": 162
+          }
+        },
+        {
+          "pairs": 850,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 256828396.5,
+              "seats": 306273987.0,
+              "flights": 1723337.0,
+              "seats_per_flight": 177.72147119222763,
+              "load_factor": 0.8385576555673989
+            },
+            "2024": {
+              "passengers": 272184225.5,
+              "seats": 320190796.5,
+              "flights": 1756546.5,
+              "seats_per_flight": 182.2842700150551,
+              "load_factor": 0.8500688604270985
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.059790230400009525,
+            "factor_change_fraction": {
+              "flights": 0.019270461900371183,
+              "seats_per_flight": 0.025673874924725615,
+              "load_factor": 0.013727386284382082
+            },
+            "log_percentage_points": {
+              "flights": 1.9087137963713858,
+              "seats_per_flight": 2.534983552301026,
+              "load_factor": 1.3634019204236614
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 5047250.151723703,
+              "seats_per_flight": 6703307.820843629,
+              "load_factor": 3605271.027432636
+            },
+            "lmdi_identity_residual": -3.166496753692627e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 8614789.258332202,
+            "seats_per_flight": 4658900.172684647,
+            "load_factor": 2082139.5689831486
+          },
+          "within_pair_identity_residual": -1.862645149230957e-09,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.011653681265960447,
+            "median_flights_change": 0.09331459385836294,
+            "median_passengers_change": 0.11876182984007078,
+            "seats_per_flight_increased": 577,
+            "seats_per_flight_increased_over_5pct": 196,
+            "flights_decreased": 311,
+            "larger_average_with_fewer_flights": 216
+          }
+        }
+      ]
+    },
+    {
+      "group": "200plus",
+      "assignment_year": 2015,
+      "periods": [
+        {
+          "pairs": 309,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 96418351.0,
+              "seats": 115342935.0,
+              "flights": 398218.0,
+              "seats_per_flight": 289.6477180840645,
+              "load_factor": 0.8359276708191967
+            },
+            "2019": {
+              "passengers": 112714538.5,
+              "seats": 132212919.0,
+              "flights": 448694.0,
+              "seats_per_flight": 294.66166028518325,
+              "load_factor": 0.8525228801581788
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.16901541388111885,
+            "factor_change_fraction": {
+              "flights": 0.12675469215354407,
+              "seats_per_flight": 0.017310484040007346,
+              "load_factor": 0.019852446471497975
+            },
+            "log_percentage_points": {
+              "flights": 11.934154690526073,
+              "seats_per_flight": 1.7162364514984978,
+              "load_factor": 1.9657956509805323
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 12453822.758954883,
+              "seats_per_flight": 1790969.2922270792,
+              "load_factor": 2051395.4488180594
+            },
+            "lmdi_identity_residual": 2.0489096641540527e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 11937330.851688953,
+            "seats_per_flight": 2268234.5912900916,
+            "load_factor": 2090622.0570209546
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.009340571906751416,
+            "median_flights_change": 0.06459525756336881,
+            "median_passengers_change": 0.13805775269162268,
+            "seats_per_flight_increased": 175,
+            "seats_per_flight_increased_over_5pct": 103,
+            "flights_decreased": 89,
+            "larger_average_with_fewer_flights": 56
+          }
+        },
+        {
+          "pairs": 309,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 112714538.5,
+              "seats": 132212919.0,
+              "flights": 448694.0,
+              "seats_per_flight": 294.66166028518325,
+              "load_factor": 0.8525228801581788
+            },
+            "2024": {
+              "passengers": 113725440.0,
+              "seats": 131594388.5,
+              "flights": 464376.5,
+              "seats_per_flight": 283.37865611201255,
+              "load_factor": 0.8642119264834761
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.008968687743861947,
+            "factor_change_fraction": {
+              "flights": 0.03495143683668611,
+              "seats_per_flight": -0.038291388714265184,
+              "load_factor": 0.013711123299269712
+            },
+            "log_percentage_points": {
+              "flights": 3.4354504685773035,
+              "seats_per_flight": -3.904377307093677,
+              "load_factor": 1.361797631560069
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 3889590.810806683,
+              "seats_per_flight": -4420506.19984131,
+              "load_factor": 1541816.8890346093
+            },
+            "lmdi_identity_residual": -1.816079020500183e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 3171462.0681140637,
+            "seats_per_flight": -3267324.233659477,
+            "load_factor": 1106763.6655454128
+          },
+          "within_pair_identity_residual": -4.656612873077393e-10,
+          "within_pair": {
+            "median_seats_per_flight_change": -0.004539822265733129,
+            "median_flights_change": 0.0022658610271903967,
+            "median_passengers_change": 0.0007845648303861363,
+            "seats_per_flight_increased": 137,
+            "seats_per_flight_increased_over_5pct": 73,
+            "flights_decreased": 150,
+            "larger_average_with_fewer_flights": 80
+          }
+        }
+      ]
+    }
+  ],
+  "by_distance": [
+    {
+      "group": "under1500km",
+      "periods": [
+        {
+          "pairs": 862,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 238436572.5,
+              "seats": 306999865.5,
+              "flights": 2133000.5,
+              "seats_per_flight": 143.92864207017297,
+              "load_factor": 0.7766667002008834
+            },
+            "2019": {
+              "passengers": 281386803.5,
+              "seats": 350385535.0,
+              "flights": 2313590.5,
+              "seats_per_flight": 151.44665185995532,
+              "load_factor": 0.8030776827017131
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.18013273110608896,
+            "factor_change_fraction": {
+              "flights": 0.08466477152724527,
+              "seats_per_flight": 0.05223428555740095,
+              "load_factor": 0.0340055553997598
+            },
+            "log_percentage_points": {
+              "flights": 8.127097291815524,
+              "seats_per_flight": 5.091579442293496,
+              "load_factor": 3.344014879884477
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 21075119.56257379,
+              "seats_per_flight": 13203440.497352168,
+              "load_factor": 8671670.940074049
+            },
+            "lmdi_identity_residual": 7.450580596923828e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 22271304.79969877,
+            "seats_per_flight": 12841538.874835454,
+            "load_factor": 7837387.32546578
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.030328757475613144,
+            "median_flights_change": 0.04291249483297066,
+            "median_passengers_change": 0.16947410508846084,
+            "seats_per_flight_increased": 619,
+            "seats_per_flight_increased_over_5pct": 349,
+            "flights_decreased": 312,
+            "larger_average_with_fewer_flights": 225
+          }
+        },
+        {
+          "pairs": 862,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 281386803.5,
+              "seats": 350385535.0,
+              "flights": 2313590.5,
+              "seats_per_flight": 151.44665185995532,
+              "load_factor": 0.8030776827017131
+            },
+            "2024": {
+              "passengers": 276401648.5,
+              "seats": 337223504.0,
+              "flights": 2131861.5,
+              "seats_per_flight": 158.18265117128857,
+              "load_factor": 0.8196393348074575
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": -0.01771637808878268,
+            "factor_change_fraction": {
+              "flights": -0.07854847260135278,
+              "seats_per_flight": 0.044477703723434736,
+              "load_factor": 0.02062272736807702
+            },
+            "log_percentage_points": {
+              "flights": -8.180510510207096,
+              "seats_per_flight": 4.351695542325235,
+              "load_factor": 2.041295803400392
+            },
+            "lmdi_passenger_contribution": {
+              "flights": -22814363.99835235,
+              "seats_per_flight": 12136304.450527728,
+              "load_factor": 5692904.547824688
+            },
+            "lmdi_identity_residual": 6.705522537231445e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": -15961872.094413113,
+            "seats_per_flight": 7869677.113127891,
+            "load_factor": 3107039.981285219
+          },
+          "within_pair_identity_residual": -2.7939677238464355e-09,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.016116213838735294,
+            "median_flights_change": -0.025866654774684084,
+            "median_passengers_change": 0.013838599660800477,
+            "seats_per_flight_increased": 600,
+            "seats_per_flight_increased_over_5pct": 275,
+            "flights_decreased": 467,
+            "larger_average_with_fewer_flights": 325
+          }
+        }
+      ]
+    },
+    {
+      "group": "1500to4000km",
+      "periods": [
+        {
+          "pairs": 415,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 79950057.0,
+              "seats": 94444807.5,
+              "flights": 520991.0,
+              "seats_per_flight": 181.2791535746299,
+              "load_factor": 0.8465267611456564
+            },
+            "2019": {
+              "passengers": 100485954.5,
+              "seats": 115373115.0,
+              "flights": 618798.0,
+              "seats_per_flight": 186.44713622215974,
+              "load_factor": 0.8709650814229988
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.2568590726583222,
+            "factor_change_fraction": {
+              "flights": 0.1877326095844265,
+              "seats_per_flight": 0.028508422207533357,
+              "load_factor": 0.028868928188718446
+            },
+            "log_percentage_points": {
+              "flights": 17.204611949963965,
+              "seats_per_flight": 2.810961890333912,
+              "load_factor": 2.846007088513559
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 15454405.740001613,
+              "seats_per_flight": 2525005.8356005633,
+              "load_factor": 2556485.9243978094
+            },
+            "lmdi_identity_residual": -1.4901161193847656e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 15665837.164164169,
+            "seats_per_flight": 2444096.1589549496,
+            "load_factor": 2425964.1768808835
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.010813080731269409,
+            "median_flights_change": 0.17463911689782052,
+            "median_passengers_change": 0.24635614599934197,
+            "seats_per_flight_increased": 253,
+            "seats_per_flight_increased_over_5pct": 106,
+            "flights_decreased": 95,
+            "larger_average_with_fewer_flights": 56
+          }
+        },
+        {
+          "pairs": 415,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 100485954.5,
+              "seats": 115373115.0,
+              "flights": 618798.0,
+              "seats_per_flight": 186.44713622215974,
+              "load_factor": 0.8709650814229988
+            },
+            "2024": {
+              "passengers": 114554674.5,
+              "seats": 131712488.0,
+              "flights": 695137.0,
+              "seats_per_flight": 189.4770210764209,
+              "load_factor": 0.8697328267005328
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.1400068305068447,
+            "factor_change_fraction": {
+              "flights": 0.12336659135937733,
+              "seats_per_flight": 0.016250637664130707,
+              "load_factor": -0.0014148152994294394
+            },
+            "log_percentage_points": {
+              "flights": 11.633006180926985,
+              "seats_per_flight": 1.6120009347465731,
+              "load_factor": -0.14158170956110552
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 12489978.890663676,
+              "seats_per_flight": 1730752.7679066726,
+              "load_factor": -152011.65857038778
+            },
+            "lmdi_identity_residual": -3.91155481338501e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 12897526.156204728,
+            "seats_per_flight": 1534869.7020994318,
+            "load_factor": -363675.85830416053
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.009548177038244843,
+            "median_flights_change": 0.1448911222780569,
+            "median_passengers_change": 0.15432289206625693,
+            "seats_per_flight_increased": 249,
+            "seats_per_flight_increased_over_5pct": 90,
+            "flights_decreased": 116,
+            "larger_average_with_fewer_flights": 73
+          }
+        }
+      ]
+    },
+    {
+      "group": "4000to6500km",
+      "periods": [
+        {
+          "pairs": 87,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 28480962.0,
+              "seats": 35231975.0,
+              "flights": 115868.0,
+              "seats_per_flight": 304.0699330272379,
+              "load_factor": 0.808383918301486
+            },
+            "2019": {
+              "passengers": 32871917.0,
+              "seats": 40789249.0,
+              "flights": 121128.0,
+              "seats_per_flight": 336.74500528366684,
+              "load_factor": 0.8058965979000986
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.15417158310874468,
+            "factor_change_fraction": {
+              "flights": 0.045396485656091334,
+              "seats_per_flight": 0.10745907012615419,
+              "load_factor": -0.0030769048530970844
+            },
+            "log_percentage_points": {
+              "flights": 4.439622556929222,
+              "seats_per_flight": 10.206826525752652,
+              "load_factor": -0.3081648257335899
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 1359589.6492995194,
+              "seats_per_flight": 3125737.7217687457,
+              "load_factor": -94372.37106826837
+            },
+            "lmdi_identity_residual": -3.725290298461914e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 1327573.1435510255,
+            "seats_per_flight": 3046515.9767502644,
+            "load_factor": 16865.879698709676
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.08685527300479068,
+            "median_flights_change": 0.016851227732306295,
+            "median_passengers_change": 0.1174384615384616,
+            "seats_per_flight_increased": 69,
+            "seats_per_flight_increased_over_5pct": 55,
+            "flights_decreased": 38,
+            "larger_average_with_fewer_flights": 31
+          }
+        },
+        {
+          "pairs": 87,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 32871917.0,
+              "seats": 40789249.0,
+              "flights": 121128.0,
+              "seats_per_flight": 336.74500528366684,
+              "load_factor": 0.8058965979000986
+            },
+            "2024": {
+              "passengers": 33452642.0,
+              "seats": 39475661.0,
+              "flights": 124864.0,
+              "seats_per_flight": 316.14925839313173,
+              "load_factor": 0.8474244927779677
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.017666295519059627,
+            "factor_change_fraction": {
+              "flights": 0.030843405323294437,
+              "seats_per_flight": -0.06116125426473862,
+              "load_factor": 0.051530053590097324
+            },
+            "log_percentage_points": {
+              "flights": 3.0377307294575133,
+              "seats_per_flight": -6.3111544302525715,
+              "load_factor": 5.024629738802125
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 1007355.011105286,
+              "seats_per_flight": -2092869.1867002996,
+              "load_factor": 1666239.175595026
+            },
+            "lmdi_identity_residual": 1.234002411365509e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 1069276.775024281,
+            "seats_per_flight": -1855998.997296391,
+            "load_factor": 1367447.22227211
+          },
+          "within_pair_identity_residual": 0.0,
+          "within_pair": {
+            "median_seats_per_flight_change": -0.04246334006943364,
+            "median_flights_change": 0.0160160160160161,
+            "median_passengers_change": 0.00657869073269679,
+            "seats_per_flight_increased": 35,
+            "seats_per_flight_increased_over_5pct": 21,
+            "flights_decreased": 37,
+            "larger_average_with_fewer_flights": 22
+          }
+        }
+      ]
+    },
+    {
+      "group": "6500pluskm",
+      "periods": [
+        {
+          "pairs": 172,
+          "start": 2015,
+          "end": 2019,
+          "aggregates": {
+            "2015": {
+              "passengers": 51068327.0,
+              "seats": 60434068.5,
+              "flights": 190058.5,
+              "seats_per_flight": 317.97614155641554,
+              "load_factor": 0.8450254677128017
+            },
+            "2019": {
+              "passengers": 59542881.0,
+              "seats": 68431132.5,
+              "flights": 214856.5,
+              "seats_per_flight": 318.49691538305797,
+              "load_factor": 0.8701139207362965
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": 0.16594540095272747,
+            "factor_change_fraction": {
+              "flights": 0.13047561671801056,
+              "seats_per_flight": 0.0016377764196187083,
+              "load_factor": 0.029689582127507608
+            },
+            "log_percentage_points": {
+              "flights": 12.263844392124827,
+              "seats_per_flight": 0.16364367263642632,
+              "load_factor": 2.92573802432625
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 6769301.184363398,
+              "seats_per_flight": 90326.75819848756,
+              "load_factor": 1614926.0574381172
+            },
+            "lmdi_identity_residual": 1.862645149230957e-09
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 6821668.249424382,
+            "seats_per_flight": 58896.11411693982,
+            "load_factor": 1593989.6364586768
+          },
+          "within_pair_identity_residual": -1.862645149230957e-09,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.0006069174062275362,
+            "median_flights_change": 0.06457123186453606,
+            "median_passengers_change": 0.12344196177328604,
+            "seats_per_flight_increased": 87,
+            "seats_per_flight_increased_over_5pct": 50,
+            "flights_decreased": 44,
+            "larger_average_with_fewer_flights": 24
+          }
+        },
+        {
+          "pairs": 172,
+          "start": 2019,
+          "end": 2024,
+          "aggregates": {
+            "2019": {
+              "passengers": 59542881.0,
+              "seats": 68431132.5,
+              "flights": 214856.5,
+              "seats_per_flight": 318.49691538305797,
+              "load_factor": 0.8701139207362965
+            },
+            "2024": {
+              "passengers": 59055631.0,
+              "seats": 68008569.0,
+              "flights": 216925.0,
+              "seats_per_flight": 313.5119004264147,
+              "load_factor": 0.8683557361720109
+            }
+          },
+          "aggregate_decomposition": {
+            "passenger_change_fraction": -0.008183178103189248,
+            "factor_change_fraction": {
+              "flights": 0.009627355932913417,
+              "seats_per_flight": -0.015651689909297217,
+              "load_factor": -0.002020637208973497
+            },
+            "log_percentage_points": {
+              "flights": 0.9581308250834331,
+              "seats_per_flight": -1.5775470894369485,
+              "load_factor": -0.20226814505832813
+            },
+            "lmdi_passenger_contribution": {
+              "flights": 568161.2540951826,
+              "seats_per_flight": -935468.4237934343,
+              "load_factor": -119942.83030173757
+            },
+            "lmdi_identity_residual": 1.076841726899147e-08
+          },
+          "within_pair_lmdi_passenger_contributions_summed": {
+            "flights": 420664.26819554163,
+            "seats_per_flight": -749503.7457876777,
+            "load_factor": -158410.52240786445
+          },
+          "within_pair_identity_residual": -5.238689482212067e-10,
+          "within_pair": {
+            "median_seats_per_flight_change": 0.00034477845042513167,
+            "median_flights_change": -0.011898904554271839,
+            "median_passengers_change": -0.021773458083153507,
+            "seats_per_flight_increased": 90,
+            "seats_per_flight_increased_over_5pct": 51,
+            "flights_decreased": 97,
+            "larger_average_with_fewer_flights": 53
+          }
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "pair": "EDDF-LEBL",
+      "in_main_balanced_cohort": true,
+      "excluded_reasons": {},
+      "reporters": [
+        "EDDF",
+        "LEBL"
+      ],
+      "years": {
+        "2015": {
+          "passengers": 1020569.0,
+          "seats": 1198312.5,
+          "flights": 6443.5,
+          "seats_per_flight": 185.97229766431286,
+          "load_factor": 0.8516718301778543
+        },
+        "2019": {
+          "passengers": 1034921.5,
+          "seats": 1173932.0,
+          "flights": 6090.5,
+          "seats_per_flight": 192.74805024218045,
+          "load_factor": 0.8815855603220629
+        },
+        "2024": {
+          "passengers": 806775.0,
+          "seats": 947853.5,
+          "flights": 4997.0,
+          "seats_per_flight": 189.68451070642385,
+          "load_factor": 0.8511600157619295
+        }
+      },
+      "distance_km": 1092.542935208415,
+      "country_codes": [
+        "DE",
+        "ES"
+      ],
+      "iata": [
+        "FRA",
+        "BCN"
+      ],
+      "decomposition": {
+        "2015_2019": {
+          "passenger_change_fraction": 0.014063233353158955,
+          "factor_change_fraction": {
+            "flights": -0.05478389074260881,
+            "seats_per_flight": 0.03643420371187811,
+            "load_factor": 0.03512354064588674
+          },
+          "log_percentage_points": {
+            "flights": -5.634169058843221,
+            "seats_per_flight": 3.578617158490685,
+            "load_factor": 3.452078253702889
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -57903.96380494292,
+            "seats_per_flight": 36778.470126265056,
+            "load_factor": 35477.99367867794
+          },
+          "lmdi_identity_residual": 8.003553375601768e-11
+        },
+        "2019_2024": {
+          "passenger_change_fraction": -0.22044812094443877,
+          "factor_change_fraction": {
+            "flights": -0.17954190953123716,
+            "seats_per_flight": -0.015894010507018774,
+            "load_factor": -0.034512299122751444
+          },
+          "log_percentage_points": {
+            "flights": -19.78924477958086,
+            "seats_per_flight": -1.602167483113028,
+            "load_factor": -3.512191579931514
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -181292.9149787133,
+            "seats_per_flight": -14677.751300412248,
+            "load_factor": -32175.833720874463
+          },
+          "lmdi_identity_residual": 0.0
+        }
+      }
+    },
+    {
+      "pair": "EDDL-LEPA",
+      "in_main_balanced_cohort": true,
+      "excluded_reasons": {},
+      "reporters": [
+        "EDDL",
+        "LEPA"
+      ],
+      "years": {
+        "2015": {
+          "passengers": 1207836.0,
+          "seats": 1369102.0,
+          "flights": 6353.5,
+          "seats_per_flight": 215.4878413472889,
+          "load_factor": 0.8822103831562587
+        },
+        "2019": {
+          "passengers": 1555747.0,
+          "seats": 1724396.0,
+          "flights": 9167.0,
+          "seats_per_flight": 188.109086942293,
+          "load_factor": 0.9021982189705845
+        },
+        "2024": {
+          "passengers": 1366926.5,
+          "seats": 1502145.5,
+          "flights": 7859.0,
+          "seats_per_flight": 191.13697671459474,
+          "load_factor": 0.9099827546665752
+        }
+      },
+      "distance_km": 1341.977351798079,
+      "country_codes": [
+        "DE",
+        "ES"
+      ],
+      "iata": [
+        "DUS",
+        "PMI"
+      ],
+      "decomposition": {
+        "2015_2019": {
+          "passenger_change_fraction": 0.2880449001354488,
+          "factor_change_fraction": {
+            "flights": 0.4428267883843551,
+            "seats_per_flight": -0.12705475275921108,
+            "load_factor": 0.022656541110767536
+          },
+          "log_percentage_points": {
+            "flights": 36.660423681718655,
+            "seats_per_flight": -13.588244304662755,
+            "load_factor": 2.2403693657604085
+          },
+          "lmdi_passenger_contribution": {
+            "flights": 503883.06579163246,
+            "seats_per_flight": -186765.0591930686,
+            "load_factor": 30792.993401435975
+          },
+          "lmdi_identity_residual": -1.7462298274040222e-10
+        },
+        "2019_2024": {
+          "passenger_change_fraction": -0.12136967000418453,
+          "factor_change_fraction": {
+            "flights": -0.14268572051925388,
+            "seats_per_flight": 0.016096456697121786,
+            "load_factor": 0.008628409513901314
+          },
+          "log_percentage_points": {
+            "flights": -15.395070709560072,
+            "seats_per_flight": 1.5968282344009992,
+            "load_factor": 0.8591397539131068
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -224660.47387825127,
+            "seats_per_flight": 23302.535896761154,
+            "load_factor": 12537.437981490008
+          },
+          "lmdi_identity_residual": -1.1641532182693481e-10
+        }
+      }
+    },
+    {
+      "pair": "EDDF-LIMC",
+      "in_main_balanced_cohort": false,
+      "excluded_reasons": {
+        "reporter_disagreement_above_10pct": 1
+      },
+      "reporters": [
+        "EDDF",
+        "LIMC"
+      ],
+      "years": {
+        "2019": {
+          "passengers": 485008.5,
+          "seats": 729418.0,
+          "flights": 5079.0,
+          "seats_per_flight": 143.6144910415436,
+          "load_factor": 0.6649253240254559
+        },
+        "2024": {
+          "passengers": 319842.0,
+          "seats": 460612.5,
+          "flights": 3338.5,
+          "seats_per_flight": 137.96989666017672,
+          "load_factor": 0.6943841081169095
+        }
+      },
+      "decomposition": {
+        "2019_2024": {
+          "passenger_change_fraction": -0.34054351624765344,
+          "factor_change_fraction": {
+            "flights": -0.3426855680252018,
+            "seats_per_flight": -0.039303794070015274,
+            "load_factor": 0.044303898538726516
+          },
+          "log_percentage_points": {
+            "flights": -41.959278750332146,
+            "seats_per_flight": -4.009704285082771,
+            "load_factor": 4.335053765614724
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -166457.19813776278,
+            "seats_per_flight": -15906.949798334552,
+            "load_factor": 17197.647936097394
+          },
+          "lmdi_identity_residual": 5.820766091346741e-11
+        }
+      }
+    },
+    {
+      "pair": "EDDF-VIDP",
+      "in_main_balanced_cohort": true,
+      "excluded_reasons": {},
+      "reporters": [
+        "EDDF"
+      ],
+      "years": {
+        "2015": {
+          "passengers": 445021.0,
+          "seats": 548649.0,
+          "flights": 1435.0,
+          "seats_per_flight": 382.3337979094077,
+          "load_factor": 0.8111215002670196
+        },
+        "2019": {
+          "passengers": 494750.0,
+          "seats": 562713.0,
+          "flights": 1483.0,
+          "seats_per_flight": 379.4423465947404,
+          "load_factor": 0.8792226232555495
+        },
+        "2024": {
+          "passengers": 497781.0,
+          "seats": 596552.0,
+          "flights": 2092.0,
+          "seats_per_flight": 285.1586998087954,
+          "load_factor": 0.8344301921710094
+        }
+      },
+      "distance_km": 6121.816011452205,
+      "country_codes": [
+        "DE",
+        "IN"
+      ],
+      "iata": [
+        "FRA",
+        "DEL"
+      ],
+      "decomposition": {
+        "2015_2019": {
+          "passenger_change_fraction": 0.1117452884245913,
+          "factor_change_fraction": {
+            "flights": 0.03344947735191628,
+            "seats_per_flight": -0.00756263592305384,
+            "load_factor": 0.08395921322035127
+          },
+          "log_percentage_points": {
+            "flights": 3.2902213944210517,
+            "seats_per_flight": -0.7591377654635224,
+            "load_factor": 8.062027612908421
+          },
+          "lmdi_passenger_contribution": {
+            "flights": 15445.832294907806,
+            "seats_per_flight": -3563.7463892133765,
+            "load_factor": 37846.914094305444
+          },
+          "lmdi_identity_residual": -1.2369127944111824e-10
+        },
+        "2019_2024": {
+          "passenger_change_fraction": 0.006126326427488671,
+          "factor_change_fraction": {
+            "flights": 0.41065407956844235,
+            "seats_per_flight": -0.24847950586454626,
+            "load_factor": -0.050945494235219324
+          },
+          "log_percentage_points": {
+            "flights": 34.40534830468815,
+            "seats_per_flight": -28.565679918895974,
+            "load_factor": -5.228904707445076
+          },
+          "lmdi_passenger_contribution": {
+            "flights": 170741.3430244068,
+            "seats_per_flight": -141761.17359907762,
+            "load_factor": -25949.16942532919
+          },
+          "lmdi_identity_residual": -2.546585164964199e-11
+        }
+      }
+    },
+    {
+      "pair": "EHAM-LFRN",
+      "in_main_balanced_cohort": false,
+      "excluded_reasons": {
+        "no_complete_clean_reporter_in_every_year": 1
+      },
+      "reporters": [
+        "LFRN"
+      ],
+      "years": {
+        "2019": {
+          "passengers": 48402.0,
+          "seats": 57301.0,
+          "flights": 794.0,
+          "seats_per_flight": 72.16750629722922,
+          "load_factor": 0.8446973002216366
+        },
+        "2024": {
+          "passengers": 52464.0,
+          "seats": 63886.0,
+          "flights": 713.0,
+          "seats_per_flight": 89.60168302945301,
+          "load_factor": 0.821212785273769
+        }
+      },
+      "decomposition": {
+        "2019_2024": {
+          "passenger_change_fraction": 0.0839221519771911,
+          "factor_change_fraction": {
+            "flights": -0.10201511335012592,
+            "seats_per_flight": 0.2415793149401526,
+            "load_factor": -0.02780228484417513
+          },
+          "log_percentage_points": {
+            "flights": -10.760204083283975,
+            "seats_per_flight": 21.638421030493912,
+            "load_factor": -2.8196084552699268
+          },
+          "lmdi_passenger_contribution": {
+            "flights": -5423.758832559603,
+            "seats_per_flight": 10907.00290425779,
+            "load_factor": -1421.2440716981898
+          },
+          "lmdi_identity_residual": -3.637978807091713e-12
+        }
+      }
+    }
+  ],
+  "derived_pairs": {
+    "path": "out/route_evolution_pairs.json.gz",
+    "sha256": "d44eb6e0f0894169b42b367458c8d31e6f6d80f8ba4a4acaa1aaaf0b48438c08",
+    "pairs": 1537
+  }
+}

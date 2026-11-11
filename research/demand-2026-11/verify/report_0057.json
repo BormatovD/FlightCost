@@ -1,0 +1,85 @@
+{
+  "checked_on": "2026-11-11",
+  "status": "pass_with_limitations",
+  "scope": "Independent scoped HTML/data-binding audit, using already independently audited numerical outputs.",
+  "checks": {
+    "upstream": 7,
+    "html_ru": 421,
+    "html_en": 421,
+    "html_de": 421
+  },
+  "checks_total": 1270,
+  "failure_count": 0,
+  "failures": [],
+  "reports": [
+    {
+      "language": "ru",
+      "benchmark_rows": 3,
+      "supply_years": [
+        2015,
+        2019,
+        2024
+      ],
+      "chart_bars": 8,
+      "main_supply_cohort": 1537,
+      "geocoded_chart_cohort": 1536,
+      "examples": 5,
+      "archetypes": 4,
+      "frequency_scenarios": 3,
+      "source_entries": 115,
+      "unresolved_internal_links": 0
+    },
+    {
+      "language": "en",
+      "benchmark_rows": 3,
+      "supply_years": [
+        2015,
+        2019,
+        2024
+      ],
+      "chart_bars": 8,
+      "main_supply_cohort": 1537,
+      "geocoded_chart_cohort": 1536,
+      "examples": 5,
+      "archetypes": 4,
+      "frequency_scenarios": 3,
+      "source_entries": 115,
+      "unresolved_internal_links": 0
+    },
+    {
+      "language": "de",
+      "benchmark_rows": 3,
+      "supply_years": [
+        2015,
+        2019,
+        2024
+      ],
+      "chart_bars": 8,
+      "main_supply_cohort": 1537,
+      "geocoded_chart_cohort": 1536,
+      "examples": 5,
+      "archetypes": 4,
+      "frequency_scenarios": 3,
+      "source_entries": 115,
+      "unresolved_internal_links": 0
+    }
+  ],
+  "inputs_sha256": {
+    "research/demand-2026-11/report.html": "8ca941b9f157c6f5628a3cbdf8fb2458a524486c852c2e21f59aa0c9c9d813a1",
+    "research/demand-2026-11/report.en.html": "09a5aa834c9f89e5cfc45fb0de2507244e3822aad1e65ad0861fb521567b2198",
+    "research/demand-2026-11/report.de.html": "4453d63a6e6721ce322b949cbfbac78acdaa3c6deecde2bb91bb667bfd679c95",
+    "research/demand-2026-11/modelling_update.py": "b21bf56ef8dce1745fdfb820924f94a3396a47d933f48498038dff64a2f27cf5",
+    "research/demand-2026-11/aircraft_demand_section.py": "f86747cbe407f14c83227ab64657bb0c6c25f71908146905bf6fe0b1fac7949a",
+    "research/demand-2026-11/build_report.py": "a9be909a4d697856a4bc040fed3002509243e0037a374beae04740d6b1481f94",
+    "research/demand-2026-11/out/forecast_benchmark.json": "57975c83090080c6d9000bb459792a9125f72179cb1d0899b41d7278b3503e91",
+    "research/demand-2026-11/out/route_evolution.json": "25c1c06ce1c8240f146adbe29e4585a6094522260642b27161de81d9d33cbf6c",
+    "research/demand-2026-11/out/route_aircraft_evidence.json": "0bc4853ced0d30b04e1c20f22c41236cc4bb71f950137c5146fc0f2ce7604b96",
+    "research/demand-2026-11/out/route_aircraft_copy.json": "11d2e9c54b2e6f524c1a3679dfb31a7426b6197840252f465db6f1715aa02520"
+  },
+  "limitations": [
+    "No browser interaction or pixel/font-layout validation is claimed.",
+    "Source checks resolve citations to the intended bibliography URLs; they do not refetch external pages.",
+    "The flight-frequency example is explicitly assumed arithmetic, not a fitted forecast or type recommendation.",
+    "Forecast and supply limitations remain those of modelling_0057.json: latest-vintage history, observable-target selection and a retrospective balanced supply cohort."
+  ]
+}

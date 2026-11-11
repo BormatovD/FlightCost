@@ -13,9 +13,12 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from _report import (ARTICLE_CSS, Sources, T, article_title, calc_badge, chain, e,
                      line_chart, mark, money, n, page, whisker, write_all)
+from report_extensions import history_section, leasing_section
+from model_cards import DISPLAY_TYPES
 
 SLUG = HERE.name
 DATA = json.loads((HERE / "out/summary.json").read_text())
+HISTORY = json.loads((HERE / "out/segments_history.json").read_text())
 AIRBUS = "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/new-airbus-list-prices-2018.pdf"
 AVAC18 = "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
 IBA = DATA["example"]["anchor"]["source"]
@@ -41,16 +44,18 @@ def build():
     mid = ex["research_ownership_eur_flight_midpoint"]
     lo, hi = ex["research_ownership_eur_flight_low"], ex["research_ownership_eur_flight_high"]
     delta = ex["midpoint_delta_eur_flight"]
-    body = [ARTICLE_CSS, f'<h1>{T("Сколько стоит самолёт — и сколько из этого приходится на рейс", "What an aircraft costs — and how much belongs to one flight", "Was ein Flugzeug kostet — und welcher Anteil auf einen Flug entfällt")}</h1>',
-            f'<p class="meta">{T("Черновик исследования · 11 ноября 2026 · перед публикацией требуется моделирование владельцем", "Research draft · 11 November 2026 · owner modelling required before publication", "Forschungsentwurf · 11. November 2026 · Modellprüfung durch den Eigentümer vor Veröffentlichung")}</p>',
+    body = [ARTICLE_CSS, f'<h1>{T("Сколько стоит самолёт: история цен и экономика лизинга", "What an aircraft costs: price history and lease economics", "Was ein Flugzeug kostet: Preisentwicklung und Leasingwirtschaft")}</h1>',
+            f'<p class="meta">{T("Исследование · 11 ноября 2026", "Research · 11 November 2026", "Recherche · 11. November 2026")}</p>',
             calc_badge(SLUG)]
     cards = [
         (money(mid), T("лизинг на условный рейс A320neo при середине выбранного диапазона", "lease cost allocated to an illustrative A320neo flight at the selected midpoint", "Leasinganteil eines A320neo-Beispielflugs beim gewählten Mittelpunkt")),
         (money(delta, sign=True), T("к заготовке на том же рейсе; меняется только владение", "versus the default for the same flight; only ownership changes", "gegenüber der Voreinstellung beim selben Flug; nur der Besitzkostenanteil ändert sich")),
-        (f'{n(d["coverage"]["total"])} / {n(d["coverage"]["types"])}', T("принятых наблюдений / типов в исходном справочнике", "accepted observations / types in the input catalogue", "angenommene Beobachtungen / Typen im Ausgangsbestand")),
-        (T("Диапазон, не одна цена", "A range, not one price", "Eine Spanne, kein Einzelpreis"), T("середина — допущение сценария; границы остаются видимыми", "the midpoint is a scenario assumption; the bounds remain visible", "der Mittelpunkt ist eine Szenarioannahme; die Grenzen bleiben sichtbar")),
+        (f'{n(sum(map(len, DISPLAY_TYPES.values())))} / {n(len(HISTORY["segments"]))}', T("типов ВС / сегмента в исторических панелях", "aircraft types / segments in the history panels", "Flugzeugtypen / Segmente in den historischen Diagrammen")),
+        (n(len(HISTORY["segments"])), T("графика лизинга открыто; история цены покупки — по нажатию", "lease charts visible; purchase-price history expands on demand", "Leasingdiagramme sichtbar; Kaufpreishistorie aufklappbar")),
     ]
     body.append('<div class="verdict">' + ''.join(f'<div><b>{a}</b><span>{b}</span></div>' for a, b in cards) + '</div>')
+    body.append(f'<p>{T("Сначала — история стоимости и ставок по четырём сегментам. Затем — численный пример сделки: как цена покупки, остаточная стоимость и стоимость денег превращаются в аренду; кому достаются платежи и какой риск остаётся у каждого участника.", "First comes value and rent history for four segments. A numerical transaction example then connects acquisition price, residual value and the cost of capital to rent, showing who receives each payment and who retains each risk.", "Zuerst folgt die Entwicklung von Werten und Raten in vier Segmenten. Ein Zahlenbeispiel verbindet danach Kaufpreis, Restwert und Kapitalkosten mit der Rate und zeigt Zahlungsströme und Risiken der Beteiligten.")}</p>')
+    body.append('<p class="small"><a href="#segment-history">' + T("История по сегментам", "History by segment", "Historie nach Segmenten") + '</a> · <a href="#lease-economics">' + T("Экономика сделки", "Transaction economics", "Transaktionswirtschaft") + '</a> · <a href="#flight-allocation">' + T("Стоимость на рейс", "Cost per flight", "Kosten je Flug") + '</a></p>')
     body.append(f'<p class="lede">{T(
         f"В нашем примере A320neo Франкфурт — Барселона заготовка отводит на лизинг {money(current)} за рейс. Выбранная оценка даёт {money(lo)}–{money(hi)}, а её середина — {money(mid)}. Разница относится к владению: топливо, обслуживание и экипаж в этом сравнении не пересчитываются. Ниже можно проверить каждый множитель и увидеть, почему ни каталог, ни возраст сами по себе не определяют месячный платёж.",
         f"In our Frankfurt–Barcelona A320neo example, the default allocates {money(current)} per flight to leasing. The selected estimate gives {money(lo)}–{money(hi)}, with a midpoint of {money(mid)}. This difference concerns ownership: fuel, maintenance and crew are held fixed. Each multiplier is shown below, explaining why neither the catalogue nor age alone determines a monthly payment.",
@@ -59,13 +64,14 @@ def build():
     body.append(chain([
         (T("Каталог", "List price", "Listenpreis"), T("опубликованный ориентир производителя", "the manufacturer's published reference", "veröffentlichter Richtwert des Herstellers")),
         (T("Цена сделки", "Transaction price", "Transaktionspreis"), T("сумма за конкретный самолёт и условия", "amount for a particular aircraft and terms", "Betrag für ein bestimmtes Flugzeug und seine Konditionen")),
-        (T("Оценка рынка", "Market appraisal", "Marktwertschätzung"), T("мнение оценщика на дату и при заданных условиях", "an appraiser's opinion for a date and stated conditions", "Bewertung für einen Zeitpunkt und bestimmte Annahmen")),
+        (T("Цена ВС (оценка рынка)", "Aircraft price (market appraisal)", "Flugzeugpreis (Marktwertschätzung)"), T("мнение оценщика на дату и при заданных условиях", "an appraiser's opinion for a date and stated conditions", "Bewertung für einen Zeitpunkt und bestimmte Annahmen")),
         (T("Лизинг", "Lease rate", "Leasingrate"), T("периодический платёж за пользование", "a recurring payment for use", "regelmäßige Zahlung für die Nutzung")),
     ]))
     body.append(f'<p>{T(
         "Покупка превращает деньги в актив, а лизинг задаёт регулярный платёж. В расчёте рейса нужен способ распределить владение по работе самолёта. Если самолёт взят в аренду, месячную ставку делим на месячный налёт и умножаем на длительность рейса. Если борт куплен, требуется отдельная модель капитала и остаточной стоимости: подставлять цену покупки вместо месячного лизинга нельзя.",
         "Buying converts money into an asset; leasing creates a recurring payment. Flight economics needs an allocation of ownership to aircraft use. For a leased aircraft, divide monthly rent by monthly block hours, then multiply by the flight's block time. A purchased aircraft needs a separate capital and residual-value model; its purchase price cannot replace monthly rent.",
         "Ein Kauf verwandelt Geld in einen Vermögenswert, Leasing erzeugt eine regelmäßige Zahlung. Für Flugkosten wird der Besitzkostenanteil auf die Nutzung verteilt: Monatsrate geteilt durch monatliche Blockstunden, multipliziert mit der Blockzeit des Flugs. Ein gekauftes Flugzeug braucht ein eigenes Modell für Kapital und Restwert.")}</p>')
+    body.append(history_section(s))
     body.append(f'<h2>{T("Свежая опора: I квартал 2026 года", "A recent anchor: Q1 2026", "Aktueller Anker: erstes Quartal 2026")}</h2>')
     body.append(f'<p>{T("IBA публикует следующие месячные диапазоны. Период сохранён как квартал; точный месяц не придуман.", "IBA reports these monthly ranges. The reference period remains a quarter; no exact month is invented.", "IBA nennt diese monatlichen Spannen. Der Bezugszeitraum bleibt ein Quartal; ein genauer Monat wird nicht unterstellt.")}{s.cite(IBA)}</p>')
     fresh = [o for o in d["recent_observations"] if o["source_id"] == "iba-iclg-2026" and o["kind"] == "lease"
@@ -83,7 +89,8 @@ def build():
                        T("Оценка, млн USD", "Appraisal, USD m", "Bewertung, Mio. USD"),
                        T("Лизинг, тыс. USD/месяц", "Lease, USD thousands/month", "Leasing, Tsd. USD/Monat")], fresh_rows))
     body.append(f'<p class="small">{T("Это оценки, а середины — наш расчёт. Возраст и модификацию сохраняем; A321NX и XLR не объединяем. Для диапазона A321NX источник прямо указывает зависимость от кредитного качества лизингополучателя. Его оценка 65 млн USD дана как half-life market value (HLMV): эту базу оценки технического состояния нужно сохранять отдельно от возраста борта.", "These are appraisals; midpoints are our calculation. Age and variant are retained; A321NX and XLR are kept separate. The source explicitly links the A321NX rent range to lessee credit strength. Its USD 65m appraisal is a half-life market value (HLMV); this maintenance-condition basis must be retained separately from aircraft age.", "Dies sind Schätzungen; Mittelpunkte berechnen wir. Alter und Variante bleiben erhalten; A321NX und XLR werden getrennt. Die Quelle nennt für die A321NX-Ratenspanne ausdrücklich die Bonität des Leasingnehmers. Die Bewertung von 65 Mio. USD ist ein Half-Life Market Value (HLMV); diese Zustandsbasis ist vom Flugzeugalter zu trennen.")}</p>')
-    body.append(f'<h2>{T("Формула: от месячной ставки к рейсу", "From monthly rent to one flight", "Von der Monatsrate zu einem Flug")}</h2>')
+    body.append(leasing_section(s))
+    body.append(f'<h2 id="flight-allocation">{T("Формула: от месячной ставки к рейсу", "From monthly rent to one flight", "Von der Monatsrate zu einem Flug")}</h2>')
     body.append('<p class="formula">L = (L<sub>min</sub> + L<sub>max</sub>) / 2<br>'
                 'C<sub>flight,EUR</sub> = (L<sub>USD/month</sub> / FX<sub>USD/EUR</sub>) × t<sub>block,h</sub> / H<sub>month,h</sub><br>'
                 'ΔC<sub>passenger</sub> = (C<sub>scenario</sub> − C<sub>default</sub>) / (seats × load)</p>')
@@ -130,11 +137,6 @@ def build():
     body.append(table([T("Тип", "Type", "Typ"), T("Период", "Period", "Zeitraum"), T("Колонка возраста, лет", "Age column, years", "Altersspalte, Jahre"),
                        T("Лизинг к новому борту", "Lease / new-aircraft lease", "Rate / Neuflugzeugrate")], ages))
     body.append(f'<p class="small">{T("AVAC оговаривает, что колонка «5 лет» может охватывать 4–6 лет. Это срез оценок, не история старения одного борта.", "AVAC notes that the five-year column may cover ages four to six. This is an appraisal cross-section, not one aircraft aging.", "AVAC weist darauf hin, dass die Fünfjahresspalte vier bis sechs Jahre abdecken kann. Dies ist ein Bewertungsquerschnitt, kein einzelnes alterndes Flugzeug.")}{s.cite("https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates")}</p>')
-    hist = {int(r["month"][:4]): r["lease_usd_month"] / 1000 for r in d["lease_value_pairs"] if r["icao"] == "A20N" and r["age"] == "new"}
-    body.append(line_chart([(T("Новый A320neo · AVAC", "New A320neo · AVAC", "Neuer A320neo · AVAC"), "var(--sky-t)", hist, False)],
-                           ylab=T("тыс. USD/месяц", "USD thousands/month", "Tsd. USD/Monat"), x_every=1))
-    body.append(f'<p class="small">{T("Исторический ряд одного оценщика, номинальные доллары. После 2020 линия не продлена; срез IBA 2026 показан отдельно выше.", "Historical series from one appraiser, nominal dollars. The line ends in 2020; the separate IBA 2026 snapshot is above.", "Historische Reihe eines Gutachters in nominalen Dollar. Die Linie endet 2020; der separate IBA-Snapshot 2026 steht oben.")}'
-                + s.cite(*sorted({r["source"] for r in d["lease_value_pairs"] if r["icao"] == "A20N" and r["age"] == "new"})) + '</p>')
     body.append(f'<p>{T(
         f"В исходной выборке есть {n(len(d['lease_value_pairs']))} точные пары «оценка стоимости — лизинг» одного типа, месяца, возраста и источника. Их отношение L/V удобно для сравнения, но не является доходностью инвестиции: оно не вычитает расходы и не учитывает остаточную стоимость. Общий коэффициент для всех типов преждевременен; сначала нужна проверка модели на отложенных годах и типах.",
         f"The input contains {n(len(d['lease_value_pairs']))} matched value-and-lease pairs with the same type, month, age and source. Their L/V ratio is useful for comparison but is not investment return: it omits expenses and residual value. A universal factor is premature; validation on held-out years and types comes first.",
@@ -144,10 +146,16 @@ def build():
         ("on_input", T("Использовать выбранный диапазон как сценарий: середину ввести месячной ставкой, границы — проверить отдельными расчётами.", "Use the chosen range as a scenario: enter the midpoint as monthly rent and test the bounds in separate calculations.", "Die gewählte Spanne als Szenario nutzen: Mittelpunkt als Monatsrate eingeben und Grenzen separat rechnen.")),
         ("in_calc", T("Сохранять опубликованные границы и отличать их от вычисленной середины; ручная ставка имеет приоритет.", "Keep published bounds distinct from the computed midpoint; an explicit manual rate has priority.", "Veröffentlichte Grenzen vom berechneten Mittelpunkt unterscheiden; eine manuelle Rate hat Vorrang.")),
         ("planned", T("Обучить ставку по типу, возрасту и периоду после проверки расширенных данных, сохраняя точность дат источника.", "Fit rates by type, age and period after checking the expanded data, retaining the source's date precision.", "Raten nach Typ, Alter und Zeitraum erst nach Prüfung der erweiterten Daten modellieren; die Datumsgenauigkeit der Quelle bleibt erhalten.")),
+        ("planned", T("Разделить сценарии аренды и покупки: для покупки задавать цену, срок владения, остаточную стоимость и стоимость капитала; для аренды — ставку, срок и состав платежей. Условия кредита показывать отдельно от стоимости самого актива.", "Separate leasing and purchase scenarios: for a purchase, specify price, holding period, residual value and capital return; for a lease, specify rent, term and payment scope. Show loan terms separately from asset economics.", "Miet- und Kaufszenarien trennen: beim Kauf Preis, Haltedauer, Restwert und Kapitalrendite; bei Leasing Rate, Laufzeit und Zahlungsumfang angeben. Kreditbedingungen getrennt von der Anlagenwirtschaft zeigen.")),
+        ("planned", T("Показывать отдельно экономическую себестоимость рейса и потребность в деньгах: депозит, технический резерв и погашение кредита имеют другой смысл, чем расход периода. Проверять, чтобы ТОиР не учитывалось дважды.", "Show flight economics separately from cash requirements: deposits, maintenance reserves and principal repayment differ from period expenses. Check that maintenance is not counted twice.", "Flugkosten und Liquiditätsbedarf getrennt zeigen: Kautionen, Wartungsrücklagen und Tilgung unterscheiden sich von Periodenaufwendungen. Wartung darf nicht doppelt erfasst werden.")),
     ]:
         body.append(f'<li>{mark(badge)}{text}</li>')
     body.append('</ol>')
     body.append(f'<details><summary>{T("Проверка, ограничения и следующие данные", "Verification, limits and next data", "Prüfung, Grenzen und weitere Daten")}</summary>')
+    body.append(f'<p>{T(
+        f"Исторические панели содержат {n(HISTORY['meta']['observation_count'])} наблюдение по 15 типам, включая {n(HISTORY['quality_counts']['chart_digitized'])} приблизительных значений, снятых с опубликованных графиков. Этот набор частично пересекается с прежней выпиской: количества нельзя складывать как новые уникальные наблюдения. history.py воспроизводит панели, lease_economics.py — денежные потоки и чувствительность сделки. Независимая проверка арифметики заново дисконтирует все потоки и пересчитывает кредит, не импортируя расчёт автора.",
+        f"History panels contain {n(HISTORY['meta']['observation_count'])} observations across 15 types, including {n(HISTORY['quality_counts']['chart_digitized'])} approximate readings from published charts. This set overlaps the earlier extraction; counts must not be added as unique new observations. history.py reproduces the panels, and lease_economics.py reproduces transaction cash flows and sensitivities. An independent arithmetic check discounts each cash flow and recalculates the loan without importing the author's calculation.",
+        f"Die historischen Diagramme verwenden {n(HISTORY['meta']['observation_count'])} Beobachtungen zu 15 Typen, darunter {n(HISTORY['quality_counts']['chart_digitized'])} ungefähre Ablesungen veröffentlichter Diagramme. Der Bestand überschneidet sich mit der früheren Erhebung; die Zahlen dürfen nicht als neue eindeutige Beobachtungen addiert werden. history.py erzeugt die Diagrammdaten, lease_economics.py Zahlungsströme und Sensitivitäten. Eine unabhängige Prüfung diskontiert jeden Zahlungsstrom und berechnet den Kredit ohne Import der Autorenberechnung neu.")}</p>')
     body.append(f'<p>{T(
         f"Анализ читает исходный YAML и отдельную исследовательскую выписку; контрольные суммы записаны в out/summary.json. В справочнике {n(d['coverage']['total'])} принятых строк. Дополнительно собраны {n(d['additional_coverage']['total'])} исследовательских строк, которые пока не меняют справочник. Независимая сверка и её охват находятся в verify/. Команды analyze.py и build_report.py воспроизводят расчёт и три языковые версии.",
         f"Analysis reads the original YAML and a separate research extraction; checksums are in out/summary.json. The accepted catalogue has {n(d['coverage']['total'])} rows. Another {n(d['additional_coverage']['total'])} research rows do not yet change that catalogue. Independent checks and their scope are in verify/. analyze.py and build_report.py reproduce the calculation and all three language versions.",
@@ -162,3 +170,6 @@ def build():
 
 if __name__ == "__main__":
     write_all(HERE, SLUG, build)
+    # Keep metadata and the cited answer box after every HTML rebuild.
+    from seo_article import process_three
+    process_three(HERE)
