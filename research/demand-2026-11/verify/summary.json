@@ -1,0 +1,61 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "role": "Independent verifier; did not collect the research anchors or fit the submitted benchmark.",
+  "independent_review_complete": true,
+  "verification_reports": {
+    "benchmark.json": {
+      "status": "pass_with_scope_limits",
+      "sha256": "0aea64537b9caea207f1689dc58fbc0124d96ac7b5bbb164bd94d7d455dc7b9d"
+    },
+    "export.json": {
+      "status": "pass",
+      "sha256": "091df7bcb68fcac4a069d44f1f9c8c23eaf3942c3853dc6ad7659e3d956f8430"
+    },
+    "income_source.json": {
+      "status": "pass",
+      "sha256": "d4d8a201a324c76c0cd90c53ff66be7fbd9bcee74a7066655b3d9a66b42731a0"
+    },
+    "report.json": {
+      "status": "pass_with_scope_limits",
+      "sha256": "a2a578d82df449d7dace2be695cf8ee2a1ab8d221f93485da4d6a2a49081805b"
+    },
+    "sources.json": {
+      "status": "verified_with_scope_limits",
+      "sha256": "1441708068e4da16e341ebb87a2016bcd753445c7f72b4677e2031d988bc2f03"
+    },
+    "tourism_source.json": {
+      "status": "pass_with_scope_limits",
+      "sha256": "e4fababf44a0280a9fb750994e37107ea27e163f0221b0924c4b12fee0948480"
+    },
+    "trace.json": {
+      "status": "pass",
+      "sha256": "bd660d5d771f400bdcfea08b7ab809be788e351000242fa1b19a024ac34da16b"
+    }
+  },
+  "checks": {
+    "benchmark_experiments": 6,
+    "per_pair_prediction_records": 20933,
+    "all_summary_metrics_recomputed": true,
+    "base_smearing_multipliers_from_training_residuals_verified": true,
+    "world_bank_country_year_values": 258,
+    "gisco_airport_region_assignments": 320,
+    "eurostat_airport_year_night_totals": 542,
+    "all_three_direct_trace_quotations_literal": true,
+    "export_read_only_and_public_field_selection_verified": true,
+    "final_ru_en_de_articles_reviewed": true
+  },
+  "resolved_findings": [
+    "PAS_CRD described as on-flight airport-pair flow, distinct from PAS_BRD and full journeys.",
+    "Median-factor formula corrected for the exact even-sample implementation.",
+    "Selection now describes complete positive monthly observations, not all possible new/closed routes.",
+    "Optional covariate term is distinguished from the distance definition."
+  ],
+  "limits": [
+    "Observed annual routes with twelve positive months; no zero-flow/absent-pair or monthly-seasonality validation.",
+    "National/regional proxies, partial training airport masses, 2026 data vintage and NUTS2024 geometry are explicit research assumptions.",
+    "No causal effect, formal statistical significance or validation of production P/T/F is established.",
+    "Train-only smearing trades aggregate bias against route-level error; it is not a uniform improvement.",
+    "Owner modelling/publication stage remains outside this independent verification."
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "status": "verified_arithmetic_only",
+  "as_of": "2026-11-11",
+  "method": "Independent plain-Python arithmetic directly from accepted YAML; does not import researcher analysis code.",
+  "result": {
+    "input_sha256": "e1e6c4dc38dddb069700ddd8a662dff3492644322ffb3e9869f6f67f38ddc35d",
+    "coverage": {
+      "total": 167,
+      "types": 22,
+      "by_kind": {
+        "list": 11,
+        "lease": 83,
+        "value": 73
+      },
+      "by_year": {
+        "2018": 41,
+        "2016": 14,
+        "2017": 30,
+        "2019": 33,
+        "2020": 40,
+        "2022": 4,
+        "2023": 2,
+        "2024": 3
+      }
+    },
+    "catalog_comparisons": [
+      {
+        "icao": "A20N",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 110600000.0,
+        "market_usd": 50300000.0,
+        "ratio": 2.198807157057654
+      },
+      {
+        "icao": "A21N",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 129500000.0,
+        "market_usd": 59200000.0,
+        "ratio": 2.1875
+      },
+      {
+        "icao": "A321",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 118300000.0,
+        "market_usd": 49700000.0,
+        "ratio": 2.380281690140845
+      },
+      {
+        "icao": "A332",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 238500000.0,
+        "market_usd": 78700000.0,
+        "ratio": 3.0304955527318933
+      },
+      {
+        "icao": "A339",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 296400000.0,
+        "market_usd": 114900000.0,
+        "ratio": 2.5796344647519582
+      },
+      {
+        "icao": "A359",
+        "list_month": "2018-01",
+        "market_month": "2018-10",
+        "list_usd": 317400000.0,
+        "market_usd": 149900000.0,
+        "ratio": 2.117411607738492
+      }
+    ],
+    "lease_value_count": 73,
+    "lease_value_types": 16,
+    "lease_value_by_year": {
+      "2016": {
+        "n": 7,
+        "median_fraction": 0.00805607476635514
+      },
+      "2017": {
+        "n": 15,
+        "median_fraction": 0.008551587301587301
+      },
+      "2018": {
+        "n": 15,
+        "median_fraction": 0.007817836812144213
+      },
+      "2019": {
+        "n": 16,
+        "median_fraction": 0.007720993651834412
+      },
+      "2020": {
+        "n": 20,
+        "median_fraction": 0.007020498942732243
+      }
+    },
+    "shock_2019_2020": [
+      {
+        "icao": "A20N",
+        "value": {
+          "2019": 52000000.0,
+          "2020": 42300000.0,
+          "change_fraction": -0.18653846153846154
+        },
+        "lease": {
+          "2019": 368000.0,
+          "2020": 256000.0,
+          "change_fraction": -0.30434782608695654
+        }
+      },
+      {
+        "icao": "A21N",
+        "value": {
+          "2019": 58300000.0,
+          "2020": 47600000.0,
+          "change_fraction": -0.18353344768439106
+        },
+        "lease": {
+          "2019": 406000.0,
+          "2020": 302000.0,
+          "change_fraction": -0.2561576354679803
+        }
+      },
+      {
+        "icao": "B38M",
+        "value": {
+          "2019": 53400000.0,
+          "2020": 42400000.0,
+          "change_fraction": -0.20599250936329583
+        },
+        "lease": {
+          "2019": 411000.0,
+          "2020": 248000.0,
+          "change_fraction": -0.3965936739659367
+        }
+      },
+      {
+        "icao": "A359",
+        "value": {
+          "2019": 150000000.0,
+          "2020": 110500000.0,
+          "change_fraction": -0.2633333333333333
+        },
+        "lease": {
+          "2019": 1172000.0,
+          "2020": 789000.0,
+          "change_fraction": -0.32679180887372017
+        }
+      }
+    ]
+  }
+}

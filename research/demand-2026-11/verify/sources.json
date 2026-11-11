@@ -1,0 +1,52 @@
+{
+  "as_of": "2026-11-11",
+  "status": "verified_with_scope_limits",
+  "method": "Primary metadata independently opened; paraphrases below are verification conclusions, not direct quotations. Numerical API verification is recorded separately.",
+  "sources": [
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/avia_pa_esms.htm",
+      "ref": "turn83view0",
+      "sections": [
+        "3.4",
+        "7.1",
+        "12.2"
+      ],
+      "verified": [
+        "PAS_CRD passengers carried uses on-flight origin/destination with one flight number.",
+        "Transfer passengers joining or leaving the flight are included; direct transit is excluded.",
+        "This differs from PAS_BRD flight-stage passengers on board and from true full-journey origin/destination.",
+        "Route dissemination uses thresholds: unreported pairs cannot be treated as zero demand."
+      ]
+    },
+    {
+      "url": "https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD",
+      "ref": "turn83view1",
+      "verified": [
+        "Indicator NY.GDP.PCAP.PP.KD measures GDP per capita PPP in constant 2021 international dollars.",
+        "It is a country-level economic proxy, not observed income of air travellers or residents of an airport catchment."
+      ]
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/tour_occ_esms.htm",
+      "ref": "turn88view0",
+      "sections": [
+        "3.1",
+        "3.2"
+      ],
+      "verified": [
+        "The accommodation statistics cover domestic and inbound tourists staying in covered rented accommodation.",
+        "NACE55.1,55.2,55.3 are the selected establishment groups.",
+        "Monthly NUTS2 nights are transmitted annually with a month breakdown; the frequency dimension A is compatible with twelve monthly values.",
+        "TOTAL residency includes residents and non-residents. Counts are nights, not arrivals or aviation passengers."
+      ]
+    },
+    {
+      "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/",
+      "ref": "turn88view1",
+      "verified": [
+        "NUTS2024 is a dated geographic version; the research uses the official level2 WGS84 polygon file at1:10million.",
+        "Airport coordinate containment is reproducible, but does not establish the passenger catchment area."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass",
+  "method": "Fresh independent World Bank single-indicator API request; compared every retained country/year value, not researcher raw cache.",
+  "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.PP.KD?format=json&date=2022:2023&per_page=5000",
+  "raw_sha256": "707be6beb5436eeba04cdcaf96db5c369a6f48c0ef65e5e8fed6a3d199f900ef",
+  "input_sha256": "129737b5b7f0766d6fd5c771e518dc860cb21745d62931748aa0b25a6eea7e80",
+  "source_updated": "2026-10-08",
+  "countries_per_year": {
+    "2023": 129,
+    "2022": 129
+  },
+  "values_checked": 258,
+  "mismatches": [],
+  "limits": [
+    "A 2026 vintage of 2022/2023 observations; not proof that values were available unrevised at the time.",
+    "GDP per capita PPP is a national covariate, not disposable household income or regional catchment income."
+  ],
+  "final_extract_rechecked": true
+}

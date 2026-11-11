@@ -1,0 +1,2350 @@
+{
+  "meta": {
+    "as_of": "2026-11-11",
+    "input": "data/prices/_observations.yaml",
+    "input_sha256": "e1e6c4dc38dddb069700ddd8a662dff3492644322ffb3e9869f6f67f38ddc35d",
+    "additional_input_sha256": "6af502cad1ddba92280b8ecaf8f85e33f56950dabfe32a43d834369bd9de6ea3",
+    "all_amounts": "nominal USD at source period; lease per month; no CPI adjustment"
+  },
+  "coverage": {
+    "total": 167,
+    "types": 22,
+    "by_kind": {
+      "lease": 83,
+      "list": 11,
+      "value": 73
+    },
+    "by_year": {
+      "2016": 14,
+      "2017": 30,
+      "2018": 41,
+      "2019": 33,
+      "2020": 40,
+      "2022": 4,
+      "2023": 2,
+      "2024": 3
+    },
+    "by_age": {
+      "10": 20,
+      "5": 16,
+      "new": 129,
+      "unknown": 2
+    },
+    "type_codes": [
+      "A19N",
+      "A20N",
+      "A21N",
+      "A319",
+      "A320",
+      "A321",
+      "A332",
+      "A333",
+      "A339",
+      "A359",
+      "A35K",
+      "AT76",
+      "B38M",
+      "B39M",
+      "B738",
+      "B77W",
+      "B788",
+      "B789",
+      "BCS3",
+      "CRJ9",
+      "E295",
+      "E75L"
+    ]
+  },
+  "catalog_comparisons": [
+    {
+      "icao": "A20N",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 110600000.0,
+      "market_usd": 50300000.0,
+      "ratio": 2.198807157057654,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    },
+    {
+      "icao": "A21N",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 129500000.0,
+      "market_usd": 59200000.0,
+      "ratio": 2.1875,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    },
+    {
+      "icao": "A321",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 118300000.0,
+      "market_usd": 49700000.0,
+      "ratio": 2.380281690140845,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    },
+    {
+      "icao": "A332",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 238500000.0,
+      "market_usd": 78700000.0,
+      "ratio": 3.0304955527318933,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    },
+    {
+      "icao": "A339",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 296400000.0,
+      "market_usd": 114900000.0,
+      "ratio": 2.5796344647519582,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    },
+    {
+      "icao": "A359",
+      "list_month": "2018-01",
+      "market_month": "2018-10",
+      "list_usd": 317400000.0,
+      "market_usd": 149900000.0,
+      "ratio": 2.117411607738492,
+      "sources": [
+        "https://www.businesstraveller.com/business-travel/airbus-publishes-2018-aircraft-list-prices/",
+        "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates"
+      ]
+    }
+  ],
+  "lease_value_pairs": [
+    {
+      "icao": "A20N",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 47600000.0,
+      "lease_usd_month": 379000.0,
+      "monthly_fraction": 0.00796218487394958
+    },
+    {
+      "icao": "A20N",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 49500000.0,
+      "lease_usd_month": 397000.0,
+      "monthly_fraction": 0.00802020202020202
+    },
+    {
+      "icao": "A20N",
+      "month": "2018-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 40200000.0,
+      "lease_usd_month": 313000.0,
+      "monthly_fraction": 0.007786069651741293
+    },
+    {
+      "icao": "A20N",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 50300000.0,
+      "lease_usd_month": 384000.0,
+      "monthly_fraction": 0.007634194831013917
+    },
+    {
+      "icao": "A20N",
+      "month": "2019-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 39100000.0,
+      "lease_usd_month": 294000.0,
+      "monthly_fraction": 0.007519181585677749
+    },
+    {
+      "icao": "A20N",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 52000000.0,
+      "lease_usd_month": 368000.0,
+      "monthly_fraction": 0.007076923076923077
+    },
+    {
+      "icao": "A20N",
+      "month": "2020-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 32200000.000000004,
+      "lease_usd_month": 209000.0,
+      "monthly_fraction": 0.0064906832298136635
+    },
+    {
+      "icao": "A20N",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 42300000.0,
+      "lease_usd_month": 256000.0,
+      "monthly_fraction": 0.006052009456264776
+    },
+    {
+      "icao": "A21N",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 56900000.0,
+      "lease_usd_month": 455000.0,
+      "monthly_fraction": 0.007996485061511424
+    },
+    {
+      "icao": "A21N",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 58300000.0,
+      "lease_usd_month": 458000.0,
+      "monthly_fraction": 0.007855917667238421
+    },
+    {
+      "icao": "A21N",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 59200000.0,
+      "lease_usd_month": 453000.0,
+      "monthly_fraction": 0.007652027027027027
+    },
+    {
+      "icao": "A21N",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 58300000.0,
+      "lease_usd_month": 406000.0,
+      "monthly_fraction": 0.006963979416809605
+    },
+    {
+      "icao": "A21N",
+      "month": "2020-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 41300000.0,
+      "lease_usd_month": 285000.0,
+      "monthly_fraction": 0.006900726392251816
+    },
+    {
+      "icao": "A21N",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 47600000.0,
+      "lease_usd_month": 302000.0,
+      "monthly_fraction": 0.006344537815126051
+    },
+    {
+      "icao": "A320",
+      "month": "2017-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 17400000.0,
+      "lease_usd_month": 190000.0,
+      "monthly_fraction": 0.010919540229885057
+    },
+    {
+      "icao": "A320",
+      "month": "2018-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 16800000.0,
+      "lease_usd_month": 172000.0,
+      "monthly_fraction": 0.010238095238095239
+    },
+    {
+      "icao": "A320",
+      "month": "2019-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 21400000.0,
+      "lease_usd_month": 200000.0,
+      "monthly_fraction": 0.009345794392523364
+    },
+    {
+      "icao": "A320",
+      "month": "2020-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 17500000.0,
+      "lease_usd_month": 144000.0,
+      "monthly_fraction": 0.008228571428571429
+    },
+    {
+      "icao": "A321",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 50700000.0,
+      "lease_usd_month": 411000.0,
+      "monthly_fraction": 0.008106508875739644
+    },
+    {
+      "icao": "A321",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 49700000.0,
+      "lease_usd_month": 383000.0,
+      "monthly_fraction": 0.007706237424547284
+    },
+    {
+      "icao": "A321",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 48400000.0,
+      "lease_usd_month": 344000.0,
+      "monthly_fraction": 0.007107438016528926
+    },
+    {
+      "icao": "A321",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 35100000.0,
+      "lease_usd_month": 236000.0,
+      "monthly_fraction": 0.006723646723646724
+    },
+    {
+      "icao": "A332",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 83800000.0,
+      "lease_usd_month": 751000.0,
+      "monthly_fraction": 0.0089618138424821
+    },
+    {
+      "icao": "A332",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 78700000.0,
+      "lease_usd_month": 679000.0,
+      "monthly_fraction": 0.008627700127064803
+    },
+    {
+      "icao": "A332",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 75000000.0,
+      "lease_usd_month": 621000.0,
+      "monthly_fraction": 0.00828
+    },
+    {
+      "icao": "A332",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 47800000.0,
+      "lease_usd_month": 372000.0,
+      "monthly_fraction": 0.007782426778242678
+    },
+    {
+      "icao": "A339",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 114900000.0,
+      "lease_usd_month": 893000.0,
+      "monthly_fraction": 0.007771975630983464
+    },
+    {
+      "icao": "A339",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 112600000.0,
+      "lease_usd_month": 889000.0,
+      "monthly_fraction": 0.007895204262877441
+    },
+    {
+      "icao": "A339",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 76200000.0,
+      "lease_usd_month": 571000.0,
+      "monthly_fraction": 0.007493438320209974
+    },
+    {
+      "icao": "A359",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 142800000.0,
+      "lease_usd_month": 1121000.0,
+      "monthly_fraction": 0.00785014005602241
+    },
+    {
+      "icao": "A359",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 145200000.0,
+      "lease_usd_month": 1161000.0,
+      "monthly_fraction": 0.007995867768595042
+    },
+    {
+      "icao": "A359",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 149900000.0,
+      "lease_usd_month": 1212000.0,
+      "monthly_fraction": 0.008085390260173448
+    },
+    {
+      "icao": "A359",
+      "month": "2019-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 98400000.0,
+      "lease_usd_month": 887000.0,
+      "monthly_fraction": 0.009014227642276423
+    },
+    {
+      "icao": "A359",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 150000000.0,
+      "lease_usd_month": 1172000.0,
+      "monthly_fraction": 0.007813333333333334
+    },
+    {
+      "icao": "A359",
+      "month": "2020-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 80200000.0,
+      "lease_usd_month": 620000.0,
+      "monthly_fraction": 0.0077306733167082295
+    },
+    {
+      "icao": "A359",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 110500000.0,
+      "lease_usd_month": 789000.0,
+      "monthly_fraction": 0.00714027149321267
+    },
+    {
+      "icao": "B38M",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 53500000.0,
+      "lease_usd_month": 431000.0,
+      "monthly_fraction": 0.00805607476635514
+    },
+    {
+      "icao": "B38M",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 50400000.0,
+      "lease_usd_month": 431000.0,
+      "monthly_fraction": 0.008551587301587301
+    },
+    {
+      "icao": "B38M",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 52700000.0,
+      "lease_usd_month": 412000.0,
+      "monthly_fraction": 0.007817836812144213
+    },
+    {
+      "icao": "B38M",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 53400000.0,
+      "lease_usd_month": 411000.0,
+      "monthly_fraction": 0.007696629213483146
+    },
+    {
+      "icao": "B38M",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 42400000.0,
+      "lease_usd_month": 248000.0,
+      "monthly_fraction": 0.005849056603773585
+    },
+    {
+      "icao": "B39M",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 54200000.0,
+      "lease_usd_month": 468000.0,
+      "monthly_fraction": 0.00863468634686347
+    },
+    {
+      "icao": "B39M",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 51700000.0,
+      "lease_usd_month": 468000.0,
+      "monthly_fraction": 0.009052224371373308
+    },
+    {
+      "icao": "B39M",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 53500000.0,
+      "lease_usd_month": 423000.0,
+      "monthly_fraction": 0.007906542056074767
+    },
+    {
+      "icao": "B39M",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 52300000.0,
+      "lease_usd_month": 413000.0,
+      "monthly_fraction": 0.007896749521988529
+    },
+    {
+      "icao": "B39M",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 41700000.0,
+      "lease_usd_month": 244000.0,
+      "monthly_fraction": 0.005851318944844125
+    },
+    {
+      "icao": "B738",
+      "month": "2017-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 20300000.0,
+      "lease_usd_month": 212000.0,
+      "monthly_fraction": 0.010443349753694582
+    },
+    {
+      "icao": "B738",
+      "month": "2018-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 18600000.0,
+      "lease_usd_month": 184000.0,
+      "monthly_fraction": 0.00989247311827957
+    },
+    {
+      "icao": "B738",
+      "month": "2019-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 27800000.0,
+      "lease_usd_month": 243000.0,
+      "monthly_fraction": 0.008741007194244605
+    },
+    {
+      "icao": "B738",
+      "month": "2020-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 14800000.0,
+      "lease_usd_month": 131000.0,
+      "monthly_fraction": 0.008851351351351351
+    },
+    {
+      "icao": "B77W",
+      "month": "2017-10",
+      "age": 10,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 83600000.0,
+      "lease_usd_month": 887000.0,
+      "monthly_fraction": 0.010610047846889951
+    },
+    {
+      "icao": "B77W",
+      "month": "2017-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 119600000.0,
+      "lease_usd_month": 1187000.0,
+      "monthly_fraction": 0.0099247491638796
+    },
+    {
+      "icao": "B77W",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 155600000.0,
+      "lease_usd_month": 1492000.0,
+      "monthly_fraction": 0.009588688946015424
+    },
+    {
+      "icao": "B77W",
+      "month": "2020-10",
+      "age": 5,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 79700000.0,
+      "lease_usd_month": 757000.0,
+      "monthly_fraction": 0.009498117942283564
+    },
+    {
+      "icao": "B77W",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 92300000.0,
+      "lease_usd_month": 828000.0,
+      "monthly_fraction": 0.008970747562296858
+    },
+    {
+      "icao": "B788",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 119600000.0,
+      "lease_usd_month": 931000.0,
+      "monthly_fraction": 0.00778428093645485
+    },
+    {
+      "icao": "B788",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 121800000.0,
+      "lease_usd_month": 886000.0,
+      "monthly_fraction": 0.007274220032840723
+    },
+    {
+      "icao": "B788",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 118800000.0,
+      "lease_usd_month": 861000.0,
+      "monthly_fraction": 0.007247474747474747
+    },
+    {
+      "icao": "B788",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 78000000.0,
+      "lease_usd_month": 525000.0,
+      "monthly_fraction": 0.006730769230769231
+    },
+    {
+      "icao": "B789",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 139900000.0,
+      "lease_usd_month": 1173000.0,
+      "monthly_fraction": 0.008384560400285918
+    },
+    {
+      "icao": "B789",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 141600000.0,
+      "lease_usd_month": 1176000.0,
+      "monthly_fraction": 0.008305084745762711
+    },
+    {
+      "icao": "B789",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 143200000.0,
+      "lease_usd_month": 1164000.0,
+      "monthly_fraction": 0.008128491620111733
+    },
+    {
+      "icao": "B789",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 146900000.0,
+      "lease_usd_month": 1100000.0,
+      "monthly_fraction": 0.007488087134104833
+    },
+    {
+      "icao": "B789",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 107700000.0,
+      "lease_usd_month": 724000.0,
+      "monthly_fraction": 0.006722376973073352
+    },
+    {
+      "icao": "BCS3",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 35300000.0,
+      "lease_usd_month": 282000.0,
+      "monthly_fraction": 0.007988668555240793
+    },
+    {
+      "icao": "BCS3",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 37700000.0,
+      "lease_usd_month": 292000.0,
+      "monthly_fraction": 0.0077453580901856766
+    },
+    {
+      "icao": "BCS3",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 29100000.0,
+      "lease_usd_month": 218000.0,
+      "monthly_fraction": 0.007491408934707904
+    },
+    {
+      "icao": "E295",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 27500000.0,
+      "lease_usd_month": 219000.0,
+      "monthly_fraction": 0.007963636363636364
+    },
+    {
+      "icao": "E75L",
+      "month": "2016-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "value_usd": 28300000.0,
+      "lease_usd_month": 233000.0,
+      "monthly_fraction": 0.00823321554770318
+    },
+    {
+      "icao": "E75L",
+      "month": "2017-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "value_usd": 28100000.0,
+      "lease_usd_month": 226000.0,
+      "monthly_fraction": 0.00804270462633452
+    },
+    {
+      "icao": "E75L",
+      "month": "2018-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "value_usd": 27500000.0,
+      "lease_usd_month": 206000.0,
+      "monthly_fraction": 0.007490909090909091
+    },
+    {
+      "icao": "E75L",
+      "month": "2019-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "value_usd": 26800000.0,
+      "lease_usd_month": 182000.0,
+      "monthly_fraction": 0.006791044776119403
+    },
+    {
+      "icao": "E75L",
+      "month": "2020-10",
+      "age": "new",
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "value_usd": 18900000.0,
+      "lease_usd_month": 123000.0,
+      "monthly_fraction": 0.006507936507936508
+    }
+  ],
+  "lease_value_by_year": [
+    {
+      "year": 2016,
+      "n": 7,
+      "median_fraction": 0.00805607476635514
+    },
+    {
+      "year": 2017,
+      "n": 15,
+      "median_fraction": 0.008551587301587301
+    },
+    {
+      "year": 2018,
+      "n": 15,
+      "median_fraction": 0.007817836812144213
+    },
+    {
+      "year": 2019,
+      "n": 16,
+      "median_fraction": 0.007720993651834412
+    },
+    {
+      "year": 2020,
+      "n": 20,
+      "median_fraction": 0.007020498942732243
+    }
+  ],
+  "lease_value_fixed_cohort": {
+    "members": [
+      {
+        "icao": "A20N",
+        "age": "new"
+      },
+      {
+        "icao": "A21N",
+        "age": "new"
+      },
+      {
+        "icao": "A359",
+        "age": "new"
+      },
+      {
+        "icao": "B38M",
+        "age": "new"
+      },
+      {
+        "icao": "B39M",
+        "age": "new"
+      },
+      {
+        "icao": "B789",
+        "age": "new"
+      },
+      {
+        "icao": "E75L",
+        "age": "new"
+      }
+    ],
+    "years": [
+      {
+        "year": 2016,
+        "n": 7,
+        "median_fraction": 0.00805607476635514
+      },
+      {
+        "year": 2017,
+        "n": 7,
+        "median_fraction": 0.00804270462633452
+      },
+      {
+        "year": 2018,
+        "n": 7,
+        "median_fraction": 0.007817836812144213
+      },
+      {
+        "year": 2019,
+        "n": 7,
+        "median_fraction": 0.007488087134104833
+      },
+      {
+        "year": 2020,
+        "n": 7,
+        "median_fraction": 0.006344537815126051
+      }
+    ]
+  },
+  "shock_2019_2020": [
+    {
+      "icao": "A20N",
+      "from_month": "2019-10",
+      "to_month": "2020-10",
+      "value_change": -0.18653846153846154,
+      "lease_change": -0.30434782608695654,
+      "sources": [
+        "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates"
+      ]
+    },
+    {
+      "icao": "A21N",
+      "from_month": "2019-10",
+      "to_month": "2020-10",
+      "value_change": -0.18353344768439106,
+      "lease_change": -0.2561576354679803,
+      "sources": [
+        "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates"
+      ]
+    },
+    {
+      "icao": "B38M",
+      "from_month": "2019-10",
+      "to_month": "2020-10",
+      "value_change": -0.20599250936329583,
+      "lease_change": -0.3965936739659367,
+      "sources": [
+        "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates"
+      ]
+    },
+    {
+      "icao": "A359",
+      "from_month": "2019-10",
+      "to_month": "2020-10",
+      "value_change": -0.2633333333333333,
+      "lease_change": -0.32679180887372017,
+      "sources": [
+        "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+        "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates"
+      ]
+    }
+  ],
+  "age_comparisons": [
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 384000.0,
+      "aged_usd": 313000.0,
+      "fraction_of_new": 0.8151041666666666,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 368000.0,
+      "aged_usd": 294000.0,
+      "fraction_of_new": 0.7989130434782609,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 256000.0,
+      "aged_usd": 209000.0,
+      "fraction_of_new": 0.81640625,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 50300000.0,
+      "aged_usd": 40200000.0,
+      "fraction_of_new": 0.7992047713717694,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 52000000.0,
+      "aged_usd": 39100000.0,
+      "fraction_of_new": 0.7519230769230769,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 42300000.0,
+      "aged_usd": 32200000.000000004,
+      "fraction_of_new": 0.7612293144208039,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A21N",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 302000.0,
+      "aged_usd": 285000.0,
+      "fraction_of_new": 0.9437086092715232,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A21N",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 47600000.0,
+      "aged_usd": 41300000.0,
+      "fraction_of_new": 0.8676470588235294,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 1172000.0,
+      "aged_usd": 887000.0,
+      "fraction_of_new": 0.7568259385665529,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 789000.0,
+      "aged_usd": 620000.0,
+      "fraction_of_new": 0.7858048162230672,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 150000000.0,
+      "aged_usd": 98400000.0,
+      "fraction_of_new": 0.656,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 110500000.0,
+      "aged_usd": 80200000.0,
+      "fraction_of_new": 0.7257918552036199,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 1492000.0,
+      "aged_usd": 1187000.0,
+      "fraction_of_new": 0.7955764075067024,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 10,
+      "new_usd": 1492000.0,
+      "aged_usd": 887000.0,
+      "fraction_of_new": 0.5945040214477212,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 828000.0,
+      "aged_usd": 757000.0,
+      "fraction_of_new": 0.9142512077294686,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 155600000.0,
+      "aged_usd": 119600000.0,
+      "fraction_of_new": 0.7686375321336761,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 10,
+      "new_usd": 155600000.0,
+      "aged_usd": 83600000.0,
+      "fraction_of_new": 0.5372750642673522,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 92300000.0,
+      "aged_usd": 79700000.0,
+      "fraction_of_new": 0.8634886240520043,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    }
+  ],
+  "expanded_age_comparisons": [
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 384000.0,
+      "aged_usd": 313000.0,
+      "fraction_of_new": 0.8151041666666666,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 368000.0,
+      "aged_usd": 294000.0,
+      "fraction_of_new": 0.7989130434782609,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 256000.0,
+      "aged_usd": 209000.0,
+      "fraction_of_new": 0.81640625,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 50300000.0,
+      "aged_usd": 40200000.0,
+      "fraction_of_new": 0.7992047713717694,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 52000000.0,
+      "aged_usd": 39100000.0,
+      "fraction_of_new": 0.7519230769230769,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A20N",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 42300000.0,
+      "aged_usd": 32200000.000000004,
+      "fraction_of_new": 0.7612293144208039,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A21N",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 302000.0,
+      "aged_usd": 285000.0,
+      "fraction_of_new": 0.9437086092715232,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A21N",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 47600000.0,
+      "aged_usd": 41300000.0,
+      "fraction_of_new": 0.8676470588235294,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 411000.0,
+      "aged_usd": 316000.0,
+      "fraction_of_new": 0.7688564476885644,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 383000.0,
+      "aged_usd": 312000.0,
+      "fraction_of_new": 0.814621409921671,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 344000.0,
+      "aged_usd": 275000.0,
+      "fraction_of_new": 0.7994186046511628,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 236000.0,
+      "aged_usd": 194000.0,
+      "fraction_of_new": 0.8220338983050848,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 236000.0,
+      "aged_usd": 157000.0,
+      "fraction_of_new": 0.6652542372881356,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 50700000.0,
+      "aged_usd": 35700000.0,
+      "fraction_of_new": 0.7041420118343196,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 49700000.0,
+      "aged_usd": 39300000.0,
+      "fraction_of_new": 0.7907444668008048,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 48400000.0,
+      "aged_usd": 35600000.0,
+      "fraction_of_new": 0.7355371900826446,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 35100000.0,
+      "aged_usd": 27500000.0,
+      "fraction_of_new": 0.7834757834757835,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A321",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 35100000.0,
+      "aged_usd": 19000000.0,
+      "fraction_of_new": 0.5413105413105413,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 751000.0,
+      "aged_usd": 614000.0,
+      "fraction_of_new": 0.8175765645805593,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 679000.0,
+      "aged_usd": 593000.0,
+      "fraction_of_new": 0.8733431516936672,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 10,
+      "new_usd": 679000.0,
+      "aged_usd": 489000.0,
+      "fraction_of_new": 0.7201767304860088,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 621000.0,
+      "aged_usd": 511000.0,
+      "fraction_of_new": 0.822866344605475,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 372000.0,
+      "aged_usd": 311000.0,
+      "fraction_of_new": 0.8360215053763441,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 372000.0,
+      "aged_usd": 239000.0,
+      "fraction_of_new": 0.6424731182795699,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 83800000.0,
+      "aged_usd": 63600000.0,
+      "fraction_of_new": 0.7589498806682577,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 78700000.0,
+      "aged_usd": 64599999.99999999,
+      "fraction_of_new": 0.8208386277001269,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 10,
+      "new_usd": 78700000.0,
+      "aged_usd": 41800000.0,
+      "fraction_of_new": 0.531130876747141,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 75000000.0,
+      "aged_usd": 57500000.0,
+      "fraction_of_new": 0.7666666666666667,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 47800000.0,
+      "aged_usd": 37300000.0,
+      "fraction_of_new": 0.7803347280334728,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A332",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 47800000.0,
+      "aged_usd": 26800000.0,
+      "fraction_of_new": 0.5606694560669456,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 1172000.0,
+      "aged_usd": 887000.0,
+      "fraction_of_new": 0.7568259385665529,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 789000.0,
+      "aged_usd": 620000.0,
+      "fraction_of_new": 0.7858048162230672,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 150000000.0,
+      "aged_usd": 98400000.0,
+      "fraction_of_new": 0.656,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "A359",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 110500000.0,
+      "aged_usd": 80200000.0,
+      "fraction_of_new": 0.7257918552036199,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 1492000.0,
+      "aged_usd": 1187000.0,
+      "fraction_of_new": 0.7955764075067024,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 10,
+      "new_usd": 1492000.0,
+      "aged_usd": 887000.0,
+      "fraction_of_new": 0.5945040214477212,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 828000.0,
+      "aged_usd": 757000.0,
+      "fraction_of_new": 0.9142512077294686,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 155600000.0,
+      "aged_usd": 119600000.0,
+      "fraction_of_new": 0.7686375321336761,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 10,
+      "new_usd": 155600000.0,
+      "aged_usd": 83600000.0,
+      "fraction_of_new": 0.5372750642673522,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B77W",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 92300000.0,
+      "aged_usd": 79700000.0,
+      "fraction_of_new": 0.8634886240520043,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "lease",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 931000.0,
+      "aged_usd": 721000.0,
+      "fraction_of_new": 0.7744360902255639,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 886000.0,
+      "aged_usd": 732000.0,
+      "fraction_of_new": 0.8261851015801355,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 861000.0,
+      "aged_usd": 690000.0,
+      "fraction_of_new": 0.8013937282229965,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 525000.0,
+      "aged_usd": 438000.0,
+      "fraction_of_new": 0.8342857142857143,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 525000.0,
+      "aged_usd": 360000.0,
+      "fraction_of_new": 0.6857142857142857,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "value",
+      "period": "2017-10",
+      "age": 5,
+      "new_usd": 119600000.0,
+      "aged_usd": 83400000.0,
+      "fraction_of_new": 0.697324414715719,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 121800000.0,
+      "aged_usd": 91100000.0,
+      "fraction_of_new": 0.7479474548440066,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 118800000.0,
+      "aged_usd": 84100000.0,
+      "fraction_of_new": 0.7079124579124579,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 78000000.0,
+      "aged_usd": 58400000.0,
+      "fraction_of_new": 0.7487179487179487,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B788",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 10,
+      "new_usd": 78000000.0,
+      "aged_usd": 38700000.0,
+      "fraction_of_new": 0.49615384615384617,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B789",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 1100000.0,
+      "aged_usd": 827000.0,
+      "fraction_of_new": 0.7518181818181818,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B789",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 724000.0,
+      "aged_usd": 598000.0,
+      "fraction_of_new": 0.8259668508287292,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B789",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 146900000.0,
+      "aged_usd": 97200000.0,
+      "fraction_of_new": 0.6616746085772635,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "B789",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 107700000.0,
+      "aged_usd": 79100000.0,
+      "fraction_of_new": 0.734447539461467,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "BCS3",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 218000.0,
+      "aged_usd": 189000.0,
+      "fraction_of_new": 0.8669724770642202,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "BCS3",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 29100000.0,
+      "aged_usd": 24300000.0,
+      "fraction_of_new": 0.8350515463917526,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "lease",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 206000.0,
+      "aged_usd": 188000.0,
+      "fraction_of_new": 0.912621359223301,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "lease",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 182000.0,
+      "aged_usd": 167000.0,
+      "fraction_of_new": 0.9175824175824175,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "lease",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 123000.0,
+      "aged_usd": 115000.0,
+      "fraction_of_new": 0.9349593495934959,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "value",
+      "period": "2018-10",
+      "age": 5,
+      "new_usd": 27500000.0,
+      "aged_usd": 22300000.0,
+      "fraction_of_new": 0.8109090909090909,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "value",
+      "period": "2019-10",
+      "age": 5,
+      "new_usd": 26800000.0,
+      "aged_usd": 20600000.0,
+      "fraction_of_new": 0.7686567164179104,
+      "source": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    },
+    {
+      "icao": "E75L",
+      "kind": "value",
+      "period": "2020-10",
+      "age": 5,
+      "new_usd": 18900000.0,
+      "aged_usd": 14800000.0,
+      "fraction_of_new": 0.783068783068783,
+      "source": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "age_basis": "nominal_appraiser_column",
+      "comparison_scope": "type, period and source matched; equipment and maintenance state may differ"
+    }
+  ],
+  "recent_observations": [
+    {
+      "id": "iba-2026q1-a20n-a320-200n-lease",
+      "icao": "A20N",
+      "variant": "A320-200N",
+      "kind": "lease",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 395000,
+      "amount_high_usd": 424000,
+      "estimate_type": "range",
+      "maintenance_basis": "lessee_credit_range",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a21n-a321-200nx-lease",
+      "icao": "A21N",
+      "variant": "A321-200NX",
+      "kind": "lease",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 456000,
+      "amount_high_usd": 488000,
+      "estimate_type": "range",
+      "maintenance_basis": "lessee_credit_range",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a320-a320-200-lease",
+      "icao": "A320",
+      "variant": "A320-200",
+      "kind": "lease",
+      "period": "2026-Q1",
+      "age": 12,
+      "age_basis": "source_caption_12_years",
+      "amount_low_usd": 215000,
+      "amount_high_usd": 240000,
+      "estimate_type": "range",
+      "maintenance_basis": "lessee_credit_range",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-b738-737-800-lease",
+      "icao": "B738",
+      "variant": "737-800",
+      "kind": "lease",
+      "period": "2026-Q1",
+      "age": 12,
+      "age_basis": "source_caption_12_years",
+      "amount_low_usd": 218000,
+      "amount_high_usd": 249000,
+      "estimate_type": "range",
+      "maintenance_basis": "lessee_credit_range",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft; Market Lease Rates; new-build paragraph or 12 Years Old chart caption",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a20n-a320-200n-value",
+      "icao": "A20N",
+      "variant": "A320-200N",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 56300000.0,
+      "amount_high_usd": 56300000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-b38m-737 max 8-value",
+      "icao": "B38M",
+      "variant": "737 MAX 8",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 56300000.0,
+      "amount_high_usd": 56300000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a21n-a321-200nx-value",
+      "icao": "A21N",
+      "variant": "A321-200NX",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 65000000.0,
+      "amount_high_usd": 65000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "half_life_market_value",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a21n-a321-200ny-value",
+      "icao": "A21N",
+      "variant": "A321-200NY",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 72500000.0,
+      "amount_high_usd": 72500000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "half_life_market_value",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a320-a320-200-value",
+      "icao": "A320",
+      "variant": "A320-200",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": 12,
+      "age_basis": "source_caption_12_years",
+      "amount_low_usd": 22000000.0,
+      "amount_high_usd": 22000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-b738-737-800-value",
+      "icao": "B738",
+      "variant": "737-800",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": 12,
+      "age_basis": "source_caption_12_years",
+      "amount_low_usd": 23000000.0,
+      "amount_high_usd": 23000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a339-a330-900-value",
+      "icao": "A339",
+      "variant": "A330-900",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 118500000.0,
+      "amount_high_usd": 118500000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "half_life_market_value",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-b789-787-9-value",
+      "icao": "B789",
+      "variant": "787-9",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 160000000.0,
+      "amount_high_usd": 160000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-b78x-787-10-value",
+      "icao": "B78X",
+      "variant": "787-10",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 168000000.0,
+      "amount_high_usd": 168000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a359-a350-900-value",
+      "icao": "A359",
+      "variant": "A350-900",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 168000000.0,
+      "amount_high_usd": 168000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "market_appraisal",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-2026q1-a35k-a350-1000-value",
+      "icao": "A35K",
+      "variant": "A350-1000",
+      "kind": "value",
+      "period": "2026-Q1",
+      "age": "new",
+      "age_basis": "new_build",
+      "amount_low_usd": 181000000.0,
+      "amount_high_usd": 181000000.0,
+      "estimate_type": "approximate_point",
+      "maintenance_basis": "half_life_market_value",
+      "source_id": "iba-iclg-2026",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "locator": "Narrowbody Aircraft or Widebody Aircraft; Q1 2026 market-value paragraph",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-podcast-20260508-a20n-value",
+      "icao": "A20N",
+      "variant": "A320neo",
+      "kind": "value",
+      "period": "2026-05",
+      "age": "new",
+      "age_basis": "discussion_of_new_aircraft",
+      "amount_low_usd": 56000000.0,
+      "amount_high_usd": 56000000.0,
+      "estimate_type": "approximate_point",
+      "source_id": "iba-podcast-2026-05",
+      "source": "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update",
+      "locator": "New-Gen Narrowbody Base Values and Deliveries; current market-value example, approximately 27–28 minutes",
+      "scope": "research_only_not_accepted"
+    },
+    {
+      "id": "iba-podcast-20260508-a20n-lease",
+      "icao": "A20N",
+      "variant": "A320neo",
+      "kind": "lease",
+      "period": "2026-05",
+      "age": "new",
+      "age_basis": "discussion_of_new_aircraft",
+      "amount_low_usd": 400000,
+      "amount_high_usd": 400000,
+      "estimate_type": "approximate_point",
+      "source_id": "iba-podcast-2026-05",
+      "source": "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update",
+      "locator": "Impact on Lease Rates and Extensions; James Hallas, 33:21; current new-aircraft rate, not the later forecast",
+      "scope": "research_only_not_accepted"
+    }
+  ],
+  "recent_lease_value_pairs": [
+    {
+      "icao": "A20N",
+      "variant": "A320-200N",
+      "age": "new",
+      "period": "2026-Q1",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "value_usd": 56300000.0,
+      "lease_usd_month_low": 395000,
+      "lease_usd_month_high": 424000,
+      "monthly_fraction_low": 0.007015985790408526,
+      "monthly_fraction_high": 0.007531083481349911,
+      "monthly_fraction_midpoint": 0.007273534635879218,
+      "value_basis": "market_appraisal"
+    },
+    {
+      "icao": "A21N",
+      "variant": "A321-200NX",
+      "age": "new",
+      "period": "2026-Q1",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "value_usd": 65000000.0,
+      "lease_usd_month_low": 456000,
+      "lease_usd_month_high": 488000,
+      "monthly_fraction_low": 0.007015384615384615,
+      "monthly_fraction_high": 0.007507692307692308,
+      "monthly_fraction_midpoint": 0.007261538461538462,
+      "value_basis": "half_life_market_value"
+    },
+    {
+      "icao": "A320",
+      "variant": "A320-200",
+      "age": 12,
+      "period": "2026-Q1",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "value_usd": 22000000.0,
+      "lease_usd_month_low": 215000,
+      "lease_usd_month_high": 240000,
+      "monthly_fraction_low": 0.009772727272727273,
+      "monthly_fraction_high": 0.01090909090909091,
+      "monthly_fraction_midpoint": 0.010340909090909092,
+      "value_basis": "market_appraisal"
+    },
+    {
+      "icao": "B738",
+      "variant": "737-800",
+      "age": 12,
+      "period": "2026-Q1",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "value_usd": 23000000.0,
+      "lease_usd_month_low": 218000,
+      "lease_usd_month_high": 249000,
+      "monthly_fraction_low": 0.009478260869565217,
+      "monthly_fraction_high": 0.010826086956521739,
+      "monthly_fraction_midpoint": 0.010152173913043478,
+      "value_basis": "market_appraisal"
+    }
+  ],
+  "additional_coverage": {
+    "total": 119,
+    "by_source": {
+      "avac-2016": 20,
+      "avac-2017": 12,
+      "avac-2018": 18,
+      "avac-2019": 20,
+      "avac-2020": 32,
+      "iba-iclg-2026": 15,
+      "iba-podcast-2026-05": 2
+    }
+  },
+  "qualified_existing": [
+    {
+      "id": "87bd3e57fb662f999c6cd5dd16139d1d273fbfa908b998641f35e7fde6dcc4ef",
+      "icao": "A20N",
+      "kind": "lease",
+      "period": "2022-07",
+      "age": "new",
+      "amount_low_usd": 324000.0,
+      "amount_high_usd": 324000.0,
+      "estimate_type": "upper_bound",
+      "source": "https://airlinegeeks.com/2022/08/31/lease-rates-of-a320neo-737-max-rise-due-to-aircraft-shortage/"
+    },
+    {
+      "id": "664fe2146f4ac7cdde8a0faf7615346f9a35fa8a2e206c73f04b58505bf0dc69",
+      "icao": "A359",
+      "kind": "lease",
+      "period": "2024-02",
+      "age": null,
+      "amount_low_usd": 1005000.0,
+      "amount_high_usd": 1005000.0,
+      "estimate_type": "point",
+      "source": "https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen"
+    },
+    {
+      "id": "ee86ceb4d922e20f01caa2123558f41cc49c26e0df072297f3709b141191a4e1",
+      "icao": "CRJ9",
+      "kind": "lease",
+      "period": "2022-07",
+      "age": null,
+      "amount_low_usd": 100000.0,
+      "amount_high_usd": 115000.0,
+      "estimate_type": "range",
+      "source": "https://www.truenoord.com/wp-content/uploads/2022/07/TrueNoord-Insight-Regional-Jet-Market-Report-2022.pdf"
+    }
+  ],
+  "example": {
+    "inputs": {
+      "icao": "A20N",
+      "route": "EDDF–LEBL",
+      "mtow_t": 79,
+      "seats": 180,
+      "load_factor": 0.8,
+      "passengers": 144,
+      "block_hours": 2.12,
+      "monthly_hours": 300,
+      "input_basis": "illustrative fixed scenario; block time is assumed"
+    },
+    "fx": {
+      "usd_per_eur": 1.113,
+      "as_of": "2026-10-29",
+      "input": "research/_fx.json",
+      "input_sha256": "d5c94ef0811c78ab59b619890aee7b5a90daaf2f282fd103e6a7c3c86dc03006"
+    },
+    "anchor": {
+      "id": "iba-2026q1-a20n-a320-200n-lease",
+      "period": "2026-Q1",
+      "source": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "low_usd_month": 395000,
+      "high_usd_month": 424000,
+      "midpoint_usd_month": 409500.0
+    },
+    "default_lease_eur_month": 349868.4915286633,
+    "default_ownership_eur_flight": 2472.4040068025542,
+    "research_ownership_eur_flight_low": 2507.936507936508,
+    "research_ownership_eur_flight_high": 2692.0634920634925,
+    "research_ownership_eur_flight_midpoint": 2600.0000000000005,
+    "midpoint_delta_eur_flight": 127.5959931974462,
+    "midpoint_delta_eur_passenger": 0.8860832860933764,
+    "utilisation_sensitivity": [
+      {
+        "monthly_hours": 240,
+        "low_eur_flight": 3134.920634920635,
+        "high_eur_flight": 3365.0793650793653,
+        "midpoint_eur_flight": 3250.0000000000005
+      },
+      {
+        "monthly_hours": 300,
+        "low_eur_flight": 2507.936507936508,
+        "high_eur_flight": 2692.0634920634925,
+        "midpoint_eur_flight": 2600.0000000000005
+      },
+      {
+        "monthly_hours": 360,
+        "low_eur_flight": 2089.9470899470903,
+        "high_eur_flight": 2243.3862433862437,
+        "midpoint_eur_flight": 2166.666666666667
+      }
+    ],
+    "limitations": [
+      "This varies ownership cost only, not fuel, maintenance, crew or total flight cost.",
+      "A Q1 2026 lease estimate is converted using the explicitly dated FX snapshot; it is not an observed Q1 EUR contract.",
+      "The midpoint is a scenario input; neither the mean of deals nor an expectation over a probability distribution is supplied."
+    ]
+  },
+  "limitations": [
+    "The accepted sample is not representative of all aircraft or years; there are no disclosed per-aircraft transaction prices.",
+    "Catalogue and appraisal comparisons preserve different months within the same year; the ratio is not a measured transaction discount.",
+    "Annual median lease/value ratios use changing compositions; use fixed aircraft and ages for a time trend.",
+    "AVAC age columns are appraisal categories. The 2020 note permits 4–6 years for the nominal 5-year column; specification flags also differ.",
+    "Some age categories predate the actual fleet age of a new type and must not be fitted as observed physical depreciation.",
+    "IBA 2026 figures are appraiser estimates, with lessee-credit and maintenance-basis assumptions; quarter precision is preserved.",
+    "A320neo 2022 'up to' is an upper bound. The generic A350 2024 quote does not independently establish the variant or age.",
+    "Research-only additions do not change accepted records or calculator defaults. Missing public observations do not prove that no sources exist."
+  ]
+}

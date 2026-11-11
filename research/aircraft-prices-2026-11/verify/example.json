@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "method": "Independent direct arithmetic, without importing the calculator lease helper or researcher analysis. Core constants checked in fleet.py.",
+  "inputs": {
+    "icao": "A20N",
+    "mtow_t": 79,
+    "seats": 180,
+    "load_factor": 0.8,
+    "block_h": 2.12,
+    "monthly_hours": 300,
+    "lease_reference_eur_month": 345000,
+    "lease_reference_mtow_t": 78,
+    "mass_exponent": 1.1,
+    "observed_range_usd_month": [
+      395000,
+      424000
+    ],
+    "observation_period": "2026-Q1",
+    "fx_usd_per_eur": 1.113,
+    "fx_date": "2026-10-29"
+  },
+  "outputs": {
+    "parametric_eur_month": 349868.4915286633,
+    "parametric_eur_flight": 2472.4040068025542,
+    "source_scenario_eur_flight_low": 2507.936507936508,
+    "source_scenario_eur_flight_high": 2692.0634920634925,
+    "source_scenario_mid_eur_flight": 2600.0,
+    "delta_mid_eur_flight": 127.59599319744575,
+    "delta_mid_eur_passenger": 0.8860832860933733
+  },
+  "limitations": [
+    "Specified scenario, not measured route operation.",
+    "Quarterly rate and later FX snapshot have different dates and must both be labelled.",
+    "The comparison is nominal. No CPI conversion is applied.",
+    "Only the ownership cost changes here; this is not the total ticket price or total flight cost."
+  ],
+  "inputs_sha256": {
+    "fleet.py": "240eb1e1a3772543325aacbdf5c6f68d42606feccc23eefc15fb7d676875c9d9",
+    "_fx.json": "d5c94ef0811c78ab59b619890aee7b5a90daaf2f282fd103e6a7c3c86dc03006"
+  }
+}

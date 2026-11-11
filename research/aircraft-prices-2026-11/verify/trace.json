@@ -1,0 +1,66 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass",
+  "input_sha256": "c2823909e0776070f8d478630f2b391169eee2c542af6707d0e67dc024eafc6f",
+  "method": "Primary publisher HTML independently opened and locally parsed with lxml; quote bodies are referenced by trace ID rather than repeated.",
+  "checks": [
+    {
+      "trace_id": "prices-005",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 12
+    },
+    {
+      "trace_id": "prices-006",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 16
+    },
+    {
+      "trace_id": "prices-013",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 11
+    },
+    {
+      "trace_id": "prices-014",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 11
+    },
+    {
+      "trace_id": "prices-015",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 17
+    },
+    {
+      "trace_id": "prices-016",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 3
+    },
+    {
+      "trace_id": "prices-020",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 10
+    },
+    {
+      "trace_id": "prices-023",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 10
+    },
+    {
+      "trace_id": "prices-028",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 10
+    }
+  ],
+  "quoted_words_by_page": {
+    "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates": 12,
+    "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates": 16,
+    "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/": 22,
+    "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update": 20,
+    "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates": 10,
+    "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates": 10,
+    "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates": 10
+  },
+  "limits": [
+    "Transcript is publisher-supplied text; audio not independently transcribed.",
+    "Search-history entries are recorded workflow claims, not independently proven search executions."
+  ]
+}

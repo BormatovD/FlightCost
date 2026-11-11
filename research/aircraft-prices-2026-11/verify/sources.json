@@ -1,0 +1,238 @@
+{
+  "as_of": "2026-11-11",
+  "status": "verified_with_scope_limits",
+  "independence": "Verifier opened the source documents independently; factual values below are independent checks, not copied researcher conclusions.",
+  "verbatim_quotes_reproduced": false,
+  "sources": [
+    {
+      "id": "airbus-2018-primary",
+      "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/new-airbus-list-prices-2018.pdf",
+      "status": "pass",
+      "locator": "page 1 effective date; page 2 model price table",
+      "effective_month": "2018-01",
+      "checks": [
+        {
+          "icao": "A19N",
+          "million_usd": 101.5,
+          "matches_primary": true
+        },
+        {
+          "icao": "A20N",
+          "million_usd": 110.6,
+          "matches_primary": true
+        },
+        {
+          "icao": "A21N",
+          "million_usd": 129.5,
+          "matches_primary": true
+        },
+        {
+          "icao": "A319",
+          "million_usd": 92.3,
+          "matches_primary": true
+        },
+        {
+          "icao": "A320",
+          "million_usd": 101,
+          "matches_primary": true
+        },
+        {
+          "icao": "A321",
+          "million_usd": 118.3,
+          "matches_primary": true
+        },
+        {
+          "icao": "A332",
+          "million_usd": 238.5,
+          "matches_primary": true
+        },
+        {
+          "icao": "A333",
+          "million_usd": 264.2,
+          "matches_primary": true
+        },
+        {
+          "icao": "A339",
+          "million_usd": 296.4,
+          "matches_primary": true
+        },
+        {
+          "icao": "A359",
+          "million_usd": 317.4,
+          "matches_primary": true
+        },
+        {
+          "icao": "A35K",
+          "million_usd": 366.5,
+          "matches_primary": true
+        }
+      ],
+      "note": "Catalogue average list prices; source states configuration affects price. This is not an observed transaction discount."
+    },
+    {
+      "id": "avac-2018",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "status": "pass",
+      "locator": "JET VALUES and JET LEASE RATES tables; notes after each table",
+      "checked_cells": [
+        "A20N new value 50.3m",
+        "A21N new value 59.2m",
+        "A321 new value 49.7m",
+        "A332 new value 78.7m",
+        "A339 new value 114.9m",
+        "A359 new value 149.9m",
+        "A20N five-year value 40.2m and lease 313k"
+      ],
+      "note": "Source figures as at end October. A20N in the five-year column is indeed present; do not interpret the column as an exact observed cohort age without qualification."
+    },
+    {
+      "id": "avac-2019",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "status": "pass",
+      "locator": "new-aircraft columns of values and lease-rate tables",
+      "checked_new": {
+        "A20N": [
+          52.0,
+          368
+        ],
+        "A21N": [
+          58.3,
+          406
+        ],
+        "B38M": [
+          53.4,
+          411
+        ],
+        "A359": [
+          150.0,
+          1172
+        ]
+      },
+      "units": [
+        "USD million value",
+        "USD thousand monthly lease"
+      ],
+      "note": "Lease rates assessed independently of values; ratio is an analytical quotient, not a pricing formula or a transaction yield."
+    },
+    {
+      "id": "avac-2020",
+      "url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "status": "pass_with_age_warning",
+      "locator": "new-aircraft columns and end-October notes",
+      "checked_new": {
+        "A20N": [
+          42.3,
+          256
+        ],
+        "A21N": [
+          47.6,
+          302
+        ],
+        "B38M": [
+          42.4,
+          248
+        ],
+        "A359": [
+          110.5,
+          789
+        ]
+      },
+      "units": [
+        "USD million value",
+        "USD thousand monthly lease"
+      ],
+      "note": "The second-hand age headings are approximate: the five-year column may describe aircraft aged four to six years. The estimates are AVAC appraisal opinions, not exclusively recent completed transactions."
+    },
+    {
+      "id": "iba-iclg-2026",
+      "url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "status": "pass_with_scope_limits",
+      "publication_date": "2026-06-03",
+      "observation_period": "2026-Q1",
+      "locator": "Narrowbody Aircraft; Widebody Aircraft; adjoining charts distinguish new-build and 12-year-old aircraft",
+      "checked_narrowbody_lease_usd_month": {
+        "A20N_new": [
+          395000,
+          424000
+        ],
+        "A321NX_new": [
+          456000,
+          488000
+        ],
+        "A320_age12": [
+          215000,
+          240000
+        ],
+        "B738_age12": [
+          218000,
+          249000
+        ]
+      },
+      "checked_narrowbody_value_usd": {
+        "A20N_new": 56300000,
+        "B38M_new": 56300000,
+        "A321NX_new": 65000000,
+        "A320_age12": 22000000,
+        "B738_age12": 23000000
+      },
+      "checked_widebody_lease_usd_month": {
+        "A339_new": [
+          902000,
+          975000
+        ],
+        "B789_new": [
+          1070000,
+          1150000
+        ],
+        "A359_new": [
+          1190000,
+          1250000
+        ],
+        "B78X_new": [
+          1130000,
+          1230000
+        ],
+        "A35K_new": [
+          1300000,
+          1400000
+        ],
+        "A332_age12": [
+          324000,
+          345000
+        ],
+        "A333_age12": [
+          370000,
+          395000
+        ],
+        "B77W_age12": [
+          450000,
+          587000
+        ]
+      },
+      "warnings": [
+        "B38M lease is described as similar to A20N; it is not a separately printed identical range.",
+        "New-build A321NX is not A321NY/XLR; retain the variant label.",
+        "The lessee credit strength affects at least the stated A321NX range. A midpoint is a scenario convention, not a measured market mean.",
+        "Quarter is the finest observation period stated. Do not assign an invented month.",
+        "Half-Life Market Value is a valuation basis used here even for a new-build aircraft; it must not be read as the physical age of the airframe."
+      ]
+    }
+  ],
+  "input_qualifications": [
+    {
+      "icao": "A20N",
+      "month": "2022-07",
+      "value_usd_month": 324000,
+      "status": "exclude_from_exact_point_fit",
+      "reason": "Stored quote and note explicitly identify an upper limit, not a midpoint or exact observation."
+    },
+    {
+      "icao": "A359",
+      "month": "2024-02",
+      "value_usd_month": 1005000,
+      "status": "exclude_from_type_age_fit",
+      "reason": "Stored quote names the A350 family but not variant or aircraft age."
+    }
+  ],
+  "scope_limit": "This file verifies the listed source cells and interpretations. It is not a claim that every legacy quote or all 167 observations have been independently reopened."
+}

@@ -1,0 +1,532 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass",
+  "method": "Independent fresh HTTP fetch, pandas.read_html/lxml (not researcher HTMLParser/grid), source row label and age-column header matched for every submitted AVAC addition.",
+  "input_sha256": "6af502cad1ddba92280b8ecaf8f85e33f56950dabfe32a43d834369bd9de6ea3",
+  "source_hashes": {
+    "avac-2016": "ca0be504063bc2ea3e821b42808a71e3d5a0fea481ef3bb13b3a1c68549db902",
+    "avac-2017": "f04550fc3d48c018a18789bb4c5423133559694de041cc6a5312986f00b064da",
+    "avac-2018": "ea5c4b5a50c8390f2a3e1d86223677b9a78165b439bbd1ce2476a4d55edab7d2",
+    "avac-2019": "716777ec235eeeb40f6c0099a5d46d4b3f4caebf40e6253a5c6d7b4e4e7fa5aa",
+    "avac-2020": "086294c2f9e52c3c26044bb643166f48918dde44e53a6f9388dccd39dc10f41b"
+  },
+  "count": 102,
+  "checks": [
+    {
+      "id": "avac-2016-crj9-value-5",
+      "matched": true,
+      "independent_value_usd": 20200000.0
+    },
+    {
+      "id": "avac-2016-a319-value-5",
+      "matched": true,
+      "independent_value_usd": 25100000.0
+    },
+    {
+      "id": "avac-2016-a320-value-10",
+      "matched": true,
+      "independent_value_usd": 19300000.0
+    },
+    {
+      "id": "avac-2016-a320-value-20",
+      "matched": true,
+      "independent_value_usd": 9500000.0
+    },
+    {
+      "id": "avac-2016-a321-value-5",
+      "matched": true,
+      "independent_value_usd": 35300000.0
+    },
+    {
+      "id": "avac-2016-b738-value-5",
+      "matched": true,
+      "independent_value_usd": 32600000.0
+    },
+    {
+      "id": "avac-2016-b738-value-10",
+      "matched": true,
+      "independent_value_usd": 23400000.0
+    },
+    {
+      "id": "avac-2016-b77w-value-5",
+      "matched": true,
+      "independent_value_usd": 122800000.0
+    },
+    {
+      "id": "avac-2016-b77w-value-10",
+      "matched": true,
+      "independent_value_usd": 87900000.0
+    },
+    {
+      "id": "avac-2016-b788-value-5",
+      "matched": true,
+      "independent_value_usd": 82900000.0
+    },
+    {
+      "id": "avac-2016-crj9-lease-5",
+      "matched": true,
+      "independent_value_usd": 172000.0
+    },
+    {
+      "id": "avac-2016-a319-lease-5",
+      "matched": true,
+      "independent_value_usd": 214000.0
+    },
+    {
+      "id": "avac-2016-a320-lease-10",
+      "matched": true,
+      "independent_value_usd": 200000.0
+    },
+    {
+      "id": "avac-2016-a320-lease-20",
+      "matched": true,
+      "independent_value_usd": 134000.0
+    },
+    {
+      "id": "avac-2016-a321-lease-5",
+      "matched": true,
+      "independent_value_usd": 315000.0
+    },
+    {
+      "id": "avac-2016-b738-lease-5",
+      "matched": true,
+      "independent_value_usd": 270000.0
+    },
+    {
+      "id": "avac-2016-b738-lease-10",
+      "matched": true,
+      "independent_value_usd": 227000.0
+    },
+    {
+      "id": "avac-2016-b77w-lease-5",
+      "matched": true,
+      "independent_value_usd": 1229000.0
+    },
+    {
+      "id": "avac-2016-b77w-lease-10",
+      "matched": true,
+      "independent_value_usd": 1051000.0
+    },
+    {
+      "id": "avac-2016-b788-lease-5",
+      "matched": true,
+      "independent_value_usd": 697000.0
+    },
+    {
+      "id": "avac-2017-crj9-value-5",
+      "matched": true,
+      "independent_value_usd": 17000000.0
+    },
+    {
+      "id": "avac-2017-a320-value-20",
+      "matched": true,
+      "independent_value_usd": 9200000.0
+    },
+    {
+      "id": "avac-2017-a321-value-5",
+      "matched": true,
+      "independent_value_usd": 35700000.0
+    },
+    {
+      "id": "avac-2017-b738-value-5",
+      "matched": true,
+      "independent_value_usd": 31200000.0
+    },
+    {
+      "id": "avac-2017-a332-value-5",
+      "matched": true,
+      "independent_value_usd": 63600000.0
+    },
+    {
+      "id": "avac-2017-b788-value-5",
+      "matched": true,
+      "independent_value_usd": 83400000.0
+    },
+    {
+      "id": "avac-2017-crj9-lease-5",
+      "matched": true,
+      "independent_value_usd": 161000.0
+    },
+    {
+      "id": "avac-2017-a320-lease-20",
+      "matched": true,
+      "independent_value_usd": 143000.0
+    },
+    {
+      "id": "avac-2017-a321-lease-5",
+      "matched": true,
+      "independent_value_usd": 316000.0
+    },
+    {
+      "id": "avac-2017-b738-lease-5",
+      "matched": true,
+      "independent_value_usd": 263000.0
+    },
+    {
+      "id": "avac-2017-a332-lease-5",
+      "matched": true,
+      "independent_value_usd": 614000.0
+    },
+    {
+      "id": "avac-2017-b788-lease-5",
+      "matched": true,
+      "independent_value_usd": 721000.0
+    },
+    {
+      "id": "avac-2018-e75l-value-5",
+      "matched": true,
+      "independent_value_usd": 22300000.0
+    },
+    {
+      "id": "avac-2018-a319-value-10",
+      "matched": true,
+      "independent_value_usd": 12900000.0
+    },
+    {
+      "id": "avac-2018-a319-value-20",
+      "matched": true,
+      "independent_value_usd": 6700000.0
+    },
+    {
+      "id": "avac-2018-a320-value-20",
+      "matched": true,
+      "independent_value_usd": 8900000.0
+    },
+    {
+      "id": "avac-2018-a321-value-5",
+      "matched": true,
+      "independent_value_usd": 39300000.0
+    },
+    {
+      "id": "avac-2018-b738-value-20",
+      "matched": true,
+      "independent_value_usd": 9500000.0
+    },
+    {
+      "id": "avac-2018-a332-value-5",
+      "matched": true,
+      "independent_value_usd": 64599999.99999999
+    },
+    {
+      "id": "avac-2018-a332-value-10",
+      "matched": true,
+      "independent_value_usd": 41800000.0
+    },
+    {
+      "id": "avac-2018-b788-value-5",
+      "matched": true,
+      "independent_value_usd": 91100000.0
+    },
+    {
+      "id": "avac-2018-e75l-lease-5",
+      "matched": true,
+      "independent_value_usd": 188000.0
+    },
+    {
+      "id": "avac-2018-a319-lease-5",
+      "matched": true,
+      "independent_value_usd": 137000.0
+    },
+    {
+      "id": "avac-2018-a319-lease-10",
+      "matched": true,
+      "independent_value_usd": 83000.0
+    },
+    {
+      "id": "avac-2018-a320-lease-20",
+      "matched": true,
+      "independent_value_usd": 141000.0
+    },
+    {
+      "id": "avac-2018-a321-lease-5",
+      "matched": true,
+      "independent_value_usd": 312000.0
+    },
+    {
+      "id": "avac-2018-b738-lease-20",
+      "matched": true,
+      "independent_value_usd": 148000.0
+    },
+    {
+      "id": "avac-2018-a332-lease-5",
+      "matched": true,
+      "independent_value_usd": 593000.0
+    },
+    {
+      "id": "avac-2018-a332-lease-10",
+      "matched": true,
+      "independent_value_usd": 489000.0
+    },
+    {
+      "id": "avac-2018-b788-lease-5",
+      "matched": true,
+      "independent_value_usd": 732000.0
+    },
+    {
+      "id": "avac-2019-e75l-value-5",
+      "matched": true,
+      "independent_value_usd": 20600000.0
+    },
+    {
+      "id": "avac-2019-a319-value-5",
+      "matched": true,
+      "independent_value_usd": 25200000.0
+    },
+    {
+      "id": "avac-2019-a319-value-10",
+      "matched": true,
+      "independent_value_usd": 15400000.0
+    },
+    {
+      "id": "avac-2019-a320-value-5",
+      "matched": true,
+      "independent_value_usd": 32100000.0
+    },
+    {
+      "id": "avac-2019-a321-value-5",
+      "matched": true,
+      "independent_value_usd": 35600000.0
+    },
+    {
+      "id": "avac-2019-b738-value-5",
+      "matched": true,
+      "independent_value_usd": 34200000.0
+    },
+    {
+      "id": "avac-2019-b738-value-20",
+      "matched": true,
+      "independent_value_usd": 9500000.0
+    },
+    {
+      "id": "avac-2019-a332-value-5",
+      "matched": true,
+      "independent_value_usd": 57500000.0
+    },
+    {
+      "id": "avac-2019-b788-value-5",
+      "matched": true,
+      "independent_value_usd": 84100000.0
+    },
+    {
+      "id": "avac-2019-b789-value-5",
+      "matched": true,
+      "independent_value_usd": 97200000.0
+    },
+    {
+      "id": "avac-2019-e75l-lease-5",
+      "matched": true,
+      "independent_value_usd": 167000.0
+    },
+    {
+      "id": "avac-2019-a319-lease-5",
+      "matched": true,
+      "independent_value_usd": 204000.0
+    },
+    {
+      "id": "avac-2019-a319-lease-10",
+      "matched": true,
+      "independent_value_usd": 150000.0
+    },
+    {
+      "id": "avac-2019-a320-lease-5",
+      "matched": true,
+      "independent_value_usd": 255000.0
+    },
+    {
+      "id": "avac-2019-a321-lease-5",
+      "matched": true,
+      "independent_value_usd": 275000.0
+    },
+    {
+      "id": "avac-2019-b738-lease-5",
+      "matched": true,
+      "independent_value_usd": 278000.0
+    },
+    {
+      "id": "avac-2019-b738-lease-20",
+      "matched": true,
+      "independent_value_usd": 145000.0
+    },
+    {
+      "id": "avac-2019-a332-lease-5",
+      "matched": true,
+      "independent_value_usd": 511000.0
+    },
+    {
+      "id": "avac-2019-b788-lease-5",
+      "matched": true,
+      "independent_value_usd": 690000.0
+    },
+    {
+      "id": "avac-2019-b789-lease-5",
+      "matched": true,
+      "independent_value_usd": 827000.0
+    },
+    {
+      "id": "avac-2020-e75l-value-5",
+      "matched": true,
+      "independent_value_usd": 14800000.0
+    },
+    {
+      "id": "avac-2020-bcs3-value-5",
+      "matched": true,
+      "independent_value_usd": 24300000.0
+    },
+    {
+      "id": "avac-2020-a319-value-5",
+      "matched": true,
+      "independent_value_usd": 19200000.0
+    },
+    {
+      "id": "avac-2020-a319-value-10",
+      "matched": true,
+      "independent_value_usd": 12600000.0
+    },
+    {
+      "id": "avac-2020-a320-value-5",
+      "matched": true,
+      "independent_value_usd": 25000000.0
+    },
+    {
+      "id": "avac-2020-a320-value-20",
+      "matched": true,
+      "independent_value_usd": 7900000.0
+    },
+    {
+      "id": "avac-2020-a321-value-5",
+      "matched": true,
+      "independent_value_usd": 27500000.0
+    },
+    {
+      "id": "avac-2020-a321-value-10",
+      "matched": true,
+      "independent_value_usd": 19000000.0
+    },
+    {
+      "id": "avac-2020-b738-value-5",
+      "matched": true,
+      "independent_value_usd": 26000000.0
+    },
+    {
+      "id": "avac-2020-b738-value-20",
+      "matched": true,
+      "independent_value_usd": 8300000.000000001
+    },
+    {
+      "id": "avac-2020-a332-value-5",
+      "matched": true,
+      "independent_value_usd": 37300000.0
+    },
+    {
+      "id": "avac-2020-a332-value-10",
+      "matched": true,
+      "independent_value_usd": 26800000.0
+    },
+    {
+      "id": "avac-2020-a333-value-5",
+      "matched": true,
+      "independent_value_usd": 43700000.0
+    },
+    {
+      "id": "avac-2020-b788-value-5",
+      "matched": true,
+      "independent_value_usd": 58400000.0
+    },
+    {
+      "id": "avac-2020-b788-value-10",
+      "matched": true,
+      "independent_value_usd": 38700000.0
+    },
+    {
+      "id": "avac-2020-b789-value-5",
+      "matched": true,
+      "independent_value_usd": 79100000.0
+    },
+    {
+      "id": "avac-2020-e75l-lease-5",
+      "matched": true,
+      "independent_value_usd": 115000.0
+    },
+    {
+      "id": "avac-2020-bcs3-lease-5",
+      "matched": true,
+      "independent_value_usd": 189000.0
+    },
+    {
+      "id": "avac-2020-a319-lease-5",
+      "matched": true,
+      "independent_value_usd": 144000.0
+    },
+    {
+      "id": "avac-2020-a319-lease-10",
+      "matched": true,
+      "independent_value_usd": 112000.0
+    },
+    {
+      "id": "avac-2020-a320-lease-5",
+      "matched": true,
+      "independent_value_usd": 177000.0
+    },
+    {
+      "id": "avac-2020-a320-lease-20",
+      "matched": true,
+      "independent_value_usd": 114000.0
+    },
+    {
+      "id": "avac-2020-a321-lease-5",
+      "matched": true,
+      "independent_value_usd": 194000.0
+    },
+    {
+      "id": "avac-2020-a321-lease-10",
+      "matched": true,
+      "independent_value_usd": 157000.0
+    },
+    {
+      "id": "avac-2020-b738-lease-5",
+      "matched": true,
+      "independent_value_usd": 183000.0
+    },
+    {
+      "id": "avac-2020-b738-lease-20",
+      "matched": true,
+      "independent_value_usd": 115000.0
+    },
+    {
+      "id": "avac-2020-a332-lease-5",
+      "matched": true,
+      "independent_value_usd": 311000.0
+    },
+    {
+      "id": "avac-2020-a332-lease-10",
+      "matched": true,
+      "independent_value_usd": 239000.0
+    },
+    {
+      "id": "avac-2020-a333-lease-5",
+      "matched": true,
+      "independent_value_usd": 380000.0
+    },
+    {
+      "id": "avac-2020-b788-lease-5",
+      "matched": true,
+      "independent_value_usd": 438000.0
+    },
+    {
+      "id": "avac-2020-b788-lease-10",
+      "matched": true,
+      "independent_value_usd": 360000.0
+    },
+    {
+      "id": "avac-2020-b789-lease-5",
+      "matched": true,
+      "independent_value_usd": 598000.0
+    }
+  ],
+  "limits": [
+    "Checks all submitted cells, not completeness of possible extraction.",
+    "Age columns remain appraiser labels; calendar age is approximate.",
+    "Original specification flags are retained in the research data; cross-age ratios are descriptive, not pure causal depreciation."
+  ],
+  "latest_input_recheck": "Rechecked final output using already independently fetched primary pages; source-cell footnote markers were also checked as retained in specification_flags."
+}

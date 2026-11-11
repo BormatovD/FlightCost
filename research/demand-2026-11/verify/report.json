@@ -1,0 +1,64 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "input_sha256": {
+    "report.html": "e13e69bbd99f361e514e9cec5c0839a7b379188f0216ed4b8d3ddc87ef6e1217",
+    "report.en.html": "b0defc034a8ece3308c7343b7d11565af516be0c8c84a765b8e7a195188c638e",
+    "report.de.html": "3e47a6d5d01019a012c3ed4879057c67ff348d42f6b2db5c45d418d0a63f0dfa"
+  },
+  "method": "Reviewed source builder and rendered HTML prose/tables in RU/EN/DE. Recomputed route-frequency scenario independently and matched reported metrics to verified summary. Locale-normalized numeric table values compared between all languages.",
+  "checks": {
+    "all_three_languages_table_numbers_match": true,
+    "tables_per_language": 7,
+    "pas_crd_distinguished_from_flight_stage_and_true_journey_od": true,
+    "forecast_and_heldout_tasks_separated": true,
+    "training_only_feature_masses_and_own_flow_removal_explained": true,
+    "sample_selection_twelve_positive_months_explained": true,
+    "median_factor_formula_matches_exp_of_median_absolute_log_error": true,
+    "no_significance_or_confidence_interval_claim": true,
+    "fold_range_is_not_statistical_uncertainty_interval": true,
+    "smearing_tradeoff_and_train_only_factor_explained": true,
+    "income_and_tourism_same_sample_comparisons_separate": true,
+    "one_year_covariate_lag_and_2026_vintage_disclosed": true,
+    "nuts_2024_geography_version_disclosed": true,
+    "production_model_not_claimed_as_validated": true,
+    "unmeasured_business_diaspora_visa_effects_not_claimed": true,
+    "eddf_lebl_values_all_from_same_forecast_experiment": true,
+    "frequency_parameters_and_scenario_status_explicit": true,
+    "all_metrics_and_scenario_rounded_values_match": true,
+    "optional_covariate_term_and_refitting_explained": true
+  },
+  "independent_frequency_scenario": {
+    "formula": "share * annual_both_direction_passengers / (365 * 2 * seats * load)",
+    "share": 0.15,
+    "seats": 180,
+    "load": 0.8,
+    "year_days_assumed": 365,
+    "flights_per_day_one_direction": {
+      "published_2024": 1.1512228881278537,
+      "last_year": 1.1681264269406393,
+      "gravity": 0.5449450536655085,
+      "gravity_smearing": 0.7007456275028964
+    }
+  },
+  "resolved_findings": [
+    {
+      "finding": "Median of raw factors and exp(median(log factor)) differ for even sample counts.",
+      "resolution": "Formula corrected in all three reports to the exact implemented log-median expression."
+    },
+    {
+      "finding": "Twelve positive months does not exclude every conceivable newly opened/closed route.",
+      "resolution": "Selection text now specifies seasonal gaps or incomplete positive-observation years."
+    },
+    {
+      "finding": "Optional covariate term could be visually read as part of the distance definition.",
+      "resolution": "Z term moved to the model line and explicitly limited to augmented models; all coefficients refitted."
+    }
+  ],
+  "limits": [
+    "Factual, numerical and methodological review; not a professional multilingual copy edit.",
+    "The frequency conversion is an illustrative 365-day uniform-year assumption with equal directions, not observed flight frequency or a route-launch recommendation.",
+    "No causal, truly unserved-route, monthly-seasonality or production P/T/F accuracy result is established.",
+    "Article remains a draft awaiting owner modelling and publication decision."
+  ]
+}

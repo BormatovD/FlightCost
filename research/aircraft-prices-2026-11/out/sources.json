@@ -1,0 +1,115 @@
+{
+  "as_of": "2026-11-11",
+  "sources": [
+    {
+      "id": "avac-2016",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2016/5/Jet-values-and-lease-rates",
+      "title": "AVAC jet values and lease rates, end October 2016",
+      "publisher": "Aviation Strategy, original AVAC estimates",
+      "observation_period": "2016-10",
+      "publication_period": "2016-11",
+      "scope": "historical appraisal and lease-rate cross-sections",
+      "limitations": [
+        "Values and leases assessed separately; not observed transaction prices.",
+        "Age is a nominal appraiser column; specifications indicated by symbols."
+      ]
+    },
+    {
+      "id": "avac-2017",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2017/5/Jet-values-and-lease-rates",
+      "title": "AVAC jet values and lease rates, end October 2017",
+      "publisher": "Aviation Strategy, original AVAC estimates",
+      "observation_period": "2017-10",
+      "publication_period": "2017-11",
+      "scope": "historical appraisal and lease-rate cross-sections",
+      "limitations": [
+        "Values and leases assessed separately; not observed transaction prices.",
+        "Age is a nominal appraiser column; specifications indicated by symbols."
+      ]
+    },
+    {
+      "id": "avac-2018",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-values-and-lease-rates",
+      "title": "AVAC jet values and lease rates, end October 2018",
+      "publisher": "Aviation Strategy, original AVAC estimates",
+      "observation_period": "2018-10",
+      "publication_period": "2018-11",
+      "scope": "historical appraisal and lease-rate cross-sections",
+      "limitations": [
+        "Values and leases assessed separately; not observed transaction prices.",
+        "Age is a nominal appraiser column; specifications indicated by symbols."
+      ]
+    },
+    {
+      "id": "avac-2019",
+      "url": "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates",
+      "title": "AVAC jet values and lease rates, end October 2019",
+      "publisher": "Aviation Strategy, original AVAC estimates",
+      "observation_period": "2019-10",
+      "publication_period": "2019-11",
+      "scope": "historical appraisal and lease-rate cross-sections",
+      "limitations": [
+        "Values and leases assessed separately; not observed transaction prices.",
+        "Age is a nominal appraiser column; specifications indicated by symbols."
+      ]
+    },
+    {
+      "id": "avac-2020",
+      "url": "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates",
+      "title": "AVAC jet values and lease rates, end October 2020",
+      "publisher": "Aviation Strategy, original AVAC estimates",
+      "observation_period": "2020-10",
+      "publication_period": "2020-10/11",
+      "scope": "historical appraisal and lease-rate cross-sections",
+      "limitations": [
+        "Values and leases assessed separately; not observed transaction prices.",
+        "Age is a nominal appraiser column; specifications indicated by symbols.",
+        "The nominal 5-year column may mean 4–6 years."
+      ]
+    },
+    {
+      "id": "airbus-list-2018",
+      "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2021-07/new-airbus-list-prices-2018.pdf",
+      "title": "Airbus average list prices 2018",
+      "publisher": "Airbus",
+      "observation_period": "2018",
+      "publication_period": "2018",
+      "scope": "OEM list prices, not transaction prices",
+      "limitations": [
+        "The existing catalogue observations use a secondary report; figures cross-checked against the official Airbus table.",
+        "Do not assert that no later price list exists solely from this document."
+      ]
+    },
+    {
+      "id": "iba-iclg-2026",
+      "url": "https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/",
+      "title": "The Aviation Finance Market: Robust Demand, Entrenched Supply Chain Challenges and Strong Market Performance",
+      "publisher": "ICLG; original contribution by Jon Whaley, IBA",
+      "author": "Jon Whaley (IBA)",
+      "publication_date": "2026-06-03",
+      "observation_period": "2026-Q1",
+      "scope": "original appraiser market-value and lease-rate estimates",
+      "limitations": [
+        "Quarter precision retained; publication date is not observation month.",
+        "Lease ranges depend on lessee credit; no transaction distribution or confidence interval is supplied.",
+        "A321-200NX and A321-200NY are distinct variants.",
+        "Half-life is a maintenance-condition basis, not aircraft age.",
+        "MAX 8 lease is described as similar to A320neo, without separate numeric range."
+      ]
+    },
+    {
+      "id": "iba-podcast-2026-05",
+      "url": "https://feeds.buzzsprout.com/390778/episodes/19145970-iba-insider-podcast-regional-jets-narrowbody-values-and-deliveries-update",
+      "title": "IBA Insider: Regional Jets & Narrowbody Values and Deliveries Update",
+      "publisher": "IBA Group",
+      "publication_date": "2026-05-08",
+      "observation_period": "2026-05",
+      "scope": "appraisers discussing current new-aircraft market; approximate numbers",
+      "limitations": [
+        "Transcript is a spoken estimate, not a transaction table.",
+        "Forecast lease of 390000 is excluded from current observations.",
+        "Current approximately 400000 differs by lessee credit."
+      ]
+    }
+  ]
+}

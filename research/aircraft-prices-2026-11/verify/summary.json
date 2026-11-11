@@ -1,0 +1,90 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "method": "Independent joins and arithmetic from accepted YAML and independently checked source cells, without importing analyze.py. ICLG and podcast expected numeric values transcribed separately from primary publisher texts.",
+  "input_sha256": {
+    "data/prices/_observations.yaml": "e1e6c4dc38dddb069700ddd8a662dff3492644322ffb3e9869f6f67f38ddc35d",
+    "research/aircraft-prices-2026-11/out/summary.json": "0f115f774d183eabd29ae58348cec8f05c7549c25cc18dc6dc610a61487c2043",
+    "research/aircraft-prices-2026-11/out/additional_observations.json": "6af502cad1ddba92280b8ecaf8f85e33f56950dabfe32a43d834369bd9de6ea3"
+  },
+  "checks": {
+    "fixed_cohort_members": 7,
+    "fixed_cohort_years": [
+      {
+        "year": 2016,
+        "n": 7,
+        "median_fraction": 0.00805607476635514
+      },
+      {
+        "year": 2017,
+        "n": 7,
+        "median_fraction": 0.00804270462633452
+      },
+      {
+        "year": 2018,
+        "n": 7,
+        "median_fraction": 0.007817836812144213
+      },
+      {
+        "year": 2019,
+        "n": 7,
+        "median_fraction": 0.007488087134104833
+      },
+      {
+        "year": 2020,
+        "n": 7,
+        "median_fraction": 0.006344537815126051
+      }
+    ],
+    "expanded_age_comparisons": 62,
+    "expanded_age_types": 10,
+    "additional_avac_rows_do_not_duplicate_accepted_keys": true,
+    "fresh_iclg_observations_checked": 15,
+    "fresh_podcast_observations_checked": 2,
+    "recent_exact_variant_age_period_rent_value_pairs": 4,
+    "quarter_preserved": true,
+    "a321_nx_and_ny_not_pooled": true,
+    "max8_numeric_lease_interval_not_invented": true,
+    "podcast_future_390k_not_treated_as_current": true
+  },
+  "source_refs": [
+    "turn84view1",
+    "turn85view0"
+  ],
+  "limitations": [
+    "A fixed type/age panel reduces composition changes but does not measure net lessor profitability or guarantee constant technical specifications.",
+    "AVAC age ratios compare cross-sectional appraisal categories; not observed physical depreciation trajectories.",
+    "The 2026 rent/value ranges are descriptive gross monthly fractions, not financing yields. Midpoints are scenario choices, not sample averages.",
+    "HLMV valuation condition is not aircraft age.",
+    "Appraiser and publication methods differ; no CPI conversion is used in these nominal joins.",
+    "Podcast numerical evidence is a publisher-supplied transcript, not an independent audio transcription."
+  ],
+  "verification_reports": {
+    "additional_avac.json": {
+      "status": "pass",
+      "sha256": "68da5906f60a5dba77d968a52d5c18f5184a776b6f5f79bc2b10c449706bfe5c"
+    },
+    "example.json": {
+      "status": "pass",
+      "sha256": "fde9b825f0cd58d5e13af1ac9cd40b4aa1612f98802bd095ae0e0f7431cad98b"
+    },
+    "independent_baseline.json": {
+      "status": "verified_arithmetic_only",
+      "sha256": "da8c19ffb033682b8d0e9bedcb780a8d1a350f63f0d63708f4a680de5da3ffa6"
+    },
+    "report.json": {
+      "status": "pass_with_scope_limits",
+      "sha256": "3159e01d6bccaa61ac826fdde1e4fd4022f09de88f6b447dc5cafd8c960dab68"
+    },
+    "sources.json": {
+      "status": "verified_with_scope_limits",
+      "sha256": "142103efc2ab9165e570a5b4b0610c996691b0916f6b9a0b94d11713eecd4e24"
+    },
+    "trace.json": {
+      "status": "pass",
+      "sha256": "6f83209b58056c2751b7c2c278272264b3b9cea75117f740aabe17bb1b394ac2"
+    }
+  },
+  "independent_review_complete": true,
+  "coverage_note": "Baseline numerical joins, selected legacy primary cells, all 102 added AVAC cells, all 17 recent IBA observations, every direct trace quotation and final three-language article tables reviewed. This is not a new acceptance into production prices."
+}

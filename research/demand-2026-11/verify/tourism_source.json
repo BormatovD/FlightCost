@@ -1,0 +1,44 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "method": "Fresh independent primary downloads. Geographic assignment checked using matplotlib C polygon inclusion including holes; annual totals independently decoded from JSON-stat indices without project parsers.",
+  "input_sha256": "4ce5f17d00b890c137aa55dfde92a424580b967ff54ca8cf1ba92f8abcef9f03",
+  "independent_raw_sha256": {
+    "eurostat_nights": "693468ca529ec24f7c6eead8a17a80688e675998ec8217407fa022aacdb03202",
+    "gisco_regions": "7c1e9438eac5d050a26c7623021c05d5b21269412257900d89b32d9811b16ba1"
+  },
+  "checks": {
+    "all_airport_region_matches": 320,
+    "ambiguous_excluded": [],
+    "yearly_airport_coverage": {
+      "2022": 270,
+      "2023": 272
+    },
+    "all_retained_airport_year_values_match": 542,
+    "regions_used": 169,
+    "twelve_months_required": true,
+    "annual_TOTAL_row_not_double_counted": true,
+    "residency_TOTAL_only": true,
+    "missing_airports_not_nearest_imputed": true,
+    "sample_region_matches": {
+      "EDDF": "DE71",
+      "LEBL": "ES51"
+    }
+  },
+  "source_flags_on_used_region_years": {},
+  "sources": [
+    "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&time=2022&time=2023",
+    "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_10M_2024_4326_LEVL_2.geojson"
+  ],
+  "source_refs": [
+    "turn88view0",
+    "turn88view1"
+  ],
+  "limits": [
+    "The underlying series uses annual reference years with a separate month dimension; all twelve months are summed exactly once.",
+    "NUTS2024 simplified boundaries and a2026 data vintage are retrospective; historical boundary/vintage consistency is not independently reconstructed.",
+    "Region of airport coordinates is not measured airport catchment; regional accommodation nights include residents and arrivals by all transport modes.",
+    "Accommodation nights are not passengers or visits. This annual proxy cannot validate passenger seasonality.",
+    "Point-on-boundary behaviour is implementation dependent; no observed assignment mismatch occurred in this sample."
+  ]
+}

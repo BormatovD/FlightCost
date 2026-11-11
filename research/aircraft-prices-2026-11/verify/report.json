@@ -1,0 +1,29 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "input_sha256": {
+    "report.html": "9f9a5a83ec5af7f378a062fdc6a73ffc1893a5826ec48935ef60065d3db668a4",
+    "report.en.html": "8322a13ce3efa5d592c73d01527f64f818234a7b80f7b1ee2172a0b3c306f7d0",
+    "report.de.html": "08dbf63c4e7380400da5590396c00520a6c64e2746cada62885e60a57820e842"
+  },
+  "method": "Read the rendered HTML prose/tables and cross-checked numerical values against independently verified research outputs. Table numbers compared across RU/EN/DE after locale and citation-marker normalization.",
+  "checks": {
+    "all_three_languages_table_numbers_match": true,
+    "tables_per_language": 4,
+    "financial_arithmetic_matches_independent_example": true,
+    "catalog_ratios_and_months_match": true,
+    "range_midpoint_is_explicitly_scenario_not_observed_average": true,
+    "fx_date_and_rate_period_difference_disclosed": true,
+    "no_continuous_2021_2026_market_recovery_inferred": true,
+    "age_column_4_to_6_year_caveat_present": true,
+    "rent_value_ratio_not_called_net_investment_yield": true,
+    "research_additions_not_presented_as_accepted_dataset": true,
+    "hlmv_age_distinction_and_credit_quality_disclosed": true,
+    "exponent_and_source_marker_separated": true
+  },
+  "limits": [
+    "This is a factual and numerical review, not a professional multilingual copy edit.",
+    "The articles remain drafts awaiting the owner modelling/publication stage.",
+    "A primary-market appraisal is not an executed contract or a universal rate for the entire ICAO family."
+  ]
+}

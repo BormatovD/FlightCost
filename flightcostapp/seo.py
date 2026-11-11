@@ -673,11 +673,11 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
   vector-effect:non-scaling-stroke}.ts .midpoint{stroke:var(--bg);stroke-width:1.5}
 .ts .range-midline{fill:none;stroke:currentColor;stroke-width:1.5}
 .ts .range-label{fill:var(--ink)}
-.price-kind{display:inline-block;position:relative;padding-left:15px;line-height:1.45;font-weight:600;max-width:28ch}
+.price-kind{display:inline-block;position:relative;padding-left:15px;line-height:1.45;font-weight:400;max-width:28ch}
 .price-dot{position:absolute;left:0;top:.45em;width:8px;height:8px;border-radius:50%;background:currentColor}
 .ts .lg.price-legend{display:flex;flex-wrap:wrap;gap:8px 18px}
 .price-table .price-kind{min-width:18ch}
-.price-value{font-weight:600}
+.price-value{font-weight:400}
 .price-mid{display:block;font-size:12px;color:var(--dim);white-space:normal;max-width:25ch;margin-left:auto}
 .price-use{display:block;font-size:12px;white-space:normal;max-width:25ch;margin-left:auto}
 .price-source{font-size:12px;border:0;margin:4px 0 0;padding:0}.price-source p{margin:5px 0}

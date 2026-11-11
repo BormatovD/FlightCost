@@ -1,0 +1,1100 @@
+{
+  "schema_version": 1,
+  "generated_on": "2026-11-11",
+  "status": "first_research_benchmark_not_production_validation",
+  "inputs": [
+    {
+      "path": "research/routes-2026-11/out/pairs_eu.json",
+      "sha256": "4ea1c4b57f114e1c8098c29e9101ad218ebcc9952a9ccbcae9c7d8571fa69de8"
+    },
+    {
+      "path": "research/routes-2026-11/out/airports.json",
+      "sha256": "2dea5597faf59c2b6bf8c925dbe059378010d453cd1005ffd6512ca3bebca508"
+    },
+    {
+      "path": "research/demand-2026-11/out/income_covariates.json",
+      "sha256": "129737b5b7f0766d6fd5c771e518dc860cb21745d62931748aa0b25a6eea7e80"
+    },
+    {
+      "path": "research/demand-2026-11/out/tourism_covariates.json",
+      "sha256": "4ce5f17d00b890c137aa55dfde92a424580b967ff54ca8cf1ba92f8abcef9f03"
+    }
+  ],
+  "target": "carried_passengers_both_directions_per_year",
+  "coverage": {
+    "pairs_in_source": 4902,
+    "airports_in_reference": 646,
+    "last_source_month": "2024-12",
+    "eligible_2023": 4400,
+    "eligible_2024": 4578,
+    "excluded_2023": {
+      "no_positive_annual_observation": 489,
+      "distance_under_100_km": 7,
+      "missing_coordinates": 6
+    },
+    "excluded_2024": {
+      "no_positive_annual_observation": 311,
+      "distance_under_100_km": 7,
+      "missing_coordinates": 6
+    }
+  },
+  "protocol": {
+    "folds": 5,
+    "seed": "flightcost-demand-pairs-v1",
+    "fold": "sha256(seed/pair), first 8 bytes unsigned big endian, modulo 5",
+    "features": [
+      "intercept",
+      "ln(training_mass_A * training_mass_B)",
+      "ln(km/1000)",
+      "ln(km/1000)^2",
+      "same_country"
+    ],
+    "fit": "OLS on log annual passengers; base exp prediction and separate train-only Duan smearing diagnostic",
+    "minimum_distance_km": 100,
+    "forecast": "train 2023; score observed pairs in 2024 using only 2023 traffic masses",
+    "heldout": "hold out entire unordered pairs in 2024; recompute masses inside each training fold",
+    "scope": "simplified research gravity; not calculator P/T/F; no population catchments or airport effects"
+  },
+  "experiments": {
+    "forecast_2023_2024": {
+      "excluded": {
+        "no_independent_mass_or_covariate": 127,
+        "no_observation_in_2023": 489
+      },
+      "fit": {
+        "distance": {
+          "training_n": 4264,
+          "coefficients": [
+            11.702389859932168,
+            -0.08879731511901529,
+            0.15707585021123338,
+            0.20761928771585975
+          ],
+          "smearing_multiplier": 1.0
+        },
+        "gravity": {
+          "training_n": 4264,
+          "coefficients": [
+            1.7309529500182756,
+            0.3137542383955435,
+            -0.09020219473629956,
+            0.16240877241876325,
+            0.5974744103254507
+          ],
+          "smearing_multiplier": 1.0
+        },
+        "gravity_smearing": {
+          "training_n": 4264,
+          "coefficients": [
+            1.7309529500182756,
+            0.3137542383955435,
+            -0.09020219473629956,
+            0.16240877241876325,
+            0.5974744103254507
+          ],
+          "smearing_multiplier": 1.2859014368318673
+        }
+      },
+      "n": 3962,
+      "models": {
+        "last_year": {
+          "n": 3962,
+          "median_factor": 1.1039908753021033,
+          "wape_pct": 11.043397680470452,
+          "mae_pax_year": 26232.382130237253,
+          "bias_pct": -7.098758052932093,
+          "within_factor_2_pct": 99.14184755174155
+        },
+        "distance": {
+          "n": 3962,
+          "median_factor": 1.8369971799630267,
+          "wape_pct": 62.87073052511952,
+          "mae_pax_year": 149342.53711235078,
+          "bias_pct": -40.88746098060155,
+          "within_factor_2_pct": 55.67895002523978
+        },
+        "gravity": {
+          "n": 3962,
+          "median_factor": 1.5740530366100691,
+          "wape_pct": 51.330373063991196,
+          "mae_pax_year": 121929.68143160194,
+          "bias_pct": -30.856326246347436,
+          "within_factor_2_pct": 69.8889449772842
+        },
+        "gravity_smearing": {
+          "n": 3962,
+          "median_factor": 1.6035763826621199,
+          "wape_pct": 51.15392456255642,
+          "mae_pax_year": 121510.54733448163,
+          "bias_pct": -11.088050572344292,
+          "within_factor_2_pct": 68.98031297324584
+        }
+      },
+      "example": {
+        "experiment": "forecast",
+        "pair": "EDDF-LEBL",
+        "year": 2024,
+        "actual": 806777.0,
+        "predictions": {
+          "last_year": 818623.0,
+          "distance": 120061.7016631197,
+          "gravity": 381897.49360878835,
+          "gravity_smearing": 491082.5357540298
+        }
+      }
+    },
+    "heldout_pairs_2024": {
+      "folds": 5,
+      "excluded": {
+        "endpoint_without_training_mass_or_covariate": 169
+      },
+      "fold_results": [
+        {
+          "fold": 0,
+          "training_pairs": 3700,
+          "test_pairs": 878,
+          "scored_pairs": 853,
+          "fit_rows": {
+            "distance": 3555,
+            "gravity": 3555,
+            "gravity_smearing": 3555
+          },
+          "smearing_multiplier": 1.2941585159467972,
+          "metrics": {
+            "distance": {
+              "n": 853,
+              "median_factor": 1.828377664616876,
+              "wape_pct": 64.62141079402211,
+              "mae_pax_year": 140587.627678768,
+              "bias_pct": -30.954903622483354,
+              "within_factor_2_pct": 56.03751465416178
+            },
+            "gravity": {
+              "n": 853,
+              "median_factor": 1.5929902120363566,
+              "wape_pct": 52.38373068035085,
+              "mae_pax_year": 113963.84471994978,
+              "bias_pct": -21.208851063823793,
+              "within_factor_2_pct": 67.87807737397421
+            },
+            "gravity_smearing": {
+              "n": 853,
+              "median_factor": 1.6755098283284362,
+              "wape_pct": 56.3158125046213,
+              "mae_pax_year": 122518.31681705419,
+              "bias_pct": 1.9682363769848727,
+              "within_factor_2_pct": 63.77491207502931
+            }
+          }
+        },
+        {
+          "fold": 1,
+          "training_pairs": 3653,
+          "test_pairs": 925,
+          "scored_pairs": 889,
+          "fit_rows": {
+            "distance": 3512,
+            "gravity": 3512,
+            "gravity_smearing": 3512
+          },
+          "smearing_multiplier": 1.2825428507737056,
+          "metrics": {
+            "distance": {
+              "n": 889,
+              "median_factor": 1.8695871463563667,
+              "wape_pct": 64.07975048934522,
+              "mae_pax_year": 144572.07303621012,
+              "bias_pct": -35.00219162812855,
+              "within_factor_2_pct": 54.21822272215972
+            },
+            "gravity": {
+              "n": 889,
+              "median_factor": 1.591192027192989,
+              "wape_pct": 52.56081454312928,
+              "mae_pax_year": 118583.88743625754,
+              "bias_pct": -24.352322631614,
+              "within_factor_2_pct": 68.05399325084365
+            },
+            "gravity_smearing": {
+              "n": 889,
+              "median_factor": 1.665293347886821,
+              "wape_pct": 55.012850075857855,
+              "mae_pax_year": 124115.99168788007,
+              "bias_pct": -2.9786122135406967,
+              "within_factor_2_pct": 64.56692913385827
+            }
+          }
+        },
+        {
+          "fold": 2,
+          "training_pairs": 3650,
+          "test_pairs": 928,
+          "scored_pairs": 900,
+          "fit_rows": {
+            "distance": 3506,
+            "gravity": 3506,
+            "gravity_smearing": 3506
+          },
+          "smearing_multiplier": 1.3005582546603842,
+          "metrics": {
+            "distance": {
+              "n": 900,
+              "median_factor": 1.821291548777138,
+              "wape_pct": 63.42732707708269,
+              "mae_pax_year": 143709.4641731323,
+              "bias_pct": -34.94990262712175,
+              "within_factor_2_pct": 57.111111111111114
+            },
+            "gravity": {
+              "n": 900,
+              "median_factor": 1.6047989431826788,
+              "wape_pct": 52.031666810743815,
+              "mae_pax_year": 117889.92697610719,
+              "bias_pct": -26.717173394947974,
+              "within_factor_2_pct": 68.44444444444444
+            },
+            "gravity_smearing": {
+              "n": 900,
+              "median_factor": 1.6459896266054812,
+              "wape_pct": 54.62763594313434,
+              "mae_pax_year": 123771.70302150871,
+              "bias_pct": -4.691414933953967,
+              "within_factor_2_pct": 65.88888888888889
+            }
+          }
+        },
+        {
+          "fold": 3,
+          "training_pairs": 3650,
+          "test_pairs": 928,
+          "scored_pairs": 894,
+          "fit_rows": {
+            "distance": 3514,
+            "gravity": 3514,
+            "gravity_smearing": 3514
+          },
+          "smearing_multiplier": 1.2906198428349769,
+          "metrics": {
+            "distance": {
+              "n": 894,
+              "median_factor": 1.885412236049053,
+              "wape_pct": 63.3048571398916,
+              "mae_pax_year": 137392.91989906394,
+              "bias_pct": -31.3445074324522,
+              "within_factor_2_pct": 54.47427293064877
+            },
+            "gravity": {
+              "n": 894,
+              "median_factor": 1.5772420690895144,
+              "wape_pct": 51.570938603855886,
+              "mae_pax_year": 111926.35378769686,
+              "bias_pct": -22.162539541071467,
+              "within_factor_2_pct": 69.12751677852349
+            },
+            "gravity_smearing": {
+              "n": 894,
+              "median_factor": 1.6564556358937077,
+              "wape_pct": 54.419504302072774,
+              "mae_pax_year": 118108.70339694526,
+              "bias_pct": 0.4585709841760735,
+              "within_factor_2_pct": 64.87695749440716
+            }
+          }
+        },
+        {
+          "fold": 4,
+          "training_pairs": 3659,
+          "test_pairs": 919,
+          "scored_pairs": 873,
+          "fit_rows": {
+            "distance": 3528,
+            "gravity": 3528,
+            "gravity_smearing": 3528
+          },
+          "smearing_multiplier": 1.2931884525722057,
+          "metrics": {
+            "distance": {
+              "n": 873,
+              "median_factor": 1.9313648857267451,
+              "wape_pct": 65.26936337775163,
+              "mae_pax_year": 146877.58406052133,
+              "bias_pct": -34.25550130681025,
+              "within_factor_2_pct": 51.546391752577314
+            },
+            "gravity": {
+              "n": 873,
+              "median_factor": 1.6229529868269637,
+              "wape_pct": 52.34548631582161,
+              "mae_pax_year": 117794.60023294322,
+              "bias_pct": -23.91544074058621,
+              "within_factor_2_pct": 67.69759450171821
+            },
+            "gravity_smearing": {
+              "n": 873,
+              "median_factor": 1.7215135226911438,
+              "wape_pct": 54.48133936650411,
+              "mae_pax_year": 122600.97369451546,
+              "bias_pct": -1.6083265466804026,
+              "within_factor_2_pct": 62.88659793814433
+            }
+          }
+        }
+      ],
+      "n": 4409,
+      "models": {
+        "distance": {
+          "n": 4409,
+          "median_factor": 1.8684777203678045,
+          "wape_pct": 64.1315909888579,
+          "mae_pax_year": 142625.93294842305,
+          "bias_pct": -33.3519604268566,
+          "within_factor_2_pct": 54.683601723746875
+        },
+        "gravity": {
+          "n": 4409,
+          "median_factor": 1.599474122211175,
+          "wape_pct": 52.178240783851095,
+          "mae_pax_year": 116042.19007598257,
+          "bias_pct": -23.72835632762642,
+          "within_factor_2_pct": 68.24676797459742
+        },
+        "gravity_smearing": {
+          "n": 4409,
+          "median_factor": 1.6701183469739234,
+          "wape_pct": 54.95543588970179,
+          "mae_pax_year": 122218.55396847618,
+          "bias_pct": -1.4438989459670724,
+          "within_factor_2_pct": 64.41369925153097
+        }
+      },
+      "example": {
+        "experiment": "heldout",
+        "pair": "EDDF-LEBL",
+        "year": 2024,
+        "fold": 3,
+        "actual": 806777.0,
+        "predictions": {
+          "distance": 130693.64589198305,
+          "gravity": 409276.32913757337,
+          "gravity_smearing": 528220.1515876112
+        }
+      }
+    }
+  },
+  "macro": {
+    "income": {
+      "status": "exploratory_retrospective_comparison",
+      "source": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.PP.KD;SP.POP.TOTL;ST.INT.ARVL?source=2&format=json&date=2022:2023&per_page=5000",
+      "indicator": "NY.GDP.PCAP.PP.KD",
+      "source_updated": "2026-10-08",
+      "unit": "constant 2021 international dollars per person (PPP)",
+      "covariate_years": [
+        2022,
+        2023
+      ],
+      "countries_per_year": {
+        "2022": 129,
+        "2023": 129
+      },
+      "feature": "ln(GDP per capita PPP A * GDP per capita PPP B), observation year minus one",
+      "vintage_caveat": "downloaded in 2026; publication/revision dates as known in 2023/2024 are not reconstructed",
+      "comparison": "baseline and income model use identical training and scoring rows",
+      "forecast_2023_2024": {
+        "excluded": {
+          "no_independent_mass_or_covariate": 162,
+          "no_observation_in_2023": 489
+        },
+        "fit": {
+          "distance": {
+            "training_n": 4229,
+            "coefficients": [
+              11.705200017532192,
+              -0.08704863409944384,
+              0.1548961264631541,
+              0.20710243869978232
+            ],
+            "smearing_multiplier": 1.0
+          },
+          "gravity": {
+            "training_n": 4229,
+            "coefficients": [
+              1.5880171412652282,
+              0.3181690136942433,
+              -0.0816890937424241,
+              0.1552298800763197,
+              0.6146513632552227
+            ],
+            "smearing_multiplier": 1.0
+          },
+          "gravity_income": {
+            "training_n": 4229,
+            "coefficients": [
+              3.882381056275708,
+              0.3292033822340834,
+              -0.10316403240515933,
+              0.1616285041810052,
+              0.5956647989981694,
+              -0.12236177683543917
+            ],
+            "smearing_multiplier": 1.0
+          }
+        },
+        "n": 3927,
+        "models": {
+          "last_year": {
+            "n": 3927,
+            "median_factor": 1.104341492058065,
+            "wape_pct": 11.06468197385315,
+            "mae_pax_year": 26269.743570155333,
+            "bias_pct": -7.1526074546402345,
+            "within_factor_2_pct": 99.15966386554622
+          },
+          "distance": {
+            "n": 3927,
+            "median_factor": 1.8365048658116196,
+            "wape_pct": 62.82929146036712,
+            "mae_pax_year": 149169.1653911697,
+            "bias_pct": -40.934242851458166,
+            "within_factor_2_pct": 55.767761650114586
+          },
+          "gravity": {
+            "n": 3927,
+            "median_factor": 1.5724095516549201,
+            "wape_pct": 51.13475320631073,
+            "mae_pax_year": 121404.0184279398,
+            "bias_pct": -30.71400010990275,
+            "within_factor_2_pct": 69.79882862235803
+          },
+          "gravity_income": {
+            "n": 3927,
+            "median_factor": 1.5727663511118468,
+            "wape_pct": 51.0206546081892,
+            "mae_pax_year": 121133.12578760457,
+            "bias_pct": -30.61508050137468,
+            "within_factor_2_pct": 70.1807995925643
+          }
+        },
+        "example": {
+          "experiment": "income_forecast",
+          "pair": "EDDF-LEBL",
+          "year": 2024,
+          "actual": 806777.0,
+          "predictions": {
+            "last_year": 818623.0,
+            "distance": 120416.14826966875,
+            "gravity": 387417.5188878556,
+            "gravity_income": 392967.4606404662
+          }
+        }
+      },
+      "heldout_pairs_2024": {
+        "folds": 5,
+        "excluded": {
+          "endpoint_without_training_mass_or_covariate": 204
+        },
+        "fold_results": [
+          {
+            "fold": 0,
+            "training_pairs": 3700,
+            "test_pairs": 878,
+            "scored_pairs": 846,
+            "fit_rows": {
+              "distance": 3526,
+              "gravity": 3526,
+              "gravity_income": 3526
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 846,
+                "median_factor": 1.8249575637361621,
+                "wape_pct": 64.45648232262039,
+                "mae_pax_year": 139536.35825544954,
+                "bias_pct": -30.58217174638026,
+                "within_factor_2_pct": 56.02836879432624
+              },
+              "gravity": {
+                "n": 846,
+                "median_factor": 1.5933545334741464,
+                "wape_pct": 52.01693543806112,
+                "mae_pax_year": 112607.04086063149,
+                "bias_pct": -20.677147527335553,
+                "within_factor_2_pct": 67.61229314420804
+              },
+              "gravity_income": {
+                "n": 846,
+                "median_factor": 1.6077623610224439,
+                "wape_pct": 52.072200367799425,
+                "mae_pax_year": 112726.67920819644,
+                "bias_pct": -20.453427757071577,
+                "within_factor_2_pct": 68.43971631205675
+              }
+            }
+          },
+          {
+            "fold": 1,
+            "training_pairs": 3653,
+            "test_pairs": 925,
+            "scored_pairs": 882,
+            "fit_rows": {
+              "distance": 3485,
+              "gravity": 3485,
+              "gravity_income": 3485
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 882,
+                "median_factor": 1.8676354563715498,
+                "wape_pct": 64.10738427855941,
+                "mae_pax_year": 143980.8741951302,
+                "bias_pct": -34.706949896878015,
+                "within_factor_2_pct": 54.30839002267574
+              },
+              "gravity": {
+                "n": 882,
+                "median_factor": 1.590444705742504,
+                "wape_pct": 52.21167152409758,
+                "mae_pax_year": 117263.90327459924,
+                "bias_pct": -23.873848772245747,
+                "within_factor_2_pct": 68.36734693877551
+              },
+              "gravity_income": {
+                "n": 882,
+                "median_factor": 1.5901424434119849,
+                "wape_pct": 51.96962225835824,
+                "mae_pax_year": 116720.27690032688,
+                "bias_pct": -23.703698246471504,
+                "within_factor_2_pct": 68.93424036281179
+              }
+            }
+          },
+          {
+            "fold": 2,
+            "training_pairs": 3650,
+            "test_pairs": 928,
+            "scored_pairs": 894,
+            "fit_rows": {
+              "distance": 3477,
+              "gravity": 3477,
+              "gravity_income": 3477
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 894,
+                "median_factor": 1.8240402654541041,
+                "wape_pct": 63.52612204482612,
+                "mae_pax_year": 144000.70292643184,
+                "bias_pct": -34.99151607781323,
+                "within_factor_2_pct": 57.158836689038026
+              },
+              "gravity": {
+                "n": 894,
+                "median_factor": 1.607382432022229,
+                "wape_pct": 51.994831205094805,
+                "mae_pax_year": 117861.62921752952,
+                "bias_pct": -26.834124750565298,
+                "within_factor_2_pct": 68.79194630872483
+              },
+              "gravity_income": {
+                "n": 894,
+                "median_factor": 1.5953748304761848,
+                "wape_pct": 51.94938897934903,
+                "mae_pax_year": 117758.62100233711,
+                "bias_pct": -26.330797710368252,
+                "within_factor_2_pct": 68.90380313199105
+              }
+            }
+          },
+          {
+            "fold": 3,
+            "training_pairs": 3650,
+            "test_pairs": 928,
+            "scored_pairs": 886,
+            "fit_rows": {
+              "distance": 3485,
+              "gravity": 3485,
+              "gravity_income": 3485
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 886,
+                "median_factor": 1.8844582384992723,
+                "wape_pct": 63.38326873824901,
+                "mae_pax_year": 137646.05092396945,
+                "bias_pct": -31.44076152667402,
+                "within_factor_2_pct": 53.95033860045147
+              },
+              "gravity": {
+                "n": 886,
+                "median_factor": 1.5804082451304946,
+                "wape_pct": 51.47958798220784,
+                "mae_pax_year": 111795.4647969722,
+                "bias_pct": -22.110094370878926,
+                "within_factor_2_pct": 69.18735891647856
+              },
+              "gravity_income": {
+                "n": 886,
+                "median_factor": 1.5957747710709635,
+                "wape_pct": 51.46996001071764,
+                "mae_pax_year": 111774.5562468072,
+                "bias_pct": -22.064194614139616,
+                "within_factor_2_pct": 69.3002257336343
+              }
+            }
+          },
+          {
+            "fold": 4,
+            "training_pairs": 3659,
+            "test_pairs": 919,
+            "scored_pairs": 866,
+            "fit_rows": {
+              "distance": 3500,
+              "gravity": 3500,
+              "gravity_income": 3500
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 866,
+                "median_factor": 1.924639195792898,
+                "wape_pct": 65.13862722491007,
+                "mae_pax_year": 146998.10688323007,
+                "bias_pct": -34.54057030861073,
+                "within_factor_2_pct": 51.73210161662818
+              },
+              "gravity": {
+                "n": 866,
+                "median_factor": 1.6254534099666307,
+                "wape_pct": 52.17990393979505,
+                "mae_pax_year": 117754.20243375048,
+                "bias_pct": -24.03281166575095,
+                "within_factor_2_pct": 67.89838337182448
+              },
+              "gravity_income": {
+                "n": 866,
+                "median_factor": 1.6320087544194126,
+                "wape_pct": 52.32598318762148,
+                "mae_pax_year": 118083.85894940392,
+                "bias_pct": -23.85305874402578,
+                "within_factor_2_pct": 67.32101616628175
+              }
+            }
+          }
+        ],
+        "n": 4374,
+        "models": {
+          "distance": {
+            "n": 4374,
+            "median_factor": 1.866576118037794,
+            "wape_pct": 64.11597881222806,
+            "mae_pax_year": 142439.47878828517,
+            "bias_pct": -33.308698960168535,
+            "within_factor_2_pct": 54.641060813900324
+          },
+          "gravity": {
+            "n": 4374,
+            "median_factor": 1.5961700607856604,
+            "wape_pct": 51.978400931711946,
+            "mae_pax_year": 115474.74551772005,
+            "bias_pct": -23.5714538358099,
+            "within_factor_2_pct": 68.38134430727023
+          },
+          "gravity_income": {
+            "n": 4374,
+            "median_factor": 1.605107125913808,
+            "wape_pct": 51.957469451022796,
+            "mae_pax_year": 115428.24432948489,
+            "bias_pct": -23.344394824868846,
+            "within_factor_2_pct": 68.58710562414267
+          }
+        },
+        "example": {
+          "experiment": "income_heldout",
+          "pair": "EDDF-LEBL",
+          "year": 2024,
+          "fold": 3,
+          "actual": 806777.0,
+          "predictions": {
+            "distance": 131271.69727195363,
+            "gravity": 414552.12357564777,
+            "gravity_income": 419531.7651173811
+          }
+        }
+      }
+    },
+    "tourism": {
+      "status": "exploratory_retrospective_comparison",
+      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&time=2022&time=2023",
+      "geography_source": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_10M_2024_4326_LEVL_2.geojson",
+      "geography_version": "NUTS 2024, polygons at 1:10 million, WGS84",
+      "source_updated": "2026-10-20T23:00:00+0200",
+      "unit": "total accommodation nights per NUTS2 region per year",
+      "covariate_years": [
+        2022,
+        2023
+      ],
+      "airports_per_year": {
+        "2022": 270,
+        "2023": 272
+      },
+      "feature": "ln(annual regional accommodation nights A * annual regional accommodation nights B), observation year minus one",
+      "vintage_caveat": "2026 data vintage, 2024 region polygons, retrospective association; not historical publication-date availability",
+      "comparison": "baseline and tourism model use identical training and scoring rows",
+      "scope": "total nights including residents; annual tourism-activity proxy, not air arrivals or seasonal passenger demand",
+      "forecast_2023_2024": {
+        "excluded": {
+          "no_independent_mass_or_covariate": 2070,
+          "no_observation_in_2023": 489
+        },
+        "fit": {
+          "distance": {
+            "training_n": 2130,
+            "coefficients": [
+              11.662308196223748,
+              -0.24142875228684488,
+              0.00789544347833982,
+              0.21845990054435796
+            ],
+            "smearing_multiplier": 1.0
+          },
+          "gravity": {
+            "training_n": 2130,
+            "coefficients": [
+              1.1212898640494506,
+              0.3304899364133725,
+              -0.25232723326251993,
+              0.0038784168759206194,
+              0.6359791123867736
+            ],
+            "smearing_multiplier": 1.0
+          },
+          "gravity_tourism": {
+            "training_n": 2130,
+            "coefficients": [
+              0.8440123506524492,
+              0.32557537611209453,
+              -0.25879181985000216,
+              0.0033665215416080504,
+              0.6103810437337526,
+              0.013278589188438588
+            ],
+            "smearing_multiplier": 1.0
+          }
+        },
+        "n": 2019,
+        "models": {
+          "last_year": {
+            "n": 2019,
+            "median_factor": 1.1102407590783465,
+            "wape_pct": 11.229522539651855,
+            "mae_pax_year": 24769.38385339277,
+            "bias_pct": -7.771281138918132,
+            "within_factor_2_pct": 98.91035165923725
+          },
+          "distance": {
+            "n": 2019,
+            "median_factor": 1.8447413591542827,
+            "wape_pct": 64.55231130277501,
+            "mae_pax_year": 142385.4818080012,
+            "bias_pct": -44.349848238989,
+            "within_factor_2_pct": 55.96830113917781
+          },
+          "gravity": {
+            "n": 2019,
+            "median_factor": 1.5286425964967967,
+            "wape_pct": 49.88634556223799,
+            "mae_pax_year": 110036.20482624527,
+            "bias_pct": -32.18060354315382,
+            "within_factor_2_pct": 73.30361565131253
+          },
+          "gravity_tourism": {
+            "n": 2019,
+            "median_factor": 1.5240599580536331,
+            "wape_pct": 49.82346036214412,
+            "mae_pax_year": 109897.49655487199,
+            "bias_pct": -32.019869175734314,
+            "within_factor_2_pct": 73.25408618127786
+          }
+        },
+        "example": {
+          "experiment": "tourism_forecast",
+          "pair": "EDDF-LEBL",
+          "year": 2024,
+          "actual": 806777.0,
+          "predictions": {
+            "last_year": 818623.0,
+            "distance": 113663.96320143159,
+            "gravity": 369999.8586291929,
+            "gravity_tourism": 375018.058995243
+          }
+        }
+      },
+      "heldout_pairs_2024": {
+        "folds": 5,
+        "excluded": {
+          "endpoint_without_training_mass_or_covariate": 2336
+        },
+        "fold_results": [
+          {
+            "fold": 0,
+            "training_pairs": 3700,
+            "test_pairs": 878,
+            "scored_pairs": 429,
+            "fit_rows": {
+              "distance": 1817,
+              "gravity": 1817,
+              "gravity_tourism": 1817
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 429,
+                "median_factor": 1.826782813217849,
+                "wape_pct": 65.58184973464138,
+                "mae_pax_year": 135957.9329464775,
+                "bias_pct": -35.59146696079826,
+                "within_factor_2_pct": 57.57575757575758
+              },
+              "gravity": {
+                "n": 429,
+                "median_factor": 1.5156694965915471,
+                "wape_pct": 50.70270137317733,
+                "mae_pax_year": 105111.92504316468,
+                "bias_pct": -22.52910703223466,
+                "within_factor_2_pct": 72.49417249417249
+              },
+              "gravity_tourism": {
+                "n": 429,
+                "median_factor": 1.5137802266993599,
+                "wape_pct": 50.71705898075061,
+                "mae_pax_year": 105141.68984326744,
+                "bias_pct": -22.52547826038781,
+                "within_factor_2_pct": 72.26107226107226
+              }
+            }
+          },
+          {
+            "fold": 1,
+            "training_pairs": 3653,
+            "test_pairs": 925,
+            "scored_pairs": 453,
+            "fit_rows": {
+              "distance": 1784,
+              "gravity": 1784,
+              "gravity_tourism": 1784
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 453,
+                "median_factor": 1.932549954047076,
+                "wape_pct": 68.14640109573223,
+                "mae_pax_year": 143619.88067224412,
+                "bias_pct": -36.629462357152384,
+                "within_factor_2_pct": 52.980132450331126
+              },
+              "gravity": {
+                "n": 453,
+                "median_factor": 1.5919695198537258,
+                "wape_pct": 52.41011698316258,
+                "mae_pax_year": 110455.35239001144,
+                "bias_pct": -22.49402300633013,
+                "within_factor_2_pct": 68.43267108167771
+              },
+              "gravity_tourism": {
+                "n": 453,
+                "median_factor": 1.5986471561239821,
+                "wape_pct": 52.43424898136112,
+                "mae_pax_year": 110506.21105086409,
+                "bias_pct": -22.50623463797046,
+                "within_factor_2_pct": 68.21192052980133
+              }
+            }
+          },
+          {
+            "fold": 2,
+            "training_pairs": 3650,
+            "test_pairs": 928,
+            "scored_pairs": 440,
+            "fit_rows": {
+              "distance": 1803,
+              "gravity": 1803,
+              "gravity_tourism": 1803
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 440,
+                "median_factor": 1.8792158400884185,
+                "wape_pct": 64.11356414485178,
+                "mae_pax_year": 134518.89687866755,
+                "bias_pct": -38.60585667019629,
+                "within_factor_2_pct": 54.31818181818182
+              },
+              "gravity": {
+                "n": 440,
+                "median_factor": 1.5582864761961894,
+                "wape_pct": 48.77716201692421,
+                "mae_pax_year": 102341.05863408877,
+                "bias_pct": -27.677562405752905,
+                "within_factor_2_pct": 70.45454545454545
+              },
+              "gravity_tourism": {
+                "n": 440,
+                "median_factor": 1.5595171788786815,
+                "wape_pct": 48.7533167691647,
+                "mae_pax_year": 102291.02809114219,
+                "bias_pct": -27.637485100359648,
+                "within_factor_2_pct": 70.45454545454545
+              }
+            }
+          },
+          {
+            "fold": 3,
+            "training_pairs": 3650,
+            "test_pairs": 928,
+            "scored_pairs": 470,
+            "fit_rows": {
+              "distance": 1772,
+              "gravity": 1772,
+              "gravity_tourism": 1772
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 470,
+                "median_factor": 1.9569891563530153,
+                "wape_pct": 64.71386207700395,
+                "mae_pax_year": 129817.30848816488,
+                "bias_pct": -33.06437455881364,
+                "within_factor_2_pct": 52.34042553191489
+              },
+              "gravity": {
+                "n": 470,
+                "median_factor": 1.5567876141212702,
+                "wape_pct": 49.142910499740836,
+                "mae_pax_year": 98581.66654865933,
+                "bias_pct": -21.094293946782724,
+                "within_factor_2_pct": 71.27659574468085
+              },
+              "gravity_tourism": {
+                "n": 470,
+                "median_factor": 1.5576991276017809,
+                "wape_pct": 49.18394559292562,
+                "mae_pax_year": 98663.98377065528,
+                "bias_pct": -21.104545144487524,
+                "within_factor_2_pct": 71.70212765957447
+              }
+            }
+          },
+          {
+            "fold": 4,
+            "training_pairs": 3659,
+            "test_pairs": 919,
+            "scored_pairs": 450,
+            "fit_rows": {
+              "distance": 1786,
+              "gravity": 1786,
+              "gravity_tourism": 1786
+            },
+            "smearing_multiplier": null,
+            "metrics": {
+              "distance": {
+                "n": 450,
+                "median_factor": 1.961855333280084,
+                "wape_pct": 67.35374063762897,
+                "mae_pax_year": 131962.734023036,
+                "bias_pct": -32.60140998710096,
+                "within_factor_2_pct": 50.888888888888886
+              },
+              "gravity": {
+                "n": 450,
+                "median_factor": 1.5247778051280536,
+                "wape_pct": 49.22188003737656,
+                "mae_pax_year": 96437.90830315443,
+                "bias_pct": -23.166365743074508,
+                "within_factor_2_pct": 70.0
+              },
+              "gravity_tourism": {
+                "n": 450,
+                "median_factor": 1.52499738534462,
+                "wape_pct": 49.23302065283118,
+                "mae_pax_year": 96459.73554036758,
+                "bias_pct": -23.16039934931579,
+                "within_factor_2_pct": 70.22222222222221
+              }
+            }
+          }
+        ],
+        "n": 2242,
+        "models": {
+          "distance": {
+            "n": 2242,
+            "median_factor": 1.9001344111392946,
+            "wape_pct": 65.98186104054847,
+            "mae_pax_year": 135134.45098348922,
+            "bias_pct": -35.3203205000697,
+            "within_factor_2_pct": 53.568242640499555
+          },
+          "gravity": {
+            "n": 2242,
+            "median_factor": 1.5554805487705023,
+            "wape_pct": 50.06596255470866,
+            "mae_pax_year": 102537.82260904605,
+            "bias_pct": -23.384668671884302,
+            "within_factor_2_pct": 70.51739518287243
+          },
+          "gravity_tourism": {
+            "n": 2242,
+            "median_factor": 1.5536879530099863,
+            "wape_pct": 50.079531704471,
+            "mae_pax_year": 102565.6129680103,
+            "bias_pct": -23.379406500156378,
+            "within_factor_2_pct": 70.56199821587869
+          }
+        },
+        "example": {
+          "experiment": "tourism_heldout",
+          "pair": "EDDF-LEBL",
+          "year": 2024,
+          "fold": 3,
+          "actual": 806777.0,
+          "predictions": {
+            "distance": 127875.03462772095,
+            "gravity": 428407.95767478645,
+            "gravity_tourism": 433233.78663278476
+          }
+        }
+      }
+    },
+    "business": {
+      "status": "not_in_benchmark"
+    },
+    "diasporas": {
+      "status": "not_in_benchmark"
+    },
+    "visas": {
+      "status": "not_in_benchmark"
+    }
+  },
+  "limitations": [
+    "The source contains observed routes with 12 positive monthly values; absent pairs are not zeros.",
+    "Eurostat PAS_CRD describes on-flight origin/destination airport pairs, not flight-stage PAS_BRD or true journey origin/destination; connecting journeys are not reconstructed.",
+    "2024 is a retrospective check using the repository's published-data vintage, not a real-time backtest.",
+    "Forecast scores cover surviving pairs with positive published annual observations in both years, not route openings or closures.",
+    "Pair-held-out scores apply to observed airports with other training routes, not a new airport.",
+    "Node masses are partial sums of the available route sample, not certified total airport traffic.",
+    "The two tasks have different information sets; last year's flow is unavailable for a pair without history.",
+    "Annual aggregates cannot validate monthly seasonality; no result for diaspora or visa effects is claimed.",
+    "One fixed five-fold split is exploratory; no causal interpretation or uncertainty interval is claimed."
+  ],
+  "next_data": [
+    "monthly traffic panel with report provenance",
+    "population catchments",
+    "regional GDP, accommodation nights and employment",
+    "dated bilateral migration and visa indicators"
+  ]
+}

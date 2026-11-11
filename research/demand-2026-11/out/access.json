@@ -1,0 +1,41 @@
+{
+  "checked_on": "2026-11-11",
+  "raw": [
+    {
+      "name": "wb_macro",
+      "url": "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.PP.KD;SP.POP.TOTL;ST.INT.ARVL?source=2&format=json&date=2022:2023&per_page=5000",
+      "sha256": "bf5bb62982bce4e170eac272738a278769b62684c0e0896470a4d16a6cc3041d",
+      "bytes": 363624
+    },
+    {
+      "name": "eurostat_nights",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tour_occ_nin2m?format=JSON&lang=EN&unit=NR&nace_r2=I551-I553&c_resid=TOTAL&c_resid=FOR&time=2022&time=2023",
+      "sha256": "693468ca529ec24f7c6eead8a17a80688e675998ec8217407fa022aacdb03202",
+      "bytes": 348986
+    },
+    {
+      "name": "gisco_regions",
+      "url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_10M_2024_4326_LEVL_2.geojson",
+      "sha256": "7c1e9438eac5d050a26c7623021c05d5b21269412257900d89b32d9811b16ba1",
+      "bytes": 1176698
+    }
+  ],
+  "wb_returned_rows": 1596,
+  "wb_tourist_arrivals_2022_2023": 0,
+  "income_countries": {
+    "2022": 129,
+    "2023": 129
+  },
+  "regional_nights_monthly_facts": 19395,
+  "mapped_airports": 320,
+  "tourism_airports": {
+    "2022": 270,
+    "2023": 272
+  },
+  "tourism_regions": 169,
+  "server_panel_needed_for": [
+    "calculator's population catchments and full P/T/F validation",
+    "passenger-month seasonality",
+    "business, diaspora, dated visa comparisons"
+  ]
+}

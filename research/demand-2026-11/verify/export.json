@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass",
+  "method": "Independent synthetic SQLite input with valid public records, wrong domain/source records, pre-cutoff traffic, private tables and sentinel secrets in omitted fields.",
+  "code_sha256": "32307c9692bd54e719914f3a511a5db3796e73de15e08cb7480484a8ba659107",
+  "checks": {
+    "source_bytes_unchanged": true,
+    "write_attempt_blocked": true,
+    "missing_db_rejected_without_creation": true,
+    "existing_output_rejected": true,
+    "only_two_public_facts": true,
+    "public_fact_keys": [
+      "GDP-A",
+      "PAIR-A"
+    ],
+    "no_private_sentinel_in_output": true,
+    "source_state_fields_omit_message": true,
+    "artifact_fields_omit_paths": true,
+    "query_and_fragment_stripped": true,
+    "credential_url_omitted": true
+  },
+  "limits": [
+    "Checks export selection and database read-only handling, not completeness of a real server snapshot.",
+    "Retained values from trusted whitelisted public-source facts remain data; the export is not a general-purpose content redaction tool.",
+    "An output file is written locally as requested; no server was contacted."
+  ]
+}

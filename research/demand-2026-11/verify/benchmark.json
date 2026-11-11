@@ -1,0 +1,277 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass_with_scope_limits",
+  "method": "Independent reconstruction from raw repository annual aggregates, own great-circle calculation, vectorized endpoint aggregation and OLS; no import of benchmark.py or its functions. All per-pair predictions and all summary metrics compared.",
+  "input_sha256": {
+    "pairs": "4ea1c4b57f114e1c8098c29e9101ad218ebcc9952a9ccbcae9c7d8571fa69de8",
+    "airports": "2dea5597faf59c2b6bf8c925dbe059378010d453cd1005ffd6512ca3bebca508",
+    "income": "129737b5b7f0766d6fd5c771e518dc860cb21745d62931748aa0b25a6eea7e80",
+    "summary": "87af5d8488307b8e9ee2c833b73464f83ea15088b4832ba7a781b77aa4b77eac",
+    "predictions": "bb0ee5d91625741e35dd3f389a6f9fa21c1fbb4947229d3c88d9d9225cf61d64",
+    "benchmark_code": "ed060bd1dfbc92b6b0263c1b6d4def4abda1b3f4d48f892e19ff20350411a50c",
+    "tourism": "4ce5f17d00b890c137aa55dfde92a424580b967ff54ca8cf1ba92f8abcef9f03"
+  },
+  "checks": {
+    "eligible_2023": 4400,
+    "eligible_2024": 4578,
+    "all_prediction_records_matched": 20933,
+    "scope_experiments": [
+      "forecast",
+      "heldout",
+      "income_forecast",
+      "income_heldout",
+      "tourism_forecast",
+      "tourism_heldout"
+    ],
+    "smearing_uses_training_residuals_only": true,
+    "max_absolute_prediction_difference_pax": 9.546056389808655e-09,
+    "max_relative_prediction_difference": 1.9547370415033192e-14,
+    "all_summary_metrics_match": true,
+    "no_duplicate_pair_within_experiment": true,
+    "test_target_year_is_2024": true,
+    "forecast_train_and_traffic_features_from_2023_only": true,
+    "whole_pair_fold_assignment_verified": true,
+    "heldout_masses_use_training_folds_only": true,
+    "own_training_flow_subtracted": true,
+    "income_baselines_use_identical_rows": true,
+    "income_forecast_lags_2022_train_2023_score": true,
+    "income_heldout_uses_2023": true,
+    "tourism_same_sample_baselines_verified": true,
+    "tourism_forecast_uses_2022_train_2023_score": true,
+    "tourism_heldout_uses_2023": true
+  },
+  "training_rows": {
+    "forecast": 4264,
+    "heldout": [
+      3555,
+      3512,
+      3506,
+      3514,
+      3528
+    ],
+    "income_forecast": 4229,
+    "income_heldout": [
+      3526,
+      3485,
+      3477,
+      3485,
+      3500
+    ],
+    "tourism_forecast": 2130,
+    "tourism_heldout": [
+      1817,
+      1784,
+      1803,
+      1772,
+      1786
+    ]
+  },
+  "metrics": {
+    "forecast": {
+      "distance": {
+        "n": 3962,
+        "median_factor": 1.8369971799630251,
+        "wape_pct": 62.87073052511952,
+        "mae_pax_year": 149342.53711235078,
+        "bias_pct": -40.88746098060158,
+        "within_factor_2_pct": 55.67895002523978
+      },
+      "gravity": {
+        "n": 3962,
+        "median_factor": 1.5740530366100662,
+        "wape_pct": 51.33037306399124,
+        "mae_pax_year": 121929.68143160208,
+        "bias_pct": -30.856326246347727,
+        "within_factor_2_pct": 69.8889449772842
+      },
+      "gravity_smearing": {
+        "n": 3962,
+        "median_factor": 1.603576382662119,
+        "wape_pct": 51.153924562556426,
+        "mae_pax_year": 121510.54733448164,
+        "bias_pct": -11.088050572344319,
+        "within_factor_2_pct": 68.98031297324584
+      },
+      "last_year": {
+        "n": 3962,
+        "median_factor": 1.1039908753021033,
+        "wape_pct": 11.043397680470452,
+        "mae_pax_year": 26232.382130237253,
+        "bias_pct": -7.098758052932093,
+        "within_factor_2_pct": 99.14184755174155
+      }
+    },
+    "heldout": {
+      "distance": {
+        "n": 4409,
+        "median_factor": 1.8684777203677914,
+        "wape_pct": 64.13159098885788,
+        "mae_pax_year": 142625.93294842303,
+        "bias_pct": -33.35196042685668,
+        "within_factor_2_pct": 54.683601723746875
+      },
+      "gravity": {
+        "n": 4409,
+        "median_factor": 1.599474122211175,
+        "wape_pct": 52.17824078385108,
+        "mae_pax_year": 116042.19007598255,
+        "bias_pct": -23.728356327626493,
+        "within_factor_2_pct": 68.24676797459742
+      },
+      "gravity_smearing": {
+        "n": 4409,
+        "median_factor": 1.670118346973916,
+        "wape_pct": 54.95543588970179,
+        "mae_pax_year": 122218.55396847618,
+        "bias_pct": -1.443898945967064,
+        "within_factor_2_pct": 64.41369925153097
+      }
+    },
+    "income_forecast": {
+      "distance": {
+        "n": 3927,
+        "median_factor": 1.8365048658116097,
+        "wape_pct": 62.82929146036713,
+        "mae_pax_year": 149169.16539116975,
+        "bias_pct": -40.93424285145831,
+        "within_factor_2_pct": 55.767761650114586
+      },
+      "gravity": {
+        "n": 3927,
+        "median_factor": 1.5724095516549175,
+        "wape_pct": 51.13475320631071,
+        "mae_pax_year": 121404.01842793977,
+        "bias_pct": -30.71400010990269,
+        "within_factor_2_pct": 69.79882862235803
+      },
+      "gravity_income": {
+        "n": 3927,
+        "median_factor": 1.5727663511118468,
+        "wape_pct": 51.02065460818923,
+        "mae_pax_year": 121133.12578760464,
+        "bias_pct": -30.615080501374827,
+        "within_factor_2_pct": 70.1807995925643
+      },
+      "last_year": {
+        "n": 3927,
+        "median_factor": 1.104341492058065,
+        "wape_pct": 11.06468197385315,
+        "mae_pax_year": 26269.743570155333,
+        "bias_pct": -7.1526074546402345,
+        "within_factor_2_pct": 99.15966386554622
+      }
+    },
+    "income_heldout": {
+      "distance": {
+        "n": 4374,
+        "median_factor": 1.8665761180377989,
+        "wape_pct": 64.11597881222806,
+        "mae_pax_year": 142439.47878828517,
+        "bias_pct": -33.30869896016838,
+        "within_factor_2_pct": 54.641060813900324
+      },
+      "gravity": {
+        "n": 4374,
+        "median_factor": 1.5961700607856546,
+        "wape_pct": 51.978400931711946,
+        "mae_pax_year": 115474.74551772005,
+        "bias_pct": -23.571453835809926,
+        "within_factor_2_pct": 68.38134430727023
+      },
+      "gravity_income": {
+        "n": 4374,
+        "median_factor": 1.6051071259138094,
+        "wape_pct": 51.957469451022796,
+        "mae_pax_year": 115428.24432948489,
+        "bias_pct": -23.344394824868665,
+        "within_factor_2_pct": 68.58710562414267
+      }
+    },
+    "tourism_forecast": {
+      "distance": {
+        "n": 2019,
+        "median_factor": 1.844741359154289,
+        "wape_pct": 64.55231130277502,
+        "mae_pax_year": 142385.48180800123,
+        "bias_pct": -44.34984823898916,
+        "within_factor_2_pct": 55.96830113917781
+      },
+      "gravity": {
+        "n": 2019,
+        "median_factor": 1.5286425964968047,
+        "wape_pct": 49.886345562238084,
+        "mae_pax_year": 110036.20482624548,
+        "bias_pct": -32.180603543154255,
+        "within_factor_2_pct": 73.30361565131253
+      },
+      "gravity_tourism": {
+        "n": 2019,
+        "median_factor": 1.5240599580536331,
+        "wape_pct": 49.82346036214411,
+        "mae_pax_year": 109897.49655487198,
+        "bias_pct": -32.0198691757343,
+        "within_factor_2_pct": 73.25408618127786
+      },
+      "last_year": {
+        "n": 2019,
+        "median_factor": 1.1102407590783465,
+        "wape_pct": 11.229522539651855,
+        "mae_pax_year": 24769.38385339277,
+        "bias_pct": -7.771281138918132,
+        "within_factor_2_pct": 98.91035165923725
+      }
+    },
+    "tourism_heldout": {
+      "distance": {
+        "n": 2242,
+        "median_factor": 1.9001344111392984,
+        "wape_pct": 65.98186104054848,
+        "mae_pax_year": 135134.45098348925,
+        "bias_pct": -35.32032050006964,
+        "within_factor_2_pct": 53.568242640499555
+      },
+      "gravity": {
+        "n": 2242,
+        "median_factor": 1.5554805487705052,
+        "wape_pct": 50.06596255470869,
+        "mae_pax_year": 102537.8226090461,
+        "bias_pct": -23.38466867188441,
+        "within_factor_2_pct": 70.51739518287243
+      },
+      "gravity_tourism": {
+        "n": 2242,
+        "median_factor": 1.5536879530099876,
+        "wape_pct": 50.079531704471016,
+        "mae_pax_year": 102565.61296801033,
+        "bias_pct": -23.37940650015637,
+        "within_factor_2_pct": 70.56199821587869
+      }
+    }
+  },
+  "independent_train_only_smearing_multipliers": {
+    "forecast": 1.2859014368318724,
+    "heldout_fold_0": 1.294158515946796,
+    "heldout_fold_1": 1.2825428507737016,
+    "heldout_fold_2": 1.3005582546603847,
+    "heldout_fold_3": 1.290619842834987,
+    "heldout_fold_4": 1.2931884525722068
+  },
+  "conclusions": [
+    "For already observed pairs the previous annual flow is substantially more accurate than these simplified cross-sectional regressions.",
+    "Training airport-pair masses improve the distance-only comparison for held-out observed pairs.",
+    "National GDP per capita PPP does not improve median multiplicative error in these matched-sample comparisons; its near-zero WAPE change does not establish a useful effect.",
+    "A log-OLS central estimate without smearing materially underpredicts aggregate passenger totals; signed bias must remain visible.",
+    "Annual regional accommodation nights give very small metric changes; this specification does not establish a material predictive improvement.",
+    "Train-only smearing reduces aggregate signed bias in both base experiments, but worsens median multiplicative error; this is a diagnostic trade-off, not uniform accuracy improvement."
+  ],
+  "limits": [
+    "No zero-flow or absent-pair population is tested. Results do not validate opening a genuinely unserved route.",
+    "The held-out experiment presumes both airports have other observed training routes; unknown endpoints are excluded.",
+    "Endpoint masses are partial traffic sums for this published route sample, not verified whole-airport totals or resident populations.",
+    "PAS_CRD is on-flight origin/destination airport-pair flow, not true journey origin/destination and not the PAS_BRD flight-stage measure.",
+    "Annual aggregates with twelve positive months exclude seasonal and incomplete-year services; no monthly seasonality result is justified.",
+    "Current-vintage historical data are a retrospective check; actual historical availability/revision vintages are not reconstructed.",
+    "Only one fixed five-fold split and two adjacent calendar years; no uncertainty intervals or causal claim.",
+    "This simplified research benchmark is not validation of the production P/T/F calculator."
+  ]
+}

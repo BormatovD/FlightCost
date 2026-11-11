@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-11-11",
+  "status": "pass",
+  "input_sha256": "e0c3024f3d667ee6a221e701d9f0fb6019ee92262a817944e0bf7772e3b09ffe",
+  "method": "Each quoted primary URL independently opened; literal text checked after whitespace normalisation. Quote bodies referenced by trace IDs, not duplicated.",
+  "checks": [
+    {
+      "trace_id": "d1-003",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 5
+    },
+    {
+      "trace_id": "d1-004",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 8
+    },
+    {
+      "trace_id": "d1-009",
+      "literal_after_whitespace_normalisation": true,
+      "quote_word_count": 8
+    }
+  ],
+  "quoted_words_by_page": {
+    "https://ec.europa.eu/eurostat/cache/metadata/en/avia_pa_esms.htm": 13,
+    "https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD": 8
+  },
+  "limits": [
+    "Intermediate failed access attempts are reported workflow history, not evidence that the source is unavailable in general.",
+    "Numerical extracts and model inferences are independently checked in the other verification files."
+  ]
+}

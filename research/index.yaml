@@ -4,6 +4,50 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: aircraft-prices-2026-11
+    date: 2026-11-11
+    draft: true
+    report: aircraft-prices-2026-11/report.html
+    calc: on_input
+    calc_note:
+      ru: "Сценарий лизинга можно учесть своей месячной ставкой; общая калибровка по типу и возрасту ещё исследуется."
+      en: "A lease scenario can be entered as a monthly rate; general calibration by type and age is still being studied."
+      de: "Ein Leasingszenario lässt sich als Monatsrate eingeben; die allgemeine Kalibrierung nach Typ und Alter wird noch untersucht."
+    lang: ru
+    title:
+      ru: "Сколько стоит самолёт: каталог, рыночная оценка, возраст и лизинг"
+      en: "What an aircraft costs: list price, market appraisal, age and leasing"
+      de: "Was ein Flugzeug kostet: Listenpreis, Marktwert, Alter und Leasing"
+    lede:
+      ru: "Проверяем цены и лизинг по открытым публикациям, включая диапазоны I квартала 2026 года, и считаем влияние на условный рейс A320neo."
+      en: "Checking aircraft prices and leases against public sources, including Q1 2026 ranges, and calculating the effect on an illustrative A320neo flight."
+      de: "Flugzeugpreise und Leasingraten aus öffentlichen Quellen, einschließlich Spannen für das erste Quartal 2026, und ihre Wirkung auf einen A320neo-Beispielflug."
+    tags:
+      ru: [стоимость ВС, лизинг, возраст, исследование]
+      en: [aircraft value, leasing, age, research]
+      de: [Flugzeugwert, Leasing, Alter, Recherche]
+  - slug: demand-2026-11
+    date: 2026-11-11
+    draft: true
+    report: demand-2026-11/report.html
+    calc: planned
+    calc_note:
+      ru: "Первый исследовательский эксперимент; коэффициенты и макрофакторы ещё не перенесены в калькулятор."
+      en: "An initial research experiment; coefficients and macro factors have not yet been transferred to the calculator."
+      de: "Ein erster Forschungsversuch; Koeffizienten und Makrofaktoren sind noch nicht in den Rechner übernommen."
+    lang: ru
+    title:
+      ru: "Спрос между городами: что можно проверить по открытым данным"
+      en: "Demand between cities: what public data can test"
+      de: "Nachfrage zwischen Städten: was sich mit offenen Daten prüfen lässt"
+    lede:
+      ru: "Прогноз известной пары и оценка пары, исключённой из обучения: два отдельных теста. Проверяем добавочную пользу ВВП и ночёвок; деловая активность, диаспоры, визы и сезонность — следующие этапы."
+      en: "Forecasting a known pair and estimating a pair held out of training: two separate tests. Testing the added value of GDP and accommodation nights; business activity, diaspora, visas and seasonality follow."
+      de: "Prognose eines bekannten Paars und Schätzung eines vom Training ausgeschlossenen Paars: zwei getrennte Tests. Mehrwert von BIP und Übernachtungen; Geschäftsaktivität, Diaspora, Visa und Saisonalität folgen."
+    tags:
+      ru: [спрос, пассажиропоток, проверка модели, макрофакторы]
+      en: [demand, passenger traffic, model validation, macro factors]
+      de: [Nachfrage, Passagierverkehr, Modellprüfung, Makrofaktoren]
   - slug: verify-2026-11
     date: 2026-11-09
     report: verify-2026-11/report.html
