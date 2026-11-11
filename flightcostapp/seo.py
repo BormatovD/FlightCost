@@ -168,10 +168,10 @@ T = {
         "ts_last": "{y}: прямые {d} USD, с накладными {t} USD за блок-час, перевозчиков {n}",
         "ts_src": "Источник: BTS, Form 41 Schedule P-5.2; разбор — в исследовании «ТОиР».",
         "ts_p_h": "Цена и лизинг по публикациям",
-        "ts_p_lead": ("Числа из новостей, отчётов лизингодателей и оценок, каждое со ссылкой: каталог, цена сделки "
-                      "за борт, рыночная оценка, ставка лизинга в месяц. Это разные величины — каталог в 1,5–2 раза "
-                      "выше реальной цены нового борта."),
-        "ts_kind": {"list": "каталог", "deal": "сделка", "value": "оценка рынка", "lease": "лизинг в месяц"},
+        "ts_p_lead": ("Цены ВС из каталогов, сделок и рыночных оценок показаны отдельно от месячных ставок лизинга. "
+                      "У каждого наблюдения есть дата и ссылка на источник."),
+        "ts_kind": {"list": "Цена ВС (каталог)", "deal": "Цена ВС (сделка)",
+                    "value": "Цена ВС (оценка рынка)", "lease": "Лизинг в месяц"},
         "ts_col": ("Месяц", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
         "ts_m_usd": "млн USD", "ts_k_usd": "тыс. USD в месяц",
         "ts_range": "диапазон источника", "ts_midpoint": "вычисленная середина",
@@ -322,10 +322,10 @@ T = {
         "ts_last": "{y}: direct USD {d}, with overheads USD {t} per block hour, {n} carriers",
         "ts_src": "Source: BTS, Form 41 Schedule P-5.2; analysis in the “Maintenance” research.",
         "ts_p_h": "Price and lease rate from publications",
-        "ts_p_lead": ("Figures from news, lessor reports and appraisals, each with a link: list price, deal price per "
-                      "aircraft, market appraisal, monthly lease rate. They are different quantities — the list price "
-                      "is 1.5–2 times the real price of a new aircraft."),
-        "ts_kind": {"list": "list price", "deal": "deal", "value": "appraisal", "lease": "lease per month"},
+        "ts_p_lead": ("Aircraft list prices, transaction prices and market appraisals are shown separately from "
+                      "monthly lease rates. Each observation includes a date and a source link."),
+        "ts_kind": {"list": "Aircraft price (list)", "deal": "Aircraft price (deal)",
+                    "value": "Aircraft price (market appraisal)", "lease": "Lease per month"},
         "ts_col": ("Month", "Kind", "Value", "Age", "Source"), "ts_new": "new",
         "ts_m_usd": "USD m", "ts_k_usd": "USD k per month",
         "ts_range": "published range", "ts_midpoint": "computed midpoint",
@@ -476,10 +476,10 @@ T = {
         "ts_last": "{y}: direkt {d} USD, mit Gemeinkosten {t} USD je Blockstunde, {n} Airlines",
         "ts_src": "Quelle: BTS, Form 41 Schedule P-5.2; Auswertung in der Studie „Instandhaltung“.",
         "ts_p_h": "Preis und Leasingrate aus Veröffentlichungen",
-        "ts_p_lead": ("Zahlen aus Nachrichten, Berichten von Leasinggebern und Gutachten, jede mit Link: Listenpreis, "
-                      "Kaufpreis je Flugzeug, Marktwertgutachten, Leasingrate pro Monat. Das sind verschiedene Größen — "
-                      "der Listenpreis liegt beim 1,5–2-Fachen des realen Preises eines neuen Flugzeugs."),
-        "ts_kind": {"list": "Listenpreis", "deal": "Kauf", "value": "Gutachten", "lease": "Leasing pro Monat"},
+        "ts_p_lead": ("Listenpreise, Kaufpreise und Marktwertschätzungen für Flugzeuge stehen getrennt von monatlichen "
+                      "Leasingraten. Jede Beobachtung enthält ein Datum und einen Quellenlink."),
+        "ts_kind": {"list": "Flugzeugpreis (Liste)", "deal": "Flugzeugpreis (Kauf)",
+                    "value": "Flugzeugpreis (Marktwertschätzung)", "lease": "Leasing pro Monat"},
         "ts_col": ("Monat", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
         "ts_m_usd": "Mio. USD", "ts_k_usd": "Tsd. USD pro Monat",
         "ts_range": "veröffentlichte Spanne", "ts_midpoint": "berechneter Mittelwert",
@@ -662,13 +662,22 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .ts svg{width:100%;max-width:680px;height:auto;display:block}.ts .ax{stroke:var(--line)}
 .ts text{font:11px var(--sans);fill:var(--dim)}.ts .l1{stroke:var(--accent);fill:none;stroke-width:2}
 .ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}
-.ts .l3{stroke:#2a9d8f;fill:none;stroke-width:2;stroke-dasharray:6 4;opacity:.8}.ts .p1{fill:var(--accent)}
-.ts .k-list{fill:#8a6fd1}.ts .k-deal{fill:var(--accent)}.ts .k-value{fill:#d08a2a}.ts .k-lease{fill:#2a9d8f}
-.ts .k-list{color:#8a6fd1}.ts .k-deal{color:var(--accent)}.ts .k-value{color:#d08a2a}.ts .k-lease{color:#2a9d8f}
+.ts .l3{stroke:var(--price-lease);fill:none;stroke-width:2;stroke-dasharray:6 4;opacity:.8}.ts .p1{fill:var(--accent)}
+.ts .k-list{fill:var(--price-list)}.ts .k-deal{fill:var(--price-deal)}
+.ts .k-value{fill:var(--price-value)}.ts .k-lease{fill:var(--price-lease)}
+.ts .k-list,.price-kind.k-list,.price-value.k-list{color:var(--price-list)}
+.ts .k-deal,.price-kind.k-deal,.price-value.k-deal{color:var(--price-deal)}
+.ts .k-value,.price-kind.k-value,.price-value.k-value{color:var(--price-value)}
+.ts .k-lease,.price-kind.k-lease,.price-value.k-lease{color:var(--price-lease)}
 .ts .range-band{fill-opacity:.18;stroke:none}.ts .range-bar{fill:none;stroke:currentColor;stroke-width:2;
   vector-effect:non-scaling-stroke}.ts .midpoint{stroke:var(--bg);stroke-width:1.5}
 .ts .range-midline{fill:none;stroke:currentColor;stroke-width:1.5}
 .ts .range-label{fill:var(--ink)}
+.price-kind{display:inline-block;position:relative;padding-left:15px;line-height:1.45;font-weight:600;max-width:28ch}
+.price-dot{position:absolute;left:0;top:.45em;width:8px;height:8px;border-radius:50%;background:currentColor}
+.ts .lg.price-legend{display:flex;flex-wrap:wrap;gap:8px 18px}
+.price-table .price-kind{min-width:18ch}
+.price-value{font-weight:600}
 .price-mid{display:block;font-size:12px;color:var(--dim);white-space:normal;max-width:25ch;margin-left:auto}
 .price-use{display:block;font-size:12px;white-space:normal;max-width:25ch;margin-left:auto}
 .price-source{font-size:12px;border:0;margin:4px 0 0;padding:0}.price-source p{margin:5px 0}
@@ -1597,11 +1606,13 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
 
     craft, craft_ranges = chart(False, 1e6, t["ts_m_usd"])
     lease, lease_ranges = chart(True, 1e3, t["ts_k_usd"])
-    colors = (("list", "#8a6fd1"), ("deal", "var(--accent)"), ("value", "#d08a2a"), ("lease", "#2a9d8f"))
-    lg = "".join(f'<i style="background:{c}"></i>{esc(t["ts_kind"][k])}'
-                 for k, c in colors if any(o["kind"] == k for o in obs))
+    def kind_label(kind):
+        return (f'<span class="price-kind k-{esc(kind)}"><span class=price-dot aria-hidden=true></span>'
+                f'<span>{esc(t["ts_kind"][kind])}</span></span>')
+
+    lg = "".join(kind_label(k) for k in PR.KINDS if any(o["kind"] == k for o in obs))
     body = [f'<h2>{esc(t["ts_p_h"])}</h2><p class=dim>{esc(t["ts_p_lead"])}</p><div class=ts>'
-            f'<div class=lg>{lg}</div>']
+            f'<div class="lg price-legend">{lg}</div>']
     if craft or craft_ranges:
         body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>'
                     + _ts_svg([], craft, t["ts_m_usd"], lang, ranges=craft_ranges))
@@ -1613,7 +1624,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
             if pl:
                 age = t["ts_age_new"] if new_gen else t["ts_age_cur"]
                 lines = [("l3", pl)]
-                note = (f'<p class=dim><span style="color:#2a9d8f">— —</span> {esc(t["ts_param"].format(age=age))}. '
+                note = (f'<p class=dim><span style="color:var(--price-lease)">— —</span> {esc(t["ts_param"].format(age=age))}. '
                         f'{esc(t["ts_param_note"].format(eur=num(round(lease_eur, -3), lang, 0), fx=num(PARAM_USD_PER_EUR, lang, 2), age=age, age_for=t["ts_for_new"] if new_gen else t["ts_for_cur"]))}</p>')
                 mn = PR.market_now(obs, bool(new_gen))
                 if mn:
@@ -1638,7 +1649,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
     if craft_ranges or lease_ranges:
         body.append(f'<p class=dim>{esc(t["ts_range_note"])}</p>')
     c = t["ts_col"]
-    body.append(f"</div><div class=tw><table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
+    body.append(f"</div><div class=tw><table class=price-table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
                 f"<th class=r>{c[3]}</th><th>{c[4]}</th></tr>")
     for o in sorted(obs, key=lambda o: str(o["month"]), reverse=True)[:12]:
         sc = {"m": " m", "mn": " m", "million": " m", "млн": " m", "k": " k", "thousand": " k", "тыс": " k",
@@ -1646,6 +1657,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
         lo, hi = PR.bounds(o)
         cur = str(o.get("currency") or "USD")
         value = f"{esc(cur)} {pnum(lo)}" + (f"–{pnum(hi)}" if PR.is_range(o) else "") + sc
+        value = f'<span class="price-value k-{esc(o["kind"])}">{value}</span>'
         context = ""
         if PR.is_range(o):
             value += (f'<span class=price-mid>{esc(t["ts_midpoint"])}: '
@@ -1660,7 +1672,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                 if o.get("quote"):
                     context += f'<blockquote>{esc(o["quote"])}</blockquote>'
                 context += "</details>"
-        body.append(f"<tr><td>{esc(str(o['month']))}</td><td>{esc(t['ts_kind'][o['kind']])}</td>"
+        body.append(f"<tr><td>{esc(str(o['month']))}</td><td>{kind_label(o['kind'])}</td>"
                     f"<td class=r>{value}</td><td class=r>{esc(age_label(o))}</td>"
                     f'<td class=s><a href="{esc(o["source"])}" rel="nofollow">{esc(publisher(o))}</a>{context}</td></tr>')
     body.append("</table></div>")
