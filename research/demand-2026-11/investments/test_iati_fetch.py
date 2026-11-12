@@ -1,5 +1,6 @@
 """Offline tests: no IATI key or network needed."""
 import json
+import io
 import os
 from pathlib import Path
 import tempfile
@@ -63,7 +64,8 @@ class IatiResearchTests(unittest.TestCase):
         self.assertIn("recipient_country_code:KE", values["q"][0])
         self.assertEqual(values["rows"], ["30"])
         self.assertIn("iati_json", values["fl"][0])
-        self.assertEqual(values["sort"], ["activity_id asc"])
+        self.assertNotIn("sort", values)
+        self.assertNotIn("activity_id", values["fl"][0])
         with self.assertRaises(ValueError):
             f.query_url("KE", 1001, 0)
 
@@ -85,6 +87,16 @@ class IatiResearchTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "quota or permission denied") as caught:
             f.request_page(f.query_url("KE", 1), "my-very-private-key", failing)
         self.assertNotIn("my-very-private-key", str(caught.exception))
+
+    def test_http_400_explains_solr_failure_without_leaking_secret(self):
+        secret = "secret-123"
+        body = json.dumps({"error": {"msg": "sort field activity_id invalid, " + secret}}).encode()
+        def failing(req, timeout):
+            raise HTTPError(req.full_url, 400, "Bad Request", {}, io.BytesIO(body))
+        with self.assertRaisesRegex(RuntimeError, "HTTP 400.*sort field") as caught:
+            f.request_page(f.query_url("KE", 1), secret, failing)
+        self.assertNotIn(secret, str(caught.exception))
+        self.assertIn("[redacted]", str(caught.exception))
 
     def test_probe_makes_exactly_one_call_and_no_output_files(self):
         calls = []

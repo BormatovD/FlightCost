@@ -38,7 +38,7 @@ TRANSACTION_TYPES = {"1": "incoming_funds", "2": "outgoing_commitment",
                      "3": "disbursement", "4": "expenditure",
                      "11": "incoming_commitment", "12": "outgoing_pledge",
                      "13": "incoming_pledge"}
-FIELDS = "activity_id,iati_identifier,iati_json"
+FIELDS = "iati_identifier,iati_json"
 MAX_RESPONSE_BYTES = 24_000_000
 
 
@@ -220,8 +220,12 @@ def query_url(country, rows=50, start=0):
     if not 1 <= rows <= 1000 or start < 0:
         raise ValueError("Invalid IATI pagination")
     q = f"recipient_country_code:{country} AND sector_code:({' '.join(SECTORS)})"
+    # `activity_id` is not a documented sort field in Datastore v3. Sorting
+    # by an unknown or multivalued field causes Solr HTTP 400. The pilot
+    # samples one page per country; multi-page export needs a verified stable
+    # unique sort key before it can be treated as an exhaustive snapshot.
     params = {"q": q, "rows": rows, "start": start, "fl": FIELDS,
-              "wt": "json", "sort": "activity_id asc"}
+              "wt": "json"}
     return API_URL + "?" + urlencode(params)
 
 
@@ -234,9 +238,25 @@ def request_page(url, key, opener=urlopen):
             if len(data) > MAX_RESPONSE_BYTES:
                 raise ValueError("Response too large; lower --rows")
     except HTTPError as error:
-        descriptions = {401: "IATI key missing/invalid", 403: "IATI quota or permission denied",
-                        429: "IATI request limit reached"}
-        raise RuntimeError(f"IATI HTTP {error.code}: {descriptions.get(error.code, 'request failed')}") from None
+        descriptions = {400: "invalid query", 401: "IATI key missing/invalid",
+                        403: "IATI quota or permission denied", 429: "IATI request limit reached"}
+        detail = ""
+        if error.code == 400:
+            # Print only a bounded Solr error message, never request headers
+            # (which contain the subscription key) or a raw HTML error page.
+            try:
+                response_body = json.loads(error.read(8192).decode("utf-8"))
+                issue = response_body.get("error", {})
+                reason = issue.get("msg", "") if isinstance(issue, dict) else ""
+                if isinstance(reason, str):
+                    detail = reason.replace(key, "[redacted]")[:240]
+                    detail = " ".join(detail.split())
+            except (ValueError, UnicodeError, AttributeError, TypeError):
+                pass
+        description = descriptions.get(error.code, "request failed")
+        if detail:
+            description += f" ({detail})"
+        raise RuntimeError(f"IATI HTTP {error.code}: {description}") from None
     except URLError as error:
         raise RuntimeError(f"IATI network error: {type(error.reason).__name__}") from None
     payload = json.loads(data)
