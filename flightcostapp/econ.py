@@ -334,6 +334,9 @@ class Aircraft:
     burn_calib: tuple | None = None
     # Имя из справочника — для витрины и разбора, не для ключа.
     name: str = ""
+    # Сертифицированная макс. посадочная масса. Не заменять MTOW при пропуске.
+    # В конце полей, чтобы не смещать позиционные аргументы старых вызовов.
+    mlw_t: float | None = None
 
 
 # Источник реестра сборов сообщества (решение 227): участвует в расчёте с
@@ -452,7 +455,14 @@ def load_aircraft(store, icao: str, as_of, operator: str = "*") -> Aircraft:
                       note=gt("burn_anchor_note"))
     row = store.get("aircraft", f"{icao}/mtow_t", as_of)
     name = str(row["note"] or "") if row is not None and row["note"] else ""
-    return Aircraft(icao=icao, seats=int(seats), mtow_t=float(mtow),
+    mlw = g("mlw_t")
+    # Если тип/вариант не публикует допустимую массу, мы не можем получить
+    # её из MTOW: для американских аэропортов это другая тарифная база.
+    if mlw is not None:
+        mlw = float(mlw)
+        if not math.isfinite(mlw) or not 0 < mlw <= float(mtow):
+            mlw = None
+    return Aircraft(icao=icao, seats=int(seats), mtow_t=float(mtow), mlw_t=mlw,
                     cruise_kt=float(kt), seats_source=src,
                     frame=frame, frame_source=fsrc, burn_ref=ref, name=name,
                     burn_calib=_calib(store, icao, as_of))
@@ -873,7 +883,8 @@ def charge_context(ap: dict, other: dict, ac: Aircraft, *, pax: float,
     dest = dest_step(other["country"])
     return {
         # величины
-        "mtow_t": ac.mtow_t, "pax": pax, "cargo_kg": cargo_kg,
+        "mtow_t": ac.mtow_t, "mlw_t": getattr(ac, "mlw_t", None),
+        "pax": pax, "cargo_kg": cargo_kg,
         **events,
         # условия
         "flight": "domestic" if ap["country"] == other["country"] else (
@@ -1025,6 +1036,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
                         f"максимуме {seats_over_max} для {ac.icao}")
     rec(G1, "MTOW", "справочник aircraft, источник openap", f"{ac.mtow_t}",
         ac.mtow_t, "т", "store", node="v_mtow")
+    # У MLW свой физический смысл; пока узла v_mlw нет на карте, её
+    # значение показываем в разборе применённого посадочного тарифа.
+    # Наличие в Aircraft не означает подтверждение конкретного FAA варианта.
     rec(G1, "MTOW", f"FLEET['{ac.icao}'].mtow_t", f"{ac.mtow_t}",
         ac.mtow_t, "т", "fleet", "econ.py: словарь FLEET", node="v_mtow")
 
@@ -1752,8 +1766,21 @@ def route_economics(store: Store, origin: str, destination: str, *,
                 warnings.append(f"{ap['icao']}: {code[1:]}")
                 continue
             apt_lines[f"{ap['icao']}/{code}"] = amount
+            # Поясняем исходные единицы и паспортную массу для всех
+            # универсальных правил, не раскрывая исторические тарифы.
+            mass_rules = [r for r in rules_ if r.code == code and r.base == "per_mass"
+                          and r.matches(ctx)
+                          and (r.mass_basis != "mlw" or ac.mlw_t is not None)]
+            mass_notes = []
+            for r in mass_rules:
+                mass_t = ac.mlw_t if r.mass_basis == "mlw" else ac.mtow_t
+                label = "MLW" if r.mass_basis == "mlw" else "MTOW"
+                rounding = f", округление {r.round_mass}" if r.round_mass else ""
+                mass_notes.append(f"{label} {mass_t:g} т, {r.rate:g} {r.currency}/"
+                                  f"{r.rate_unit}{rounding}")
             rec(G5, f"Сбор {ap['icao']}: {CODE_RU.get(code, code)}",
-                f"правило airport_charge/{ap['icao']}/{code}", "",
+                f"правило airport_charge/{ap['icao']}/{code}",
+                "; ".join(mass_notes),
                 amount, "EUR", "store",
                 "ярус 2, неофициальные данные сообщества (реестр сообщества)" if community
                 else "ярус 1, разобранный тариф",

@@ -52,6 +52,15 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
     if ok == 0:
         raise ValueError("ни один документ тарифа не разобран:\n  "
                          + "\n  ".join(ctx.get("rejected", [])))
+    # Пустой tariff JSON (`rules: []`) раньше проходил как «документ принят,
+    # 0 фактов»: агент объявлял KLAX разобранным, а владелец мог принять его
+    # через --accept. Служебные _next/_cat/_na/_scope — не денежные правила.
+    priced = [f for f in facts if f.domain == "airport_charge" and f.value_text
+              and "/_cat/" not in f.key]
+    if not priced:
+        raise ValueError(f"прочитано {ok} из {len(docs)} документов, но расчётных "
+                         "тарифных правил 0; файл является отчётом о поиске, "
+                         "а не готовым тарифом")
     return facts
 
 
@@ -109,12 +118,17 @@ def _rule_key(prefix: str, r, variant: str = "") -> str:
     было, и ложно уронило бы проверку дельты. Ставка в ключ не входит —
     иначе изменение цены заводило бы новый ключ вместо новой версии.
     """
-    ident = json.dumps({"base": r.base, "events": r.events,
-                        "when": r.when, "currency": r.currency,
-                        "threshold": r.threshold, "exponent": r.exponent,
-                        "pct_of": r.pct_of, "round_mtow": r.round_mtow,
-                        "variant": variant},
-                       sort_keys=True, ensure_ascii=False)
+    keys = {"base": r.base, "events": r.events,
+            "when": r.when, "currency": r.currency,
+            "threshold": r.threshold, "exponent": r.exponent,
+            "pct_of": r.pct_of, "round_mtow": r.round_mtow,
+            "variant": variant}
+    # Не менять идентификаторы прежних документов: новые поля входят
+    # в ключ только у нового типа правила `per_mass`.
+    for f in ("mass_basis", "rate_unit", "round_mass"):
+        if getattr(r, f) is not None:
+            keys[f] = getattr(r, f)
+    ident = json.dumps(keys, sort_keys=True, ensure_ascii=False)
     return f"{prefix}/{r.code}/{hashlib.sha256(ident.encode()).hexdigest()[:8]}"
 
 

@@ -95,8 +95,23 @@ def check(blob: bytes, store) -> dict:
         out.update(verdict="reject", reasons=[f"парсер отверг: {str(e)[:300]}"])
         return out
     out["facts"] = len(facts)
+    # Служебные факты (_cat, _next, _na) не составляют начисляемый тариф.
+    # Считаем только правила со значением rate и с описанием в value_text.
+    priced = sum(1 for f in facts
+                 if getattr(f, "domain", None) == "airport_charge"
+                 and getattr(f, "value_text", None)
+                 and "/_cat/" not in getattr(f, "key", ""))
+    out["priced_rules"] = priced
     rejected = list(ctx.get("rejected") or [])
     out["warnings"] = list(ctx.get("warnings") or [])
+    if priced == 0:
+        out.update(verdict="reject", reasons=[
+            "ноль расчётных правил: найденный документ или служебные факты "
+            "не образуют тариф; нельзя принимать как нулевой сбор"
+        ])
+        if rejected:
+            out["reasons"].append(f"отвергнуто правил: {len(rejected)}")
+        return out
     if rejected:
         out["reasons"].append(f"отвергнуто правил: {len(rejected)}")
     if doubts:

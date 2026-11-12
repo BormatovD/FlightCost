@@ -617,6 +617,7 @@ def cmd_drafts(a) -> int:
     DRAFTS_INBOX.mkdir(parents=True, exist_ok=True)
     if not a.local:
         host = _host(a)
+        print(f"скачиваю черновики с {host}:{MASTER}/export/drafts/")
         # --ignore-existing: принятый и убранный из _inbox черновик повторно не приедет —
         # список принятых ведётся в .accepted.
         if _sh(["rsync", "-z", "--ignore-existing", *RSYNC_PERMS,
@@ -627,9 +628,16 @@ def cmd_drafts(a) -> int:
         if (DRAFTS_INBOX / ".accepted").exists() else set()
     st = Store(a.db)
     fuel_seen = _fuel_drafts(a, st, seen) + _night_drafts(a, seen) + _prices_drafts(a, st, seen)
-    files = [f for f in sorted(DRAFTS_INBOX.glob("charges-*.json")) if f.name not in seen]
+    found_files = sorted(DRAFTS_INBOX.glob("charges-*.json"))
+    files = [f for f in found_files if f.name not in seen]
     if not files:
         print("черновиков тарифов нет" if fuel_seen else "черновиков нет")
+        print(f"  локальная папка: {DRAFTS_INBOX}")
+        if found_files:
+            print(f"  {len(found_files)} файлов уже отмечены в .accepted")
+        else:
+            print("  нет файлов charges-*.json; проверьте FCA_DEPLOY_HOST "
+                  "и адрес сервера в строке выше")
         return 0
     rows = []
     for f in files:
@@ -639,7 +647,8 @@ def cmd_drafts(a) -> int:
         mark = {"clean": "ЧИСТЫЙ", "look": "СМОТРЕТЬ", "reject": "ОТВЕРГНУТ"}[r["verdict"]]
         t = r.get("turnaround_eur")
         lo, hi = r.get("band") or (None, None)
-        print(f"{mark:9} {r.get('icao') or f.name:6} фактов {r.get('facts', 0):4}  оборот A320 "
+        print(f"{mark:9} {r.get('icao') or f.name:6} фактов {r.get('facts', 0):4} "
+              f"правил {r.get('priced_rules', 0):3}  оборот A320 "
               f"{('—' if t is None else f'{t:,.0f}'.replace(',', ' ')):>7} EUR"
               + (f"  (коридор {r.get('region')}: {lo:,.0f}–{hi:,.0f})".replace(",", " ") if lo else ""))
         for x in r["reasons"]:

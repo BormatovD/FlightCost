@@ -1,8 +1,8 @@
 """Вычислитель аэропортовых сборов.
 
-Правила НЕ живут в коде. Здесь только механика: восемь баз начисления и
-четыре типа модификаторов, которых хватило на шесть аэропортов из трёх
-режимов регулирования — Испания, Австрия, Германия, Казахстан, Катар.
+Правила НЕ живут в коде. Здесь только механика: ограниченный набор общих
+баз начисления и модификаторов, расширяемый по подтверждённым тарифам,
+а не отдельными формулами под каждый аэропорт.
 
 Сами ставки приезжают из домена `airport_charge` хранилища, где каждая
 строка тарифа лежит отдельным фактом: числовая ставка в поле value (её
@@ -28,6 +28,7 @@ BASE_RU = {
     "per_turnaround":    "за обслуживание (прилёт + вылет)",
     "per_movement":      "за движение (отдельно посадка и взлёт)",
     "per_tonne_mtow":    "за тонну максимальной взлётной массы",
+    "per_mass":          "по паспортной массе ВС (вид массы и единицы — в тарифе)",
     "per_tonne_above":   "за тонну массы сверх порога полосы",
     "per_departing_pax": "за вылетающего пассажира",
     "per_100kg":         "за 100 кг груза и почты",
@@ -99,10 +100,47 @@ EVENT_RU = {
 EVENT_COUNTS = {"movements": 2, "landings": 1, "turnarounds": 1,
                 "departures": 1}
 
+# Значения масс ВС уже хранятся в метрических тоннах. В правилах
+# оставляем исходные единицы ставки, не создавая отдельную базу на каждый
+# аэропорт, вид массы или единицу (решение 0066).
+KG_PER_LB = 0.45359237                # международный фунт, точно
+MASS_BASIS = {"mtow": "mtow_t", "mlw": "mlw_t"}
+MASS_UNITS_T = {"tonne": 1.0, "1000lb": KG_PER_LB, "100kg": 0.1}
+MASS_ROUND = {None, "ceil_unit", "nearest_unit", "floor_unit"}
+
+
+def _mass_available(c: dict, rule) -> bool:
+    field = MASS_BASIS.get(rule.mass_basis)
+    mass = c.get(field) if field else None
+    return (isinstance(mass, (int, float)) and not isinstance(mass, bool)
+            and math.isfinite(mass) and mass > 0)
+
+
+def _per_mass(c, r):
+    """Количество тарифных единиц, умноженное на число начислений.
+
+    Округляется количество единиц (например, тысяч фунтов), НЕ масса в
+    тоннах и НЕ готовая сумма. По умолчанию округления нет.
+    """
+    if r.mass_basis not in MASS_BASIS or r.rate_unit not in MASS_UNITS_T \
+            or r.round_mass not in MASS_ROUND:
+        raise ValueError(f"некорректная массовая база у {r.code}: "
+                         f"{r.mass_basis}/{r.rate_unit}/{r.round_mass}")
+    units = c[MASS_BASIS[r.mass_basis]] / MASS_UNITS_T[r.rate_unit]
+    if r.round_mass == "ceil_unit":
+        units = math.ceil(units - 1e-10)
+    elif r.round_mass == "nearest_unit":
+        units = math.floor(units + 0.5 + 1e-10)
+    elif r.round_mass == "floor_unit":
+        units = math.floor(units + 1e-10)
+    return units * c["n"]
+
+
 BASES = {
     "per_turnaround":    lambda c, r: 1.0,
     "per_movement":      lambda c, r: c["n"],
     "per_tonne_mtow":    lambda c, r: c["mtow_t"] * c["n"],
+    "per_mass":          _per_mass,
     # Накопительная полоса: платится за тонны СВЕРХ её нижней границы, а
     # предыдущие полосы оплачены своими строками. Симметрична
     # `per_hour_above` и пользуется тем же полем `threshold`.
@@ -240,7 +278,7 @@ assert set(KEY_ORIGIN) == CONDITION_KEYS, (
 # Величины, которые контекст подаёт помимо условий: они входят в базы
 # начисления, а не в отбор правил. `mtow_t` и `park_h` числятся в обоих
 # списках намеренно — по ним и отбирают, и считают.
-CONTEXT_VALUES = {"pax", "cargo_kg"} | set(EVENT_COUNTS)
+CONTEXT_VALUES = {"pax", "cargo_kg", "mlw_t"} | set(EVENT_COUNTS)
 
 
 def check_context(ctx: dict) -> None:
@@ -378,6 +416,11 @@ class Rule:
     # не приезжает из файла разбора: файл описывает правило, а карта — то,
     # откуда правило взялось, и второе меняется без первого.
     node: str | None = field(default=None, compare=False)
+    # Только у `per_mass`: паспортная масса (mtow/mlw), единица опубликованной
+    # ставки и явное округление. У старых правил все три поля отсутствуют.
+    mass_basis: str | None = None
+    rate_unit: str | None = None
+    round_mass: str | None = None
 
     def matches(self, ctx: dict) -> bool:
         for k, want in self.when.items():
@@ -420,6 +463,11 @@ class Rule:
         d = asdict(self)
         d.pop("rate")                 # ставка живёт в числовом поле факта
         d.pop("node")                 # узел — свойство факта, не правила
+        # Не переписывать сериализацию существующих правил и их хеши:
+        # новые поля есть только у универсальной базы `per_mass`.
+        for f in ("mass_basis", "rate_unit", "round_mass"):
+            if d.get(f) is None:
+                d.pop(f, None)
         for f in ("key", "certainty", "error_cost", "confirm_by"):
             d.pop(f)                  # колонки факта, не описание правила
         return json.dumps(d, ensure_ascii=False)
@@ -557,7 +605,8 @@ def load_rules(store, icao: str, as_of, report: dict | None = None) -> list[Rule
     twins: list[str] = []
     for r in out:
         sig = (r.code, r.base, r.rate, r.events, r.currency,
-               repr(sorted((r.when or {}).items())), r.minimum, r.threshold)
+               repr(sorted((r.when or {}).items())), r.minimum, r.threshold,
+               r.mass_basis, r.rate_unit, r.round_mass)
         if sig in seen:
             twins.append(f"{r.code} ({BASE_RU.get(r.base, r.base)}, "
                          f"ставка {r.rate})")
@@ -623,7 +672,7 @@ def charge_caveats(rules: list[Rule], ctx: dict) -> list[Caveat]:
     for r in rules:
         if not r.certainty or r.certainty == "exact":
             continue
-        if not r.matches(ctx):
+        if not r.matches(ctx) or (r.base == "per_mass" and not _mass_available(ctx, r)):
             continue
         k = (r.certainty, r.error_cost, r.currency, r.confirm_by)
         g = groups.setdefault(k, {"codes": set(), "rules": 0})
@@ -648,6 +697,7 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
     out: dict[str, float] = {}
     mins: dict[str, float] = {}
     skipped: list[str] = []
+    missing_basis: dict[str, set[str]] = {}
 
     def to_eur(v, cur):
         if cur == "EUR":
@@ -671,6 +721,14 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
 
     for r in active:
         if r.pct_of is not None:
+            continue
+        if r.base == "per_mass" and not _mass_available(ctx, r):
+            # Отсутствие MLW не означает MLW=0 или MLW=MTOW. Эта статья
+            # должна попасть в явный отчёт о неполном начислении.
+            field = MASS_BASIS.get(r.mass_basis)
+            if field is None:
+                raise ValueError(f"{r.code}: неизвестная масса {r.mass_basis!r}")
+            missing_basis.setdefault(field, set()).add(r.code)
             continue
         n = ctx[EVENT_COUNT_KEY[r.events]]
         c = {**ctx, "n": n}
@@ -709,6 +767,8 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
         out["_нет курса"] = 0.0
     for k, codes in sorted(unknown.items()):
         out[f"_нет значения {k}: пропущены {', '.join(sorted(codes))}"] = 0.0
+    for k, codes in sorted(missing_basis.items()):
+        out[f"_нет паспортной {k} для сборов: пропущены {', '.join(sorted(codes))}"] = 0.0
 
     # Счёт пропущенного, а не строка о нём. В предупреждениях рейса эта
     # информация растворяется среди восьми других, а вопрос «насколько
@@ -720,10 +780,12 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
     if report is not None:
         priced = {c for c, v in out.items()
                   if not c.startswith("_") and abs(v) > 1e-9}
-        touched = {c for codes in unknown.values() for c in codes}
+        touched = {c for codes in (*unknown.values(), *missing_basis.values()) for c in codes}
         by_origin: dict[str, list] = {}
         for k in sorted(unknown):
             by_origin.setdefault(KEY_ORIGIN[k], []).append(k)
+        if missing_basis:
+            by_origin.setdefault("data", []).extend(sorted(missing_basis))
         report.update(
             total_codes=len({r.code for r in rules}),
             priced_codes=sorted(priced),
@@ -956,6 +1018,19 @@ def self_check(rules: list[Rule]) -> list[str]:
     """
     dead = []
     for r in rules:
+        if r.base == "per_mass":
+            if r.mass_basis not in MASS_BASIS:
+                dead.append(f"{r.code}: per_mass требует mass_basis=mtow|mlw")
+            if r.rate_unit not in MASS_UNITS_T:
+                dead.append(f"{r.code}: per_mass требует rate_unit из {sorted(MASS_UNITS_T)}")
+            if r.round_mass not in MASS_ROUND:
+                dead.append(f"{r.code}: неизвестное округление round_mass={r.round_mass!r}")
+            if r.round_mtow is not None:
+                dead.append(f"{r.code}: round_mtow несовместимо с per_mass; используйте round_mass")
+            if r.pct_of is not None:
+                dead.append(f"{r.code}: per_mass не используется с pct_of")
+        elif any(getattr(r, f) is not None for f in ("mass_basis", "rate_unit", "round_mass")):
+            dead.append(f"{r.code}: поля mass_basis/rate_unit/round_mass допустимы только с per_mass")
         for k, want in r.when.items():
             dom = DOMAINS.get(k)
             if dom is None:
