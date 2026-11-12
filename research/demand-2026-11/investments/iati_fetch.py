@@ -318,6 +318,10 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
                 "version": "0061-pilot", "key_in_files": False,
                 "historical_backtest_eligible": False, "countries": [],
                 "warnings": ["Current IATI snapshot only: NOT eligible for 2015–2025 historical backtesting."]}
+    # One IATI identifier can appear in several source files with *different*
+    # contents (documented by IATI). Keep each unique source variant rather
+    # than choosing a winner or incorrectly adding their financial amounts.
+    # {iati_identifier: {structured_document_sha256: {record, countries, hits}}}
     candidates = {}
     # First probe takes exactly one call, making it safe on the Exploratory tier.
     if args.probe:
@@ -355,11 +359,19 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
                 break
             for doc in docs:
                 record = normalize_activity(doc, captured_at)
-                # Preserve one record per activity even if found in multiple country searches.
-                existing = candidates.get(record["iati_identifier"])
-                if existing and existing != record:
-                    raise ValueError("Conflicting source records for the same IATI identifier")
-                candidates[record["iati_identifier"]] = record
+                # Hash the original structured activity, not a flattened set of
+                # money columns and not a record that includes snapshot_at.
+                # Duplicated identifiers from distinct publisher files must
+                # remain distinguishable and must NEVER be financially merged.
+                original = decode_structured(doc)
+                canonical = json.dumps(original, sort_keys=True, ensure_ascii=False,
+                                       separators=(",", ":"))
+                digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+                variants = candidates.setdefault(record["iati_identifier"], {})
+                if digest not in variants:
+                    variants[digest] = {"record": record, "countries": set(), "hits": 0}
+                variants[digest]["hits"] += 1
+                variants[digest]["countries"].add(country)
             total_seen += len(docs)
             if total_seen >= total_found:
                 break
@@ -367,17 +379,58 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
                                       "rows_retrieved": total_seen,
                                       "truncated": total_found is not None and total_seen < total_found,
                                       "page_sha256": shas})
-    manifest["unique_activities"] = len(candidates)
+    ambiguous = sorted(identifier for identifier, variants in candidates.items()
+                       if len(variants) > 1)
+    variant_count = sum(len(variants) for variants in candidates.values())
+    repeated_hits = sum(item["hits"] - 1
+                        for variants in candidates.values() for item in variants.values())
+    manifest["unique_activities"] = len(candidates)  # identifiers, NOT rows
+    manifest["candidate_rows"] = variant_count
+    manifest["duplicate_source_occurrences"] = repeated_hits
+    manifest["conflicting_identifier_count"] = len(ambiguous)
+    manifest["conflicting_identifiers"] = ambiguous
     manifest["api_calls"] = calls
     manifest["warnings"].append("Totals are NOT investment amounts; candidate activities are NOT all investments.")
-    # JSONL: deterministic order, preserves each activity's structured amounts and locations.
+    if ambiguous:
+        manifest["warnings"].append(
+            "Multiple distinct source records share an IATI identifier. All variants are "
+            "preserved for review; NO financial aggregation of those identifiers is permitted.")
+    # Every *distinct* source variant is one auditable row. A conflicted ID
+    # produces multiple marked rows, never a silently chosen winner.
     with (output / "candidates.jsonl").open("x", encoding="utf-8") as stream:
         for identifier in sorted(candidates):
-            stream.write(json.dumps(candidates[identifier], ensure_ascii=False, sort_keys=True) + "\n")
+            for digest, item in sorted(candidates[identifier].items()):
+                record = dict(item["record"])
+                record.update({
+                    "source_variant_sha256": digest,
+                    "source_occurrences": item["hits"],
+                    "matched_query_countries": sorted(item["countries"]),
+                    "identifier_conflict": identifier in ambiguous,
+                    "financial_aggregation_blocked_reason": (
+                        "conflicting_iati_identifier" if identifier in ambiguous else None),
+                })
+                stream.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    # A compact separate queue for manual source reconciliation. Do not
+    # publish or infer an investment total from these records.
+    if ambiguous:
+        conflicts = []
+        for identifier in ambiguous:
+            conflicts.append({
+                "iati_identifier": identifier,
+                "variants": [
+                    {"source_variant_sha256": digest,
+                     "source_occurrences": item["hits"],
+                     "matched_query_countries": sorted(item["countries"])}
+                    for digest, item in sorted(candidates[identifier].items())],
+                "resolution": "requires_source_review; no_financial_aggregation",
+            })
+        atomic_json(output / "identifier_conflicts.json", conflicts)
+        (output / "identifier_conflicts.json").chmod(0o600)
     atomic_json(output / "manifest.json", manifest)
     (output / "manifest.json").chmod(0o600)
     (output / "candidates.jsonl").chmod(0o600)
-    print(f"IATI candidates={len(candidates)} calls={calls} saved={output}")
+    print(f"IATI candidates={variant_count} unique_ids={len(candidates)} "
+          f"conflicting_ids={len(ambiguous)} calls={calls} saved={output}")
     for item in manifest["countries"]:
         print(f"  {item['iso2']}: retrieved={item['rows_retrieved']} / matched={item['api_matched']}"
               + (" (PARTIAL SAMPLE)" if item["truncated"] else ""))

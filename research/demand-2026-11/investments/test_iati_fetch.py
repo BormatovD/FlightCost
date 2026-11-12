@@ -128,6 +128,54 @@ class IatiResearchTests(unittest.TestCase):
             self.assertNotIn("should-never-be-written", (output / "manifest.json").read_text())
             self.assertNotIn("should-never-be-written", (output / "candidates.jsonl").read_text())
 
+    def test_distinct_source_variants_of_same_identifier_are_preserved_and_blocked(self):
+        original = json.loads(json.dumps(self.doc))
+        changed = json.loads(json.dumps(self.doc))
+        changed["iati_json"]["iati-activity"][0]["transaction"][0]["value"][0]["text()"] = "99999999"
+        page = {"response": {"numFound": 3, "start": 0,
+                             "docs": [original, changed, original]}}
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "sample"
+            def opener(req, timeout):
+                return FakeResponse(json.dumps(page).encode())
+            with patch.dict(os.environ, {"FCA_IATI_API_KEY": "synthetic-secret"}):
+                manifest = f.run(["--countries", "KE", "--out", str(target),
+                                  "--rows", "30", "--pause", "0"], opener=opener)
+            self.assertEqual(manifest["unique_activities"], 1)
+            self.assertEqual(manifest["candidate_rows"], 2)
+            self.assertEqual(manifest["conflicting_identifier_count"], 1)
+            self.assertEqual(manifest["duplicate_source_occurrences"], 1)
+            variants = [json.loads(s) for s in (target / "candidates.jsonl").read_text().splitlines()]
+            self.assertEqual(len(variants), 2)
+            self.assertTrue(all(v["identifier_conflict"] for v in variants))
+            self.assertTrue(all(v["financial_aggregation_blocked_reason"] ==
+                                "conflicting_iati_identifier" for v in variants))
+            self.assertEqual(sorted(v["transactions"][0]["amount"] for v in variants),
+                             ["35000000", "99999999"])
+            self.assertEqual(len(set(v["source_variant_sha256"] for v in variants)), 2)
+            self.assertEqual(len(json.loads((target / "identifier_conflicts.json").read_text())), 1)
+            self.assertNotIn("synthetic-secret", (target / "manifest.json").read_text())
+            self.assertTrue((target / "raw" / "KE-000.json.gz").is_file())
+
+    def test_same_activity_in_two_country_searches_is_deduplicated_exactly(self):
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "sample"
+            def opener(req, timeout):
+                return FakeResponse(json.dumps(self.payload).encode())
+            with patch.dict(os.environ, {"FCA_IATI_API_KEY": "synthetic-secret"}):
+                manifest = f.run(["--countries", "KE,TZ", "--out", str(target),
+                                  "--pause", "0"], opener=opener)
+            self.assertEqual(manifest["unique_activities"], 1)
+            self.assertEqual(manifest["candidate_rows"], 1)
+            self.assertEqual(manifest["conflicting_identifier_count"], 0)
+            self.assertEqual(manifest["duplicate_source_occurrences"], 1)
+            record = json.loads((target / "candidates.jsonl").read_text().strip())
+            self.assertFalse(record["identifier_conflict"])
+            self.assertIsNone(record["financial_aggregation_blocked_reason"])
+            self.assertEqual(record["source_occurrences"], 2)
+            self.assertEqual(record["matched_query_countries"], ["KE", "TZ"])
+            self.assertFalse((target / "identifier_conflicts.json").exists())
+
     def test_secret_file_not_world_readable(self):
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder) / "key"
