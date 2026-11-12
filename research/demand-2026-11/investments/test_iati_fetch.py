@@ -105,7 +105,8 @@ class IatiResearchTests(unittest.TestCase):
                 calls.append(req.full_url)
                 return FakeResponse(json.dumps(self.payload).encode())
             with patch.dict(os.environ, {"FCA_IATI_API_KEY": "fake-key"}):
-                f.run(["--probe", "--countries", "KE,TZ", "--out", str(Path(folder) / "unused")],
+                f.run(["--probe", "--countries", "KE,TZ", "--out", str(Path(folder) / "unused"),
+                       "--budget-db", str(Path(folder) / "shared-budget.sqlite")],
                       opener=opener)
             self.assertEqual(len(calls), 1)
             self.assertFalse((Path(folder) / "unused").exists())
@@ -121,7 +122,8 @@ class IatiResearchTests(unittest.TestCase):
                 return FakeResponse(json.dumps(payload).encode())
             with patch.dict(os.environ, {"FCA_IATI_API_KEY": "should-never-be-written"}):
                 manifest = f.run(["--countries", "KE,TZ", "--rows", "1",
-                                  "--out", str(output), "--pause", "0"], opener=opener)
+                                  "--out", str(output), "--pause", "0",
+                                  "--budget-db", str(Path(folder) / "shared-budget.sqlite")], opener=opener)
             self.assertEqual(manifest["unique_activities"], 1)
             self.assertTrue(all(c["truncated"] for c in manifest["countries"]))
             self.assertEqual(len(calls), 2)
@@ -140,7 +142,8 @@ class IatiResearchTests(unittest.TestCase):
                 return FakeResponse(json.dumps(page).encode())
             with patch.dict(os.environ, {"FCA_IATI_API_KEY": "synthetic-secret"}):
                 manifest = f.run(["--countries", "KE", "--out", str(target),
-                                  "--rows", "30", "--pause", "0"], opener=opener)
+                                  "--rows", "30", "--pause", "0",
+                                  "--budget-db", str(Path(folder) / "shared-budget.sqlite")], opener=opener)
             self.assertEqual(manifest["unique_activities"], 1)
             self.assertEqual(manifest["candidate_rows"], 2)
             self.assertEqual(manifest["conflicting_identifier_count"], 1)
@@ -164,7 +167,8 @@ class IatiResearchTests(unittest.TestCase):
                 return FakeResponse(json.dumps(self.payload).encode())
             with patch.dict(os.environ, {"FCA_IATI_API_KEY": "synthetic-secret"}):
                 manifest = f.run(["--countries", "KE,TZ", "--out", str(target),
-                                  "--pause", "0"], opener=opener)
+                                  "--pause", "0",
+                                  "--budget-db", str(Path(folder) / "shared-budget.sqlite")], opener=opener)
             self.assertEqual(manifest["unique_activities"], 1)
             self.assertEqual(manifest["candidate_rows"], 1)
             self.assertEqual(manifest["conflicting_identifier_count"], 0)

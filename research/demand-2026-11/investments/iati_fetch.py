@@ -7,6 +7,7 @@ Authentication stays in an HTTP header; never write or log the API key.
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 import hashlib
@@ -17,8 +18,10 @@ from pathlib import Path
 import sys
 import time
 from urllib.error import HTTPError, URLError
+from email.utils import parsedate_to_datetime
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+import usage_budget
 
 API_URL = "https://api.iatistandard.org/datastore/activity/select"
 KEY_HEADER = "Ocp-Apim-Subscription-Key"
@@ -40,6 +43,51 @@ TRANSACTION_TYPES = {"1": "incoming_funds", "2": "outgoing_commitment",
                      "13": "incoming_pledge"}
 FIELDS = "iati_identifier,iati_json"
 MAX_RESPONSE_BYTES = 24_000_000
+
+
+class IatiRequestError(RuntimeError):
+    """Sanitized HTTP failure with machine-readable quota headers, never a key."""
+
+    def __init__(self, status: int, description: str, retry_after_seconds=None):
+        self.http_status = status
+        self.retry_after_seconds = retry_after_seconds
+        super().__init__(f"IATI HTTP {status}: {description}")
+
+
+def retry_after_seconds(value: str | None, *, now=None):
+    """Parse either integer seconds or an HTTP-date; no network or key access."""
+    if value is None:
+        return None
+    try:
+        seconds = float(value.strip())
+    except (ValueError, AttributeError):
+        try:
+            deadline = parsedate_to_datetime(value)
+            if deadline.tzinfo is None:
+                return None
+            seconds = (deadline - (now or datetime.now(timezone.utc))).total_seconds()
+        except (ValueError, TypeError, OverflowError, IndexError):
+            return None
+    if not 0 <= seconds <= 7*24*3600:
+        return None
+    return seconds
+
+
+def budgeted_request(url, key, budget_db, *, opener=urlopen, now=None, limits=None):
+    """Reserve *before* HTTP, even when it fails. All runs share one DB."""
+    limits = limits or {}
+    request_id = usage_budget.reserve(budget_db, now=now, **limits)
+    try:
+        response = request_page(url, key, opener)
+    except IatiRequestError as exc:
+        usage_budget.finish(budget_db, request_id, http_status=exc.http_status,
+                            retry_after_seconds=exc.retry_after_seconds, now=now)
+        raise
+    except BaseException:
+        usage_budget.finish(budget_db, request_id, now=now)
+        raise
+    usage_budget.finish(budget_db, request_id, http_status=200, now=now)
+    return response
 
 
 def elements(value):
@@ -256,7 +304,8 @@ def request_page(url, key, opener=urlopen):
         description = descriptions.get(error.code, "request failed")
         if detail:
             description += f" ({detail})"
-        raise RuntimeError(f"IATI HTTP {error.code}: {description}") from None
+        ra = retry_after_seconds(error.headers.get("Retry-After") if error.headers else None)
+        raise IatiRequestError(error.code, description, ra) from None
     except URLError as error:
         raise RuntimeError(f"IATI network error: {type(error.reason).__name__}") from None
     payload = json.loads(data)
@@ -298,6 +347,10 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
     parser.add_argument("--pause", type=float, default=13.0, help="Seconds between calls; respect Exploratory limits")
     parser.add_argument("--out", default=None, help="Snapshot directory, outside git (recommended: analysis/iati/YYYY-MM-DD)")
     parser.add_argument("--probe", action="store_true", help="One authenticated request only, no records written")
+    parser.add_argument("--budget-db", help="Required shared SQLite quota ledger outside Git; same path for all jobs")
+    parser.add_argument("--minute-limit", type=int, default=5)
+    parser.add_argument("--day-limit", type=int, default=100)
+    parser.add_argument("--week-limit", type=int, default=100)
     parser.add_argument("--dry-run", action="store_true", help="Show safe planned queries, no key or network")
     args = parser.parse_args(argv)
     countries = [x.strip().upper() for x in args.countries.split(",") if x.strip()]
@@ -310,6 +363,14 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
             print(c, query_url(c, 1 if args.probe else args.rows))
         return None
 
+    if not args.budget_db:
+        parser.error("IATI live requests require --budget-db pointing at a shared private ledger")
+    limits = dict(minute_limit=args.minute_limit, day_limit=args.day_limit,
+                  week_limit=args.week_limit)
+    if min(limits.values()) < 1 or args.minute_limit > 5 or args.week_limit > 100:
+        parser.error("Conservative pilot bounds: minute <= 5, week <= 100; all positive")
+    if args.max_pages != 1:
+        parser.error("Unstable Datastore pagination: pilot only allows --max-pages 1")
     key = read_key(args.key_file)
     now = clock() if clock else datetime.now(timezone.utc)
     captured_at = now.astimezone(timezone.utc).isoformat(timespec="seconds")
@@ -318,16 +379,25 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
                 "version": "0061-pilot", "key_in_files": False,
                 "historical_backtest_eligible": False, "countries": [],
                 "warnings": ["Current IATI snapshot only: NOT eligible for 2015–2025 historical backtesting."]}
-    # One IATI identifier can appear in several source files with *different*
-    # contents (documented by IATI). Keep each unique source variant rather
-    # than choosing a winner or incorrectly adding their financial amounts.
+    # A shared, private budget is mandatory for both probes and snapshots.
+    with closing(usage_budget.open_private(args.budget_db)) as budget_db:
+        if args.probe:
+            resp, _sha, _data = budgeted_request(
+                query_url(countries[0], rows=1), key, budget_db, opener=opener,
+                now=clock() if clock else None, limits=limits)
+            print(f"IATI API OK | country={countries[0]} | matching={resp['numFound']} | key: accepted")
+            return manifest
+        return _collect_snapshot(args, countries, key, now, output, manifest,
+                                 budget_db, opener=opener, sleeper=sleeper,
+                                 clock=clock, limits=limits)
+
+
+def _collect_snapshot(args, countries, key, now, output, manifest, budget_db,
+                      *, opener, sleeper, clock, limits):
+    captured_at = manifest["snapshot_at"]
+    # Keep distinct source variants; never aggregate duplicate IATI identifiers.
     # {iati_identifier: {structured_document_sha256: {record, countries, hits}}}
     candidates = {}
-    # First probe takes exactly one call, making it safe on the Exploratory tier.
-    if args.probe:
-        resp, _sha, _data = request_page(query_url(countries[0], rows=1), key, opener)
-        print(f"IATI API OK | country={countries[0]} | matching={resp['numFound']} | key: accepted")
-        return manifest
 
     # Create a private, timestamped snapshot directory before the first page.
     # An interrupted run has no completed manifest and must never be used as a dataset.
@@ -344,7 +414,9 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
             if calls:
                 sleeper(args.pause)
             url = query_url(country, args.rows, page * args.rows)
-            response, checksum, body = request_page(url, key, opener)
+            response, checksum, body = budgeted_request(
+                url, key, budget_db, opener=opener,
+                now=clock() if clock else None, limits=limits)
             calls += 1
             # Preserve the actual public response as captured, not just derived columns.
             raw_name = f"{country}-{page:03d}.json.gz"
@@ -390,6 +462,8 @@ def run(argv=None, *, opener=urlopen, sleeper=time.sleep, clock=None):
     manifest["conflicting_identifier_count"] = len(ambiguous)
     manifest["conflicting_identifiers"] = ambiguous
     manifest["api_calls"] = calls
+    manifest["pagination_consistency"] = "one_page_only_no_stable_sort"
+    manifest["budget_accounting"] = "shared_sqlite_reservation_before_each_http_attempt"
     manifest["warnings"].append("Totals are NOT investment amounts; candidate activities are NOT all investments.")
     if ambiguous:
         manifest["warnings"].append(
