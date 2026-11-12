@@ -1,0 +1,90 @@
+[
+  {
+    "id": "whospitality_africa",
+    "name": "W Hospitality Group / FHS Africa — hotel development pipeline",
+    "url": "https://www.thebench.com/insights/report-highlights-hotel-chain-development-pipelines-in-africa-2026",
+    "sector": "tourism_accommodation",
+    "granularity": "public country-level summary; project-level detail may require a license",
+    "time": "annual reports with separate publication dates",
+    "signals": ["pipeline_rooms", "rooms_under_construction", "expected_open_year_where_disclosed"],
+    "access": "public annual summaries; do not assume project-level API or unrestricted republication",
+    "caution": "hotel supply pipeline is not observed air passengers; construction can be delayed or stopped"
+  },
+  {
+    "id": "worldbank_ppi",
+    "name": "World Bank Private Participation in Infrastructure",
+    "url": "https://ppi.worldbank.org/en/ppidata",
+    "sector": "transport_energy_water_digital",
+    "granularity": "project, country, some project location",
+    "time": "financial close, project status; history since 1990",
+    "signals": ["investment_commitment", "financial_close", "project_status", "capacity"],
+    "access": "public custom queries and download",
+    "caution": "financial commitment is not annual disbursement or a guarantee of commissioning; covers PPI only"
+  },
+  {
+    "id": "afdb_mapafrica",
+    "name": "African Development Bank MapAfrica",
+    "url": "https://mapafrica.afdb.org/en",
+    "sector": "development_projects",
+    "granularity": "project and mapped location where available",
+    "time": "key dates, approval and financial information",
+    "signals": ["project_location", "sector", "approval", "disbursement_where_disclosed"],
+    "access": "public map and project documents; API/bulk access not confirmed",
+    "caution": "development bank projects are a selected subset of investment"
+  },
+  {
+    "id": "iati_datastore",
+    "name": "International Aid Transparency Initiative Datastore",
+    "url": "https://reference.iatistandard.org/en/iati-tools-and-resources/iati-datastore/",
+    "sector": "development_finance",
+    "granularity": "activity, transactions and geographic locations if reported",
+    "time": "planned and actual dates, budget and disbursement transactions",
+    "signals": ["funding_commitment", "disbursement", "project_status", "place"],
+    "access": "CSV/JSON search; current official v3 API requires free key",
+    "caution": "aid/development funding, not a complete register of private FDI; multiple publishers can duplicate activities"
+  },
+  {
+    "id": "gem_industrial",
+    "name": "Global Energy Monitor industrial and energy asset trackers",
+    "url": "https://globalenergymonitor.org/projects/global-iron-steel-tracker",
+    "sector": "industrial_energy",
+    "granularity": "facility with location, capacity and construction status",
+    "time": "annual and limited interim status updates; releases have dates",
+    "signals": ["announced", "construction", "operating", "cancelled", "workforce_where_available"],
+    "access": "open tracker summaries and downloadable project data; verify use terms per release",
+    "caution": "steel and energy are a narrow part of industry; capacity != direct airline demand"
+  },
+  {
+    "id": "aiddata_geogcdf",
+    "name": "AidData Geospatial Global Chinese Development Finance v3.0",
+    "url": "https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0",
+    "sector": "official_chinese_financed_projects",
+    "granularity": "historical project and geographic footprint",
+    "time": "commitment years 2000–2021, implementation information through 2023",
+    "signals": ["project_location", "commitment_date", "implementation", "sector"],
+    "access": "public datasets and documentation",
+    "caution": "does not cover all global investments; published in 2023 so cannot use its final statuses in forecasts 'as of' earlier years without historic vintages"
+  },
+  {
+    "id": "untourism_investment",
+    "name": "UN Tourism investment reports and guidelines",
+    "url": "https://www.untourism.int/investment/tourism-investment-trends-and-opportunities-in-africa",
+    "sector": "tourism",
+    "granularity": "mainly country and sector aggregates",
+    "time": "report periods and announcement years",
+    "signals": ["announced_greenfield_fdi", "tourism_projects", "direct_jobs_estimated"],
+    "access": "public research reports, not necessarily project-level microdata",
+    "caution": "many reported greenfield data originate from commercial fDi Markets; announcement values are not completed spending"
+  },
+  {
+    "id": "fdimarkets_later",
+    "name": "Financial Times fDi Markets",
+    "url": "https://www.fdimarkets.com/",
+    "sector": "private_cross_border_greenfield",
+    "granularity": "project and destination city for subscribers",
+    "time": "announcements and plans",
+    "signals": ["announced_capex", "project", "company", "employment", "location"],
+    "access": "commercial subscription; do not scrape licensed data",
+    "caution": "not a free source for automatic ingestion"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "activity_id": "example_activity_1",
+        "iati_identifier": "XX-SYNTHETIC-AFRICA-1",
+        "iati_json": {
+          "iati-activity": [
+            {
+              "@last-updated-datetime": "2024-08-18T11:00:00Z",
+              "@default-currency": "USD",
+              "iati-identifier": [{"text()": "XX-SYNTHETIC-AFRICA-1"}],
+              "reporting-org": [{"@ref": "XX-EXAMPLE-DONOR"}],
+              "title": [{"narrative": [{"text()": "SYNTHETIC: regional airport and tourism access"}]}],
+              "description": [{"narrative": [{"text()": "Synthetic fixture, not a real project"}]}],
+              "recipient-country": [{"@code": "KE", "@percentage": "60"}, {"@code": "TZ", "@percentage": "40"}],
+              "sector": [{"@vocabulary": "1", "@code": "21050", "@percentage": "70"}, {"@vocabulary": "7", "@code": "33220", "@percentage": "30"}],
+              "activity-status": [{"@code": "2"}],
+              "activity-date": [{"@type": "1", "@iso-date": "2022-02-01"}, {"@type": "3", "@iso-date": "2027-12-31"}],
+              "location": [{"name": [{"narrative": [{"text()": "Synthetic airport"}]}], "point": [{"pos": [{"text()": "-1.2833 36.8167"}]}], "exactness": [{"@code": "2"}]}],
+              "transaction": [
+                {"transaction-type": [{"@code": "2"}], "transaction-date": [{"@iso-date": "2024-01-10"}], "value": [{"@currency": "USD", "text()": "35000000"}]},
+                {"transaction-type": [{"@code": "3"}], "transaction-date": [{"@iso-date": "2024-06-10"}], "value": [{"@currency": "USD", "text()": "2500000"}]},
+                {"transaction-type": [{"@code": "4"}], "transaction-date": [{"@iso-date": "2024-07-10"}], "value": [{"@currency": "EUR", "text()": "400000"}]}
+              ],
+              "budget": [{"period-start": [{"@iso-date": "2025-01-01"}], "period-end": [{"@iso-date": "2025-12-31"}], "value": [{"@currency": "USD", "text()": "5000000"}]}]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

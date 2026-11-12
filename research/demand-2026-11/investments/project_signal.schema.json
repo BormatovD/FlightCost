@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Investment project observation (research only, point-in-time)",
+  "type": "object",
+  "required": ["project_id", "source_id", "source_url", "published_at", "country_iso3", "sector", "stage", "location_precision"],
+  "properties": {
+    "project_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "source_url": {"type": "string", "format": "uri"},
+    "published_at": {"type": "string", "format": "date", "description": "When this exact assertion became publicly knowable; not the download date"},
+    "observed_at": {"type": ["string", "null"], "format": "date", "description": "Event date, if different from publication date"},
+    "country_iso3": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "city": {"type": ["string", "null"]},
+    "lat": {"type": ["number", "null"], "minimum": -90, "maximum": 90},
+    "lon": {"type": ["number", "null"], "minimum": -180, "maximum": 180},
+    "location_precision": {"enum": ["site", "city", "region", "country", "unknown"]},
+    "sector": {"enum": ["hotel", "tourism_other", "manufacturing", "energy", "transport", "mining", "office", "other"]},
+    "stage": {"enum": ["announced", "approved", "financed", "under_construction", "operating", "suspended", "cancelled"]},
+    "amount_type": {"enum": ["announced", "committed", "disbursed", "actual", "unknown"]},
+    "capex_usd": {"type": ["number", "null"], "minimum": 0},
+    "hotel_rooms": {"type": ["integer", "null"], "minimum": 0},
+    "jobs_estimated": {"type": ["integer", "null"], "minimum": 0},
+    "jobs_observed": {"type": ["integer", "null"], "minimum": 0},
+    "planned_opening_at": {"type": ["string", "null"], "format": "date"},
+    "actual_opening_at": {"type": ["string", "null"], "format": "date"},
+    "capital_origin_iso3": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+    "contractor_origin_iso3": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}
