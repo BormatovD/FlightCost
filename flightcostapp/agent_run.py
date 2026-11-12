@@ -509,6 +509,17 @@ def validate_submission(p: dict) -> list[str]:
 
 
 # ── прогон ───────────────────────────────────────────────────────────────
+def _task_text(job: str, task: str) -> str:
+    """Передать навыки модели в тексте задания, без доступа к репозиторию."""
+    base = RULES + "\n" + task
+    if job != "charges":
+        return base
+    skill_path = ROOT / "skills" / "SKILL-collect-charges.md"
+    # Отсутствие файла должно остановить запуск до платного API-вызова.
+    skill = skill_path.read_text("utf-8")
+    return base + "\n\n# Действующий навык: сбор тарифов\n" + skill
+
+
 class Runner:
     def __init__(self, home: Path = HOME, *, openclaw: str = OPENCLAW, config: str = CONFIG,
                  month_usd: float = MONTH_USD, run_usd: float = RUN_USD, spool: Path | None = None):
@@ -577,7 +588,7 @@ class Runner:
     def exec(self, job: str, ws: Path, task: str, model: str | None = None) -> dict:
         """Один прогон OpenAI через закреплённый OpenClaw; прежний контракт черновиков."""
         selected_model = _model(job, model)
-        (ws / "TASK.md").write_text(RULES + "\n" + task, "utf-8")
+        (ws / "TASK.md").write_text(_task_text(job, task), "utf-8")
         key = _api_key()
         if not key:
             raise RuntimeError("нет ключа OpenAI: задайте OPENAI_API_KEY в /etc/fca/agent.env; "
