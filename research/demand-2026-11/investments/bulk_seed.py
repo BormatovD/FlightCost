@@ -29,8 +29,16 @@ except ImportError:
 BULK_HOST = 'bulk-data.iatistandard.org'
 MAX_NAME = re.compile(r'^[a-zA-Z0-9][a-zA-Z0-9_-]{0,99}$')
 # DAC 5-digit vocabulary=1. This is an *analysis lens*, not a global IATI filter.
-WATCH_SECTORS = frozenset({'21010', '21020', '21030', '21040', '21050', '21061',
-                           '23030', '32110', '32120', '32210', '33210', '33220'})
+# Indicative lens only: *no activity is excluded* just because this flag is false.
+# 0064-D: include granular DAC codes seen in the real 0064-C sources. The old
+# watch set missed Dar es Salaam BRT (21012), Shinyanga solar (23230),
+# Kakono hydro (23220) and Guercif–Nador highway (21023).
+WATCH_SECTORS = frozenset({
+    '21010', '21011', '21012', '21013', '21020', '21021', '21022', '21023', '21024',
+    '21030', '21040', '21050', '21061',
+    '23030', '23220', '23230', '23231', '23232', '23630',
+    '32110', '32120', '32130', '32210', '33210', '33220',
+})
 
 
 def canonical_url(raw: str) -> str:
