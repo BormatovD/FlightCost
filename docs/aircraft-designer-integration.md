@@ -29,7 +29,7 @@ Only the owner of an existing guest workspace can save; no source catalog or
 another workspace is changed. If the workspace is created from the 3D page,
 its secret access link is retained visibly even after saving. After confirmed
 persistence the user can return to the type card, open their workspace, and
-(if the fuel model was safely inherited) open the route calculator with the new
+(with an inherited fuel model or an available Designer route model) open the route calculator with the new
 `USER:...` aircraft code. The server reuses the existing type parser and
 `GuestDB` overlay. Repeated messages with the same `requestId` and identical
 payload return the previously saved user type; changed payloads cannot
@@ -42,8 +42,7 @@ or browser-side JavaScript module is required.
 - The model is **provisional**. Cabin row counts become `seats_typical`,
   and OEW, MTOW, MLW, geometry and fuel tank capacity are saved in the
   existing aircraft type fields. The full cabin and `MZFW` are retained in
-  `aircraft_designer` workspace metadata. **The current FlightCost economy
-  engine does not enforce MZFW or reproduce the 3D mission solver.**
+  `aircraft_designer` workspace metadata. The A320neo/LEAP-1A route adapter enforces MZFW when it replays the saved design.
 - `seats_max` is retained from the original published type unless the new
   user configuration has more seats. If exceeded, the **original passport
   maximum** and explicit non-certified over-capacity status remain in
@@ -59,7 +58,31 @@ or browser-side JavaScript module is required.
   snapshot is pinned deliberately; there is no runtime cross-domain catalog
   fetch that could change contracts silently.
 
+## Local A320neo / LEAP-1A route calculation
+
+Use Node 22.18 or later and the corresponding Designer checkout. Run these commands in two terminals. Choose a reference database for the preview. Guest aircraft are saved in `user.db` next to that database.
+
+In Aircraft Designer:
+
+```sh
+VITE_FLIGHTCOST_ORIGIN=http://127.0.0.1:8000 npm run dev -- --host 127.0.0.1 --port 8001 --strictPort
+```
+
+In FlightCost:
+
+```sh
+FCA_AIRCRAFT_DESIGNER=1 FCA_DESIGNER_ORIGIN=http://127.0.0.1:8001 \
+  FCA_DESIGNER_RUNNER=/absolute/path/to/openaircraftcreator/scripts/flightcost-route.ts \
+  fca --db /absolute/path/to/flightcost.db serve --guests --port 8000
+```
+
+Open `http://127.0.0.1:8000/ru/type/A20N/3d?choice=1` for the 194-seat cabin. Select a load, save to the guest workspace and follow the route link. The runner reconstructs the saved control settings, mode and cabin. It accepts earlier v1 exports when their geometry and masses can be reproduced. An incompatible design or unavailable runner returns a calculation error.
+
+The FRA–BCN review uses the FlightCost route distance including its ICAO correction and 100 kg per passenger including baggage. The reported consumption includes taxi fuel. The Designer mission carries a separate reserve with a default 200 nm alternate, 30-minute final reserve and 5% contingency. Cruise time uses the speed of each integrated step. The LEAP profile estimates climb and descent time at 300 kt and 280 kt respectively and uses a combined taxi time of 26 minutes.
+
 ## Deployment safety
+
+The two sites run on separate hosts. `DESIGNER_REVISION` pins the backend solver to the reviewed Aircraft Designer commit. The FlightCost deploy script installs that checkout under `/srv/fca/designer/<commit>` and verifies Node 22.18+ before restarting the service. Publish the corresponding Designer static build with its normal `deploy/ship.sh`. The local `FCA_DESIGNER_RUNNER` override is optional on the server.
 
 Existing `deploy/deploy.sh` resets the server working tree to `origin/main`
 and restarts `fca`. GitHub Actions deploys **every push to `main`** after

@@ -44,10 +44,12 @@
     }
     var icao = options.icao;
     var engines = options.supportedEngines || [options.engine];
-    var url = new URL('/', DESIGNER_ORIGIN);
+    var origin = options.designerOrigin || DESIGNER_ORIGIN;
+    var url = new URL('/', origin);
     url.searchParams.set('embed', 'flightcost');
     url.searchParams.set('ac', icao);
     url.searchParams.set('engine', options.engine);
+    if (Number.isFinite(options.routeNm) && options.routeNm > 0) url.searchParams.set('routeNm', options.routeNm);
     if (options.layoutId) url.searchParams.set('layout', options.layoutId);
     if (options.aircraftId) url.searchParams.set('aircraft', options.aircraftId);
     if (options.weightProfile) url.searchParams.set('profile', options.weightProfile);
@@ -66,7 +68,7 @@
     var active = true;
     var saving = false;
     async function onMessage(event) {
-      if (!active || saving || event.origin !== DESIGNER_ORIGIN || event.source !== frame.contentWindow) return;
+      if (!active || saving || event.origin !== origin || event.source !== frame.contentWindow) return;
       var msg = event.data;
       if (!msg || msg.protocol !== PROTOCOL || msg.version !== VERSION || msg.type !== 'DESIGN_EXPORT' ||
           typeof msg.requestId !== 'string' || !/^[a-zA-Z0-9-]{8,80}$/.test(msg.requestId)) return;
@@ -74,7 +76,7 @@
         if (active && frame.contentWindow) frame.contentWindow.postMessage({
           protocol: PROTOCOL, version: VERSION, type: 'DESIGN_ACK', requestId: msg.requestId,
           saved: saved, ...(error ? { error: error } : {})
-        }, DESIGNER_ORIGIN);
+        }, origin);
       };
       if (!isValidDesign(msg.design, icao, engines)) {
         status.textContent = 'Ошибка: тип, двигатель, компоновка или массы не совпали';
@@ -105,7 +107,7 @@
       } finally { saving = false; }
       // Navigation/UI hook errors do not retroactively change a successful DB write.
       if (committed && typeof options.onSaved === 'function') {
-        try { options.onSaved(saved, msg.design); } catch (_ignored) { /* confirmed save remains valid */ }
+        try { options.onSaved(saved, msg.design, msg.routeLoad); } catch (_ignored) { /* confirmed save remains valid */ }
       }
     }
     root.addEventListener('message', onMessage);

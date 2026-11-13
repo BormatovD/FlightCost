@@ -18,6 +18,8 @@ after=$(git rev-parse --short HEAD)
 echo "код: $before → $after"
 
 "$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e ".[pdf]"
+designer_revision=$("$ROOT/venv/bin/python" -c 'from flightcostapp.designer_route import DESIGNER_REVISION; print(DESIGNER_REVISION)')
+bash "$ROOT/app/deploy/install-designer.sh" "$designer_revision"
 echo "$after" > "$ROOT/VERSION"
 
 sudo /usr/bin/systemctl restart fca

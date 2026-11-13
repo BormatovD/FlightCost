@@ -1,0 +1,88 @@
+"""Route adapter for a saved A320neo/LEAP-1A design in the active guest workspace."""
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+from functools import lru_cache
+from pathlib import Path
+
+from .fuel import Feasibility, FuelResult, ReserveSpec, icao_distance_nm
+
+MODEL = "a320neo-leap-mission-v1"
+DESIGNER_REVISION = "206417db44beebce543e0d66981086158b8746b9"
+
+
+def _runner() -> str | None:
+    override = os.environ.get("FCA_DESIGNER_RUNNER")
+    if override is not None:
+        return override or None
+    installed = Path("/srv/fca/designer") / DESIGNER_REVISION / "scripts/flightcost-route.ts"
+    return str(installed) if installed.is_file() else None
+
+
+def supports(design: dict) -> bool:
+    ac = design.get("aircraft") or {}
+    return (ac.get("icao"), ac.get("aircraftId"), ac.get("engine")) == ("A20N", "a320neo", "LEAP-1A")
+
+
+@lru_cache(maxsize=256)
+def _call(runner: str, payload: str) -> dict:
+    try:
+        result = subprocess.run(["node", runner], input=payload, text=True,
+                                capture_output=True, timeout=20, check=False)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise ValueError("Расчёт Aircraft Designer недоступен") from exc
+    if result.returncode:
+        # The runner also diagnoses a saved configuration it cannot reproduce.
+        raise ValueError("Aircraft Designer: " + (result.stderr.strip().splitlines() or ["ошибка модели"])[0][:220])
+    response = json.loads(result.stdout)
+    if response.get("model") != MODEL:
+        raise ValueError("Несовместимая версия маршрутизатора Aircraft Designer")
+    return response
+
+
+def _run(design: dict, route: dict | None = None) -> dict:
+    runner = _runner()
+    if not runner:
+        raise ValueError("Для сохранённого A320neo с LEAP-1A нужен расчёт Aircraft Designer")
+    return _call(runner, json.dumps({"design": design, "route": route}, sort_keys=True, allow_nan=False))
+
+
+def saved_model(design: dict) -> str | None:
+    if supports(design) and _runner():
+        _run(design)
+        return MODEL
+    return None
+
+
+def saved_design(store, key: str) -> dict | None:
+    if key.startswith("USER:A20N-3D-") and getattr(store, "gdb", None):
+        doc = store.gdb.get_doc(store.ws, "aircraft", key) or {}
+        design = (doc.get("aircraft_designer") or {}).get("design") or {}
+        if supports(design):
+            return design
+    return None
+
+
+def trip_fuel(design: dict, gcd_nm: float, pax: int, spec: ReserveSpec) -> FuelResult:
+    distance, distance_note = icao_distance_nm(gcd_nm)
+    route = {"distanceNm": distance, "pax": pax, "contingency": spec.contingency_frac,
+             "finalMin": spec.final_reserve_min}
+    if spec.alternate_nm is not None:
+        route["alternateNm"] = spec.alternate_nm
+    r = _run(design, route)["route"]
+    feasible = Feasibility(max_pax=r["maxPax"])
+    for key, reason in r["limits"].items():
+        feasible.limit(key, reason)
+    phases = {"taxi": "Руление", "climb": "Набор", "cruise": "Крейсер", "descent": "Снижение"}
+    reserve = r["reserves"]
+    return FuelResult(trip_kg=r["tripKg"], block_h=r["blockMin"] / 60,
+                      airborne_h=(r["blockMin"] - r["minutes"]["taxi"]) / 60,
+                      takeoff_mass_kg=r["takeoffMassKg"], feasible=feasible, method="designer",
+                      phases={name: r["fuel"][key] for key, name in phases.items()},
+                      times={name: r["minutes"][key] / 60 for key, name in phases.items()},
+                      note=f"Aircraft Designer · LEAP-1A · {distance_note}", tier_note=MODEL,
+                      reserve_kg=reserve["totalKg"], reserve_parts={
+                          "Непредвиденный": reserve["contingencyKg"], "Запасной": reserve["alternateKg"],
+                          "Конечный": reserve["finalKg"]})

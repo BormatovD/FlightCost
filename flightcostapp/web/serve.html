@@ -1984,6 +1984,8 @@ async function boot(){
   setPick("o", qa("o", v => APTS.some(x => x.icao === v), "EDDF"));
   setPick("d", qa("d", v => APTS.some(x => x.icao === v), "LEBL"));
   setAc(qa("ac", v => ACS.some(x => x.icao === v && x.usable), "A320"));
+  const loadPercent = Number(QP.get("load"));
+  if (Number.isInteger(loadPercent) && loadPercent >= 40 && loadPercent <= 100) $("#lf").value = loadPercent;
   if (QP.get("lease_observation")) setLeaseObservation(QP.get("lease_observation"));
   $("#layout").addEventListener("change", () => {
     CHOSEN.op = $("#layout").value;
@@ -2135,6 +2137,9 @@ function render(r){
   // Коды и тип уже стоят в полях слева от этой подписи — не повторяем.
   $("#hdr").textContent = `${f0(r.route.distance_nm)} ${_t("nm · блок")} ${
     f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}${curLine()}`;
+  if (r.inputs.route_model && r.answer.feasible) {
+    $("#hdr").textContent += ` · Designer · ${f1(r.route.fuel_kg)} ${_t("кг")} · ${f2(r.route.block_h * 60)} ${_t("мин")}`;
+  }
   drawKpi(r);
   fleetHints();
   const tab = document.querySelector("#tabs [aria-selected=true]").dataset.tab;

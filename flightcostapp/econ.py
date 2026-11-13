@@ -1108,7 +1108,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
     pts = [(float(k.rsplit("/", 1)[1]), float(v["value"]))
            for k, v in (store.current("fuel_burn", as_of) or {}).items()
            if k.split("/")[:2] in ([operator, ac.icao], ["*", ac.icao])]
-    if pts:
+    from . import designer_route
+    design = designer_route.saved_design(store, ac.icao)
+    if pts and design is None:
         burn = fit_burn(pts, source=f"{operator}/{ac.icao}")
         rec(G3, "Расход: точки эксплуатанта",
             "подбор почасовой и поцикловой частей по названным плечам",
@@ -1116,10 +1118,13 @@ def route_economics(store: Store, origin: str, destination: str, *,
             float(burn.points), "точек", "stated", burn.note, node="d_fuel_burn")
         if burn.structure != "measured":
             warnings.append(f"расход {ac.icao}: {burn.note}")
-    fr = trip_fuel(ac.icao, dist, pax_pre, spec=spec, frame=ac.frame, burn=burn,
-                   ref=ac.burn_ref, calib=ac.burn_calib[0] if ac.burn_calib else None,
-                   fallback_kg_per_h=ac.fuel_kg_per_h, cruise_kt=ac.cruise_kt)
-    if ac.burn_calib and fr.tier == 1:
+    if design is not None:
+        fr = designer_route.trip_fuel(design, dist, pax_pre, spec)
+    else:
+        fr = trip_fuel(ac.icao, dist, pax_pre, spec=spec, frame=ac.frame, burn=burn,
+                       ref=ac.burn_ref, calib=ac.burn_calib[0] if ac.burn_calib else None,
+                       fallback_kg_per_h=ac.fuel_kg_per_h, cruise_kt=ac.cruise_kt)
+    if ac.burn_calib and fr.method == "openap" and fr.tier == 1:
         k, why, ref_c = ac.burn_calib
         rec(G3, "Поправка расхода openap",
             "множитель к расходу во всех фазах по опубликованной эксплуатации",
@@ -1129,7 +1134,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # оценки — половина стандарта. Меняются блок-время и топливо руления.
     from . import taxi as _taxi
     from .fuel import TAXI_MIN, TAXI_KG_PER_H
-    _t = [_taxi.lookup(store, ap["icao"], as_of) for ap in (a, b)]
+    _t = [] if design else [_taxi.lookup(store, ap["icao"], as_of) for ap in (a, b)]
     if any(v is not None for v in _t) and fr.times.get("Руление") is not None:
         t_new = sum(v if v is not None else TAXI_MIN / 2 for v in _t)
         d_h = (t_new - TAXI_MIN) / 60.0
@@ -1145,8 +1150,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # ТОЛЬКО рейсовое. Запас возится и возвращается, в стоимость топлива
     # не входит; его вес уже удорожил рейсовое через взлётную массу.
     fuel_kg, block_h = fr.trip_kg, fr.block_h
-    prov_fuel = "derived" if fr.method == "openap" else "default"
-    if fr.method != "openap":
+    profile = fr.method in ("openap", "designer")
+    prov_fuel = "derived" if profile else "default"
+    if not profile:
         warnings.append(fr.note)
     # Выполнимость решает, будет ли ответ вообще, и до сих пор жила вне
     # трассировки: узел `v_feas` на карте есть, шага не было ни одного.
@@ -1157,7 +1163,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # такая же величина, как сам предел, и на выполнимом рейсе он
     # единственное, что говорит, насколько близко мы к границе.
     rec(G3, "Ярус расхода", "чем получен расход",
-        {0: "плоская ставка, параметрика", 1: "физика openap",
+        {0: "плоская ставка, параметрика", 1: "Aircraft Designer" if design else "физика openap",
          2: "точки эксплуатанта", 3: "по сертифицированному CO2",
          4: "от аналога с якорем"}[fr.tier]
         + (f" — {fr.tier_note}" if fr.tier_note else ""),
@@ -1170,11 +1176,12 @@ def route_economics(store: Store, origin: str, destination: str, *,
                    if v) or "не посчитан",
         fr.reserve_kg, "кг", spec.provenance,
         ("возится, не сжигается: в статью топлива не входит, во взлётную "
-         "массу входит" + ("" if alternate_nm else
+         "массу входит" + ("; запасной по модели Designer: 200 nm" if design and alternate_nm is None else
+          "" if alternate_nm or design else
           "; ЗАПАСНОЙ НЕ НАЗВАН — уход не посчитан, предельная нагрузка "
           "завышена примерно на тонну")),
         node="v_reserve")
-    if not alternate_nm:
+    if not alternate_nm and not design:
         warnings.append(
             "запасной аэродром не задан (--alternate-nm): в запасе нет "
             "ухода, предельная коммерческая нагрузка завышена")
@@ -1204,11 +1211,11 @@ def route_economics(store: Store, origin: str, destination: str, *,
         f"метод: {fr.method}" + (f", взлётная масса {fr.takeoff_mass_kg/1000:.1f} т"
                                  if fr.takeoff_mass_kg else ""), node="v_fuel")
     rec(G2, "Блок-время", "набор + крейсер + снижение + руление"
-        if fr.method == "openap" else "0.33 + D / V · 1.06",
+        if profile else "0.33 + D / V · 1.06",
         " + ".join(f"{v*60:.0f}" for v in fr.times.values()) + " мин"
         if fr.times else f"0.33 + {dist:.0f} / {ac.cruise_kt} · 1.06",
         block_h, "ч", prov_fuel,
-        "из профиля полёта, а не из плоской ставки" if fr.method == "openap"
+        "из профиля полёта, а не из плоской ставки" if profile
         else "плоская оценка", node="v_block")
 
     fuel_prov, fuel_src = "input", "задана ключом --fuel"
@@ -2064,6 +2071,7 @@ def route_economics(store: Store, origin: str, destination: str, *,
                  fuel_kg, cost, be_fare, be_lf, warnings=warnings,
                  trace=trace, cost_prov=prov, cost_default_part=default_part,
                  inputs={"load_factor": load_factor, "fare_eur": fare_eur,
+                         **({"route_model": designer_route.MODEL} if design else {}),
                          "seats": seats, "as_of": as_of, "pax": pax,
                          "origin_name": a["name"], "dest_name": b["name"],
                          "origin_icao": a["icao"], "dest_icao": b["icao"],

@@ -1,6 +1,6 @@
 """Strict, versioned hand-off of a 3D design into the *existing* guest workspace.
 
-No new data store, physics provider or public catalog mutation.  The bundled v1
+The bundled v1
 catalog is a pinned snapshot of Aircraft Designer's published v1 contract; it
 must be updated and reviewed on BOTH sites if that contract changes.
 """
@@ -117,8 +117,7 @@ def validate_design(data: Any) -> dict:
 def make_workspace_doc(draft: dict, design: dict, *, user_icao: str, reference_engine: str) -> tuple[dict, bool]:
     """Preserve copied FlightCost parameters, override ONLY observed 3D data.
 
-    MZFW and the full cabin travel in the workspace document; FlightCost's
-    existing route engine does NOT enforce MZFW yet. Never claim otherwise.
+    MZFW and the full cabin travel in the workspace document for route replay.
     """
     ac = design["aircraft"]; w = design["weights"]
     seats = ac["seats"]

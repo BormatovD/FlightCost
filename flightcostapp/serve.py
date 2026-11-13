@@ -334,7 +334,18 @@ class _Handler(BaseHTTPRequestHandler):
                     if len(raw_choice) == 1 and re.fullmatch(r"[0-9]{1,3}", raw_choice[0]):
                         selected = int(raw_choice[0])
                         if 0 <= selected < len(options):
-                            page = seo.designer_page(lang, icao, info, entry, seo.cls_of(entry), selected)
+                            cls = seo.cls_of(entry)
+                            route_nm = None
+                            if icao == "A20N" and seo.ROUTES[cls] == ("EDDF", "LEBL"):
+                                from .econ import great_circle_nm
+                                from .fuel import icao_distance_nm
+                                ends = {ap["icao"]: ap for ap in ctx.airports()
+                                        if ap["icao"] in seo.ROUTES[cls] and ap["lat"] is not None}
+                                if len(ends) == 2:
+                                    a, b = (ends[code] for code in seo.ROUTES[cls])
+                                    route_nm = icao_distance_nm(great_circle_nm(a["lat"], a["lon"], b["lat"], b["lon"]))[0]
+                            designer_origin = None if ctx.public else os.environ.get("FCA_DESIGNER_ORIGIN")
+                            page = seo.designer_page(lang, icao, info, entry, cls, selected, route_nm, designer_origin)
                             self._send(200, page.encode("utf-8"), html_t)
                             return True
             self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
@@ -1887,6 +1898,8 @@ class Context:
             raise ValueError("Expected JSON object")
         design = ad.validate_design(body.get("design"))
         ac = design["aircraft"]
+        from .designer_route import saved_model
+        model = saved_model(design)
         key = ad.new_user_key(ac["icao"], body.get("requestId"))
         old = self.gdb.get_doc(self.ws, "aircraft", key)
         if old is not None and (old.get("aircraft_designer") or {}).get("design") != design:
@@ -1910,7 +1923,7 @@ class Context:
                     "engine_match": old.get("aircraft_designer", {}).get("engine_match", False),
                     "burn_inherited": bool(old.get("burn")),
                     "seats": design["aircraft"]["seats"],
-                    "mzfw_stored_not_enforced": True, "replayed": True}
+                    "route_model": model, "mzfw_stored_not_enforced": model is None, "replayed": True}
         ref = self.aircraft_type({"icao": ac["icao"]})
         if ref.get("error"):
             raise ValueError("Base FlightCost aircraft type not found")
@@ -1938,7 +1951,7 @@ class Context:
         return {"ok": True, "icao": key, "id": key, "workspace": True,
                 "seats": design["aircraft"]["seats"], "engine_match": matches,
                 "burn_inherited": bool(doc.get("burn")),
-                "mzfw_stored_not_enforced": True}
+                "route_model": model, "mzfw_stored_not_enforced": model is None}
 
     def aircraft_save(self, doc: dict) -> dict:
         """Форма -> тот же разбор, что у файла -> файл каталога -> факты.

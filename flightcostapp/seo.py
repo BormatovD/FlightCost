@@ -1771,7 +1771,7 @@ def designer_widget(lang: str, icao: str, info: dict, cls: str) -> str:
 
 
 def designer_page(lang: str, icao: str, info: dict, entry: dict, cls: str,
-                  selected: int) -> str:
+                  selected: int, route_nm: float | None = None, designer_origin: str | None = None) -> str:
     """Full-height, single-purpose FlightCost page for the external 3D designer.
 
     The FlightCost origin stays top-level so its guest-workspace cookie and
@@ -1786,8 +1786,8 @@ def designer_page(lang: str, icao: str, info: dict, entry: dict, cls: str,
     back = type_url(lang, icao)
     name = name_of(entry, lang) or icao
     cfg = json.dumps({"icao": icao, "lang": lang, "refEngine": ref_engine,
-                      "backHref": back, "route": ROUTES[cls], "choices": choices,
-                      "selected": selected, "text": t},
+                      "backHref": back, "route": ROUTES[cls], "routeNm": route_nm, "choices": choices,
+                      "selected": selected, "designerOrigin": designer_origin, "text": t},
                      ensure_ascii=True).replace("</", "<\\/")
     options = _designer_options(choices, selected)
     return f"""<!doctype html>

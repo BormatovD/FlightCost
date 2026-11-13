@@ -68,6 +68,8 @@
       status: msg,
       icao: cfg.icao,
       engine: option.engine,
+      routeNm: cfg.routeNm,
+      designerOrigin: cfg.designerOrigin,
       aircraftId: option.aircraftId,
       layoutId: option.layoutId,
       weightProfile: option.weightProfile,
@@ -89,14 +91,15 @@
         });
         return { id: stored.id, data: stored };
       },
-      onSaved: function (stored) {
+      onSaved: function (stored, design, routeLoad) {
         var data = stored.data;
         say(cfg.text.saved + ' ' + data.icao + ' (' + data.seats + ')');
         links.replaceChildren(link(cfg.text.back, cfg.backHref), link(cfg.text.workspace, '/w'));
-        if (data.burn_inherited) {
+        if (data.burn_inherited || data.route_model) {
           var o = cfg.route[0], d = cfg.route[1];
           links.append(link(cfg.text.calc, '/' + cfg.lang + '/calc?o=' + encodeURIComponent(o)
-                + '&d=' + encodeURIComponent(d) + '&ac=' + encodeURIComponent(data.icao)));
+                + '&d=' + encodeURIComponent(d) + '&ac=' + encodeURIComponent(data.icao)
+                + (data.route_model && Number.isInteger(routeLoad) && routeLoad >= 40 && routeLoad <= 100 ? '&load=' + routeLoad : '')));
         } else {
           links.append(cfg.text.caveat);
         }
