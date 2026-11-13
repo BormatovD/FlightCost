@@ -1323,7 +1323,8 @@ def econ_block(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, ty
     return "\n".join(out)
 
 
-def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict | None = None) -> str:
+def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict | None = None,
+              *, designer_enabled: bool = False) -> str:
     """Страница одного типа. `info` — Context.aircraft_type, `entry` — строка Context.aircraft,
     `econ` — расчёты класса на типовом маршруте (Context.seo_econ) или None, пока не готовы."""
     t = T[lang]
@@ -1339,6 +1340,10 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
         body.append(f'<a class="cta" href="{esc(calc_link(lang, cls, icao))}">{esc(t["cta"].format(icao=icao))}</a>')
         if not icao.upper().startswith("USER:"):
             body.append(type_editor(lang, icao, cls, info))
+            if designer_enabled:
+                widget = designer_widget(lang, icao, info, cls)
+                if widget:
+                    body.append(widget)
     else:
         gaps = by.get("calc_gaps", {}).get("text") or "—"
         body.append(f'<p class="dim">{esc(t["type_card"].format(gaps=gaps))}</p>')
@@ -1677,6 +1682,84 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                     f'<td class=s><a href="{esc(o["source"])}" rel="nofollow">{esc(publisher(o))}</a>{context}</td></tr>')
     body.append("</table></div>")
     return "".join(body)
+
+
+# 3D is opt-in and intentionally not part of the existing economics UI.
+# This widget doesn't change the original edit form, canonical or JSON-LD.
+FC3D_TEXT = {
+    "ru": {"heading": "Посмотреть и изменить самолёт в 3D",
+           "lead": "Откройте Aircraft Designer и сохраните результат как отдельный свой тип. Данные модели предварительные, не сертификационные.",
+           "layout": "Салон и двигатель 3D", "open": "Открыть в 3D · Aircraft Designer",
+           "create": "Создать рабочее место для сохранения",
+           "created": "Рабочее место создано. Сохраните секретную ссылку:",
+           "need": "Для сохранения сначала создайте рабочее место FlightCost.",
+           "saving": "Сохраняем модель в FlightCost…", "saved": "Сохранено как",
+           "calc": "Открыть расчёт маршрута", "caveat": "Без подтверждённой топливной модели расчёт может быть недоступен.",
+           "different": "Важно: двигатель 3D ({designer}) отличается от двигателя в карточке FlightCost ({flightcost}). Топливная модель не переносится автоматически.",
+           "error": "Ошибка: "},
+    "en": {"heading": "Explore and modify the aircraft in 3D",
+           "lead": "Open Aircraft Designer and save as a separate custom aircraft. Engineering values are provisional, not certified.",
+           "layout": "3D cabin and engine", "open": "Open in 3D · Aircraft Designer",
+           "create": "Create a workspace to save",
+           "created": "Workspace created. Keep this secret link:",
+           "need": "Create a FlightCost workspace before saving.",
+           "saving": "Saving the design to FlightCost…", "saved": "Saved as",
+           "calc": "Open route calculation", "caveat": "Without a validated fuel model, a route calculation may be unavailable.",
+           "different": "Important: 3D engine ({designer}) differs from the FlightCost card engine ({flightcost}). Fuel model is not copied automatically.",
+           "error": "Error: "},
+    "de": {"heading": "Flugzeug in 3D ansehen und ändern",
+           "lead": "Aircraft Designer öffnen und als eigenen Typ speichern. Die Konstruktionswerte sind vorläufig, nicht zertifiziert.",
+           "layout": "3D-Kabine und Triebwerk", "open": "In 3D öffnen · Aircraft Designer",
+           "create": "Arbeitsbereich zum Speichern erstellen",
+           "created": "Arbeitsbereich erstellt. Geheimen Link sichern:",
+           "need": "Vor dem Speichern einen FlightCost-Arbeitsbereich erstellen.",
+           "saving": "Entwurf in FlightCost speichern…", "saved": "Gespeichert als",
+           "calc": "Streckenberechnung öffnen", "caveat": "Ohne bestätigtes Verbrauchsmodell ist eine Streckenberechnung möglicherweise nicht verfügbar.",
+           "different": "Wichtig: Das 3D-Triebwerk ({designer}) unterscheidet sich vom FlightCost-Triebwerk ({flightcost}). Das Verbrauchsmodell wird nicht automatisch übernommen.",
+           "error": "Fehler: "},
+}
+
+
+def designer_widget(lang: str, icao: str, info: dict, cls: str) -> str:
+    """Secondary, small control beside the existing editor (no layout replacement)."""
+    from . import aircraft_designer as ad
+    choices = ad.choices(icao)
+    if not choices:
+        return ""
+    by = {f["field"]: f for f in info.get("fields", [])}
+    ref_engine = (by.get("engine") or {}).get("text") or ""
+    typical = (by.get("seats_typical") or {}).get("value") or (by.get("seats_max") or {}).get("value")
+    def priority(c):
+        # Pick a real 3D layout closest to the published typical layout.
+        # In case of ties, matching engine is preferred; otherwise WARN.
+        return (0 if typical is not None and c["seats"] == typical else 1,
+                0 if ad.engine_matches(c["engine"], ref_engine) else 1,
+                0 if c["default"] else 1)
+    selected = min(range(len(choices)), key=lambda i: priority(choices[i]))
+    t = FC3D_TEXT[lang]
+    cfg = json.dumps({"icao": icao, "lang": lang, "refEngine": ref_engine,
+                      "route": ROUTES[cls],
+                      "choices": choices, "selected": selected, "text": t}, ensure_ascii=True).replace("</", "<\\/")
+    options = "".join(f'<option value="{i}"{" selected" if i == selected else ""}>'
+                      f'{esc(c["seats"])} · {esc(c["engine"])} · {esc(c["aircraftId"])}'
+                      f'{" · factory" if c["weightProfile"] == "factory" else ""}</option>'
+                      for i, c in enumerate(choices))
+    return ("<style>.fc3d select{display:block;background:var(--bg);color:var(--ink);"
+            "border:1px solid var(--line);border-radius:5px;padding:7px 9px;max-width:100%;margin:6px 0 10px;}"
+            ".fc3d .note{font-size:12px;color:var(--dim)}.fc3d .fc3d-actions{margin-top:10px}"
+            ".fc3d .fc3d-actions a{overflow-wrap:anywhere}.fc3d [hidden]{display:none!important}</style>"
+            f'<section class="ed fc3d" id="fc3d"><h3>{esc(t["heading"])}</h3>'
+            f'<p class="dim">{esc(t["lead"])}</p>'
+            f'<label for="fc3d-choice">{esc(t["layout"])}</label>'
+            f'<select id="fc3d-choice">{options}</select>'
+            '<p class="note" id="fc3d-engine-note"></p>'
+            '<div id="fc3d-mount"></div>'
+            f'<button id="fc3d-create" type="button" hidden>{esc(t["create"])}</button>'
+            '<p id="fc3d-message" role="status" aria-live="polite"></p>'
+            '<p class="fc3d-actions" id="fc3d-links"></p></section>'
+            f'<script type="application/json" id="fc3d-data">{cfg}</script>'
+            '<script src="/flightcost-embed.nomodule.js" defer></script>'
+            '<script src="/flightcost-aircraft-designer.js" defer></script>')
 
 
 # ── свой вариант типа со страницы типа (решение 231) ─────────────────────

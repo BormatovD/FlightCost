@@ -232,6 +232,15 @@ class _Handler(BaseHTTPRequestHandler):
         if u.path == f"/{seo.INDEXNOW_KEY}.txt":
             self._public(seo.INDEXNOW_KEY.encode(), "text/plain; charset=utf-8")
             return True
+        if u.path == "/flightcost-embed.nomodule.js":
+            # A normal script, not an ES module. Served only from our own package.
+            self._public((WEB / "flightcost-embed.nomodule.js").read_bytes(),
+                         "application/javascript; charset=utf-8")
+            return True
+        if u.path == "/flightcost-aircraft-designer.js":
+            self._public((WEB / "flightcost-aircraft-designer.js").read_bytes(),
+                         "application/javascript; charset=utf-8")
+            return True
         if u.path in ("/sitemap.xml", "/llms.txt"):
             types = ctx.seo_types()
             if u.path == "/sitemap.xml":
@@ -315,7 +324,9 @@ class _Handler(BaseHTTPRequestHandler):
             if entry is not None:
                 info = ctx.aircraft_type({"icao": icao})
                 econ = ctx.seo_econ(seo.cls_of(entry)) if entry.get("usable") else None
-                self._public(seo.type_page(lang, info, entry, types, econ).encode("utf-8"), html_t)
+                enabled = os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") == "1"
+                self._public(seo.type_page(lang, info, entry, types, econ,
+                                           designer_enabled=enabled).encode("utf-8"), html_t)
                 return True
         self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
         return True
@@ -379,6 +390,22 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json({"error": "тело запроса больше 1 МБ"}, 413)
             body = json.loads(self.rfile.read(n) or b"{}")
             ctx = self._ctx()
+            if u.path == "/api/aircraft/designer-save":
+                # Feature-flagged; never alter the legacy save endpoint.
+                if os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") != "1":
+                    return self._json({"error": "3D integration disabled"}, 404)
+                origin = self.headers.get("Origin") or ""
+                local = "http://" + (self.headers.get("Host") or "")
+                expected = seo.site() if self.server.ctx.public else local
+                if origin != expected:
+                    return self._json({"error": "Wrong request origin"}, 403)
+                if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
+                    return self._json({"error": "JSON required"}, 415)
+                try:
+                    result = ctx.aircraft_designer_save(body)
+                except (ValueError, TypeError, KeyError) as exc:
+                    return self._json({"error": str(exc)}, 400)
+                return self._json(result, 200 if result.get("ok") else 400)
             if u.path == "/api/aircraft/save":
                 return self._json(ctx.aircraft_save(body))
             if u.path == "/api/aircraft/delete":
@@ -1816,6 +1843,76 @@ class Context:
         reg = (self.registry.get("sources", {}) if isinstance(self.registry, dict)
                else getattr(self.registry, "sources", {}))
         return Path((reg.get(self.USER_SRC) or {}).get("path") or "data/aircraft/user")
+
+    def aircraft_designer_save(self, body: dict) -> dict:
+        """3D -> our EXISTING aircraft parser and guest-only storage.
+
+        A rejected engine variant cannot silently inherit the parent type's
+        fuel model. Save is acknowledged only after reading the committed doc
+        AND the numeric facts back from the workspace overlay.
+        """
+        from . import aircraft_designer as ad
+        if self.public and not self.ws:
+            return {"error": "Create a workspace on FlightCost before saving a 3D aircraft",
+                    "need_workspace": True}
+        if not self.ws or not self.gdb:
+            return {"error": "3D integration saves only to a guest workspace"}
+        if not isinstance(body, dict):
+            raise ValueError("Expected JSON object")
+        design = ad.validate_design(body.get("design"))
+        ac = design["aircraft"]
+        key = ad.new_user_key(ac["icao"], body.get("requestId"))
+        old = self.gdb.get_doc(self.ws, "aircraft", key)
+        if old is not None and (old.get("aircraft_designer") or {}).get("design") != design:
+            raise ValueError("Design request ID already used for another design")
+        def verified() -> bool:
+            stored = self.gdb.get_doc(self.ws, "aircraft", key)
+            if not stored or (stored.get("aircraft_designer") or {}).get("design") != design:
+                return False
+            expected = {"oew_t": design["weights"]["oew_kg"] / 1000,
+                        "mtow_t": design["weights"]["mtow_kg"] / 1000,
+                        "mlw_t": design["weights"]["mlw_kg"] / 1000,
+                        "fuel_capacity_t": design["weights"]["fuel_capacity_kg"] / 1000,
+                        "seats_typical": design["aircraft"]["seats"]}
+            return all((v := self.store.value("aircraft", f"{key}/{field}")) is not None
+                       and abs(v - expected_value) < 0.000001
+                       for field, expected_value in expected.items())
+        if old is not None:
+            if not verified():
+                raise ValueError("Replayed design exists but workspace facts differ")
+            return {"ok": True, "icao": key, "id": key, "workspace": True,
+                    "engine_match": old.get("aircraft_designer", {}).get("engine_match", False),
+                    "burn_inherited": bool(old.get("burn")),
+                    "seats": design["aircraft"]["seats"],
+                    "mzfw_stored_not_enforced": True, "replayed": True}
+        ref = self.aircraft_type({"icao": ac["icao"]})
+        if ref.get("error"):
+            raise ValueError("Base FlightCost aircraft type not found")
+        ref_engine = next((str(f.get("text") or "") for f in ref["fields"] if f["field"] == "engine"), "")
+        draft = self.aircraft_draft({"icao": ac["icao"], "as": key})
+        if draft.get("error"):
+            return {"error": draft["error"]}
+        doc, matches = ad.make_workspace_doc(draft, design, user_icao=key,
+                                             reference_engine=ref_engine)
+        doc["aircraft_designer"]["engine_match"] = matches
+        doc["aircraft_designer"]["reference_engine"] = ref_engine
+        # Other models may still be previewed, but their fuel estimate
+        # cannot be stamped 'same engine' by a design imported from 3D.
+        # Existing guest writer is multi-step, so clean up any partially
+        # created *new* key on failure. Never touch pre-existing user types.
+        try:
+            result = self.aircraft_save(doc)
+            if not result.get("ok") or result.get("icao") != key:
+                raise ValueError(result.get("error", "3D workspace write failed"))
+            if not verified():
+                raise ValueError("Workspace did not persist the full 3D cabin and masses")
+        except Exception:
+            self.aircraft_delete({"icao": key})
+            raise
+        return {"ok": True, "icao": key, "id": key, "workspace": True,
+                "seats": design["aircraft"]["seats"], "engine_match": matches,
+                "burn_inherited": bool(doc.get("burn")),
+                "mzfw_stored_not_enforced": True}
 
     def aircraft_save(self, doc: dict) -> dict:
         """Форма -> тот же разбор, что у файла -> файл каталога -> факты.

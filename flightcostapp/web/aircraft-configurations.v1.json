@@ -1,0 +1,374 @@
+{
+  "schema": "aircraft-designer/flightcost-configurations",
+  "version": 1,
+  "aircraft": [
+    {
+      "aircraftId": "a319ceo",
+      "icao": "A319",
+      "engine": "CFM56-5B",
+      "defaultLayoutId": "a319-156",
+      "layouts": [
+        {
+          "id": "a319-156",
+          "label": "156 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 26,
+              "seatsPerRow": 6,
+              "pitchM": 0.737
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "a319neo",
+      "icao": "A19N",
+      "engine": "LEAP-1A",
+      "defaultLayoutId": "a319-156",
+      "layouts": [
+        {
+          "id": "a319-156",
+          "label": "156 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 26,
+              "seatsPerRow": 6,
+              "pitchM": 0.737
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "a320ceo",
+      "icao": "A320",
+      "engine": "CFM56-5B",
+      "defaultLayoutId": "a320-180",
+      "layouts": [
+        {
+          "id": "a320-180",
+          "label": "180 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 30,
+              "seatsPerRow": 6,
+              "pitchM": 0.737
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "a320neo",
+      "icao": "A20N",
+      "engine": "LEAP-1A",
+      "defaultLayoutId": "a320-180",
+      "layouts": [
+        {
+          "id": "a320-180",
+          "label": "180 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 30,
+              "seatsPerRow": 6,
+              "pitchM": 0.737
+            }
+          ]
+        },
+        {
+          "id": "a320-194",
+          "label": "194 места · высокая плотность (оценка)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 33,
+              "seatsPerRow": 6,
+              "pitchM": 0.71,
+              "lastRowSeats": 2
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "a321ceo",
+      "icao": "A321",
+      "engine": "CFM56-5B",
+      "defaultLayoutId": "a321-220",
+      "layouts": [
+        {
+          "id": "a321-220",
+          "label": "220 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 37,
+              "seatsPerRow": 6,
+              "pitchM": 0.79,
+              "lastRowSeats": 4
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "a321neo",
+      "icao": "A21N",
+      "engine": "LEAP-1A",
+      "defaultLayoutId": "a321-220",
+      "layouts": [
+        {
+          "id": "a321-220",
+          "label": "220 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 37,
+              "seatsPerRow": 6,
+              "pitchM": 0.79,
+              "lastRowSeats": 4
+            }
+          ]
+        },
+        {
+          "id": "a321-244",
+          "label": "244 места · высокая плотность (оценка)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 41,
+              "seatsPerRow": 6,
+              "pitchM": 0.71,
+              "lastRowSeats": 4
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "b737-8",
+      "icao": "B38M",
+      "engine": "LEAP-1B",
+      "defaultLayoutId": "b38m-178",
+      "layouts": [
+        {
+          "id": "b38m-178",
+          "label": "178 мест · одноклассная (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 30,
+              "seatsPerRow": 6,
+              "pitchM": 0.737,
+              "lastRowSeats": 4
+            }
+          ]
+        },
+        {
+          "id": "b38m-210",
+          "label": "210 мест · высокая плотность (оценка)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 35,
+              "seatsPerRow": 6,
+              "pitchM": 0.71
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "b757-200-rb",
+      "icao": "B752",
+      "engine": "RB211-535E4",
+      "defaultLayoutId": "b752-186",
+      "layouts": [
+        {
+          "id": "b752-186",
+          "label": "186 мест · два класса (плановая)",
+          "zones": [
+            {
+              "class": "business",
+              "rows": 6,
+              "seatsPerRow": 4,
+              "pitchM": 0.97
+            },
+            {
+              "class": "economy",
+              "rows": 27,
+              "seatsPerRow": 6,
+              "pitchM": 0.77
+            }
+          ]
+        },
+        {
+          "id": "b752-225",
+          "label": "225 мест · одноклассная (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 38,
+              "seatsPerRow": 6,
+              "pitchM": 0.745,
+              "lastRowSeats": 3
+            }
+          ]
+        },
+        {
+          "id": "b752-239",
+          "label": "239 мест · высокая плотность (оценка)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 40,
+              "seatsPerRow": 6,
+              "pitchM": 0.72,
+              "lastRowSeats": 5
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "b757-200-pw",
+      "icao": "B752",
+      "engine": "PW2037",
+      "defaultLayoutId": "b752-186",
+      "layouts": [
+        {
+          "id": "b752-186",
+          "label": "186 мест · два класса (плановая)",
+          "zones": [
+            {
+              "class": "business",
+              "rows": 6,
+              "seatsPerRow": 4,
+              "pitchM": 0.97
+            },
+            {
+              "class": "economy",
+              "rows": 27,
+              "seatsPerRow": 6,
+              "pitchM": 0.77
+            }
+          ]
+        },
+        {
+          "id": "b752-225",
+          "label": "225 мест · одноклассная (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 38,
+              "seatsPerRow": 6,
+              "pitchM": 0.745,
+              "lastRowSeats": 3
+            }
+          ]
+        },
+        {
+          "id": "b752-239",
+          "label": "239 мест · высокая плотность (оценка)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 40,
+              "seatsPerRow": 6,
+              "pitchM": 0.72,
+              "lastRowSeats": 5
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
+      "aircraftId": "tu214-ps90a",
+      "icao": "T204",
+      "engine": "ПС-90А",
+      "defaultLayoutId": "t214-210",
+      "layouts": [
+        {
+          "id": "t214-210",
+          "label": "210 мест · высокая плотность (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 35,
+              "seatsPerRow": 6,
+              "pitchM": 0.79
+            }
+          ]
+        },
+        {
+          "id": "t214-194",
+          "label": "194 места · типовая FlightCost (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 33,
+              "seatsPerRow": 6,
+              "pitchM": 0.79,
+              "lastRowSeats": 2
+            }
+          ]
+        }
+      ],
+      "weightProfile": "operational",
+      "engineAliases": [
+        "PS-90A"
+      ]
+    },
+    {
+      "aircraftId": "tu214-ps90a-factory",
+      "icao": "T204",
+      "engine": "ПС-90А",
+      "defaultLayoutId": "t214-210",
+      "layouts": [
+        {
+          "id": "t214-210",
+          "label": "210 мест · высокая плотность (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 35,
+              "seatsPerRow": 6,
+              "pitchM": 0.79
+            }
+          ]
+        },
+        {
+          "id": "t214-194",
+          "label": "194 места · типовая FlightCost (плановая)",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 33,
+              "seatsPerRow": 6,
+              "pitchM": 0.79,
+              "lastRowSeats": 2
+            }
+          ]
+        }
+      ],
+      "weightProfile": "factory",
+      "engineAliases": [
+        "PS-90A"
+      ]
+    }
+  ]
+}
