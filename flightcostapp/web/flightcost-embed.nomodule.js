@@ -1,7 +1,6 @@
-/* FlightCost side, no imports, bundler, dependencies or new backend service.
- * Include as a normal same-origin <script src="..." defer></script>.
- * The hosting app MUST provide saveDesign() backed by its existing CSRF-
- * protected, owner-scoped workspace and MUST validate again on the server.
+/* FlightCost side: one full-page iframe (never a modal), no imports or modules.
+ * The top-level page stays on flightcost.app so its guest workspace is
+ * first-party. A server-validated, owner-scoped write is required for success.
  */
 (function (root) {
   'use strict';
@@ -53,34 +52,19 @@
     if (options.aircraftId) url.searchParams.set('aircraft', options.aircraftId);
     if (options.weightProfile) url.searchParams.set('profile', options.weightProfile);
 
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.textContent = options.buttonText || 'Покрутить в 3D · Aircraft Designer';
-    var status = document.createElement('p');
+    var status = options.status || document.createElement('p');
     status.setAttribute('role', 'status');
     status.setAttribute('aria-live', 'polite');
-    var dialog = document.createElement('dialog');
-    dialog.style.cssText = 'width:min(1200px,96vw);height:min(850px,93vh);padding:0;border:1px solid var(--line,#536877);border-radius:10px;background:var(--panel,#142230);color:var(--ink,#fff);max-width:96vw;max-height:93vh;';
-    var close = document.createElement('button');
-    close.type = 'button';
-    close.textContent = 'Закрыть 3D';
-    close.style.cssText = 'position:absolute;right:12px;top:12px;z-index:2;padding:8px;background:var(--panel,#142230);color:var(--ink,#fff);border:1px solid var(--line,#536877);border-radius:5px;';
     var frame = document.createElement('iframe');
     frame.title = icao + ': Aircraft Designer';
-    frame.style.cssText = 'width:100%;height:100%;border:0;display:block;';
     frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    frame.setAttribute('loading', 'lazy');
-    dialog.append(close, frame);
-    options.container.append(button, status, dialog);
+    frame.setAttribute('loading', 'eager');
+    frame.setAttribute('allowfullscreen', '');
+    frame.src = url.href;
+    options.container.append(frame);
+    if (!options.status) options.container.append(status);
     var active = true;
     var saving = false;
-    var loaded = false;
-
-    button.addEventListener('click', function () {
-      if (!loaded) { frame.src = url.href; loaded = true; }
-      dialog.showModal();
-    });
-    close.addEventListener('click', function () { dialog.close(); });
     async function onMessage(event) {
       if (!active || saving || event.origin !== DESIGNER_ORIGIN || event.source !== frame.contentWindow) return;
       var msg = event.data;
@@ -131,7 +115,8 @@
         active = false;
         root.removeEventListener('message', onMessage);
         frame.src = 'about:blank';
-        button.remove(); status.remove(); dialog.remove();
+        frame.remove();
+        if (!options.status) status.remove();
       }
     };
   }

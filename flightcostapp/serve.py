@@ -313,6 +313,32 @@ class _Handler(BaseHTTPRequestHandler):
             if it is not None:
                 self._public(report_page(lang, it).encode("utf-8"), html_t, revalidate=True)
                 return True
+        # Full-page 3D workbench: non-indexed, off by default and isolated
+        # from the canonical type card and its legacy edit form.
+        md = re.fullmatch(r"/type/([A-Za-z0-9]{2,4})/3d/?", tail)
+        if md and os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") == "1":
+            icao = md.group(1).upper()
+            if md.group(1) != icao or tail.endswith("/"):
+                self._redirect(f"/{lang}/type/{icao}/3d" + (f"?{u.query}" if u.query else ""))
+                return True
+            types = ctx.seo_types()
+            entry = next((x for x in seo.public_types(types) if x["icao"] == icao and x.get("usable")), None)
+            if entry is not None:
+                from . import aircraft_designer as ad
+                options = ad.choices(icao)
+                if options:
+                    info = ctx.aircraft_type({"icao": icao})
+                    _, default_choice, _ = seo.designer_choices(icao, info)
+                    parsed = urllib.parse.parse_qs(u.query, keep_blank_values=True)
+                    raw_choice = parsed.get("choice", [str(default_choice)])
+                    if len(raw_choice) == 1 and re.fullmatch(r"[0-9]{1,3}", raw_choice[0]):
+                        selected = int(raw_choice[0])
+                        if 0 <= selected < len(options):
+                            page = seo.designer_page(lang, icao, info, entry, seo.cls_of(entry), selected)
+                            self._send(200, page.encode("utf-8"), html_t)
+                            return True
+            self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
+            return True
         mt = re.match(r"^/type/([A-Za-z0-9]{2,4})/?$", tail)
         if mt:
             icao = mt.group(1).upper()

@@ -1,7 +1,8 @@
 # FlightCost ↔ OpenAircraftCreator (Stage 2, opt-in)
 
-**Off by default.** `FCA_AIRCRAFT_DESIGNER=1` enables the additional 3D
-section on existing public type pages and the guest-only
+**Off by default.** `FCA_AIRCRAFT_DESIGNER=1` adds a small 3D navigation
+form to existing public type pages plus a dedicated full-height page at
+`/{lang}/type/{ICAO}/3d?choice=<index>`, and enables the guest-only
 `POST /api/aircraft/designer-save` endpoint. With the switch absent, the
 existing SEO type page, editor, API and calculation paths are unchanged.
 
@@ -9,9 +10,14 @@ existing SEO type page, editor, API and calculation paths are unchanged.
 
 The type page uses a pinned copy of Aircraft Designer's v1 catalog at
 `flightcostapp/web/aircraft-configurations.v1.json` to offer only real
-model/engine/weight-profile/layout combinations. The 3D site gets the exact
-selection through URL parameters; a normal, non-module browser script opens
-it in an iframe.
+model/engine/weight-profile/layout combinations. The canonical type card
+only links to the dedicated FlightCost page via an ordinary GET form; it does
+not load a 3D iframe or run the bridge. The separate page occupies the viewport,
+loads Aircraft Designer into a full-size iframe, and has a persistent back link
+to the reference type card and a native layout/engine selector. This is not a
+modal or a new standalone server. The FlightCost origin remains top-level so
+its guest workspace cookie is first-party. Selecting another configuration
+reloads the 3D page and discards unsaved edits (clearly indicated).
 
 The iframe's `DESIGN_EXPORT` is accepted only when **both** the origin is
 `https://aircraft-designer.app` **and** `event.source` is the current iframe.
@@ -20,7 +26,11 @@ and again on FlightCost's server. A `DESIGN_ACK(saved:true)` is posted only
 after a guest-workspace write is committed and read back.
 
 Only the owner of an existing guest workspace can save; no source catalog or
-another workspace is changed. The server reuses the existing type parser and
+another workspace is changed. If the workspace is created from the 3D page,
+its secret access link is retained visibly even after saving. After confirmed
+persistence the user can return to the type card, open their workspace, and
+(if the fuel model was safely inherited) open the route calculator with the new
+`USER:...` aircraft code. The server reuses the existing type parser and
 `GuestDB` overlay. Repeated messages with the same `requestId` and identical
 payload return the previously saved user type; changed payloads cannot
 silently overwrite the previous version. The new endpoint requires the exact
@@ -58,8 +68,9 @@ force-pushing `main`. Merely merging the code is not activation because the
 feature flag is disabled by default.
 
 Enable only after checking the Aircraft Designer CSP `frame-ancestors` allows
-`https://flightcost.app` and testing browser interaction in an actual HTTPS
-session. Use a *separate* systemd drop-in on the FlightCost server:
+`https://flightcost.app` (and any FlightCost `frame-src` policy allows
+`https://aircraft-designer.app`) and testing the `/3d` page and navigation in
+an actual HTTPS session. Use a *separate* systemd drop-in on the FlightCost server:
 
 ```ini
 [Service]
@@ -82,5 +93,6 @@ python3 -m py_compile flightcostapp/aircraft_designer.py \
 ```
 
 No end-to-end production-browser/Caddy assertion is performed by these tests;
-validate iframe loading, theme, mobile sizing, workspace link and calculation
-in a preview before switching on production.
+validate iframe loading, theme, mobile sizing, dedicated `/3d` navigation,
+workspace link and return-to-calculator link in a preview before switching
+on production.

@@ -151,6 +151,8 @@ class ApiHttp(unittest.TestCase):
             st, html = self.call("GET", "/ru/type/B752")
             self.assertEqual(st, 200)
             self.assertNotIn('id="fc3d"', html)
+            st, separate = self.call("GET", "/ru/type/B752/3d")
+            self.assertEqual(st, 404)
             st, data = self.call("POST", "/api/aircraft/designer-save",
                                  {"requestId": "12345678-abc", "design": design()},
                                  origin="https://flightcost.app")
@@ -168,13 +170,34 @@ class ApiHttp(unittest.TestCase):
             self.assertEqual(st, 200)
             self.assertIn('id="fc3d"', html)
             self.assertIn('id="edopen"', html)
-            self.assertIn('"layoutId": "b752-225"', html)
+            self.assertIn('action="/ru/type/B752/3d" method="get"', html)
+            self.assertIn('<option value="1" selected>225', html)
+            self.assertNotIn('flightcost-embed.nomodule.js', html)
+            self.assertNotIn('<iframe', html)
+            # Separate fullscreen page, never the canonical SEO type card.
+            st, dedicated = self.call("GET", "/ru/type/B752/3d?choice=1")
+            self.assertEqual(st, 200)
+            self.assertIn('<meta name="robots" content="noindex,follow">', dedicated)
+            self.assertIn('id="fc3d-back" href="/ru/type/B752"', dedicated)
+            self.assertIn('id="fc3d-mount"', dedicated)
+            self.assertIn('flightcost-embed.nomodule.js', dedicated)
+            self.assertIn('"layoutId": "b752-225"', dedicated)
+            self.assertIn('"selected": 1', dedicated)
+            self.assertNotIn('<dialog', dedicated)
+            self.assertNotIn('<link rel="canonical" href="https://flightcost.app/ru/type/B752/3d">', dedicated)
+            for path in ('/ru/type/B752/3d?choice=999', '/ru/type/B752/3d?choice=1&choice=2',
+                         '/ru/type/B752/3d?choice=abc', '/ru/type/ZZZZ/3d'):
+                self.assertEqual(self.call("GET", path)[0], 404, path)
             for lang, headline in (("en", "Explore and modify"),
                                    ("de", "Flugzeug in 3D")):
                 st, translated = self.call("GET", "/" + lang + "/type/B752")
                 self.assertEqual(st, 200)
                 self.assertIn('id="fc3d"', translated)
                 self.assertIn(headline, translated)
+                st, separate = self.call("GET", "/" + lang + "/type/B752/3d")
+                self.assertEqual(st, 200)
+                self.assertIn('id="fc3d-back" href="/' + lang + '/type/B752"', separate)
+                self.assertIn('name="robots" content="noindex,follow"', separate)
             body = {"requestId": "request001-abc", "design": design()}
             st, result = self.call("POST", "/api/aircraft/designer-save", body)
             self.assertEqual(st, 403)
