@@ -163,6 +163,46 @@
       "routeSolver": "a321neo-leap-mission-v1"
     },
     {
+      "aircraftId": "b737-800",
+      "icao": "B738",
+      "engine": "CFM56-7B26",
+      "defaultLayoutId": "b738-162",
+      "layouts": [
+        {
+          "id": "b738-162",
+          "label": "162 места · двухклассная",
+          "zones": [
+            {
+              "class": "business",
+              "rows": 3,
+              "seatsPerRow": 4,
+              "pitchM": 0.965
+            },
+            {
+              "class": "economy",
+              "rows": 25,
+              "seatsPerRow": 6,
+              "pitchM": 0.79
+            }
+          ]
+        },
+        {
+          "id": "b738-189",
+          "label": "189 мест · одноклассная",
+          "zones": [
+            {
+              "class": "economy",
+              "rows": 32,
+              "seatsPerRow": 6,
+              "pitchM": 0.737,
+              "lastRowSeats": 3
+            }
+          ]
+        }
+      ],
+      "weightProfile": "standard"
+    },
+    {
       "aircraftId": "b737-8",
       "icao": "B38M",
       "engine": "LEAP-1B",
