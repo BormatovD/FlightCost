@@ -35,6 +35,23 @@ items:
     done: 2026-11-11
     link: /ru/research/aircraft-prices-2026-11
 
+  - id: lease-rate-by-type-age
+    status: done
+    area: calc
+    title:
+      ru: "Лизинг из принятых источников в карточке ВС, калькуляторе и статье"
+      en: "Accepted lease rates in aircraft cards, calculator and article"
+      de: "Bestätigte Leasingraten in Flugzeugkarten, Rechner und Artikel"
+    note:
+      ru: "Для подходящего возраста используется средняя ставка по принятым первоисточникам за календарный год. Карточка ВС, калькулятор и график статьи используют общие данные. Ручная ставка имеет приоритет."
+      en: "For the applicable aircraft age, accepted original sources are averaged within the calendar year. Aircraft cards, the calculator and article chart share the same data. A manual rate takes precedence."
+      de: "Für das passende Flugzeugalter werden bestätigte Originalquellen innerhalb des Kalenderjahres gemittelt. Flugzeugkarten, Rechner und Artikeldiagramm nutzen dieselben Daten. Eine manuelle Rate hat Vorrang."
+    by: owner
+    via: owner
+    added: 2026-11-10
+    done: 2026-11-14
+    link: /ru/research/aircraft-prices-2026-11
+
   - id: research-demand
     status: now
     order: 2
@@ -89,9 +106,9 @@ items:
     status: done
     area: calc
     title:
-      ru: "ТОиР по возрасту борта и рост ставок во времени; новые типы — расчёт «снизу» с поправкой факт/каталог"
-      en: "Maintenance by aircraft age and rate growth over time; new types bottom-up with an actual-to-catalogue factor"
-      de: "Instandhaltung nach Flugzeugalter und Kostenwachstum; neue Typen von unten mit Faktor Ist/Katalog"
+      ru: "ТОиР по возрасту борта и рост ставок во времени; новые типы — по предшественнику × 0,7"
+      en: "Maintenance by aircraft age and rate growth over time; new types from their predecessor × 0.7"
+      de: "Instandhaltung nach Flugzeugalter und Kostenwachstum; neue Typen nach dem Vorgänger × 0,7"
     by: owner
     via: owner
     note:
@@ -129,8 +146,7 @@ items:
     link: /ru/research/hothigh-2026-10
 
   - id: routes-in-network
-    status: next
-    order: 11
+    status: done
     area: site
     title:
       ru: "Рейтинг пар в режиме «Сеть»: подсказки «рынок большой и растёт» и «слоты» у выбора пары"
@@ -139,6 +155,7 @@ items:
     by: owner
     via: owner
     added: 2026-11-09
+    done: 2026-11-14
     link: /ru/research/routes-2026-11
 
   - id: verify-us-fleets
@@ -165,6 +182,10 @@ items:
       ru: "Поправка расхода топлива для Boeing 737: сейчас 737-700 недобирает 14 %"
       en: "Fuel burn correction for the Boeing 737: the 737-700 currently runs 14 % low"
       de: "Verbrauchskorrektur für die Boeing 737: die 737-700 liegt derzeit 14 % zu niedrig"
+    note:
+      ru: "Для 737-800 крейсер скорректирован по Boeing FPPM с поправкой OpenAP, снижение — по Boeing FCOM, набор — OpenAP. В очереди остаётся проверка и поправка расхода 737-700, для которого сверка показала недобор 14 %."
+      en: "For the 737-800, cruise uses Boeing FPPM with an OpenAP correction, descent uses Boeing FCOM, and climb uses OpenAP. Verification and correction of the 737-700 fuel burn, underestimated by 14 % in the comparison, remain pending."
+      de: "Bei der 737-800 erfolgt der Reiseflug nach Boeing FPPM mit OpenAP-Korrektur, der Sinkflug nach Boeing FCOM und der Steigflug nach OpenAP. Prüfung und Korrektur des im Vergleich um 14 % unterschätzten Verbrauchs der 737-700 stehen noch aus."
     by: owner
     via: owner
     added: 2026-11-09
