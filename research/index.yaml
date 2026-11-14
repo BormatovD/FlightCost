@@ -8,7 +8,6 @@ items:
     date: 2026-11-11
     draft: false
     report: aircraft-prices-2026-11/report.html
-    show_current_leases: true
     calc: in_calc
     calc_note:
       ru: "Для подходящего возраста калькулятор берёт среднюю ставку по принятым первоисточникам за календарный год. Ручная ставка имеет приоритет."
