@@ -45,7 +45,7 @@ def calibration_marks(aircraft, calibrations, colors, X, Y):
         col = colors[a["icao"]]
         title = T("После привязки к источнику", "After source anchoring", "Nach Quellenanpassung")
         unit = T("тыс. USD в месяц", "USD thousands per month", "Tsd. USD pro Monat")
-        parts.append(f'<g class="model-correction" data-icao="{a["icao"]}" data-period="{e(cal["period"])}" '
+        parts.append(f'<g class="model-correction" pointer-events="none" data-icao="{a["icao"]}" data-period="{e(cal["period"])}" '
                      f'data-model-age-years="{cal["age_years"]}" data-multiplier="{cal["multiplier_mid"]:.12g}" '
                      f'data-independent-validation="false"><title>{e(title)}: '
                      f'{range_label(cal["amount_low_usd"], cal["amount_high_usd"])} {unit}; '
@@ -58,7 +58,7 @@ def calibration_marks(aircraft, calibrations, colors, X, Y):
     return ''.join(parts)
 
 
-def formula_cards(aircraft, calibrations, colors, X, Y):
+def formula_cards(aircraft, calibrations, observations, colors, X, Y):
     parts = []
     ordered = sorted(aircraft, key=lambda a: a["nominal_usd_points"][-1]["lease_thousand_usd_month"], reverse=True)
     for index, a in enumerate(ordered):
@@ -74,7 +74,7 @@ def formula_cards(aircraft, calibrations, colors, X, Y):
         formula = f'{n(a["reference_lease_eur_month"]/1000)} × ({n(a["mtow_t"], 1)}/78)^1,10 × 1,16'
         # Keep decimal notation local without changing the stored equation.
         formula = formula.replace("^1,10", "^" + n(1.1, 2)).replace("× 1,16", "× " + n(1.16, 2))
-        parts.append(f'<path class="model-card-link" data-icao="{code}" d="M {X(last["x"]):.2f} {Y(before):.2f} '
+        parts.append(f'<path class="model-card-link" pointer-events="none" data-icao="{code}" d="M {X(last["x"]):.2f} {Y(before):.2f} '
                      f'H {x-12} V {y+58} H {x}" fill="none" stroke="{col}" stroke-width="1" opacity=".5"/>')
         parts.append(f'<g class="model-card" data-icao="{code}" data-model-age-years="{a["model_age_years"]}">'
                      f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="7" '
@@ -102,7 +102,15 @@ def formula_cards(aircraft, calibrations, colors, X, Y):
                 (138, T("Разный возраст сравнивать нельзя", "Age bases are not comparable", "Altersbasis nicht vergleichbar"), "var(--dim)", "card-small"),
             ]
         for dy, value, fill, cls in lines:
-            parts.append(f'<text x="{x+12}" y="{y+dy}" class="{cls}" fill="{fill}">{e(value)}</text>')
+            label = e(value)
+            if has_after and dy == 124:
+                observation = observations[cal["source_observation_id"]]
+                source = observation["source_family"]
+                short = source[:10] + "…" if len(source) > 10 else source
+                label += (f' · <a href="{e(observation["source_url"])}" rel="nofollow" aria-label="{e(source)}">'
+                          f'<title>{e(source)}</title><tspan fill="var(--sky-t)" text-decoration="underline">'
+                          f'{e(short)}</tspan></a>')
+            parts.append(f'<text x="{x+12}" y="{y+dy}" class="{cls}" fill="{fill}">{label}</text>')
         parts.append('</g>')
     return ''.join(parts)
 

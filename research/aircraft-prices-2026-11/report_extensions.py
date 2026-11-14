@@ -134,7 +134,7 @@ def history_chart(data, segment, kind):
         svg.append(f'<circle cx="{xx:.2f}" cy="{yy:.2f}" r="3.6" fill="{"var(--bg)" if approx else col}" stroke="{col}" stroke-width="1.6"/></g></a>')
     if kind == 'lease':
         svg.append(calibration_marks(model_rows, calibrations, colors, X, Y))
-        svg.append(formula_cards(model_rows, calibrations, colors, X, Y))
+        svg.append(formula_cards(model_rows, calibrations, {o["id"]: o for o in rows}, colors, X, Y))
     svg.append('</svg>')
     age_note = ''
     if kind == 'lease':
