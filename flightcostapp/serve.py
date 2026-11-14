@@ -290,6 +290,13 @@ class _Handler(BaseHTTPRequestHandler):
             self._public((WEB / u.path[1:]).read_bytes(),
                          "application/javascript; charset=utf-8")
             return True
+        if re.fullmatch(r"/airline-emblems/(?:[a-z0-9-]+\.svg|manifest\.json)", u.path):
+            emblem = WEB / u.path.lstrip("/")
+            if emblem.is_file():
+                self._public(emblem.read_bytes(), "image/svg+xml" if emblem.suffix == ".svg" else "application/json")
+            else:
+                self._send(404, b"", "text/plain")
+            return True
         if re.fullmatch(r"/aircraft-previews/[a-z0-9-]+--[a-z0-9-]+\.webp", u.path):
             poster = WEB / u.path[1:]
             if poster.is_file():
@@ -2706,7 +2713,10 @@ class Context:
                     # у старых фактов его нет, и тогда показывается код,
                     # а не выдуманная расшифровка.
                     "name": meta0.get("name") or car,
-                    "scope": meta0.get("scope", "")}
+                    "scope": meta0.get("scope", ""),
+                    "entity_id": meta0.get("entity_id") or car,
+                    "period_start": meta0.get("period_start"),
+                    "period_end": meta0.get("period_end")}
             ask, opex = v.get("ask_km"), v.get("opex_eur")
             # Валюта хранится как опубликована (решение 22), пересчёт
             # здесь. Без него рублёвый CASK 4,47 встал бы в один ряд с

@@ -1,0 +1,250 @@
+{
+  "source": {
+    "repository": "https://github.com/soaring-symbols/soaring-symbols",
+    "revision": "546e08c6d49494c0c80e2f2eb8a7f36d361e527e",
+    "license": "MIT",
+    "license_file": "LICENSE.txt"
+  },
+  "carriers": {
+    "6E": {
+      "slug": "indigo",
+      "color": "#001b94",
+      "name": "IndiGo",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/indigo/icon.svg",
+      "sha256": "87a1576ac6565e1fa7f14dd1b8224156d864841c54c7c53cd73ec1a248c33676"
+    },
+    "A3": {
+      "slug": "aegean-airlines",
+      "color": "#002677",
+      "name": "Aegean Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/aegean-airlines/icon.svg",
+      "sha256": "2a731c6ba54752a4b1e53f0f19e15f2c17cb71b79a59d284048333f86fd6200f"
+    },
+    "AA": {
+      "slug": "american-airlines",
+      "color": "#0078d2",
+      "name": "American Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/american-airlines/icon.svg",
+      "sha256": "ad1523fa2a12b768b6ae3beede80e32903dad345b6797cf953bc3b20059c1874"
+    },
+    "AC": {
+      "slug": "air-canada",
+      "color": "#f01428",
+      "name": "Air Canada",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/air-canada/icon.svg",
+      "sha256": "1dceb02a8d69f09f5c5bf6613eebadd660ea018a7a16b484d83b0f6e6b12dbc0"
+    },
+    "AD": {
+      "slug": "azul",
+      "color": "#005baa",
+      "name": "Azul",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/azul/icon.svg",
+      "sha256": "8920ad898b44257fc4d5195e973ebe4d612b7bf876468a8af7f44d3f42ba6985"
+    },
+    "AS": {
+      "slug": "alaska-airlines",
+      "color": "#01426a",
+      "name": "Alaska Airlines",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/alaska-airlines/logo.svg",
+      "sha256": "83f23713f6045449d4224b889363136946a254b2a8f2c7f220404117acb27c0c"
+    },
+    "AY": {
+      "slug": "finnair",
+      "color": "#0c0243",
+      "name": "Finnair",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/finnair/icon.svg",
+      "sha256": "b80d2f00a267966743075650b20126be72e7493f249b84b878b3d286fc9d481e"
+    },
+    "B6": {
+      "slug": "jetblue-airways",
+      "color": "#003876",
+      "name": "JetBlue Airways",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/jetblue-airways/logo.svg",
+      "sha256": "068334dded83d0cfb0a5f26a517aa93c84702dee5e9428d0017a3afb61a0acea"
+    },
+    "BT": {
+      "slug": "airbaltic",
+      "color": "#152649",
+      "name": "airBaltic",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/airbaltic/logo.svg",
+      "sha256": "5467be0c69dba1a48bfcf411fe00689fa342fc6cf2648dd9766c5810e0f26d76"
+    },
+    "CM": {
+      "slug": "copa-airlines",
+      "color": "#0032a0",
+      "name": "Copa Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/copa-airlines/icon.svg",
+      "sha256": "8c973cbb5ae96677b8275626f31947b9afb7f65ea46a8671eaae2596d5fdc6af"
+    },
+    "DL": {
+      "slug": "delta-air-lines",
+      "color": "#e31837",
+      "name": "Delta Air Lines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/delta-air-lines/icon.svg",
+      "sha256": "272a9c1e201c95bdbb85f85a8cb475e875d1f68be589e57dcef25c2351116a3f"
+    },
+    "DY": {
+      "slug": "norwegian-air-shuttle",
+      "color": "#d81939",
+      "name": "Norwegian Air Shuttle",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/norwegian-air-shuttle/icon.svg",
+      "sha256": "f54633fbc5129302d4957417c8cd6a4d6b9bfda21f3127dad9a7fe8bff4b8f8c"
+    },
+    "EK": {
+      "slug": "emirates",
+      "color": "#d71921",
+      "name": "Emirates",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/emirates/icon.svg",
+      "sha256": "82d8ac9420db28a6b85cc8dae5c82f1b3a50cfd4f1c2603c5b25b29658d6dd2c"
+    },
+    "F9": {
+      "slug": "frontier-airlines",
+      "color": "#008c44",
+      "name": "Frontier Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/frontier-airlines/icon.svg",
+      "sha256": "c004adaafaa5ad4bf6da1dc2b7467dab374e630958a495272720c081c1dac8ab"
+    },
+    "FR": {
+      "slug": "ryanair",
+      "color": "#073590",
+      "name": "Ryanair",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/ryanair/icon.svg",
+      "sha256": "249c874b493614d38b9b3932c857d56397ca9ef452811c89f88a9ee4e3c5b7b7"
+    },
+    "G3": {
+      "slug": "gol",
+      "color": "#f58220",
+      "name": "GOL",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/gol/icon.svg",
+      "sha256": "518128825469fe8f6da8fc30ecc17d672f9c5f1d1d73bdb3774dd44c2f389ee6"
+    },
+    "LA": {
+      "slug": "latam-airlines-chile",
+      "color": "#1b0088",
+      "name": "LATAM Airlines Chile",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/latam-airlines-chile/icon.svg",
+      "sha256": "99e692643b766076987d287bf69a2f07fba45c2dfaa94986b3f37ed97826e59f"
+    },
+    "LH": {
+      "slug": "lufthansa",
+      "color": "#05164d",
+      "name": "Lufthansa",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/lufthansa/icon.svg",
+      "sha256": "f2d43c9d57f3b6b27a4ccf91e8ab0d8bb7ac8f326d727ef6326534b0d6512b5c"
+    },
+    "LHG": {
+      "slug": "lufthansa",
+      "color": "#05164d",
+      "name": "Lufthansa",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/lufthansa/icon.svg",
+      "sha256": "f2d43c9d57f3b6b27a4ccf91e8ab0d8bb7ac8f326d727ef6326534b0d6512b5c"
+    },
+    "LHP": {
+      "slug": "lufthansa",
+      "color": "#05164d",
+      "name": "Lufthansa",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/lufthansa/icon.svg",
+      "sha256": "f2d43c9d57f3b6b27a4ccf91e8ab0d8bb7ac8f326d727ef6326534b0d6512b5c"
+    },
+    "NO": {
+      "slug": "norwegian-air-shuttle",
+      "color": "#d81939",
+      "name": "Norwegian Air Shuttle",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/norwegian-air-shuttle/icon.svg",
+      "sha256": "f54633fbc5129302d4957417c8cd6a4d6b9bfda21f3127dad9a7fe8bff4b8f8c"
+    },
+    "NZ": {
+      "slug": "air-new-zealand",
+      "color": "#000000",
+      "name": "Air New Zealand",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/air-new-zealand/icon.svg",
+      "sha256": "4ebd3462b1ef4b3e785a32036b570972dad72f467bfb3834151b9862d4eb3b32"
+    },
+    "PC": {
+      "slug": "pegasus-airlines",
+      "color": "#fdb913",
+      "name": "Pegasus Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/pegasus-airlines/icon.svg",
+      "sha256": "e9d675f3f3644cce79aa8a06eecd64e69879a1fd7da4ac798254dc89602a4691"
+    },
+    "QF": {
+      "slug": "qantas",
+      "color": "#e40000",
+      "name": "Qantas",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/qantas/logo.svg",
+      "sha256": "dfc67d6f419c1fbc84fee10582e82f8a65409e45d869664cf209b12faa8c7d2a"
+    },
+    "U2": {
+      "slug": "easyjet",
+      "color": "#ff6600",
+      "name": "easyJet",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/easyjet/icon.svg",
+      "sha256": "387c4ed30f08b630a8931f27bf5f245cae469d5e51579085406adec698fb0c40"
+    },
+    "UA": {
+      "slug": "united-airlines",
+      "color": "#1414d2",
+      "name": "United Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/united-airlines/icon.svg",
+      "sha256": "468fd4faa748a20d141b8a595ac9d1ffbe684bd6b2a134d63a7d86751b9de95c"
+    },
+    "W6": {
+      "slug": "wizz-air",
+      "color": "#c6007e",
+      "name": "Wizz Air",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/wizz-air/logo.svg",
+      "sha256": "a1b38dc91a28d8a6832dd101abf33b2bf5d678986b82e164eb6dc25ae5f887a6"
+    },
+    "WN": {
+      "slug": "southwest-airlines",
+      "color": "#304cb2",
+      "name": "Southwest Airlines",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/southwest-airlines/icon.svg",
+      "sha256": "0fe13b528056a057e0015306160193686bae4f50e1bb65735d786815bcc0b70a"
+    },
+    "Y4": {
+      "slug": "volaris",
+      "color": "#5b2d82",
+      "name": "Volaris",
+      "asset": "icon",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/volaris/icon.svg",
+      "sha256": "ae5d8772f99e73682bd3bffedfcc1dfdc5d12d304a5cf8f08b5346df260af56f"
+    },
+    "BTX": {
+      "slug": "airbaltic",
+      "color": "#152649",
+      "name": "airBaltic",
+      "asset": "logo",
+      "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/airbaltic/logo.svg",
+      "sha256": "5467be0c69dba1a48bfcf411fe00689fa342fc6cf2648dd9766c5810e0f26d76"
+    }
+  }
+}

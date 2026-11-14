@@ -40,6 +40,7 @@
   font-display:swap;src:url(fonts/IBMPlexMono-Regular.woff2) format("woff2")}
 
 :root{
+  --emblem-bg:#edf0f4;
   /* шрифт: одна семья на всё. Sans — текст и таблицы (цифры у Plex одной
      ширины по умолчанию, табличный столбец держится без tnum), Mono —
      только формулы и коды. Подмножество: латиница, кириллица, цифры,

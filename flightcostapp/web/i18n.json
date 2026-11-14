@@ -1,5 +1,11 @@
 {
  "de": {
+  "Группа": "Gruppe",
+  "Пассажирский сегмент группы": "Passagiersegment der Gruppe",
+  "Собственные рейсы": "Eigene Flüge",
+  "Включая ACMI": "Inklusive ACMI",
+  "До прочих операционных доходов": "Vor sonstigen betrieblichen Erträgen",
+  "Юрлицо «Сибирь»": "Rechtsträger Sibir",
   "Актуальная ставка": "Aktuelle Leasingrate",
   "Среднее по первоисточникам за календарный год.": "Mittelwert der Originalquellen im Kalenderjahr.",
   "Источников": "Quellen",
@@ -1116,6 +1122,12 @@
   "перевозчиков": "Fluggesellschaften"
  },
  "en": {
+  "Группа": "Group",
+  "Пассажирский сегмент группы": "Group passenger segment",
+  "Собственные рейсы": "Own operations",
+  "Включая ACMI": "Including ACMI",
+  "До прочих операционных доходов": "Before other operating income",
+  "Юрлицо «Сибирь»": "Sibir legal entity",
   "Актуальная ставка": "Current lease rate",
   "Среднее по первоисточникам за календарный год.": "Mean across original sources for the calendar year.",
   "Источников": "Sources",

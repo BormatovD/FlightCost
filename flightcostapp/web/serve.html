@@ -146,7 +146,20 @@ header #hdr{color:var(--dim);font-size:12.5px}
  color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:2px 7px;
  font:12.5px var(--sans)}
 .kpi .cpick-search{position:relative}
-.kpi .cpick .hits{left:auto;right:0;min-width:260px;max-height:200px}
+.kpi .cpick .hits{left:auto;right:0;min-width:0;width:360px;max-height:320px}
+.kpi .cpick .hits.above{top:auto;bottom:100%;margin-top:0;margin-bottom:3px}
+.kpi .cpick-search>input{padding-left:37px;min-height:32px}
+.cpick-search>.carrier-emblem{position:absolute;left:5px;top:50%;transform:translateY(-50%);pointer-events:none;width:24px;height:24px}
+.cpick-search>.carrier-emblem img{width:20px;height:20px}
+.carrier-emblem{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:6px;
+ background:var(--emblem-bg);border:1px solid var(--line);overflow:hidden}
+.carrier-emblem img{display:block;width:24px;height:24px;object-fit:contain}
+.carrier-emblem.fallback{background:var(--raise);color:var(--doc);border-color:var(--line);font:600 10px var(--sans)}
+.hit.carrier-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:56px;padding:8px 10px}
+.carrier-name{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.carrier-meta{display:block;color:var(--dim);font-size:11.5px;line-height:1.35;margin-top:2px}
+.carrier-code{font:600 11.5px var(--mono);color:var(--doc)}
+.hit.carrier-row.current{box-shadow:inset 2px 0 var(--accent)}
 .kpi .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
 .chipb{background:none;border:1px solid var(--line);color:var(--dim);
  border-radius:4px;padding:2px 7px;font:12px var(--sans);cursor:pointer}
@@ -2981,7 +2994,7 @@ function drawKpi(r){
   $("#kpi").innerHTML = cells.join("") + `<div><div class="k">${_t("Сравнить с")}</div>
     <div id="kpichips"><span class="s">${_t("считаю…")}</span></div>
     <div class="s" id="kpisub"></div></div>`;
-  loadBench().then(b => { if (LAST === r) drawChips(b); });
+  Promise.all([loadBench(), loadCarrierEmblems()]).then(([b]) => { if (LAST === r) drawChips(b); });
 }
 
 function comparisonCost(b){
@@ -3020,9 +3033,164 @@ function comparisonMarkup(b, observation, segment){
     : `${ours}${_t("CASK без топлива")}: ${_t("недостаточно данных за выбранный период")}`;
 }
 
-function drawChips(b){
+let CARRIER_EMBLEMS = {};
+let CARRIER_EMBLEMS_READY = null;
+let CARRIER_PICK_CLEANUP = null;
+function loadCarrierEmblems(){
+  if (!CARRIER_EMBLEMS_READY) {
+    CARRIER_EMBLEMS_READY = fetch('/airline-emblems/manifest.json')
+      .then(response => response.ok ? response.json() : {})
+      .then(manifest => { CARRIER_EMBLEMS = manifest.carriers || {}; })
+      .catch(() => { CARRIER_EMBLEMS = {}; });
+  }
+  return CARRIER_EMBLEMS_READY;
+}
+
+function carrierEmblem(c){
+  const brand = CARRIER_EMBLEMS[c.code];
+  const initials = String(c.entity_id || c.code).slice(0, 3);
+  return brand
+    ? `<span class="carrier-emblem" aria-hidden="true"><img src="/airline-emblems/${encodeURIComponent(brand.slug)}.svg" alt="" data-initials="${esc(initials)}"></span>`
+    : `<span class="carrier-emblem fallback" aria-hidden="true">${esc(initials)}</span>`;
+}
+
+function bindCarrierEmblemFallback(root){
+  root.querySelectorAll('.carrier-emblem img').forEach(img => {
+    img.addEventListener('error', () => {
+      const mark = img.parentElement;
+      mark.classList.add('fallback');
+      mark.textContent = img.dataset.initials;
+    }, {once: true});
+  });
+}
+
+function carrierScope(c){
+  const contours = {
+    LH: _t("Авиакомпания"), LHP: _t("Пассажирский сегмент группы"), LHG: _t("Группа"),
+    BT: _t("Собственные рейсы"), BTX: _t("Включая ACMI"),
+    DY: _t("Авиакомпания"), NO: _t("Группа"),
+    SU: _t("Группа"), SUG: _t("До прочих операционных доходов"),
+    S7: _t("Юрлицо «Сибирь»")
+  };
+  return contours[c.code] || (/group|holdings|consolidated|групп/i.test(c.name + ' ' + (c.scope || ''))
+    ? _t("Группа") : _t("Авиакомпания"));
+}
+
+function carrierPeriod(c){
+  const fiscal = c.period_start && c.period_end &&
+    (!c.period_start.endsWith('-01-01') || !c.period_end.endsWith('-12-31'));
+  return fiscal ? `FY${c.year}` : String(c.year);
+}
+
+function carrierRow(c, index){
+  const selected = c.carrier === KPI_CARRIER;
+  const detail = [c.period_start, c.period_end].filter(Boolean).join(' — ');
+  return `<div class="hit carrier-row${selected ? ' current' : ''}" id="carrier-option-${index}" role="option"
+      aria-selected="${selected}" data-c="${esc(c.carrier)}" title="${esc(c.name + '\n' + detail + '\n' + (c.scope || ''))}">
+    ${carrierEmblem(c)}<span><span class="carrier-name">${esc(c.name)}</span>
+      <span class="carrier-meta">${esc(carrierScope(c))} · ${esc(carrierPeriod(c))}</span></span>
+    <span class="carrier-code">${esc(c.code)}</span></div>`;
+}
+
+function bindCarrierPick(b, companies, selected, restoreFocus){
+  const inp = $('#cq'), hits = $('#cqh');
+  let active = -1;
+  const events = new AbortController();
+  const normal = text => String(text).normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const close = () => {
+    hits.classList.remove('on');
+    inp.setAttribute('aria-expanded', 'false');
+    inp.removeAttribute('aria-activedescendant');
+    inp.value = selected.name;
+    active = -1;
+  };
+  CARRIER_PICK_CLEANUP = () => { events.abort(); close(); };
+  const position = () => {
+    if (!hits.classList.contains('on')) return;
+    const viewport = window.visualViewport;
+    const top = viewport ? viewport.offsetTop : 0;
+    const bottom = top + (viewport ? viewport.height : innerHeight);
+    const field = inp.getBoundingClientRect();
+    if (field.bottom < top || field.top > bottom) { close(); return; }
+    const below = bottom - field.bottom - 12;
+    const above = field.top - top - 12;
+    const upwards = below < 180 && above > below;
+    const stageWidth = inp.closest('.stage').getBoundingClientRect().width;
+    hits.style.width = Math.min(360, stageWidth - 28, innerWidth - 24) + 'px';
+    hits.classList.toggle('above', upwards);
+    hits.style.maxHeight = Math.max(0, Math.min(320, upwards ? above : below)) + 'px';
+  };
+  window.addEventListener('resize', position, {signal: events.signal});
+  window.addEventListener('scroll', position, {capture: true, signal: events.signal});
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', position, {signal: events.signal});
+    window.visualViewport.addEventListener('scroll', position, {signal: events.signal});
+  }
+  const pick = (row, keepFocus = false) => {
+    if (!row) return;
+    close();
+    KPI_CARRIER = row.dataset.c;
+    drawChips(b, keepFocus);
+    if ($('#benchbox')) drawBench(LAST);
+  };
+  const show = () => {
+    const query = inp.value === selected.name ? '' : normal(inp.value).trim();
+    const terms = query.split(/\s+/).filter(Boolean);
+    const byCode = new Map();
+    [...companies].sort((a, b) => String(a.year).localeCompare(String(b.year)))
+      .forEach(c => byCode.set(c.code, c));
+    byCode.set(selected.code, selected);
+    const rows = [...byCode.values()].filter(c => {
+      const brand = CARRIER_EMBLEMS[c.code];
+      const text = normal([c.name, c.code, c.entity_id, brand && brand.name].filter(Boolean).join(' '));
+      return terms.every(term => text.includes(term));
+    }).sort((a, b) => a.name.localeCompare(b.name));
+    hits.innerHTML = rows.map(carrierRow).join('') ||
+      `<div class="hit" role="status">${_t("ничего не нашлось")}</div>`;
+    bindCarrierEmblemFallback(hits);
+    active = -1;
+    inp.removeAttribute('aria-activedescendant');
+    hits.classList.add('on');
+    inp.setAttribute('aria-expanded', 'true');
+    position();
+    hits.querySelectorAll('.hit[data-c]').forEach(row => {
+      row.addEventListener('mousedown', event => { event.preventDefault(); pick(row); });
+    });
+  };
+  if (restoreFocus) { inp.focus({preventScroll: true}); inp.select(); }
+  inp.addEventListener('focus', () => { inp.select(); show(); });
+  inp.addEventListener('click', () => {
+    if (!hits.classList.contains('on')) { inp.select(); show(); }
+  });
+  inp.addEventListener('input', show);
+  inp.addEventListener('blur', () => setTimeout(close, 140));
+  inp.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { event.preventDefault(); close(); return; }
+    if (event.key === 'Tab') { close(); return; }
+    if (!['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) return;
+    event.preventDefault();
+    if (!hits.classList.contains('on')) {
+      show();
+      if (event.key === 'Enter') return;
+    }
+    const rows = [...hits.querySelectorAll('.hit[data-c]')];
+    if (!rows.length) return;
+    if (event.key === 'Enter') { pick(rows[active < 0 ? 0 : active], true); return; }
+    if (active < 0) active = event.key === 'ArrowUp' ? rows.length - 1 : 0;
+    else active = (active + (event.key === 'ArrowDown' ? 1 : -1) + rows.length) % rows.length;
+    rows.forEach((row, index) => {
+      row.classList.toggle('sel', index === active);
+      row.setAttribute('aria-selected', String(index === active));
+    });
+    inp.setAttribute('aria-activedescendant', rows[active].id);
+    rows[active].scrollIntoView({block: 'nearest'});
+  });
+}
+
+function drawChips(b, restoreFocus = false){
   const box = $("#kpichips"), sub = $("#kpisub");
   if (!box) return;
+  if (CARRIER_PICK_CLEANUP) { CARRIER_PICK_CLEANUP(); CARRIER_PICK_CLEANUP = null; }
   const comparison = b.comparison || {carriers: [], segments: []};
   const cs = (b.carriers || []).filter(c => c.cask_cents || c.yield_eur_pax).map(c => ({...c}));
   for (const c of comparison.carriers || []) {
@@ -3038,8 +3206,8 @@ function drawChips(b){
   box.innerHTML = `<select id="benchmark-kind" aria-label="${_t("Сравнить с")}">
     <option value="">${_t("Авиакомпания")}</option>${segments.map(x =>
       `<option value="${esc(x.id)}"${KPI_SEGMENT === x.id ? " selected" : ""}>${esc(segmentNames[x.id] || x.name)}</option>`).join("")}</select>
-    ${!segment && cur ? `<div class="cpick-search"><input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
-      <div class="hits" id="cqh"></div></div>
+    ${!segment && cur ? `<div class="cpick-search">${carrierEmblem(cur)}<input id="cq" role="combobox" aria-autocomplete="list" aria-controls="cqh" aria-expanded="false" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
+      <div class="hits" id="cqh" role="listbox" aria-label="${_t("Авиакомпания")}"></div></div>
       <select id="cy" title="${_t("год отчётности")}">${[...new Set(cs.filter(c => c.code === cur.code).map(c => c.year))].map(y =>
         `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>` : ""}
     <label class="s"><input id="benchmark-stale" type="checkbox" style="width:auto"${BENCH_STALE ? " checked" : ""}> ${_t("Включить отчёты 18–24 месяцев")}</label>`;
@@ -3051,21 +3219,8 @@ function drawChips(b){
     if (LAST === r && BENCH_STALE === includeStale) { drawChips(next); if ($("#benchbox")) drawBench(r); }
   };
   if (!segment && cur) {
-    const inp = $("#cq"), hits = $("#cqh");
-    const show = () => {
-      const q = inp.value.trim().toLowerCase(), seen = new Set();
-      const rows = cs.filter(c => (!q || (c.name + " " + c.code).toLowerCase().includes(q))
-        && !seen.has(c.code) && seen.add(c.code));
-      hits.innerHTML = rows.map(c => `<div class="hit" data-c="${esc(c.carrier)}"><b>${esc(c.code)}</b>${esc(c.name)}
-        <i>${esc((c.scope || "").slice(0, 70))}</i></div>`).join("") || `<div class="hit">${_t("ничего не нашлось")}</div>`;
-      hits.classList.add("on");
-      hits.querySelectorAll(".hit[data-c]").forEach(el => el.addEventListener("mousedown", e => {
-        e.preventDefault(); KPI_CARRIER = el.dataset.c; drawChips(b); if ($("#benchbox")) drawBench(LAST);
-      }));
-    };
-    inp.addEventListener("focus", () => { inp.select(); show(); });
-    inp.addEventListener("input", show);
-    inp.addEventListener("blur", () => setTimeout(() => { hits.classList.remove("on"); inp.value = cur.name; }, 140));
+    bindCarrierEmblemFallback(box);
+    bindCarrierPick(b, cs, cur, restoreFocus);
     $("#cy").onchange = e => { KPI_CARRIER = `${cur.code}/${e.target.value}`; drawChips(b); if ($("#benchbox")) drawBench(LAST); };
   }
   const observation = (comparison.carriers || []).find(c => c.carrier === KPI_CARRIER);
