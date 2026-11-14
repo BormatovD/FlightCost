@@ -1,4 +1,4 @@
-"""Route adapter for a supported Airbus design in the active guest workspace."""
+"""Replay a supported Aircraft Designer configuration in the active guest workspace."""
 from __future__ import annotations
 
 import json
@@ -7,15 +7,15 @@ import subprocess
 from functools import lru_cache
 from pathlib import Path
 
+from .aircraft_designer import catalog
 from .fuel import Feasibility, FuelResult, ReserveSpec, icao_distance_nm
 
 ROUTE_MODELS = {
-    ("A20N", "a320neo", "LEAP-1A"): "a320neo-leap-mission-v1",
-    ("A320", "a320ceo", "CFM56-5B"): "a320ceo-cfm56-5b-mission-v1",
-    ("A21N", "a321neo", "LEAP-1A"): "a321neo-leap-mission-v1",
+    (p["icao"], p["aircraftId"], p["engine"]): p["routeSolver"]
+    for p in catalog()["aircraft"] if p.get("routeSolver")
 }
 DESIGNER_KEY_PREFIXES = tuple(f"USER:{icao}-3D-" for icao, _, _ in ROUTE_MODELS)
-DESIGNER_REVISION = "7cad9e6f8d809fc52dc0aca7d9a72322f1188990"
+DESIGNER_REVISION = "7867aa15e567a4b5b0244300c84fc43bfbf8b92a"
 
 
 def _runner() -> str | None:

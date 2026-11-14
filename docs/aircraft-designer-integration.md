@@ -42,7 +42,7 @@ or browser-side JavaScript module is required.
 - The model is **provisional**. Cabin row counts become `seats_typical`,
   and OEW, MTOW, MLW, geometry and fuel tank capacity are saved in the
   existing aircraft type fields. The full cabin and `MZFW` are retained in
-  `aircraft_designer` workspace metadata. The route adapter for the A320ceo, A320neo and A321neo enforces MZFW when it replays the saved design.
+  `aircraft_designer` workspace metadata. The route adapter enforces MZFW and the model’s payload limit when it replays a saved design.
 - `seats_max` is retained from the original published type unless the new
   user configuration has more seats. If exceeded, the **original passport
   maximum** and explicit non-certified over-capacity status remain in
@@ -58,7 +58,7 @@ or browser-side JavaScript module is required.
   snapshot is pinned deliberately; there is no runtime cross-domain catalog
   fetch that could change contracts silently.
 
-## Local A320ceo, A320neo and A321neo route calculation
+## Local route calculation for saved 3D aircraft
 
 Use Node 22.18 or later and the corresponding Designer checkout. Run these commands in two terminals. Choose a reference database for the preview. Guest aircraft are saved in `user.db` next to that database.
 
@@ -76,9 +76,20 @@ FCA_AIRCRAFT_DESIGNER=1 FCA_DESIGNER_ORIGIN=http://127.0.0.1:8001 \
   fca --db /absolute/path/to/flightcost.db serve --guests --port 8000
 ```
 
-Open `http://127.0.0.1:8000/ru/type/A320/3d?choice=0` for the 180-seat CFM56-5B or `http://127.0.0.1:8000/ru/type/A20N/3d?choice=1` for the 194-seat A320neo. For the A321neo with LEAP-1A, open `http://127.0.0.1:8000/ru/type/A21N/3d?choice=0` for 220 seats or select choice 1 for 244 seats. Select a load, save to the guest workspace and follow the route link. The runner reconstructs the saved control settings, mode and cabin. It accepts earlier v1 exports when their geometry and masses can be reproduced. An incompatible design or unavailable runner returns a calculation error.
+Open the FlightCost type card and select a 3D configuration. The shared catalog’s `routeSolver` field identifies the mission model for each engine and weight profile.
 
-The FRA–BCN review uses the FlightCost route distance including its ICAO correction and 100 kg per passenger including baggage. The reported consumption includes taxi fuel. The Designer mission carries a separate reserve with a default 200 nm alternate, 30-minute final reserve and 5% contingency. Cruise time uses the speed of each integrated step. The reference CFM56-5B uses the available FCOM phase times, including the six-minute IFR approach after descent to 1,500 ft. Energy-based phases use 300 kt for climb and 280 kt for descent. All three profiles use a combined taxi time of 26 minutes.
+| FlightCost type | Aircraft and engine | Cabin sizes |
+| --- | --- | --- |
+| A319 / A19N | A319ceo CFM56-5B / A319neo LEAP-1A | 156 |
+| A320 / A20N | A320ceo CFM56-5B / A320neo LEAP-1A | 180 (ceo), 180 or 194 (neo) |
+| A321 / A21N | A321ceo CFM56-5B / A321neo LEAP-1A | 220 (ceo), 220 or 244 (neo) |
+| B38M | Boeing 737-8 LEAP-1B | 178 or 210 |
+| B752 | Boeing 757-200 RB211-535E4 or PW2037 | 186, 225 or 239 for either engine |
+| T204 | Tu-214 PS-90A, operational or factory weight profile | 194 or 210 for either profile |
+
+For example, `http://127.0.0.1:8000/ru/type/B752/3d?choice=4` opens the 225-seat PW2037 configuration. Select a load, save to the guest workspace and follow the route link. The runner reconstructs the saved control settings, mode and cabin. It accepts earlier v1 exports when their geometry and masses can be reproduced. An incompatible design or unavailable runner returns a calculation error.
+
+The FRA–BCN review uses the FlightCost route distance including its ICAO correction and 100 kg per passenger including baggage. The reported consumption includes taxi fuel. The Designer mission carries a separate reserve with a default 200 nm alternate, 30-minute final reserve and 5% contingency. Cruise time uses the speed of each integrated step. The reference A320ceo with CFM56-5B uses the available FCOM phase times, including the six-minute IFR approach after descent to 1,500 ft. Energy-based phases use 300 kt for climb and 280 kt for descent. All profiles use a combined taxi time of 26 minutes.
 
 ## Deployment safety
 

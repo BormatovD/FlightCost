@@ -21,7 +21,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a319ceo-cfm56-5b-mission-v1"
     },
     {
       "aircraftId": "a319neo",
@@ -42,7 +43,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a319neo-leap-mission-v1"
     },
     {
       "aircraftId": "a320ceo",
@@ -63,7 +65,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a320ceo-cfm56-5b-mission-v1"
     },
     {
       "aircraftId": "a320neo",
@@ -97,7 +100,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a320neo-leap-mission-v1"
     },
     {
       "aircraftId": "a321ceo",
@@ -119,7 +123,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a321ceo-cfm56-5b-mission-v1"
     },
     {
       "aircraftId": "a321neo",
@@ -154,7 +159,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "a321neo-leap-mission-v1"
     },
     {
       "aircraftId": "b737-8",
@@ -188,7 +194,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "b737-8-leap-1b-mission-v1"
     },
     {
       "aircraftId": "b757-200-rb",
@@ -241,7 +248,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "b757-200-rb211-535e4-mission-v1"
     },
     {
       "aircraftId": "b757-200-pw",
@@ -294,7 +302,8 @@
           ]
         }
       ],
-      "weightProfile": "standard"
+      "weightProfile": "standard",
+      "routeSolver": "b757-200-pw2037-mission-v1"
     },
     {
       "aircraftId": "tu214-ps90a",
@@ -331,7 +340,8 @@
       "weightProfile": "operational",
       "engineAliases": [
         "PS-90A"
-      ]
+      ],
+      "routeSolver": "tu214-ps90a-operational-mission-v1"
     },
     {
       "aircraftId": "tu214-ps90a-factory",
@@ -368,7 +378,8 @@
       "weightProfile": "factory",
       "engineAliases": [
         "PS-90A"
-      ]
+      ],
+      "routeSolver": "tu214-ps90a-factory-mission-v1"
     }
   ]
 }
