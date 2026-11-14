@@ -311,7 +311,7 @@ class Intervals(unittest.TestCase):
 
     def test_quarterly_range_keeps_period_and_publication_date(self):
         row = self.observation(month="2026-Q1", published_on="2026-06-03", age="new")
-        for bad in ("2026-Q0", "2026-Q5", "2026-13", "2026-00", "2026"):
+        for bad in ("2026-Q0", "2026-Q5", "2026-13", "2026-00", "26"):
             self.assertEqual(self.checked(dict(row, month=bad))["verdict"], "reject")
         self.assertEqual(self.checked(dict(row, published_on="20260603"))["verdict"], "reject")
         with tempfile.TemporaryDirectory() as tmp:
@@ -325,6 +325,17 @@ class Intervals(unittest.TestCase):
                 self.assertEqual((m["month"], m["low"], m["high"]), ("2026-Q1", 100000, 115000))
                 self.assertEqual(m["sources"][0]["published_on"], "2026-06-03")
                 self.assertEqual(PR.find_observation(m["id"])["month"], "2026-Q1")
+
+    def test_year_precision_uses_publication_date_and_survives_acceptance(self):
+        row = self.checked(self.observation(month=2026, published_on="2026-03-12", age="new"))
+        self.assertEqual((row["verdict"], row["month"]), ("clean", "2026"))
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(PR, "PATH", Path(tmp) / "prices.yaml"):
+            PR.merge([row], [])
+            self.assertIsNone(PR.annual_lease("CRJ9", "2026-03-11", 0))
+            market = PR.annual_lease("CRJ9", "2026-03-12", 0)
+            self.assertEqual((market["month"], market["midpoint"]), ("2026", 107500))
+            self.assertEqual(market["sources"][0]["published_on"], "2026-03-12")
+            self.assertIsNone(PR.annual_lease("CRJ9", "2027-01-01", 0))
 
     def test_merge_preserves_interval_and_aggregates_use_midpoint(self):
         row = self.checked(self.observation(age="new", month="2019-07"))

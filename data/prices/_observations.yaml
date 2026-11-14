@@ -590,6 +590,21 @@ observations:
   source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
   publisher: aeroTELEGRAPH (данные OAG)
   checked: '2026-11-10'
+- icao: A320
+  kind: lease
+  value_low: 215000
+  value_high: 240000
+  currency: USD
+  month: 2026-Q1
+  age: 12
+  quote: between US$ 215,000 and US$ 240,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. A320-200, возраст 12 лет.
+  published_on: '2026-06-03'
+  variant: A320-200
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: A321
   kind: lease
   value: 411
@@ -806,6 +821,21 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: A332
+  kind: lease
+  value_low: 324000
+  value_high: 345000
+  currency: USD
+  month: 2026-Q1
+  age: 12
+  quote: between US$ 324,000 and US$ 345,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. A330-200, возраст 12 лет.
+  published_on: '2026-06-03'
+  variant: A330-200
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: A333
   kind: list
   value: 264.2
@@ -1093,6 +1123,21 @@ observations:
   publisher: aeroTELEGRAPH (данные OAG)
   note: A350 без уточнения модели и возраста
   checked: '2026-11-10'
+- icao: A359
+  kind: lease
+  value_low: 1190000
+  value_high: 1250000
+  currency: USD
+  month: 2026-Q1
+  age: new
+  quote: US$ 1.19 million to US$ 1.25 million
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. A350-900, новый борт.
+  published_on: '2026-06-03'
+  variant: A350-900
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: A35K
   kind: list
   value: 366.5
@@ -1466,6 +1511,21 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: B738
+  kind: lease
+  value_low: 218000
+  value_high: 249000
+  currency: USD
+  month: 2026-Q1
+  age: 12
+  quote: between US$ 218,000 and US$ 249,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. 737-800, возраст 12 лет.
+  published_on: '2026-06-03'
+  variant: 737-800
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: B77W
   kind: lease
   value: 1492
@@ -1586,6 +1646,21 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: B77W
+  kind: lease
+  value_low: 450000
+  value_high: 587000
+  currency: USD
+  month: 2026-Q1
+  age: 12
+  quote: US$ 450,000 to US$ 587,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. 777-300ER, возраст 12 лет.
+  published_on: '2026-06-03'
+  variant: 777-300ER
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: B788
   kind: lease
   value: 931
@@ -1802,6 +1877,21 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: B789
+  kind: lease
+  value_low: 1070000
+  value_high: 1150000
+  currency: USD
+  month: 2026-Q1
+  age: new
+  quote: US$ 1.07 million to US$ 1.15 million
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Оценка IBA за I квартал 2026 года. 787-9, новый борт.
+  published_on: '2026-06-03'
+  variant: 787-9
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: BCS3
   kind: lease
   value: 282
@@ -1912,6 +2002,20 @@ observations:
   publisher: Aviation Strategy (данные AVAC)
   note: оценка AVAC (opinion of worth), не цена сделки; таблица, ячейка строки типа и столбца возраста
   checked: '2026-11-10'
+- icao: E295
+  kind: lease
+  value: 285000
+  currency: USD
+  month: '2026'
+  age: new
+  quote: US$285,000/month for a new E195-E2
+  source: https://www.istat.org/ISTAT-Online/ISTAT-Online/Aircraft-Supporting-Assets/ArtMID/1205/ArticleID/1697/Appraisal-Embraer-E-Jet-E2
+  publisher: Oriel / ISTAT
+  note: Оценка Oriel для нового E195-E2. В публикации за 2026 год месяц оценки лизинга не указан.
+  published_on: '2026-03-12'
+  variant: E195-E2, PW1923G
+  source_family: Oriel
+  checked: '2026-11-14'
 - icao: E75L
   kind: lease
   value: 233

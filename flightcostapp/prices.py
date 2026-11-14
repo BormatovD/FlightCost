@@ -1,7 +1,7 @@
 """Цены и ставки лизинга самолётов из открытых публикаций — ряд на странице типа.
 
 Справочник `data/prices/_observations.yaml`: каждое наблюдение — тип, вид, число,
-валюта, период оценки (месяц или квартал), возраст борта, источник и дословная цитата. Собирает агент «цены»
+валюта, период оценки (месяц, квартал или год), возраст борта, источник и дословная цитата. Собирает агент «цены»
 (agent_run.prices) по нескольку типов за прогон; дома `fca master drafts` проверяет,
 `--accept-prices` дописывает.
 
@@ -72,13 +72,15 @@ def real_level(obs: list[dict], new_gen: bool, years: tuple[int, int], to_year: 
 
 def period_months(period: str) -> tuple[int, int]:
     """Inclusive start/end months, retaining the original precision in the record."""
+    if re.fullmatch(r"[0-9]{4}", period):
+        return 1, 12
     if re.fullmatch(r"[0-9]{4}-Q[1-4]", period):
         end = 3 * int(period[-1])
         return end - 2, end
     if re.fullmatch(r"[0-9]{4}-(?:0[1-9]|1[0-2])", period):
         month = int(period[5:])
         return month, month
-    raise ValueError(f"ожидается месяц ГГГГ-ММ или квартал ГГГГ-Q1…Q4: {period}")
+    raise ValueError(f"ожидается год ГГГГ, квартал ГГГГ-Q1…Q4 или месяц ГГГГ-ММ: {period}")
 
 
 def period_order(obs: dict) -> tuple:
@@ -456,7 +458,8 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
             r.update(verdict="reject", reasons=[f"вид не из {KINDS}"])
             continue
         try:
-            period_months(str(p.get("month") or ""))
+            r["month"] = str(p.get("month") or "")
+            period_months(r["month"])
             if p.get("published_on") is not None:
                 published = str(p["published_on"])
                 if date.fromisoformat(published).isoformat() != published:
