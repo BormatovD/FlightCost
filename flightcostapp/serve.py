@@ -336,7 +336,10 @@ class _Handler(BaseHTTPRequestHandler):
                         if 0 <= selected < len(options):
                             cls = seo.cls_of(entry)
                             route_nm = None
-                            if icao in ("A20N", "A320") and seo.ROUTES[cls] == ("EDDF", "LEBL"):
+                            from .designer_route import ROUTE_MODELS
+                            choice = options[selected]
+                            variant = (icao, choice["aircraftId"], choice["engine"])
+                            if variant in ROUTE_MODELS and seo.ROUTES[cls] == ("EDDF", "LEBL"):
                                 from .econ import great_circle_nm
                                 from .fuel import icao_distance_nm
                                 ends = {ap["icao"]: ap for ap in ctx.airports()

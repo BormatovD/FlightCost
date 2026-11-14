@@ -1,4 +1,4 @@
-"""Route adapter for a saved A320ceo or A320neo design in the active guest workspace."""
+"""Route adapter for a supported Airbus design in the active guest workspace."""
 from __future__ import annotations
 
 import json
@@ -12,8 +12,10 @@ from .fuel import Feasibility, FuelResult, ReserveSpec, icao_distance_nm
 ROUTE_MODELS = {
     ("A20N", "a320neo", "LEAP-1A"): "a320neo-leap-mission-v1",
     ("A320", "a320ceo", "CFM56-5B"): "a320ceo-cfm56-5b-mission-v1",
+    ("A21N", "a321neo", "LEAP-1A"): "a321neo-leap-mission-v1",
 }
-DESIGNER_REVISION = "6d3ee2d02849477b0f5eb0b24a95986b1595b044"
+DESIGNER_KEY_PREFIXES = tuple(f"USER:{icao}-3D-" for icao, _, _ in ROUTE_MODELS)
+DESIGNER_REVISION = "7cad9e6f8d809fc52dc0aca7d9a72322f1188990"
 
 
 def _runner() -> str | None:
@@ -62,7 +64,7 @@ def saved_model(design: dict) -> str | None:
 
 
 def saved_design(store, key: str) -> dict | None:
-    if key.startswith(("USER:A20N-3D-", "USER:A320-3D-")) and getattr(store, "gdb", None):
+    if key.startswith(DESIGNER_KEY_PREFIXES) and getattr(store, "gdb", None):
         doc = store.gdb.get_doc(store.ws, "aircraft", key) or {}
         design = (doc.get("aircraft_designer") or {}).get("design") or {}
         if model_for(design):
