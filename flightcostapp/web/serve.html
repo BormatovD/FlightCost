@@ -145,7 +145,8 @@ header #hdr{color:var(--dim);font-size:12.5px}
 .kpi .cpick input,.kpi .cpick select{width:100%;min-width:0;background:var(--raise);
  color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:2px 7px;
  font:12.5px var(--sans)}
-.kpi .cpick .hits{min-width:260px;max-height:200px}
+.kpi .cpick-search{position:relative}
+.kpi .cpick .hits{left:auto;right:0;min-width:260px;max-height:200px}
 .kpi .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
 .chipb{background:none;border:1px solid var(--line);color:var(--dim);
  border-radius:4px;padding:2px 7px;font:12px var(--sans);cursor:pointer}
@@ -3037,8 +3038,8 @@ function drawChips(b){
   box.innerHTML = `<select id="benchmark-kind" aria-label="${_t("Сравнить с")}">
     <option value="">${_t("Авиакомпания")}</option>${segments.map(x =>
       `<option value="${esc(x.id)}"${KPI_SEGMENT === x.id ? " selected" : ""}>${esc(segmentNames[x.id] || x.name)}</option>`).join("")}</select>
-    ${!segment && cur ? `<input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
-      <div class="hits" id="cqh"></div>
+    ${!segment && cur ? `<div class="cpick-search"><input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
+      <div class="hits" id="cqh"></div></div>
       <select id="cy" title="${_t("год отчётности")}">${[...new Set(cs.filter(c => c.code === cur.code).map(c => c.year))].map(y =>
         `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>` : ""}
     <label class="s"><input id="benchmark-stale" type="checkbox" style="width:auto"${BENCH_STALE ? " checked" : ""}> ${_t("Включить отчёты 18–24 месяцев")}</label>`;
