@@ -111,7 +111,8 @@ class ApiHttp(unittest.TestCase):
         d = pathlib.Path(cls.tmp.name)
         cls.store = Store(d / "reference.db", shared=True)
         f = []
-        for key, eng, seats in (("B752", "RB211-535E4", 225), ("A20N", "PW1127G-JM", 180)):
+        for key, eng, seats in (("B752", "RB211-535E4", 225), ("A20N", "PW1127G-JM", 180),
+                                ("B738", "CFM56-7B26", 189)):
             for field, val in {"mtow_t": 110., "oew_t": 58., "mlw_t": 90.,
                                "fuel_capacity_t": 35., "span_m": 38.1, "length_m": 47.3,
                                "cruise_mach": .8, "cruise_alt_m": 11000,
@@ -244,6 +245,21 @@ class ApiHttp(unittest.TestCase):
             st, bad = self.call("POST", "/api/aircraft/designer-save", tampered,
                                 cookie=key, origin="https://flightcost.app")
             self.assertEqual(st, 400)
+
+    def test_b738_saved_variant_uses_boeing_tables_only_for_matching_aircraft(self):
+        from flightcostapp.econ import load_aircraft
+
+        key = self.gdb.create("198.51.100.82")
+        ctx = self.ctx.for_request(key)
+        d = design("B738", seats=189, engine="CFM56-7B26", model="b737-800", layout="b738-189")
+        saved = ctx.aircraft_designer_save({"requestId": "b738-descent-189", "design": d})
+        code = saved["icao"]
+        self.assertIsNone(saved["route_model"])
+        self.assertTrue(load_aircraft(ctx.store, code, None).frame.boeing_738_tables)
+        doc = self.gdb.get_doc(ctx.ws, "aircraft", code)
+        doc["aircraft_designer"]["design"]["aircraft"]["engine"] = "CFM56-7B27"
+        self.gdb.put_doc(ctx.ws, "aircraft", code, doc)
+        self.assertFalse(load_aircraft(ctx.store, code, None).frame.boeing_738_tables)
 
     def test_engine_mismatch_disables_burn(self):
         with patch.dict(os.environ, {"FCA_AIRCRAFT_DESIGNER": "1"}):

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from functools import lru_cache
 from datetime import date
 from pathlib import Path
@@ -453,6 +453,17 @@ def load_aircraft(store, icao: str, as_of, operator: str = "*") -> Aircraft:
                       anchor_trip_nm=g("burn_anchor_trip_nm"),
                       anchor_trip_pax=g("burn_anchor_trip_pax"),
                       note=gt("burn_anchor_note"))
+    # A B738 fuel-flow analog alone does not identify a 737-800 airframe.
+    # Old 3D saves already carry both the design identity and the engine fact.
+    if frame and (icao == "B738" or (ref and ref.same_engine and ref.analog == "B738")):
+        is_738 = icao == "B738"
+        if not is_738 and getattr(store, "gdb", None):
+            doc = store.gdb.get_doc(store.ws, "aircraft", icao) or {}
+            design = (doc.get("aircraft_designer") or {}).get("design") or {}
+            model = design.get("aircraft") or {}
+            is_738 = (model.get("icao"), model.get("aircraftId"), model.get("engine")) == (
+                "B738", "b737-800", "CFM56-7B26")
+        frame = replace(frame, boeing_738_tables=is_738 and gt("engine") == "CFM56-7B26")
     row = store.get("aircraft", f"{icao}/mtow_t", as_of)
     name = str(row["note"] or "") if row is not None and row["note"] else ""
     mlw = g("mlw_t")
@@ -1208,8 +1219,9 @@ def route_economics(store: Store, origin: str, destination: str, *,
             kg, "кг", prov_fuel, node="v_prof")
     rec(G3, "Рейсовое топливо", "Σ по фазам" if fr.phases else "q · T_block",
         fr.note, fuel_kg, "кг", prov_fuel,
-        f"метод: {fr.method}" + (f", взлётная масса {fr.takeoff_mass_kg/1000:.1f} т"
-                                 if fr.takeoff_mass_kg else ""), node="v_fuel")
+        (fr.phase_sources or f"метод: {fr.method}")
+        + (f", взлётная масса {fr.takeoff_mass_kg/1000:.1f} т" if fr.takeoff_mass_kg else ""),
+        node="v_fuel")
     rec(G2, "Блок-время", "набор + крейсер + снижение + руление"
         if profile else "0.33 + D / V · 1.06",
         " + ".join(f"{v*60:.0f}" for v in fr.times.values()) + " мин"

@@ -22,6 +22,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from functools import lru_cache
 
+from .boeing_cruise import cruise_flow_kg_h
+from .boeing_descent import b738_descent
 from .cycles import Split, fit as fit_split
 from pathlib import Path
 
@@ -35,6 +37,7 @@ DESCENT_TAS_KT = 280.0
 # 7 на заруливание. Наши прежние 12 были взяты на глаз и вдвое коротки
 # для загруженных европейских аэропортов.
 TAXI_MIN = 26.0
+TAXI_IN_MIN = 7.0
 TAXI_KG_PER_H = 600.0
 PAX_MASS_KG = 100.0          # запасное значение, если справочник недоступен
 
@@ -173,6 +176,7 @@ class FuelResult:
     # видит ли пользователь, что произошло (решение 94).
     tier: int = 1
     tier_note: str = ""
+    phase_sources: str = ""                       # фактически использованные модели фаз
 
     @property
     def kg_per_h(self) -> float:
@@ -315,6 +319,7 @@ class Airframe:
     cruise_alt_ft: float = 36000.0
     cruise_tas_kt: float = 450.0
     source: str = "store"
+    boeing_738_tables: bool = False
 
 
 @lru_cache(maxsize=16)
@@ -416,7 +421,8 @@ def airframe_from_openap(icao: str) -> Airframe:
         mfc_kg=mfc, cruise_alt_ft=crz_ft,
         cruise_tas_kt=aero.mach2tas(ac["cruise"]["mach"],
                                     crz_ft * aero.ft) / aero.kts,
-        source="openap")
+        source="openap",
+        boeing_738_tables=(icao.upper() == "B738" and ac["engine"]["default"] == "CFM56-7B26"))
 
 
 def trip_fuel(icao: str, dist_nm: float, pax: float,
@@ -588,7 +594,8 @@ def _anchor_scale(ref: "BurnRef", frame: "Airframe") -> tuple[float, str]:
         return 1.0, "без якоря — множитель 1,0, рейс невыполним"
     ff = _flow(ref.analog)
     m = ref.anchor_mass_kg or 0.85 * frame.mtow_kg
-    model = ff.enroute(mass=m, tas=frame.cruise_tas_kt, alt=frame.cruise_alt_ft) * 3600
+    model, _ = cruise_flow_kg_h(ff, frame.boeing_738_tables and ref.analog.upper() == "B738",
+                                m, frame.cruise_tas_kt, frame.cruise_alt_ft)
     k = ref.anchor_kg_per_h / model if model else 1.0
     return k, (f"якорь {ref.anchor_kg_per_h:,.0f} кг/ч при {m/1000:.1f} т"
                + ("" if ref.anchor_mass_kg else " (масса принята 0,85 MTOW)")
@@ -635,16 +642,7 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
     # 10% дистанции на крейсер.
     nm_per_ft = (CLIMB_TAS_KT / CLIMB_VS_FPM + DESCENT_TAS_KT / DESCENT_VS_FPM) / 60.0
     ft_max = dist_nm * 0.90 / nm_per_ft
-    crz_used = min(crz_ft, ft_max)
-    truncated = crz_used < crz_ft - 1
-
-    t_cl = crz_used / CLIMB_VS_FPM / 60.0
-    t_de = crz_used / DESCENT_VS_FPM / 60.0
-    d_cl = CLIMB_TAS_KT * t_cl
-    d_de = DESCENT_TAS_KT * t_de
-
-    # на пониженном эшелоне истинная скорость меньше
-    tas_cr_used = tas_crz * (0.80 + 0.20 * crz_used / crz_ft)
+    use_table = frame.boeing_738_tables and (flow_of or icao).upper() == "B738"
 
     mfc = frame.mfc_kg
 
@@ -675,6 +673,17 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
         # спрятать. Ограничение проверяется после сходимости.
         m0 = oew + payload + trip + reserve
 
+        # At touchdown the reserve and taxi-in fuel are still on board.
+        landing_kg = oew + payload + reserve + TAXI_KG_PER_H * TAXI_IN_MIN / 60
+        descent = (b738_descent(crz_ft, landing_kg, CLIMB_TAS_KT / CLIMB_VS_FPM / 60,
+                                dist_nm * 0.90) if use_table else None)
+        crz_used = descent.altitude_ft if descent else min(crz_ft, ft_max)
+        t_cl = crz_used / CLIMB_VS_FPM / 60
+        d_cl = CLIMB_TAS_KT * t_cl
+        t_de = descent.time_min / 60 if descent else crz_used / DESCENT_VS_FPM / 60
+        d_de = descent.distance_nm if descent else DESCENT_TAS_KT * t_de
+        tas_cr_used = tas_crz * (0.80 + 0.20 * crz_used / crz_ft)
+
         # набор: расход считается на взлётной массе
         q_cl = ff.enroute(mass=m0, tas=CLIMB_TAS_KT, alt=crz_used / 2,
                           vs=CLIMB_VS_FPM) * 3600
@@ -684,13 +693,16 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
         d_cr = max(0.0, dist_nm - d_cl - d_de)
         t_cr = d_cr / tas_cr_used
         m_cr = m0 - f_cl - 0.5 * max(0.0, trip - f_cl - f_taxi)
-        q_cr = ff.enroute(mass=m_cr, tas=tas_cr_used, alt=crz_used) * 3600
-        f_cr = q_cr * t_cr
+        q_cr, boeing_cruise = cruise_flow_kg_h(raw, use_table, m_cr, tas_cr_used, crz_used)
+        f_cr = q_cr * scale * t_cr
 
         # снижение: почти малый газ
-        q_de = ff.enroute(mass=m_cr - f_cr, tas=DESCENT_TAS_KT, alt=crz_used / 2,
-                          vs=-DESCENT_VS_FPM) * 3600
-        f_de = q_de * t_de
+        if descent:
+            f_de = descent.fuel_kg * scale
+        else:
+            q_de = ff.enroute(mass=m_cr - f_cr, tas=DESCENT_TAS_KT, alt=crz_used / 2,
+                              vs=-DESCENT_VS_FPM) * 3600
+            f_de = q_de * t_de
 
         new = f_cl + f_cr + f_de + f_taxi
         converged = abs(new - trip) < tol_kg
@@ -720,6 +732,23 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
                    f"ёмкость баков {mfc/1000:.1f} т",
                    over_t=feas.fuel_over_t, limit_t=mfc / 1000.0)
 
+    cruise_note = f"FL{crz_used/100:.0f} на {tas_cr_used:.0f} kt"
+    if boeing_cruise:
+        cruise_note += (f", расход по Boeing FPPM 3.2.14–15 (M 0,79) с поправкой OpenAP "
+                        f"на скорость, масса {m_cr / 1000:.1f} т")
+    elif use_table:
+        cruise_note += ", расход OpenAP вне диапазона крейсерской таблицы Boeing"
+    descent_note = f"{DESCENT_VS_FPM:.0f} фт/мин"
+    if descent:
+        descent_note = (f"Boeing FCOM PI.31.7 с прямым заходом, посадочная масса "
+                        f"{landing_kg / 1000:.1f} т, {d_de:.1f} NM")
+    elif use_table:
+        descent_note += " (вне диапазона Boeing PI.31.7)"
+    phase_sources = ""
+    if use_table:
+        cruise_source = "Boeing FPPM с поправкой OpenAP" if boeing_cruise else "OpenAP"
+        descent_source = "Boeing FCOM" if descent else "OpenAP"
+        phase_sources = f"набор — OpenAP, крейсер — {cruise_source}, снижение — {descent_source}"
     return FuelResult(
         trip_kg=trip,
         block_h=airborne + t_taxi,
@@ -730,13 +759,14 @@ def _openap_profile(icao: str, dist_nm: float, pax: float,
         times={"Руление": t_taxi, "Набор": t_cl, "Крейсер": t_cr,
                "Снижение": t_de},
         method="openap",
+        phase_sources=phase_sources,
         feasible=feas,
         reserve_kg=reserve,
         reserve_parts=reserve_parts,
         note=f"профиль: набор {CLIMB_VS_FPM:.0f} фт/мин, крейсер "
-             f"FL{crz_used/100:.0f} на {tas_cr_used:.0f} kt, снижение "
-             f"{DESCENT_VS_FPM:.0f} фт/мин"
-             + (" — эшелон срезан: плечо короткое" if truncated else ""),
+             f"{cruise_note}, снижение "
+             f"{descent_note}"
+             + (" — эшелон срезан: плечо короткое" if crz_used < crz_ft - 1 else ""),
     )
 
 

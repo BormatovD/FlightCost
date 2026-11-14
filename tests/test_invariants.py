@@ -170,6 +170,73 @@ class FuelTiers(unittest.TestCase):
     def test_library_type_is_tier1(self):
         self.assertEqual(self.fuel.trip_fuel("A320", 590, 148).tier, 1)
 
+    def test_b738_descent_interpolates_and_fits_short_routes(self):
+        from flightcostapp.boeing_descent import b738_descent
+        slope = self.fuel.CLIMB_TAS_KT / self.fuel.CLIMB_VS_FPM / 60
+        self.assertEqual(b738_descent(35000, 60000, slope, 600), (35000, 24, 320, 113))
+        self.assertEqual(b738_descent(41000, 70000, slope, 600), (41000, 26, 340, 137))
+        self.assertEqual(b738_descent(36000, 55000, slope, 600), (36000, 24, 325, 110.25))
+        short = b738_descent(36000, 55000, slope, 140)
+        self.assertLess(short.altitude_ft, 36000)
+        self.assertAlmostEqual(short.altitude_ft * slope + short.distance_nm, 140)
+        for alt, mass, nm in [(1400, 60000, 600), (42000, 60000, 600),
+                              (36000, 71000, 600), (36000, 39000, 600), (36000, 60000, 10)]:
+            self.assertIsNone(b738_descent(alt, mass, slope, nm))
+
+    def test_b738_cruise_table_nodes_interpolation_and_unpublished_cells(self):
+        from flightcostapp.boeing_cruise import b738_cruise_reference
+        self.assertEqual(b738_cruise_reference(35000, 60000), 2 * 1185)
+        self.assertEqual(b738_cruise_reference(41000, 55000), 2 * 1064)
+        self.assertEqual(b738_cruise_reference(25000, 85000), 2 * 1764)
+        self.assertEqual(b738_cruise_reference(36500, 62500),
+                         2 * (1161 + 1225 + 1149 + 1223) / 4)
+        for alt, mass in [(24999, 50000), (42000, 50000), (35000, 39999),
+                          (30000, 85001), (41000, 55001), (40500, 58000)]:
+            self.assertIsNone(b738_cruise_reference(alt, mass))
+
+    def test_b738_cruise_preserves_openap_speed_response(self):
+        from openap import aero
+        from flightcostapp.boeing_cruise import cruise_flow_kg_h
+        flow = self.fuel._flow("B738")
+        mass, alt = 60000, 37000
+        def tas(mach):
+            return aero.mach2tas(mach, alt * aero.ft) / aero.kts
+        def openap(mach):
+            return flow.enroute(mass=mass, tas=tas(mach), alt=alt) * 3600
+        for mach in (0.79, 0.789):
+            result, used = cruise_flow_kg_h(flow, True, mass, tas(mach), alt)
+            self.assertTrue(used)
+            self.assertAlmostEqual(result, 2 * 1149 * openap(mach) / openap(0.79))
+        for enabled, mach in [(True, 0.76), (True, 0.80), (False, 0.79)]:
+            self.assertEqual(cruise_flow_kg_h(flow, enabled, mass, tas(mach), alt),
+                             (openap(mach), False))
+
+    def test_b738_table_applies_to_profile_and_keeps_other_analogs_on_openap(self):
+        from dataclasses import replace
+        frame = replace(self.fuel.airframe_from_openap("B738"), cruise_alt_ft=35000)
+        r = self.fuel.trip_fuel("B738", 600, 130, frame=frame)
+        self.assertEqual(r.method, "openap")
+        self.assertEqual(r.phases["Снижение"], 320)
+        self.assertAlmostEqual(r.times["Снижение"] * 60, 24)
+        self.assertAlmostEqual(r.trip_kg, sum(r.phases.values()))
+        self.assertAlmostEqual(r.block_h, sum(r.times.values()))
+        self.assertIn("PI.31.7", r.note)
+        native = self.fuel.trip_fuel("B738", 600, 130)
+        self.assertIn("FPPM 3.2.14", native.note)
+        self.assertEqual(native.phase_sources,
+                         "набор — OpenAP, крейсер — Boeing FPPM с поправкой OpenAP, снижение — Boeing FCOM")
+        slow = self.fuel.trip_fuel("B738", 600, 130, frame=replace(frame, cruise_tas_kt=400))
+        self.assertEqual(slow.phase_sources, "набор — OpenAP, крейсер — OpenAP, снижение — Boeing FCOM")
+        heavy = self.fuel.trip_fuel("B738", 600, 130, frame=replace(frame, oew_kg=75000))
+        self.assertEqual(heavy.phase_sources, "набор — OpenAP, крейсер — OpenAP, снижение — OpenAP")
+        self.assertAlmostEqual(native.times["Набор"] * 60,
+                               self.fuel.airframe_from_openap("B738").cruise_alt_ft / self.fuel.CLIMB_VS_FPM)
+        other = self.fuel.trip_fuel("T214", 600, 130, frame=self.t214,
+                                    ref=self.fuel.BurnRef("B738", same_engine=True))
+        self.assertNotIn("PI.31.7", other.note)
+        self.assertNotIn("FPPM", other.note)
+        self.assertEqual(other.phase_sources, "")
+
     def test_payload_range_refuses_without_anchor(self):
         from flightcostapp.fuel import payload_range
         d = payload_range("T214", 176, points=3, frame=self.t214, ref=self.fuel.BurnRef("B752"))
