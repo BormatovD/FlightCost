@@ -368,9 +368,10 @@ class _Handler(BaseHTTPRequestHandler):
             it = find(mr.group(1))
             if it is not None:
                 markets = []
-                if it.get("lease_types"):
+                if it.get("show_current_leases"):
+                    from . import prices
                     types = {t["icao"]: t for t in ctx.seo_types()}
-                    for icao in it["lease_types"]:
+                    for icao in prices.lease_types():
                         market = ctx.current_lease(icao)
                         if market:
                             name = seo.name_of(types.get(icao, {"icao": icao}), lang)
@@ -896,6 +897,8 @@ class Context:
         self.store, self.registry = store, registry
         self.lock = threading.Lock()
         self._monitor_lock = threading.Lock()
+        self._seo_econ_lock = threading.Lock()
+        self._seo_econ = {}
         self._apts = None
         # Слой гостя (решение 148): база мест и — у копии контекста на
         # запрос — ключ места. У общего контекста `ws` пуст.
@@ -2283,8 +2286,22 @@ class Context:
     SEO_ECON_TTL = 6 * 3600
 
     def seo_econ(self, cls: str) -> dict | None:
-        c = getattr(self, "_seo_econ", {}).get(cls)
-        return c[1] if c else None
+        from . import prices
+        cached = self._seo_econ.get(cls)
+        if cached is None:  # Initial warm-up is handled by the background thread.
+            return None
+        if cached[0] == (date.today(), prices.lease_revision()):
+            return cached[1]
+        return self._refresh_seo_class(cls)
+
+    def _refresh_seo_class(self, cls: str, *, force=False) -> dict:
+        from . import prices
+        with self._seo_econ_lock:
+            stamp = (date.today(), prices.lease_revision())
+            cached = self._seo_econ.get(cls)
+            if force or cached is None or cached[0] != stamp:
+                self._seo_econ[cls] = stamp, self._seo_econ_build(cls)
+            return self._seo_econ[cls][1]
 
     def _seo_econ_build(self, cls: str) -> dict:
         from .econ import route_economics
@@ -2309,8 +2326,7 @@ class Context:
     def seo_refresh(self) -> None:
         """Пересчитать все классы (синхронно)."""
         for cls in seo.ROUTES:
-            built = self._seo_econ_build(cls)
-            self._seo_econ = {**getattr(self, "_seo_econ", {}), cls: (time.time(), built)}
+            self._refresh_seo_class(cls, force=True)
 
     def start_seo_econ(self, log=print) -> None:
         def loop():

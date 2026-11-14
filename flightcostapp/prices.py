@@ -28,6 +28,7 @@ import re
 from collections import defaultdict
 from datetime import date
 from statistics import fmean
+from tempfile import TemporaryDirectory
 from pathlib import Path
 
 import yaml
@@ -89,12 +90,13 @@ def period_order(obs: dict) -> tuple:
 def load(path: Path | None = None) -> dict:
     path = PATH if path is None else path
     try:
-        mt = path.stat().st_mtime_ns
+        stat = path.stat()
+        revision = (stat.st_ino, stat.st_mtime_ns, stat.st_size)
     except OSError:
         return {}
     hit = _CACHE.get(str(path))
-    if not hit or hit[0] != mt:
-        hit = (mt, yaml.safe_load(path.read_text("utf-8")) or {})
+    if not hit or hit[0] != revision:
+        hit = (revision, yaml.safe_load(path.read_text("utf-8")) or {})
         _CACHE[str(path)] = hit
     return hit[1]
 
@@ -175,6 +177,11 @@ def observation_id(o: dict) -> str:
     """Стабильный SHA-256 семантического наблюдения; примечания и checked в ID не входят."""
     payload = json.dumps(_identity(o), ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def lease_types() -> list[str]:
+    """Types with accepted lease observations; annual_lease selects eligible rates."""
+    return sorted({row["icao"] for row in load().get("observations", []) if row["kind"] == "lease"})
 
 
 def lease_revision() -> str:
@@ -505,7 +512,8 @@ FIELDS = ("icao", "kind", "value", "value_low", "value_high", "scale", "currency
           "publisher", "note", "published_on", "variant", "valuation_basis", "source_family")
 
 
-def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date | None = None) -> list[str]:
+def merge(rows: list[dict], searched: list[str], path: Path | None = None, today: date | None = None) -> list[str]:
+    path = PATH if path is None else path
     doc = (yaml.safe_load(path.read_text("utf-8")) or {}) if path.exists() else {}
     head = "".join(ln for ln in path.read_text("utf-8").splitlines(True) if ln.startswith("#")) \
         if path.exists() else ""
@@ -526,6 +534,12 @@ def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date 
         s[t] = max(s.get(t, ""), str(today or date.today()))
     doc["searched"] = dict(sorted(s.items()))
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(head + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), "utf-8")
+    # Readers see either complete registry while a reviewed batch is being published.
+    with TemporaryDirectory(dir=path.parent) as staging:
+        ready = Path(staging) / path.name
+        ready.write_text(head + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), "utf-8")
+        if path.exists():
+            ready.chmod(path.stat().st_mode & 0o777)
+        ready.replace(path)
     _CACHE.pop(str(path), None)
     return done

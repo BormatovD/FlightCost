@@ -179,21 +179,21 @@ T = {
                           "Между датами заливка линейно соединяет диапазоны одного вида, возраста и источника."),
         "ts_age_unknown": "не указан", "ts_source_context": "Контекст и цитата",
         "ts_use_midpoint": "В калькулятор по середине",
-        "ts_param": "заготовка калькулятора ({age}), в долларах каждого года",
-        "ts_param_note": ("Линия — лизинг, который калькулятор подставляет без своих ставок: {eur} EUR в месяц на октябрь "
-                          "2026 года по курсу {fx} USD/EUR, пересчитан в доллары прошлых лет по индексу цен CPI-U США. "
-                          "Оценка — {age_for}; точки другого возраста с ней прямо не сравниваются."),
+        "ts_param": "оценка по массе ({age}), в долларах каждого года",
+        "ts_param_note": ("За основу взяты {eur} EUR в месяц на октябрь 2026 года и курс {fx} USD/EUR. "
+                          "Для прошлых лет применён индекс потребительских цен США CPI-U. "
+                          "Оценка рассчитана {age_for}."),
         "ts_age_new": "новый борт", "ts_age_cur": "борт около 12 лет",
         "ts_for_new": "для нового борта", "ts_for_cur": "для борта около 12 лет",
-        "ts_now": "Рынок {y} года по наблюдениям — {m} тыс. USD в месяц; заготовка в долларах {y} года — {p} тыс. ({d}).",
+        "ts_now": "Среднее по источникам за {y} год — {m} тыс. USD в месяц. Оценка по массе — {p} тыс. ({d}).",
         "ts_yield": ("Рынок лизинга восстанавливается после 2020 года: доходность парка AerCap (арендная плата ÷ средний "
                      "парк) — {y19} в 2019, дно {ymin} в {ymin_y}, {ylast} в {ylast_y}, до уровня 2019 ещё не дошла."),
-        "ts_real": ("В долларах 2026 года: заготовка — {p} тыс., наблюдения 2018–2019 годов того же возраста — {r} тыс. "
-                    "Если рынок вернётся к доковидному уровню, заготовка окажется {where}."),
+        "ts_real": ("В долларах 2026 года оценка по массе составляет {p} тыс., а наблюдения 2018–2019 годов для того же возраста дают {r} тыс. "
+                    "Если рынок вернётся к доковидному уровню, оценка по массе окажется {where}."),
         "ts_where": {"near": "рядом с ним", "above": "выше него", "below": "ниже него"},
         "fleet_h": "Лизинг и ТОиР: оценка стоимости владения и обслуживания",
-        "fleet_lead": ("Если вы не задали свои ставки, калькулятор подставляет оценки по массе и числу кресел. "
-                       "Это параметрика, а не данные эксплуатанта: в расчёте каждую можно заменить своей."),
+        "fleet_lead": ("Лизинг учитывает принятые публикации за год для этого типа и возраста. "
+                       "Если их нет, применяется оценка по массе. В калькуляторе можно ввести свои ставки."),
         "f_lease": "Лизинг, EUR в месяц", "f_hours": "Налёт борта, часов в месяц",
         "f_own": "Владение на лётный час (лизинг ÷ налёт), EUR",
         "f_mfh": "ТОиР, EUR на лётный час", "f_mfc": "ТОиР, EUR на цикл (взлёт-посадку)",
@@ -333,21 +333,21 @@ T = {
                           "Between dates, shading linearly joins ranges of the same kind, aircraft age and source."),
         "ts_age_unknown": "not stated", "ts_source_context": "Context and quote",
         "ts_use_midpoint": "Use midpoint in calculator",
-        "ts_param": "calculator default ({age}), in dollars of each year",
-        "ts_param_note": ("The line is the lease the calculator uses without your own rates: EUR {eur} a month as of "
+        "ts_param": "weight-based estimate ({age}), in dollars of each year",
+        "ts_param_note": ("The line shows the weight-based lease estimate: EUR {eur} a month as of "
                           "October 2026 at {fx} USD/EUR, restated in dollars of earlier years by the US CPI-U price index. "
                           "It is an estimate {age_for}; points of another age are not directly comparable."),
         "ts_age_new": "new aircraft", "ts_age_cur": "aircraft about 12 years old",
         "ts_for_new": "for a new aircraft", "ts_for_cur": "for an aircraft about 12 years old",
-        "ts_now": "Market in {y} by observations — USD {m}k a month; the default in {y} dollars — {p}k ({d}).",
+        "ts_now": "The {y} source average is USD {m}k per month. The weight-based estimate is USD {p}k ({d}).",
         "ts_yield": ("The lease market is recovering after 2020: AerCap's fleet yield (lease rents ÷ average lease "
                      "assets) was {y19} in 2019, bottomed at {ymin} in {ymin_y}, {ylast} in {ylast_y} — not yet back to 2019."),
-        "ts_real": ("In 2026 dollars: the default is {p}k, observations of 2018–2019 for the same age {r}k. If the market "
-                    "returns to its pre-COVID level, the default will be {where}."),
+        "ts_real": ("In 2026 dollars, the weight-based estimate is {p}k and observations for the same age in 2018–2019 give {r}k. "
+                    "If the market returns to its pre-COVID level, the weight-based estimate will be {where}."),
         "ts_where": {"near": "close to it", "above": "above it", "below": "below it"},
         "fleet_h": "Lease rate and maintenance cost: estimates for ownership and upkeep",
-        "fleet_lead": ("If you do not enter your own rates, the calculator uses estimates from weight and seat "
-                       "count. These are parametric, not operator data: each one can be replaced in the calculation."),
+        "fleet_lead": ("The lease uses accepted publications for the year, type and age. If none are available, "
+                       "a weight-based estimate applies. You can enter your own rates in the calculator."),
         "f_lease": "Lease, EUR per month", "f_hours": "Utilisation, flight hours per month",
         "f_own": "Ownership per flight hour (lease ÷ hours), EUR",
         "f_mfh": "Maintenance, EUR per flight hour", "f_mfc": "Maintenance, EUR per cycle",
@@ -488,22 +488,22 @@ T = {
                           "Flugzeugalters und derselben Quelle linear."),
         "ts_age_unknown": "nicht angegeben", "ts_source_context": "Kontext und Zitat",
         "ts_use_midpoint": "Mittelwert im Rechner verwenden",
-        "ts_param": "Voreinstellung des Rechners ({age}), in Dollar des jeweiligen Jahres",
-        "ts_param_note": ("Die Linie ist das Leasing, das der Rechner ohne eigene Sätze ansetzt: {eur} EUR pro Monat, "
+        "ts_param": "gewichtsbasierte Schätzung ({age}), in Dollar des jeweiligen Jahres",
+        "ts_param_note": ("Die Linie zeigt die gewichtsbasierte Schätzung: {eur} EUR pro Monat, "
                           "Stand Oktober 2026, zu {fx} USD/EUR, mit dem US-Verbraucherpreisindex CPI-U in Dollar früherer "
                           "Jahre umgerechnet. Schätzung {age_for}; Punkte anderen Alters sind nicht direkt vergleichbar."),
         "ts_age_new": "neues Flugzeug", "ts_age_cur": "Flugzeug von etwa 12 Jahren",
         "ts_for_new": "für ein neues Flugzeug", "ts_for_cur": "für ein Flugzeug von etwa 12 Jahren",
-        "ts_now": "Markt {y} nach Beobachtungen — {m} Tsd. USD pro Monat; Voreinstellung in Dollar von {y} — {p} Tsd. ({d}).",
+        "ts_now": "Der Mittelwert der Quellen für {y} beträgt {m} Tsd. USD pro Monat. Die gewichtsbasierte Schätzung beträgt {p} Tsd. USD ({d}).",
         "ts_yield": ("Der Leasingmarkt erholt sich seit 2020: Die Flottenrendite von AerCap (Leasingerlöse ÷ "
                      "durchschnittliches Leasingvermögen) lag 2019 bei {y19}, im Tief {ymin} ({ymin_y}), {ylast} ({ylast_y}) — "
                      "das Niveau von 2019 ist noch nicht erreicht."),
-        "ts_real": ("In Dollar von 2026: Voreinstellung {p} Tsd., Beobachtungen 2018–2019 gleichen Alters {r} Tsd. Kehrt der "
-                    "Markt auf das Vor-Corona-Niveau zurück, liegt die Voreinstellung {where}."),
+        "ts_real": ("In Dollar von 2026 beträgt die gewichtsbasierte Schätzung {p} Tsd. und der Vergleichswert für das gleiche Alter aus "
+                    "den Jahren 2018–2019 liegt bei {r} Tsd. Kehrt der Markt auf das Vor-Corona-Niveau zurück, liegt die Schätzung {where}."),
         "ts_where": {"near": "nahe daran", "above": "darüber", "below": "darunter"},
         "fleet_h": "Leasingrate und Wartungskosten: Schätzung für Besitz und Instandhaltung",
-        "fleet_lead": ("Ohne eigene Sätze setzt der Rechner Schätzungen nach Masse und Sitzzahl ein. Das sind "
-                       "parametrische Werte, keine Betreiberdaten: jeder lässt sich in der Rechnung ersetzen."),
+        "fleet_lead": ("Die Leasingrate berücksichtigt bestätigte Quellen für Jahr, Typ und Alter. Ohne passende Quelle "
+                       "gilt die gewichtsbasierte Schätzung. Im Rechner können Sie eigene Sätze eingeben."),
         "f_lease": "Leasing, EUR pro Monat", "f_hours": "Auslastung, Flugstunden pro Monat",
         "f_own": "Besitzkosten je Flugstunde (Leasing ÷ Stunden), EUR",
         "f_mfh": "Wartung, EUR je Flugstunde", "f_mfc": "Wartung, EUR je Zyklus",
@@ -1335,6 +1335,11 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     icao, name = entry["icao"], name_of(entry, lang) or info.get("name") or entry["icao"]
     by = {f["field"]: f for f in info.get("fields", [])}
     facts = facts_line(lang, by)
+    fd = info.get("fleet_default") or {}
+    model_lease_eur = fd.get("lease_eur_month")
+    if fd and (lease_market or {}).get("lease_eur_month") is not None:
+        fd = {**fd, "lease_eur_month": lease_market["lease_eur_month"]}
+    lease_eur = fd.get("lease_eur_month")
     body = [f'<div class="crumbs"><a href="/{lang}/">FlightCost</a> › <a href="/{lang}/types">'
             f'{esc(t["nav_types"])}</a> › {esc(icao)}</div>',
             f"<h1>{esc(t['type_h1'].format(name=name, icao=icao))}</h1>",
@@ -1344,7 +1349,7 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     if entry.get("usable"):
         body.append(f'<a class="cta" href="{esc(calc_link(lang, cls, icao))}">{esc(t["cta"].format(icao=icao))}</a>')
         if not icao.upper().startswith("USER:"):
-            body.append(type_editor(lang, icao, cls, info))
+            body.append(type_editor(lang, icao, cls, fd))
             if designer_enabled:
                 widget = designer_widget(lang, icao, info, cls, designer_origin)
                 if widget:
@@ -1395,10 +1400,9 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
             vcls = "r" if re.fullmatch(r"[\d\s.,−\-]+", val) else "r tx"
             body.append(f"<tr><td>{esc(lab)}</td><td class='{vcls}'>{esc(val)}</td><td class=s>{src}</td></tr>")
         body.append("</table></div>")
-    fd = info.get("fleet_default") or {}
     if fd and entry.get("usable"):
-        own = fd["lease_eur_month"] / fd["monthly_hours"] if fd.get("monthly_hours") else None
-        frows = [(t["f_lease"], fd.get("lease_eur_month")), (t["f_hours"], fd.get("monthly_hours")),
+        own = lease_eur / fd["monthly_hours"] if lease_eur is not None and fd.get("monthly_hours") else None
+        frows = [(t["f_lease"], lease_eur), (t["f_hours"], fd.get("monthly_hours")),
                  (t["f_own"], own), (t["f_mfh"], fd.get("maint_eur_per_fh")), (t["f_mfc"], fd.get("maint_eur_per_fc")),
                  (t["f_cfh"], fd.get("crew_eur_per_fh")), (t["f_cfc"], fd.get("crew_eur_per_fc"))]
         body.append(f"<h2>{esc(t['fleet_h'])}</h2><p class=dim>{esc(t['fleet_lead'])}</p><div class=tw><table>")
@@ -1408,7 +1412,7 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
         body.append("</table></div>")
     body.append(toir_block(lang, icao))
     from .fleet import generation
-    body.append(prices_block(lang, icao, (info.get("fleet_default") or {}).get("lease_eur_month"),
+    body.append(prices_block(lang, icao, model_lease_eur,
                              generation(icao) == "new", lease_market=lease_market))
     me = seats_of(entry) or 0
     has_cmp = bool(econ) and entry.get("usable")      # таблица класса уже ведёт к соседям
@@ -1421,8 +1425,8 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     # Ставки — в описание для выдачи: по запросам «a321neo price», «maintenance rates»
     # человек видит цифру уже в сниппете (Search Console, ноябрь 2026).
     rates = ""
-    if fd and entry.get("usable") and fd.get("lease_eur_month") and fd.get("maint_eur_per_fh"):
-        rates = t["type_rates"].format(lease=num(round(fd["lease_eur_month"], -3), lang, 0),
+    if fd and entry.get("usable") and lease_eur is not None and fd.get("maint_eur_per_fh"):
+        rates = t["type_rates"].format(lease=num(round(lease_eur, -3), lang, 0),
                                        mfh=num(round(fd["maint_eur_per_fh"], -1), lang, 0))
     desc = t["type_desc"].format(name=name, icao=icao, facts=facts or icao, rates=rates)
     h = head(lang, t["type_title"].format(name=name, icao=icao), desc[:300], site() + type_url(lang, icao),
@@ -1666,7 +1670,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                     py = dict((int(x), v) for x, v in pl).get(mn[0])
                     if py:
                         dd = (py / mn[1] - 1) * 100
-                        note += (f'<p>{esc(t["ts_now"].format(y=mn[0], m=num(round(mn[1]), lang, 0), p=num(round(py), lang, 0), d=("+" if dd >= 0 else "−") + num(abs(round(dd)), lang, 0) + " %"))}</p>')
+                        note += (f'<p>{esc(t["ts_now"].format(y=mn[0], m=pnum(round(mn[1], 3)), p=num(round(py), lang, 0), d=("+" if dd >= 0 else "−") + num(abs(round(dd)), lang, 0) + " %"))}</p>')
                 ly = PR.lessor_yield()
                 if ly and 2019 in ly:
                     after = {y: v for y, v in ly.items() if y >= 2020}
@@ -1943,10 +1947,9 @@ button.cta{background:none;cursor:pointer;font:inherit;font-weight:600;margin-le
 </style>"""
 
 
-def type_editor(lang: str, icao: str, cls: str, info: dict) -> str:
+def type_editor(lang: str, icao: str, cls: str, fd: dict) -> str:
     """Кнопка «Изменить и сохранить свой вариант» и форма под ней."""
     t = T[lang]
-    fd = info.get("fleet_default") or {}
 
     def inp(k, lab, step, ph=""):
         return (f'<label>{esc(t[lab])}<input data-k="{k}" type="number" step="{step}" min="0"'

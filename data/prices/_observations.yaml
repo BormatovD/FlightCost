@@ -232,6 +232,21 @@ observations:
   publisher: AirlineGeeks (данные IBA)
   note: «до» — верх диапазона
   checked: '2026-11-10'
+- icao: A20N
+  kind: lease
+  value_low: 395000
+  value_high: 424000
+  currency: USD
+  month: 2026-Q1
+  age: new
+  quote: A320-200N MLR is expected to be between US$ 395,000 and US$ 424,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Новый A320-200N. Оценка месячного лизинга IBA за I квартал 2026 года.
+  published_on: '2026-06-03'
+  variant: A320-200N
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: A21N
   kind: lease
   value: 455

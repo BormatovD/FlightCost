@@ -7,7 +7,9 @@ openap и МС-21 из каталога с русским именем) и пр�
 
 from __future__ import annotations
 
+import contextlib
 import http.client
+import io
 import json
 import pathlib
 import re
@@ -16,7 +18,9 @@ import tempfile
 import threading
 import unittest
 import xml.etree.ElementTree as ET
+from datetime import date
 from http.server import ThreadingHTTPServer
+from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -72,6 +76,73 @@ class SeoHttp(unittest.TestCase):
 
     def head_of(self, body):
         return body.split("</head>", 1)[0]
+
+    def test_accepting_price_drafts_updates_both_pages_and_route_in_running_server(self):
+        from flightcostapp import master, prices
+        from flightcostapp.parsers.openap_aircraft import parse
+        with tempfile.TemporaryDirectory() as tmp, contextlib.ExitStack() as stack:
+            root = pathlib.Path(tmp)
+            today = date.today().isoformat()
+            registry = root / "prices.yaml"
+            inbox = root / "inbox"
+            inbox.mkdir()
+            store = Store(root / "route.db", shared=True)
+            stack.callback(store.db.close)
+            store.commit_facts([f for f in parse(b"", {"source_id": "aircraft_openap", "today": today})
+                                if f.key.startswith("A320/")])
+            store.commit_facts([
+                Fact(domain="fx", key="USD", value=1.25, valid_from=today, source_id="fx_rates", extracted_by="t"),
+                Fact(domain="airport", key="FRA", value_text="50.03,8.54|EDDF|DE|Frankfurt",
+                     valid_from=today, source_id="test", extracted_by="t"),
+                Fact(domain="airport", key="BCN", value_text="41.30,2.08|LEBL|ES|Barcelona",
+                     valid_from=today, source_id="test", extracted_by="t"),
+            ])
+            ctx = S.Context(store, {"sources": {}})
+            stack.enter_context(mock.patch.object(self.httpd, "ctx", ctx))
+            stack.enter_context(mock.patch.object(prices, "PATH", registry))
+            stack.enter_context(mock.patch.object(master, "DRAFTS_INBOX", inbox))
+            ctx.seo_refresh()  # Warm the type card's route economics before either acceptance.
+            aircraft = next(t for t in ctx.seo_types() if t["icao"] == "A320")
+            route = f"/api/route?ac=A320&origin=EDDF&destination=LEBL&lf=.8&as_of={today}&month={seo.ECON_MONTH}"
+            if aircraft.get("seats_max"):
+                route += f"&seats={int(aircraft['seats_max'])}"
+            pages = ("/ru/type/A320", "/ru/research/aircraft-prices-2026-11")
+            sources = []
+            for i, (low, high, expected) in enumerate([(395000, 424000, 409500), (420000, 440000, 419750)]):
+                source = f"https://appraiser-{i}.example/report"
+                row = dict(icao="A320", kind="lease", age=12, month=today[:7], currency="USD",
+                           value_low=low, value_high=high, source=source, publisher=f"Appraiser {i}",
+                           quote=f"Monthly lease rates between USD {low:,} and USD {high:,}.")
+                draft = inbox / f"prices-test-{i}.json"
+                draft.write_text(json.dumps({"searched": [], "observations": [row]}))
+                for path in pages:
+                    self.assertNotIn(source, self.get(path)[1])
+                before = json.loads(self.get(route)[1])["inputs"]["fleet"].get("lease_observation")
+                self.assertEqual(before and before["midpoint"], 409500 if i else None)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(master.main(["--db", str(root / "route.db"), "drafts", "--local", "--accept-prices"]), 0)
+                status, body, _ = self.get(route)
+                self.assertEqual(status, 200, body[:200])
+                result = json.loads(body)
+                fleet = result["inputs"]["fleet"]
+                ownership = next(c for c in result["cost"] if c["item"] == "ownership")
+                rate = fleet["lease_observation"]
+                sources.append(source)
+                self.assertEqual((rate["midpoint"], rate["source_count"], rate["applied"]), (expected, i + 1, True))
+                self.assertEqual({o["source"] for o in rate["sources"]}, set(sources))
+                self.assertEqual(fleet["lease_eur_month"], expected / 1.25)
+                for path in pages:
+                    status, body, _ = self.get(path)
+                    self.assertEqual(status, 200)
+                    blocks = re.findall(r'<section class="current-lease">(.+?)</section>', body, re.S)
+                    self.assertEqual(len(blocks), 1, path)
+                    self.assertIn(f"<strong>{seo.num(expected, 'ru', 0)} USD/мес.</strong>", blocks[0], path)
+                    self.assertIn(f"Первоисточников: {i + 1}", blocks[0], path)
+                    for link in sources:
+                        self.assertIn(link, blocks[0], path)
+                    if path.startswith("/ru/type/"):
+                        self.assertRegex(body, rf"Лизинг, EUR в месяц</td><td[^>]*>{seo.num(expected / 1.25, 'ru', 0)}</td>")
+                        self.assertIn(f"{ownership['label']}</td><td class=r>{seo.num(ownership['eur'], 'ru', 0)}</td>", body)
 
     def test_type_page_rates_in_snippet(self):
         """Ставки лизинга и ТОиР — в заголовке блока и в описании для выдачи (запросы «price», «maintenance rates»)."""
