@@ -127,9 +127,8 @@ header #hdr{color:var(--dim);font-size:12.5px}
 /* Главные числа — над глобусом, а не в глубине правой колонки: стоимость
    рейса, безубыточный чек, CASK и полоса перевозчиков. Ответ виден до
    того, как открыта хоть одна вкладка. */
-/* Ширина по содержимому: у чека и CASK по две строки сравнения, у
-   выбора перевозчика — два поля друг над другом. */
-.kpi{flex:none;display:grid;grid-template-columns:1fr 1.45fr 1.45fr .95fr;
+/* Компактная полоса: вид сравнения и год в одной строке, перевозчик — ниже. */
+.kpi{flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
  border-bottom:1px solid var(--line);background:var(--bg)}
 .kpi>div{padding:9px 14px 8px;border-right:1px solid var(--line);min-width:0}
 .kpi>div:last-child{border-right:0}
@@ -141,10 +140,18 @@ header #hdr{color:var(--dim);font-size:12.5px}
 .kpi .bad{color:var(--guess)}
 .kpi .cmp{color:var(--dim);margin-top:4px}
 .kpi .cmp b{font-weight:600;color:var(--ink)}
-.kpi .cpick{display:flex;flex-direction:column;gap:4px;margin-top:4px;position:relative}
+.kpi .cpick{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:4px;margin-top:4px;position:relative}
+.kpi .cpick #benchmark-kind{grid-row:1;grid-column:1}
+.kpi .cpick #cy{grid-row:1;grid-column:2}
+.kpi .cpick #benchmark-kind:only-child{grid-column:1/-1}
+.kpi .cpick-search{grid-row:2;grid-column:1/-1}
 .kpi .cpick input,.kpi .cpick select{width:100%;min-width:0;background:var(--raise);
  color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:2px 7px;
- font:12.5px var(--sans)}
+ font:12.5px var(--sans);min-height:26px}
+/* Своя поверхность и стрелка: Safari не добавляет системный градиент и спиннер. */
+.kpi .cpick select{-webkit-appearance:none;appearance:none;color-scheme:dark;padding-right:23px;
+ background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);
+ background-position:calc(100% - 12px) 50%,calc(100% - 8px) 50%;background-size:4px 4px;background-repeat:no-repeat}
 .kpi .cpick-search{position:relative}
 .kpi .cpick .hits{left:auto;right:0;min-width:0;width:360px;max-height:320px}
 .kpi .cpick .hits.above{top:auto;bottom:100%;margin-top:0;margin-bottom:3px}
@@ -181,6 +188,11 @@ header #hdr{color:var(--dim);font-size:12.5px}
  border-top:1px solid var(--line)}
 @media (max-width:1180px){
   .cols{grid-template-columns:230px minmax(280px,1fr) 360px}
+  .kpi:not(.net){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+@media (max-width:1500px){
+  .kpi .cpick{grid-template-columns:minmax(0,1fr)}
+  .kpi .cpick #cy{grid-row:3;grid-column:1}
 }
 /* ── режим «Сеть» (решения 154–159): переключатель в шапке, чипы
    аэропортов слева, пять чисел над глобусом, дуги пар на глобусе. ── */
@@ -581,9 +593,15 @@ tr.sel td,tr:hover td.v{background:var(--select)}
    font-size:12px;color:var(--faint);background:var(--panel)}
   .mfoot a{color:var(--dim);text-decoration:none}
   .kpi{grid-template-columns:1fr 1fr}
-  .kpi>div{border-bottom:1px solid var(--line);padding:8px 12px 7px}
+  .kpi:not(.net){grid-auto-rows:1fr}
+  .kpi>div{border-bottom:1px solid var(--line);padding:6px 8px 5px}
   .kpi>div:nth-child(2n){border-right:0}
   .kpi .n{font-size:18px}
+  .kpi .cpick{grid-template-columns:minmax(0,1fr) 54px;gap:3px;margin-top:3px}
+  .kpi .cpick #cy{grid-row:1;grid-column:2}
+  .kpi .cpick input,.kpi .cpick select{height:28px;min-height:28px}
+  .kpi .cpick select{padding-left:5px;padding-right:17px;
+   background-position:calc(100% - 10px) 50%,calc(100% - 6px) 50%}
   .gwrap{flex:none;height:min(72vw,400px,70vh)}
   #globe{touch-action:pan-y}
   .gtools{left:8px;right:8px;flex-wrap:wrap;justify-content:flex-end}
@@ -604,7 +622,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   .left.open .mtoggle i{transform:rotate(180deg)}
   .left:not(.open)>:not(.mtoggle){display:none}
   .left .mtoggle+.grp2{margin-top:14px}
-  .field input,.field select,.kpi .cpick input,.kpi .cpick select{font-size:16px}
+  .field input,.field select{font-size:16px}
   .tabs{flex-wrap:nowrap;overflow-x:auto;padding:0 6px;position:sticky;top:0;z-index:5;
    background:var(--panel);scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
@@ -655,6 +673,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
 @keyframes ldr-orbit{to{transform:rotate(360deg)}}
 @keyframes ldr-spiral{0%,100%{transform:scale(1)}50%{transform:scale(.72)}}
 @media (prefers-reduced-motion:reduce){#loader .hold,#loader .hold .wob{animation:none}}
+@media (max-width:360px){
+  .kpi .cpick{grid-template-columns:minmax(0,1fr)}
+  .kpi .cpick #cy{grid-row:3;grid-column:1}
+}
 </style></head><body>
 <header><b><a href="/" id="homelink">FlightCost</a></b>
   <span class="mode" id="mode" role="tablist"><button data-mode="route" aria-selected="true">Маршрут</button><button data-mode="net" aria-selected="false">Сеть</button></span>
@@ -2939,13 +2961,13 @@ function cask(r){
 
 // Полоса перевозчиков грузится один раз на пару аэропортов и служит и
 // показателям над глобусом, и вкладке «Маршрут».
-let BENCH = null, BENCH_KEY = "", BENCH_STALE = false;
+let BENCH = null, BENCH_KEY = "";
 async function loadBench(){
-  const key = CHOSEN.o + "|" + CHOSEN.d + "|" + BENCH_STALE;
+  const key = CHOSEN.o + "|" + CHOSEN.d;
   if (BENCH && BENCH_KEY === key) return BENCH;
   const b = await (await fetch(`/api/bench?origin=${
     encodeURIComponent(CHOSEN.o)}&destination=${
-    encodeURIComponent(CHOSEN.d)}&include_stale=${BENCH_STALE ? "1" : "0"}`)).json();
+    encodeURIComponent(CHOSEN.d)}`)).json();
   BENCH = b; BENCH_KEY = key;
   return b;
 }
@@ -3038,7 +3060,7 @@ let CARRIER_EMBLEMS_READY = null;
 let CARRIER_PICK_CLEANUP = null;
 function loadCarrierEmblems(){
   if (!CARRIER_EMBLEMS_READY) {
-    CARRIER_EMBLEMS_READY = fetch('/airline-emblems/manifest.json')
+    CARRIER_EMBLEMS_READY = fetch('/airline-emblems/manifest.json?v=2', {cache: 'no-cache'})
       .then(response => response.ok ? response.json() : {})
       .then(manifest => { CARRIER_EMBLEMS = manifest.carriers || {}; })
       .catch(() => { CARRIER_EMBLEMS = {}; });
@@ -3210,14 +3232,8 @@ function drawChips(b, restoreFocus = false){
       <div class="hits" id="cqh" role="listbox" aria-label="${_t("Авиакомпания")}"></div></div>
       <select id="cy" title="${_t("год отчётности")}">${[...new Set(cs.filter(c => c.code === cur.code).map(c => c.year))].map(y =>
         `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>` : ""}
-    <label class="s"><input id="benchmark-stale" type="checkbox" style="width:auto"${BENCH_STALE ? " checked" : ""}> ${_t("Включить отчёты 18–24 месяцев")}</label>`;
+    `;
   $("#benchmark-kind").onchange = e => { KPI_SEGMENT = e.target.value; drawChips(b); if ($("#benchbox")) drawBench(LAST); };
-  $("#benchmark-stale").onchange = async e => {
-    BENCH_STALE = e.target.checked;
-    const r = LAST, includeStale = BENCH_STALE;
-    const next = await loadBench();
-    if (LAST === r && BENCH_STALE === includeStale) { drawChips(next); if ($("#benchbox")) drawBench(r); }
-  };
   if (!segment && cur) {
     bindCarrierEmblemFallback(box);
     bindCarrierPick(b, cs, cur, restoreFocus);
@@ -3343,12 +3359,12 @@ async function drawBench(r){
   const box = [];
 
   if ((b.carriers || []).length) {
-    // Список уже отсортирован сервером по заполненности. Полные карточки
-    // открыты, остальные свёрнуты — их меньше читают и больше листают.
-    const full = b.carriers.filter(c => c.filled >= 3), rest = b.carriers.filter(c => c.filled < 3);
+    // Сохраняем порядок сервера по заполненности: три карточки видны,
+    // остальные открываются по нажатию, независимо от полноты отчётов.
+    const full = b.carriers.slice(0, 3), rest = b.carriers.slice(3);
     box.push(full.map(carrierCard).join(""));
-    if (rest.length) box.push(`<details class="more"><summary>${_t("ещё перевозчиков с неполными данными")}: ${
-      rest.length} · ${rest.map(c => esc(c.code)).join(", ")}</summary>${rest.map(carrierCard).join("")}</details>`);
+    if (rest.length) box.push(`<details class="more"><summary>${_t("ещё перевозчиков")}: ${
+      rest.length}</summary>${rest.map(carrierCard).join("")}</details>`);
     const noFx = b.carriers.filter(c => c.fx && !c.fx.rate);
     if (noFx.length) box.push(`<div class="note"><b>${_t("Пересчёт невозможен.")}</b>
       ${noFx.map(c => esc(c.carrier) + " — " + esc(c.fx.currency)).join(", ")}:

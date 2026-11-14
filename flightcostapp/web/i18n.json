@@ -294,7 +294,7 @@
   "другим": "anderen",
   "другим)": "anderen)",
   "есть наблюдения": "Beobachtungen vorhanden",
-  "ещё перевозчиков с неполными данными": "weitere Airlines mit unvollständigen Daten",
+  "ещё перевозчиков": "weitere Airlines",
   "за рейс": "pro Flug",
   "за цикл": "je Zyklus",
   "за час налёта": "je Flugstunde",
@@ -1117,7 +1117,6 @@
   "Для полосы нужно минимум пять перевозчиков": "Ein Vergleichsband benötigt mindestens fünf Fluggesellschaften",
   "недостаточно данных за выбранный период": "unzureichende Daten für den ausgewählten Zeitraum",
   "средняя дальность перевозки": "durchschnittliche Beförderungsstrecke",
-  "Включить отчёты 18–24 месяцев": "18–24 Monate alte Berichte einbeziehen",
   "устаревший отчёт": "veralteter Bericht",
   "перевозчиков": "Fluggesellschaften"
  },
@@ -1416,7 +1415,7 @@
   "другим": "others",
   "другим)": "others)",
   "есть наблюдения": "observations available",
-  "ещё перевозчиков с неполными данными": "more carriers with incomplete data",
+  "ещё перевозчиков": "more carriers",
   "за рейс": "per flight",
   "за цикл": "per cycle",
   "за час налёта": "per flight hour",
@@ -2239,7 +2238,6 @@
   "Для полосы нужно минимум пять перевозчиков": "A band requires at least five carriers",
   "недостаточно данных за выбранный период": "insufficient data for the selected period",
   "средняя дальность перевозки": "average passenger journey distance",
-  "Включить отчёты 18–24 месяцев": "Include reports aged 18–24 months",
   "устаревший отчёт": "outdated report",
   "перевозчиков": "carriers"
  }

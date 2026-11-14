@@ -1,4 +1,4 @@
-Airline emblems from Soaring Symbols
+Base airline emblem collection from Soaring Symbols
 https://github.com/soaring-symbols/soaring-symbols
 Revision 546e08c6d49494c0c80e2f2eb8a7f36d361e527e
 
@@ -24,3 +24,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 Airline marks identify the reporting airline or group. Their respective airlines retain ownership of the marks.
+
+Additional airline marks (2026-11-15)
+These marks are third-party brand artwork, not covered by the Soaring Symbols MIT license above.
+Rights in these marks remain with their respective owners. Local copies identify the reporting airline or group.
+Source URLs, source hashes and adaptations are recorded per carrier in manifest.json.
+
+Aeroflot and S7 Airlines: theSVG (https://thesvg.org/icon/aeroflot and https://thesvg.org/icon/s7-airlines).
+Allegiant: https://companieslogo.com/allegiant/logo/
+Sun Country Airlines: https://companieslogo.com/sun-country-airlines/logo/
+IAG: official brand artwork, https://www.iairgroup.com/media/u1hp3ndi/iag_logo_black.svg

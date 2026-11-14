@@ -245,6 +245,78 @@
       "asset": "logo",
       "source_url": "https://raw.githubusercontent.com/soaring-symbols/soaring-symbols/546e08c6d49494c0c80e2f2eb8a7f36d361e527e/assets/airbaltic/logo.svg",
       "sha256": "5467be0c69dba1a48bfcf411fe00689fa342fc6cf2648dd9766c5810e0f26d76"
+    },
+    "SU": {
+      "slug": "aeroflot",
+      "color": "#02458D",
+      "name": "Aeroflot",
+      "asset": "icon",
+      "source_url": "https://thesvg.org/icons/aeroflot/default.svg",
+      "source_page": "https://thesvg.org/icon/aeroflot",
+      "source_sha256": "fcd51078d69fa6dd7c0f7e619416cda2e9a293ffc8c6adccadf33f7660156b1b",
+      "sha256": "fcffe50987531b26f43cbdf22eb1d4f3f61076796eacca634c47fa0e37aeba07",
+      "adaptation": "Cropped empty vertical margins; original paths unchanged.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
+    },
+    "SUG": {
+      "slug": "aeroflot",
+      "color": "#02458D",
+      "name": "Aeroflot",
+      "asset": "icon",
+      "source_url": "https://thesvg.org/icons/aeroflot/default.svg",
+      "source_page": "https://thesvg.org/icon/aeroflot",
+      "source_sha256": "fcd51078d69fa6dd7c0f7e619416cda2e9a293ffc8c6adccadf33f7660156b1b",
+      "sha256": "fcffe50987531b26f43cbdf22eb1d4f3f61076796eacca634c47fa0e37aeba07",
+      "adaptation": "Cropped empty vertical margins; original paths unchanged.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
+    },
+    "S7": {
+      "slug": "s7-airlines",
+      "color": "#C4D600",
+      "name": "S7 Airlines",
+      "asset": "icon",
+      "source_url": "https://thesvg.org/icons/s7-airlines/default.svg",
+      "source_page": "https://thesvg.org/icon/s7-airlines",
+      "source_sha256": "455d6c904aa83260423304ff7e65b7773d80f1bfd3f4b23fccb00c5437e48544",
+      "sha256": "11644f0a292f950422608703e7bcd245452ae212c9f40c9ad6d1becb09dab689",
+      "adaptation": "Original compact symbol.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
+    },
+    "G4": {
+      "slug": "allegiant",
+      "color": "#f48120",
+      "name": "Allegiant",
+      "asset": "icon",
+      "source_url": "https://companieslogo.com/img/orig/ALGT-07db22dc.svg?t=1742531504&download=true",
+      "source_page": "https://companieslogo.com/allegiant/logo/",
+      "source_sha256": "0099d4061c08cb326699dee128d99f43532ad364f5add8865688487fa5ef1c0f",
+      "sha256": "240108f316feee55f51e802e02cc04e67f6f4cdb14019467ccd222c7fe2b0088",
+      "adaptation": "Original compact sun symbol.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
+    },
+    "SY": {
+      "slug": "sun-country",
+      "color": "#f46c0b",
+      "name": "Sun Country Airlines",
+      "asset": "icon",
+      "source_url": "https://companieslogo.com/img/orig/SNCY-53994d78.svg?download=true&t=1720244494",
+      "source_page": "https://companieslogo.com/sun-country-airlines/logo/",
+      "source_sha256": "f6b2a9a071ae4d92be6e741ae00733e1724db52fcac020d3ef52b539829fbd94",
+      "sha256": "9910ef24273333a2fd4d648c0cc75d25d10473542cf242a2d65121f59fada608",
+      "adaptation": "Original compact symbol.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
+    },
+    "IAG": {
+      "slug": "iag",
+      "color": "#000000",
+      "name": "International Airlines Group",
+      "asset": "icon",
+      "source_url": "https://www.iairgroup.com/media/u1hp3ndi/iag_logo_black.svg",
+      "source_page": "https://www.iairgroup.com/",
+      "source_sha256": "c501c05af38a1a75766c07d7de06871613b18292cbc497bb2b5f427d4f98606f",
+      "sha256": "3a88c7fd68d91998a4067750f06ee290ad8a4e21951f8452e52e2491254e0386",
+      "adaptation": "IAG wordmark only; small tagline omitted; original letter paths unchanged.",
+      "rights": "Brand artwork; rights retained by the respective airline or group."
     }
   }
 }

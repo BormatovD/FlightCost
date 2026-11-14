@@ -293,7 +293,8 @@ class _Handler(BaseHTTPRequestHandler):
         if re.fullmatch(r"/airline-emblems/(?:[a-z0-9-]+\.svg|manifest\.json)", u.path):
             emblem = WEB / u.path.lstrip("/")
             if emblem.is_file():
-                self._public(emblem.read_bytes(), "image/svg+xml" if emblem.suffix == ".svg" else "application/json")
+                self._public(emblem.read_bytes(), "image/svg+xml" if emblem.suffix == ".svg" else "application/json",
+                             revalidate=emblem.suffix == ".json")
             else:
                 self._send(404, b"", "text/plain")
             return True
