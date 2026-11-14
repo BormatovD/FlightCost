@@ -1,0 +1,329 @@
+carrier: SUG
+name: Аэрофлот — группа, расходы до прочих операционных доходов
+entity_id: SU
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Аэрофлот, Databook (август 2026), раздел для инвесторов
+source_url: https://ir.aeroflot.ru/
+report_id: research-SU-2025-12-31-6046081d6e95
+scope: 'группа: Аэрофлот, Россия, Победа; МСФО 16 opex — до зачёта прочих операционных
+  доходов; налёт — «налёт часов» отчётности'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b5.json
+  sha256: 6046081d6e951b91d855fabf520b550363fef1e8aa1ecd6fc307127edabd5f90
+  original_code: SU
+  original_period: 2025 (календарный год)
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 902261000000.0
+    basis: Research field revenue, reporting currency RUB
+    page: лист «RASK-CASK», «Выручка», 2025
+    quote: 'Выручка 2025: 902261 (млн руб)'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id001
+    - b5-001
+    research_evidence:
+    - id: b5-001
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «RASK-CASK», «Выручка», 2025
+      quote: 'Выручка 2025: 902261 (млн руб)'
+      value: revenue=902261000000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 902261000000.0
+      ids: *id001
+    currency: RUB
+  traffic_revenue_eur:
+    value: 848349000000.0
+    basis: Research field pax_revenue, reporting currency RUB
+    page: лист «RASK-CASK», «1. Пассажирская выручка», 2025
+    quote: 'Пассажирская выручка 2025: 848349'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id002
+    - b5-002
+    research_evidence:
+    - id: b5-002
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «RASK-CASK», «1. Пассажирская выручка», 2025
+      quote: 'Пассажирская выручка 2025: 848349'
+      value: pax_revenue=848349000000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 848349000000.0
+      ids: *id002
+    currency: RUB
+  opex_eur:
+    value: 864163000000.0
+    basis: 'Research field opex, reporting currency RUB; 864 163 млн руб: расходы
+      до зачёта прочих операционных доходов (+100 540), сопоставимо с opex других;
+      в «Итого» МСФО прочие операционные доходы (компенсации и пр.) вычтены из расходов'
+    page: лист «Operating Expenses», строки «Операционные расходы, за исключением
+      ФОТ и амортизации» −618678, «Итого расходы на оплату труда» −130472, «Амортизация»
+      −115013, 12М 2025
+    quote: -618678; -130472; -115013
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id003
+    - b5-004
+    - b5-014
+    research_evidence:
+    - id: b5-004
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «Operating Expenses», строки «Операционные расходы, за исключением
+        ФОТ и амортизации» −618678, «Итого расходы на оплату труда» −130472, «Амортизация»
+        −115013, 12М 2025
+      quote: -618678; -130472; -115013
+      value: opex=864163000000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    - id: b5-014
+      kind: infer
+      value: '864 163 млн руб: расходы до зачёта прочих операционных доходов (+100
+        540), сопоставимо с opex других'
+      note: в «Итого» МСФО прочие операционные доходы (компенсации и пр.) вычтены
+        из расходов
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 864163000000.0
+      ids: *id003
+    currency: RUB
+  fuel_cost_eur:
+    value: 303844000000.0
+    basis: Research field fuel_cost, reporting currency RUB
+    page: лист «Operating Expenses», «Авиационное топливо», 12М 2025
+    quote: 'Авиационное топливо: -303844'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id004
+    - b5-005
+    research_evidence:
+    - id: b5-005
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «Operating Expenses», «Авиационное топливо», 12М 2025
+      quote: 'Авиационное топливо: -303844'
+      value: fuel_cost=303844000000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 303844000000.0
+      ids: *id004
+    currency: RUB
+  ask_km:
+    value: 170875247000.0
+    basis: Research field ask_km, reporting currency RUB
+    page: лист «RASK-CASK», «Предельный пассажирооборот, млн пкм (ASK)», 2025
+    quote: 'ASK, mn 2025: 170875.247'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id005
+    - b5-007
+    research_evidence:
+    - id: b5-007
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «RASK-CASK», «Предельный пассажирооборот, млн пкм (ASK)», 2025
+      quote: 'ASK, mn 2025: 170875.247'
+      value: ask_km=170875247000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 170875247000.0
+      ids: *id005
+  rpk_km:
+    value: 154089150000.0
+    basis: Research field rpk_km, reporting currency RUB
+    page: лист «RASK-CASK», «Пассажирооборот, млн пкм (RPK)», 2025
+    quote: 'RPK, mn 2025: 154089.15'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id006
+    - b5-008
+    research_evidence:
+    - id: b5-008
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «RASK-CASK», «Пассажирооборот, млн пкм (RPK)», 2025
+      quote: 'RPK, mn 2025: 154089.15'
+      value: rpk_km=154089150000.0
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 154089150000.0
+      ids: *id006
+  pax:
+    value: 55340330
+    basis: Research field pax, reporting currency RUB
+    page: лист «AFLT - Operating - abs», «Пассажиропоток, тыс.», 2025
+    quote: 'Пассажиропоток, тыс. 2025: 55340.33'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id007
+    - b5-009
+    research_evidence:
+    - id: b5-009
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «AFLT - Operating - abs», «Пассажиропоток, тыс.», 2025
+      quote: 'Пассажиропоток, тыс. 2025: 55340.33'
+      value: pax=55340330
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 55340330
+      ids: *id007
+  flights:
+    value: 361081
+    basis: Research field flights, reporting currency RUB
+    page: лист «AFLT - Operating - abs», «Количество рейсов», 2025
+    quote: 'Количество рейсов 2025: 361081'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id008
+    - b5-010
+    research_evidence:
+    - id: b5-010
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «AFLT - Operating - abs», «Количество рейсов», 2025
+      quote: 'Количество рейсов 2025: 361081'
+      value: flights=361081
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 361081
+      ids: *id008
+  block_hours:
+    value: 1061914
+    basis: Research field block_hours, reporting currency RUB
+    page: лист «AFLT - Operating - abs», «Налет часов», 2025
+    quote: 'Налет часов 2025: 1061913.743'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id009
+    - b5-011
+    research_evidence:
+    - id: b5-011
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «AFLT - Operating - abs», «Налет часов», 2025
+      quote: 'Налет часов 2025: 1061913.743'
+      value: block_hours=1061914
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 1061914
+      ids: *id009
+  fleet_avg:
+    value: 352
+    basis: Research field fleet_avg, reporting currency RUB
+    page: лист «Fleet», «Итого» 2024YE 352, 2025YE 352
+    quote: 'Итого: 2024YE 352; 2025YE 352'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id010
+    - b5-012
+    research_evidence:
+    - id: b5-012
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «Fleet», «Итого» 2024YE 352, 2025YE 352
+      quote: 'Итого: 2024YE 352; 2025YE 352'
+      value: fleet_avg=352
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 352
+      ids: *id010
+  employees:
+    value: 34890
+    basis: Research field employees, reporting currency RUB
+    page: лист «Headcount», «Всего», 2025
+    quote: 'Всего 2025: 34890'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id011
+    - b5-013
+    research_evidence:
+    - id: b5-013
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «Headcount», «Всего», 2025
+      quote: 'Всего 2025: 34890'
+      value: employees=34890
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 34890
+      ids: *id011
+  fuel_tonnes:
+    value: 3668391
+    basis: Research field fuel_volume, reporting currency RUB; tonnes as stored in
+      the verified research snapshot
+    page: лист «Fuel Consumption», «Общий объем потребленного топлива», 12M 2025 (тыс.
+      т)
+    quote: 'Общий объем потребленного топлива 12M 2025: 3668.391'
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids: &id012
+    - b5-006
+    research_evidence:
+    - id: b5-006
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook (август 2026), раздел для инвесторов
+      locator: лист «Fuel Consumption», «Общий объем потребленного топлива», 12M 2025
+        (тыс. т)
+      quote: 'Общий объем потребленного топлива 12M 2025: 3668.391'
+      value: fuel_volume=3668391
+      note: файл передан владельцем, в репозиторий не кладётся
+      verification: owner_provided_databook
+      verification_note: ''
+    research_original:
+      value: 3668391
+      ids: *id012
+  fx_per_eur:
+    value: 94.31
+    basis: Calendar-year 2025 average RUB per EUR from the research's official-source
+      exchange-rate table
+    page: 'лист бенчмарков data/benchmarks/SU-2025.yaml: fx_per_eur'
+    quote: СРЕДНИЙ курс за 2025 год, 94,31 руб за евро
+    source_url: https://ir.aeroflot.ru/
+    research_trace_ids:
+    - b6-012
+    research_evidence:
+    - id: b6-012
+      kind: extract
+      url: https://ir.aeroflot.ru/
+      title: Аэрофлот, Databook / МСФО 2025
+      locator: 'лист бенчмарков data/benchmarks/SU-2025.yaml: fx_per_eur'
+      quote: СРЕДНИЙ курс за 2025 год, 94,31 руб за евро
+      value: RUB/EUR=94.31
+      verification: research_exchange_rate
+      verification_note: ''

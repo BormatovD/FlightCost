@@ -515,13 +515,13 @@ def reports(store) -> list[dict]:
     for r in rows:
         car, year, name = r["key"].split("/", 2)
         by[(car, int(year))][name] = (r["value"], (r["currency"] or "").upper(), r["certainty"])
-    latest = {}
-    for car, year in by:
-        if year >= latest.get(car, 0):
-            latest[car] = year
+    seen = set()
     out = []
-    for car, year in sorted(latest.items()):
-        v = by[(car, year)]
+    # Hourly rates use the latest report with a usable block-hour basis.
+    # Each returned row keeps the year of that report.
+    for (car, year), v in sorted(by.items(), key=lambda item: (item[0][0], -item[0][1])):
+        if car in seen:
+            continue
         g = lambda k: v[k][0] if k in v else None
         bh, est = g("block_hours"), False
         if not bh and g("utilisation_bh_day"):
@@ -532,6 +532,7 @@ def reports(store) -> list[dict]:
                 bh, est = g("utilisation_bh_day") * fleet * 365, True
         if not bh:
             continue
+        seen.add(car)
 
         def eur(k):
             if k not in v:

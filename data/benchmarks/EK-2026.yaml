@@ -1,0 +1,288 @@
+carrier: EK
+name: Emirates (авиакомпания)
+entity_id: EK
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2026
+period_start: '2025-04-01'
+period_end: '2026-03-31'
+source: 'Emirates Group press release: record profit of AED 24.4 bln in 2025-26 (Zawya)'
+source_url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+report_id: research-EK-2026-03-31-51cb077f53c3
+scope: Emirates вкл. Emirates SkyCargo; без dnata Выручка и расходы включают SkyCargo
+  (крупная доля) — CASK по пассажирскому ASK несопоставим без поправки. Пассажирская
+  выручка не найдена.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: EK
+  original_period: 'FY2025-26: 01.04.2025–31.03.2026'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 130900000000.0
+    basis: Research field revenue, reporting currency AED
+    page: Emirates performance
+    quote: Emirates' total revenue for the financial year increased 2% to AED 130.9
+      billion (US$ 35.7 billion).
+    source_url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+    research_trace_ids: &id001
+    - b2-328
+    research_evidence:
+    - id: b2-328
+      kind: extract
+      url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+      title: 'Emirates Group press release: record profit of AED 24.4 bln in 2025-26
+        (Zawya)'
+      locator: Emirates performance
+      quote: Emirates' total revenue for the financial year increased 2% to AED 130.9
+        billion (US$ 35.7 billion).
+      value: revenue 130,9 млрд AED (вкл. SkyCargo)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 130900000000.0
+      ids: *id001
+    currency: AED
+  opex_eur:
+    value: 107600000000.0
+    basis: Research field opex, reporting currency AED; fuel / доля 29%; opex ≈ 31,2
+      / 0,29 = 107,6 млрд AED (доля округлена до 1 п.п. → ±1,8 млрд); абсолютные операционные
+      расходы в релизе не названы
+    page: Emirates performance
+    quote: The airline's fuel bill decreased slightly to AED 31.2 billion (US$ 8.5
+      billion) | 29% of operating costs compared to 31% in 2024-25
+    source_url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+    research_trace_ids: &id002
+    - b2-331
+    research_evidence:
+    - id: b2-329
+      kind: extract
+      url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+      title: 'Emirates Group press release: record profit of AED 24.4 bln in 2025-26
+        (Zawya)'
+      locator: Emirates performance
+      quote: The airline's fuel bill decreased slightly to AED 31.2 billion (US$ 8.5
+        billion)
+      value: fuel 31,2 млрд AED
+      verification: found
+      verification_note: ''
+    - id: b2-330
+      kind: extract
+      url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+      title: 'Emirates Group press release: record profit of AED 24.4 bln in 2025-26
+        (Zawya)'
+      locator: Emirates performance
+      quote: 29% of operating costs compared to 31% in 2024-25
+      value: топливо = 29% операционных расходов
+      verification: found
+      verification_note: Абсолютных операционных расходов в релизе нет; есть «Total
+        operating costs increased by 2%».
+    - id: b2-331
+      kind: infer
+      value: opex ≈ 31,2 / 0,29 = 107,6 млрд AED (доля округлена до 1 п.п. → ±1,8
+        млрд)
+      note: абсолютные операционные расходы в релизе не названы
+      verification: infer
+      verification_note: 'ОЦЕНКА: 31,2/0,29 = 107,6 млрд AED; при доле 28,5–29,5%
+        диапазон 105,8–109,5. Перекрёстная проверка: 32,6/0,31 = 105,2 × 1,02 = 107,3
+        — согласуется.'
+    research_original:
+      value: 107600000000.0
+      ids: *id002
+      quality: fuel / доля 29%
+    currency: AED
+  fuel_cost_eur:
+    value: 31200000000.0
+    basis: Research field fuel_cost, reporting currency AED
+    page: Emirates performance
+    quote: The airline's fuel bill decreased slightly to AED 31.2 billion (US$ 8.5
+      billion)
+    source_url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+    research_trace_ids: &id003
+    - b2-329
+    research_evidence:
+    - id: b2-329
+      kind: extract
+      url: https://www.zawya.com/en/press-release/companies-news/emirates-group-achieves-record-profit-of-aed-244-bln-us-66-bln-in-2025-26-i6nk082y
+      title: 'Emirates Group press release: record profit of AED 24.4 bln in 2025-26
+        (Zawya)'
+      locator: Emirates performance
+      quote: The airline's fuel bill decreased slightly to AED 31.2 billion (US$ 8.5
+        billion)
+      value: fuel 31,2 млрд AED
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 31200000000.0
+      ids: *id003
+    currency: AED
+  ask_km:
+    value: 356000000000.0
+    basis: Research field ask_km, reporting currency AED
+    page: Emirates
+    quote: Available seat kms 356.0bn ASKMs 359.5bn ASKMs -1%
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id004
+    - b2-323
+    research_evidence:
+    - id: b2-323
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Available seat kms 356.0bn ASKMs 359.5bn ASKMs -1%
+      value: ASK 356,0 млрд
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 356000000000.0
+      ids: *id004
+  rpk_km:
+    value: 279100000000.0
+    basis: Research field rpk_km, reporting currency AED; ASK×LF; RPK ≈ 356,0 × 0,784
+      = 279,1 млрд
+    page: Emirates
+    quote: Available seat kms 356.0bn ASKMs 359.5bn ASKMs -1% | Seat factor 78.4%
+      78.9% -0.5% pt
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id005
+    - b2-332
+    research_evidence:
+    - id: b2-323
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Available seat kms 356.0bn ASKMs 359.5bn ASKMs -1%
+      value: ASK 356,0 млрд
+      verification: found
+      verification_note: ''
+    - id: b2-324
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Seat factor 78.4% 78.9% -0.5% pt
+      value: LF 78,4%
+      verification: found
+      verification_note: ''
+    - id: b2-332
+      kind: infer
+      value: RPK ≈ 356,0 × 0,784 = 279,1 млрд
+      note: ''
+      verification: infer
+      verification_note: 'ВЫЧИСЛЕНО: 356,0 × 0,784 = 279,1 млрд. Верно (seat factor
+        Emirates = RPK/ASK).'
+    research_original:
+      value: 279100000000.0
+      ids: *id005
+      quality: ASK×LF
+  pax:
+    value: 53200000.0
+    basis: Research field pax, reporting currency AED
+    page: Emirates
+    quote: Passengers carried 53.2m 53.7m -1%
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id006
+    - b2-322
+    research_evidence:
+    - id: b2-322
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Passengers carried 53.2m 53.7m -1%
+      value: pax 53,2 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 53200000.0
+      ids: *id006
+  fleet_year_end:
+    value: 277
+    basis: Research field fleet_end, reporting currency AED
+    page: Emirates
+    quote: Aircraft (number) 277 260 +17
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id007
+    - b2-325
+    research_evidence:
+    - id: b2-325
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Aircraft (number) 277 260 +17
+      value: парк 277 (260) — вкл. грузовые SkyCargo
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 277
+      ids: *id007
+  employees:
+    value: 74980
+    basis: Research field employees, reporting currency AED; на 31.03.2026
+    page: Emirates
+    quote: Employees at reporting date 74,980 69,465 +8%
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id008
+    - b2-326
+    research_evidence:
+    - id: b2-326
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Employees at reporting date 74,980 69,465 +8%
+      value: сотрудники Emirates 74 980 на 31.03.2026
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 74980
+      ids: *id008
+      note: на 31.03.2026
+  load_factor:
+    value: 0.784
+    basis: Research field load_factor, reporting currency AED
+    page: Emirates
+    quote: Seat factor 78.4% 78.9% -0.5% pt
+    source_url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+    research_trace_ids: &id009
+    - b2-324
+    research_evidence:
+    - id: b2-324
+      kind: extract
+      url: https://content.presspage.com/uploads/2431/94950a62-3e70-4cf7-940f-1348d8a36d35/annual_report_2025-26_fast_facts.pdf
+      title: Emirates Group Annual Report 2025-26 Fast Facts
+      locator: Emirates
+      quote: Seat factor 78.4% 78.9% -0.5% pt
+      value: LF 78,4%
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 0.784
+      ids: *id009
+  fx_per_eur:
+    value: 4.256855238235294
+    basis: Arithmetic mean of 255 ECB daily observations, 2025-04-01–2026-03-31, USD
+      per EUR; sum(OBS_VALUE)/255; AED per EUR = mean USD per EUR 1.15911647058824
+      × CBUAE midpoint (3.672+3.673)/2 = 3.6725 AED/USD. Fixed-parity conversion.
+    quote: EXR.D.USD.EUR.SP00.A,D,USD,EUR,SP00,A,2025-04-01,1.0788,A,F,,,P1D,,A,,,,,,,99Q1=100,,,4,,4F0,,US
+      dollar/Euro ECB reference exchange rate,"ECB reference exchange rate, US dollar/Euro,
+      2.15 pm (C.E.T.)",USD,0
+    page: ECB CSV TIME_PERIOD, OBS_VALUE
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?startPeriod=2025-04-01&endPeriod=2026-03-31&format=csvdata
+    source_sha256: 530d1f86549aea2e8718e5a7d299e1ccc90ced1908cde6f84587a033272e61dc
+    period_start: '2025-04-01'
+    period_end: '2026-03-31'
+    count: 255
+    derivation_sources:
+    - url: https://centralbank.ae/en/our-operations/monetary-policy-and-domestic-markets/domestic-market-operations/
+      quote: USD/AED rate of 3.672 when buying US dollars. USD/AED 3.673 when selling
+        US dollars.
+      source_sha256: b604a66cc9be83d2605297a7dc653d6963bff7528eededfdaf4067a45200976d

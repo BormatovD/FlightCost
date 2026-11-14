@@ -565,6 +565,37 @@ def _night_drafts(a, seen: set) -> int:
     return len(files)
 
 
+def _reports_drafts(seen: set) -> int:
+    """Show carrier-report evidence checks and a command for explicit per-report acceptance."""
+    import shlex
+    from . import carrier_reports as CR
+    files = [path for path in sorted(DRAFTS_INBOX.glob("reports-*.json")) if path.name not in seen]
+    for path in files:
+        print(f"\n{path.name}")
+        try:
+            draft = json.loads(path.read_text("utf8"))
+            reports = draft["reports"]
+            if not isinstance(reports, list):
+                raise ValueError("reports must be a list")
+            for report in reports:
+                key = f"{report.get('carrier')}/{report.get('year')}"
+                errors = CR.check_report(report)
+                verdict = ("ОТВЕРГНУТ" if errors else
+                           "СМОТРЕТЬ · полная для CASK" if CR.benchmark_ready(report) else
+                           "СМОТРЕТЬ · частичная выписка")
+                print(f"  {verdict} {key} "
+                      f"{report.get('name')} · {report.get('period_end')} · {report.get('segment')}")
+                print(f"    {report.get('source_url')} · {report.get('scope')}")
+                for error in errors:
+                    print(f"    · {error}")
+                if not errors:
+                    print("    После проверки источника и сегментации принять эту выписку: "
+                          f"python -m flightcostapp.carrier_reports {shlex.quote(str(path))} --accept {shlex.quote(key)}")
+        except (KeyError, TypeError, ValueError, OSError) as exc:
+            print(f"  ОТВЕРГНУТ: {exc}")
+    return len(files)
+
+
 def _prices_drafts(a, st, seen: set) -> int:
     """Черновики цен самолётов: проверка, по --accept-prices — в data/prices/_observations.yaml."""
     from . import prices as PR
@@ -626,7 +657,8 @@ def cmd_drafts(a) -> int:
     seen = set((DRAFTS_INBOX / ".accepted").read_text("utf-8").split()) \
         if (DRAFTS_INBOX / ".accepted").exists() else set()
     st = Store(a.db)
-    fuel_seen = _fuel_drafts(a, st, seen) + _night_drafts(a, seen) + _prices_drafts(a, st, seen)
+    fuel_seen = (_fuel_drafts(a, st, seen) + _night_drafts(a, seen)
+                 + _prices_drafts(a, st, seen) + _reports_drafts(seen))
     found_files = sorted(DRAFTS_INBOX.glob("charges-*.json"))
     files = [f for f in found_files if f.name not in seen]
     if not files:

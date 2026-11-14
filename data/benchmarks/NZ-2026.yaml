@@ -1,0 +1,289 @@
+carrier: NZ
+name: Air New Zealand
+entity_id: NZ
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2026
+period_start: '2025-07-01'
+period_end: '2026-06-30'
+source: Air New Zealand 2026 annual results (release, investor presentation, Annual
+  Report excerpts), ASX 28.08.2026
+source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+report_id: research-NZ-2026-06-30-51cb077f53c3
+scope: Air New Zealand Group Объём топлива, блок-часы, плечо не найдены; рейсы — оценка.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: NZ
+  original_period: 'FY26: 01.07.2025–30.06.2026'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 7016000000.0
+    basis: Research field revenue, reporting currency NZD
+    page: слайд 27, income statement
+    quote: Operating revenue 7,016 6,755 261 3.9%
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id001
+    - b2-309
+    research_evidence:
+    - id: b2-309
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 27, income statement
+      quote: Operating revenue 7,016 6,755 261 3.9%
+      value: revenue 7 016 млн NZD
+      verification: found
+      verification_note: По WebFetch — слайд 28 (финансовый обзор), не 27 «income
+        statement»; числа совпадают.
+    research_original:
+      value: 7016000000.0
+      ids: *id001
+    currency: NZD
+  traffic_revenue_eur:
+    value: 6100000000.0
+    basis: Research field pax_revenue, reporting currency NZD; округлено
+    page: слайд 13
+    quote: Passenger revenue $6.1 billion, up 4.8% on prior year
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id002
+    - b2-310
+    research_evidence:
+    - id: b2-310
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 13
+      quote: Passenger revenue $6.1 billion, up 4.8% on prior year
+      value: пассажирская выручка ≈6,1 млрд NZD (округлено)
+      verification: found
+      verification_note: Округлено до 0,1 млрд.
+    research_original:
+      value: 6100000000.0
+      ids: *id002
+      quality: округлено
+    currency: NZD
+  opex_eur:
+    value: 6500000000.0
+    basis: Research field opex, reporting currency NZD; округлено
+    page: Annual Report, стр. 19
+    quote: Operating expenditure was $6.5 billion, an increase of 11.8 percent on
+      the prior year
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id003
+    - b2-311
+    research_evidence:
+    - id: b2-311
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: Annual Report, стр. 19
+      quote: Operating expenditure was $6.5 billion, an increase of 11.8 percent on
+        the prior year
+      value: opex ≈6,5 млрд NZD (округлено)
+      verification: found
+      verification_note: Округлено до 0,1 млрд (±50 млн).
+    research_original:
+      value: 6500000000.0
+      ids: *id003
+      quality: округлено
+    currency: NZD
+  fuel_cost_eur:
+    value: 1738000000.0
+    basis: Research field fuel_cost, reporting currency NZD
+    page: Annual Report, стр. 19
+    quote: Fuel costs increased 17.1 percent in the year to $1,738 million
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id004
+    - b2-312
+    research_evidence:
+    - id: b2-312
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: Annual Report, стр. 19
+      quote: Fuel costs increased 17.1 percent in the year to $1,738 million
+      value: fuel 1 738 млн NZD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1738000000.0
+      ids: *id004
+    currency: NZD
+  ask_km:
+    value: 41046000000.0
+    basis: Research field ask_km, reporting currency NZD
+    page: слайд 28
+    quote: Available seat kilometres (ASKs, millions) 41,046 40,501 1.3%
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id005
+    - b2-314
+    research_evidence:
+    - id: b2-314
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 28
+      quote: Available seat kilometres (ASKs, millions) 41,046 40,501 1.3%
+      value: ASK 41 046 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 41046000000.0
+      ids: *id005
+  rpk_km:
+    value: 34346000000.0
+    basis: Research field rpk_km, reporting currency NZD
+    page: слайд 28
+    quote: Revenue passenger kilometres (RPKs, millions) 34,346 33,769 1.7%
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id006
+    - b2-315
+    research_evidence:
+    - id: b2-315
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 28
+      quote: Revenue passenger kilometres (RPKs, millions) 34,346 33,769 1.7%
+      value: RPK 34 346 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 34346000000.0
+      ids: *id006
+  pax:
+    value: 16010000.0
+    basis: Research field pax, reporting currency NZD
+    page: слайд 28, operating statistics
+    quote: Passengers carried ('000s) 16,010 15,907 0.6%
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id007
+    - b2-313
+    research_evidence:
+    - id: b2-313
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 28, operating statistics
+      quote: Passengers carried ('000s) 16,010 15,907 0.6%
+      value: pax 16,01 млн
+      verification: found
+      verification_note: По WebFetch — слайд 29, не 28.
+    research_original:
+      value: 16010000.0
+      ids: *id007
+  flights:
+    value: 131000
+    basis: Research field flights, reporting currency NZD; оценка >360/сутки; flights
+      ≈ 360 × 365 ≈ 131 тыс. (нижняя граница, «более 360»); ASK/рейс ≈ 313 тыс.; оценка
+    page: слайд 28 | Annual Report, стр. 4
+    quote: Available seat kilometres (ASKs, millions) 41,046 40,501 1.3% | offering
+      more than 360 flights per day
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id008
+    - b2-318
+    research_evidence:
+    - id: b2-314
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: слайд 28
+      quote: Available seat kilometres (ASKs, millions) 41,046 40,501 1.3%
+      value: ASK 41 046 млн
+      verification: found
+      verification_note: ''
+    - id: b2-317
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: Annual Report, стр. 4
+      quote: offering more than 360 flights per day
+      value: '>360 рейсов в сутки'
+      verification: found
+      verification_note: ''
+    - id: b2-318
+      kind: infer
+      value: flights ≈ 360 × 365 ≈ 131 тыс. (нижняя граница, «более 360»); ASK/рейс
+        ≈ 313 тыс.
+      note: оценка
+      verification: infer
+      verification_note: 'ОЦЕНКА (нижняя граница): 360 × 365 = 131 400; ASK/рейс 41
+        046 млн / 131 400 = 312 тыс. Арифметика верна; «более 360 в сутки» — маркетинговая
+        округлённая цифра.'
+    research_original:
+      value: 131000
+      ids: *id008
+      quality: оценка >360/сутки
+  fleet_year_end:
+    value: 112
+    basis: Research field fleet_end, reporting currency NZD
+    page: Annual Report, стр. 4
+    quote: operated by a fleet of 112 aircraft and around 11,700 employees globally
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id009
+    - b2-316
+    research_evidence:
+    - id: b2-316
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: Annual Report, стр. 4
+      quote: operated by a fleet of 112 aircraft and around 11,700 employees globally
+      value: парк 112, сотрудники ≈11 700
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 112
+      ids: *id009
+  employees:
+    value: 11700
+    basis: Research field employees, reporting currency NZD; округлено
+    page: Annual Report, стр. 4
+    quote: operated by a fleet of 112 aircraft and around 11,700 employees globally
+    source_url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+    research_trace_ids: &id010
+    - b2-316
+    research_evidence:
+    - id: b2-316
+      kind: extract
+      url: https://announcements.asx.com.au/asxpdf/20260828/pdf/073cdjsfssc24y.pdf
+      title: Air New Zealand 2026 annual results (release, investor presentation,
+        Annual Report excerpts), ASX 28.08.2026
+      locator: Annual Report, стр. 4
+      quote: operated by a fleet of 112 aircraft and around 11,700 employees globally
+      value: парк 112, сотрудники ≈11 700
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 11700
+      ids: *id010
+      quality: округлено
+  fx_per_eur:
+    value: 1.9934780392156863
+    basis: Arithmetic mean of 255 ECB daily observations, 2025-07-01–2026-06-30, NZD
+      per EUR; sum(OBS_VALUE)/255
+    quote: EXR.D.NZD.EUR.SP00.A,D,NZD,EUR,SP00,A,2025-07-01,1.9324,A,F,,,P1D,,A,,,,,,,99Q1=100,,,4,,4F0,,New
+      Zealand dollar/Euro ECB reference exchange rate,"ECB reference exchange rate,
+      New Zealand dollar/Euro, 2.15 pm (C.E.T.)",NZD,0
+    page: ECB CSV TIME_PERIOD, OBS_VALUE
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/D.NZD.EUR.SP00.A?startPeriod=2025-07-01&endPeriod=2026-06-30&format=csvdata
+    source_sha256: 7f8544bafb4fcce63c9b327c0d3754689b8ebf997822f5fe2a217b399528459c
+    period_start: '2025-07-01'
+    period_end: '2026-06-30'
+    count: 255

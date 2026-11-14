@@ -1,0 +1,375 @@
+carrier: G4
+name: Allegiant Air (Allegiant Travel Co.)
+entity_id: G4
+segment: lowcost
+segment_basis: Business-model classification ULCC in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+report_id: research-G4-2025-12-31-4f6a022e2cc2
+scope: P&L — консолидированный (авиакомпания + курорт Sunseeker); операционная статистика
+  — airline only, total system (scheduled + fixed fee/charter) Для CASK использовать
+  airline-only (CASM 11,24¢ или opex ≈2 402 млн), а не консолидированный opex с курортом.
+  RPK — только scheduled (ASK — total system) → load factor по total system завышать
+  нельзя; scheduled LF 82,0 %. В 2025 г. объявлено слияние с Sun Country (спецстатьи).
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: G4
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 2606579000
+    basis: Research field revenue, reporting currency USD; консолидировано, вкл. Sunseeker
+    page: Consolidated Statements of Income, 12М, Total operating revenues
+    quote: Total operating revenues | 2,606,579 | 2,512,589 | 3.7
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id001
+    - b3-154
+    research_evidence:
+    - id: b3-154
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Consolidated Statements of Income, 12М, Total operating revenues
+      quote: Total operating revenues | 2,606,579 | 2,512,589 | 3.7
+      value: revenue FY2025 = 2 606,6 млн USD (консолидировано, вкл. Sunseeker)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2606579000
+      ids: *id001
+      basis: консолидировано, вкл. Sunseeker
+    currency: USD
+  traffic_revenue_eur:
+    value: 2324348000
+    basis: Research field pax_revenue, reporting currency USD
+    page: Consolidated Statements of Income, 12М, Passenger
+    quote: Passenger | $ | 2,324,348 | $ | 2,217,059 | 4.8 %
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id002
+    - b3-153
+    research_evidence:
+    - id: b3-153
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Consolidated Statements of Income, 12М, Passenger
+      quote: Passenger | $ | 2,324,348 | $ | 2,217,059 | 4.8 %
+      value: pax revenue FY2025 = 2 324,3 млн USD
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2324348000
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 2402000000
+    basis: Research field opex, reporting currency USD; CASM × ASM, без Sunseeker;
+      airline-only opex FY2025 ≈ 2 402 млн USD (11,24 ¢ × 21 369,5 млн ASM); для сопоставимости
+      без курорта Sunseeker; консолидированный opex 2 569,4 млн
+    page: Airline Operating Statistics, Total system (12М), ASMs | Airline Operating
+      Statistics, Total system (12М), CASM
+    quote: Available seat miles (ASMs) (thousands) | 21,369,532 | 18,984,711 | 12.6
+      | Airline operating expense per ASM (CASM) (cents) | 11.24 ¢ | 12.11 ¢ | -7.2
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id003
+    - b3-169
+    research_evidence:
+    - id: b3-158
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), ASMs
+      quote: Available seat miles (ASMs) (thousands) | 21,369,532 | 18,984,711 | 12.6
+      value: ASM FY2025 = 21 369,5 млн (total system)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-165
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), CASM
+      quote: Airline operating expense per ASM (CASM) (cents) | 11.24 ¢ | 12.11 ¢
+        | -7.2
+      value: airline CASM FY2025 = 11,24 цента
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-169
+      kind: infer
+      value: airline-only opex FY2025 ≈ 2 402 млн USD (11,24 ¢ × 21 369,5 млн ASM)
+      note: для сопоставимости без курорта Sunseeker; консолидированный opex 2 569,4
+        млн
+      verification: arith_ok
+      verification_note: Это оценка CASM×ASM; CASM 11,24¢ округлён до 0,01¢ → погрешность
+        ±1 млн USD.
+    research_original:
+      value: 2402000000
+      ids: *id003
+      basis: CASM × ASM, без Sunseeker
+    currency: USD
+  fuel_cost_eur:
+    value: 639731000
+    basis: Research field fuel_cost, reporting currency USD
+    page: Consolidated Statements of Income, 12М, Aircraft fuel
+    quote: Aircraft fuel | 639,731 | 627,755 | 1.9
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id004
+    - b3-155
+    research_evidence:
+    - id: b3-155
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Consolidated Statements of Income, 12М, Aircraft fuel
+      quote: Aircraft fuel | 639,731 | 627,755 | 1.9
+      value: fuel cost FY2025 = 639,7 млн USD
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 639731000
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 34390928107
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 34391 млн; ASM 21370
+      млн × 1,609344
+    page: Airline Operating Statistics, Total system (12М), ASMs
+    quote: Available seat miles (ASMs) (thousands) | 21,369,532 | 18,984,711 | 12.6
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id005
+    - b3-272
+    research_evidence:
+    - id: b3-158
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), ASMs
+      quote: Available seat miles (ASMs) (thousands) | 21,369,532 | 18,984,711 | 12.6
+      value: ASM FY2025 = 21 369,5 млн (total system)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-272
+      kind: infer
+      value: ASK ≈ 34391 млн
+      note: ASM 21370 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 34390928107
+      ids: *id005
+  rpk_km:
+    value: 27274605279
+    basis: Research field rpk_km, reporting currency USD; только scheduled service;
+      total system RPM не публикуется; RPK ≈ 27275 млн; RPM 16948 млн × 1,609344;
+      только scheduled service; total system RPM не публикуется
+    page: Airline Operating Statistics, Scheduled service (12М), RPMs
+    quote: Revenue passenger miles (RPMs) (thousands) | 16,947,654 | 15,303,737 |
+      10.7
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id006
+    - b3-273
+    research_evidence:
+    - id: b3-167
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Scheduled service (12М), RPMs
+      quote: Revenue passenger miles (RPMs) (thousands) | 16,947,654 | 15,303,737
+        | 10.7
+      value: RPM FY2025 (только scheduled) = 16 947,7 млн; total system RPM не публикуется
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: Подтверждено, что строки Total system RPM нет.
+    - id: b3-273
+      kind: infer
+      value: RPK ≈ 27275 млн
+      note: RPM 16948 млн × 1,609344; только scheduled service; total system RPM не
+        публикуется
+      verification: arith_ok
+      verification_note: Арифметика верна; RPM только scheduled — в out оговорено.
+    research_original:
+      value: 27274605279
+      ids: *id006
+      basis: только scheduled service; total system RPM не публикуется
+  pax:
+    value: 18737151
+    basis: Research field pax, reporting currency USD
+    page: Airline Operating Statistics, Total system (12М), Passengers
+    quote: Passengers | 18,737,151 | 16,982,836 | 10.3 %
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id007
+    - b3-157
+    research_evidence:
+    - id: b3-157
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), Passengers
+      quote: Passengers | 18,737,151 | 16,982,836 | 10.3 %
+      value: pax FY2025 = 18 737 151 (вкл. чартер)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 18737151
+      ids: *id007
+  flights:
+    value: 137039
+    basis: Research field flights, reporting currency USD
+    page: Airline Operating Statistics, Total system (12М), Departures
+    quote: Departures | 137,039 | 121,580 | 12.7
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id008
+    - b3-159
+    research_evidence:
+    - id: b3-159
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), Departures
+      quote: Departures | 137,039 | 121,580 | 12.7
+      value: flights FY2025 = 137 039
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 137039
+      ids: *id008
+  block_hours:
+    value: 327440
+    basis: Research field block_hours, reporting currency USD
+    page: Airline Operating Statistics, Total system (12М), Block hours
+    quote: Block hours | 327,440 | 288,407 | 13.5
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id009
+    - b3-160
+    research_evidence:
+    - id: b3-160
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), Block hours
+      quote: Block hours | 327,440 | 288,407 | 13.5
+      value: block hours FY2025 = 327 440
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 327440
+      ids: *id009
+  fleet_avg:
+    value: 124.8
+    basis: Research field fleet_avg, reporting currency USD
+    page: Airline Operating Statistics, Total system (12М), Average number of operating
+      aircraft
+    quote: Average number of operating aircraft during period | 124.8 | 124.7 | 0.1
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id010
+    - b3-162
+    research_evidence:
+    - id: b3-162
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), Average number of
+        operating aircraft
+      quote: Average number of operating aircraft during period | 124.8 | 124.7 |
+        0.1
+      value: средний парк FY2025 = 124,8
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 124.8
+      ids: *id010
+  employees:
+    value: 5616
+    basis: Research field employees, reporting currency USD; FTE на конец периода
+    page: Airline Operating Statistics, Total system (12М), FTE
+    quote: Full-time equivalent employees at end of period | 5,616 | 5,991 | -6.3
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id011
+    - b3-163
+    research_evidence:
+    - id: b3-163
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), FTE
+      quote: Full-time equivalent employees at end of period | 5,616 | 5,991 | -6.3
+      value: employees = 5 616 FTE на конец 2025
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5616
+      ids: *id011
+      basis: FTE на конец периода
+  fuel_tonnes:
+    value: 760176
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 760176 т; 251049000
+      галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию); tonnes
+      as stored in the verified research snapshot
+    page: Airline Operating Statistics, Total system (12М), Fuel gallons
+    quote: Fuel gallons consumed (thousands) | 251,049 | 227,345 | 10.4
+    source_url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+    research_trace_ids: &id012
+    - b3-271
+    research_evidence:
+    - id: b3-164
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1362468/000136246826000004/a2025q48-kex991.htm
+      title: Allegiant 8-K ex.99.1 4Q/FY2025 financial results
+      locator: Airline Operating Statistics, Total system (12М), Fuel gallons
+      quote: Fuel gallons consumed (thousands) | 251,049 | 227,345 | 10.4
+      value: fuel FY2025 = 251 049 тыс. галлонов
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-271
+      kind: infer
+      value: fuel ≈ 760176 т
+      note: 251049000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8
+        по заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 760176
+      unit: t
+      source_value: 251049000
+      source_unit: US gal
+      ids: *id012
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

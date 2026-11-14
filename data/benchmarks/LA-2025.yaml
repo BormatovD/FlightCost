@@ -1,0 +1,241 @@
+carrier: LA
+name: LATAM Airlines Group
+entity_id: LA
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: LATAM Airlines Group, Earnings release 4Q2025
+source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+report_id: research-LA-2025-12-31-51cb077f53c3
+scope: Группа LATAM вкл. грузовые (LATAM Cargo); ASK только пассажирский Грузовая
+  выручка 1 653,5 млн (b2-155) — для CASK по пассажирскому ASK нужна поправка на грузы.
+  Рейсы и блок-часы не найдены.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: LA
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 14494990000.0
+    basis: Research field revenue, reporting currency USD
+    page: стр. 11, Consolidated income statement, twelve months
+    quote: TOTAL OPERATING REVENUE 14,494,990 — 14,494,990 13,033,712 11.2%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id001
+    - b2-156
+    research_evidence:
+    - id: b2-156
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 11, Consolidated income statement, twelve months
+      quote: TOTAL OPERATING REVENUE 14,494,990 — 14,494,990 13,033,712 11.2%
+      value: revenue 14 495,0 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 14494990000.0
+      ids: *id001
+    currency: USD
+  traffic_revenue_eur:
+    value: 12611528000.0
+    basis: Research field pax_revenue, reporting currency USD
+    page: стр. 11, Consolidated income statement, twelve months
+    quote: Passenger 12,611,528 — 12,611,528 11,233,287 12.3%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id002
+    - b2-154
+    research_evidence:
+    - id: b2-154
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 11, Consolidated income statement, twelve months
+      quote: Passenger 12,611,528 — 12,611,528 11,233,287 12.3%
+      value: пассажирская выручка 12 611,5 млн USD
+      verification: found
+      verification_note: Тыс. USD.
+    research_original:
+      value: 12611528000.0
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 12159452000.0
+    basis: Research field opex, reporting currency USD
+    page: стр. 11, Consolidated income statement, twelve months
+    quote: TOTAL OPERATING EXPENSES (12,159,452) 19,413 (12,140,039) (11,373,490)
+      6.7%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id003
+    - b2-158
+    research_evidence:
+    - id: b2-158
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 11, Consolidated income statement, twelve months
+      quote: TOTAL OPERATING EXPENSES (12,159,452) 19,413 (12,140,039) (11,373,490)
+        6.7%
+      value: opex 12 159,5 млн USD (IFRS; adjusted 12 140,0)
+      verification: found
+      verification_note: 12 159,5 — IFRS; adjusted 12 140,0.
+    research_original:
+      value: 12159452000.0
+      ids: *id003
+    currency: USD
+  fuel_cost_eur:
+    value: 3804821000.0
+    basis: Research field fuel_cost, reporting currency USD
+    page: стр. 11, Consolidated income statement, twelve months
+    quote: Aircraft Fuel (3,804,821) — (3,804,821) (3,970,077) (4.2%)
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id004
+    - b2-157
+    research_evidence:
+    - id: b2-157
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 11, Consolidated income statement, twelve months
+      quote: Aircraft Fuel (3,804,821) — (3,804,821) (3,970,077) (4.2%)
+      value: fuel 3 804,8 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 3804821000.0
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 170812000000.0
+    basis: Research field ask_km, reporting currency USD
+    page: стр. 9, Operating statistics, twelve months
+    quote: Passenger ASKs (millions) 170,812 157,931 8.2%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id005
+    - b2-147
+    research_evidence:
+    - id: b2-147
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 9, Operating statistics, twelve months
+      quote: Passenger ASKs (millions) 170,812 157,931 8.2%
+      value: ASK 170 812 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 170812000000.0
+      ids: *id005
+  rpk_km:
+    value: 144110000000.0
+    basis: Research field rpk_km, reporting currency USD
+    page: стр. 9, Operating statistics, twelve months
+    quote: RPKs (millions) 144,110 133,138 8.2%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id006
+    - b2-148
+    research_evidence:
+    - id: b2-148
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 9, Operating statistics, twelve months
+      quote: RPKs (millions) 144,110 133,138 8.2%
+      value: RPK 144 110 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 144110000000.0
+      ids: *id006
+  pax:
+    value: 87414000.0
+    basis: Research field pax, reporting currency USD
+    page: стр. 9, Operating statistics, twelve months
+    quote: Passengers Transported (thousands) 87,414 82,007 6.6%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id007
+    - b2-149
+    research_evidence:
+    - id: b2-149
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 9, Operating statistics, twelve months
+      quote: Passengers Transported (thousands) 87,414 82,007 6.6%
+      value: pax 87,414 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 87414000.0
+      ids: *id007
+  fleet_year_end:
+    value: 371
+    basis: Research field fleet_end, reporting currency USD
+    page: стр. 6, Fleet plan
+    quote: TOTAL FLEET (end of the period) 371 410 422 451
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id008
+    - b2-153
+    research_evidence:
+    - id: b2-153
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 6, Fleet plan
+      quote: TOTAL FLEET (end of the period) 371 410 422 451
+      value: парк на конец 2025 = 371 (вкл. грузовые)
+      verification: found
+      verification_note: Первый столбец плана парка; включает грузовые.
+    research_original:
+      value: 371
+      ids: *id008
+  employees:
+    value: 39507
+    basis: Research field employees, reporting currency USD; в среднем
+    page: стр. 9, Operating statistics, twelve months
+    quote: Total Number of Employees (average) 39,507 36,960 6.9%
+    source_url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+    research_trace_ids: &id009
+    - b2-152
+    research_evidence:
+    - id: b2-152
+      kind: extract
+      url: https://s205.q4cdn.com/986550758/files/doc_financials/2025/q4/Earning-release-Press-release-ENG-4Q2025.pdf
+      title: LATAM Airlines Group, Earnings release 4Q2025
+      locator: стр. 9, Operating statistics, twelve months
+      quote: Total Number of Employees (average) 39,507 36,960 6.9%
+      value: сотрудники в среднем 39 507
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 39507
+      ids: *id009
+      note: в среднем
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

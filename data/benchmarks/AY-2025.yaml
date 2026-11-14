@@ -1,0 +1,66 @@
+carrier: AY
+name: Finnair Group
+entity_id: AY
+segment: network
+segment_basis: Published hub-and-spoke/full-service network airline business; group
+  scope named explicitly
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+published_at: '2026-02-11'
+source: Finnair Group full-year2025 financial and traffic results
+source_url: https://investors.finnair.com/files/documents/Finnair%20Q4%202025.pdf
+report_id: AY-FY2025-908eccd3eb2dff8b
+scope: Finnair Group statutory consolidated income statement; costs include travel
+  services and wet-lease-out business. Passenger ASK excludes wet-lease-out capacity.
+  Fuel includes hedging and emissions costs. Group-cost benchmark; the published airline-only CASK uses a comparable-cost methodology.
+values:
+  opex_eur:
+    value: 3165800000
+    basis: Statutory consolidated annual operating expenses reconstructed as (revenue3106.2
+      + other operating income123.8 - operating result64.2) EUR million ×1e6. The
+      nine rounded displayed expense rows sum3165.7m;0.1m rounding residual retained
+      in aggregate reconstruction.
+    page: PDF стр.27, printed page26, consolidated income statement2025
+    quote: Revenue 4 789.5 782.9 3,106.2 3,048.8 Other operating income 5 41.8 44.3
+      123.8 140.0 Operating expenses Staff and other crew related costs 6 -162.1 -173.6
+      -568.1 -559.5 Fuel costs -204.1 -218.5 -879.0 -894.4 Capacity rents -33.1 -29.0
+      -142.2 -111.7 Aircraft materials and overhaul -49.0 -63.3 -212.1 -223.0 Traffic
+      charges -77.3 -67.8 -318.2 -270.6 Sales, marketing and distribution costs -31.3
+      -29.9 -129.0 -123.0 Passenger and handling services -111.1 -113.2 -459.7 -440.3
+      Depreciation and impairment 7 -84.0 -83.5 -343.7 -330.3 Property, IT and other
+      expenses -32.8 -36.4 -113.7 -121.7 Operating result 46.4 12.1 64.2 114.2
+    currency: EUR
+    source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb
+  fuel_cost_eur:
+    value: 879000000
+    basis: Statutory consolidated fuel cost879.0 EUR million ×1e6; positive magnitude
+      of expense; same2025 income statement as reconstructed opex, includes hedging
+      and emission costs.
+    page: PDF стр.27, printed page26, consolidated income statement2025
+    quote: Fuel costs -204.1 -218.5 -879.0 -894.4
+    currency: EUR
+    source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb
+  ask_km:
+    value: 39306600000
+    basis: ASK excl wet-lease-out capacity, million km ×1e6
+    page: PDF стр. 2
+    quote: Available seat kilometres (ASK) increased by 2.7% to 39,306.6 million kilometres
+      (38,259.3).
+    source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb
+  rpk_km:
+    value: 30227300000
+    basis: Passenger RPK from 2025 geographical distribution Total, million km ×1e6
+    page: PDF стр. 11
+    quote: Total 2,445.8 2,419.0 39,306.6 38,259.3 30,227.3 29,000.2 76.9 1.1
+    source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb
+  pax:
+    value: 11884000
+    basis: Annual passengers 11,884 thousand ×1000; same report key figures traffic
+      table
+    page: PDF стр. 5
+    quote: Passengers*, 1,000 2,910 2,848 2.2 11,884 11,654 2.0
+    source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb
+reviewed_publication_date_source: https://company.finnair.com/en/media-centre/all-releases
+  (Financial Statements Release2025,11.2.2026)
+source_sha256: 908eccd3eb2dff8ba04daad09a81f5ec0130c051a00f27059a1e4fb147d6c0fb

@@ -1,18 +1,299 @@
-# Pegasus Airlines 2025. A320/A321neo. Блок-часов числом нет — налёт 13,2 ч
-# в сутки «take-off to landing including taxi», то есть блок, и средний парк.
-# Числа выписаны поиском; сверить с Annual Activity Report.
----
 carrier: PC
+entity_id: PC
+segment: lowcost
+segment_basis: Business-model classification LCC in the published benchmarks research
+period_start: '2025-01-01'
+period_end: '2025-12-31'
 name: Pegasus Airlines
 year: 2025
-source: "Pegasus Hava Taşımacılığı A.Ş., 2025 Annual Activity Report; Q4 2025 investor presentation"
-source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
-scope: >
-  Pegasus без дочерних. Отчётность в евро; 34% расходов — в лирах.
+source: Pegasus Airlines, 4Q25 Investor Presentation
+source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+scope: Pegasus Регион — Европа по базе (Стамбул SAW). Рейсы/блок-часы из PC-2025.yaml
+  не подтверждены (b2-253).
 values:
-  staff_cost_eur:       {value: 618000000, currency: EUR, basis: "personnel costs — весь персонал", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
-  maintenance_cost_eur: {value: 121000000, currency: EUR, basis: "maintenance", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
-  depreciation_eur:     {value: 425000000, currency: EUR, basis: "depreciation", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в Annual Activity Report"}
-  utilisation_bh_day:   {value: 13.2, basis: "aircraft utilisation, take-off to landing including taxi — по смыслу блок", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: сноска к утилизации"}
-  fleet_avg:            {value: 124, basis: "average fleet", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
-  flights:              {value: 234270, basis: "cycles; термин в отчёте не определён", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
+  staff_cost_eur:
+    value: 618000000
+    currency: EUR
+    basis: personnel costs — весь персонал
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в Annual Activity Report'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  maintenance_cost_eur:
+    value: 121000000
+    currency: EUR
+    basis: maintenance
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в Annual Activity Report'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  depreciation_eur:
+    value: 425000000
+    currency: EUR
+    basis: depreciation
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в Annual Activity Report'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  utilisation_bh_day:
+    value: 13.2
+    basis: aircraft utilisation, take-off to landing including taxi — по смыслу блок
+    page: operating data
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: сноска к утилизации'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  fleet_avg:
+    value: 124
+    basis: average fleet
+    page: operating data
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: таблица operating data'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  flights:
+    value: 234270
+    basis: cycles; термин в отчёте не определён
+    page: operating data
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: таблица operating data'
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  revenue_eur:
+    value: 3414000000.0
+    basis: Research field revenue, reporting currency EUR
+    page: слайд 20, Operational & Financial Highlights, последние столбцы 2023 2024
+      2025 Δ
+    quote: Total Revenue (€mn) 442 657 962 609 519 763 1,091 753 622 876 1,103 814
+      8% 2,670 3,126 3,414 9%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id001
+    - b2-241
+    research_evidence:
+    - id: b2-241
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: Total Revenue (€mn) 442 657 962 609 519 763 1,091 753 622 876 1,103 814
+        8% 2,670 3,126 3,414 9%
+      value: revenue 2025 = 3 414 млн EUR
+      verification: found
+      verification_note: Последние столбцы — 2023/2024/2025 12M.
+    research_original:
+      value: 3414000000.0
+      ids: *id001
+    currency: EUR
+  opex_eur:
+    value: 3014000000.0
+    basis: Research field opex, reporting currency EUR
+    page: слайд 13, Costs
+    quote: TOTAL COSTS 666 788 18% 2,578 3,014 17%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id002
+    - b2-250
+    research_evidence:
+    - id: b2-250
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 13, Costs
+      quote: TOTAL COSTS 666 788 18% 2,578 3,014 17%
+      value: opex 3 014 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 3014000000.0
+      ids: *id002
+    currency: EUR
+  fuel_cost_eur:
+    value: 907000000.0
+    basis: Research field fuel_cost, reporting currency EUR
+    page: слайд 13, Costs
+    quote: Jet fuel 202 244 21% 873 907 4%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id003
+    - b2-249
+    research_evidence:
+    - id: b2-249
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 13, Costs
+      quote: Jet fuel 202 244 21% 873 907 4%
+      value: fuel 907 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 907000000.0
+      ids: *id003
+    currency: EUR
+  ask_km:
+    value: 78300000000.0
+    basis: Research field ask_km, reporting currency EUR
+    page: слайд 20, Operational & Financial Highlights, последние столбцы 2023 2024
+      2025 Δ
+    quote: ASK (bn) 11.0 15.2 17.5 14.6 14.2 16.9 19.0 16.8 16.1 19.9 22.2 20.2 20%
+      58.2 66.8 78.3 17%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id004
+    - b2-245
+    research_evidence:
+    - id: b2-245
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: ASK (bn) 11.0 15.2 17.5 14.6 14.2 16.9 19.0 16.8 16.1 19.9 22.2 20.2
+        20% 58.2 66.8 78.3 17%
+      value: ASK 78,3 млрд
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 78300000000.0
+      ids: *id004
+  rpk_km:
+    value: 68700000000.0
+    basis: Research field rpk_km, reporting currency EUR; ASK×LF; RPK ≈ 78,3 × 0,877
+      = 68,7 млрд (если LF = RPK/ASK); RPK не опубликован; определение LF в деке не
+      проверено
+    page: слайд 20, Operational & Financial Highlights, последние столбцы 2023 2024
+      2025 Δ
+    quote: Load Factor 84.4% 81.3% 87.7% 85.2% 87.2% 87.5% 89.1% 86.7% 86.1% 86.4%
+      89.2% 88.5% 1.7pp 84.8% 87.7% 87.7% 0.0pp | ASK (bn) 11.0 15.2 17.5 14.6 14.2
+      16.9 19.0 16.8 16.1 19.9 22.2 20.2 20% 58.2 66.8 78.3 17%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id005
+    - b2-252
+    research_evidence:
+    - id: b2-244
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: Load Factor 84.4% 81.3% 87.7% 85.2% 87.2% 87.5% 89.1% 86.7% 86.1% 86.4%
+        89.2% 88.5% 1.7pp 84.8% 87.7% 87.7% 0.0pp
+      value: LF 87,7% (пассажирский, по местам — не RPK/ASK?)
+      verification: found
+      verification_note: Определение LF в деке не дано.
+    - id: b2-245
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: ASK (bn) 11.0 15.2 17.5 14.6 14.2 16.9 19.0 16.8 16.1 19.9 22.2 20.2
+        20% 58.2 66.8 78.3 17%
+      value: ASK 78,3 млрд
+      verification: found
+      verification_note: ''
+    - id: b2-252
+      kind: infer
+      value: RPK ≈ 78,3 × 0,877 = 68,7 млрд (если LF = RPK/ASK)
+      note: RPK не опубликован; определение LF в деке не проверено
+      verification: infer
+      verification_note: 'ОЦЕНКА: 78,3 × 0,877 = 68,67 → 68,7. Арифметика верна; допущение
+        LF = RPK/ASK не подтверждено документом (у Pegasus LF может быть посадочным
+        — pax/seats).'
+    research_original:
+      value: 68700000000.0
+      ids: *id005
+      quality: ASK×LF
+  pax:
+    value: 43300000.0
+    basis: Research field pax, reporting currency EUR
+    page: слайд 20, Operational & Financial Highlights, последние столбцы 2023 2024
+      2025 Δ
+    quote: Passengers (mn) 6.3 7.9 9.7 8.1 8.1 9.4 10.5 9.5 9.0 10.7 12.2 11.3 19%
+      31.9 37.5 43.3 15%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id006
+    - b2-243
+    research_evidence:
+    - id: b2-243
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: Passengers (mn) 6.3 7.9 9.7 8.1 8.1 9.4 10.5 9.5 9.0 10.7 12.2 11.3 19%
+        31.9 37.5 43.3 15%
+      value: pax 43,3 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 43300000.0
+      ids: *id006
+  fleet_year_end:
+    value: 127
+    basis: Research field fleet_end, reporting currency EUR
+    page: слайд 7, Fleet
+    quote: Total 4 99 24 127
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id007
+    - b2-251
+    research_evidence:
+    - id: b2-251
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 7, Fleet
+      quote: Total 4 99 24 127
+      value: парк на 31.12.2025 = 127
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 127
+      ids: *id007
+report_id: research-PC-2025-12-31-51cb077f53c3
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: PC
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+  existing_metrics_preserved:
+  - fleet_avg
+research_preserved_metric_evidence:
+  fleet_avg:
+    value: 124
+    basis: Research field fleet_avg, reporting currency EUR
+    page: слайд 20, Operational & Financial Highlights, последние столбцы 2023 2024
+      2025 Δ
+    quote: Avg. Fleet Size 98 99 103 107 107 106 110 115 118 121 129 128 12% 102 109
+      124 13%
+    source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+    research_trace_ids: &id008
+    - b2-246
+    research_evidence:
+    - id: b2-246
+      kind: extract
+      url: https://www.pegasusinvestorrelations.com/medium/image/2025-q4-investor-presentation_1585/view.aspx
+      title: Pegasus Airlines, 4Q25 Investor Presentation
+      locator: слайд 20, Operational & Financial Highlights, последние столбцы 2023
+        2024 2025 Δ
+      quote: Avg. Fleet Size 98 99 103 107 107 106 110 115 118 121 129 128 12% 102
+        109 124 13%
+      value: средний парк 124
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 124
+      ids: *id008
+research_prior_source:
+  source: Pegasus Hava Taşımacılığı A.Ş., 2025 Annual Activity Report; Q4 2025 investor
+    presentation
+  source_url: https://www.pegasusinvestorrelations.com/medium/image/2025-annual-activity-report_1584/view.aspx
+  scope: 'Pegasus без дочерних. Отчётность в евро; 34% расходов — в лирах.
+
+    '

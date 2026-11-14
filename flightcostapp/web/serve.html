@@ -2925,13 +2925,13 @@ function cask(r){
 
 // Полоса перевозчиков грузится один раз на пару аэропортов и служит и
 // показателям над глобусом, и вкладке «Маршрут».
-let BENCH = null, BENCH_KEY = "";
+let BENCH = null, BENCH_KEY = "", BENCH_STALE = false;
 async function loadBench(){
-  const key = CHOSEN.o + "|" + CHOSEN.d;
+  const key = CHOSEN.o + "|" + CHOSEN.d + "|" + BENCH_STALE;
   if (BENCH && BENCH_KEY === key) return BENCH;
   const b = await (await fetch(`/api/bench?origin=${
     encodeURIComponent(CHOSEN.o)}&destination=${
-    encodeURIComponent(CHOSEN.d)}`)).json();
+    encodeURIComponent(CHOSEN.d)}&include_stale=${BENCH_STALE ? "1" : "0"}`)).json();
   BENCH = b; BENCH_KEY = key;
   return b;
 }
@@ -2940,7 +2940,7 @@ async function loadBench(){
 // это два числа рядом, и рядом с нашим стоит ровно одно чужое. Выбор
 // переживает смену маршрута: список перевозчиков приходит заново,
 // выбор — нет.
-let KPI_CARRIER = null;
+let KPI_CARRIER = null, KPI_SEGMENT = "";
 
 function kpiCell(k, n, sub, bad, cmpId){
   return `<div><div class="k">${k}</div><div class="n${bad ? " bad" : ""}">${n}</div>
@@ -2983,73 +2983,97 @@ function drawKpi(r){
   loadBench().then(b => { if (LAST === r) drawChips(b); });
 }
 
+function comparisonCost(b){
+  const r = LAST, km = b.comparison && b.comparison.distance_km;
+  const fuel = r && (r.cost || []).find(x => x.item === "fuel");
+  if (!r || !r.answer.feasible || !fuel || !(km > 0) || !(r.route.seats > 0)) return null;
+  return (r.answer.cost_total - fuel.eur) / (r.route.seats * km) * 100;
+}
+
+function comparisonDetails(c){
+  const period = `${esc(c.period_start || "")} – ${esc(c.period_end || "")}`;
+  const source = c.source_url && /^https?:\/\//i.test(c.source_url)
+    ? `<a href="${esc(c.source_url)}" target="_blank" rel="noopener noreferrer">${_t("источник")}</a>` : "";
+  return `${esc(c.name || c.code)} · ${period}${c.stale ? " · " + _t("устаревший отчёт") : ""}${source ? " · " + source : ""}`;
+}
+
+function comparisonMarkup(b, observation, segment){
+  const our = comparisonCost(b);
+  const ours = our === null ? "" : `${_t("наш рейс без топлива")}: <b>${caskVal(our)}</b> ${esc(caskUnit())}<br>`;
+  const distance = b.comparison && b.comparison.distance_km;
+  const method = `${_t("Приведено к длине рейса")} ${f0(distance)} ${_t("км")} · ${_t("степень 0,5")}`;
+  if (segment) {
+    const observations = segment.observations || [];
+    const members = observations.map(comparisonDetails).join("<br>");
+    if (segment.n < 5 || segment.p50 == null) {
+      return `${ours}${_t("CASK без топлива")}: ${_t("недостаточно перевозчиков для полосы")} (${segment.n})${hint(
+        `${method}<br>${_t("Для полосы нужно минимум пять перевозчиков")}<br><br>${observations.map(c =>
+          `${comparisonDetails(c)} · ${caskVal(c.adjusted_cents)} ${esc(caskUnit())}`).join("<br>")}`)}`;
+    }
+    return `${ours}${_t("CASK без топлива")}: <b>${caskVal(segment.p50)}</b> ${esc(caskUnit())}<br>
+      p25–p75 ${caskVal(segment.p25)}–${caskVal(segment.p75)} · ${segment.n} ${_t("перевозчиков")}${hint(`${method}<br><br>${members}`)}`;
+  }
+  return observation && observation.adjusted_cents != null
+    ? `${ours}${_t("CASK без топлива")}: <b>${caskVal(observation.adjusted_cents)}</b> ${esc(caskUnit())}${hint(
+        `${method}<br>${comparisonDetails(observation)}<br>${_t("средняя дальность перевозки")}: ${f0(observation.sector_km)} ${_t("км")}`)}`
+    : `${ours}${_t("CASK без топлива")}: ${_t("недостаточно данных за выбранный период")}`;
+}
+
 function drawChips(b){
   const box = $("#kpichips"), sub = $("#kpisub");
   if (!box) return;
-  const cs = (b.carriers || []).filter(c => c.cask_cents || c.yield_eur_pax);
-  if (!cs.length) {
-    box.innerHTML = `<span class="s">${_t("полосы нет — отчётность не заведена")}</span>`;
-    sub.textContent = ""; $("#kpi-yield").textContent = ""; $("#kpi-cask").textContent = "";
-    return;
+  const comparison = b.comparison || {carriers: [], segments: []};
+  const cs = (b.carriers || []).filter(c => c.cask_cents || c.yield_eur_pax).map(c => ({...c}));
+  for (const c of comparison.carriers || []) {
+    if (!cs.some(x => x.carrier === c.carrier)) cs.push({...c, year: String(c.period_end || "").slice(0, 4), scope: ""});
   }
-  // Выбор — код перевозчика и год, два поля. Название ищется по
-  // подстроке, как аэропорт: «люфт» находит Lufthansa, «аэро» — Аэрофлот.
-  if (!cs.some(c => c.carrier === KPI_CARRIER)) KPI_CARRIER = cs[0].carrier;
+  if (!cs.some(c => c.carrier === KPI_CARRIER)) KPI_CARRIER = cs.length ? cs[0].carrier : null;
   const cur = cs.find(c => c.carrier === KPI_CARRIER);
-  const years = cs.filter(c => c.code === cur.code).map(c => c.year);
+  const segmentNames = {lowcost: _t("Лоукостеры"), network: _t("Сетевые"), hybrid_leisure: _t("Гибридные и туристические")};
+  const segments = comparison.segments || [];
+  if (KPI_SEGMENT && !segments.some(x => x.id === KPI_SEGMENT)) KPI_SEGMENT = "";
+  const segment = segments.find(x => x.id === KPI_SEGMENT);
   box.className = "cpick";
-  box.innerHTML = `<input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
-    <div class="hits" id="cqh"></div>
-    <select id="cy" title="${_t("год отчётности")}">${[...new Set(years)].map(y =>
-      `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>`;
-  const inp = $("#cq"), hits = $("#cqh");
-  const rows = q => {
-    const t = q.trim().toLowerCase();
-    // Один контур на перевозчика в списке: год выбирается рядом.
-    const seen = new Set();
-    return cs.filter(c => (!t || (c.name + " " + c.code).toLowerCase().includes(t))
-                          && !seen.has(c.code) && seen.add(c.code));
+  box.innerHTML = `<select id="benchmark-kind" aria-label="${_t("Сравнить с")}">
+    <option value="">${_t("Авиакомпания")}</option>${segments.map(x =>
+      `<option value="${esc(x.id)}"${KPI_SEGMENT === x.id ? " selected" : ""}>${esc(segmentNames[x.id] || x.name)}</option>`).join("")}</select>
+    ${!segment && cur ? `<input id="cq" autocomplete="off" value="${esc(cur.name)}" title="${_t("перевозчик")}">
+      <div class="hits" id="cqh"></div>
+      <select id="cy" title="${_t("год отчётности")}">${[...new Set(cs.filter(c => c.code === cur.code).map(c => c.year))].map(y =>
+        `<option${y === cur.year ? " selected" : ""}>${esc(y)}</option>`).join("")}</select>` : ""}
+    <label class="s"><input id="benchmark-stale" type="checkbox" style="width:auto"${BENCH_STALE ? " checked" : ""}> ${_t("Включить отчёты 18–24 месяцев")}</label>`;
+  $("#benchmark-kind").onchange = e => { KPI_SEGMENT = e.target.value; drawChips(b); if ($("#benchbox")) drawBench(LAST); };
+  $("#benchmark-stale").onchange = async e => {
+    BENCH_STALE = e.target.checked;
+    const r = LAST, includeStale = BENCH_STALE;
+    const next = await loadBench();
+    if (LAST === r && BENCH_STALE === includeStale) { drawChips(next); if ($("#benchbox")) drawBench(r); }
   };
-  const show = () => {
-    hits.innerHTML = rows(inp.value).map(c => `<div class="hit" data-c="${esc(c.carrier)}">
-      <b>${esc(c.code)}</b>${esc(c.name)}<i>${esc(c.scope.slice(0, 70))}</i></div>`).join("")
-      || `<div class="hit" style="color:var(--dim)">${_t("ничего не нашлось")}</div>`;
-    hits.classList.add("on");
-    hits.querySelectorAll(".hit[data-c]").forEach(el =>
-      el.addEventListener("mousedown", e => { e.preventDefault();
-        KPI_CARRIER = el.dataset.c; drawChips(b); }));
-  };
-  inp.addEventListener("focus", () => { inp.select(); show(); });
-  inp.addEventListener("input", show);
-  inp.addEventListener("blur", () => setTimeout(() => {
-    hits.classList.remove("on"); inp.value = cur.name; }, 140));
-  $("#cy").onchange = e => {
-    KPI_CARRIER = `${cur.code}/${e.target.value}`; drawChips(b);
-  };
-  // Вердикта нет (решение 95): рядом с нашим числом стоит чужое и плечо,
-  // на котором оно получено. Это всё, что здесь можно сказать честно.
-  // Без названия перевозчика: оно стоит в поле выбора справа, а строка
-  // сравнения — про число и плечо, на котором оно получено.
-  // Белым и жирным — только число; слово «бенчмарк» и единицы серым.
-  // Строка сравнения — одна: число и единица; всё остальное — в пояснении.
-  // Обратное направление цены — оговорка, меняющая вывод: оранжевое «i» и
-  // короткая метка остаются видны (решение 184).
-  const zone = cur.fx && cur.fx.currency && cur.fx.currency !== "EUR"
-    ? `<br>${_t("отчёт в")} ${esc(cur.fx.currency)}, ${_t("другая валютная зона")}` : "";
-  const caveat = `<br><span class="faint">${_t("другое плечо и сеть — прямо сравнивать нельзя")}</span>`;
-  $("#kpi-cask").innerHTML = cur.cask_cents
-    ? `${_t("бенчмарк")}: <b>${caskVal(cur.cask_cents)}</b> ${esc(caskUnit())}${hint(
-        `${_t("на плече")} ${f0(cur.sector_nm)} nm${zone}${caveat}`)}`
-    : `${_t("бенчмарк")}: ${_t("не считается")}${cur.fx && !cur.fx.rate ? hint(_t("нет курса") + " " + esc(cur.fx.currency), "o") : ""}`;
+  if (!segment && cur) {
+    const inp = $("#cq"), hits = $("#cqh");
+    const show = () => {
+      const q = inp.value.trim().toLowerCase(), seen = new Set();
+      const rows = cs.filter(c => (!q || (c.name + " " + c.code).toLowerCase().includes(q))
+        && !seen.has(c.code) && seen.add(c.code));
+      hits.innerHTML = rows.map(c => `<div class="hit" data-c="${esc(c.carrier)}"><b>${esc(c.code)}</b>${esc(c.name)}
+        <i>${esc((c.scope || "").slice(0, 70))}</i></div>`).join("") || `<div class="hit">${_t("ничего не нашлось")}</div>`;
+      hits.classList.add("on");
+      hits.querySelectorAll(".hit[data-c]").forEach(el => el.addEventListener("mousedown", e => {
+        e.preventDefault(); KPI_CARRIER = el.dataset.c; drawChips(b); if ($("#benchbox")) drawBench(LAST);
+      }));
+    };
+    inp.addEventListener("focus", () => { inp.select(); show(); });
+    inp.addEventListener("input", show);
+    inp.addEventListener("blur", () => setTimeout(() => { hits.classList.remove("on"); inp.value = cur.name; }, 140));
+    $("#cy").onchange = e => { KPI_CARRIER = `${cur.code}/${e.target.value}`; drawChips(b); if ($("#benchbox")) drawBench(LAST); };
+  }
+  const observation = (comparison.carriers || []).find(c => c.carrier === KPI_CARRIER);
+  $("#kpi-cask").innerHTML = comparisonMarkup(b, observation, segment);
   const mk = marketParts(b);
-  const yieldPart = cur.yield_eur_pax
-    ? `${_t("бенчмарк")}: <b>${m0(cur.yield_eur_pax)}</b>`
-    : `${_t("бенчмарк")}: ${_t("не публикует")}`;
-  const yieldWhy = cur.yield_eur_pax ? esc(cur.yield_basis || "") : _t("доход с пассажира в отчёте не назван");
-  // Рынок — своей строкой: в одной с бенчмарком он рвался по словам.
-  $("#kpi-yield").innerHTML = `${yieldPart}<br>${mk.short}${mk.flag}${hint(
-      `<b>${_t("бенчмарк")}</b>: ${yieldWhy}${caveat}<br><br><b>${_t("рынок")}</b>: ${mk.detail}`, mk.warn ? "o" : "g")}`;
-  sub.textContent = "";
+  const yieldPart = !segment && cur && cur.yield_eur_pax
+    ? `${_t("бенчмарк")}: <b>${m0(cur.yield_eur_pax)}</b>${hint(esc(cur.yield_basis || "") + "<br>" + _t("Средний доход на пассажира по сети перевозчика зависит от состава маршрутов и дополнительных доходов."))}` : "";
+  $("#kpi-yield").innerHTML = `${yieldPart}${yieldPart ? "<br>" : ""}${mk.short}${mk.flag}${hint(mk.detail, mk.warn ? "o" : "g")}`;
+  sub.textContent = !segment && !cur ? _t("полосы нет — отчётность не заведена") : "";
 }
 
 // Цены агрегатора в евро: либо сервер уже пересчитал чужую валюту
@@ -3160,8 +3184,6 @@ function carrierCard(c){
 async function drawBench(r){
   const b = await loadBench();
   if (LAST !== r || !$("#benchbox")) return;      // ответ обогнал более свежий
-  const our = {cask: cask(r),
-               sector: r.route.distance_nm, be: r.answer.breakeven_fare_eur};
   const box = [];
 
   if ((b.carriers || []).length) {
@@ -3171,19 +3193,13 @@ async function drawBench(r){
     box.push(full.map(carrierCard).join(""));
     if (rest.length) box.push(`<details class="more"><summary>${_t("ещё перевозчиков с неполными данными")}: ${
       rest.length} · ${rest.map(c => esc(c.code)).join(", ")}</summary>${rest.map(carrierCard).join("")}</details>`);
-    // ВЕРДИКТА НЕТ, и это решение 95: полоса собрана на другом плече.
-    // На коротком секторе постоянные статьи делятся на меньшее число
-    // кресло-километров, и CASK выше при той же эффективности. Сравнивать
-    // напрямую нельзя, а показывать оба числа с названным плечом — можно.
     const noFx = b.carriers.filter(c => c.fx && !c.fx.rate);
     if (noFx.length) box.push(`<div class="note"><b>${_t("Пересчёт невозможен.")}</b>
       ${noFx.map(c => esc(c.carrier) + " — " + esc(c.fx.currency)).join(", ")}:
       ${_t("курса в справочнике нет, и подставлять правдоподобный нельзя — получилась бы полоса, собранная из чисел в разных деньгах. Это открытый вопрос карты: источники курса вне котировок ЕЦБ.")}</div>`);
-    const c0 = b.carriers.find(c => c.cask_cents);
-    if (c0) box.unshift(`<div class="note quiet"><b>${_t("Прямо сравнивать нельзя.")}</b>${hint(`
-      ${_t("Наш маршрут")} — ${f0(our.sector)} ${_t("nm, полоса собрана на среднем плече")}
-      ${f0(c0.sector_nm)} ${_t("nm. На коротком секторе постоянные статьи рейса делятся на меньшее число кресло-километров, и CASK выше при той же эффективности. Наши")} ${caskVal(our.cask)} ${_t("против")}
-      ${caskVal(c0.cask_cents)} ${caskUnit()} ${_t("— разница, в которой доля плеча пока не отделена от доли параметрики.")}`, "o")}</div>`);
+    const observation = ((b.comparison || {}).carriers || []).find(c => c.carrier === KPI_CARRIER);
+    const segment = ((b.comparison || {}).segments || []).find(c => c.id === KPI_SEGMENT);
+    box.unshift(`<div class="note quiet">${comparisonMarkup(b, observation, segment)}</div>`);
   } else {
     box.push(`<div class="note"><b>${_t("Полосы нет.")}</b> ${_t("Отчётность перевозчиков не заведена: сравнивать себестоимость не с чем.")}</div>`);
   }

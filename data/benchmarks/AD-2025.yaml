@@ -1,0 +1,319 @@
+carrier: AD
+name: Azul
+entity_id: AD
+segment: hybrid_leisure
+segment_basis: Business-model classification hybrid in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+report_id: research-AD-2025-12-31-51cb077f53c3
+scope: Azul S.A. (вкл. региональный ATR/E-Jets и A330) 2025 — год реструктуризации
+  (Chapter 11); opex adjusted. Самый полный набор полей в выборке.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: AD
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 21873700000.0
+    basis: Research field revenue, reporting currency BRL
+    page: Income statement, 2025
+    quote: Total operating revenue 5,799.9 5,545.5 4.6% 21,873.7 19,526.2 12.0%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id001
+    - b2-121
+    research_evidence:
+    - id: b2-121
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Income statement, 2025
+      quote: Total operating revenue 5,799.9 5,545.5 4.6% 21,873.7 19,526.2 12.0%
+      value: revenue 21 873,7 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 21873700000.0
+      ids: *id001
+    currency: BRL
+  traffic_revenue_eur:
+    value: 20231000000.0
+    basis: Research field pax_revenue, reporting currency BRL
+    page: Income statement, 2025
+    quote: Passenger revenue 5,340.6 5,144.3 3.8% 20,231.0 18,123.1 11.6%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id002
+    - b2-120
+    research_evidence:
+    - id: b2-120
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Income statement, 2025
+      quote: Passenger revenue 5,340.6 5,144.3 3.8% 20,231.0 18,123.1 11.6%
+      value: пассажирская выручка 20 231,0 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 20231000000.0
+      ids: *id002
+    currency: BRL
+  opex_eur:
+    value: 18232500000.0
+    basis: Research field opex, reporting currency BRL; adjusted (без разовых, Chapter
+      11)
+    page: Income statement, 2025
+    quote: Total Operating Expenses (4,379.6) (4,306.9) 1.7% (18,232.5) (16,018.5)
+      13.8%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id003
+    - b2-123
+    research_evidence:
+    - id: b2-123
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Income statement, 2025
+      quote: Total Operating Expenses (4,379.6) (4,306.9) 1.7% (18,232.5) (16,018.5)
+        13.8%
+      value: opex 18 232,5 млн BRL (adjusted, без разовых статей)
+      verification: found
+      verification_note: 'Сноска ¹ к отчёту: «Operating results were adjusted for
+        non-recurring items totaling R$782.9 million in 4Q25» — adjusted подтверждено.'
+    research_original:
+      value: 18232500000.0
+      ids: *id003
+      note: adjusted (без разовых, Chapter 11)
+    currency: BRL
+  fuel_cost_eur:
+    value: 5710300000.0
+    basis: Research field fuel_cost, reporting currency BRL
+    page: Income statement, 2025
+    quote: Aircraft fuel (1,379.4) (1,362.7) 1.2% (5,710.3) (5,583.5) 2.3%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id004
+    - b2-122
+    research_evidence:
+    - id: b2-122
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Income statement, 2025
+      quote: Aircraft fuel (1,379.4) (1,362.7) 1.2% (5,710.3) (5,583.5) 2.3%
+      value: fuel 5 710,3 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5710300000.0
+      ids: *id004
+    currency: BRL
+  ask_km:
+    value: 50908000000.0
+    basis: Research field ask_km, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: ASK (million) 12,460 12,330 1.1% 50,908 46,292 10.0%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id005
+    - b2-111
+    research_evidence:
+    - id: b2-111
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: ASK (million) 12,460 12,330 1.1% 50,908 46,292 10.0%
+      value: ASK 2025 = 50 908 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 50908000000.0
+      ids: *id005
+  rpk_km:
+    value: 42336000000.0
+    basis: Research field rpk_km, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: RPK (million) 10,597 10,383 2.1% 42,336 37,778 12.1%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id006
+    - b2-112
+    research_evidence:
+    - id: b2-112
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: RPK (million) 10,597 10,383 2.1% 42,336 37,778 12.1%
+      value: RPK 42 336 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 42336000000.0
+      ids: *id006
+  pax:
+    value: 31914000.0
+    basis: Research field pax, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: Passengers (thousands) 7,954 8,167 -2.6% 31,914 30,871 3.4%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id007
+    - b2-113
+    research_evidence:
+    - id: b2-113
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: Passengers (thousands) 7,954 8,167 -2.6% 31,914 30,871 3.4%
+      value: pax 31,914 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 31914000.0
+      ids: *id007
+  flights:
+    value: 310713
+    basis: Research field flights, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: Departures 74,177 80,704 -8.1% 310,713 322,082 -3.5%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id008
+    - b2-114
+    research_evidence:
+    - id: b2-114
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: Departures 74,177 80,704 -8.1% 310,713 322,082 -3.5%
+      value: flights 310 713
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 310713
+      ids: *id008
+  block_hours:
+    value: 575448
+    basis: Research field block_hours, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: Block hours 137,887 147,126 -6.3% 575,448 567,774 1.4%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id009
+    - b2-115
+    research_evidence:
+    - id: b2-115
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: Block hours 137,887 147,126 -6.3% 575,448 567,774 1.4%
+      value: block hours 575 448
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 575448
+      ids: *id009
+  fleet_avg:
+    value: 133.6
+    basis: Research field fleet_avg, reporting currency BRL; оценка из налёта; на
+      конец 187; парк в налёте ≈ 575 448 / 365 / 11,8 = 133,6; против 187 на конец
+      года — утилизация, видимо, на «работающие» борта (сноска ² не прочитана); fleet_avg
+      пометить оценкой
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: Aircraft utilization (hours per day)² 11.8 11.8 -0.3% 11.8 11.5 2.6%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id010
+    - b2-125
+    research_evidence:
+    - id: b2-124
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: Aircraft utilization (hours per day)² 11.8 11.8 -0.3% 11.8 11.5 2.6%
+      value: налёт 11,8 ч/сутки
+      verification: found
+      verification_note: 'Сноска ² прочитана: исключены Cessna и грузовые.'
+    - id: b2-125
+      kind: infer
+      value: парк в налёте ≈ 575 448 / 365 / 11,8 = 133,6; против 187 на конец года
+        — утилизация, видимо, на «работающие» борта (сноска ² не прочитана)
+      note: fleet_avg пометить оценкой
+      verification: infer
+      verification_note: 'ОЦЕНКА: 575 448/365/11,8 = 133,6 — арифметика верна. Ошибка
+        в parents: указан b2-123 (opex) вместо b2-124 (утилизация). Сноска ² (без
+        Cessna/грузовых) не объясняет разрыв со 187 полностью — оценка грубая.'
+    research_original:
+      value: 133.6
+      ids: *id010
+      quality: оценка из налёта; на конец 187
+  fleet_year_end:
+    value: 187
+    basis: Research field fleet_end, reporting currency BRL
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: End of period operating passenger aircraft 187 181 3.3% 187 181 3.3%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id011
+    - b2-119
+    research_evidence:
+    - id: b2-119
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: End of period operating passenger aircraft 187 181 3.3% 187 181 3.3%
+      value: парк в эксплуатации 187 (181)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 187
+      ids: *id011
+  employees:
+    value: 14674
+    basis: Research field employees, reporting currency BRL; FTE на конец года
+    page: Operating data table, 2025 column (5-й столбец)
+    quote: Full-time-equivalent employees 14,674 15,343 -4.4% 14,674 15,343 -4.4%
+    source_url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+    research_trace_ids: &id012
+    - b2-118
+    research_evidence:
+    - id: b2-118
+      kind: extract
+      url: https://www.streetinsider.com/SEC+Filings/Form+6-K+AZUL+SA+For%3A+Dec+31/26230481.html
+      title: Azul S.A. Form 6-K, 4Q25 and full-year 2025 earnings release (27.03.2026)
+      locator: Operating data table, 2025 column (5-й столбец)
+      quote: Full-time-equivalent employees 14,674 15,343 -4.4% 14,674 15,343 -4.4%
+      value: FTE 14 674 (на конец года)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 14674
+      ids: *id012
+      note: FTE на конец года
+  fx_per_eur:
+    value: 6.3072
+    basis: Calendar-year 2025 average BRL per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: BRL 6,3072
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-007
+    research_evidence:
+    - id: b6-007
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: BRL 6,3072
+      value: BRL/EUR=6.3072
+      verification: research_exchange_rate
+      verification_note: ''

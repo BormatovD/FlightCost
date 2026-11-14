@@ -149,7 +149,14 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
                 value_text=json.dumps({"basis": basis,
                                        "name": d.get("name", ""),
                                        "scope": d.get("scope", ""),
-                                       "page": item.get("page", "")},
+                                       "page": item.get("page", ""),
+                                       "quote": item.get("quote", ""),
+                                       "source_url": item.get("source_url") or d.get("source_url", ""),
+                                       "source_sha256": item.get("source_sha256") or d.get("source_sha256", ""),
+                                       "report_source_url": d.get("source_url", ""),
+                                       **{key: d[key] for key in (
+                                           "segment", "entity_id", "period_start", "period_end",
+                                           "published_at", "report_id") if key in d}},
                                       ensure_ascii=False),
                 source_id=ctx["source_id"], artifact_sha=ctx.get("sha"),
                 extracted_by=ctx.get("extracted_by", "parser:carrier_benchmark@1"),
@@ -159,8 +166,9 @@ def parse(blob: bytes, ctx: dict) -> list[Fact]:
                 confirm_by=item.get("confirm_by"),
                 node="src_carrier_report",
                 source_note=f"{d['source']}; {basis}",
-                note=d.get("source_url", "")))
+                note=item.get("source_url") or d.get("source_url", "")))
             seen += 1
+        ctx.setdefault("parsed_prefixes", []).append(f"{car}/{year}")
     ctx.setdefault("summary", []).append(
         f"перевозчиков {len({f.key.split('/')[0] for f in facts})}, "
         f"величин {seen}")

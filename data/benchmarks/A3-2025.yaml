@@ -1,17 +1,295 @@
-# Aegean Airlines 2025. Группа с Olympic Air (ATR, Dash 8) — парк смешанный.
-# Числа выписаны поиском из релиза результатов; сверить со стр. релиза.
----
 carrier: A3
+entity_id: A3
+segment: hybrid_leisure
+segment_basis: Business-model classification hybrid in the published benchmarks research
+period_start: '2025-01-01'
+period_end: '2025-12-31'
 name: Aegean Airlines (группа)
 year: 2025
-source: "Aegean Airlines S.A., FY2025 financial results announcement (ATHEX, 12.03.2026)"
-source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
-scope: >
-  Aegean и Olympic Air вместе: реактивные A320-семейства и турбовинтовые.
-  Ставка на блок-час — средняя по смешанному парку.
+source: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+scope: Aegean + Olympic Air Смешанный парк A320/A321neo + турбовинтовые Olympic. Парк,
+  численность, объём топлива не найдены. Подтверждает block_hours и flights из A3-2025.yaml.
 values:
-  staff_cost_eur:       {value: 219500000, currency: EUR, basis: "employee benefits — весь персонал", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
-  maintenance_cost_eur: {value: 220200000, currency: EUR, basis: "aircraft maintenance", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
-  depreciation_eur:     {value: 203300000, currency: EUR, basis: "depreciation", page: "income statement", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: строка в релизе ATHEX"}
-  block_hours:          {value: 225350, basis: "total block hours", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
-  flights:              {value: 134371, basis: "total sectors flown", page: "operating data", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица operating data"}
+  staff_cost_eur:
+    value: 219500000
+    currency: EUR
+    basis: employee benefits — весь персонал
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в релизе ATHEX'
+    source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  maintenance_cost_eur:
+    value: 220200000
+    currency: EUR
+    basis: aircraft maintenance
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в релизе ATHEX'
+    source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  depreciation_eur:
+    value: 203300000
+    currency: EUR
+    basis: depreciation
+    page: income statement
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: строка в релизе ATHEX'
+    source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  block_hours:
+    value: 225350
+    basis: total block hours
+    page: operating data
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: таблица operating data'
+    source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  flights:
+    value: 134371
+    basis: total sectors flown
+    page: operating data
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: таблица operating data'
+    source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  revenue_eur:
+    value: 1859700000.0
+    basis: Research field revenue, reporting currency EUR
+    page: Consolidated income statement, Full Year 2025 (5-й столбец)
+    quote: Total Revenue 397,4 425,6 7% 1.777,3 1.859,7 5%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id001
+    - b2-163
+    research_evidence:
+    - id: b2-163
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Consolidated income statement, Full Year 2025 (5-й столбец)
+      quote: Total Revenue 397,4 425,6 7% 1.777,3 1.859,7 5%
+      value: revenue 1 859,7 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1859700000.0
+      ids: *id001
+    currency: EUR
+  traffic_revenue_eur:
+    value: 1610500000.0
+    basis: Research field pax_revenue, reporting currency EUR; scheduled services
+    page: Consolidated income statement, Full Year 2025 (5-й столбец)
+    quote: Scheduled Services 343,9 366,2 6% 1544,4 1610,5 4%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id002
+    - b2-164
+    research_evidence:
+    - id: b2-164
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Consolidated income statement, Full Year 2025 (5-й столбец)
+      quote: Scheduled Services 343,9 366,2 6% 1544,4 1610,5 4%
+      value: регулярные перевозки (pax revenue proxy) 1 610,5 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1610500000.0
+      ids: *id002
+      note: scheduled services
+    currency: EUR
+  opex_eur:
+    value: 1641500000.0
+    basis: Research field opex, reporting currency EUR; revenue − EBIT; opex = revenue
+      − EBIT = 1 859,7 − 218,2 = 1 641,5 млн EUR; итог расходов не напечатан; EBIT
+      может включать прочие операционные доходы — opex приблизителен
+    page: Consolidated income statement, Full Year 2025 (5-й столбец)
+    quote: Total Revenue 397,4 425,6 7% 1.777,3 1.859,7 5% | EBIT 27,6 11,6 -58% 227,1
+      218,2 -4%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id003
+    - b2-175
+    research_evidence:
+    - id: b2-163
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Consolidated income statement, Full Year 2025 (5-й столбец)
+      quote: Total Revenue 397,4 425,6 7% 1.777,3 1.859,7 5%
+      value: revenue 1 859,7 млн EUR
+      verification: found
+      verification_note: ''
+    - id: b2-168
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Consolidated income statement, Full Year 2025 (5-й столбец)
+      quote: EBIT 27,6 11,6 -58% 227,1 218,2 -4%
+      value: EBIT 218,2 млн EUR
+      verification: found
+      verification_note: 421,5 − 203,3 = 218,2 — согласовано.
+    - id: b2-175
+      kind: infer
+      value: opex = revenue − EBIT = 1 859,7 − 218,2 = 1 641,5 млн EUR
+      note: итог расходов не напечатан; EBIT может включать прочие операционные доходы
+        — opex приблизителен
+      verification: infer
+      verification_note: 'ОЦЕНКА: 1 859,7 − 218,2 = 1 641,5. Арифметика верна; строки
+        итога расходов в релизе действительно нет. Если EBIT включает прочие опер.
+        доходы, opex занижен на их величину.'
+    research_original:
+      value: 1641500000.0
+      ids: *id003
+      quality: revenue − EBIT
+    currency: EUR
+  fuel_cost_eur:
+    value: 369000000.0
+    basis: Research field fuel_cost, reporting currency EUR
+    page: Consolidated income statement, Full Year 2025 (5-й столбец)
+    quote: Aircraft fuel (82,1) (88,0) 7% (372,1) (369,0) -1%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id004
+    - b2-165
+    research_evidence:
+    - id: b2-165
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Consolidated income statement, Full Year 2025 (5-й столбец)
+      quote: Aircraft fuel (82,1) (88,0) 7% (372,1) (369,0) -1%
+      value: fuel 369,0 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 369000000.0
+      ids: *id004
+    currency: EUR
+  ask_km:
+    value: 22179000000.0
+    basis: Research field ask_km, reporting currency EUR
+    page: Group operating figures, Full Year 2025
+    quote: ASKs (in mil.) 4.893 5.441 11% 21.126 22.179 5%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id005
+    - b2-170
+    research_evidence:
+    - id: b2-170
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Group operating figures, Full Year 2025
+      quote: ASKs (in mil.) 4.893 5.441 11% 21.126 22.179 5%
+      value: ASK 22 179 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 22179000000.0
+      ids: *id005
+  rpk_km:
+    value: 18231000000.0
+    basis: Research field rpk_km, reporting currency EUR
+    page: Group operating figures, Full Year 2025
+    quote: RPKs (in mil.) 4.049 4.444 10% 17.413 18.231 5%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id006
+    - b2-171
+    research_evidence:
+    - id: b2-171
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Group operating figures, Full Year 2025
+      quote: RPKs (in mil.) 4.049 4.444 10% 17.413 18.231 5%
+      value: RPK 18 231 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 18231000000.0
+      ids: *id006
+  pax:
+    value: 17284000.0
+    basis: Research field pax, reporting currency EUR
+    page: Group operating figures, Full Year 2025
+    quote: Total Passengers ('000) 3.740 4.071 9% 16.325 17.284 6%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id007
+    - b2-169
+    research_evidence:
+    - id: b2-169
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Group operating figures, Full Year 2025
+      quote: Total Passengers ('000) 3.740 4.071 9% 16.325 17.284 6%
+      value: pax 17,284 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 17284000.0
+      ids: *id007
+report_id: research-A3-2025-12-31-51cb077f53c3
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: A3
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+  existing_metrics_preserved:
+  - flights
+  - block_hours
+research_preserved_metric_evidence:
+  flights:
+    value: 134371
+    basis: Research field flights, reporting currency EUR
+    page: Group operating figures, Full Year 2025
+    quote: Total Sectors Flown 28.643 31.091 9% 128.021 134.371 5%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id008
+    - b2-172
+    research_evidence:
+    - id: b2-172
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Group operating figures, Full Year 2025
+      quote: Total Sectors Flown 28.643 31.091 9% 128.021 134.371 5%
+      value: flights 134 371
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 134371
+      ids: *id008
+  block_hours:
+    value: 225350
+    basis: Research field block_hours, reporting currency EUR
+    page: Group operating figures, Full Year 2025
+    quote: Total Block Hours 49.469 53.896 9% 216.940 225.350 4%
+    source_url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+    research_trace_ids: &id009
+    - b2-173
+    research_evidence:
+    - id: b2-173
+      kind: extract
+      url: https://en.about.aegeanair.com/media-center/press-releases/2026/fourth-quarter-and-full-year-2025-results
+      title: 'AEGEAN press release: Fourth Quarter and Full Year 2025 Results'
+      locator: Group operating figures, Full Year 2025
+      quote: Total Block Hours 49.469 53.896 9% 216.940 225.350 4%
+      value: block hours 225 350
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 225350
+      ids: *id009
+research_prior_source:
+  source: Aegean Airlines S.A., FY2025 financial results announcement (ATHEX, 12.03.2026)
+  source_url: https://www.athexgroup.gr/sites/default/files/hermes_3/2026-03/en/2cd93119-b12b-4ee9-9931-19b12baee9e4/732_1304_2026_English_2.pdf
+  scope: 'Aegean и Olympic Air вместе: реактивные A320-семейства и турбовинтовые.
+    Ставка на блок-час — средняя по смешанному парку.
+
+    '
+  published_at: '2026-03-12'

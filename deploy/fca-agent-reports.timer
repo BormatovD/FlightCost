@@ -1,0 +1,11 @@
+# Known carriers rotate weekly. New-carrier discovery runs once per calendar month.
+[Unit]
+Description=FlightCostApp — агент: отчётность авиаперевозчиков
+
+[Timer]
+OnCalendar=Fri *-*-* 07:50:00 UTC
+Persistent=true
+Unit=fca-agent@reports.service
+
+[Install]
+WantedBy=timers.target

@@ -1,24 +1,133 @@
-# easyJet FY25 (год к 30.09.2025). ЕДИНСТВЕННЫЙ найденный отчёт с отдельной
-# строкой экипажа. Блок-часов числом нет: налёт 10,2 ч в сутки и парк —
-# блок-часы выводятся расчётом и подписываются оценкой.
----
 carrier: U2
-name: easyJet plc
+entity_id: U2
+name: easyJet airline
 year: 2025
-source: "easyJet plc, FY25 Investor Presentation: Headline cost per seat (слайд 38), KPIs (слайд 6), fleet (слайд 36)"
-source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
-scope: >
-  Авиакомпания easyJet (сегмент airline), без easyJet holidays. Год
-  октябрь 2024 — сентябрь 2025. Валюта — фунт; пересчёт — курсом хранилища.
-  Парк — A319/A320/A321 (ceo и neo).
+segment: lowcost
+segment_basis: 'Лоукостер (LCC/ULCC): заявленная бизнес-модель компании; классификация
+  исследования benchmarks-2026-10.'
+period_start: '2024-10-01'
+period_end: '2025-09-30'
+published_at: '2025-11-25'
+source: easyJet airline Annual results 2025
+source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/ar/easyJetARA25_DIGITAL_sm.pdf
+report_id: U2-2025-09-30-41bd505ed95d
+scope: easyJet airline segment only, excluding easyJet holidays. Operating expense
+  includes non-headline charge GBP7m and depreciation, excludes net finance and FX.
+  GAAP segment operating expense derived from Note8:6596+208+649+730+7=8190 GBP million.
 values:
-  crew_cost_eur:        {value: 1198000000, currency: GBP, basis: "crew costs — лётный и кабинный экипаж вместе", page: "слайд 38"}
-  maintenance_cost_eur: {value: 451000000, currency: GBP, basis: "maintenance", page: "слайд 38"}
-  depreciation_eur:     {value: 679000000, currency: GBP, basis: "airline depreciation (без амортизации нематериальных 51)", page: "слайд 38"}
-  fuel_cost_eur:        {value: 2253000000, currency: GBP, basis: "fuel", page: "слайд 38"}
-  airport_handling_cost_eur: {value: 2161000000, currency: GBP, basis: "airports & ground handling", page: "слайд 38"}
-  route_charges_eur:    {value: 533000000, currency: GBP, basis: "navigation", page: "слайд 38"}
-  ask_km:               {value: 134451000000, basis: "ASK 134 451 млн", page: "слайд 6"}
-  utilisation_bh_day:   {value: 10.2, basis: "aircraft utilisation, hours per day; на какой парк — не сказано, принят весь", page: "слайд 6"}
-  fleet_year_end:       {value: 356, basis: "fleet at 30.09.2025", page: "слайд 6"}
-  fleet_year_end_prev:  {value: 347, basis: "fleet at 30.09.2024", page: "слайд 6"}
+  opex_eur:
+    value: 8190000000
+    basis: Note8 airline operating expenses6596+selling208+other costs net649+D&A730+non-headline7
+      =8190 GBP million. Finance57 and FX11 excluded. Rounded source amounts ×1e6.
+    page: PDF p164 / printed163, Note8
+    quote: Airline operating costs including fuel (6,596) – – (6,596) easyJet holidays
+      direct operating costs – (1,538) 466 (1,072) Selling and marketing (208) (65)
+      – (273) Other costs and other income (649) (81) 11 (719) Amortisation and depreciation
+      (730) (13) – (743) Net interest (payable)/receivable and other financing (charges)/income
+      (57) 31 – (26) Foreign exchange loss (11) (1) – (12) Headline profit before
+      tax 415 250 – 665 Non-headline items (7) – – (7) Total profit before tax 408
+      250 – 658 === ст
+    currency: GBP
+    source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0
+  fuel_cost_eur:
+    value: 2253000000
+    basis: Annual airline fuel costs GBP million ×1e6
+    page: PDF p38 / printed37
+    quote: Fuel costs for the year increased by 1% to £2,253 million
+    currency: GBP
+    source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0
+  ask_km:
+    value: 134451000000
+    basis: Annual airline ASK million km ×1e6
+    page: PDF p40 / printed39 Key statistics
+    quote: Available seat kilometres (ASK) (millions) 134,451 122,885
+    source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0
+  rpk_km:
+    value: 122021000000
+    basis: Annual airline RPK million km ×1e6
+    page: PDF p40 / printed39
+    quote: Revenue passenger kilometres (RPK) (millions) 122,021 111,615
+    source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0
+  pax:
+    value: 93400000
+    basis: Annual airline passengers93.4m ×1e6, published rounding
+    page: PDF p40 / printed39
+    quote: Passengers (millions) 93.4 89.7
+    source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0
+  fx_per_eur:
+    value: 0.8460253725490197
+    basis: Arithmetic mean of255 ECB daily GBP/EUR reference observations, 2024-10-01
+      through2025-09-30 inclusive; exact fiscal period, no calendar-year approximation.
+    page: EXR.D.GBP.EUR.SP00.A CSV records, 2024-10-01 to2025-09-30
+    quote: EXR.D.GBP.EUR.SP00.A,D,GBP,EUR,SP00,A,2024-10-01,0.83193,A,F,,,P1D,,A,,,,,,,99Q1=100,,,5,,4F0,,Pound
+      sterling/Euro ECB reference exchange rate,"ECB reference exchange rate, Pound
+      sterling/Euro, 2.15 pm (C.E.T.)",GBP,0
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/D.GBP.EUR.SP00.A?startPeriod=2024-10-01&endPeriod=2025-09-30&format=csvdata
+    source_sha256: bb1df500e841a8f6d373ac9ba618840e1f3e12971c5ce9207ea610f58296b694
+  crew_cost_eur:
+    value: 1198000000
+    basis: Headline airline segment crew (flight and cabin combined), GBP million
+      ×1e6, FY25 Investor Presentation
+    page: FY25 Investor Presentation slide38
+    quote: Crew (1,198) - - (1,198)
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    currency: GBP
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  maintenance_cost_eur:
+    value: 451000000
+    basis: Headline airline segment maintenance expense, GBP million ×1e6, FY25 Investor
+      Presentation
+    page: FY25 Investor Presentation slide38
+    quote: Maintenance (451) - - (451)
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    currency: GBP
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  depreciation_eur:
+    value: 679000000
+    basis: Airline depreciation GBP million ×1e6; excludes GBP51m intangible amortisation.
+      FY25 Investor Presentation
+    page: FY25 Investor Presentation slide38
+    quote: Depreciation (679) - - (679)
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    currency: GBP
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  airport_handling_cost_eur:
+    value: 2161000000
+    basis: Airline airports and ground handling GBP million ×1e6. FY25 Investor Presentation
+    page: FY25 Investor Presentation slide38
+    quote: Airports & ground handling (2,161) - - (2,161)
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    currency: GBP
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  route_charges_eur:
+    value: 533000000
+    basis: Airline navigation charges GBP million ×1e6. FY25 Investor Presentation
+    page: FY25 Investor Presentation slide38
+    quote: Navigation (533) - - (533)
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    currency: GBP
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  utilisation_bh_day:
+    value: 10.2
+    basis: Published FY25 aircraft utilisation hours/day, presentation KPI does not
+      explicitly define fleet denominator; retained original definition without inferring
+      new denominator.
+    page: FY25 Investor Presentation slide6
+    quote: Aircraft Utilisation (hours per day) 10.2 9.9
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  fleet_year_end:
+    value: 356
+    basis: FY25 year-end aircraft356, comparativeFY24 347 as published
+    page: FY25 Investor Presentation slide6
+    quote: Aircraft 356 347 3%
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+  fleet_year_end_prev:
+    value: 347
+    basis: FY24 comparative year-end aircraft347 for FY25 report
+    page: FY25 Investor Presentation slide6
+    quote: Aircraft 356 347 3%
+    source_url: https://s203.q4cdn.com/522538739/files/doc_financials/2025/q4/FY25-Investor-Presentation-vf.pdf
+    source_sha256: 7f2f288679ee9dd07ca0633317304c4be36699ef1dbef3684c30edf70ed879e5
+source_sha256: 41bd505ed95d3e4e8daa480cbb57bbf0445eefb0071278f0e8427fa084f9dad0

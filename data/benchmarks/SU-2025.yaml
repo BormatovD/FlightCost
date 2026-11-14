@@ -13,6 +13,11 @@
 # нельзя не только из-за курса: структура затрат другая — топливо,
 # лизинг и персонал стоят иначе. Полоса помечена регионом.
 carrier: SU
+entity_id: SU
+segment: network
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2025-01-01"
+period_end: "2025-12-31"
 name: Группа «Аэрофлот»
 year: 2025
 source: "Databook Аэрофлот, август 2026, лист RASK-CASK и AFLT - Operating - abs"

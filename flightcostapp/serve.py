@@ -2802,6 +2802,19 @@ class Context:
                 derived.append(item)
         derived.sort(key=lambda x: (-x["filled"], x["name"]))
         out["carriers"] = derived
+        from . import carrier_bands
+        from .econ import great_circle_nm
+        airports = {a["icao"]: a for a in self.airports()}
+        origin, destination = (airports.get(code) for code in route.split("-", 1))
+        distance_km = (great_circle_nm(origin["lat"], origin["lon"],
+                                      destination["lat"], destination["lon"]) * 1.852
+                       if origin and destination and all(
+                           airport.get(coordinate) is not None
+                           for airport in (origin, destination) for coordinate in ("lat", "lon")) else 0.0)
+        with self.lock:
+            out["comparison"] = carrier_bands.comparison(
+                self.store, distance_km, date.today(),
+                include_stale=q.get("include_stale") in ("1", "true"))
         for name, field in (("cask", "cask_cents"), ("yield", "yield_eur_pax")):
             vals = sorted(x[field] for x in derived if field in x)
             if vals:

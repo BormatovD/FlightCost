@@ -1,0 +1,319 @@
+carrier: AA
+name: American Airlines Group
+entity_id: AA
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: American Airlines Group 8-K ex.99.1 4Q25 results
+source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+report_id: research-AA-2025-12-31-4f6a022e2cc2
+scope: 'AAG consolidated: mainline + regional (Envoy, Piedmont, PSA — дочерние; CPA-партнёры)
+  Сноска релиза: операционная статистика включает mainline и regional (дочерние и
+  CPA). Regional operating expenses 5 119 млн USD в opex. Рейсы, блок-часы, длина
+  рейса не в релизе; Item 2/MD&A 10-K недоступны инструменту.'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: AA
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 54633000000.0
+    basis: Research field revenue, reporting currency USD
+    page: Statements of Operations, Total operating revenues
+    quote: Total operating revenues | 13,999 | 13,660 | 2.5 | 54,633 | 54,211 | 0.8
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id001
+    - b3-032
+    research_evidence:
+    - id: b3-032
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Statements of Operations, Total operating revenues
+      quote: Total operating revenues | 13,999 | 13,660 | 2.5 | 54,633 | 54,211 |
+        0.8
+      value: revenue FY2025 = 54 633 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 54633000000.0
+      ids: *id001
+    currency: USD
+  traffic_revenue_eur:
+    value: 49643000000.0
+    basis: Research field pax_revenue, reporting currency USD
+    page: Statements of Operations, Passenger
+    quote: Passenger | $ 12,657 | $ 12,402 | 2.1 | $ 49,643 | $ 49,586 | 0.1
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id002
+    - b3-031
+    research_evidence:
+    - id: b3-031
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Statements of Operations, Passenger
+      quote: Passenger | $ 12,657 | $ 12,402 | 2.1 | $ 49,643 | $ 49,586 | 0.1
+      value: pax revenue FY2025 = 49 643 млн USD
+      verification: found
+      verification_note: Квартальные столбцы не возвращены WebFetch, годовые совпадают.
+    research_original:
+      value: 49643000000.0
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 53166000000.0
+    basis: Research field opex, reporting currency USD
+    page: Statements of Operations, Total operating expenses
+    quote: Total operating expenses | 13,548 | 12,526 | 8.2 | 53,166 | 51,597 | 3.0
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id003
+    - b3-035
+    research_evidence:
+    - id: b3-035
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Statements of Operations, Total operating expenses
+      quote: Total operating expenses | 13,548 | 12,526 | 8.2 | 53,166 | 51,597 |
+        3.0
+      value: opex FY2025 = 53 166 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 53166000000.0
+      ids: *id003
+    currency: USD
+  fuel_cost_eur:
+    value: 10718000000.0
+    basis: Research field fuel_cost, reporting currency USD
+    page: Statements of Operations, Aircraft fuel and related taxes
+    quote: Aircraft fuel and related taxes | 2,701 | 2,502 | 8.0 | 10,718 | 11,418
+      | -6.1
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id004
+    - b3-033
+    research_evidence:
+    - id: b3-033
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Statements of Operations, Aircraft fuel and related taxes
+      quote: Aircraft fuel and related taxes | 2,701 | 2,502 | 8.0 | 10,718 | 11,418
+        | -6.1
+      value: fuel cost FY2025 = 10 718 млн USD (consolidated)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 10718000000.0
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 481855296384
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 481855 млн; ASM 299411
+      млн × 1,609344
+    page: Operating Statistics, ASM
+    quote: Available seat miles (ASM) (millions) | 74,472 | 71,503 | 4.2 % | 299,411
+      | 292,948 | 2.2 %
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id005
+    - b3-251
+    research_evidence:
+    - id: b3-037
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Operating Statistics, ASM
+      quote: Available seat miles (ASM) (millions) | 74,472 | 71,503 | 4.2 % | 299,411
+        | 292,948 | 2.2 %
+      value: ASM FY2025 = 299 411 млн
+      verification: found
+      verification_note: ''
+    - id: b3-251
+      kind: infer
+      value: ASK ≈ 481855 млн
+      note: ASM 299411 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 481855296384
+      ids: *id005
+  rpk_km:
+    value: 402809147136
+    basis: Research field rpk_km, reporting currency USD; RPK ≈ 402809 млн; RPM 250294
+      млн × 1,609344
+    page: Operating Statistics, RPM
+    quote: Revenue passenger miles (millions) | 61,596 | 60,676 | 1.5 % | 250,294
+      | 248,795 | 0.6 %
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id006
+    - b3-252
+    research_evidence:
+    - id: b3-036
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Operating Statistics, RPM
+      quote: Revenue passenger miles (millions) | 61,596 | 60,676 | 1.5 % | 250,294
+        | 248,795 | 0.6 %
+      value: RPM FY2025 = 250 294 млн
+      verification: found
+      verification_note: ''
+    - id: b3-252
+      kind: infer
+      value: RPK ≈ 402809 млн
+      note: RPM 250294 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 402809147136
+      ids: *id006
+  pax:
+    value: 224000000
+    basis: Research field pax, reporting currency USD
+    page: Item 1. Business, Overview
+    quote: in 2025, approximately 224 million passengers boarded our flights
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm
+    research_trace_ids: &id007
+    - b3-048
+    research_evidence:
+    - id: b3-048
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm
+      title: AAG 10-K FY2025
+      locator: Item 1. Business, Overview
+      quote: in 2025, approximately 224 million passengers boarded our flights
+      value: pax ≈ 224 млн (mainline+regional)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 224000000
+      ids: *id007
+      approx: «approximately 224 million passengers»
+  fleet_year_end:
+    value: 1580
+    basis: Research field fleet_end, reporting currency USD; 1 013 mainline + 567
+      regional; парк на конец 2025 = 1 580 ВС (1 013 mainline + 567 regional); сумма;
+      средний парк не опубликован в доступной части
+    page: Item 1. Business, Overview
+    quote: As of December 31, 2025, we operated 1,013 mainline aircraft | which together
+      operated an additional 567 regional aircraft.
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm
+    research_trace_ids: &id008
+    - b3-049
+    research_evidence:
+    - id: b3-046
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm
+      title: AAG 10-K FY2025
+      locator: Item 1. Business, Overview
+      quote: As of December 31, 2025, we operated 1,013 mainline aircraft
+      value: mainline fleet на 31.12.2025 = 1 013
+      verification: found
+      verification_note: ''
+    - id: b3-047
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000014/aal-20251231.htm
+      title: AAG 10-K FY2025
+      locator: Item 1. Business, Overview
+      quote: which together operated an additional 567 regional aircraft.
+      value: regional fleet на 31.12.2025 = 567
+      verification: found
+      verification_note: ''
+    - id: b3-049
+      kind: infer
+      value: парк на конец 2025 = 1 580 ВС (1 013 mainline + 567 regional)
+      note: сумма; средний парк не опубликован в доступной части
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 1580
+      ids: *id008
+      basis: 1 013 mainline + 567 regional
+  employees:
+    value: 139100
+    basis: Research field employees, reporting currency USD; FTE на конец периода
+    page: Operating Statistics, FTE
+    quote: 'Full-time equivalent employees at end of period: Total | 139,100 | 133,300
+      | 4.4 % | 139,100 | 133,300 | 4.4 %'
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id009
+    - b3-040
+    research_evidence:
+    - id: b3-040
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Operating Statistics, FTE
+      quote: 'Full-time equivalent employees at end of period: Total | 139,100 | 133,300
+        | 4.4 % | 139,100 | 133,300 | 4.4 %'
+      value: employees = 139 100 FTE на конец 2025
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 139100
+      ids: *id009
+      basis: FTE на конец периода
+  fuel_tonnes:
+    value: 13589664
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 13589664 т;
+      4488000000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию);
+      tonnes as stored in the verified research snapshot
+    page: Operating Statistics, Fuel consumption
+    quote: Fuel consumption (gallons in millions) | 1,114 | 1,070 | 4.1 % | 4,488
+      | 4,391 | 2.2 %
+    source_url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+    research_trace_ids: &id010
+    - b3-250
+    research_evidence:
+    - id: b3-039
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/6201/000000620126000008/a8kerexhibit991q4-25.htm
+      title: American Airlines Group 8-K ex.99.1 4Q25 results
+      locator: Operating Statistics, Fuel consumption
+      quote: Fuel consumption (gallons in millions) | 1,114 | 1,070 | 4.1 % | 4,488
+        | 4,391 | 2.2 %
+      value: fuel FY2025 = 4 488 млн галлонов
+      verification: found
+      verification_note: ''
+    - id: b3-250
+      kind: infer
+      value: fuel ≈ 13589664 т
+      note: 4488000000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8
+        по заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 13589664
+      unit: t
+      source_value: 4488000000.0
+      source_unit: US gal
+      ids: *id010
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

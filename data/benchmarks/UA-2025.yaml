@@ -1,0 +1,67 @@
+carrier: UA
+name: United Airlines Holdings
+entity_id: UA
+segment: network
+segment_basis: Published hub-and-spoke/full-service network airline business; group
+  scope named explicitly
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+published_at: '2026-01-20'
+source: United Airlines Holdings full-year2025 financial and traffic results
+source_url: https://united.mediaroom.com/2026-01-20-United-Airlines-Q4-and-Full-Year-EPS-Beat-Wall-Street-Expectations,-With-Full-Year-EPS-Up-Year-Over-Year
+report_id: UA-FY2025-3785bab567e01e4c
+scope: United Airlines Holdings consolidated; mainline + United Express capacity purchase
+  operations. Operating expenses include regional capacity purchase and ancillary
+  businesses. Traffic counts flight segments. USD GAAP expenses; fuel includes regional
+  operations.
+values:
+  opex_eur:
+    value: 54356000000
+    currency: USD
+    basis: Operating expense reported in USD millions × 1,000,000.
+    page: attached financial tables, Statements of Consolidated Operations
+    quote: Total operating expense 14,011 13,192 6.2 54,356 51,967 4.6
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+  fuel_cost_eur:
+    value: 11396000000
+    currency: USD
+    basis: Aircraft fuel reported in USD millions × 1,000,000.
+    page: attached financial tables, Statements of Consolidated Operations
+    quote: Aircraft fuel 2,923 2,676 9.2 11,396 11,756 (3.1)
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+  ask_km:
+    value: 531540573696.00006
+    basis: FY2025 consolidated ASM330284 million ×1e6 ×1.609344 statute miles to km
+    page: Full-year consolidated operating/financial statistics table
+    quote: ASMs (millions) (c) 83,365 78,298 6.5 330,284 311,185 6.1
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+  rpk_km:
+    value: 437128407936.0
+    basis: FY2025 consolidated RPM271619 million ×1e6 ×1.609344 statute miles to km
+    page: Full-year consolidated operating/financial statistics table
+    quote: RPMs (millions) (b) 68,246 64,463 5.9 271,619 258,503 5.1
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+  pax:
+    value: 181053000
+    basis: FY2025 passengers 181053 thousand ×1000; each flight segment counted
+    page: Full-year consolidated operating/financial statistics table
+    quote: Passengers (thousands) (a) 45,679 44,344 3.0 181,053 173,603 4.3
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+  fx_per_eur:
+    value: 1.13
+    currency: USD
+    basis: Official Bank of Finland page reproduces ECB average annual 2025 rate;
+      USD per EUR, exact calendar financial-year match. No daily observations to average.
+    page: supporting-UA-1.txt, table Average annual exchange rates for the year 2025
+    quote: USD 1,1300
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    source_sha256: 77f18325856e25873d0e03d62023c463f893ef1bd74d8ce217ec3b69b7c8250d
+  revenue_eur:
+    value: 59070000000
+    currency: USD
+    basis: Total operating revenue reported in USD millions × 1,000,000.
+    page: attached financial tables, Statements of Consolidated Operations
+    quote: Total operating revenue 15,397 14,695 4.8 59,070 57,063 3.5
+    source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d
+source_sha256: 3785bab567e01e4c72500777790a49e27b42d7524dcabab2844dccf2c2b9378d

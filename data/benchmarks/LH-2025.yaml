@@ -6,6 +6,11 @@
 # и полоса, собранная не на том, будет несравнима.
 ---
 carrier: LH
+entity_id: LH
+segment: network
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2025-01-01"
+period_end: "2025-12-31"
 name: Lufthansa Airlines
 year: 2025
 source: "Annual Report 2025, Lufthansa Group, T031 Key figures Lufthansa Airlines"
@@ -25,6 +30,11 @@ values:
   flights:      {value: 476842, basis: "number of flights", page: T031}
 ---
 carrier: LHG
+entity_id: LH
+segment: network
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2025-01-01"
+period_end: "2025-12-31"
 name: Lufthansa Group
 year: 2025
 source: "Annual Report 2025, Lufthansa Group, T223 Ten-year overview и T002"

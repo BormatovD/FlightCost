@@ -39,7 +39,7 @@ import subprocess
 import sys
 import time
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from . import notify
@@ -66,6 +66,7 @@ JOBS = {
     "fuel": {"model": "openai/gpt-6-luna", "timeout": 900},
     "night": {"model": "openai/gpt-6-luna", "timeout": 900},
     "prices": {"model": "openai/gpt-6-luna", "timeout": 1200},
+    "reports": {"model": "openai/gpt-6-luna", "timeout": 1200},
     "smoke": {"model": "openai/gpt-6-luna", "timeout": 120},
 }
 
@@ -194,6 +195,68 @@ def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
             return icao, a, region_of(icao, regions)
     return None
 
+
+REPORTS_TASK = """# Задание: годовая отчётность авиаперевозчиков
+Сегодня {today}. СНАЧАЛА прочитай in/prepared_reports.json и указанные index_file
+(in/report-КОД-index.txt). В индексе до 30 окон по восемь исходных строк с расходами,
+топливом, ASK/ASM, RPK/RPM, пассажирами и датами. Окна содержат ИСХОДНЫЙ ТЕКСТ документа.
+Скопируй quote точно из тела окна, без добавленного заголовка === и без многоточий.
+Если окна недостаточно, прочитай соответствующий участок полного in/report-КОД.txt
+по указанным исходным номерам строк. Не читай весь большой отчёт одним усечённым ответом.
+Преобразование единиц требует точной арифметики: миллионы умножаются на 1000000,
+ASM/RPM в статутных милях умножаются на 1.609344. Сохрани исходное число в quote,
+а коэффициенты и арифметику укажи в basis. Проверяй произведение перед записью value.
+Программа уже скачала эти первичные документы. Также прочитай supporting_sources в
+prepared_reports.json и указанные in/supporting-КОД-N.txt — это официальные дополнительные
+источники, включая таблицы валютных курсов. У каждой извлечённой из них величины укажи
+source_url именно дополнительного источника. СНАЧАЛА прочитай in/prepared_rates.json:
+программа уже рассчитала средние курсы по официальным CSV ECB с указанными границами.
+Для совпадающих carrier и period_start/period_end скопируй value, source_url, quote, page и basis
+из prepared_rates.json в values.fx_per_eur. Повторно складывать дневные строки не нужно.
+Опубликованное ECB среднегодовое OBS_VALUE уже является готовым средним за календарный год:
+при совпадении полного календарного периода используй его напрямую, без дневных расчётов.
+Если расчётный финансовый год отличается от календарного, используй подготовленное среднее
+дневных наблюдений именно за period_start..period_end. Не подменяй финансовый год календарным. Извлекай данные из подготовленного текста,
+используя его source_url. Если выписка в каталоге неполная, дополни её по тому же периоду:
+наличие period_end само по себе не означает, что готовый бенчмарк уже принят.
+Затем проверяй официальные ссылки известных компаний и ищи более свежий полный год.
+Если исходный документ уже содержит нужный свежий год, сразу извлекай из него числа.
+Поисковые страницы нужны как вспомогательный путь, когда официальной ссылки нет или нужен новый отчёт.
+Открой поисковые адреса in/search_urls.json через web_fetch, затем первичные документы из результатов. В in/carriers.json назначенные перевозчики и ранее известные источники.
+Найди свежий полный годовой отчёт каждого на официальном Investor Relations или в официальном
+реестре (например SEC). Сверь границы отчётного периода и версию публикации. Проверка только
+новых перевозчиков в этом прогоне: {discovery}. Если да, дополнительно найди до двух новых
+пассажирских авиакомпаний, расширяющих покрытие регионов и сегментов. Не ограничивайся
+списком назначенных компаний. Сравнивай кандидатов с полным каталогом in/catalog.json.
+Включай только найденные первичные документы. Если обновлений нет, reports может быть пустым.
+Запиши out/reports.json: {"reports": [...], "search_results": [...], "discovery_results": [...], "doubts": [...]}
+Если месячный поиск действительно выполнен, запиши discovery_completed: true.
+В discovery_results перечисли новых проверенных кандидатов с carrier, name, source_url (официальный HTTPS), даже если полной выписки нет. Они войдут в следующую очередь поиска. Классификация кандидата пока не считается принятой.
+Сверь report_id, period_end и source_sha256 из каталога. Уже принятую версию не извлекай повторно.
+Каждый search_results содержит carrier, url, status (new_report/unchanged/not_found/extraction_failed), пояснение.
+Если документ найден, извлеки выписку для КАЖДОЙ назначенной компании, у которой есть данные.
+new_report означает, что выписка включена в reports. Если новый документ найден, но извлечение
+не закончено, status должен быть extraction_failed с URL и причиной: следующая попытка повторит
+извлечение. Не объявляй новую неполную выписку unchanged только потому, что период уже известен.
+Каждый report: carrier (IATA либо устойчивый код контура), entity_id (общая компания для
+пересекающихся контуров), name, year (год окончания периода), report_id (идентификатор версии),
+period_start/period_end/published_at (YYYY-MM-DD), source, source_url (HTTPS первичного документа),
+scope (точный периметр пассажирского бизнеса/группы), segment (lowcost/network/hybrid_leisure),
+segment_basis (основание классификации), values, doubts. Лоукостеры = LCC и ULCC.
+Не выдумывай даты, значения, классификацию, курс или цитату. Нет данных — пропусти величину.
+В values нужны исходные opex_eur, fuel_cost_eur, ask_km, rpk_km, pax при наличии.
+Допустимы также revenue_eur, block_hours, flights, utilisation_bh_day, fleet_avg.
+Денежные величины хранятся в ИСХОДНОЙ валюте, несмотря на имя поля _eur.
+Каждая величина: {"value": число, "currency": "код валюты для денег", "basis": "определение
+и формула пересчёта масштаба/единиц", "page": "страница/таблица", "quote": "точная цитата"}.
+Единицы ASK/RPK — километры, суммы — целые денежные единицы, без миллионов в масштабе.
+Для не-EUR нужен fx_per_eur — СРЕДНИЙ курс исходной валюты за отчётный период за 1 EUR,
+с такой же цитатой и source_url официальной таблицы среднего курса, если источник отличается. Не используй текущий курс или курс на конец года.
+Если средний курс отсутствует в документе, оставь его отсутствующим — выписка останется на проверке.
+CASK, RASK и среднюю дальность сам не записывай: их вычислит программа.
+Группа и дочерняя компания не должны стать двумя независимыми участниками одной выборки.
+Не принимай квартальную/полугодовую отчётность за полный год. Всего не больше восьми отчётов, включая назначенных компаний и новых кандидатов.
+"""
 
 CHARGES_TASK = """# Задание: тариф аэропорта {icao} ({city})
 
@@ -1130,6 +1193,212 @@ class Runner:
                  "info" if got and not rejected else "warn", attach=str(dst))
         return len(got)
 
+    def reports(self, model: str | None = None, only: str | None = None) -> int:
+        """Weekly report updates and monthly discovery, always producing review drafts."""
+        from . import carrier_reports as CR
+        if not self.budget_ok("reports"):
+            return 0
+        state_path = self.home / "reports_state.json"
+        state = json.loads(state_path.read_text("utf8")) if state_path.exists() else {}
+        today = _now().date()
+        month = today.strftime("%Y-%m")
+        discover = state.get("discovery_month") != month
+        known = {row["carrier"]: row for row in CR.catalog()}
+        for candidate in state.get("candidates", []):
+            code = candidate["carrier"]
+            known[code] = {**known.get(code, {}), **candidate}
+        for code, pending in state.get("pending_reports", {}).items():
+            if code in known and isinstance(pending.get("url"), str) and pending["url"].startswith("https://"):
+                known[code] = {**known[code], "source_url": pending["url"]}
+        catalog = list(known.values())
+        # Rotate known companies, so a bounded run never repeatedly selects the first entries.
+        catalog.sort(key=lambda row: (state.get("checked", {}).get(row["carrier"], ""), row["carrier"]))
+        if only:
+            codes = list(dict.fromkeys(code.strip().upper() for code in only.split(",") if code.strip()))
+            if not codes or len(codes) > 8 or any(code not in known for code in codes):
+                raise ValueError("reports --only requires 1–8 known carrier codes")
+            want = [known[code] for code in codes]
+            discover = False
+        else:
+            due = [row for row in catalog if str(state.get("pending_reports", {}).get(row["carrier"], {}).get("next_retry", "")) <= today.isoformat()]
+            want = due[:2]
+            if not want and not discover:
+                return 0
+        ws = self.workspace("reports", today.isoformat())
+        (ws / "in" / "carriers.json").write_text(json.dumps(want, ensure_ascii=False, indent=1), "utf8")
+        (ws / "in" / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=1), "utf8")
+        from urllib.parse import quote_plus
+        searches = []
+        for row in want:
+            # Remove translated parenthetical descriptors from issuer names before web search.
+            name = re.sub(r"\([^)]*\)", "", row.get("name") or row["carrier"])
+            ascii_name = name.encode("ascii", "ignore").decode().strip()
+            name = ascii_name or row["carrier"]
+            for year in (today.year - 1, today.year):
+                searches.append(f'"{name}" annual report investor relations {year}')
+        if discover:
+            searches.extend([f'airline annual report {today.year} low cost carrier investor relations',
+                             f'airline annual report {today.year} network carrier investor relations'])
+        feeds = ["https://www.bing.com/search?q=" + quote_plus(query) for query in searches]
+        (ws / "in" / "search_urls.json").write_text(json.dumps(feeds, indent=1), "utf8")
+        sources = {}
+        prepared = []
+        rates = []
+        for row in want:
+            item = {"carrier": row["carrier"], "source_url": row.get("source_url")}
+            url = row.get("source_url")
+            if not url:
+                item["error"] = "no known source URL; use official report discovery"
+            else:
+                try:
+                    if url not in sources:
+                        sources[url] = CR.evidence(url, ws / "in")
+                    path = ws / "in" / f"report-{row['carrier']}.txt"
+                    path.write_text(sources[url]["text"], "utf8")
+                    item["text_file"] = f"in/{path.name}"
+                    item["source_sha256"] = sources[url]["sha256"]
+                    index_path = ws / "in" / f"report-{row['carrier']}-index.txt"
+                    index_path.write_text(CR.report_index(sources[url]["text"]), "utf8")
+                    item["index_file"] = f"in/{index_path.name}"
+                except Exception as exc:
+                    item["error"] = str(exc)[:300]
+            supporting = row.get("supporting_sources") or []
+            if not isinstance(supporting, list) or len(supporting) > 4:
+                raise ValueError("supporting_sources must contain at most four official HTTPS URLs")
+            item["supporting_sources"] = []
+            for index, support_url in enumerate(supporting, 1):
+                source = {"source_url": support_url}
+                try:
+                    if support_url not in sources:
+                        sources[support_url] = CR.evidence(support_url, ws / "in")
+                    path = ws / "in" / f"supporting-{row['carrier']}-{index}.txt"
+                    path.write_text(sources[support_url]["text"], "utf8")
+                    source["text_file"] = f"in/{path.name}"
+                    source["source_sha256"] = sources[support_url]["sha256"]
+                    rate = CR.ecb_period_mean(support_url, sources[support_url]["text"])
+                    if rate:
+                        rates.append({"carrier": row["carrier"], **rate})
+                except Exception as exc:
+                    source["error"] = str(exc)[:300]
+                item["supporting_sources"].append(source)
+            prepared.append(item)
+        (ws / "in" / "prepared_reports.json").write_text(json.dumps(prepared, ensure_ascii=False, indent=1), "utf8")
+        (ws / "in" / "prepared_rates.json").write_text(json.dumps(rates, ensure_ascii=False, indent=1), "utf8")
+        task = REPORTS_TASK.replace("{discovery}", "да" if discover else "нет").replace("{today}", today.isoformat())
+        try:
+            result = self.exec("reports", ws, task, model)
+            if result.get("status") != "ok":
+                raise ValueError(f"model status {result.get('status')}")
+            draft = json.loads((ws / "out" / "reports.json").read_text("utf8"))
+            if not isinstance(draft, dict) or not isinstance(draft.get("reports"), list):
+                raise ValueError("reports must be a list")
+            if len(draft["reports"]) > 8:
+                raise ValueError("too many reports in one run")
+            searches_done = draft.get("search_results")
+            if not isinstance(searches_done, list) or any(not isinstance(row, dict) for row in searches_done):
+                raise ValueError("search_results must record every assigned carrier")
+            checked = {row.get("carrier") for row in searches_done if row.get("status") in ("new_report", "unchanged", "not_found", "extraction_failed")}
+            if not {row["carrier"] for row in want}.issubset(checked):
+                raise ValueError("search_results missing assigned carrier")
+            report_codes = {report.get("carrier") for report in draft["reports"] if isinstance(report, dict)}
+            for search in searches_done:
+                if search.get("status") == "new_report" and search.get("carrier") not in report_codes:
+                    search["status"] = "extraction_failed"
+                    search["reason"] = "new release found but no extracted report returned"
+            if discover and (draft.get("discovery_completed") is not True or not isinstance(draft.get("discovery_results"), list)):
+                raise ValueError("monthly discovery_results missing")
+            candidates = []
+            for candidate in draft.get("discovery_results", []):
+                if not isinstance(candidate, dict):
+                    raise ValueError("discovery candidate must be an object")
+                code, name, url = (candidate.get(key) for key in ("carrier", "name", "source_url"))
+                from urllib.parse import urlparse
+                parsed = urlparse(url or "")
+                if (not isinstance(code, str) or not re.fullmatch(r"[A-Z0-9]{2,12}", code)
+                        or not isinstance(name, str) or not name.strip()
+                        or parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password):
+                    raise ValueError("discovery candidate requires carrier, name and public official HTTPS source_url")
+                candidates.append({"carrier": code, "name": name, "source_url": url})
+            for report in draft["reports"]:
+                url = report.get("source_url")
+                try:
+                    if url not in sources:
+                        sources[url] = CR.evidence(url, ws / "in")
+                    report["evidence"] = sources[url]
+                    for value in report.get("values", {}).values():
+                        extra_url = value.get("source_url")
+                        if extra_url and extra_url != url:
+                            if extra_url not in sources:
+                                sources[extra_url] = CR.evidence(extra_url, ws / "in")
+                            value["evidence"] = sources[extra_url]
+                except Exception as exc:  # A missing source remains a rejected draft for human inspection.
+                    report["evidence"] = {}
+                    report["evidence_error"] = str(exc)[:300]
+                report["validation_errors"] = CR.check_report(report, today)
+                report["benchmark_ready"] = not report["validation_errors"] and CR.benchmark_ready(report)
+                if report["validation_errors"] or not report["benchmark_ready"]:
+                    for search in searches_done:
+                        if search.get("carrier") == report.get("carrier"):
+                            search["status"] = "extraction_failed"
+                            search["url"] = report.get("source_url") or search.get("url")
+                            search["reason"] = ("; ".join(report["validation_errors"]) or "partial report: required ex-fuel benchmark inputs missing")[:500]
+        except Exception as exc:
+            self.say(f"Агент «отчётность»: корректного результата нет: {str(exc)[:400]}", "warn")
+            return 0
+        duplicates = []
+        new_reports = []
+        for report in draft["reports"]:
+            previous = known.get(report.get("carrier"), {})
+            same_id = previous.get("report_id") and previous["report_id"] == report.get("report_id")
+            same_sha = previous.get("source_sha256") and previous["source_sha256"] == report.get("evidence", {}).get("sha256")
+            if (same_sha or (same_id and not previous.get("source_sha256"))) and previous.get("period_end") == report.get("period_end"):
+                duplicates.append({"carrier": report.get("carrier"), "report_id": report.get("report_id"), "reason": "already accepted"})
+            else:
+                new_reports.append(report)
+        draft["reports"] = new_reports
+        draft["duplicates"] = duplicates
+        draft["run"] = ws.name
+        draft["searched_at"] = _now().isoformat(timespec="seconds")
+        draft["discovery"] = discover
+        self.out.mkdir(parents=True, exist_ok=True)
+        dst = self.out / f"reports-{ws.name}.json"
+        dst.write_text(json.dumps(draft, ensure_ascii=False, indent=1), "utf8")
+        os.chmod(dst, 0o640)
+        # Extraction failures retain discovered URLs and stay due for a retry.
+        successful = {row.get("carrier") for row in searches_done if row.get("status") != "extraction_failed"}
+        state.setdefault("checked", {}).update({row["carrier"]: today.isoformat() for row in want if row["carrier"] in successful})
+        pending = dict(state.get("pending_reports") or {})
+        for search in searches_done:
+            code = search.get("carrier")
+            if code not in known:
+                continue
+            if search.get("status") == "extraction_failed":
+                attempts = int(pending.get(code, {}).get("attempts", 0)) + 1
+                delay = min(28, 7 * 2 ** min(attempts - 1, 2))
+                pending[code] = {"url": search.get("url"), "reason": search.get("reason"), "found_at": today.isoformat(),
+                                 "attempts": attempts, "next_retry": (today + timedelta(days=delay)).isoformat()}
+            else:
+                pending.pop(code, None)
+        state["pending_reports"] = pending
+        if discover:
+            state["discovery_month"] = month
+            candidate_map = {row["carrier"]: row for row in state.get("candidates", [])}
+            candidate_map.update({row["carrier"]: row for row in candidates})
+            state["candidates"] = list(candidate_map.values())
+        tmp = state_path.with_suffix(".tmp")
+        tmp.write_text(json.dumps(state, ensure_ascii=False, indent=1), "utf8")
+        tmp.replace(state_path)
+        good = [r for r in draft["reports"] if r["benchmark_ready"]]
+        partial = [r for r in draft["reports"] if not r["validation_errors"] and not r["benchmark_ready"]]
+        failed = [r for r in draft["reports"] if r["validation_errors"]]
+        self.say(f"Отчётность — черновик: {len(good)} полных выписок для CASK, "
+                 f"{len(partial)} частичных, {len(failed)} с ошибками. Новые компании: {'поиск выполнен' if discover else 'следующий месячный поиск'}.\n"
+                 "Проверка: python -m flightcostapp.carrier_reports файл.json\n"
+                 "Приёмка выбранной выписки: та же команда с --accept КОД/ГОД. "
+                 "Принятый YAML проходит обычное обновление справочника и снимок калькулятора.",
+                 "info" if good else "warn", attach=str(dst))
+        return len(good)
+
     def charges(self, model: str | None = None, only: str | None = None, per_run: int | None = None) -> int:
         """До `per_run` аэропортов за прогон; останавливается, когда кандидаты
         кончились, кончился бюджет или ключ не принят."""
@@ -1284,7 +1553,7 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="python -m flightcostapp.agent_run")
     p.add_argument("job", nargs="?", choices=sorted(JOBS) + ["check"])
     p.add_argument("--model", help="модель OpenAI на один прогон, напр. openai/gpt-6-astra")
-    p.add_argument("--only", help="charges: ИКАО через запятую")
+    p.add_argument("--only", help="charges: ИКАО; reports: коды перевозчиков через запятую")
     p.add_argument("--check", action="store_true")
     p.add_argument("--extract", help=argparse.SUPPRESS)       # служебное: текст файла в stdout
     a = p.parse_args(argv)
@@ -1341,6 +1610,8 @@ def main(argv=None) -> int:
         print(f"значений: {r.fuel(a.model)}")
     elif a.job == "night":
         print(f"аэропортов: {r.night(a.model)}")
+    elif a.job == "reports":
+        print(f"отчётов для приёмки: {r.reports(a.model, a.only)}")
     elif a.job == "prices":
         print(f"наблюдений: {r.prices(a.model)}")
     else:

@@ -1,0 +1,58 @@
+carrier: IAG
+entity_id: IAG
+name: International Airlines Group
+year: 2025
+report_id: IAG-full-year-results-2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+published_at: '2026-02-27'
+source: IAG full year results 2025
+source_url: https://www.iairgroup.com/media/wd4dsjef/full-year-results-release-for-the-year-to-31-december-2025.pdf
+scope: IAG Group consolidated operations, including British Airways, Iberia, Vueling,
+  Aer Lingus and LEVEL; figures are consolidated group totals. Group costs include
+  loyalty and cargo operations.
+segment: network
+segment_basis: Group includes full-service network carriers; classified at group level,
+  although the group also operates low-cost subsidiaries.
+values:
+  opex_eur:
+    value: 28189000000
+    currency: EUR
+    basis: Total expenditure on operations, € million × 1,000,000.
+    page: '7'
+    quote: Total expenditure on operations  28,189  27,817  1.3 %  6,886  7,086  (2.8)
+      %
+    source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514
+  fuel_cost_eur:
+    value: 7083000000
+    currency: EUR
+    basis: Fuel costs and emissions charges, € million × 1,000,000.
+    page: '7'
+    quote: Fuel costs and emissions charges  7,083  7,608  (6.9) %  1,686  1,740  (3.1)
+      %
+    source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514
+  ask_km:
+    value: 351435000000
+    basis: ASK million × 1,000,000 to kilometres.
+    page: '9'
+    quote: Available seat kilometres (ASK million) 351,435 343,253  2.4 % 85,848 84,320  1.8
+      %
+    source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514
+  rpk_km:
+    value: 300814000000
+    basis: RPK million × 1,000,000 to kilometres.
+    page: '9'
+    quote: RPK million) 300,814 296,877  1.3 % 73,066 72,181  1.2 %
+    source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514
+  pax:
+    value: 121560000
+    basis: Passengers reported in thousands × 1,000.
+    page: '9'
+    quote: Passenger numbers (thousands) 121,560 122,047  (0.4) % 29,171 29,072  0.3
+      %
+    source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514
+validation_errors:
+- invalid report dates
+benchmark_ready: false
+published_at_source_url: https://tools.eurolandir.com/tools/Pressreleases/GetPressRelease/?ID=7907751&companycode=es-inr&lang=en-GB&v=
+source_sha256: e8c0022bfb8b7fe072488b85ed52434db570e8f972e4f79e06e5ef52af181514

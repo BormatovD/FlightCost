@@ -9,6 +9,11 @@
 # выводятся расчётом (см. заголовок LH-2025.yaml).
 ---
 carrier: S7
+entity_id: S7
+segment: hybrid_leisure
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2025-01-01"
+period_end: "2025-12-31"
 name: S7 Airlines (АО «Авиакомпания «Сибирь»)
 year: 2025
 source: >

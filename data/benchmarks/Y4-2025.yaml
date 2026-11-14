@@ -1,19 +1,403 @@
-# Volaris 2025. Парк — только A320-семейство. Блок-часы числом.
----
 carrier: Y4
+entity_id: Y4
+segment: lowcost
+segment_basis: Business-model classification ULCC in the published benchmarks research
+period_start: '2025-01-01'
+period_end: '2025-12-31'
 name: Volaris (Controladora Vuela)
 year: 2025
-source: "Volaris, Fourth Quarter and Full Year 2025 results release"
-source_url: https://seekingalpha.com/pr/20412295
-scope: >
-  Volaris Mexico, Costa Rica, El Salvador; блок-часы и вылеты ВКЛЮЧАЮТ чартер
-  (сноска 2). Владение через амортизацию права пользования (449) и
-  переменную аренду (196).
+source: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный текст
+  релиза, перепечатка StockTitan)
+source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+scope: 'Volaris Mexico, Costa Rica, El Salvador; scheduled + charter Галлоны «accrued».
+  Средний парк ~149 (b3-234) — часть A320neo на земле из-за PW GTF: утилизация 12,76
+  ч/сут считается по бортам в эксплуатации. Стаж, сотрудники, кресла — не найдены.'
 values:
-  staff_cost_eur:       {value: 451000000, currency: USD, basis: "salaries and benefits — весь персонал", page: "Statement of operations, 12M25"}
-  maintenance_cost_eur: {value: 130000000, currency: USD, basis: "maintenance expenses", page: "Statement of operations, 12M25"}
-  aircraft_ownership_eur: {value: 645000000, currency: USD, basis: "depreciation of right of use assets 449 + aircraft and engine variable lease expenses 196", page: "Statement of operations, 12M25"}
-  block_hours:          {value: 481472, basis: "block hours, с чартером", page: "Operating statistics, 12M25"}
-  flights:              {value: 188848, basis: "departures, с чартером", page: "Operating statistics, 12M25"}
-  ask_km:               {value: 58126000000, basis: "36 118 млн ASM × 1,609344", page: "Operating statistics, 12M25"}
-  fleet_year_end:       {value: 155, basis: "aircraft at end of period", page: "Operating statistics"}
+  staff_cost_eur:
+    value: 451000000
+    currency: USD
+    basis: salaries and benefits — весь персонал
+    page: Statement of operations, 12M25
+    source_url: https://seekingalpha.com/pr/20412295
+  maintenance_cost_eur:
+    value: 130000000
+    currency: USD
+    basis: maintenance expenses
+    page: Statement of operations, 12M25
+    source_url: https://seekingalpha.com/pr/20412295
+  aircraft_ownership_eur:
+    value: 645000000
+    currency: USD
+    basis: depreciation of right of use assets 449 + aircraft and engine variable
+      lease expenses 196
+    page: Statement of operations, 12M25
+    source_url: https://seekingalpha.com/pr/20412295
+  block_hours:
+    value: 481472
+    basis: block hours, с чартером
+    page: Operating statistics, 12M25
+    source_url: https://seekingalpha.com/pr/20412295
+  flights:
+    value: 188848
+    basis: departures, с чартером
+    page: Operating statistics, 12M25
+    source_url: https://seekingalpha.com/pr/20412295
+  ask_km:
+    value: 58126286592
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 58126 млн; ASM 36118
+      млн × 1,609344
+    page: Consolidated highlights, ASMs
+    quote: ASMs (millions, scheduled & charter) | 9,429 | 8,930 | 5.6% | 36,118 |
+      33,990 | 6.3%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id001
+    - b3-284
+    research_evidence:
+    - id: b3-239
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (перепечатка
+        StockTitan)
+      locator: Consolidated highlights, ASMs
+      quote: ASMs (millions, scheduled & charter) | 9,429 | 8,930 | 5.6% | 36,118
+        | 33,990 | 6.3%
+      value: ASM FY2025 = 36 118 млн — совпадает с Y4-2025.yaml
+      note: 'таблица highlights: 4К25 | 4К24 | изм. | 12М25 | 12М24 | изм.'
+      verification: found
+      verification_note: ''
+    - id: b3-284
+      kind: infer
+      value: ASK ≈ 58126 млн
+      note: ASM 36118 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 58126286592
+      ids: *id001
+  fleet_year_end:
+    value: 155
+    basis: aircraft at end of period
+    page: Operating statistics
+    source_url: https://seekingalpha.com/pr/20412295
+  revenue_eur:
+    value: 3038000000.0
+    basis: Research field revenue, reporting currency USD
+    page: Financial and Operating Indicators, Twelve months, Total operating revenues
+    quote: Total operating revenues (millions) | 3,038 | 3,142 | (3.3%)
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id002
+    - b3-225
+    research_evidence:
+    - id: b3-225
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Financial and Operating Indicators, Twelve months, Total operating
+        revenues
+      quote: Total operating revenues (millions) | 3,038 | 3,142 | (3.3%)
+      value: revenue FY2025 = 3 038 млн USD
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 3038000000.0
+      ids: *id002
+    currency: USD
+  traffic_revenue_eur:
+    value: 2883000000.0
+    basis: Research field pax_revenue, reporting currency USD
+    page: Consolidated Statement of Operations, Twelve months, Passenger revenues
+    quote: '**Passenger revenues** | **2,883** | **3,010** | **(4.2%)**'
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id003
+    - b3-226
+    research_evidence:
+    - id: b3-226
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Consolidated Statement of Operations, Twelve months, Passenger revenues
+      quote: '**Passenger revenues** | **2,883** | **3,010** | **(4.2%)**'
+      value: pax revenue FY2025 = 2 883 млн USD (fare 1 302 + other passenger 1 581)
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.; жирный шрифт — разметка страницы
+      verification: found
+      verification_note: Разбивка fare 1 302 + other 1 581 не проверялась.
+    research_original:
+      value: 2883000000.0
+      ids: *id003
+    currency: USD
+  opex_eur:
+    value: 2903000000.0
+    basis: Research field opex, reporting currency USD
+    page: Financial and Operating Indicators, Twelve months, Total operating expenses
+    quote: Total operating expenses (millions) | 2,903 | 2,729 | 6.4%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id004
+    - b3-227
+    research_evidence:
+    - id: b3-227
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Financial and Operating Indicators, Twelve months, Total operating
+        expenses
+      quote: Total operating expenses (millions) | 2,903 | 2,729 | 6.4%
+      value: opex FY2025 = 2 903 млн USD
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2903000000.0
+      ids: *id004
+    currency: USD
+  fuel_cost_eur:
+    value: 886000000.0
+    basis: Research field fuel_cost, reporting currency USD
+    page: Consolidated Statement of Operations, Twelve months, Fuel expense
+    quote: Fuel expense | 886 | 894 | (0.9%)
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id005
+    - b3-228
+    research_evidence:
+    - id: b3-228
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Consolidated Statement of Operations, Twelve months, Fuel expense
+      quote: Fuel expense | 886 | 894 | (0.9%)
+      value: fuel cost FY2025 = 886 млн USD
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 886000000.0
+      ids: *id005
+    currency: USD
+  rpk_km:
+    value: 49009352832
+    basis: Research field rpk_km, reporting currency USD; RPK ≈ 49009 млн; RPM 30453
+      млн × 1,609344
+    page: Operating statistics, Twelve months, RPMs
+    quote: Revenue passenger miles (RPMs) (millions) (2) | 30,453 | 29,505 | 3.2%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id006
+    - b3-285
+    research_evidence:
+    - id: b3-229
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Operating statistics, Twelve months, RPMs
+      quote: Revenue passenger miles (RPMs) (millions) (2) | 30,453 | 29,505 | 3.2%
+      value: RPM FY2025 = 30 453 млн (вкл. чартер, сноска 2)
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    - id: b3-285
+      kind: infer
+      value: RPK ≈ 49009 млн
+      note: RPM 30453 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 49009352832
+      ids: *id006
+  pax:
+    value: 30995000
+    basis: Research field pax, reporting currency USD
+    page: Consolidated highlights, Passengers
+    quote: Passengers (thousands, scheduled & charter) | 8,191 | 7,848 | 4.4% | 30,995
+      | 29,473 | 5.2%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id007
+    - b3-238
+    research_evidence:
+    - id: b3-238
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (перепечатка
+        StockTitan)
+      locator: Consolidated highlights, Passengers
+      quote: Passengers (thousands, scheduled & charter) | 8,191 | 7,848 | 4.4% |
+        30,995 | 29,473 | 5.2%
+      value: pax FY2025 = 30 995 тыс. (вкл. чартер)
+      note: 'таблица highlights: 4К25 | 4К24 | изм. | 12М25 | 12М24 | изм.'
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 30995000
+      ids: *id007
+  fleet_avg:
+    value: 149
+    basis: Research field fleet_avg, reporting currency USD; среднее начала и конца
+      года; средний парк FY2025 ≈ 149 (среднее начала и конца года); грубая оценка;
+      альтернативно 481 472 блок-ч / 365 / 12,76 ≈ 103 — utilization считается по
+      борт-дням в эксплуатации (часть A320neo стоит на земле из-за двигателей PW GTF),
+      поэтому для рейтинга отдачи парка нужна оговорка
+    page: Financial and Operating Indicators, Twelve months
+    quote: Fleet (at the end of the period) | 155 | 143 | 12
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id008
+    - b3-234
+    research_evidence:
+    - id: b3-233
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Financial and Operating Indicators, Twelve months
+      quote: Fleet (at the end of the period) | 155 | 143 | 12
+      value: парк конец 2025 = 155, конец 2024 = 143
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    - id: b3-234
+      kind: infer
+      value: средний парк FY2025 ≈ 149 (среднее начала и конца года)
+      note: грубая оценка; альтернативно 481 472 блок-ч / 365 / 12,76 ≈ 103 — utilization
+        считается по борт-дням в эксплуатации (часть A320neo стоит на земле из-за
+        двигателей PW GTF), поэтому для рейтинга отдачи парка нужна оговорка
+      verification: arith_ok
+      verification_note: Среднее двух точек — грубая оценка (как и указано).
+    research_original:
+      value: 149
+      ids: *id008
+      basis: среднее начала и конца года
+  fuel_tonnes:
+    value: 1029399
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 1029399 т; 339960000
+      галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию); tonnes
+      as stored in the verified research snapshot
+    page: Operating statistics, Twelve months, Fuel gallons accrued
+    quote: Fuel gallons accrued (millions) | 339.96 | 322.70 | 5.3%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id009
+    - b3-283
+    research_evidence:
+    - id: b3-230
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Operating statistics, Twelve months, Fuel gallons accrued
+      quote: Fuel gallons accrued (millions) | 339.96 | 322.70 | 5.3%
+      value: fuel FY2025 = 339,96 млн галлонов (начисленные)
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    - id: b3-283
+      kind: infer
+      value: fuel ≈ 1029399 т
+      note: 339960000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8
+        по заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 1029399
+      unit: t
+      source_value: 339960000
+      source_unit: US gal
+      ids: *id009
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''
+report_id: research-Y4-2025-12-31-4f6a022e2cc2
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: Y4
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+  existing_metrics_preserved:
+  - flights
+  - fleet_year_end
+research_preserved_metric_evidence:
+  flights:
+    value: 188848
+    basis: Research field flights, reporting currency USD
+    page: Operating statistics, Twelve months, Departures
+    quote: Departures (2) | 188,848 | 173,209 | 9.0%
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id010
+    - b3-231
+    research_evidence:
+    - id: b3-231
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Operating statistics, Twelve months, Departures
+      quote: Departures (2) | 188,848 | 173,209 | 9.0%
+      value: flights FY2025 = 188 848 — совпадает с Y4-2025.yaml
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 188848
+      ids: *id010
+  fleet_year_end:
+    value: 155
+    basis: Research field fleet_end, reporting currency USD
+    page: Financial and Operating Indicators, Twelve months
+    quote: Fleet (at the end of the period) | 155 | 143 | 12
+    source_url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+    research_trace_ids: &id011
+    - b3-233
+    research_evidence:
+    - id: b3-233
+      kind: extract
+      url: https://www.stocktitan.net/news/VLRS/volaris-reports-financial-results-for-the-fourth-quarter-2025-w4y9t905pu9g.html
+      title: Volaris Reports Financial Results for the Fourth Quarter 2025 (полный
+        текст релиза, перепечатка StockTitan)
+      locator: Financial and Operating Indicators, Twelve months
+      quote: Fleet (at the end of the period) | 155 | 143 | 12
+      value: парк конец 2025 = 155, конец 2024 = 143
+      note: перепечатка релиза Volaris (оригинал на seekingalpha закрыт robots); столбцы
+        12М25 | 12М24 | изм.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 155
+      ids: *id011
+research_prior_source:
+  source: Volaris, Fourth Quarter and Full Year 2025 results release
+  source_url: https://seekingalpha.com/pr/20412295
+  scope: 'Volaris Mexico, Costa Rica, El Salvador; блок-часы и вылеты ВКЛЮЧАЮТ чартер
+    (сноска 2). Владение через амортизацию права пользования (449) и переменную аренду
+    (196).
+
+    '

@@ -1,0 +1,58 @@
+carrier: WN
+entity_id: WN
+name: Southwest Airlines
+year: 2025
+segment: lowcost
+segment_basis: 'Лоукостер (LCC/ULCC): заявленная бизнес-модель компании; классификация
+  исследования benchmarks-2026-10.'
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+published_at: '2026-02-05'
+source: Southwest Airlines Annual results 2025
+source_url: https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-26-000004/luv-20251231.htm
+report_id: WN-2025-12-31-3268d9895d61
+scope: Southwest Airlines Co. consolidated; US GAAP operating expenses. RPK uses passenger
+  miles and pax uses revenue passengers carried (O&D), consistent with average length
+  of passenger haul; enplaned passengers differ.
+values:
+  opex_eur:
+    value: 27635000000
+    basis: 2025 GAAP operating expenses USD million ×1e6
+    page: 10-K MD&A 2025 compared with2024
+    quote: Total operating expenses $ 27,635 $ 27,162
+    currency: USD
+    source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53
+  fuel_cost_eur:
+    value: 5240000000
+    basis: 2025 fuel and oil USD million ×1e6
+    page: 10-K MD&A 2025 compared with2024
+    quote: Fuel and oil 5,240 5,812
+    currency: USD
+    source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53
+  ask_km:
+    value: 289755949824.0
+    basis: 2025 ASM180046m ×1e6 ×1.609344
+    page: 10-K Operating Data
+    quote: Available seat miles (ASMs) (in millions) (b) 180,046 177,250
+    source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53
+  rpk_km:
+    value: 224411755392.0
+    basis: 2025 RPM139443m ×1e6 ×1.609344
+    page: 10-K Operating Data
+    quote: Revenue passenger miles (RPMs) (in millions) (a) 139,443 142,515
+    source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53
+  pax:
+    value: 134110000
+    basis: 2025 revenue passengers carried O&D134110 thousand ×1000; average passenger
+      haul, not sector enplanements
+    page: 10-K Operating Data
+    quote: Revenue passengers carried (000s) 134,110 140,023
+    source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53
+  fx_per_eur:
+    value: 1.1299831372549
+    basis: ECB annual2025 arithmetic mean USD per EUR, published OBS_VALUE
+    page: EXR.A.USD.EUR.SP00.A, TIME_PERIOD=2025
+    quote: EXR.A.USD.EUR.SP00.A,A,USD,EUR,SP00,A,2025,1.1299831372549
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/A.USD.EUR.SP00.A?startPeriod=2025&endPeriod=2025&format=csvdata
+    source_sha256: 5168b0d0ca0c42183f3782a93f1c5aa5ac8555c0fd7983879fc432ef05f952ec
+source_sha256: 3268d9895d61ab115956b595f3798a96470e746da6464e9b1251fd76c43f1c53

@@ -1,0 +1,357 @@
+carrier: SY
+name: Sun Country Airlines
+entity_id: SY
+segment: hybrid_leisure
+segment_basis: Business-model classification leisure in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Sun Country 8-K ex.99.1 4Q/FY2025 results
+source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+report_id: research-SY-2025-12-31-4f6a022e2cc2
+scope: 'Sun Country Airlines Holdings consolidated: scheduled + charter + грузовые
+  рейсы для Amazon (20 грузовых бортов на конец года) Грузовые операции (cargo revenue
+  155 млн) не создают ASM (b3-189), но их расходы в opex — CASM GAAP несопоставим;
+  использовать Adjusted CASM. Пасс. загрузка total system не публикуется (scheduled
+  LF 83,6 %). Объявлено слияние с Allegiant.'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: SY
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 1126769000
+    basis: Research field revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Total Operating Revenue
+    quote: Total Operating Revenue | 1,126,769 | 1,075,739 | 4.7
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id001
+    - b3-174
+    research_evidence:
+    - id: b3-174
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Consolidated Statements of Operations, Total Operating Revenue
+      quote: Total Operating Revenue | 1,126,769 | 1,075,739 | 4.7
+      value: revenue FY2025 = 1 126,8 млн USD
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1126769000
+      ids: *id001
+    currency: USD
+  traffic_revenue_eur:
+    value: 923129000
+    basis: Research field pax_revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Year Ended, Passenger
+    quote: Passenger | 923,129 | 914,087 | 1.0
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id002
+    - b3-172
+    research_evidence:
+    - id: b3-172
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Consolidated Statements of Operations, Year Ended, Passenger
+      quote: Passenger | 923,129 | 914,087 | 1.0
+      value: pax revenue FY2025 = 923,1 млн USD
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 923129000
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 1026196000
+    basis: Research field opex, reporting currency USD
+    page: Consolidated Statements of Operations, Total Operating Expenses
+    quote: Total Operating Expenses | 1,026,196 | 969,753 | 5.8
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id003
+    - b3-176
+    research_evidence:
+    - id: b3-176
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Consolidated Statements of Operations, Total Operating Expenses
+      quote: Total Operating Expenses | 1,026,196 | 969,753 | 5.8
+      value: opex FY2025 = 1 026,2 млн USD (вкл. грузовые)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1026196000
+      ids: *id003
+    currency: USD
+  fuel_cost_eur:
+    value: 213480000
+    basis: Research field fuel_cost, reporting currency USD
+    page: Consolidated Statements of Operations, Aircraft Fuel
+    quote: Aircraft Fuel | 213,480 | 237,160 | -10.0
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id004
+    - b3-175
+    research_evidence:
+    - id: b3-175
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Consolidated Statements of Operations, Aircraft Fuel
+      quote: Aircraft Fuel | 213,480 | 237,160 | -10.0
+      value: fuel cost FY2025 = 213,5 млн USD
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 213480000
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 12752211720
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 12752 млн; ASM 7924
+      млн × 1,609344
+    page: Operating Statistics, Total System, ASMs
+    quote: Available seat miles (ASMs) – thousands | 7,923,857 | 8,071,949 | -1.8
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id005
+    - b3-276
+    research_evidence:
+    - id: b3-181
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Total System, ASMs
+      quote: Available seat miles (ASMs) – thousands | 7,923,857 | 8,071,949 | -1.8
+      value: 'ASM FY2025 total system = 7 923,9 млн (без грузовых: cargo не создаёт
+        ASM)'
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-276
+      kind: infer
+      value: ASK ≈ 12752 млн
+      note: ASM 7924 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 12752211720
+      ids: *id005
+  rpk_km:
+    value: 8630157090
+    basis: Research field rpk_km, reporting currency USD; RPK ≈ 8630 млн; RPM 5363
+      млн × 1,609344
+    page: Operating Statistics, RPMs
+    quote: Revenue passenger miles (RPMs) – thousands | 5,362,531 | 5,648,351 | -5.1
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id006
+    - b3-277
+    research_evidence:
+    - id: b3-180
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, RPMs
+      quote: Revenue passenger miles (RPMs) – thousands | 5,362,531 | 5,648,351 |
+        -5.1
+      value: RPM FY2025 = 5 362,5 млн
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: Число верно, но это Scheduled Service, не Total System. В
+        out rpk_km (scheduled) сочетается с ask_km (total system, 7 923 857) — LF
+        и RPK занижены для сопоставления; нужно пометить scope.
+    - id: b3-277
+      kind: infer
+      value: RPK ≈ 8630 млн
+      note: RPM 5363 млн × 1,609344
+      verification: arith_ok
+      verification_note: 'Арифметика верна, но RPM — только scheduled service (b3-180),
+        а ASK (b3-276) — total system: в out/b3.json для SY это не оговорено (в отличие
+        от G4).'
+    research_original:
+      value: 8630157090
+      ids: *id006
+  pax:
+    value: 4205847
+    basis: Research field pax, reporting currency USD
+    page: Operating Statistics, Revenue passengers carried
+    quote: Revenue passengers carried | 4,205,847 | 4,483,515 | -6.2
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id007
+    - b3-179
+    research_evidence:
+    - id: b3-179
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Revenue passengers carried
+      quote: Revenue passengers carried | 4,205,847 | 4,483,515 | -6.2
+      value: pax FY2025 = 4 205 847
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: Число верно, но строка из блока Scheduled Service, а не Total
+        System — пассажиры чартера не включены; в out pax SY = только регулярные.
+    research_original:
+      value: 4205847
+      ids: *id007
+  flights:
+    value: 55357
+    basis: Research field flights, reporting currency USD; total system; включение
+      грузовых рейсов не подтверждено
+    page: Operating Statistics, Total System, Departures
+    quote: Departures | 55,357 | 53,009 | 4.4
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id008
+    - b3-177
+    research_evidence:
+    - id: b3-177
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Total System, Departures
+      quote: Departures | 55,357 | 53,009 | 4.4
+      value: flights FY2025 total system = 55 357 (scheduled 27 037; остальное — чартер
+        и, вероятно, грузовые)
+      note: ячейки в тексте страницы разделены; ' | ' условно; строка 'Departures'
+        встречается несколько раз (scheduled / total)
+      verification: found
+      verification_note: Разбивка scheduled 27 037 в value не проверялась.
+    research_original:
+      value: 55357
+      ids: *id008
+      basis: total system; включение грузовых рейсов не подтверждено
+  block_hours:
+    value: 155313
+    basis: Research field block_hours, reporting currency USD; total system; включение
+      грузовых не подтверждено
+    page: Operating Statistics, Total System, Block hours
+    quote: Block hours | 155,313 | 148,518 | 4.6
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id009
+    - b3-178
+    research_evidence:
+    - id: b3-178
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Total System, Block hours
+      quote: Block hours | 155,313 | 148,518 | 4.6
+      value: block hours FY2025 total system = 155 313
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 155313
+      ids: *id009
+      basis: total system; включение грузовых не подтверждено
+  fleet_avg:
+    value: 43.9
+    basis: Research field fleet_avg, reporting currency USD; только пассажирские
+    page: Operating Statistics, Average passenger aircraft
+    quote: Average passenger aircraft | 43.9 | 43.0 | 2.1
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id010
+    - b3-184
+    research_evidence:
+    - id: b3-184
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Average passenger aircraft
+      quote: Average passenger aircraft | 43.9 | 43.0 | 2.1
+      value: средний пасс. парк FY2025 = 43,9 (плюс 20 грузовых на конец года)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 43.9
+      ids: *id010
+      basis: только пассажирские
+  employees:
+    value: 3281
+    basis: Research field employees, reporting currency USD; headcount на конец периода
+    page: Operating Statistics, Employees
+    quote: Employees at end of period | 3,281 | 3,141 | 4.5
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id011
+    - b3-185
+    research_evidence:
+    - id: b3-185
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Employees
+      quote: Employees at end of period | 3,281 | 3,141 | 4.5
+      value: employees = 3 281 (headcount на конец 2025)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 3281
+      ids: *id011
+      basis: headcount на конец периода
+  fuel_tonnes:
+    value: 256311
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 256311 т; 84647000
+      галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию); tonnes
+      as stored in the verified research snapshot
+    page: Operating Statistics, Total System, Fuel gallons
+    quote: Fuel gallons - thousands | 84,647 | 86,185 | -1.8
+    source_url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+    research_trace_ids: &id012
+    - b3-275
+    research_evidence:
+    - id: b3-183
+      kind: extract
+      url: https://www.sec.gov/Archives/edgar/data/1743907/000174390726000028/q42025-ex991.htm
+      title: Sun Country 8-K ex.99.1 4Q/FY2025 results
+      locator: Operating Statistics, Total System, Fuel gallons
+      quote: Fuel gallons - thousands | 84,647 | 86,185 | -1.8
+      value: fuel FY2025 = 84 647 тыс. галлонов (пасс. + чартер; топливо грузовых
+        рейсов оплачивает Amazon — в отчёте не подтверждено)
+      note: ячейки в тексте страницы разделены; ' | ' условно
+      verification: found
+      verification_note: ''
+    - id: b3-275
+      kind: infer
+      value: fuel ≈ 256311 т
+      note: 84647000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по
+        заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 256311
+      unit: t
+      source_value: 84647000
+      source_unit: US gal
+      ids: *id012
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

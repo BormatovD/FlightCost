@@ -1,0 +1,214 @@
+carrier: QF
+name: Qantas Group
+entity_id: QF
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2026
+period_start: '2025-07-01'
+period_end: '2026-06-30'
+source: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+report_id: research-QF-2026-06-30-51cb077f53c3
+scope: 'Группа: Qantas, Jetstar Group, Loyalty, Freight Выручка группы включает Loyalty
+  и грузы — CASK по группе завышен против чистого перевозчика. Jetstar отдельно за
+  год не раскрыт.'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: QF
+  original_period: 'FY26: 01.07.2025–30.06.2026'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 25516000000.0
+    basis: Research field revenue, reporting currency AUD
+    page: слайд 7
+    quote: Total Revenue 25,516 – 25,516 23,823 – 23,823
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id001
+    - b2-297
+    research_evidence:
+    - id: b2-297
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 7
+      quote: Total Revenue 25,516 – 25,516 23,823 – 23,823
+      value: revenue 25 516 млн AUD (вкл. Loyalty, грузы)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 25516000000.0
+      ids: *id001
+    currency: AUD
+  traffic_revenue_eur:
+    value: 21814000000.0
+    basis: Research field pax_revenue, reporting currency AUD
+    page: слайд 7, Underlying income statement (statutory, items, underlying; FY26
+      и FY25)
+    quote: Net passenger revenue 21,814 – 21,814 20,411 – 20,411
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id002
+    - b2-296
+    research_evidence:
+    - id: b2-296
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 7, Underlying income statement (statutory, items, underlying;
+        FY26 и FY25)
+      quote: Net passenger revenue 21,814 – 21,814 20,411 – 20,411
+      value: пассажирская выручка 21 814 млн AUD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 21814000000.0
+      ids: *id002
+    currency: AUD
+  opex_eur:
+    value: 23404000000.0
+    basis: Research field opex, reporting currency AUD; statutory; underlying 23 168
+    page: слайд 7
+    quote: Total Expenditure 23,404 (236) 23,168 21,316 (132) 21,184
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id003
+    - b2-298
+    research_evidence:
+    - id: b2-298
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 7
+      quote: Total Expenditure 23,404 (236) 23,168 21,316 (132) 21,184
+      value: opex statutory 23 404; underlying 23 168 млн AUD
+      verification: found
+      verification_note: Statutory 23 404, underlying 23 168.
+    research_original:
+      value: 23404000000.0
+      ids: *id003
+      note: statutory; underlying 23 168
+    currency: AUD
+  fuel_cost_eur:
+    value: 5724000000.0
+    basis: Research field fuel_cost, reporting currency AUD
+    page: слайд 7
+    quote: Fuel 5,724 – 5,724 5,003 – 5,003
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id004
+    - b2-299
+    research_evidence:
+    - id: b2-299
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 7
+      quote: Fuel 5,724 – 5,724 5,003 – 5,003
+      value: fuel 5 724 млн AUD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5724000000.0
+      ids: *id004
+    currency: AUD
+  ask_km:
+    value: 157957000000.0
+    basis: Research field ask_km, reporting currency AUD
+    page: слайд 5
+    quote: Available Seat Kilometres (ASK) M 157,957 152,804 3.4%
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id005
+    - b2-302
+    research_evidence:
+    - id: b2-302
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 5
+      quote: Available Seat Kilometres (ASK) M 157,957 152,804 3.4%
+      value: ASK 157 957 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 157957000000.0
+      ids: *id005
+  rpk_km:
+    value: 133398000000.0
+    basis: Research field rpk_km, reporting currency AUD
+    page: слайд 5
+    quote: Revenue Passenger Kilometres (RPK) M 133,398 129,382 3.1%
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id006
+    - b2-301
+    research_evidence:
+    - id: b2-301
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 5
+      quote: Revenue Passenger Kilometres (RPK) M 133,398 129,382 3.1%
+      value: RPK 133 398 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 133398000000.0
+      ids: *id006
+  pax:
+    value: 55945000.0
+    basis: Research field pax, reporting currency AUD
+    page: слайд 5, Group operating statistics
+    quote: Passengers carried ‘000 55,945 55,901 0.1%
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id007
+    - b2-300
+    research_evidence:
+    - id: b2-300
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 5, Group operating statistics
+      quote: Passengers carried ‘000 55,945 55,901 0.1%
+      value: pax 55,945 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 55945000.0
+      ids: *id007
+  employees:
+    value: 29175
+    basis: Research field employees, reporting currency AUD; FTE
+    page: слайд 5
+    quote: Full-time equivalent employees2 FTE 29,175 28,239 3.3%
+    source_url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+    research_trace_ids: &id008
+    - b2-303
+    research_evidence:
+    - id: b2-303
+      kind: extract
+      url: https://investor.qantas.com/FormBuilder/_Resource/_module/doLLG5ufYkCyEPjF1tpgyw/file/2026FY/QAN_FY26_Supplementary_Presentation.pdf
+      title: Qantas Group FY26 Supplementary Presentation (27.08.2026)
+      locator: слайд 5
+      quote: Full-time equivalent employees2 FTE 29,175 28,239 3.3%
+      value: FTE 29 175
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 29175
+      ids: *id008
+      note: FTE
+  fx_per_eur:
+    value: 1.7215086274509803
+    basis: Arithmetic mean of 255 ECB daily observations, 2025-07-01–2026-06-30, AUD
+      per EUR; sum(OBS_VALUE)/255
+    quote: EXR.D.AUD.EUR.SP00.A,D,AUD,EUR,SP00,A,2025-07-01,1.7935,A,F,,,P1D,,A,,,,,,,99Q1=100,,,4,,4F0,,Australian
+      dollar/Euro ECB reference exchange rate,"ECB reference exchange rate, Australian
+      dollar/Euro, 2.15 pm (C.E.T.)",AUD,0
+    page: ECB CSV TIME_PERIOD, OBS_VALUE
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/D.AUD.EUR.SP00.A?startPeriod=2025-07-01&endPeriod=2026-06-30&format=csvdata
+    source_sha256: eeaf52a560dc57cbea1cb6ce99d50c2bb367345f99c15d7935b5b048d66cc393
+    period_start: '2025-07-01'
+    period_end: '2026-06-30'
+    count: 255

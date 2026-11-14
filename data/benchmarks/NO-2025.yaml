@@ -2,6 +2,11 @@
 # Блок-часов числом нет — только налёт в сутки, и чей он, отчёт не говорит.
 ---
 carrier: "NO"            # в кавычках: YAML 1.1 читает голое NO как false
+entity_id: NO
+segment: lowcost
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2025-01-01"
+period_end: "2025-12-31"
 name: Norwegian Air Shuttle (группа)
 year: 2025
 source: "Norwegian Annual Report 2025: Consolidated income statement (стр. 121), Analytical information (стр. 196)"

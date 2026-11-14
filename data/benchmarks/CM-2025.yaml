@@ -1,18 +1,105 @@
-# Copa Holdings 2025. Парк — только Boeing 737. Блок-часы числом.
----
 carrier: CM
 name: Copa Holdings
+entity_id: CM
+segment: network
+segment_basis: Published hub-and-spoke/full-service network airline business; group
+  scope named explicitly
 year: 2025
-source: "Copa Holdings, Fourth-Quarter and Full-Year 2025 earnings release: Operating statistics, Consolidated statement of operations"
-source_url: https://ir.copaair.com/node/17326/pdf
-scope: >
-  Copa Airlines и Wingo вместе. Строки аренды бортов нет: парк в основном
-  в собственности, владение — в амортизации.
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+published_at: '2026-02-11'
+source: Copa Holdings full-year2025 financial and traffic results
+source_url: https://www.sec.gov/Archives/edgar/data/1345105/000162828026007824/cpa4q25ex-991final.htm
+report_id: CM-FY2025-0a179f4a207911d3
+scope: Copa Holdings consolidated including Copa Airlines, Wingo and cargo/mail. Pax
+  uses published Revenue Passengers Carried; passengers on board22.103m is a distinct
+  statistic. RPK/pax represents mean passenger journey under approved method, not
+  flight-sector stage length.
 values:
-  staff_cost_eur:       {value: 501979000, currency: USD, basis: "wages, salaries, benefits and other employees' expenses — весь персонал", page: "Statement of operations, YTD25"}
-  maintenance_cost_eur: {value: 156741000, currency: USD, basis: "maintenance, materials and repairs", page: "Statement of operations, YTD25"}
-  depreciation_eur:     {value: 365136000, currency: USD, basis: "depreciation and amortization — все активы", page: "Statement of operations, YTD25"}
-  block_hours:          {value: 505888, basis: "block hours", page: "Operating statistics, YTD25"}
-  flights:              {value: 159197, basis: "departures", page: "Operating statistics, YTD25"}
-  ask_km:               {value: 52155000000, basis: "32 408 млн ASM × 1,609344", page: "Operating statistics, YTD25"}
-  fleet_year_end:       {value: 125, basis: "total fleet of 125 aircraft at year end", page: "текст релиза"}
+  opex_eur:
+    value: 2798862000
+    basis: FY2025 consolidated expenses2798862 USD thousand ×1000
+    page: Full-year consolidated operating/financial statistics table
+    quote: Total Operating Expense 753,300 674,871 11.6 % 700,844 7.5 % 2,798,862
+      2,693,247 3.9 %
+    currency: USD
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  fuel_cost_eur:
+    value: 932251000
+    basis: FY2025 fuel932251 USD thousand ×1000
+    page: Full-year consolidated operating/financial statistics table
+    quote: Fuel 249,177 219,232 13.7 % 236,809 5.2 % 932,251 949,309 (1.8 %)
+    currency: USD
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  ask_km:
+    value: 52155620352.0
+    basis: FY2025 ASM32408 million ×1e6 ×1.609344 statute miles to km
+    page: Full-year consolidated operating/financial statistics table
+    quote: ASMs (millions) 8,513 7,747 9.9 % 8,238 3.3 % 32,408 30,077 7.8 %
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  rpk_km:
+    value: 45399594240.0
+    basis: FY2025 RPM28210 million ×1e6 ×1.609344 statute miles to km
+    page: Full-year consolidated operating/financial statistics table
+    quote: RPMs (millions) 7,359 6,682 10.1 % 7,249 1.5 % 28,210 25,966 8.6 %
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  pax:
+    value: 14853000
+    basis: FY2025 Revenue Passengers Carried14853 thousand ×1000; journey passengers,
+      distinct OnBoard22103 thousand
+    page: Full-year consolidated operating/financial statistics table
+    quote: Revenue Passengers Carried (000s) 3,935 3,444 14.3 % 3,806 3.4 % 14,853
+      13,467 10.3 %
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  fx_per_eur:
+    value: 1.13
+    basis: Mean annual2025 ECB reference exchange rate, USD per1 EUR; official Suomen
+      Pankki average annual table, same report period
+    page: Average annual exchange rates2025 table
+    quote: USD 1,1300
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    source_sha256: 3b62762dcbb4677a321cc4e48104a9b5db0f78afac6a24686b04bb06c5a559f7
+  staff_cost_eur:
+    value: 501979000
+    basis: FY2025 wages,salaries,benefits and other employee expenses, all staff,501979
+      USD thousand ×1000
+    page: Consolidated statement of profit or loss, YTD2025
+    quote: Wages, salaries, benefits and other employees' expenses 137,906 123,575
+      11.6 % 124,266 11.0 % 501,979 470,644 6.7 %
+    currency: USD
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  maintenance_cost_eur:
+    value: 156741000
+    basis: FY2025 maintenance,materials and repairs156741 USD thousand ×1000
+    page: Consolidated statement of profit or loss, YTD2025
+    quote: Maintenance, materials and repairs 46,075 34,567 33.3 % 35,074 31.4 % 156,741
+      105,936 48.0 %
+    currency: USD
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  depreciation_eur:
+    value: 365136000
+    basis: FY2025 depreciation and amortization, all assets,365136 USD thousand ×1000
+    page: Consolidated statement of profit or loss, YTD2025
+    quote: Depreciation and amortization 97,385 85,085 14.5 % 93,028 4.7 % 365,136
+      330,710 10.4 %
+    currency: USD
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  block_hours:
+    value: 505888
+    basis: FY2025 block hours505888
+    page: Consolidated Operating and Financial Statistics, YTD25
+    quote: Block Hours 133,488 121,549 9.8 % 128,263 4.1 % 505,888 470,751 7.5 %
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  flights:
+    value: 159197
+    basis: FY2025 departures159197
+    page: Consolidated Operating and Financial Statistics,YTD25
+    quote: Departures 41,942 37,596 11.6 % 40,441 3.7 % 159,197 146,607 8.6 %
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+  fleet_year_end:
+    value: 125
+    basis: Aircraft fleet at2025 year end125; subsequent January2026 delivery126 excluded
+    page: Fourth Quarter2025 Highlights
+    quote: total fleet of 125 aircraft.
+    source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197
+source_sha256: 0a179f4a207911d39f755ada3310d85d00bbf0683c87caa914764e86501c0197

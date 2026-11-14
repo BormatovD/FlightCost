@@ -1,0 +1,315 @@
+carrier: B6
+name: JetBlue Airways
+entity_id: B6
+segment: hybrid_leisure
+segment_basis: Business-model classification hybrid in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+report_id: research-B6-2025-12-31-4f6a022e2cc2
+scope: JetBlue Airways Corp. consolidated; без региональных партнёров Блок-часы не
+  публикуются. Средний парк 287 включает борта, стоящие из-за двигателей PW GTF (A321neo/A220)
+  — не уточнено.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: B6
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 9062000000.0
+    basis: Research field revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Total operating revenues
+    quote: Total operating revenues 2,244 2,277 (1.5) 9,062 9,279 (2.3)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id001
+    - b3-118
+    research_evidence:
+    - id: b3-118
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Consolidated Statements of Operations, Total operating revenues
+      quote: Total operating revenues 2,244 2,277 (1.5) 9,062 9,279 (2.3)
+      value: revenue FY2025 = 9 062 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 9062000000.0
+      ids: *id001
+    currency: USD
+  traffic_revenue_eur:
+    value: 8336000000.0
+    basis: Research field pax_revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Passenger
+    quote: Passenger $ 2,053 $ 2,100 (2.2) $ 8,336 $ 8,617 (3.3)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id002
+    - b3-117
+    research_evidence:
+    - id: b3-117
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Consolidated Statements of Operations, Passenger
+      quote: Passenger $ 2,053 $ 2,100 (2.2) $ 8,336 $ 8,617 (3.3)
+      value: pax revenue FY2025 = 8 336 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 8336000000.0
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 9430000000.0
+    basis: Research field opex, reporting currency USD
+    page: Consolidated Statements of Operations, Total operating expenses
+    quote: Total operating expenses 2,344 2,260 3.7 9,430 9,963 (5.3)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id003
+    - b3-120
+    research_evidence:
+    - id: b3-120
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Consolidated Statements of Operations, Total operating expenses
+      quote: Total operating expenses 2,344 2,260 3.7 9,430 9,963 (5.3)
+      value: opex FY2025 = 9 430 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 9430000000.0
+      ids: *id003
+    currency: USD
+  fuel_cost_eur:
+    value: 2057000000.0
+    basis: Research field fuel_cost, reporting currency USD
+    page: Consolidated Statements of Operations, Aircraft fuel
+    quote: Aircraft fuel 503 509 (1.1) 2,057 2,343 (12.2)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id004
+    - b3-119
+    research_evidence:
+    - id: b3-119
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Consolidated Statements of Operations, Aircraft fuel
+      quote: Aircraft fuel 503 509 (1.1) 2,057 2,343 (12.2)
+      value: fuel cost FY2025 = 2 057 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2057000000.0
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 104618625408
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 104619 млн; ASM 65007
+      млн × 1,609344
+    page: Operating Statistics, ASMs
+    quote: Available seat miles (ASMs) (millions) 15,881 16,142 (1.6) 65,007 66,082
+      (1.6)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id005
+    - b3-264
+    research_evidence:
+    - id: b3-123
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, ASMs
+      quote: Available seat miles (ASMs) (millions) 15,881 16,142 (1.6) 65,007 66,082
+        (1.6)
+      value: ASM FY2025 = 65 007 млн
+      verification: found
+      verification_note: ''
+    - id: b3-264
+      kind: infer
+      value: ASK ≈ 104619 млн
+      note: ASM 65007 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 104618625408
+      ids: *id005
+  rpk_km:
+    value: 86156231040
+    basis: Research field rpk_km, reporting currency USD; RPK ≈ 86156 млн; RPM 53535
+      млн × 1,609344
+    page: Operating Statistics, RPMs
+    quote: Revenue passenger miles (RPMs) (millions) 12,935 13,273 (2.5) 53,535 54,958
+      (2.6)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id006
+    - b3-265
+    research_evidence:
+    - id: b3-122
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, RPMs
+      quote: Revenue passenger miles (RPMs) (millions) 12,935 13,273 (2.5) 53,535
+        54,958 (2.6)
+      value: RPM FY2025 = 53 535 млн
+      verification: found
+      verification_note: ''
+    - id: b3-265
+      kind: infer
+      value: RPK ≈ 86156 млн
+      note: RPM 53535 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 86156231040
+      ids: *id006
+  pax:
+    value: 39336000
+    basis: Research field pax, reporting currency USD
+    page: Operating Statistics, Revenue passengers
+    quote: Revenue passengers (thousands) 9,718 9,942 (2.2) 39,336 40,498 (2.9)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id007
+    - b3-121
+    research_evidence:
+    - id: b3-121
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, Revenue passengers
+      quote: Revenue passengers (thousands) 9,718 9,942 (2.2) 39,336 40,498 (2.9)
+      value: pax FY2025 = 39 336 тыс.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 39336000
+      ids: *id007
+  flights:
+    value: 308985
+    basis: Research field flights, reporting currency USD
+    page: Operating Statistics, Departures
+    quote: Departures 76,407 78,826 (3.1) 308,985 319,987 (3.4)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id008
+    - b3-128
+    research_evidence:
+    - id: b3-128
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, Departures
+      quote: Departures 76,407 78,826 (3.1) 308,985 319,987 (3.4)
+      value: flights FY2025 = 308 985
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 308985
+      ids: *id008
+  fleet_avg:
+    value: 287
+    basis: Research field fleet_avg, reporting currency USD
+    page: Operating Statistics, Average number of operating aircraft
+    quote: Average number of operating aircraft during period (1) 285 288 (1.0) 287
+      286 0.3
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id009
+    - b3-130
+    research_evidence:
+    - id: b3-130
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, Average number of operating aircraft
+      quote: Average number of operating aircraft during period (1) 285 288 (1.0)
+        287 286 0.3
+      value: средний парк FY2025 = 287
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 287
+      ids: *id009
+  employees:
+    value: 19259
+    basis: Research field employees, reporting currency USD; средн. FTE crewmembers
+    page: Operating Statistics, FTE crewmembers
+    quote: Average number of full-time equivalent crewmembers 19,412 19,179 1.2 19,259
+      19,822 (2.8)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id010
+    - b3-131
+    research_evidence:
+    - id: b3-131
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, FTE crewmembers
+      quote: Average number of full-time equivalent crewmembers 19,412 19,179 1.2
+        19,259 19,822 (2.8)
+      value: employees FY2025 = 19 259 средн. FTE
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 19259
+      ids: *id010
+      basis: средн. FTE crewmembers
+  fuel_tonnes:
+    value: 2501128
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 2501128 т; 826000000
+      галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию); tonnes
+      as stored in the verified research snapshot
+    page: Operating Statistics, Fuel gallons consumed
+    quote: Fuel gallons consumed (millions) 201 206 (2.6) 826 853 (3.2)
+    source_url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+    research_trace_ids: &id011
+    - b3-263
+    research_evidence:
+    - id: b3-127
+      kind: extract
+      url: https://s202.q4cdn.com/853609783/files/doc_financials/2025/q4/EX-99-1-Earnings-Release-Q4-2025.pdf
+      title: JetBlue EX-99.1 Earnings Release Q4 2025 (IR CDN)
+      locator: Operating Statistics, Fuel gallons consumed
+      quote: Fuel gallons consumed (millions) 201 206 (2.6) 826 853 (3.2)
+      value: fuel FY2025 = 826 млн галлонов
+      verification: found
+      verification_note: ''
+    - id: b3-263
+      kind: infer
+      value: fuel ≈ 2501128 т
+      note: 826000000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8
+        по заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 2501128
+      unit: t
+      source_value: 826000000.0
+      source_unit: US gal
+      ids: *id011
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

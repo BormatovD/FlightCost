@@ -1,6 +1,6 @@
 # Агент обновления данных: один прогон задания %i (flightcostapp/agent_run.py,
 # внутри — OpenClaw `agent exec` с закреплённым конфигом deploy/agent/openclaw.json5).
-# Шесть заданий: submissions, charges, watch, fuel, night, prices.
+# Семь заданий: submissions, charges, watch, fuel, night, prices, reports.
 #
 # Клетка — здесь, а не в OpenClaw: отдельный пользователь agent, запись
 # только в /srv/fca/agent и в ящик сообщений; справочник, база витрины,

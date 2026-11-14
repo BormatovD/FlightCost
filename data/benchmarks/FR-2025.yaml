@@ -5,6 +5,12 @@
 # и назван в basis — единственная арифметика в файле.
 ---
 carrier: FR
+entity_id: FR
+segment: lowcost
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2024-04-01"
+period_end: "2025-03-31"
+published_at: "2025-05-19"
 name: Ryanair Group
 year: 2025
 source: >

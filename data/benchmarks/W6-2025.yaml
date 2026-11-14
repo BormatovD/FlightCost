@@ -3,6 +3,11 @@
 # блок-час считается без допущений. Парк — только A320/A321.
 ---
 carrier: W6
+entity_id: W6
+segment: lowcost
+segment_basis: "Классификация исследования benchmarks-2026-10; отчётный контур описан в scope"
+period_start: "2024-04-01"
+period_end: "2025-03-31"
 name: Wizz Air Holdings
 year: 2025
 source: "Wizz Air Holdings plc, Final Results FY2025: Operating expenses, Key statistics, Fleet update"

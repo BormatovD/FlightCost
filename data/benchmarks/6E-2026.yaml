@@ -1,0 +1,276 @@
+carrier: 6E
+name: IndiGo (InterGlobe Aviation)
+entity_id: 6E
+segment: lowcost
+segment_basis: Business-model classification LCC in the published benchmarks research
+year: 2026
+period_start: '2025-04-01'
+period_end: '2026-03-31'
+source: IndiGo FY2026 press release
+source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+report_id: research-6E-2026-03-31-51cb077f53c3
+scope: 'InterGlobe Aviation, вкл. ATR, damp-lease 737/787 и 3 A321F Total cost не
+  годится для CASK как есть: падение рупии дало крупную курсовую переоценку (Ind AS
+  116). Для опоры «затраты» использовать opex_ex_fuel_reported (ex forex). Рейсы,
+  блок-часы, плечо, объём топлива не найдены.'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: 6E
+  original_period: 'FY2026: 01.04.2025–31.03.2026'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 849619000000.0
+    basis: Research field revenue, reporting currency INR; revenue from operations;
+      total income 895 134 вкл. прочие доходы
+    page: FY2026 highlights
+    quote: Revenue from Operations increased by 5.1% to INR 849,619 million
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id001
+    - b2-058
+    research_evidence:
+    - id: b2-058
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 highlights
+      quote: Revenue from Operations increased by 5.1% to INR 849,619 million
+      value: revenue from operations 849 619 млн INR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 849619000000.0
+      ids: *id001
+      note: revenue from operations; total income 895 134 вкл. прочие доходы
+    currency: INR
+  opex_eur:
+    value: 770892000000.0
+    basis: 'Research field opex, reporting currency INR; Selected operating perimeter
+      from the published ex-fuel cost excluding lease FX plus fuel. 517000000000.0
+      + 253892000000.0 = 770892000000.0 INR. The research total-cost figure includes
+      finance and lease FX and remains in its original JSON.; opex_ex_fuel_ex_forex
+      ≈ 3,00 × 172,4 млрд = 517 млрд INR; основа для сравнения: total cost IndiGo
+      раздут курсовой переоценкой лизинговых обязательств (МСФО 16/Ind AS 116) при
+      падении рупии'
+    page: FY2026 table | FY2026 highlights
+    quote: Fuel cost 253,892 261,973 -3.1% | Capacity increased by 9.5% to 172.4 billion
+      | CASK ex fuel ex forex* (INR) 3.00 2.89 +3.8%
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id002
+    - b2-067
+    - b2-069
+    - b2-060
+    research_evidence:
+    - id: b2-060
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 table
+      quote: Fuel cost 253,892 261,973 -3.1%
+      value: fuel 253 892 млн INR
+      verification: found
+      verification_note: ''
+    - id: b2-061
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 highlights
+      quote: Capacity increased by 9.5% to 172.4 billion
+      value: ASK 172,4 млрд
+      verification: found
+      verification_note: В таблице строка подписана «ASK (billion)» — единица подтверждена.
+    - id: b2-067
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 table
+      quote: CASK ex fuel ex forex* (INR) 3.00 2.89 +3.8%
+      value: CASK ex fuel ex forex 3,00 INR
+      verification: found
+      verification_note: ''
+    - id: b2-069
+      kind: infer
+      value: opex_ex_fuel_ex_forex ≈ 3,00 × 172,4 млрд = 517 млрд INR
+      note: 'основа для сравнения: total cost IndiGo раздут курсовой переоценкой лизинговых
+        обязательств (МСФО 16/Ind AS 116) при падении рупии'
+      verification: infer
+      verification_note: 'ОЦЕНКА: 3,00 × 172,4 млрд = 517,2 млрд INR — арифметика
+        верна. Оговорка: CASK со сноской * — за вычетом финдохода 35,3 млрд (b2-068),
+        т.е. это не «чистый» opex ex fuel; CASK 3,00 округлён до 0,01 → ±0,9 млрд.'
+    research_original:
+      value: 770892000000.0
+      ids: *id002
+      basis: Selected operating perimeter from the published ex-fuel cost excluding
+        lease FX plus fuel. 517000000000.0 + 253892000000.0 = 770892000000.0 INR.
+        The research total-cost figure includes finance and lease FX and remains in
+        its original JSON.
+    currency: INR
+  fuel_cost_eur:
+    value: 253892000000.0
+    basis: Research field fuel_cost, reporting currency INR
+    page: FY2026 table
+    quote: Fuel cost 253,892 261,973 -3.1%
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id003
+    - b2-060
+    research_evidence:
+    - id: b2-060
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 table
+      quote: Fuel cost 253,892 261,973 -3.1%
+      value: fuel 253 892 млн INR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 253892000000.0
+      ids: *id003
+    currency: INR
+  ask_km:
+    value: 172400000000.0
+    basis: Research field ask_km, reporting currency INR
+    page: FY2026 highlights
+    quote: Capacity increased by 9.5% to 172.4 billion
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id004
+    - b2-061
+    research_evidence:
+    - id: b2-061
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 highlights
+      quote: Capacity increased by 9.5% to 172.4 billion
+      value: ASK 172,4 млрд
+      verification: found
+      verification_note: В таблице строка подписана «ASK (billion)» — единица подтверждена.
+    research_original:
+      value: 172400000000.0
+      ids: *id004
+  rpk_km:
+    value: 145500000000.0
+    basis: Research field rpk_km, reporting currency INR
+    page: FY2026 table
+    quote: RPK (billion) 145.5 135.4 +7.5%
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id005
+    - b2-062
+    research_evidence:
+    - id: b2-062
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 table
+      quote: RPK (billion) 145.5 135.4 +7.5%
+      value: RPK 145,5 млрд
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 145500000000.0
+      ids: *id005
+  pax:
+    value: 123400000.0
+    basis: Research field pax, reporting currency INR
+    page: FY2026 highlights
+    quote: Passengers increased by 4.0% to 123.4 million against a seat growth of
+      5.2%
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id006
+    - b2-063
+    research_evidence:
+    - id: b2-063
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 highlights
+      quote: Passengers increased by 4.0% to 123.4 million against a seat growth of
+        5.2%
+      value: pax 123,4 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 123400000.0
+      ids: *id006
+  fleet_year_end:
+    value: 441
+    basis: Research field fleet_end, reporting currency INR
+    page: Fleet
+    quote: fleet of 441 aircraft including 31 A320 CEOs (5 damp lease)
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id007
+    - b2-065
+    research_evidence:
+    - id: b2-065
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: Fleet
+      quote: fleet of 441 aircraft including 31 A320 CEOs (5 damp lease)
+      value: парк 31.03.2026 = 441 (вкл. damp-lease и 3 грузовых A321F)
+      verification: found
+      verification_note: Сумма = 441; в т.ч. 20 бортов damp lease и 3 грузовых.
+    research_original:
+      value: 441
+      ids: *id007
+  employees:
+    value: 69000
+    basis: Research field employees, reporting currency INR; округлено
+    page: MD statement
+    quote: our 69,000 dedicated IndiGo team members
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id008
+    - b2-066
+    research_evidence:
+    - id: b2-066
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: MD statement
+      quote: our 69,000 dedicated IndiGo team members
+      value: сотрудники ≈69 000
+      verification: found
+      verification_note: Округлённое число.
+    research_original:
+      value: 69000
+      ids: *id008
+      quality: округлено
+  load_factor:
+    value: 0.844
+    basis: Research field load_factor, reporting currency INR
+    page: FY2026 highlights
+    quote: load factor decreased by 1.6pts to 84.4%
+    source_url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+    research_trace_ids: &id009
+    - b2-064
+    research_evidence:
+    - id: b2-064
+      kind: extract
+      url: https://www.goindigo.in/press-releases/indigo-fy2026-capacity-and-income-growth.html
+      title: IndiGo FY2026 press release
+      locator: FY2026 highlights
+      quote: load factor decreased by 1.6pts to 84.4%
+      value: LF 84,4%
+      verification: found
+      verification_note: 'Контроль: 145,5/172,4 = 84,4%.'
+    research_original:
+      value: 0.844
+      ids: *id009
+  fx_per_eur:
+    value: 102.47152274509804
+    basis: Arithmetic mean of 255 ECB daily observations, 2025-04-01–2026-03-31, INR
+      per EUR; sum(OBS_VALUE)/255
+    quote: EXR.D.INR.EUR.SP00.A,D,INR,EUR,SP00,A,2025-04-01,92.384,A,F,,,P1D,,A,,,,,,,99Q1=100,,,4,,4F0,,Indian
+      rupee/Euro ECB reference exchange rate,"ECB reference exchange rate, Indian
+      rupee/Euro, 2.15 pm (C.E.T.)",INR,0
+    page: ECB CSV TIME_PERIOD, OBS_VALUE
+    source_url: https://data-api.ecb.europa.eu/service/data/EXR/D.INR.EUR.SP00.A?startPeriod=2025-04-01&endPeriod=2026-03-31&format=csvdata
+    source_sha256: cb667f3b33a58f5afc2815db205c75c0fceb6410ffc5aafa964ab5260a9d2d83
+    period_start: '2025-04-01'
+    period_end: '2026-03-31'
+    count: 255

@@ -1,0 +1,60 @@
+carrier: W6
+entity_id: W6
+name: Wizz Air Holdings PLC (Group)
+year: 2026
+report_id: Final-Results-2026
+period_start: '2025-04-01'
+period_end: '2026-03-31'
+published_at: '2026-06-11'
+source: full-year results release
+source_url: https://s204.q4cdn.com/169340705/files/doc_news/Final-Results-2026.pdf
+scope: Wizz Air Holdings PLC group; financial results and operating statistics for
+  full year F26. Includes Abu Dhabi operations during the reporting year; consolidated
+  reported operating costs.
+segment: lowcost
+segment_basis: The report calls the company a low-cost airline; page 5 says it was
+  recognized as Most Sustainable Low-Cost Airline.
+values:
+  revenue_eur:
+    value: 5691400000
+    currency: EUR
+    basis: € million multiplied by 1,000,000
+    page: in/report-W6.txt, p. 1
+    quote: Total revenue (€ million) 5,691.4
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+  fuel_cost_eur:
+    value: 1764000000
+    currency: EUR
+    basis: € million multiplied by 1,000,000; expenses represented as positive cost
+      amount
+    page: in/report-W6.txt, p. 3
+    quote: Total fuel expenses decreased by 1.9 per cent to €1,764.0 million
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+  opex_eur:
+    value: 5551700000
+    currency: EUR
+    basis: € million multiplied by 1,000,000; expenses represented as positive cost
+      amount
+    page: in/report-W6.txt, p. 3
+    quote: Total operating expenses increased by 8.9 per cent to €5,551.7 million
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+  ask_km:
+    value: 132030723000
+    basis: '''000 km multiplied by 1,000'
+    page: in/report-W6.txt, p. 14
+    quote: Total ASKs ('000 km) 132,030,723
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+  rpk_km:
+    value: 119877458000
+    basis: '''000 km multiplied by 1,000'
+    page: in/report-W6.txt, p. 14
+    quote: RPKs (revenue passenger kilometres) ('000 km) 119,877,458
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+  pax:
+    value: 69747746
+    basis: Passenger segments as reported; count of passenger journeys
+    page: in/report-W6.txt, p. 14
+    quote: Number of passenger segments 69,747,746
+    source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5
+validation_errors: []
+source_sha256: 3f2c60269351c3a66543360b324d6b6dab3692a688702e3a0c0f96543734e3b5

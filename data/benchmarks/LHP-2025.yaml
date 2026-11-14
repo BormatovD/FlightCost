@@ -1,0 +1,274 @@
+carrier: LHP
+name: Lufthansa Group — Passenger Airlines — Passenger Airlines
+entity_id: LH
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+report_id: research-LH-2025-12-31-51cb077f53c3
+scope: Сегмент Passenger Airlines (Lufthansa Airlines вкл. CityLine/City Airlines/Air
+  Dolomiti/Discover, SWISS, Austrian, Brussels, Eurowings) Блок-часы не публикуются.
+  Opex сегмента > выручки сегмента при Adjusted EBIT 1 087 — сегментный EBIT включает
+  прочие доходы. Хедж −254 млн в топливе.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: LH
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 30576000000.0
+    basis: Research field revenue, reporting currency EUR
+    page: T026 Key figures Passenger Airlines
+    quote: Revenue in €m 30,576 29,690 3
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id001
+    - b2-206
+    research_evidence:
+    - id: b2-206
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T026 Key figures Passenger Airlines
+      quote: Revenue in €m 30,576 29,690 3
+      value: revenue сегмента 30 576 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 30576000000.0
+      ids: *id001
+    currency: EUR
+  traffic_revenue_eur:
+    value: 28623000000.0
+    basis: Research field pax_revenue, reporting currency EUR; traffic revenue
+    page: T026
+    quote: of which traffic revenue in €m 28,623 27,869 3
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id002
+    - b2-207
+    research_evidence:
+    - id: b2-207
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T026
+      quote: of which traffic revenue in €m 28,623 27,869 3
+      value: traffic revenue 28 623 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 28623000000.0
+      ids: *id002
+      note: traffic revenue
+    currency: EUR
+  opex_eur:
+    value: 30688000000.0
+    basis: Research field opex, reporting currency EUR
+    page: T026
+    quote: Operating expenses in €m 30,688 29,722 3
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id003
+    - b2-208
+    research_evidence:
+    - id: b2-208
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T026
+      quote: Operating expenses in €m 30,688 29,722 3
+      value: opex сегмента 30 688 млн EUR
+      verification: found
+      verification_note: Opex > выручки при Adjusted EBIT 1 087 (строка T026 подтверждена)
+        — сегментный EBIT включает прочие опер. доходы; для CASK opex сегмента годен,
+        но маржа «revenue − opex» отрицательна.
+    research_original:
+      value: 30688000000.0
+      ids: *id003
+    currency: EUR
+  fuel_cost_eur:
+    value: 7271000000.0
+    basis: Research field fuel_cost, reporting currency EUR; ГРУППА вкл. Lufthansa
+      Cargo — верхняя граница; fuel_cost Passenger Airlines ≈ < 7 271 млн EUR (групповое
+      значение включает грузовые 777F/MD-11 Lufthansa Cargo); для рейтинга — верхняя
+      граница; сегментной строки топлива нет
+    page: T026 | текст под T020
+    quote: 'Operating expenses in €m 30,688 29,722 3 | Within the cost of materials
+      and services, fuel expenses decreased by 7% to EUR 7,271m (previous year: EUR
+      7,785m).'
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id004
+    - b2-216
+    - b2-218
+    research_evidence:
+    - id: b2-208
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T026
+      quote: Operating expenses in €m 30,688 29,722 3
+      value: opex сегмента 30 688 млн EUR
+      verification: found
+      verification_note: Opex > выручки при Adjusted EBIT 1 087 (строка T026 подтверждена)
+        — сегментный EBIT включает прочие опер. доходы; для CASK opex сегмента годен,
+        но маржа «revenue − opex» отрицательна.
+    - id: b2-216
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/economic-report/financial-performance/earnings-position/
+      title: Lufthansa Group AR 2025 — Earnings position
+      locator: текст под T020
+      quote: 'Within the cost of materials and services, fuel expenses decreased by
+        7% to EUR 7,271m (previous year: EUR 7,785m).'
+      value: топливо ГРУППЫ 7 271 млн EUR (вкл. Lufthansa Cargo)
+      verification: found
+      verification_note: Значение группы (вкл. Cargo) — верно помечено как верхняя
+        граница.
+    - id: b2-218
+      kind: infer
+      value: fuel_cost Passenger Airlines ≈ < 7 271 млн EUR (групповое значение включает
+        грузовые 777F/MD-11 Lufthansa Cargo); для рейтинга — верхняя граница
+      note: сегментной строки топлива нет
+      verification: infer
+      verification_note: 'ОЦЕНКА (верхняя граница): групповое топливо приписано сегменту
+        — допущение, не отчётное значение сегмента.'
+    research_original:
+      value: 7271000000.0
+      ids: *id004
+      quality: ГРУППА вкл. Lufthansa Cargo — верхняя граница
+    currency: EUR
+  ask_km:
+    value: 338552000000.0
+    basis: Research field ask_km, reporting currency EUR
+    page: T027
+    quote: Available seat-kilometres millions 338,552 326,176 4
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id005
+    - b2-212
+    research_evidence:
+    - id: b2-212
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T027
+      quote: Available seat-kilometres millions 338,552 326,176 4
+      value: ASK 338 552 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 338552000000.0
+      ids: *id005
+  rpk_km:
+    value: 281765000000.0
+    basis: Research field rpk_km, reporting currency EUR
+    page: T027
+    quote: Revenue seat-kilometres millions 281,765 271,038 4
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id006
+    - b2-213
+    research_evidence:
+    - id: b2-213
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T027
+      quote: Revenue seat-kilometres millions 281,765 271,038 4
+      value: RPK 281 765 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 281765000000.0
+      ids: *id006
+  pax:
+    value: 135035000.0
+    basis: Research field pax, reporting currency EUR
+    page: T027
+    quote: Passengers thousands 135,035 131,300 3
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id007
+    - b2-211
+    research_evidence:
+    - id: b2-211
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T027
+      quote: Passengers thousands 135,035 131,300 3
+      value: pax 135,035 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 135035000.0
+      ids: *id007
+  flights:
+    value: 1002935
+    basis: Research field flights, reporting currency EUR
+    page: T027 Traffic figures Passenger Airlines
+    quote: Number of flights number 1,002,935 980,423 2
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id008
+    - b2-210
+    research_evidence:
+    - id: b2-210
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T027 Traffic figures Passenger Airlines
+      quote: Number of flights number 1,002,935 980,423 2
+      value: flights 1 002 935
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 1002935
+      ids: *id008
+  fleet_year_end:
+    value: 715
+    basis: Research field fleet_end, reporting currency EUR
+    page: Fleet, текст
+    quote: 'At the end of the 2025 financial year, the Passenger Airlines fleet had
+      a total of 715 aircraft (previous year: 713 aircraft).'
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id009
+    - b2-214
+    research_evidence:
+    - id: b2-214
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: Fleet, текст
+      quote: 'At the end of the 2025 financial year, the Passenger Airlines fleet
+        had a total of 715 aircraft (previous year: 713 aircraft).'
+      value: парк 715 (713)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 715
+      ids: *id009
+  employees:
+    value: 66128
+    basis: Research field employees, reporting currency EUR; на 31.12
+    page: T026
+    quote: Employees as of 31 Dec number 66,128 65,172 1
+    source_url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+    research_trace_ids: &id010
+    - b2-209
+    research_evidence:
+    - id: b2-209
+      kind: extract
+      url: https://report.lufthansagroup.com/2025/annual-report/en/combined-management-report/business-segments/passenger-airlines-business-segment/
+      title: Lufthansa Group Annual Report 2025 — Passenger Airlines business segment
+      locator: T026
+      quote: Employees as of 31 Dec number 66,128 65,172 1
+      value: сотрудники сегмента 66 128 на 31.12
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 66128
+      ids: *id010
+      note: на 31.12

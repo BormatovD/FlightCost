@@ -335,7 +335,7 @@ say "агент обновления данных (OpenClaw → OpenAI Responses
 install -m 644 "$ROOT/app/deploy/fca-agent@.service" "$ROOT/app/deploy/fca-agent-submissions.timer" \
 	"$ROOT/app/deploy/fca-agent-charges.timer" "$ROOT/app/deploy/fca-agent-watch.timer" \
 	"$ROOT/app/deploy/fca-agent-fuel.timer" "$ROOT/app/deploy/fca-agent-night.timer" \
-	"$ROOT/app/deploy/fca-agent-prices.timer" /etc/systemd/system/
+	"$ROOT/app/deploy/fca-agent-prices.timer" "$ROOT/app/deploy/fca-agent-reports.timer" /etc/systemd/system/
 # Свои внешние адреса сервера — тоже под запретом для агента: на них
 # слушают игра и порты Docker. Адреса машины, поэтому не в репозитории.
 install -d /etc/systemd/system/fca-agent@.service.d
@@ -356,6 +356,7 @@ if [ -f /etc/fca/agent.env ] && awk '
 	systemctl enable --now --quiet fca-agent-fuel.timer
 	systemctl enable --now --quiet fca-agent-night.timer
 	systemctl enable --now --quiet fca-agent-prices.timer
+	systemctl enable --now --quiet fca-agent-reports.timer
 	echo "таймеры агента включены"
 else
 	echo "агент НЕ включён: нет OPENAI_API_KEY в /etc/fca/agent.env — deploy/README.md, «Бот и агент»"

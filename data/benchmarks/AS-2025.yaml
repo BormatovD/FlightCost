@@ -1,0 +1,355 @@
+carrier: AS
+name: Alaska Air Group (Alaska + Hawaiian + Horizon)
+entity_id: AS
+segment: network
+segment_basis: Business-model classification network in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+report_id: research-AS-2025-12-31-4f6a022e2cc2
+scope: 'Air Group consolidated: Alaska, Hawaiian (весь 2025), Horizon + SkyWest по
+  CPA; FTE — без CPA Статистика (кроме FTE) включает SkyWest по capacity purchase
+  (сноска a); парк включает борта CPA. Галлоны — без грузовых рейсов Amazon ATSA,
+  но opex их включает (freighter costs) — для fuel/RPK корректно, для CASM нет. Opex
+  включает интеграционные спецстатьи Hawaiian. GAAP CASM не публикуется — рассчитан.'
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b3.json
+  sha256: 4f6a022e2cc263b73c59e02edc4c43612540a8d1c9bebf02366923aa3e633277
+  original_code: AS
+  original_period: FY2025
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 14239000000.0
+    basis: Research field revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Total Operating Revenue
+    quote: Total Operating Revenue 3,632 3,534 3% 14,239 11,735 21%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id001
+    - b3-098
+    research_evidence:
+    - id: b3-098
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Consolidated Statements of Operations, Total Operating Revenue
+      quote: Total Operating Revenue 3,632 3,534 3% 14,239 11,735 21%
+      value: revenue FY2025 = 14 239 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 14239000000.0
+      ids: *id001
+    currency: USD
+  traffic_revenue_eur:
+    value: 12835000000.0
+    basis: Research field pax_revenue, reporting currency USD
+    page: Consolidated Statements of Operations, Passenger revenue (столбцы 4К25,
+      4К24, %, 12М25, 12М24, %)
+    quote: Passenger revenue $ 3,248 $ 3,178 2% $ 12,835 $ 10,654 20%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id002
+    - b3-097
+    research_evidence:
+    - id: b3-097
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Consolidated Statements of Operations, Passenger revenue (столбцы 4К25,
+        4К24, %, 12М25, 12М24, %)
+      quote: Passenger revenue $ 3,248 $ 3,178 2% $ 12,835 $ 10,654 20%
+      value: pax revenue FY2025 = 12 835 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 12835000000.0
+      ids: *id002
+    currency: USD
+  opex_eur:
+    value: 13936000000.0
+    basis: Research field opex, reporting currency USD
+    page: Consolidated Statements of Operations, Total Operating Expenses
+    quote: Total Operating Expenses 3,557 3,461 3% 13,936 11,165 25%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id003
+    - b3-101
+    research_evidence:
+    - id: b3-101
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Consolidated Statements of Operations, Total Operating Expenses
+      quote: Total Operating Expenses 3,557 3,461 3% 13,936 11,165 25%
+      value: opex FY2025 = 13 936 млн USD
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 13936000000.0
+      ids: *id003
+    currency: USD
+  fuel_cost_eur:
+    value: 2879000000.0
+    basis: Research field fuel_cost, reporting currency USD
+    page: Consolidated Statements of Operations, Aircraft fuel
+    quote: Aircraft fuel, including hedging gains and 737 702 5% 2,879 2,506 15%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id004
+    - b3-099
+    research_evidence:
+    - id: b3-099
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Consolidated Statements of Operations, Aircraft fuel
+      quote: Aircraft fuel, including hedging gains and 737 702 5% 2,879 2,506 15%
+      value: fuel cost FY2025 = 2 879 млн USD (с результатом хеджа)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2879000000.0
+      ids: *id004
+    currency: USD
+  ask_km:
+    value: 149607836928
+    basis: Research field ask_km, reporting currency USD; ASK ≈ 149608 млн; ASM 92962
+      млн × 1,609344
+    page: Operating Statistics Summary, ASMs
+    quote: ASMs (000,000) "capacity" 23,238 22,744 2.2% 92,962 76,167 22.1%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id005
+    - b3-261
+    research_evidence:
+    - id: b3-104
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, ASMs
+      quote: ASMs (000,000) "capacity" 23,238 22,744 2.2% 92,962 76,167 22.1%
+      value: ASM FY2025 = 92 962 млн
+      verification: found
+      verification_note: ''
+    - id: b3-261
+      kind: infer
+      value: ASK ≈ 149608 млн
+      note: ASM 92962 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 149607836928
+      ids: *id005
+  rpk_km:
+    value: 124096515840
+    basis: Research field rpk_km, reporting currency USD; RPK ≈ 124097 млн; RPM 77110
+      млн × 1,609344
+    page: Operating Statistics Summary, RPMs
+    quote: RPMs (000,000) "traffic" 18,935 19,068 (0.7)% 77,110 63,871 20.7%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id006
+    - b3-262
+    research_evidence:
+    - id: b3-103
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, RPMs
+      quote: RPMs (000,000) "traffic" 18,935 19,068 (0.7)% 77,110 63,871 20.7%
+      value: RPM FY2025 = 77 110 млн
+      verification: found
+      verification_note: ''
+    - id: b3-262
+      kind: infer
+      value: RPK ≈ 124097 млн
+      note: RPM 77110 млн × 1,609344
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 124096515840
+      ids: *id006
+  pax:
+    value: 58627000
+    basis: Research field pax, reporting currency USD
+    page: Operating Statistics Summary (Consolidated), Revenue passengers
+    quote: Revenue passengers (000) 14,355 14,339 0.1% 58,627 49,238 19.1%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id007
+    - b3-102
+    research_evidence:
+    - id: b3-102
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary (Consolidated), Revenue passengers
+      quote: Revenue passengers (000) 14,355 14,339 0.1% 58,627 49,238 19.1%
+      value: pax FY2025 = 58 627 тыс.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 58627000
+      ids: *id007
+  flights:
+    value: 543000
+    basis: Research field flights, reporting currency USD; округлено до тыс.
+    page: Operating Statistics Summary, Departures
+    quote: Departures (000) 135 131 3.1% 543 461 17.8%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id008
+    - b3-110
+    research_evidence:
+    - id: b3-110
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, Departures
+      quote: Departures (000) 135 131 3.1% 543 461 17.8%
+      value: flights FY2025 ≈ 543 тыс. (округлено до тыс.)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 543000
+      ids: *id008
+      basis: округлено до тыс.
+  fleet_avg:
+    value: 402.5
+    basis: Research field fleet_avg, reporting currency USD; среднее начала и конца
+      года; средний парк ≈ 402,5; (392 + 413)/2; включает CPA-борта SkyWest
+    page: Operating Statistics Summary, Operating fleet
+    quote: Operating fleet(d) 413 392 21 a/c 413 392 21 a/c
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id009
+    - b3-287
+    research_evidence:
+    - id: b3-111
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, Operating fleet
+      quote: Operating fleet(d) 413 392 21 a/c 413 392 21 a/c
+      value: парк на конец 2025 = 413 (конец 2024 = 392)
+      verification: found
+      verification_note: ''
+    - id: b3-287
+      kind: infer
+      value: средний парк ≈ 402,5
+      note: (392 + 413)/2; включает CPA-борта SkyWest
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 402.5
+      ids: *id009
+      basis: среднее начала и конца года
+  fleet_year_end:
+    value: 413
+    basis: Research field fleet_end, reporting currency USD
+    page: Operating Statistics Summary, Operating fleet
+    quote: Operating fleet(d) 413 392 21 a/c 413 392 21 a/c
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id010
+    - b3-111
+    research_evidence:
+    - id: b3-111
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, Operating fleet
+      quote: Operating fleet(d) 413 392 21 a/c 413 392 21 a/c
+      value: парк на конец 2025 = 413 (конец 2024 = 392)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 413
+      ids: *id010
+  employees:
+    value: 31585
+    basis: Research field employees, reporting currency USD; средн. FTE за год
+    page: Operating Statistics Summary, FTE
+    quote: Average full-time equivalent employees 32,676 30,396 7.5% 31,585 25,751
+      22.7%
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id011
+    - b3-109
+    research_evidence:
+    - id: b3-109
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, FTE
+      quote: Average full-time equivalent employees 32,676 30,396 7.5% 31,585 25,751
+        22.7%
+      value: employees FY2025 = 31 585 средн. FTE
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 31585
+      ids: *id011
+      basis: средн. FTE за год
+  fuel_tonnes:
+    value: 3470088
+    basis: Research field fuel_volume, reporting currency USD; fuel ≈ 3470088 т; 1146000000
+      галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8 по заданию); tonnes
+      as stored in the verified research snapshot
+    page: Operating Statistics Summary, Fuel gallons | Operating Statistics Summary,
+      сноска (c)
+    quote: Fuel gallons (000,000)(c) 287 279 2.9% 1,146 925 23.9% | (c) Excludes operations
+      under the Air Transportation Services Agreement (ATSA) with Amazon.
+    source_url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+    research_trace_ids: &id012
+    - b3-260
+    research_evidence:
+    - id: b3-107
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, Fuel gallons
+      quote: Fuel gallons (000,000)(c) 287 279 2.9% 1,146 925 23.9%
+      value: fuel FY2025 = 1 146 млн галлонов
+      verification: found
+      verification_note: ''
+    - id: b3-108
+      kind: extract
+      url: https://news.alaskaair.com/wp-content/uploads/2026/01/Alaska-Air-Group-reports-fourth-quarter-and-full-year-2025-results.pdf
+      title: Alaska Air Group 4Q/FY2025 results — full financial data PDF
+      locator: Operating Statistics Summary, сноска (c)
+      quote: (c) Excludes operations under the Air Transportation Services Agreement
+        (ATSA) with Amazon.
+      value: галлоны без грузовых рейсов для Amazon
+      verification: found
+      verification_note: ''
+    - id: b3-260
+      kind: infer
+      value: fuel ≈ 3470088 т
+      note: 1146000000 галлонов × 3,785 л × 0,8 кг/л / 1000 (плотность принята 0,8
+        по заданию)
+      verification: arith_ok
+      verification_note: ''
+    research_original:
+      value: 3470088
+      unit: t
+      source_value: 1146000000.0
+      source_unit: US gal
+      ids: *id012
+  fx_per_eur:
+    value: 1.13
+    basis: Calendar-year 2025 average USD per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: USD 1,13
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-001
+    research_evidence:
+    - id: b6-001
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: USD 1,13
+      value: USD/EUR=1.13
+      verification: research_exchange_rate
+      verification_note: ''

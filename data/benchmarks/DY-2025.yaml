@@ -1,0 +1,364 @@
+carrier: DY
+name: Norwegian (сегмент, без Widerøe)
+entity_id: 'NO'
+segment: lowcost
+segment_basis: Business-model classification LCC in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: Norwegian Air Shuttle ASA, Annual Report 2025
+source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+report_id: research-DY-2025-12-31-51cb077f53c3
+scope: Сегмент Norwegian (737-800/MAX 8); в NO-2025.yaml — группа с Widerøe Тонны
+  топлива (786 тыс.) в yaml — группа, стр. 196 недоступна WebFetch.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: DY
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 30092000000.0
+    basis: Research field revenue, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Total operating revenue for Norwegian was NOK 30,092 million in 2025,
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id001
+    - b2-224
+    research_evidence:
+    - id: b2-224
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Total operating revenue for Norwegian was NOK 30,092 million in 2025,
+      value: revenue 30 092 млн NOK
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 30092000000.0
+      ids: *id001
+    currency: NOK
+  traffic_revenue_eur:
+    value: 24905000000.0
+    basis: Research field pax_revenue, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Passenger revenue was NOK 24,905 million, compared to NOK 23,419 million
+      in 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id002
+    - b2-225
+    research_evidence:
+    - id: b2-225
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Passenger revenue was NOK 24,905 million, compared to NOK 23,419 million
+        in 2024.
+      value: пассажирская выручка 24 905 млн NOK
+      verification: found
+      verification_note: Сегмент Norwegian (у группы 31 742).
+    research_original:
+      value: 24905000000.0
+      ids: *id002
+    currency: NOK
+  opex_eur:
+    value: 26933000000.0
+    basis: Research field opex, reporting currency NOK; revenue − EBIT; opex полный
+      ≈ revenue − EBIT = 30 092 − 3 159 = 26 933 млн NOK; EBIT может включать прочие
+      доходы/убытки; приближение
+    page: стр. 16, сегмент Norwegian
+    quote: Total operating revenue for Norwegian was NOK 30,092 million in 2025, |
+      Operating profit (EBIT) for Norwegian was NOK 3,159 million in 2025, compared
+      to NOK 1,373 million in 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id003
+    - b2-236
+    research_evidence:
+    - id: b2-224
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Total operating revenue for Norwegian was NOK 30,092 million in 2025,
+      value: revenue 30 092 млн NOK
+      verification: found
+      verification_note: ''
+    - id: b2-228
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Operating profit (EBIT) for Norwegian was NOK 3,159 million in 2025,
+        compared to NOK 1,373 million in 2024.
+      value: EBIT 3 159 млн NOK
+      verification: found
+      verification_note: ''
+    - id: b2-236
+      kind: infer
+      value: opex полный ≈ revenue − EBIT = 30 092 − 3 159 = 26 933 млн NOK
+      note: EBIT может включать прочие доходы/убытки; приближение
+      verification: infer
+      verification_note: 'ОЦЕНКА: 30 092 − 3 159 = 26 933 — верно; приближение, если
+        EBIT включает прочие доходы/убытки. Полный ex-fuel 26 933 − 8 571 = 18 362
+        — верно.'
+    research_original:
+      value: 26933000000.0
+      ids: *id003
+      quality: revenue − EBIT
+    currency: NOK
+  fuel_cost_eur:
+    value: 8571000000.0
+    basis: Research field fuel_cost, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Expenses for aviation fuel amounted to NOK 8,571 million, corresponding
+      to 36 percent of total operating expenses
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id004
+    - b2-227
+    research_evidence:
+    - id: b2-227
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Expenses for aviation fuel amounted to NOK 8,571 million, corresponding
+        to 36 percent of total operating expenses
+      value: fuel 8 571 млн NOK
+      verification: found
+      verification_note: 8 571/23 506 = 36,5% — согласовано. 23 506 − 8 571 = 14 935
+        — opex_ex_fuel_reported в out верен.
+    research_original:
+      value: 8571000000.0
+      ids: *id004
+    currency: NOK
+  ask_km:
+    value: 37640000000.0
+    basis: Research field ask_km, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Production, measured in available seat kilometres (ASK), was 37,640 million
+      kilometres, up 3 percent compared to 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id005
+    - b2-230
+    research_evidence:
+    - id: b2-230
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Production, measured in available seat kilometres (ASK), was 37,640 million
+        kilometres, up 3 percent compared to 2024.
+      value: ASK 37 640 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 37640000000.0
+      ids: *id005
+  rpk_km:
+    value: 32305000000.0
+    basis: Research field rpk_km, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Passenger traffic, measured by revenue passenger kilometres (RPK), was
+      32,305 million kilometres, up 4 percent from 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id006
+    - b2-231
+    research_evidence:
+    - id: b2-231
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Passenger traffic, measured by revenue passenger kilometres (RPK), was
+        32,305 million kilometres, up 4 percent from 2024.
+      value: RPK 32 305 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 32305000000.0
+      ids: *id006
+  pax:
+    value: 23100000.0
+    basis: Research field pax, reporting currency NOK
+    page: стр. 16, сегмент Norwegian
+    quote: Norwegian had 23.1 million passengers in 2025, up 2 percent from 22.6 million
+      in 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id007
+    - b2-229
+    research_evidence:
+    - id: b2-229
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Norwegian had 23.1 million passengers in 2025, up 2 percent from 22.6
+        million in 2024.
+      value: pax 23,1 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 23100000.0
+      ids: *id007
+  flights:
+    value: 152000
+    basis: 'Research field flights, reporting currency NOK; оценка при 187 креслах;
+      flights ≈ 37 640 млн / (1 322 × 187 кресел) ≈ 152 тыс.; ДОПУЩЕНИЕ: 187 кресел
+      (737-800 186 / MAX 8 189); оценка низкого качества'
+    page: стр. 16, сегмент Norwegian
+    quote: Production, measured in available seat kilometres (ASK), was 37,640 million
+      kilometres, up 3 percent compared to 2024. | The average sector length was 1,322
+      kilometres, an increase of 2 percent from 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id008
+    - b2-237
+    research_evidence:
+    - id: b2-230
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: Production, measured in available seat kilometres (ASK), was 37,640 million
+        kilometres, up 3 percent compared to 2024.
+      value: ASK 37 640 млн
+      verification: found
+      verification_note: ''
+    - id: b2-232
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 16, сегмент Norwegian
+      quote: The average sector length was 1,322 kilometres, an increase of 2 percent
+        from 2024.
+      value: stage 1 322 км
+      verification: found
+      verification_note: ''
+    - id: b2-237
+      kind: infer
+      value: flights ≈ 37 640 млн / (1 322 × 187 кресел) ≈ 152 тыс.
+      note: 'ДОПУЩЕНИЕ: 187 кресел (737-800 186 / MAX 8 189); оценка низкого качества'
+      verification: infer
+      verification_note: 'ОЦЕНКА низкого качества: 37 640 млн / (1 322 × 187) = 152,3
+        тыс. Арифметика верна; 187 кресел — допущение, не из отчёта.'
+    research_original:
+      value: 152000
+      ids: *id008
+      quality: оценка при 187 креслах
+  block_hours:
+    value: 378000
+    basis: Research field block_hours, reporting currency NOK; верхняя граница; block
+      hours ≤ 10,9 × 365 × 95 ≈ 378 тыс. (верхняя граница; средний парк не раскрыт);
+      оценка
+    page: стр. 6 | стр. 7
+    quote: of which 95 aircraft constituted the Norwegian fleet and 51 were Widerøe
+      aircraft. | Each aircraft was on average utilised 10.9 block hours per day during
+      the year, down from 11.1 hours per day in 2024.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id009
+    - b2-238
+    research_evidence:
+    - id: b2-233
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 6
+      quote: of which 95 aircraft constituted the Norwegian fleet and 51 were Widerøe
+        aircraft.
+      value: парк Norwegian на конец 2025 = 95
+      verification: found
+      verification_note: ''
+    - id: b2-234
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 7
+      quote: Each aircraft was on average utilised 10.9 block hours per day during
+        the year, down from 11.1 hours per day in 2024.
+      value: 10,9 бч/борт/сутки (раздел о Norwegian)
+      verification: found
+      verification_note: ''
+    - id: b2-238
+      kind: infer
+      value: block hours ≤ 10,9 × 365 × 95 ≈ 378 тыс. (верхняя граница; средний парк
+        не раскрыт)
+      note: оценка
+      verification: infer
+      verification_note: 'ОЦЕНКА (верхняя граница): 10,9 × 365 × 95 = 378,0 тыс. Верно;
+        95 — парк на конец года, средний не раскрыт.'
+    research_original:
+      value: 378000
+      ids: *id009
+      quality: верхняя граница
+  fleet_year_end:
+    value: 95
+    basis: Research field fleet_end, reporting currency NOK
+    page: стр. 6
+    quote: of which 95 aircraft constituted the Norwegian fleet and 51 were Widerøe
+      aircraft.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id010
+    - b2-233
+    research_evidence:
+    - id: b2-233
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 6
+      quote: of which 95 aircraft constituted the Norwegian fleet and 51 were Widerøe
+        aircraft.
+      value: парк Norwegian на конец 2025 = 95
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 95
+      ids: *id010
+  employees:
+    value: 5364
+    basis: Research field employees, reporting currency NOK
+    page: стр. 10
+    quote: Of these employees, 5,364 were employed by Norwegian, and 3,628 were employed
+      by Widerøe.
+    source_url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+    research_trace_ids: &id011
+    - b2-235
+    research_evidence:
+    - id: b2-235
+      kind: extract
+      url: https://www.norwegian.com/globalassets/ip/documents/about-us/company/investor-relations/reports-and-presentations/annual-reports/norwegian-annual-report-2025.pdf
+      title: Norwegian Air Shuttle ASA, Annual Report 2025
+      locator: стр. 10
+      quote: Of these employees, 5,364 were employed by Norwegian, and 3,628 were
+        employed by Widerøe.
+      value: сотрудники Norwegian 5 364
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5364
+      ids: *id011
+  fx_per_eur:
+    value: 11.7182
+    basis: Calendar-year 2025 average NOK per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: NOK 11,7182
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-003
+    research_evidence:
+    - id: b6-003
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: NOK 11,7182
+      value: NOK/EUR=11.7182
+      verification: research_exchange_rate
+      verification_note: ''

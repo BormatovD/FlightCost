@@ -1,0 +1,51 @@
+carrier: FR
+entity_id: FR
+name: Ryanair Group
+year: 2026
+segment: lowcost
+segment_basis: 'Лоукостер (LCC/ULCC): заявленная бизнес-модель компании; классификация
+  исследования benchmarks-2026-10.'
+period_start: '2025-04-01'
+period_end: '2026-03-31'
+published_at: '2026-06-22'
+source: Ryanair Group Annual results 2026
+source_url: https://investor.ryanair.com/wp-content/uploads/2026/06/20F-Statement-2026.pdf
+report_id: FR-2026-03-31-f76ba6fed8aa
+scope: Ryanair Holdings and subsidiaries consolidated; FY26 IFRS operating expenses
+  including EUR85m AGCM exceptional provision. Booked passengers/RPM as reported in
+  20-F glossary, rounded at source.
+values:
+  opex_eur:
+    value: 13170100000
+    basis: FY26 IFRS total operating expenses including exceptional charge, EUR million
+      ×1e6
+    page: 20-F PDF p110 / F-5
+    quote: Total operating expenses (13,170.1) (12,390.5)
+    currency: EUR
+    source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc
+  fuel_cost_eur:
+    value: 5418600000
+    basis: FY26 fuel and oil EUR million ×1e6
+    page: 20-F PDF p110 / F-5
+    quote: Fuel and oil (5,418.6) (5,220.2)
+    currency: EUR
+    source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc
+  ask_km:
+    value: 280025856000.0
+    basis: Published rounded174bn ASM ×1.609344 statute mile/km; source rounding retained
+    page: 20-F PDF p164 / F-59 glossary
+    quote: Available seat miles (ASM) 174bn 166bn
+    source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc
+  rpk_km:
+    value: 263932416000.00003
+    basis: Published rounded164bn RPM ×1.609344 statute mile/km; source rounding retained
+    page: 20-F PDF p166 / F-61 glossary
+    quote: Revenue passenger miles (RPM) 164bn 157bn
+    source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc
+  pax:
+    value: 208000000
+    basis: Published rounded booked passengers208m ×1e6, not invented higher precision
+    page: 20-F PDF p9 / p3
+    quote: Revenue Passengers Booked (millions) 208 200
+    source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc
+source_sha256: f76ba6fed8aabca4ee072649de0a0decbae02db5db6a70815d4ad299c7ee58cc

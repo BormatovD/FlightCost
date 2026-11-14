@@ -1,34 +1,437 @@
-# airBaltic 2025. Парк — только A220-300: ставка на блок-час здесь ставка ТИПА.
-# Отдельно свои рейсы и ACMI-out (полёты для других перевозчиков с экипажем).
----
 carrier: BT
+entity_id: BT
+segment: hybrid_leisure
+segment_basis: Business-model classification hybrid in the published benchmarks research
+period_start: '2025-01-01'
+period_end: '2025-12-31'
 name: airBaltic (свои рейсы)
 year: 2025
-source: "Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная таблица key ratios"
+source: Air Baltic Corporation AS, Annual Report 2025
 source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
-scope: >
-  Только собственные рейсы, без ACMI-out: блок-часы, рейсы и ASK — суммы
-  четырёх кварталов из таблицы «without ACMI-out operations». Стоимости
-  экипажа — в центах на ASK; на какой ASK (свой или общий с ACMI), по
-  выписке не установлено — отсюда reading_unconfirmed.
+scope: Только собственные рейсы, без ACMI-out (контур CASK) Монотипный A220-300. ~1/3
+  налёта — ACMI-out (Lufthansa и др.). Численность относится ко всей компании.
 values:
-  block_hours:          {value: 107478, basis: "сумма кварталов 23 531 + 27 027 + 28 677 + 28 243, без ACMI-out", page: "Management report, key ratios"}
-  flight_hours:         {value: 92661, basis: "сумма кварталов 20 213 + 23 256 + 24 711 + 24 481", page: "Management report, key ratios"}
-  flights:              {value: 48328, basis: "сумма кварталов 10 265 + 12 575 + 13 417 + 12 071", page: "Management report, key ratios"}
-  ask_km:               {value: 9121000000, basis: "сумма кварталов 1 967 + 2 294 + 2 454 + 2 406 млн, без ACMI-out", page: "Management report, key ratios"}
-  pilot_cost_c_per_ask: {value: 0.45, basis: "CASK пилоты, евроценты; база ASK не установлена", page: "Management report, CASK", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: таблица CASK годового отчёта — на какой ASK (с ACMI или без)"}
-  cabin_cost_c_per_ask: {value: 0.18, basis: "CASK бортпроводники, евроценты; база ASK не установлена", page: "Management report, CASK", certainty: reading_unconfirmed, error_cost: 0, confirm_by: "владелец: та же таблица CASK"}
+  block_hours:
+    value: 107478
+    basis: сумма кварталов 23 531 + 27 027 + 28 677 + 28 243, без ACMI-out
+    page: Management report, key ratios
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  flight_hours:
+    value: 92661
+    basis: сумма кварталов 20 213 + 23 256 + 24 711 + 24 481
+    page: Management report, key ratios
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  flights:
+    value: 48328
+    basis: сумма кварталов 10 265 + 12 575 + 13 417 + 12 071
+    page: Management report, key ratios
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  ask_km:
+    value: 9121000000.0
+    basis: Research field ask_km, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: ASKs (million km) 9 121 8 958 2%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id001
+    - b2-187
+    research_evidence:
+    - id: b2-187
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: ASKs (million km) 9 121 8 958 2%
+      value: ASK (свои) 9 121 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 9121000000.0
+      ids: *id001
+  pilot_cost_c_per_ask:
+    value: 0.45
+    basis: CASK пилоты, евроценты; база ASK не установлена
+    page: Management report, CASK
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: таблица CASK годового отчёта — на какой ASK (с ACMI или
+      без)'
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  cabin_cost_c_per_ask:
+    value: 0.18
+    basis: CASK бортпроводники, евроценты; база ASK не установлена
+    page: Management report, CASK
+    certainty: reading_unconfirmed
+    error_cost: 0
+    confirm_by: 'владелец: та же таблица CASK'
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  revenue_eur:
+    value: 618200000.0
+    basis: Research field revenue, reporting currency EUR; 775,6 − ACMI 157,5; выручка
+      без ACMI-out = 775,6 − 157,5 = 618,2 млн EUR; контур «свои рейсы»
+    page: стр. 31, Airline financial metrics
+    quote: Total revenue 775 644 743 733 4% | ACMI lease revenue 157 468 146 871 7%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id002
+    - b2-197
+    research_evidence:
+    - id: b2-189
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 31, Airline financial metrics
+      quote: Total revenue 775 644 743 733 4%
+      value: выручка авиакомпании 775,6 млн EUR (вкл. ACMI)
+      verification: found
+      verification_note: ''
+    - id: b2-191
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 31, Airline financial metrics
+      quote: ACMI lease revenue 157 468 146 871 7%
+      value: выручка ACMI-out 157,5 млн EUR
+      verification: found
+      verification_note: ''
+    - id: b2-197
+      kind: infer
+      value: выручка без ACMI-out = 775,6 − 157,5 = 618,2 млн EUR
+      note: контур «свои рейсы»
+      verification: infer
+      verification_note: '775,644 − 157,468 = 618,2 — верно. Ошибка в parents: указаны
+        b2-188/b2-190 вместо b2-189/b2-191.'
+    research_original:
+      value: 618200000.0
+      ids: *id002
+      note: 775,6 − ACMI 157,5
+    currency: EUR
+  traffic_revenue_eur:
+    value: 593267000.0
+    basis: Research field pax_revenue, reporting currency EUR
+    page: стр. 31, Airline financial metrics
+    quote: Passenger revenue 593 267 571 998 4%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id003
+    - b2-190
+    research_evidence:
+    - id: b2-190
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 31, Airline financial metrics
+      quote: Passenger revenue 593 267 571 998 4%
+      value: пассажирская выручка 593,3 млн EUR
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 593267000.0
+      ids: *id003
+    currency: EUR
+  opex_eur:
+    value: 639400000.0
+    basis: 'Research field opex, reporting currency EUR; CASK × ASK; opex собственных
+      рейсов ≈ 7,01 c × 9 121 млн ASK = 639,4 млн EUR; fuel ≈ 1,64 c × 9 121 млн =
+      149,6 млн EUR; база ASK для CASK — свои рейсы (из глоссария: ACMI-out исключены);
+      без компенсаций пассажирам. Оценка'
+    page: стр. 30, CASK breakdown
+    quote: Fuel (1.64) (1.77) (7%)
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id004
+    - b2-196
+    research_evidence:
+    - id: b2-193
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 30, CASK breakdown
+      quote: Fuel (1.64) (1.77) (7%)
+      value: fuel CASK 1,64 евроцента
+      verification: found
+      verification_note: 'Локатор неточен: стр. 29, и это таблица нормализованного
+        CASK (итог 6,94, не 7,01). Для топлива нормализация (ускоренная амортизация)
+        роли не играет, значение годно.'
+    - id: b2-196
+      kind: infer
+      value: opex собственных рейсов ≈ 7,01 c × 9 121 млн ASK = 639,4 млн EUR; fuel
+        ≈ 1,64 c × 9 121 млн = 149,6 млн EUR
+      note: 'база ASK для CASK — свои рейсы (из глоссария: ACMI-out исключены); без
+        компенсаций пассажирам. Оценка'
+      verification: infer
+      verification_note: 'ОЦЕНКА: 7,01 c × 9 121 млн = 639,4 млн EUR; 1,64 c × 9 121
+        млн = 149,6 млн EUR — арифметика верна. Fuel-CASK взят из нормализованной
+        таблицы (итог 6,94) — смешение баз несущественно для топлива. В parents b2-194
+        (сотрудники) вместо b2-193 (fuel CASK).'
+    research_original:
+      value: 639400000.0
+      ids: *id004
+      quality: CASK × ASK
+    currency: EUR
+  fuel_cost_eur:
+    value: 149600000.0
+    basis: 'Research field fuel_cost, reporting currency EUR; fuel CASK × ASK; opex
+      собственных рейсов ≈ 7,01 c × 9 121 млн ASK = 639,4 млн EUR; fuel ≈ 1,64 c ×
+      9 121 млн = 149,6 млн EUR; база ASK для CASK — свои рейсы (из глоссария: ACMI-out
+      исключены); без компенсаций пассажирам. Оценка'
+    page: стр. 30, CASK breakdown
+    quote: Fuel (1.64) (1.77) (7%)
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id005
+    - b2-196
+    research_evidence:
+    - id: b2-193
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 30, CASK breakdown
+      quote: Fuel (1.64) (1.77) (7%)
+      value: fuel CASK 1,64 евроцента
+      verification: found
+      verification_note: 'Локатор неточен: стр. 29, и это таблица нормализованного
+        CASK (итог 6,94, не 7,01). Для топлива нормализация (ускоренная амортизация)
+        роли не играет, значение годно.'
+    - id: b2-196
+      kind: infer
+      value: opex собственных рейсов ≈ 7,01 c × 9 121 млн ASK = 639,4 млн EUR; fuel
+        ≈ 1,64 c × 9 121 млн = 149,6 млн EUR
+      note: 'база ASK для CASK — свои рейсы (из глоссария: ACMI-out исключены); без
+        компенсаций пассажирам. Оценка'
+      verification: infer
+      verification_note: 'ОЦЕНКА: 7,01 c × 9 121 млн = 639,4 млн EUR; 1,64 c × 9 121
+        млн = 149,6 млн EUR — арифметика верна. Fuel-CASK взят из нормализованной
+        таблицы (итог 6,94) — смешение баз несущественно для топлива. В parents b2-194
+        (сотрудники) вместо b2-193 (fuel CASK).'
+    research_original:
+      value: 149600000.0
+      ids: *id005
+      quality: fuel CASK × ASK
+    currency: EUR
+  rpk_km:
+    value: 7317000000.0
+    basis: Research field rpk_km, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: RPKs (revenue passenger kilometers) (millions) 7 317 7 278 1%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id006
+    - b2-188
+    research_evidence:
+    - id: b2-188
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: RPKs (revenue passenger kilometers) (millions) 7 317 7 278 1%
+      value: RPK (свои) 7 317 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 7317000000.0
+      ids: *id006
+  pax:
+    value: 5207000.0
+    basis: Research field pax, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: Number of passengers ('000) 5 207 5 133 1%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id007
+    - b2-184
+    research_evidence:
+    - id: b2-184
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Number of passengers ('000) 5 207 5 133 1%
+      value: pax (свои) 5,207 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5207000.0
+      ids: *id007
+  fleet_avg:
+    value: 38.4
+    basis: Research field fleet_avg, reporting currency EUR; эквивалент на свои рейсы;
+      средний парк ≈ 107 477 / 365 / 7,67 = 38,4 борта-эквивалента на свои рейсы;
+      остальная часть парка — ACMI-out (средний ACMI-парк 14,1 по стр. 19)
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: Block hours 107 477 105 807 2% | Utilization (block hours per aircraft
+      per day) 7.67 7.46 3%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id008
+    - b2-198
+    research_evidence:
+    - id: b2-181
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Block hours 107 477 105 807 2%
+      value: block hours (свои) 107 477
+      verification: found
+      verification_note: ''
+    - id: b2-183
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Utilization (block hours per aircraft per day) 7.67 7.46 3%
+      value: 7,67 бч/борт/сутки (свои рейсы на весь парк)
+      verification: found
+      verification_note: ''
+    - id: b2-198
+      kind: infer
+      value: средний парк ≈ 107 477 / 365 / 7,67 = 38,4 борта-эквивалента на свои
+        рейсы
+      note: остальная часть парка — ACMI-out (средний ACMI-парк 14,1 по стр. 19)
+      verification: infer
+      verification_note: 'ОЦЕНКА: 107 477/365/7,67 = 38,4. Верно. Упомянутый средний
+        ACMI-парк 14,1 подтверждён (стр. 19: «deployed on average 14.1 aircraft under
+        ACMI arrangements»).'
+    research_original:
+      value: 38.4
+      ids: *id008
+      note: эквивалент на свои рейсы
+  fleet_year_end:
+    value: 51
+    basis: Research field fleet_end, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: Number of aircraft at end of period* 51 49 4%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id009
+    - b2-180
+    research_evidence:
+    - id: b2-180
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Number of aircraft at end of period* 51 49 4%
+      value: парк 51 (49)
+      verification: found
+      verification_note: Строка из таблицы парка на той же стр. 23.
+    research_original:
+      value: 51
+      ids: *id009
+  employees:
+    value: 2859
+    basis: Research field employees, reporting currency EUR; на конец года, вкл. занятых
+      на ACMI
+    page: стр. 36
+    quote: Total employee count reached 2 859, representing a 2.6% year-on-year increase.
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id010
+    - b2-194
+    research_evidence:
+    - id: b2-194
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 36
+      quote: Total employee count reached 2 859, representing a 2.6% year-on-year
+        increase.
+      value: сотрудники 2 859 (на конец года)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 2859
+      ids: *id010
+      note: на конец года, вкл. занятых на ACMI
+report_id: research-BT-2025-12-31-51cb077f53c3
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: BT
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+  existing_metrics_preserved:
+  - flights
+  - block_hours
+research_preserved_metric_evidence:
+  flights:
+    value: 48328
+    basis: Research field flights, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: Flights 48 328 47 022 3%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id011
+    - b2-182
+    research_evidence:
+    - id: b2-182
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Flights 48 328 47 022 3%
+      value: flights (свои) 48 328
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 48328
+      ids: *id011
+  block_hours:
+    value: 107477
+    basis: Research field block_hours, reporting currency EUR
+    page: стр. 23, operating statistics without ACMI-out, 2025
+    quote: Block hours 107 477 105 807 2%
+    source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+    research_trace_ids: &id012
+    - b2-181
+    research_evidence:
+    - id: b2-181
+      kind: extract
+      url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+      title: Air Baltic Corporation AS, Annual Report 2025
+      locator: стр. 23, operating statistics without ACMI-out, 2025
+      quote: Block hours 107 477 105 807 2%
+      value: block hours (свои) 107 477
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 107477
+      ids: *id012
+research_prior_source:
+  source: 'Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная
+    таблица key ratios'
+  source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
+  scope: 'Только собственные рейсы, без ACMI-out: блок-часы, рейсы и ASK — суммы четырёх
+    кварталов из таблицы «without ACMI-out operations». Стоимости экипажа — в центах
+    на ASK; на какой ASK (свой или общий с ACMI), по выписке не установлено — отсюда
+    reading_unconfirmed.
+
+    '
 ---
 carrier: BTX
+entity_id: BT
+segment: hybrid_leisure
+segment_basis: Классификация исследования benchmarks-2026-10; отчётный контур описан
+  в scope
+period_start: '2025-01-01'
+period_end: '2025-12-31'
 name: airBaltic (всего, с ACMI-out)
 year: 2025
-source: "Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная таблица key ratios"
+source: 'Air Baltic Corporation AS, Annual Report 2025, Management report: квартальная
+  таблица key ratios'
 source_url: https://a.storyblok.com/f/236210/x/da9c7bbf29/air-baltic-corporation-as-annual-report-2025.pdf
-scope: >
-  Вся работа парка, включая ACMI-out. Для стоимостей CASK, если они даны
-  на общий ASK.
+scope: 'Вся работа парка, включая ACMI-out. Для стоимостей CASK, если они даны на
+  общий ASK.
+
+  '
 values:
-  block_hours:          {value: 160703, basis: "сумма кварталов 29 150 + 45 355 + 47 438 + 38 760", page: "Management report, key ratios"}
-  flight_hours:         {value: 135589, basis: "сумма кварталов 24 679 + 38 083 + 39 881 + 32 946", page: "Management report, key ratios"}
-  flights:              {value: 78384, basis: "сумма кварталов 13 550 + 22 831 + 23 902 + 18 101", page: "Management report, key ratios"}
-  ask_km:               {value: 13083000000, basis: "сумма кварталов 2 369 + 3 664 + 3 869 + 3 181 млн", page: "Management report, key ratios"}
+  block_hours:
+    value: 160703
+    basis: сумма кварталов 29 150 + 45 355 + 47 438 + 38 760
+    page: Management report, key ratios
+  flight_hours:
+    value: 135589
+    basis: сумма кварталов 24 679 + 38 083 + 39 881 + 32 946
+    page: Management report, key ratios
+  flights:
+    value: 78384
+    basis: сумма кварталов 13 550 + 22 831 + 23 902 + 18 101
+    page: Management report, key ratios
+  ask_km:
+    value: 13083000000
+    basis: сумма кварталов 2 369 + 3 664 + 3 869 + 3 181 млн
+    page: Management report, key ratios

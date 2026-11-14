@@ -1,0 +1,303 @@
+carrier: G3
+name: GOL
+entity_id: G3
+segment: lowcost
+segment_basis: Business-model classification LCC in the published benchmarks research
+year: 2025
+period_start: '2025-01-01'
+period_end: '2025-12-31'
+source: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+report_id: research-G3-2025-12-31-51cb077f53c3
+scope: GOL Linhas Aéreas (737) Вышла из Chapter 11 в 2025. Объём топлива и численность
+  не найдены.
+research_published_at: '2026-10-31'
+research_import:
+  artifact: research/benchmarks-2026-10/out/b2.json
+  sha256: 51cb077f53c3982b49e7aa69077606ae7223adf4d87abdb53d88746cb9fdec0e
+  original_code: G3
+  original_period: 'FY2025: календарный'
+  verification_files:
+  - research/benchmarks-2026-10/verify/b2.json
+  - research/benchmarks-2026-10/verify/b3.json
+  publication_date: not recorded in the research snapshot
+values:
+  revenue_eur:
+    value: 22103000000.0
+    basis: Research field revenue, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Net Revenue R$ millions 6,101 5,519 10.5% 22,103 19,130 15.5%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id001
+    - b2-136
+    research_evidence:
+    - id: b2-136
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Net Revenue R$ millions 6,101 5,519 10.5% 22,103 19,130 15.5%
+      value: revenue 22 103 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 22103000000.0
+      ids: *id001
+    currency: BRL
+  traffic_revenue_eur:
+    value: 20027000000.0
+    basis: Research field pax_revenue, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Passenger Transport R$ millions 5,591 4,997 11.9% 20,027 17,262 16.0%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id002
+    - b2-137
+    research_evidence:
+    - id: b2-137
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Passenger Transport R$ millions 5,591 4,997 11.9% 20,027 17,262 16.0%
+      value: пассажирская выручка 20 027 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 20027000000.0
+      ids: *id002
+    currency: BRL
+  opex_eur:
+    value: 18741000000.0
+    basis: Research field opex, reporting currency BRL; recurring; IFRS 20 262 (b2-139)
+    page: Operating and financial indicators table, 12M25 column (recurring)
+    quote: Operating costs and expenses R$ millions 4,844 4,283 13.1% 18,741 16,110
+      16.3%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id003
+    - b2-138
+    research_evidence:
+    - id: b2-138
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column (recurring)
+      quote: Operating costs and expenses R$ millions 4,844 4,283 13.1% 18,741 16,110
+        16.3%
+      value: opex recurring 18 741 млн BRL
+      verification: found
+      verification_note: Из таблицы recurring costs.
+    research_original:
+      value: 18741000000.0
+      ids: *id003
+      note: recurring; IFRS 20 262 (b2-139)
+    currency: BRL
+  fuel_cost_eur:
+    value: 5719000000.0
+    basis: Research field fuel_cost, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Aviation fuel R$ millions 1,510 1,373 9.9% 5,719 5,329 7.3%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id004
+    - b2-140
+    research_evidence:
+    - id: b2-140
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Aviation fuel R$ millions 1,510 1,373 9.9% 5,719 5,329 7.3%
+      value: fuel 5 719 млн BRL
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 5719000000.0
+      ids: *id004
+    currency: BRL
+  ask_km:
+    value: 49300000000.0
+    basis: Research field ask_km, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Total ASK billions 13.3 11.5 15.7% 49.3 43.3 13.8%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id005
+    - b2-129
+    research_evidence:
+    - id: b2-129
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Total ASK billions 13.3 11.5 15.7% 49.3 43.3 13.8%
+      value: ASK 49,3 млрд
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 49300000000.0
+      ids: *id005
+  rpk_km:
+    value: 41300000000.0
+    basis: Research field rpk_km, reporting currency BRL; ASK×LF; RPK ≈ 49,3 × 0,837
+      = 41,3 млрд; RPK в релизе не найден
+    page: Operating and financial indicators table, 12M25 column
+    quote: Total ASK billions 13.3 11.5 15.7% 49.3 43.3 13.8% | Load Factor % 84.9
+      84.0 0.8 p.p. 83.7 82.9 0.8 p.p.
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id006
+    - b2-141
+    research_evidence:
+    - id: b2-129
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Total ASK billions 13.3 11.5 15.7% 49.3 43.3 13.8%
+      value: ASK 49,3 млрд
+      verification: found
+      verification_note: ''
+    - id: b2-130
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Load Factor % 84.9 84.0 0.8 p.p. 83.7 82.9 0.8 p.p.
+      value: LF 83,7%
+      verification: found
+      verification_note: ''
+    - id: b2-141
+      kind: infer
+      value: RPK ≈ 49,3 × 0,837 = 41,3 млрд
+      note: RPK в релизе не найден
+      verification: infer
+      verification_note: 'ВЫЧИСЛЕНО: 49,3 × 0,837 = 41,26 → 41,3 млрд. Верно; RPK
+        в релизе действительно нет (проверено). Точность ограничена округлением ASK
+        до 0,1 млрд (±0,2%).'
+    research_original:
+      value: 41300000000.0
+      ids: *id006
+      quality: ASK×LF
+  pax:
+    value: 34500000.0
+    basis: Research field pax, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Pax on board millions 9.5 8.1 17.9% 34.5 30.0 14.6%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id007
+    - b2-131
+    research_evidence:
+    - id: b2-131
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Pax on board millions 9.5 8.1 17.9% 34.5 30.0 14.6%
+      value: pax 34,5 млн
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 34500000.0
+      ids: *id007
+  flights:
+    value: 237400
+    basis: Research field flights, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: Departures thousand 63.7 55.3 15.3% 237.4 210.9 12.6%
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id008
+    - b2-132
+    research_evidence:
+    - id: b2-132
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Departures thousand 63.7 55.3 15.3% 237.4 210.9 12.6%
+      value: flights 237,4 тыс.
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 237400
+      ids: *id008
+  block_hours:
+    value: 486000
+    basis: Research field block_hours, reporting currency BRL; грубая оценка; block
+      hours ≈ 11,0 × 365 × средний парк (114…129, ~121) ≈ 486 тыс. — грубая оценка;
+      средний парк не раскрыт; помечать оценкой
+    page: Operating and financial indicators table, 12M25 column
+    quote: 'Operational Utilization Rate (Block Hours)1,2 hours/day 11.2 10.9 3.3%
+      11.0 10.3 6.6% | Operational Fleet (End of Period) # 129 114 15 129 114 15'
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id009
+    - b2-143
+    research_evidence:
+    - id: b2-133
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: Operational Utilization Rate (Block Hours)1,2 hours/day 11.2 10.9 3.3%
+        11.0 10.3 6.6%
+      value: налёт 11,0 бч/сутки
+      verification: found
+      verification_note: ''
+    - id: b2-135
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: 'Operational Fleet (End of Period) # 129 114 15 129 114 15'
+      value: парк в эксплуатации 129 (114)
+      verification: found
+      verification_note: ''
+    - id: b2-143
+      kind: infer
+      value: block hours ≈ 11,0 × 365 × средний парк (114…129, ~121) ≈ 486 тыс. —
+        грубая оценка
+      note: средний парк не раскрыт; помечать оценкой
+      verification: infer
+      verification_note: 'ГРУБАЯ ОЦЕНКА: 11,0 × 365 × 121 = 485,8 тыс. Арифметика
+        верна; средний парк 121 — допущение (по краям 114/129 даёт 458–518 тыс., ±6%).'
+    research_original:
+      value: 486000
+      ids: *id009
+      quality: грубая оценка
+  fleet_year_end:
+    value: 129
+    basis: Research field fleet_end, reporting currency BRL
+    page: Operating and financial indicators table, 12M25 column
+    quote: 'Operational Fleet (End of Period) # 129 114 15 129 114 15'
+    source_url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+    research_trace_ids: &id010
+    - b2-135
+    research_evidence:
+    - id: b2-135
+      kind: extract
+      url: https://api.mziq.com/mzfilemanager/v2/d/5e992a5e-252e-44bd-acfa-11cbee904064/5bc11ea8-b6f6-976b-62d7-adb8c6df7004?origin=2
+      title: GOL Linhas Aéreas Inteligentes S.A., 4Q25 Earnings Release (30.03.2026)
+      locator: Operating and financial indicators table, 12M25 column
+      quote: 'Operational Fleet (End of Period) # 129 114 15 129 114 15'
+      value: парк в эксплуатации 129 (114)
+      verification: found
+      verification_note: ''
+    research_original:
+      value: 129
+      ids: *id010
+  fx_per_eur:
+    value: 6.3072
+    basis: Calendar-year 2025 average BRL per EUR from the research's official-source
+      exchange-rate table
+    page: таблица средних курсов
+    quote: BRL 6,3072
+    source_url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+    research_trace_ids:
+    - b6-007
+    research_evidence:
+    - id: b6-007
+      kind: extract
+      url: https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/
+      title: 'Suomen Pankki: Average annual exchange rates for the year 2025 (ECB
+        reference rates)'
+      locator: таблица средних курсов
+      quote: BRL 6,3072
+      value: BRL/EUR=6.3072
+      verification: research_exchange_rate
+      verification_note: ''
