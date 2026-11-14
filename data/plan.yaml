@@ -19,20 +19,21 @@
 
 items:
   - id: research-aircraft-prices
-    status: now
-    order: 1
+    status: done
     area: research
     title:
       ru: "Исследование: сколько стоит самолёт — каталог, рынок по возрасту, ставки лизинга"
       en: "Research: what an aircraft costs — list price, market value by age, lease rates"
       de: "Recherche: was ein Flugzeug kostet — Listenpreis, Marktwert nach Alter, Leasingraten"
     note:
-      ru: "Самый частый неохваченный запрос к сайту по Search Console. С 10.11.2026 агент по средам собирает из публикаций каталог, цены сделок, оценки и ставки лизинга — ряд на странице типа; рядом ряд ТОиР по Form 41. Дальше — статья и ставка лизинга по типу и возрасту в калькуляторе."
-      en: "The most frequent uncovered search query to the site per Search Console. Since 10 Nov 2026 an agent collects list prices, deal prices, appraisals and lease rates from publications every Wednesday — a series on the type page, next to the Form 41 maintenance series. Next — the article and a lease rate by type and age in the calculator."
-      de: "Laut Search Console die häufigste nicht abgedeckte Suchanfrage. Seit 10.11.2026 sammelt ein Agent mittwochs Listenpreise, Kaufpreise, Gutachten und Leasingraten aus Veröffentlichungen — eine Reihe auf der Typseite, neben der Form-41-Reihe zur Instandhaltung. Weiter — der Artikel und eine Leasingrate nach Typ und Alter im Rechner."
+      ru: "Опубликована статья об истории цен Airbus и Boeing, диапазонах ставок лизинга и стоимости владения в расчёте на рейс. Агент по средам пополняет ряд цен и ставок на страницах типов."
+      en: "The published article covers historical Airbus and Boeing prices, lease rate ranges and ownership cost per flight. An agent updates the price and lease series on the aircraft pages on Wednesdays."
+      de: "Der veröffentlichte Artikel behandelt historische Airbus- und Boeing-Preise, Spannen der Leasingraten und Eigentumskosten pro Flug. Mittwochs ergänzt ein Agent die Preis- und Leasingreihen auf den Typseiten."
     by: owner
     via: owner
     added: 2026-11-10
+    done: 2026-11-11
+    link: /ru/research/aircraft-prices-2026-11
 
   - id: research-demand
     status: now
