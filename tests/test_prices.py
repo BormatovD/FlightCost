@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from unittest import mock
 from datetime import date
 from pathlib import Path
 
@@ -308,6 +309,23 @@ class Intervals(unittest.TestCase):
             self.assertEqual(row["verdict"], "look")
             self.assertTrue(any("вне полосы" in reason for reason in row["reasons"]))
 
+    def test_quarterly_range_keeps_period_and_publication_date(self):
+        row = self.observation(month="2026-Q1", published_on="2026-06-03", age="new")
+        for bad in ("2026-Q0", "2026-Q5", "2026-13", "2026-00", "2026"):
+            self.assertEqual(self.checked(dict(row, month=bad))["verdict"], "reject")
+        self.assertEqual(self.checked(dict(row, published_on="20260603"))["verdict"], "reject")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prices.yaml"
+            with mock.patch.object(PR, "PATH", path):
+                checked = self.checked(row)
+                self.assertEqual(checked["verdict"], "clean")
+                PR.merge([checked], [], path)
+                self.assertIsNone(PR.annual_lease("CRJ9", "2026-06-02", 0))
+                m = PR.annual_lease("CRJ9", "2026-06-03", 0)
+                self.assertEqual((m["month"], m["low"], m["high"]), ("2026-Q1", 100000, 115000))
+                self.assertEqual(m["sources"][0]["published_on"], "2026-06-03")
+                self.assertEqual(PR.find_observation(m["id"])["month"], "2026-Q1")
+
     def test_merge_preserves_interval_and_aggregates_use_midpoint(self):
         row = self.checked(self.observation(age="new", month="2019-07"))
         with tempfile.TemporaryDirectory() as tmp:
@@ -318,7 +336,8 @@ class Intervals(unittest.TestCase):
             self.assertEqual((saved["value_low"], saved["value_high"]), (100, 115))
             self.assertNotIn("value", saved)
             self.assertNotIn("midpoint", saved)
-            self.assertEqual(PR.market_now([saved], True, since=2019), (2019, 107.5))
+            with mock.patch.object(PR, "PATH", path):
+                self.assertEqual(PR.annual_lease("CRJ9", "2019-12-31", age=0)["midpoint"], 107500)
             self.assertAlmostEqual(PR.real_level([saved], True, (2019, 2019), 2025,
                                                  {2019: 100.0, 2024: 110.0, 2025: 120.0}), 129.0)
 
@@ -382,9 +401,10 @@ class TypePage(unittest.TestCase):
             obs2 = obs["observations"] + [
                 {"icao": "A21N", "kind": "lease", "value": 380, "scale": "k", "currency": "USD", "month": "2024-02",
                  "age": "new", "quote": "380", "source": "https://example.org/c"}]
-            self.assertEqual(PR.market_now(obs2, True, since=2023), (2024, 380.0))
-            self.assertIsNone(PR.market_now(obs2, False, since=2023))
-            self.assertIsNone(PR.market_now(obs["observations"], True, since=2023))   # только 2019 — не «сейчас»
+            p.write_text(yaml.safe_dump({"observations": obs2}), "utf-8")
+            self.assertEqual(PR.annual_lease("A21N", "2024-12-31")["midpoint"], 380000)
+            self.assertIsNone(PR.annual_lease("A21N", "2024-12-31", age=12))
+            self.assertIsNone(PR.annual_lease("A21N", "2026-01-01"))
             r = PR.real_level(obs2, True, (2019, 2019), 2025, {2019: 100.0, 2024: 110.0, 2025: 120.0})
             self.assertAlmostEqual(r, 480.0)
             pl = seo.param_lease_usd(100000, range(2019, 2027))

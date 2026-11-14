@@ -8,11 +8,12 @@ items:
     date: 2026-11-11
     draft: false
     report: aircraft-prices-2026-11/report.html
-    calc: on_input
+    lease_types: [AT46, AT76, E75L, E295, A20N, A21N, A359, B789]
+    calc: in_calc
     calc_note:
-      ru: "Сценарий лизинга можно учесть своей месячной ставкой; общая калибровка по типу и возрасту ещё исследуется."
-      en: "A lease scenario can be entered as a monthly rate; general calibration by type and age is still being studied."
-      de: "Ein Leasingszenario lässt sich als Monatsrate eingeben; die allgemeine Kalibrierung nach Typ und Alter wird noch untersucht."
+      ru: "Для подходящего возраста калькулятор берёт среднюю ставку по принятым первоисточникам за календарный год. Ручная ставка имеет приоритет."
+      en: "For the applicable aircraft age, the calculator averages accepted original sources in the calendar year. A manually entered rate takes precedence."
+      de: "Für das passende Flugzeugalter mittelt der Rechner bestätigte Originalquellen im Kalenderjahr. Eine manuell eingegebene Rate hat Vorrang."
     lang: ru
     title:
       ru: "Сколько стоит самолёт: цена, лизинг и стоимость рейса"

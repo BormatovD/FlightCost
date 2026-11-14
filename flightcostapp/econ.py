@@ -1952,9 +1952,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
     # values (including zero), operator/type facts and an explicit selection win.
     if lease_observation is None and fe.prov("lease_eur_month") == "default":
         from . import prices
-        observed = prices.latest_lease(ac.icao, as_of, aircraft_age)
-        if observed:
-            market = prices.lease_selection(observed, store, as_of)
+        market = prices.annual_lease(ac.icao, as_of, aircraft_age, store)
+        if market:
             if market["lease_eur_month"] is not None:
                 fe.lease_eur_month = market["lease_eur_month"]
                 fe.field_prov["lease_eur_month"] = "source"
@@ -2016,20 +2015,25 @@ def route_economics(store: Store, origin: str, destination: str, *,
     lease_src = ""
     if selected_lease and selected_lease["applied"]:
         sl = selected_lease
-        age = "новый" if sl["age"] == "new" else (
-            "возраст не указан" if sl["age"] is None else f"возраст {sl['age']:g} лет")
-        lease_formula = "середина опубликованного диапазона / курс валюты за EUR"
-        lease_subst = (f"({sl['low']:,.0f} + {sl['high']:,.0f}) / 2 / {sl['fx']['rate']:g}"
-                       f" = {fe.lease_eur_month:,.0f}")
-        if sl["low"] == sl["high"]:
-            lease_formula = "опубликованная ставка / курс валюты за EUR"
+        if sl.get("automatic"):
+            lease_formula = "среднее по первоисточникам за год / курс валюты за EUR"
             lease_subst = f"{sl['midpoint']:,.0f} / {sl['fx']['rate']:g} = {fe.lease_eur_month:,.0f}"
-        lease_src = (("Автоматический подбор" if sl.get("automatic") else "Выбранный сценарий")
-                     + f": публикация {sl['month']}, {age}; "
-                     f"{sl['currency']}/мес. Курс: {sl['fx']['provenance']}"
-                     f"{', ' + sl['fx']['date'] if sl['fx'].get('date') else ''}. "
-                     "Ставка не приведена к текущему рынку или другому возрасту. "
-                     f"{sl.get('note') or ''} Источник: {sl['source']}")
+            sources = ", ".join(dict.fromkeys(o["publisher"] or o["source"] for o in sl["sources"]))
+            lease_src = f"{sl['year']} · {sources}. {sl['currency']}/мес. Курс: {sl['fx']['provenance']}."
+        else:
+            age = "новый" if sl["age"] == "new" else (
+                "возраст не указан" if sl["age"] is None else f"возраст {sl['age']:g} лет")
+            lease_formula = "середина опубликованного диапазона / курс валюты за EUR"
+            lease_subst = (f"({sl['low']:,.0f} + {sl['high']:,.0f}) / 2 / {sl['fx']['rate']:g}"
+                           f" = {fe.lease_eur_month:,.0f}")
+            if sl["low"] == sl["high"]:
+                lease_formula = "опубликованная ставка / курс валюты за EUR"
+                lease_subst = f"{sl['midpoint']:,.0f} / {sl['fx']['rate']:g} = {fe.lease_eur_month:,.0f}"
+            lease_src = (f"Выбранный сценарий: публикация {sl['month']}, {age}; "
+                         f"{sl['currency']}/мес. Курс: {sl['fx']['provenance']}"
+                         f"{', ' + sl['fx']['date'] if sl['fx'].get('date') else ''}. "
+                         "Ставка не приведена к текущему рынку или другому возрасту. "
+                         f"{sl.get('note') or ''} Источник: {sl['source']}")
     rec(G6, "Ставка лизинга", lease_formula, lease_subst,
         fe.lease_eur_month, "EUR/мес", p_lease,
         lease_src or band("own_per_ac_month", " — по балансу: аренда и амортизация, старый парк "

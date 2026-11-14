@@ -87,32 +87,39 @@ class LeaseObservation(unittest.TestCase):
                                "origin": "FRA", "destination": "BCN", **extra})
 
     def test_auto_age_freshness_category_and_incomplete_age(self):
-        twelve = self.accepted(month="2023-01")
-        self.assertEqual(prices.latest_lease("CRJ9", DAY, 12), twelve)
+        self.accepted(month="2025-12")
         self.accepted(age=None, month="2026-11")
         self.accepted(age=12, month="2026-12")
         self.accepted(age=11, month="2026-10")
-        self.assertEqual(prices.latest_lease("CRJ9", DAY, 12), twelve)
-        self.assertIsNone(prices.latest_lease("CRJ9", DAY, 12.5))
-        self.assertEqual(prices.latest_lease("CRJ9", DAY)["age"], 11)
-        new = self.accepted(icao="A20N", age="new")
+        self.assertIsNone(prices.annual_lease("CRJ9", DAY, 12))
+        self.assertIsNone(prices.annual_lease("CRJ9", DAY, 12.5))
+        self.assertEqual(prices.annual_lease("CRJ9", DAY)["age"], 11)
+        self.accepted(icao="A20N", age="new")
         self.accepted(icao="A20N", age=12, month="2026-11")
-        self.assertEqual(prices.latest_lease("A20N", DAY), new)
-        self.assertEqual(prices.latest_lease("A20N", DAY, 0), new)
-        self.assertIsNone(prices.latest_lease("CRJ9", "2030-01-01", 12))
+        self.assertEqual(prices.annual_lease("A20N", DAY)["age"], "new")
+        self.assertEqual(prices.annual_lease("A20N", DAY, 0)["age"], "new")
+        self.assertIsNone(prices.annual_lease("CRJ9", "2030-01-01", 12))
 
-    def test_auto_conflicting_same_month_estimates_fail_closed(self):
-        self.accepted(value=100)
-        self.accepted(value=150, source="https://example.test/other.pdf")
-        self.assertIsNone(prices.latest_lease("CRJ9", DAY, 12))
+    def test_annual_mean_weights_sources_and_excludes_unpublished_or_duplicate_quotes(self):
+        self.accepted(value=100, month="2026-Q1", source_family="IBA", published_on="2026-06-03")
+        self.assertIsNone(prices.annual_lease("CRJ9", "2026-06-02", 12))
+        self.accepted(value=100, month="2026-Q1", source_family="iba", published_on="2026-06-03",
+                      source="https://example.test/reprint")
+        self.accepted(value=120, month="2026-07", source_family="IBA")
+        self.accepted(value=150, currency="EUR", source_family="OAG")
+        m = prices.annual_lease("CRJ9", DAY, 12, self.store)
+        self.assertEqual((m["source_count"], len(m["sources"])), (2, 3))
+        self.assertEqual(m["midpoint"], (110000 + 150000 * 1.25) / 2)
+        self.assertEqual(m["lease_eur_month"], m["midpoint"] / 1.25)
 
     def test_auto_default_current_window_and_incomplete_age(self):
         for age, eligible in ((7, False), (8, True), (14, True), (15, False),
                               (None, False), ({"from": 8, "to": 14}, False)):
             with self.subTest(age=age):
                 self.doc["observations"] = []
-                row = self.accepted(age=age)
-                self.assertEqual(prices.latest_lease("CRJ9", DAY), row if eligible else None)
+                self.accepted(age=age)
+                result = prices.annual_lease("CRJ9", DAY)
+                self.assertEqual(result is not None, eligible)
 
     @unittest.skipUnless(importlib.util.find_spec("openap"), "openap не установлен")
     def test_auto_route_range_source_change_age_type_and_fallback(self):
@@ -129,8 +136,8 @@ class LeaseObservation(unittest.TestCase):
         self.assertAlmostEqual(own, 86000 * result["route"]["block_h"] / fl["monthly_hours"])
         revised = self.accepted(month="2026-11", value=150, source="https://example.test/revised.pdf")
         changed = self.normal_route()["inputs"]["fleet"]
-        self.assertEqual(changed["lease_eur_month"], 120000)
-        self.assertEqual(changed["lease_observation"]["id"], prices.observation_id(revised))
+        self.assertEqual(changed["lease_eur_month"], (107500 + 150000) / 2 / 1.25)
+        self.assertIn(prices.observation_id(revised), [o["id"] for o in changed["lease_observation"]["sources"]])
         for changes in ({"age": "11"}, {"ac": "A20N", "age": "0"}):
             self.assertNotIn("lease_observation", self.normal_route(**changes)["inputs"]["fleet"])
         new = self.accepted(icao="A20N", age="new", value=500)
@@ -290,14 +297,14 @@ class LeaseObservation(unittest.TestCase):
         self.assertEqual(selected["network"]["lease_observation"]["id"], prices.observation_id(obs))
         revised = self.accepted(month="2026-11", value=150, source="https://example.test/network-revised.pdf")
         changed = self.network_result(automatic=True, age="12")
-        self.assertEqual(changed["network"]["lease_eur_month"], 120000)
-        self.assertEqual(changed["network"]["lease_observation"]["id"], prices.observation_id(revised))
+        self.assertEqual(changed["network"]["lease_eur_month"], 110000)
+        self.assertIn(prices.observation_id(revised), [o["id"] for o in changed["network"]["lease_observation"]["sources"]])
         self.doc["observations"].remove(revised)
         same_amount = self.accepted(month="2026-11", value=150,
                                     source="https://example.test/same-amount-new-source.pdf")
         refreshed = self.network_result(automatic=True, age="12")
-        self.assertEqual(refreshed["network"]["lease_eur_month"], 120000)
-        self.assertEqual(refreshed["network"]["lease_observation"]["id"], prices.observation_id(same_amount))
+        self.assertEqual(refreshed["network"]["lease_eur_month"], 110000)
+        self.assertIn(prices.observation_id(same_amount), [o["id"] for o in refreshed["network"]["lease_observation"]["sources"]])
         fallback = self.network_result(automatic=True, age="11")
         self.assertNotIn("lease_observation", fallback["network"])
         zero = self.network_result(automatic=True, age="12", lease="0")
@@ -307,8 +314,8 @@ class LeaseObservation(unittest.TestCase):
         with mock.patch.object(self.ctx, "_net_by_type", return_value=({"CRJ9": changed}, {"types_left": 0}, [])), \
                 mock.patch.object(self.ctx, "aircraft", return_value=[{"icao": "CRJ9", "name": "CRJ900"}]):
             report, _ = self.ctx.fleet_report(q)
-        self.assertEqual(report["types"][0]["lease_observation"]["id"], prices.observation_id(revised))
-        self.assertEqual(report["types"][0]["lease_eur_month"], 120000)
+        self.assertIn(prices.observation_id(revised), [o["id"] for o in report["types"][0]["lease_observation"]["sources"]])
+        self.assertEqual(report["types"][0]["lease_eur_month"], 110000)
         from flightcostapp.fleetreport_doc import render
         html = render(report)
         self.assertIn(revised["source"], html)

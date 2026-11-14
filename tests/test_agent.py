@@ -591,6 +591,17 @@ class PricesRunner(unittest.TestCase):
 class PriceSourcePreparation(unittest.TestCase):
     """Загрузка опорных документов — локальный текст, отказ одного не отменяет остальные."""
 
+    def test_a321neo_workspace_includes_original_article_sources_without_accepting_values(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = A.Runner(Path(tmp), spool=Path(tmp) / "spool")
+            ws = runner.workspace("prices", "article")
+            runner.prepare_price_sources(ws, ["A21N"], {})
+            sources = json.loads((ws / "in" / "price_sources.json").read_text())["article_sources"]
+            iba = next(row for row in sources if row["id"] == "iba-iclg-2026")
+            self.assertEqual((iba["observation_period"], iba["publication_date"]), ("2026-Q1", "2026-06-03"))
+            self.assertTrue(iba["url"].startswith("https://iclg.com/"))
+            self.assertFalse((ws / "out" / "prices.json").exists())
+
     def test_unavailable_report_does_not_discard_other_text_or_known_publications(self):
         with tempfile.TemporaryDirectory() as tmp:
             runner = A.Runner(Path(tmp), spool=Path(tmp) / "spool")

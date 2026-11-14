@@ -287,7 +287,8 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
   EETC, ABS; годовые отчёты лизингодателей);
 - lease — ставка лизинга в месяц.
 
-Сначала прочитай `in/price_sources.json`: там открытые отчёты, подготовленные рядом тексты
+Сначала прочитай `in/price_sources.json`. В article_sources приведены первоисточники статьи FlightCost по запрошенным типам. Пройди по ссылкам, проверь дату публикации, период оценки и условия в оригинале.
+В остальных разделах — открытые отчёты, подготовленные тексты
 с номерами страниц и адреса ранее использованных публикаций. Начни с текстов отчётов,
 относящихся к заданным типам. В source ставь URL оригинала, в note — страницу, дату оценки
 и условия. Дата в пути URL не обязательно совпадает с датой оценки: сверяй текст отчёта.
@@ -309,11 +310,14 @@ Base value и балансовая
 
 Запиши `out/prices.json`:
 {{"observations": [{{"icao": "A21N", "kind": "list|deal|value|lease", "value": 129.5, "scale": "m",
-                    "currency": "USD", "month": "ГГГГ-ММ (дата публикации или оценки)",
+                    "currency": "USD", "month": "ГГГГ-ММ или ГГГГ-Q1…Q4 (период оценки)",
+                    "published_on": "ГГГГ-ММ-ДД, только если дату публикации удалось проверить",
+                    "source_family": "первоисточник оценки", "variant": "модификация из источника",
                     "age": "new" или лет числом или null, "quote": "дословная строка до 300 знаков с числом",
                     "source": "адрес статьи", "publisher": "издание", "note": "что за борт, если важно"}}],
  "searched": {searched}, "doubts": ["что смутило"]}}
 
+Не подставляй месяц за квартал. Пропускай неизвестные необязательные поля. Для перепечаток указывай первоначального оценщика в source_family.
 Для одиночной оценки value — опубликованное число. Для диапазона вместо value запиши ОБА
 числа value_low и value_high; поле value при этом пропусти. Цитата должна содержать обе границы.
 scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Тип —
@@ -994,8 +998,21 @@ class Runner:
                 known.append(url)
                 if len(known) == 8:
                     break
-        (ws / "in" / "price_sources.json").write_text(
-            json.dumps({"reports": sources, "known_publications": known}, ensure_ascii=False, indent=1), "utf-8")
+        article = ROOT / "research" / "aircraft-prices-2026-11" / "out"
+        history = json.loads((article / "segments_history.json").read_text("utf-8"))
+        extra = json.loads((article / "additional_observations.json").read_text("utf-8"))
+        catalog = json.loads((article / "sources.json").read_text("utf-8"))
+        ids = {row["source_id"] for row in history["observations"] + extra["observations"]
+               if row["icao"] in want}
+        if any(code.startswith("A") and code[1:2].isdigit() for code in want):
+            ids.add("airbus-list-2018")
+        by_id = {row["id"]: row for row in history["sources"]}
+        for row in catalog["sources"]:
+            by_id[row["id"]] = {**by_id.get(row["id"], {}), **row}
+        references = [by_id[key] for key in sorted(ids) if key in by_id]
+        (ws / "in" / "price_sources.json").write_text(json.dumps({
+            "reports": sources, "known_publications": known, "article_sources": references,
+        }, ensure_ascii=False, indent=1), "utf-8")
 
     def prices(self, model: str | None = None, per_run: int | None = None) -> int:
         """Цены и ставки лизинга по нескольким типам за прогон (страница типа, ряд цен)."""

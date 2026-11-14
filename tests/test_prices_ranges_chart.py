@@ -145,7 +145,6 @@ class PriceRangeCharts(unittest.TestCase):
 
     def test_parametric_line_remains_separate_from_range_scenario(self):
         with mock.patch.object(seo, "param_lease_usd", return_value=[(2022.5, 140), (2026.5, 160)]), \
-             mock.patch.object(PR, "market_now", return_value=None), \
              mock.patch.object(PR, "lessor_yield", return_value={}), \
              mock.patch.object(PR, "real_level", return_value=None):
             doc = Markup(self.render([CRJ9], lease_eur=140000, new_gen=False))

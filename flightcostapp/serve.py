@@ -367,7 +367,15 @@ class _Handler(BaseHTTPRequestHandler):
             from .research import find, report_page
             it = find(mr.group(1))
             if it is not None:
-                self._public(report_page(lang, it).encode("utf-8"), html_t, revalidate=True)
+                markets = []
+                if it.get("lease_types"):
+                    types = {t["icao"]: t for t in ctx.seo_types()}
+                    for icao in it["lease_types"]:
+                        market = ctx.current_lease(icao)
+                        if market:
+                            name = seo.name_of(types.get(icao, {"icao": icao}), lang)
+                            markets.append((name, market))
+                self._public(report_page(lang, it, lease_markets=markets).encode("utf-8"), html_t, revalidate=True)
                 return True
         # Full-page 3D workbench: non-indexed, off by default and isolated
         # from the canonical type card and its legacy edit form.
@@ -423,7 +431,7 @@ class _Handler(BaseHTTPRequestHandler):
                 enabled = os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") == "1"
                 origin = None if ctx.public else os.environ.get("FCA_DESIGNER_ORIGIN")
                 self._public(seo.type_page(lang, info, entry, types, econ, designer_enabled=enabled,
-                                           designer_origin=origin).encode("utf-8"), html_t)
+                                           designer_origin=origin, lease_market=ctx.current_lease(icao)).encode("utf-8"), html_t, revalidate=True)
                 return True
         self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
         return True
@@ -2340,6 +2348,11 @@ class Context:
                 data = monitor.build(self.store)
             self._monitor_cache = (stamp, time.time(), data)
             return data
+
+    def current_lease(self, icao: str) -> dict | None:
+        from . import prices
+        with self.lock:
+            return prices.annual_lease(icao, date.today(), store=self.store)
 
     def seo_types(self) -> list[dict]:
         """Типы для страниц поисковика: справочник без слоя гостя, кэш на 10 минут.

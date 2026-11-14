@@ -1242,14 +1242,25 @@ function leaseObservationNotice(metadata = null, network = false, error = ""){
   let text = "";
   if (m) {
     const age = m.age === "new" ? _t("новый борт") : m.age == null ? _t("возраст не указан") : `${f0(m.age)} ${_t("лет")}`;
-    text += `${esc(m.month)} · ${age}<br>${f0(m.low)}${m.low !== m.high ? `–${f0(m.high)}` : ""} ${esc(m.currency)}/${_t("мес")}`;
-    if (m.low !== m.high) text += `<br>${_t("середина")}: <b>${f0(m.midpoint)} ${esc(m.currency)}</b>`;
+    if (m.year) {
+      text += `<b>${_t("Актуальная ставка")} · ${m.year}</b><br>${f0(m.midpoint)} ${esc(m.currency)}/${_t("мес")}`;
+    } else {
+      text += `${esc(m.month)} · ${age}<br>${f0(m.low)}${m.low !== m.high ? `–${f0(m.high)}` : ""} ${esc(m.currency)}/${_t("мес")}`;
+      if (m.low !== m.high) text += `<br>${_t("середина")}: <b>${f0(m.midpoint)} ${esc(m.currency)}</b>`;
+    }
     if (m.lease_eur_month != null) text += ` = ${m0(m.lease_eur_month)} ${CUR.code}`;
     if (m.fx && m.fx.rate && m.currency !== "EUR") text += `<br>1 EUR = ${esc(m.fx.rate)} ${esc(m.currency)} · ${esc(m.fx.source || m.fx.provenance)}${m.fx.date ? ", " + esc(m.fx.date) : ""}`;
-    text += `<br>${m.automatic ? _t("Принятая публикация подобрана по типу, возрасту и дате расчёта.") : _t("Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.")}`;
+    if (m.year) {
+      text += `<br>${_t("Среднее по первоисточникам за календарный год.")} ${_t("Источников")}: ${m.source_count}`;
+      for (const row of m.sources) {
+        const label = esc(row.publisher || row.source);
+        const link = /^https?:\/\//i.test(row.source) ? `<a href="${escA(row.source)}" target="_blank" rel="noopener">${label}</a>` : label;
+        text += `<br>${link} · ${esc(row.month)} · ${f0(row.low)}${row.low !== row.high ? `–${f0(row.high)}` : ""} ${esc(row.currency)}`;
+      }
+    } else text += `<br>${m.automatic ? _t("Принятая публикация подобрана по типу, возрасту и дате расчёта.") : _t("Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.")}`;
     if (m.note || m.quote) text += `<details><summary>${_t("Условия источника")}</summary>${esc(m.note || "")}${m.quote ? `<br>«${esc(m.quote)}»` : ""}</details>`;
-    if (/^https?:\/\//i.test(m.source || "")) text += `<br><a href="${escA(m.source)}" target="_blank" rel="noopener">${esc(m.publisher || _t("источник"))}</a>`;
-    else if (m.publisher) text += `<br>${esc(m.publisher)}`;
+    if (!m.year && /^https?:\/\//i.test(m.source || "")) text += `<br><a href="${escA(m.source)}" target="_blank" rel="noopener">${esc(m.publisher || _t("источник"))}</a>`;
+    else if (!m.year && m.publisher) text += `<br>${esc(m.publisher)}`;
   } else if (!error) text = _t("Проверяем выбранное наблюдение…");
   if (manual) text += `<br><b>${m && m.automatic ? _t("Применяется ручная ставка.") : _t("Применяется ручная ставка; выбор публикации сохранён.")}</b>`;
   if (error) text += (text ? "<br>" : "") + esc(error);

@@ -1,5 +1,8 @@
 {
  "de": {
+  "Актуальная ставка": "Aktuelle Leasingrate",
+  "Среднее по первоисточникам за календарный год.": "Mittelwert der Originalquellen im Kalenderjahr.",
+  "Источников": "Quellen",
   "(его ещё нет)": "(noch nicht verfügbar)",
   "(поле «До запасного аэродрома»)": "(Feld „Entfernung zum Ausweichflughafen“)",
   "(поле «Месяц» слева)": "(Feld „Monat“ links)",
@@ -1109,6 +1112,9 @@
   "Возраст для ТОиР и подбора лизинга: 0 — новый борт. Пусто — возрастная категория карточки для лизинга и средний возраст для ТОиР.": "Alter für Wartung und Leasingauswahl: 0 bedeutet Neuflugzeug. Leer verwendet die Leasing-Altersklasse der Flugzeugkarte und das durchschnittliche Wartungsalter."
  },
  "en": {
+  "Актуальная ставка": "Current lease rate",
+  "Среднее по первоисточникам за календарный год.": "Mean across original sources for the calendar year.",
+  "Источников": "Sources",
   "(его ещё нет)": "(not available yet)",
   "(поле «До запасного аэродрома»)": "(field “Distance to alternate”)",
   "(поле «Месяц» слева)": "(field “Month” on the left)",

@@ -741,6 +741,15 @@ def _specs_section(D: Doc, types: list) -> str:
             url = obs.get("source") or ""
             if url.startswith(("https://", "http://")):
                 label = f'<a href="{e(url)}" target="_blank" rel="noopener">{label}</a>'
+            if obs.get("sources"):
+                refs = []
+                for row in obs["sources"]:
+                    url = row["source"]
+                    name = e(row.get("publisher") or url)
+                    if url.startswith(("https://", "http://")):
+                        name = f'<a href="{e(url)}" target="_blank" rel="noopener">{name}</a>'
+                    refs.append(f'{name} ({e(row["month"])})')
+                label = ", ".join(refs)
             fx = obs.get("fx") or {}
             detail = f'{label} · {e(obs.get("month"))}'
             detail += f' · {D.n(obs.get("low"))}'

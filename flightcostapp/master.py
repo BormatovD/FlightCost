@@ -618,9 +618,8 @@ def cmd_drafts(a) -> int:
     if not a.local:
         host = _host(a)
         print(f"скачиваю черновики с {host}:{MASTER}/export/drafts/")
-        # --ignore-existing: принятый и убранный из _inbox черновик повторно не приедет —
-        # список принятых ведётся в .accepted.
-        if _sh(["rsync", "-z", "--ignore-existing", *RSYNC_PERMS,
+        # Копируем JSON из каталога экспорта. Уже принятые имена отфильтрует .accepted ниже.
+        if _sh(["rsync", "-rz", "--ignore-existing", "--include=/*.json", "--exclude=*", *RSYNC_PERMS,
                 f"{host}:{MASTER}/export/drafts/", str(DRAFTS_INBOX) + "/"]):
             print("не скачалось: есть ли черновики на сервере (бот кладёт их в master/export/drafts)?")
             return 2

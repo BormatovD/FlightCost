@@ -1,7 +1,7 @@
 """Цены и ставки лизинга самолётов из открытых публикаций — ряд на странице типа.
 
 Справочник `data/prices/_observations.yaml`: каждое наблюдение — тип, вид, число,
-валюта, месяц, возраст борта, источник и дословная цитата. Собирает агент «цены»
+валюта, период оценки (месяц или квартал), возраст борта, источник и дословная цитата. Собирает агент «цены»
 (agent_run.prices) по нескольку типов за прогон; дома `fca master drafts` проверяет,
 `--accept-prices` дописывает.
 
@@ -20,11 +20,14 @@
 
 from __future__ import annotations
 
+import calendar
 import hashlib
 import json
 import math
 import re
+from collections import defaultdict
 from datetime import date
+from statistics import fmean
 from pathlib import Path
 
 import yaml
@@ -66,20 +69,21 @@ def real_level(obs: list[dict], new_gen: bool, years: tuple[int, int], to_year: 
     return statistics.median(vals) if vals else None
 
 
-def market_now(obs: list[dict], new_gen: bool, rates: dict | None = None,
-               since: int = date.today().year - 3) -> tuple[int, float] | None:
-    """Последний год для нужного возраста (новый / 8–14 лет), медиана ставок/середин, тыс. USD."""
-    import statistics
-    ok = [o for o in obs if o["kind"] == "lease" and (str(o.get("age")) == "new" if new_gen
-          else isinstance(o.get("age"), (int, float)) and 8 <= float(o["age"]) <= 14)]
-    if not ok:
-        return None
-    y = max(int(str(o["month"])[:4]) for o in ok)
-    if y < since:                    # «сейчас» — не старше трёх лет; 2020 год рынком «сейчас» не назовёшь
-        return None
-    vals = [usd(o, rates) for o in ok if int(str(o["month"])[:4]) == y]
-    vals = [v for v in vals if v]
-    return (y, statistics.median(vals) / 1e3) if vals else None
+def period_months(period: str) -> tuple[int, int]:
+    """Inclusive start/end months, retaining the original precision in the record."""
+    if re.fullmatch(r"[0-9]{4}-Q[1-4]", period):
+        end = 3 * int(period[-1])
+        return end - 2, end
+    if re.fullmatch(r"[0-9]{4}-(?:0[1-9]|1[0-2])", period):
+        month = int(period[5:])
+        return month, month
+    raise ValueError(f"ожидается месяц ГГГГ-ММ или квартал ГГГГ-Q1…Q4: {period}")
+
+
+def period_order(obs: dict) -> tuple:
+    period = str(obs["month"])
+    start, end = period_months(period)
+    return period[:4], end, start
 
 
 def load(path: Path | None = None) -> dict:
@@ -98,7 +102,7 @@ def load(path: Path | None = None) -> dict:
 def of(icao: str, doc: dict | None = None) -> list[dict]:
     d = load() if doc is None else doc
     return sorted((o for o in d.get("observations") or [] if o.get("icao") == icao.upper()),
-                  key=lambda o: str(o.get("month")))
+                  key=period_order)
 
 
 def is_range(o: dict) -> bool:
@@ -160,8 +164,11 @@ def _identity(o: dict) -> tuple:
     age = o.get("age")
     if isinstance(age, (int, float)) and not isinstance(age, bool):
         age = float(age)
-    return (o.get("source"), str(o.get("icao") or "").upper(), o.get("kind"),
+    base = (o.get("source"), str(o.get("icao") or "").upper(), o.get("kind"),
             str(o.get("month") or ""), age, str(o.get("currency") or "USD").upper(), *amount_bounds(o))
+    if o.get("variant") or o.get("valuation_basis"):
+        return (*base, o.get("variant"), o.get("valuation_basis"))
+    return base
 
 
 def observation_id(o: dict) -> str:
@@ -176,36 +183,93 @@ def lease_revision() -> str:
     return hashlib.sha256(json.dumps(rows, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
 
 
-def latest_lease(icao: str, as_of, age: float | None = None) -> dict | None:
-    """Same accepted observations and age policy as aircraft cards; no interpolation."""
+def _available(obs: dict, day: date) -> bool:
+    period = str(obs["month"])
+    if period[:4] != str(day.year):
+        return False
+    start, end = period_months(period)
+    if start > day.month:
+        return False
+    if obs.get("published_on"):
+        return str(obs["published_on"]) <= day.isoformat()
+    if start != end:
+        return day >= date(day.year, end, calendar.monthrange(day.year, end)[1])
+    return True
+
+
+def source_family(obs: dict) -> str:
+    family = (obs.get("source_family") or "").strip()
+    if family:
+        return family.casefold()
+    publisher = (obs.get("publisher") or "").strip()
+    original = re.search(r"[(]данные ([^()]+)[)]", publisher, re.I)
+    return (original[1] if original else publisher or obs.get("source") or "").casefold()
+
+
+def annual_lease(icao: str, as_of, age: float | None = None, store=None) -> dict | None:
+    """Calendar-year mean, equally weighted by original source, using known publications only."""
     from .fleet import generation
-    month = str(as_of)[:7]
-    first_year = int(month[:4]) - 3
+    from . import fx
+    day = date.fromisoformat(str(as_of)[:10])
     new_gen = generation(icao) == "new"
-    matches = []
+    groups = defaultdict(dict)
     for obs in of(icao):
-        period = str(obs.get("month") or "")
-        if (obs.get("kind") != "lease" or not re.fullmatch(r"\d{4}-\d{2}", period)
-                or not str(first_year) <= period <= month):
+        if obs["kind"] != "lease" or not _available(obs, day):
             continue
         years = 0 if obs.get("age") == "new" else obs.get("age")
-        if isinstance(years, bool) or not isinstance(years, (int, float)) or not math.isfinite(years):
+        if isinstance(years, bool) or not isinstance(years, (int, float)):
             continue
-        if age is not None:
-            if years != age:
-                continue
-        elif not (years == 0 if new_gen else 8 <= years <= 14):
+        age_matches = years == age if age is not None else (years == 0 if new_gen else 8 <= years <= 14)
+        if not age_matches:
             continue
-        matches.append(obs)
-    if not matches:
+        # Multiple links reporting the same appraisal must not increase its weight.
+        key = (obs["month"], years, obs.get("variant"), obs.get("valuation_basis"),
+               obs.get("currency", "USD"), amount_bounds(obs))
+        groups[source_family(obs)].setdefault(key, obs)
+    if not groups:
         return None
-    newest = max(o["month"] for o in matches)
-    latest = [o for o in matches if o["month"] == newest]
-    # Do not silently choose between incompatible appraisals in one month.
-    if len({(o.get("currency", "USD"), amount_bounds(o), o.get("age"),
-             o.get("variant"), o.get("valuation_basis")) for o in latest}) > 1:
-        return None
-    return min(latest, key=observation_id)
+
+    rows = [o for group in groups.values() for o in group.values()]
+    currencies = {o.get("currency", "USD") for o in rows}
+    currency = rows[0].get("currency", "USD") if len(currencies) == 1 else "USD"
+    quotes = {}
+
+    def rate(cur):
+        if cur not in quotes:
+            quotes[cur] = (fx.quote(store, cur, day) if store is not None else
+                           {"rate": 1.0 if cur == "EUR" else None})
+        return quotes[cur]
+
+    sources = []
+    means = []
+    for group in groups.values():
+        values = []
+        for obs in group.values():
+            cur = obs.get("currency", "USD")
+            lo, hi = amount_bounds(obs)
+            middle = (lo + hi) / 2
+            if cur != currency:
+                if not (rate(cur)["rate"] and rate(currency)["rate"]):
+                    return None
+                middle = middle / rate(cur)["rate"] * rate(currency)["rate"]
+            values.append(middle)
+            reference = {k: obs.get(k) for k in ("publisher", "source", "month", "age", "variant",
+                                                  "published_on", "source_family")}
+            reference.update(currency=cur, low=lo, high=hi, id=observation_id(obs))
+            sources.append(reference)
+        means.append(fmean(values))
+    mid = fmean(means)
+    exchange = rate(currency)
+    only = rows[0] if len(rows) == 1 else {}
+    lo, hi = amount_bounds(only) if only else (mid, mid)
+    ages = {o.get("age") for o in rows}
+    return {"id": observation_id(only) if only else None, "icao": icao,
+            "month": only.get("month", str(day.year)), "age": rows[0].get("age") if len(ages) == 1 else None,
+            "currency": currency, "low": lo, "high": hi, "midpoint": mid,
+            "lease_eur_month": mid / exchange["rate"] if exchange["rate"] else None,
+            "fx": {**exchange, "as_of": str(day)}, "year": day.year,
+            "source_count": len(groups), "sources": sources,
+            **{k: only.get(k) for k in ("source", "publisher", "note", "quote")}}
 
 
 def lease_selection(obs: dict, store, as_of) -> dict:
@@ -381,16 +445,20 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
         r = {**p, "icao": str(p.get("icao") or "").upper(), "reasons": []}
         r.pop("rejection_code", None)       # служебный маркер вычисляет проверка, не модель
         rows.append(r)
-        if p.get("kind") not in KINDS \
-                or not re.fullmatch(r"\d{4}-\d{2}", str(p.get("month") or "")):
-            r.update(verdict="reject", reasons=[f"вид не из {KINDS} или месяц не ГГГГ-ММ"])
+        if p.get("kind") not in KINDS:
+            r.update(verdict="reject", reasons=[f"вид не из {KINDS}"])
             continue
         try:
+            period_months(str(p.get("month") or ""))
+            if p.get("published_on") is not None:
+                published = str(p["published_on"])
+                if date.fromisoformat(published).isoformat() != published:
+                    raise ValueError("published_on должна иметь формат ГГГГ-ММ-ДД")
             raw_pair = bounds(p)
         except ValueError as exc:
             r.update(verdict="reject", reasons=[str(exc)])
             continue
-        if any(p.get(k) is not None and not isinstance(p[k], str) for k in ("scale", "currency", "quote", "source")):
+        if any(p.get(k) is not None and not isinstance(p[k], str) for k in ("scale", "currency", "quote", "source", "source_family", "variant", "valuation_basis", "published_on")):
             r.update(verdict="reject", reasons=["scale, currency, quote и source должны быть строками"])
             continue
         age = p.get("age")
@@ -434,7 +502,7 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
 
 
 FIELDS = ("icao", "kind", "value", "value_low", "value_high", "scale", "currency", "month", "age", "quote", "source",
-          "publisher", "note")
+          "publisher", "note", "published_on", "variant", "valuation_basis", "source_family")
 
 
 def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date | None = None) -> list[str]:
@@ -452,7 +520,7 @@ def merge(rows: list[dict], searched: list[str], path: Path = PATH, today: date 
         shown = f"{lo:g}–{hi:g}" if is_range(o) else f"{lo:g}"
         done.append(f"{o['icao']} {KIND_RU[o['kind']]} {shown} {o.get('scale', '')} {o.get('currency', 'USD')} "
                     f"({o['month']})")
-    doc["observations"] = sorted(obs, key=lambda o: (o["icao"], str(o["month"]), o["kind"]))
+    doc["observations"] = sorted(obs, key=lambda o: (o["icao"], period_order(o), o["kind"]))
     s = _searched_dates(doc.get("searched") or {})
     for t in normalize_searched(searched):
         s[t] = max(s.get(t, ""), str(today or date.today()))

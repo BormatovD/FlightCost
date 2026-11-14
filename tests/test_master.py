@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import json
 import io
+import shutil
 import sqlite3
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -151,6 +153,27 @@ class Master(unittest.TestCase):
 
     def test_rsync_chmod_is_symbolic(self):
         self.assertFalse(any(x.startswith("--chmod=F6") for x in M.RSYNC_PERMS), "rsync 2.6.9 в macOS")
+
+    @unittest.skipUnless(shutil.which("rsync"), "нужен rsync")
+    def test_drafts_downloads_exported_files_for_review(self):
+        export = self.master / "export" / "drafts"
+        export.mkdir(parents=True)
+        name = "prices-weekly.json"
+        draft = json.dumps({"observations": [], "searched": ["A21N"]})
+        (export / name).write_text(draft)
+        (export / ".accepted").write_text(name)
+        inbox = self.tmp / "inbox"
+
+        def local_rsync(command):
+            self.assertEqual(command[-2], f"server:{export}/")
+            return subprocess.run([*command[:-2], str(export) + "/", command[-1]]).returncode
+
+        with mock.patch.object(M, "MASTER", self.master), mock.patch.object(M, "DRAFTS_INBOX", inbox), \
+                mock.patch.object(M, "_sh", side_effect=local_rsync), redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(M.main(["--host", "server", "--db", str(self.home), "drafts"]), 0)
+        self.assertEqual((inbox / name).read_text(), draft)
+        self.assertFalse((inbox / ".accepted").exists())
+        self.assertIn(f"{name}  (искал: A21N)", output.getvalue())
 
     def test_refresh_tree_links_repo_data_but_owns_raw(self):
         app = self.tmp / "app"

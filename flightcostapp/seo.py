@@ -172,7 +172,7 @@ T = {
                       "У каждого наблюдения есть дата и ссылка на источник."),
         "ts_kind": {"list": "Цена ВС (каталог)", "deal": "Цена ВС (сделка)",
                     "value": "Цена ВС (оценка рынка)", "lease": "Лизинг в месяц"},
-        "ts_col": ("Месяц", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
+        "ts_col": ("Период", "Вид", "Значение", "Возраст", "Источник"), "ts_new": "новый",
         "ts_m_usd": "млн USD", "ts_k_usd": "тыс. USD в месяц",
         "ts_range": "диапазон источника", "ts_midpoint": "вычисленная середина",
         "ts_range_note": ("Вертикальный интервал — опубликованный диапазон, точка и центральная линия — вычисленная середина. "
@@ -326,7 +326,7 @@ T = {
                       "monthly lease rates. Each observation includes a date and a source link."),
         "ts_kind": {"list": "Aircraft price (list)", "deal": "Aircraft price (deal)",
                     "value": "Aircraft price (market appraisal)", "lease": "Lease per month"},
-        "ts_col": ("Month", "Kind", "Value", "Age", "Source"), "ts_new": "new",
+        "ts_col": ("Period", "Kind", "Value", "Age", "Source"), "ts_new": "new",
         "ts_m_usd": "USD m", "ts_k_usd": "USD k per month",
         "ts_range": "published range", "ts_midpoint": "computed midpoint",
         "ts_range_note": ("The vertical interval shows the published range; the dot and centre line show computed midpoints. "
@@ -480,7 +480,7 @@ T = {
                       "Leasingraten. Jede Beobachtung enthält ein Datum und einen Quellenlink."),
         "ts_kind": {"list": "Flugzeugpreis (Liste)", "deal": "Flugzeugpreis (Kauf)",
                     "value": "Flugzeugpreis (Marktwertschätzung)", "lease": "Leasing pro Monat"},
-        "ts_col": ("Monat", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
+        "ts_col": ("Zeitraum", "Art", "Wert", "Alter", "Quelle"), "ts_new": "neu",
         "ts_m_usd": "Mio. USD", "ts_k_usd": "Tsd. USD pro Monat",
         "ts_range": "veröffentlichte Spanne", "ts_midpoint": "berechneter Mittelwert",
         "ts_range_note": ("Das vertikale Intervall zeigt die veröffentlichte Spanne, Punkt und Mittellinie die berechneten "
@@ -1328,7 +1328,7 @@ def econ_sections(lang: str, entry: dict, by: dict, econ: dict | None, cls: str,
 
 
 def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict | None = None,
-              *, designer_enabled: bool = False, designer_origin: str | None = None) -> str:
+              *, designer_enabled: bool = False, designer_origin: str | None = None, lease_market=None) -> str:
     """Страница одного типа. `info` — Context.aircraft_type, `entry` — строка Context.aircraft,
     `econ` — расчёты класса на типовом маршруте (Context.seo_econ) или None, пока не готовы."""
     t = T[lang]
@@ -1409,7 +1409,7 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     body.append(toir_block(lang, icao))
     from .fleet import generation
     body.append(prices_block(lang, icao, (info.get("fleet_default") or {}).get("lease_eur_month"),
-                             generation(icao) == "new"))
+                             generation(icao) == "new", lease_market=lease_market))
     me = seats_of(entry) or 0
     has_cmp = bool(econ) and entry.get("usable")      # таблица класса уже ведёт к соседям
     sim = [] if has_cmp else sorted((x for x in public_types(types) if x["icao"] != icao and x.get("usable")
@@ -1559,7 +1559,25 @@ def param_lease_usd(eur_month: float, years: range) -> list[tuple[float, float]]
     return [(y + 0.5, usd * ix(y) / ix(PARAM_YEAR) / 1e3) for y in years if y >= min(cpi)]
 
 
-def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: bool | None = None) -> str:
+def current_lease_block(lang: str, name: str, market: dict | None) -> str:
+    if not market:
+        return ""
+    title, monthly, count = {
+        "ru": ("Актуальная ставка", "/мес.", "Первоисточников"),
+        "en": ("Current lease rate", "/month", "Original sources"),
+        "de": ("Aktuelle Leasingrate", "/Monat", "Originalquellen"),
+    }[lang]
+    links = {o["source"]: o["publisher"] or o["source"] for o in market["sources"]}
+    refs = " · ".join(f'<a href="{esc(url)}">{esc(label)}</a>' for url, label in links.items()
+                      if url.startswith(("https://", "http://")))
+    value = num(market["midpoint"], lang, 0)
+    return (f'<section class="current-lease"><h3>{title} · {esc(name)}</h3>'
+            f'<p><strong>{value} {esc(market["currency"])}{monthly}</strong> · {market["year"]}</p>'
+            f'<p class="dim">{count}: {market["source_count"]} · {refs}</p></section>')
+
+
+def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: bool | None = None,
+                 *, lease_market=None) -> str:
     from decimal import Decimal
     from . import prices as PR
     t, obs = T[lang], PR.of(icao)
@@ -1585,11 +1603,12 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
 
     def yx(o):
         m = str(o["month"])
-        return int(m[:4]) + (int(m[5:7]) - 0.5) / 12
+        first, last = PR.period_months(m)
+        return int(m[:4]) + (first + last - 1) / 24
 
     def chart(want_lease, divisor, unit):
         points, ranges, groups = [], [], {}
-        for o in sorted(obs, key=lambda o: str(o["month"])):
+        for o in sorted(obs, key=PR.period_order):
             if (o["kind"] == "lease") != want_lease:
                 continue
             values = PR.usd_bounds(o)
@@ -1628,6 +1647,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
     lg = "".join(kind_label(k) for k in PR.KINDS if any(o["kind"] == k for o in obs))
     body = [f'<h2>{esc(t["ts_p_h"])}</h2><p class=dim>{esc(t["ts_p_lead"])}</p><div class=ts>'
             f'<div class="lg price-legend">{lg}</div>']
+    body.append(current_lease_block(lang, icao, lease_market))
     if craft or craft_ranges:
         body.append(f'<p class=dim>{esc(t["ts_m_usd"])}</p>'
                     + _ts_svg([], craft, t["ts_m_usd"], lang, ranges=craft_ranges))
@@ -1641,8 +1661,8 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
                 lines = [("l3", pl)]
                 note = (f'<p class=dim><span style="color:var(--price-lease)">— —</span> {esc(t["ts_param"].format(age=age))}. '
                         f'{esc(t["ts_param_note"].format(eur=num(round(lease_eur, -3), lang, 0), fx=num(PARAM_USD_PER_EUR, lang, 2), age=age, age_for=t["ts_for_new"] if new_gen else t["ts_for_cur"]))}</p>')
-                mn = PR.market_now(obs, bool(new_gen))
-                if mn:
+                if lease_market and lease_market["currency"] == "USD":
+                    mn = lease_market["year"], lease_market["midpoint"] / 1000
                     py = dict((int(x), v) for x, v in pl).get(mn[0])
                     if py:
                         dd = (py / mn[1] - 1) * 100
@@ -1666,7 +1686,7 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
     c = t["ts_col"]
     body.append(f"</div><div class=tw><table class=price-table><tr><th>{c[0]}</th><th>{c[1]}</th><th class=r>{c[2]}</th>"
                 f"<th class=r>{c[3]}</th><th>{c[4]}</th></tr>")
-    for o in sorted(obs, key=lambda o: str(o["month"]), reverse=True)[:12]:
+    for o in sorted(obs, key=PR.period_order, reverse=True)[:12]:
         sc = {"m": " m", "mn": " m", "million": " m", "млн": " m", "k": " k", "thousand": " k", "тыс": " k",
               "bn": " bn", "billion": " bn", "млрд": " bn"}.get(str(o.get("scale") or "").lower(), "")
         lo, hi = PR.bounds(o)

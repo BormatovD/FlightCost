@@ -46,7 +46,7 @@ def build():
     delta = ex["midpoint_delta_eur_flight"]
     body = [ARTICLE_CSS, f'<h1>{T("Сколько стоит самолёт: история цен и экономика лизинга", "What an aircraft costs: price history and lease economics", "Was ein Flugzeug kostet: Preisentwicklung und Leasingwirtschaft")}</h1>',
             f'<p class="meta">{T("Исследование · 11 ноября 2026", "Research · 11 November 2026", "Recherche · 11. November 2026")}</p>',
-            calc_badge(SLUG)]
+            calc_badge(SLUG), "<!-- current-lease -->"]
     cards = [
         (money(mid), T("лизинг на условный рейс A320neo при середине выбранного диапазона", "lease cost allocated to an illustrative A320neo flight at the selected midpoint", "Leasinganteil eines A320neo-Beispielflugs beim gewählten Mittelpunkt")),
         (money(delta, sign=True), T("к заготовке на том же рейсе; меняется только владение", "versus the default for the same flight; only ownership changes", "gegenüber der Voreinstellung beim selben Flug; nur der Besitzkostenanteil ändert sich")),

@@ -154,9 +154,12 @@ def index_page(lang: str) -> str:
     return seo.shell(lang, "/research", h + STYLE, "\n".join(body), on="research")
 
 
-def report_page(lang: str, it: dict) -> str:
+def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
     """Отчёт как есть + шапка сайта, канонический адрес, описание, значок."""
     page = report_file(it, lang).read_text(encoding="utf-8")
+    if lease_markets:
+        current = "".join(seo.current_lease_block(lang, name, market) for name, market in lease_markets)
+        page = page.replace("<!-- current-lease -->", current, 1)
     title = _tr(it, "title", lang)
     desc = _tr(it, "lede", lang) or ""
     canon = f"{site()}/{lang}/research/{it['slug']}"

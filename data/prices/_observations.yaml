@@ -419,6 +419,21 @@ observations:
   source: https://www.aerotelegraph.com/was-airlines-fuer-einen-airbus-a330-oder-a350-im-monat-zahlen-muessen
   publisher: aeroTELEGRAPH (данные OAG)
   checked: '2026-11-10'
+- icao: A21N
+  kind: lease
+  value_low: 456000
+  value_high: 488000
+  currency: USD
+  month: 2026-Q1
+  age: new
+  quote: IBA expects MLRs to range from US$ 456,000 to US$ 488,000
+  source: https://iclg.com/practice-areas/aviation-finance-and-leasing/02-the-aviation-finance-market-robust-demand-entrenched-supply-chain-challenges-and-strong-market-performance/
+  publisher: IBA / ICLG
+  note: Новый A321-200NX. Границы зависят от кредитоспособности арендатора.
+  published_on: '2026-06-03'
+  variant: A321-200NX
+  source_family: IBA
+  checked: '2026-11-14'
 - icao: A319
   kind: list
   value: 92.3
