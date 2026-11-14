@@ -237,9 +237,16 @@ class _Handler(BaseHTTPRequestHandler):
             self._public((WEB / "flightcost-embed.nomodule.js").read_bytes(),
                          "application/javascript; charset=utf-8")
             return True
-        if u.path == "/flightcost-aircraft-designer.js":
-            self._public((WEB / "flightcost-aircraft-designer.js").read_bytes(),
+        if u.path in ("/flightcost-aircraft-designer.js", "/aircraft-preview.js"):
+            self._public((WEB / u.path[1:]).read_bytes(),
                          "application/javascript; charset=utf-8")
+            return True
+        if re.fullmatch(r"/aircraft-previews/[a-z0-9-]+--[a-z0-9-]+\.webp", u.path):
+            poster = WEB / u.path[1:]
+            if poster.is_file():
+                self._public(poster.read_bytes(), "image/webp")
+            else:
+                self._send(404, b"", "image/webp")
             return True
         if u.path in ("/sitemap.xml", "/llms.txt"):
             types = ctx.seo_types()
@@ -365,8 +372,9 @@ class _Handler(BaseHTTPRequestHandler):
                 info = ctx.aircraft_type({"icao": icao})
                 econ = ctx.seo_econ(seo.cls_of(entry)) if entry.get("usable") else None
                 enabled = os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") == "1"
-                self._public(seo.type_page(lang, info, entry, types, econ,
-                                           designer_enabled=enabled).encode("utf-8"), html_t)
+                origin = None if ctx.public else os.environ.get("FCA_DESIGNER_ORIGIN")
+                self._public(seo.type_page(lang, info, entry, types, econ, designer_enabled=enabled,
+                                           designer_origin=origin).encode("utf-8"), html_t)
                 return True
         self._send(404, seo.not_found(lang).encode("utf-8"), html_t)
         return True

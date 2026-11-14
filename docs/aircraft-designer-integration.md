@@ -10,9 +10,11 @@ existing SEO type page, editor, API and calculation paths are unchanged.
 
 The type page uses a pinned copy of Aircraft Designer's v1 catalog at
 `flightcostapp/web/aircraft-configurations.v1.json` to offer only real
-model/engine/weight-profile/layout combinations. The canonical type card
-only links to the dedicated FlightCost page via an ordinary GET form; it does
-not load a 3D iframe or run the bridge. The separate page occupies the viewport,
+model/engine/weight-profile/layout combinations. The type card displays a lazy-loaded WebP render of its selected configuration.
+On desktop the render sits beside the form. On mobile it sits below the open button.
+Activating the render loads the read-only `view=aircraft-preview` orbit view in place.
+Closing it or selecting another configuration releases the frame. The separate
+full editor opens via the ordinary GET form. The separate page occupies the viewport,
 loads Aircraft Designer into a full-size iframe, and has a persistent back link
 to the reference type card and a native layout/engine selector. This is not a
 modal or a new standalone server. The FlightCost origin remains top-level so

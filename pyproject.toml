@@ -91,7 +91,7 @@ fca = "flightcostapp.cli:main"
 # Шрифты — часть оформления и уезжают вместе с ui.css: без них `fca serve`
 # отдаст 404 на /fonts/, а статические страницы вшивать будет нечего.
 flightcostapp = ["web/*.html", "web/*.js", "web/*.css", "web/*.json",
-                 "web/fonts/*.woff2", "web/fonts/LICENSE.txt", "*.yaml"]
+                 "web/aircraft-previews/*.webp", "web/fonts/*.woff2", "web/fonts/LICENSE.txt", "*.yaml"]
 
 [tool.setuptools.packages.find]
 # Какие папки считать пакетами. Без этого setuptools попытается

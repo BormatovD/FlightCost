@@ -228,3 +228,28 @@ input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)
 .sh .lg a{color:var(--dim);text-decoration:none;margin-left:8px}
 .sh .lg a.on{color:var(--ink2);font-weight:600}
 @media(max-width:640px){.sh{padding:12px 16px}.sh .brand span{display:none}}
+
+/* Aircraft Designer on the type card */
+.fc3d { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:20px; align-items:center }
+.fc3d .fc3d-copy { min-width:0 }
+.fc3d select { display:block; background:var(--bg); color:var(--ink); border:1px solid var(--line);
+  border-radius:5px; padding:7px 9px; max-width:100%; margin:6px 0 10px }
+.fc3d .fc3d-cta, .fc3d .fc3d-orbit { background:var(--raise); color:var(--ink); border:1px solid var(--line);
+  border-radius:6px; padding:8px 14px; font:600 14px var(--sans); cursor:pointer }
+.fc3d button:focus-visible, .fc3d select:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
+.fc3d-preview { position:relative; margin:0; min-width:0; border-radius:8px; overflow:hidden;
+  border:1px solid var(--line); background:radial-gradient(ellipse at 52% 42%,var(--raise),var(--bg) 88%);
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:0 6px; padding:0 10px 9px }
+.fc3d-stage { position:relative; grid-column:1/-1; margin:0 -10px; aspect-ratio:840/412; overflow:hidden }
+.fc3d-stage img,.fc3d-stage iframe { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; border:0 }
+.fc3d-stage iframe { opacity:0; pointer-events:none }
+.fc3d-preview.is-live iframe { opacity:1; pointer-events:auto }
+.fc3d-preview.is-live img { visibility:hidden }
+.fc3d-preview figcaption { color:var(--dim); font:12px/1.3 var(--sans); overflow-wrap:anywhere }
+.fc3d .fc3d-orbit { font-size:12px; padding:5px 9px; color:var(--ink); border-color:var(--line2) }
+.fc3d-orbit[hidden],.fc3d-preview-status:empty { display:none }
+.fc3d-orbit:before { content:"⟲"; margin-right:5px }
+.fc3d-preview.is-live .fc3d-orbit:before { content:"×" }
+.fc3d-preview:not(.is-live) .fc3d-orbit:after { content:""; position:absolute; inset:0; cursor:grab }
+.fc3d-preview-status { grid-column:1/-1; color:var(--dim); font:12px var(--sans) }
+@media (max-width:640px) { .fc3d { grid-template-columns:minmax(0,1fr); gap:14px } }

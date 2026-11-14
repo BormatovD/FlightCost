@@ -328,24 +328,24 @@ class TypeEconomics(unittest.TestCase):
         other = {**e, "seats": 180, "total": 16000.0, "per_seat": 16000 / 180, "cask_ct": 8.0}
         types = [{"icao": "A320", "name": "Airbus A320", "seats_typical": 170, "usable": True},
                  {"icao": "A20N", "name": "Airbus A320neo", "seats_typical": 180, "usable": True}]
-        html = seo.econ_block("de", types[0], {}, {"A320": e, "A20N": other}, "narrow", types)
+        html, comparison = seo.econ_sections("de", types[0], {}, {"A320": e, "A20N": other}, "narrow", types)
         self.assertIn("Frankfurt — Barcelona", html)
         self.assertIn("Treibstoff", html)
         self.assertNotRegex(html, CYR)
-        self.assertIn('class="me"', html)
-        self.assertIn("/de/type/A20N", html)
+        self.assertIn('class="me"', comparison)
+        self.assertIn("/de/type/A20N", comparison)
 
     def test_no_model_and_infeasible(self):
         nm = seo.econ_summary({**self.J, "answer": {**self.J["answer"], "feasible": False,
                                "feasibility": {"limits": [{"key": "no_model"}]}}})
         t = {"icao": "AT76", "name": "ATR 72-600", "seats_typical": 72, "usable": True}
-        self.assertIn(seo.T["en"]["no_model"], seo.econ_block("en", t, {}, {"AT76": nm}, "regional", [t]))
+        self.assertIn(seo.T["en"]["no_model"], seo.econ_sections("en", t, {}, {"AT76": nm}, "regional", [t])[0])
         inf = seo.econ_summary({**self.J, "answer": {**self.J["answer"], "feasible": False, "max_pax": 90,
                                 "feasibility": {"limits": [{"key": "mtow"}]}}})
-        html = seo.econ_block("ru", t, {}, {"AT76": inf}, "regional", [t])
+        html, comparison = seo.econ_sections("ru", t, {}, {"AT76": inf}, "regional", [t])
         self.assertIn("невыполним", html)
         self.assertIn("90 пассажиров", html)
-        self.assertIn(seo.T["ru"]["econ_wait"], seo.econ_block("ru", t, {}, None, "regional", [t]))
+        self.assertIn(seo.T["ru"]["econ_wait"], seo.econ_sections("ru", t, {}, None, "regional", [t])[0])
 
 
 if __name__ == "__main__":

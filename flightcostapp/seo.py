@@ -28,7 +28,7 @@ import json
 import os
 import re
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 LANGS = ("ru", "en", "de")
 REPO = "https://github.com/BormatovD/FlightCost"
@@ -658,7 +658,9 @@ details{margin:6px 0;border-bottom:1px solid var(--line2);padding:6px 0}summary{
 tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .p-doc{color:var(--doc)}.p-calc{color:var(--calc)}.p-guess{color:var(--guess)}
 .warn{border:1px solid var(--warn);border-radius:8px;padding:10px 12px;color:var(--ink);margin:10px 0}
-.sil{display:flex;gap:22px;align-items:flex-end;flex-wrap:wrap;margin:8px 0 4px}
+.sil{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin:8px 0 4px}
+.sil-details{margin:14px 0}.sil-details summary{padding:4px 0}
+.sil-details summary h2{display:inline;margin:0}.sil-details summary:focus-visible{outline:2px solid var(--accent)}
 .ts svg{width:100%;max-width:680px;height:auto;display:block}.ts .ax{stroke:var(--line)}
 .ts text{font:11px var(--sans);fill:var(--dim)}.ts .l1{stroke:var(--accent);fill:none;stroke-width:2}
 .ts .l2{stroke:var(--dim);fill:none;stroke-width:1.5;stroke-dasharray:5 4}
@@ -688,6 +690,7 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 .sil .lgd i{display:inline-block;width:18px;height:0;border-top:2px solid var(--accent);vertical-align:middle;margin-right:6px}
 .sil .lgd i.o{border-top:2px dashed var(--dim)}
 @media(max-width:640px){main{padding:16px 16px 50px}h1{font-size:22px}
+  .sil{flex-direction:column;align-items:flex-start;gap:8px}
   .ts .range-label{font-size:16px}
   /* Паспорт на телефоне: строка — сетка «параметр | значение», источник под ними. */
   table.spec tr:first-child{display:none}
@@ -1236,7 +1239,6 @@ def silhouettes(entry: dict, others: list[dict]) -> str:
     top = min(p["top"] for _, p, _ in items)
     length = max(p["length"] for _, p, _ in items)
     pad = 1.5
-    W, H = span + 2 * pad, length - top + 2 * pad + 3
     sw = span * .006
     g = []
     for _t, p, me in sorted(items, key=lambda x: x[2]):            # свой — поверх
@@ -1247,15 +1249,16 @@ def silhouettes(entry: dict, others: list[dict]) -> str:
         else:
             g.append(f'<g fill="none" stroke="var(--dim)" stroke-width="{sw:.2f}" stroke-linejoin="round" '
                      f'stroke-dasharray="{sw * 5:.2f} {sw * 4:.2f}">{body}{p["eng"]}</g>')
-    y, x0 = length + pad + 1, -span / 2
-    g.append(f'<g stroke="var(--dim)" stroke-width="{span * .004:.2f}"><line x1="{x0:.2f}" y1="{y:.2f}" '
-             f'x2="{x0 + 10:.2f}" y2="{y:.2f}"/><line x1="{x0:.2f}" y1="{y - .6:.2f}" x2="{x0:.2f}" '
-             f'y2="{y + .6:.2f}"/><line x1="{x0 + 10:.2f}" y1="{y - .6:.2f}" x2="{x0 + 10:.2f}" '
-             f'y2="{y + .6:.2f}"/></g><text x="{x0 + 11:.2f}" y="{y + .6:.2f}" font-size="{span * .035:.2f}" '
-             f'fill="var(--dim)">10 m</text>')
-    px = min(520, max(240, 9 * span))
-    return (f'<svg viewBox="{-span / 2 - pad:.2f} {top - pad:.2f} {W:.2f} {H:.2f}" width="{px:.0f}" '
-            f'role="img" aria-label="top view">{"".join(g)}</svg>')
+    # Поворачиваем контуры вместе, оставляя линейку и подпись горизонтальными.
+    extent = length - top
+    px = min(520, max(240, 9 * extent))
+    return (f'<svg viewBox="{top - pad:.2f} {-span / 2 - pad:.2f} '
+            f'{extent + 2 * pad:.2f} {span + 2 * pad + 3:.2f}" width="{px:.0f}" '
+            f'role="img" aria-label="top view"><g transform="rotate(-90)">{"".join(g)}</g>'
+            f'<g transform="translate({top:.2f} {span / 2 + pad + 1:.2f})" fill="var(--dim)">'
+            f'<path d="M0,-0.6v1.2 M0,0h10 M10,-0.6v1.2" stroke="var(--dim)" '
+            f'stroke-width="{span * .004:.2f}"/><text x="11" y=".6" '
+            f'font-size="{span * .035:.2f}">10 m</text></g></svg>')
 
 
 def _kpis(lang: str, e: dict) -> str:
@@ -1266,17 +1269,17 @@ def _kpis(lang: str, e: dict) -> str:
                                           for v, lab, d in tiles if v) + "</div>"
 
 
-def econ_block(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, types: list[dict]) -> str:
+def econ_sections(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, types: list[dict]) -> tuple[str, str]:
     """Экономика на типовом маршруте и сравнение с классом."""
     t = T[lang]
     out = [f"<h2>{esc(t['econ_h'].format(route=route_name(lang, cls)))}</h2>"]
     if econ is None:
-        return "".join(out) + f'<p class="dim">{esc(t["econ_wait"])}</p>'
+        return "".join(out) + f'<p class="dim">{esc(t["econ_wait"])}</p>', ""
     e = econ.get(entry["icao"])
     if not e or e.get("error"):
-        return ""
+        return "", ""
     if e["no_model"]:
-        return "".join(out) + f'<p class="dim">{esc(t["no_model"])}</p>'
+        return "".join(out) + f'<p class="dim">{esc(t["no_model"])}</p>', ""
     rng = (by.get("range_km") or {}).get("value")
     lead = t["econ_lead"].format(km=num(e["km"], lang, 0), bh=num(e["block_h"], lang, 1), pax=e["pax"],
                                  seats=e["seats"], dflt=num((e.get("default_share") or 0) * 100, lang, 0))
@@ -1308,23 +1311,24 @@ def econ_block(lang: str, entry: dict, by: dict, econ: dict | None, cls: str, ty
     for icao, x in econ.items():
         if icao in names and not x.get("error") and not x.get("no_model") and x.get("feasible") and x.get("per_seat"):
             rows.append((icao, x))
+    comparison = []
     if len(rows) > 1:
         rows.sort(key=lambda r: r[1]["per_seat"])
-        out.append(f"<h2>{esc(t['cmp_h'])}</h2><p class=dim>{esc(t['cmp_lead'])}</p><div class=tw><table>"
+        comparison.append(f"<h2>{esc(t['cmp_h'])}</h2><p class=dim>{esc(t['cmp_lead'])}</p><div class=tw><table>"
                    f"<tr><th>{esc(t['col_type'])}</th><th class=r>{esc(t['col_seats'])}</th>"
                    f"<th class=r>{esc(t['k_total'])}</th><th class=r>{esc(t['k_seat'])}</th>"
                    f"<th class=r>CASK, ¢</th></tr>")
         for icao, x in rows:
             me = ' class="me"' if icao == entry["icao"] else ""
-            out.append(f'<tr{me}><td><a href="{type_url(lang, icao)}">{esc(name_of(names[icao], lang))}</a></td>'
+            comparison.append(f'<tr{me}><td><a href="{type_url(lang, icao)}">{esc(name_of(names[icao], lang))}</a></td>'
                        f"<td class=r>{x['seats']}</td><td class=r>{num(x['total'], lang, 0)}</td>"
                        f"<td class=r>{num(x['per_seat'], lang, 0)}</td><td class=r>{num(x['cask_ct'], lang, 1)}</td></tr>")
-        out.append("</table></div>")
-    return "\n".join(out)
+        comparison.append("</table></div>")
+    return "\n".join(out), "\n".join(comparison)
 
 
 def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict | None = None,
-              *, designer_enabled: bool = False) -> str:
+              *, designer_enabled: bool = False, designer_origin: str | None = None) -> str:
     """Страница одного типа. `info` — Context.aircraft_type, `entry` — строка Context.aircraft,
     `econ` — расчёты класса на типовом маршруте (Context.seo_econ) или None, пока не готовы."""
     t = T[lang]
@@ -1336,12 +1340,13 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
             f"<h1>{esc(t['type_h1'].format(name=name, icao=icao))}</h1>",
             f'<p class="lead">{esc(t["type_lead"].format(name=name, icao=icao, facts=(" — " + facts) if facts else ""))}</p>']
     cls = cls_of(entry)
+    widget = ""
     if entry.get("usable"):
         body.append(f'<a class="cta" href="{esc(calc_link(lang, cls, icao))}">{esc(t["cta"].format(icao=icao))}</a>')
         if not icao.upper().startswith("USER:"):
             body.append(type_editor(lang, icao, cls, info))
             if designer_enabled:
-                widget = designer_widget(lang, icao, info, cls)
+                widget = designer_widget(lang, icao, info, cls, designer_origin)
                 if widget:
                     body.append(widget)
     else:
@@ -1354,8 +1359,14 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     if svg:
         lgd = (f'<div class="lgd"><div><i></i>{esc(name)}</div>'
                + "".join(f'<div><i class="o"></i>{esc(name_of(x, lang))}</div>' for x in near) + "</div>")
-        body.append(f"<h2>{esc(t['sil_h'])}</h2><p class=dim>{esc(t['sil_lead'])}</p>"
-                    f'<div class="sil">{svg}{lgd}</div>')
+        initial_state = "" if widget else " open"
+        body.append(f'<details class="sil-details" id="scheme"{initial_state}>'
+                    f'<summary><h2>{esc(t["sil_h"])}</h2></summary>'
+                    f'<p class=dim>{esc(t["sil_lead"])}</p><div class="sil">{svg}{lgd}</div></details>')
+    comparison = ""
+    if entry.get("usable"):
+        economics, comparison = econ_sections(lang, entry, by, econ, cls, types)
+        body.append(economics)
     st = by.get("program_status", {}).get("text")
     rows = []
     if st:
@@ -1384,8 +1395,6 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
             vcls = "r" if re.fullmatch(r"[\d\s.,−\-]+", val) else "r tx"
             body.append(f"<tr><td>{esc(lab)}</td><td class='{vcls}'>{esc(val)}</td><td class=s>{src}</td></tr>")
         body.append("</table></div>")
-    if entry.get("usable"):
-        body.append(econ_block(lang, entry, by, econ, cls, types))
     fd = info.get("fleet_default") or {}
     if fd and entry.get("usable"):
         own = fd["lease_eur_month"] / fd["monthly_hours"] if fd.get("monthly_hours") else None
@@ -1408,6 +1417,7 @@ def type_page(lang: str, info: dict, entry: dict, types: list[dict], econ: dict 
     if sim:
         body.append(f"<h2>{esc(t['similar_h'])}</h2><div class=chips>" + "".join(
             f'<a href="{type_url(lang, x["icao"])}">{esc(name_of(x, lang))}</a>' for x in sim) + "</div>")
+    body.append(comparison)
     # Ставки — в описание для выдачи: по запросам «a321neo price», «maintenance rates»
     # человек видит цифру уже в сниппете (Search Console, ноябрь 2026).
     rates = ""
@@ -1687,7 +1697,9 @@ def prices_block(lang: str, icao: str, lease_eur: float | None = None, new_gen: 
 # 3D is opt-in and intentionally not part of the existing economics UI.
 # This widget doesn't change the original edit form, canonical or JSON-LD.
 FC3D_TEXT = {
-    "ru": {"back": "Вернуться к карточке во FlightCost", "apply": "Выбрать", "switch_note": "При смене компоновки несохранённые изменения пропадут.", "need_js": "Для 3D-конструктора нужен JavaScript.", "heading": "Посмотреть и изменить самолёт в 3D",
+    "ru": {"rotate": "Вращать в 3D", "close_preview": "Закрыть 3D", "seats": "мест", "loading": "Загрузка 3D…",
+           "preview_failed": "Не удалось открыть 3D", "operational": "эксплуатационный", "factory": "заводской",
+           "back": "Вернуться к карточке во FlightCost", "apply": "Выбрать", "switch_note": "При смене компоновки несохранённые изменения пропадут.", "need_js": "Для 3D-конструктора нужен JavaScript.", "heading": "Посмотреть и изменить самолёт в 3D",
            "lead": "Откройте Aircraft Designer и сохраните результат как отдельный свой тип. Данные модели предварительные, не сертификационные.",
            "layout": "Салон и двигатель 3D", "open": "Открыть в 3D · Aircraft Designer",
            "create": "Создать рабочее место для сохранения", "workspace": "Моё рабочее место",
@@ -1697,7 +1709,9 @@ FC3D_TEXT = {
            "calc": "Открыть расчёт маршрута", "caveat": "Без подтверждённой топливной модели расчёт может быть недоступен.",
            "different": "Важно: двигатель 3D ({designer}) отличается от двигателя в карточке FlightCost ({flightcost}). Топливная модель не переносится автоматически.",
            "error": "Ошибка: "},
-    "en": {"back": "Back to aircraft on FlightCost", "apply": "Apply", "switch_note": "Changing the configuration discards unsaved edits.", "need_js": "JavaScript is required for the 3D designer.", "heading": "Explore and modify the aircraft in 3D",
+    "en": {"rotate": "Rotate in 3D", "close_preview": "Close 3D", "seats": "seats", "loading": "Loading 3D…",
+           "preview_failed": "Could not load 3D", "operational": "operational", "factory": "factory",
+           "back": "Back to aircraft on FlightCost", "apply": "Apply", "switch_note": "Changing the configuration discards unsaved edits.", "need_js": "JavaScript is required for the 3D designer.", "heading": "Explore and modify the aircraft in 3D",
            "lead": "Open Aircraft Designer and save as a separate custom aircraft. Engineering values are provisional, not certified.",
            "layout": "3D cabin and engine", "open": "Open in 3D · Aircraft Designer",
            "create": "Create a workspace to save", "workspace": "My workspace",
@@ -1707,7 +1721,9 @@ FC3D_TEXT = {
            "calc": "Open route calculation", "caveat": "Without a validated fuel model, a route calculation may be unavailable.",
            "different": "Important: 3D engine ({designer}) differs from the FlightCost card engine ({flightcost}). Fuel model is not copied automatically.",
            "error": "Error: "},
-    "de": {"back": "Zurück zum Flugzeug bei FlightCost", "apply": "Auswählen", "switch_note": "Beim Wechsel der Konfiguration gehen ungespeicherte Änderungen verloren.", "need_js": "Für den 3D-Konfigurator ist JavaScript erforderlich.", "heading": "Flugzeug in 3D ansehen und ändern",
+    "de": {"rotate": "In 3D drehen", "close_preview": "3D schließen", "seats": "Sitze", "loading": "3D wird geladen…",
+           "preview_failed": "3D konnte nicht geladen werden", "operational": "Betriebsprofil", "factory": "Werksprofil",
+           "back": "Zurück zum Flugzeug bei FlightCost", "apply": "Auswählen", "switch_note": "Beim Wechsel der Konfiguration gehen ungespeicherte Änderungen verloren.", "need_js": "Für den 3D-Konfigurator ist JavaScript erforderlich.", "heading": "Flugzeug in 3D ansehen und ändern",
            "lead": "Aircraft Designer öffnen und als eigenen Typ speichern. Die Konstruktionswerte sind vorläufig, nicht zertifiziert.",
            "layout": "3D-Kabine und Triebwerk", "open": "In 3D öffnen · Aircraft Designer",
            "create": "Arbeitsbereich zum Speichern erstellen", "workspace": "Mein Arbeitsbereich",
@@ -1738,36 +1754,59 @@ def designer_choices(icao: str, info: dict) -> tuple[list[dict], int, str]:
     return options, chosen, ref_engine
 
 
+def _designer_label(c: dict) -> str:
+    label = f'{c["seats"]} · {c["engine"]} · {c["aircraftId"]}'
+    return label + (" · factory" if c["weightProfile"] == "factory" else "")
+
+
 def _designer_options(choices: list[dict], selected: int) -> str:
     return "".join(f'<option value="{i}"{" selected" if i == selected else ""}>'
-                   f'{esc(c["seats"])} · {esc(c["engine"])} · {esc(c["aircraftId"])}'
-                   f'{" · factory" if c["weightProfile"] == "factory" else ""}</option>'
+                   f'{esc(_designer_label(c))}</option>'
                    for i, c in enumerate(choices))
 
 
-def designer_widget(lang: str, icao: str, info: dict, cls: str) -> str:
-    """Small *navigation-only* section beside the unchanged legacy type editor.
-
-    The selector posts as an ordinary GET to a separate URL. Nothing is framed
-    or saved on the indexable reference type page; works without JavaScript.
-    """
+def designer_widget(lang: str, icao: str, info: dict, cls: str, designer_origin: str | None = None) -> str:
+    """Type-card preview. The full editor remains a normal GET navigation."""
     choices, selected, _ = designer_choices(icao, info)
     if not choices:
         return ""
     t = FC3D_TEXT[lang]
     href = f"/{lang}/type/{quote(icao)}/3d"
-    return ("<style>.fc3d select{display:block;background:var(--bg);color:var(--ink);"
-            "border:1px solid var(--line);border-radius:5px;padding:7px 9px;max-width:100%;margin:6px 0 10px;}"
-            ".fc3d .fc3d-cta{background:var(--raise);color:var(--ink);border:1px solid var(--line);"
-            "border-radius:6px;padding:8px 14px;font:14px var(--sans);font-weight:600;cursor:pointer}"
-            ".fc3d .fc3d-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}</style>"
-            f'<section class="ed fc3d" id="fc3d"><h3>{esc(t["heading"])}</h3>'
+    origin = designer_origin or "https://aircraft-designer.app"
+    options = []
+    for i, c in enumerate(choices):
+        poster = f'/aircraft-previews/{c["aircraftId"]}--{c["layoutId"]}.webp'
+        query = urlencode({"view": "aircraft-preview", "ac": icao, "aircraft": c["aircraftId"],
+                           "engine": c["engine"], "layout": c["layoutId"], "profile": c["weightProfile"]})
+        seats = c["seats"]
+        unit = t["seats"]
+        if lang == "ru" and not 11 <= seats % 100 <= 14:
+            if seats % 10 == 1:
+                unit = "место"
+            elif 2 <= seats % 10 <= 4:
+                unit = "места"
+        caption = f'{seats} {unit} · {c["engine"]}'
+        if c["weightProfile"] in ("operational", "factory"):
+            caption += " · " + t[c["weightProfile"]]
+        options.append(f'<option value="{i}"{" selected" if i == selected else ""} '
+                       f'data-poster="{esc(poster)}" data-view="{esc(origin + "/?" + query)}" '
+                       f'data-caption="{esc(caption)}">{esc(_designer_label(c))}</option>')
+        if i == selected:
+            initial_poster, initial_caption = poster, caption
+    return (f'<section class="ed fc3d" id="fc3d"><div class="fc3d-copy"><h3>{esc(t["heading"])}</h3>'
             f'<p class="dim">{esc(t["lead"])}</p>'
             f'<form action="{esc(href)}" method="get">'
             f'<label for="fc3d-choice">{esc(t["layout"])}</label>'
-            f'<select id="fc3d-choice" name="choice">{_designer_options(choices, selected)}</select>'
-            f'<button class="fc3d-cta" type="submit">{esc(t["open"])}</button>'
-            '</form></section>')
+            f'<select id="fc3d-choice" name="choice">{"".join(options)}</select>'
+            f'<button class="fc3d-cta" type="submit">{esc(t["open"])}</button></form></div>'
+            f'<figure class="fc3d-preview" data-rotate="{esc(t["rotate"])}" data-close="{esc(t["close_preview"])}" '
+            f'data-loading="{esc(t["loading"])}" data-failed="{esc(t["preview_failed"])}">'
+            f'<div class="fc3d-stage"><img src="{esc(initial_poster)}" width="840" height="412" '
+            f'loading="lazy" decoding="async" alt=""></div>'
+            f'<figcaption>{esc(initial_caption)}</figcaption>'
+            f'<button class="fc3d-orbit" type="button" hidden>{esc(t["rotate"])}</button>'
+            '<span role="status" class="fc3d-preview-status"></span></figure></section>'
+            '<script src="/aircraft-preview.js" defer></script>')
 
 
 def designer_page(lang: str, icao: str, info: dict, entry: dict, cls: str,

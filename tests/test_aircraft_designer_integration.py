@@ -171,7 +171,9 @@ class ApiHttp(unittest.TestCase):
             self.assertIn('id="fc3d"', html)
             self.assertIn('id="edopen"', html)
             self.assertIn('action="/ru/type/B752/3d" method="get"', html)
-            self.assertIn('<option value="1" selected>225', html)
+            self.assertIn('<option value="1" selected data-poster="/aircraft-previews/b757-200-rb--b752-225.webp"', html)
+            self.assertIn('<img src="/aircraft-previews/b757-200-rb--b752-225.webp"', html)
+            self.assertIn('view=aircraft-preview', html)
             self.assertNotIn('flightcost-embed.nomodule.js', html)
             self.assertNotIn('<iframe', html)
             # Separate fullscreen page, never the canonical SEO type card.
