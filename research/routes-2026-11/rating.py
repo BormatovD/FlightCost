@@ -32,7 +32,8 @@ IN_ICAO = {"Delhi": "VIDP", "Mumbai": "VABB", "Bengaluru": "VOBL", "Hyderabad": 
            "Silchar": "VEKU", "Darbhanga": "VEDH", "Jabalpur": "VAJB", "Belgaum": "VOBM", "Gaya": "VEGY",
            "Shirdi": "VASD", "Kannur": "VOKN", "Port blair": "VOPB", "Dimapur": "VEMR", "Deoghar": "VEDO"}
 SLOT3 = {s["icao"] for s in J("out/r2.json")["slots"] if str(s["level"]).startswith("3") and len(s["icao"]) == 4}
-SLOT3 |= {"LFPG", "LFPO", "LFMN"}          # COHOR: по меню сайта, без цитаты — помечено в статье
+SLOT3 |= {"LFPG", "LFPO", "LFMN", "EDDF"} # COHOR menu airports plus EDDF from primary Fluko list.
+# https://fluko.org/en/flughaefen/flughaefen-level-3/
 
 
 def airports():

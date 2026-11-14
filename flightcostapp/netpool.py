@@ -96,14 +96,15 @@ def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
                              as_of=kw.get("as_of"), month=kw.get("month"),
                              overrides=ov or None, operator=kw.get("operator", "*"),
                              leg_cache=legs, detour_cache=_state["detours"],
-                             progress=progress, seats=kw.get("seats"))
+                             progress=progress, seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"))
         ok = [p for p in pairs if p.status == "ok"]
         fleet = None
         if ok:
             fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
                                     aircraft=kw["aircraft"], as_of=kw.get("as_of"),
                                     month=kw.get("month"), overrides=ov or None,
-                                    operator=kw.get("operator", "*"), seats=kw.get("seats"))
+                                    operator=kw.get("operator", "*"), seats=kw.get("seats"),
+                                    aircraft_age=kw.get("aircraft_age"))
     finally:
         if gdb is not None:
             try:

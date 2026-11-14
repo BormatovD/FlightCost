@@ -708,7 +708,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     <div class="grp2">Флот<button type="button" class="hint" data-hk="fleet" aria-label="пояснение">i</button></div>
     <div class="field"><label for="lease"><span id="leasel">Лизинг, EUR в месяц</span><button type="button" class="hint" data-hk="lease" aria-label="пояснение">i</button></label>
       <input id="lease" type="number" placeholder="—" step="1000"></div>
-    <div id="leaseobs" class="note quiet" hidden></div>
+    <details id="leaseobs" class="more" hidden>
+      <summary>Ставка из публикации</summary>
+      <div class="note quiet"></div>
+    </details>
     <div class="field"><label for="hours">Налёт борта, часов в месяц<button type="button" class="hint" data-hk="hours" aria-label="пояснение">i</button></label>
       <input id="hours" type="number" placeholder="—" step="10"></div>
     <!-- ТОиР двумя числами, как в модели (решение 193): за час налёта и за
@@ -738,6 +741,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     <button class="mtoggle" id="ntoggle" aria-expanded="false">Параметры сети<span id="nsum"></span><i>▾</i></button>
     <div class="grp2">Аэропорты</div>
     <div class="chips" id="nchips"></div>
+    <details id="nratinghints" class="more" hidden>
+      <summary>Подсказка</summary>
+      <div class="note quiet" aria-live="polite"></div>
+    </details>
     <div class="hp nadd"><input id="nadd" class="pick" autocomplete="off" placeholder="добавить — код, название или щелчок по глобусу" title="Добавить аэропорт">
       <div class="hits" id="naddh"></div></div>
     <div class="rv" style="margin-top:6px"><span id="nstat">щелчок по чипу — сделать базой, × — убрать</span></div>
@@ -754,7 +761,12 @@ tr.sel td,tr:hover td.v{background:var(--select)}
     </div>
     <div class="field"><label for="nlease"><span id="nleasel">Лизинг, EUR в месяц на борт</span><button type="button" class="hint" data-hk="nlease" aria-label="пояснение">i</button></label>
       <input id="nlease" type="number" placeholder="—" step="1000"></div>
-    <div id="nleaseobs" class="note quiet" hidden></div>
+    <div class="field"><label for="nage">Возраст борта, лет<button type="button" class="hint" data-hk="nage" aria-label="пояснение">i</button></label>
+      <input id="nage" type="number" placeholder="средний за срок службы" min="0" max="40" step="1"></div>
+    <details id="nleaseobs" class="more" hidden>
+      <summary>Ставка из публикации</summary>
+      <div class="note quiet"></div>
+    </details>
     <div class="field pair">
       <div><label for="nmfh"><span id="nmfhl">ТОиР, EUR/ч</span><button type="button" class="hint" data-hk="nmaint" aria-label="пояснение">i</button></label>
         <input id="nmfh" type="number" placeholder="—" min="0" step="10"></div>
@@ -1220,26 +1232,29 @@ function setLeaseObservation(id){
 }
 function leaseObservationNotice(metadata = null, network = false, error = ""){
   const box = $(network ? "#nleaseobs" : "#leaseobs"), id = leaseObservationId();
-  box.hidden = !id;
-  if (!id) { box.innerHTML = ""; return; }
-  const current = metadata && metadata.id === id && metadata.icao === CHOSEN.ac ? metadata : null;
-  if (current) LEASE_OBSERVATION.meta = current;
-  const m = current || LEASE_OBSERVATION.meta;
+  const content = box.querySelector(".note");
+  const current = metadata && metadata.icao === CHOSEN.ac && (metadata.id === id || (!id && metadata.automatic)) ? metadata : null;
+  box.hidden = !id && !current;
+  if (box.hidden) { box.open = false; content.textContent = ""; return; }
+  if (current && id) LEASE_OBSERVATION.meta = current;
+  const m = current || (LEASE_OBSERVATION && LEASE_OBSERVATION.meta);
   const manual = $(network ? "#nlease" : "#lease").value !== "" || (current && current.applied === false);
-  let text = `<b>${_t("Ставка из публикации")}</b>`;
+  let text = "";
   if (m) {
     const age = m.age === "new" ? _t("новый борт") : m.age == null ? _t("возраст не указан") : `${f0(m.age)} ${_t("лет")}`;
-    text += `<br>${esc(m.month)} · ${age}<br>${f0(m.low)}–${f0(m.high)} ${esc(m.currency)}/${_t("мес")}<br>${_t("середина")}: <b>${f0(m.midpoint)} ${esc(m.currency)}</b>`;
+    text += `${esc(m.month)} · ${age}<br>${f0(m.low)}${m.low !== m.high ? `–${f0(m.high)}` : ""} ${esc(m.currency)}/${_t("мес")}`;
+    if (m.low !== m.high) text += `<br>${_t("середина")}: <b>${f0(m.midpoint)} ${esc(m.currency)}</b>`;
     if (m.lease_eur_month != null) text += ` = ${m0(m.lease_eur_month)} ${CUR.code}`;
     if (m.fx && m.fx.rate && m.currency !== "EUR") text += `<br>1 EUR = ${esc(m.fx.rate)} ${esc(m.currency)} · ${esc(m.fx.source || m.fx.provenance)}${m.fx.date ? ", " + esc(m.fx.date) : ""}`;
-    text += `<br>${_t("Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.")}`;
+    text += `<br>${m.automatic ? _t("Принятая публикация подобрана по типу, возрасту и дате расчёта.") : _t("Сценарий по опубликованной ставке; дата расчёта и возраст борта не меняются.")}`;
     if (m.note || m.quote) text += `<details><summary>${_t("Условия источника")}</summary>${esc(m.note || "")}${m.quote ? `<br>«${esc(m.quote)}»` : ""}</details>`;
-    if (/^https?:\/\//i.test(m.source || "")) text += `<br><a href="${esc(m.source)}" target="_blank" rel="noopener">${_t("источник")}</a>`;
-  } else if (!error) text += `<br>${_t("Проверяем выбранное наблюдение…")}`;
-  if (manual) text += `<br><b>${_t("Применяется ручная ставка; выбор публикации сохранён.")}</b>`;
-  if (error) text += `<br>${esc(error)}`;
-  box.innerHTML = text + `<br><button type="button" class="chipb">${_t("Убрать выбор публикации")}</button>`;
-  box.querySelector("button").onclick = () => {
+    if (/^https?:\/\//i.test(m.source || "")) text += `<br><a href="${escA(m.source)}" target="_blank" rel="noopener">${esc(m.publisher || _t("источник"))}</a>`;
+    else if (m.publisher) text += `<br>${esc(m.publisher)}`;
+  } else if (!error) text = _t("Проверяем выбранное наблюдение…");
+  if (manual) text += `<br><b>${m && m.automatic ? _t("Применяется ручная ставка.") : _t("Применяется ручная ставка; выбор публикации сохранён.")}</b>`;
+  if (error) text += (text ? "<br>" : "") + esc(error);
+  content.innerHTML = text + (id ? `<br><button type="button" class="chipb">${_t("Убрать выбор публикации")}</button>` : "");
+  if (id) box.querySelector("button").onclick = () => {
     setLeaseObservation(null); draw();
     if (NET.on) netSoft();
   };
@@ -1599,12 +1614,18 @@ setHint("ngo", _t("ядро считает каждое плечо: первый
 // Значение, которое ушло в расчёт, — прямо в поле вместо «из справочника»,
 // бледным: поле пустое, число не задано вами, но видно, с чем считали.
 const FLEET_PROV = () => ({default: _t("параметрическая заготовка от массы и кресел"),
+  source: _t("из публикации"),
   store: _t("ставка из справочника"), override: _t("ваша ставка из рабочего места"),
   input: _t("задано вами"), derived: _t("ставка типа по Form 41 с поправкой на возраст и год")});
 function leaseOrigin(fl){
   if (fl.lease_observation && fl.lease_observation.applied) return _t("из публикации");
   return ["input", "override"].includes(fl.lease_prov) ? _t("задано")
     : fl.lease_prov === "store" ? _t("справочник") : _t("заготовка");
+}
+function setAircraftAge(value){
+  const age = value == null ? "" : String(value);
+  $("#acage").value = age;
+  $("#nage").value = age;
 }
 const ROLE_RU = () => ({derived: _t("вычислено"), store: _t("справочник"), input: _t("ввод"),
   default: _t("заготовка"), source: _t("источник"), fleet: _t("тип ВС")});
@@ -2289,9 +2310,9 @@ function tabTrace(r){
   let grp = "";
   for (const s of r.trace) {
     if (s.group !== grp) { grp = s.group; h += `<div class="grp">${esc(grp)}</div>`; }
-    h += `<div class="step" data-node="${esc(s.node)}" data-src="${esc(s.src)}" data-prov="${esc(s.prov || "")}"
-        data-ref="${esc(s.ref || "")}" data-label="${esc(s.label)}"
-        data-formula="${esc(s.formula||"")}" data-subst="${esc(s.subst||"")}">
+    h += `<div class="step" data-node="${escA(s.node)}" data-src="${escA(s.src)}" data-prov="${escA(s.prov || "")}"
+        data-ref="${escA(s.ref || "")}" data-links="${escA(JSON.stringify(s.links || []))}" data-label="${escA(s.label)}"
+        data-formula="${escA(s.formula||"")}" data-subst="${escA(s.subst||"")}">
       <span class="n">${s.n}</span><div>${esc(s.label)}</div>
       <span class="val">${s.value==null?"—":f0(s.value)} <span
         style="color:var(--faint);font-size:11px">${esc(s.unit)}</span></span>
@@ -3204,6 +3225,8 @@ async function side(d){
   const [domain, key] = cut > 0 ? [ref.slice(0, cut), ref.slice(cut + 1)] : ["", ""];
   let h = `<span class="close" onclick="closeSheet()">×</span><h3 style="margin-top:0">${esc(d.label)}</h3>`;
   if (!domain || !key) {
+    const links = (typeof d.links === "string" ? JSON.parse(d.links || "[]") : d.links || [])
+      .filter(link => /^https?:\/\//i.test(link.url || ""));
     // Прежде здесь стояло «шаг не стоит на факте» — фраза точная и
     // непонятная. Величина расчётная, и продолжать трассировку надо не
     // объяснением, чего нет, а перечнем того, из чего она получена.
@@ -3214,19 +3237,23 @@ async function side(d){
     const LEDE = {default: _t("Заготовка: величина посчитана, но ставки в ней — связная оценка, а не данные. Своё число — в блоке «Флот» или в рабочем месте."),
       override: _t("Задано вами: в расчёт ушло ваше значение вместо справочного."),
       input: _t("Задано вами: в расчёт ушло ваше значение вместо справочного.")};
-    h += `<p class="lede">${LEDE[d.prov] || _t("Расчётное значение: получено из других величин, а не взято из справочника.")}</p>
-      <dl class="kv">
+    if (!links.length) h += `<p class="lede">${LEDE[d.prov] || _t("Расчётное значение: получено из других величин, а не взято из справочника.")}</p>`;
+    h += `<dl class="kv">
         <dt>${_t("формула")}</dt><dd style="font-family:var(--mono)">${
           esc(d.formula || "—")}</dd>
         <dt>${_t("подстановка")}</dt><dd style="font-family:var(--mono)">${
           esc(d.subst || "—")}</dd>
         ${d.src ? `<dt>${_t("пояснение")}</dt><dd style="font-family:inherit">${
           esc(d.src)}</dd>` : ""}
-      </dl><div id="nodebox"></div>`;
+      </dl>` + (links.length ? links.map(link =>
+        `<p><a href="${escA(link.url)}" target="_blank" rel="noopener">${esc(link.label)} · ${esc(new URL(link.url).hostname)}</a></p>`
+      ).join("") : '<div id="nodebox"></div>');
     $("#side").innerHTML = h;
-    if (d.node) {
+    if (d.node && !links.length) {
       const nd = await (await fetch(`/api/node?id=${encodeURIComponent(d.node)}`)).json();
-      $("#nodebox").innerHTML = nd.found
+      const nodebox = $("#nodebox");
+      if (!nodebox) return;
+      nodebox.innerHTML = nd.found
         ? `<h3>${_t("Откуда берутся входы")}</h3>` + (nd.inputs.length
             ? `<table class="wrap"><tbody>` + nd.inputs.map(i => `<tr>
                  <td>${esc(i.label)}<div style="color:var(--faint);font-size:11px">${
@@ -3413,6 +3440,7 @@ const NET = {on: false, airports: [], base: null, freqs: {}, fares: {},
              market: {}, res: null, sel: null, zones: "all", showRights: false,
              busy: false, dirty: true, msg: "", tset: {}, mode: "fleet", rep: {},
              lsort: {k: "contrib", d: -1}, panel: null};
+let NET_HINT_SEQ = 0;
 const NET_TABS = [["net", _t("Сеть")], ["ntypes", _t("Типы")], ["market", _t("Рынок")], ["nwarn", _t("Оговорки")]];
 let ROUTE_TABS_HTML = null;
 const netIcao = key => (APTS.find(x => x.key === key) || {}).icao;
@@ -3469,6 +3497,7 @@ function netChips(){
     } else NET.base = el.dataset.k;
     NET.dirty = true; netChips(); netRender();
   });
+  netLoadMarketHints();
   const n = NET.airports.length, pairs = n * (n - 1) / 2;
   const r = NET.res;
   $("#nstat").textContent = r && !NET.dirty
@@ -3477,6 +3506,62 @@ function netChips(){
   $("#ngo").classList.toggle("hot", NET.dirty);
   $("#ngo").textContent = NET.dirty ? _t("Считать сеть") : _t("Пересчитать");
   drawGlobe();
+}
+
+async function netLoadMarketHints(){
+  const box = $("#nratinghints");
+  const content = box.querySelector(".note");
+  const codes = NET.airports.map(netIcao).filter(Boolean);
+  const seq = ++NET_HINT_SEQ;
+  if (codes.length < 2) { box.hidden = true; box.open = false; content.textContent = ""; return; }
+  box.hidden = false;
+  content.textContent = _t("загружаю подсказки…");
+  try {
+    const q = new URLSearchParams({airports: codes.join(",")});
+    const response = await fetch("/api/network-hints?" + q.toString());
+    const data = await response.json();
+    if (seq !== NET_HINT_SEQ) return;
+    if (!response.ok || !data.available || !data.pairs?.length) { box.hidden = true; return; }
+    const labels = {
+      europe_short_haul: _t("Европа · пары до 4 500 км"),
+      europe_long_haul: _t("Европа · дальние пары"),
+      india: _t("Индия · внутренние пары"),
+    };
+    const selected = new Map(NET.airports.map(k => [netIcao(k), netApt(k)]));
+    const codeLabel = icao => {
+      const a = selected.get(icao);
+      return a ? code(a) : icao;
+    };
+    const pairRows = data.pairs;
+    const fmt = value => Number(value).toLocaleString(LOCALE, {maximumFractionDigits: 0});
+    const renderPair = x => {
+      const market = labels[x.market] || _t("Без рейтинга")
+        + ` · ${_t("нет данных для пары")}`;
+      const period = x.market === "india"
+        ? `${_t("12 мес. по")} ${esc(x.period)}` : esc(String(x.period || "").slice(0, 4));
+      const slots = (x.slot3 || []).map(codeLabel);
+      const paxLabel = x.market === "india"
+        ? _t("пасс. за 12 мес., оба направления") : _t("пасс. за год, оба направления");
+      let details = x.found
+        ? `${x.rank} ${_t("из")} ${fmt(x.rank_of)} · ${fmt(x.pax)} ${paxLabel}`
+        : _t("пары нет в рейтинге");
+      if (x.found && x.growth != null) details += ` · ${_t("рост")} ${x.growth >= 0 ? "+" : ""}${(x.growth * 100).toLocaleString(LOCALE, {maximumFractionDigits: 1})}%`;
+      if (x.found && x.load_factor != null) details += ` · ${_t("загрузка")} ${(x.load_factor * 100).toLocaleString(LOCALE, {maximumFractionDigits: 1})}%`;
+      if (x.found && x.market === "india" && x.load_factor == null) details += ` · ${_t("загрузка не опубликована")}`;
+      const slotNote = x.market
+        ? slots.length
+          ? `<br>${_t("слоты уровня 3")}: ${slots.map(esc).join(", ")}`
+          : `<br>${_t("уровень 3 не отмечен в используемом списке")}`
+        : "";
+      return `<div style="margin-top:6px"><b>${esc(codeLabel(x.from))}–${esc(codeLabel(x.to))}</b> · ${market}${period ? ` · ${period}` : ""}<br>${details}${slotNote}</div>`;
+    };
+    const visibleCount = Math.min(pairRows.length, 3);
+    const visible = pairRows.slice(0, visibleCount).map(renderPair).join("");
+    const extra = pairRows.slice(visibleCount).map(renderPair).join("");
+    content.innerHTML = `<b>${_t("Рынок по выбранным парам")}</b><div>${visible}${extra ? `<details><summary>${_t("ещё")} ${pairRows.length - visibleCount} ${_t("пар")}</summary>${extra}</details>` : ""}</div>`;
+  } catch (_) {
+    if (seq === NET_HINT_SEQ) box.hidden = true;
+  }
 }
 // Поле добавления — тот же поиск, что у «откуда/куда».
 (function bindNetAdd(){
@@ -3506,7 +3591,7 @@ function netParams(){
     operator: ["*", "max", "own"].includes(CHOSEN.op) ? "*" : CHOSEN.op,
     fleet: $("#nfleet").value || "1", lf: (+$("#nlf").value / 100).toFixed(2),
     fare_mult: (+$("#nmult").value / 100).toFixed(2), fare_conv: $("#nconv").value || "",
-    month: $("#month").value});
+    month: $("#month").value, age: $("#acage").value || ""});
   // Компоновка шапки — и в сети: «по сертификату» и «своя» уходят числом
   // кресел. Прежде сеть их не получала и считала по типовой.
   const seats = seatsParam(); if (seats) p.set("seats", String(seats));
@@ -3588,6 +3673,9 @@ function netSoft(){
 }
 $("#ngo").onclick = netRun;
 ["nfleet", "nutil", "nlease", "nmfh", "nmfc", "nconv", "nalpha", "nwin"].forEach(id => $("#" + id).addEventListener("input", netSoft));
+$("#acage").addEventListener("input", () => { setAircraftAge($("#acage").value); if (NET.on) netSoft(); });
+$("#nage").addEventListener("input", () => { setAircraftAge($("#nage").value); if (NET.on) netSoft(); else draw(); });
+setHint("nage", _t("Возраст для ТОиР и подбора лизинга: 0 — новый борт. Пусто — возрастная категория карточки для лизинга и средний возраст для ТОиР."));
 $("#nkind").addEventListener("change", netSoft);
 $("#nmult").addEventListener("input", () => { $("#nmultv").textContent = `× ${f2(+$("#nmult").value / 100)}`; netFareLine(); netSoft(); });
 $("#nconv").addEventListener("input", netFareLine);
@@ -4272,6 +4360,7 @@ function netZonesApply(){
 // ── рабочее место: сети документами ─────────────────────────────────────
 function netState(){
   return {airports: NET.airports, base: NET.base, ac: CHOSEN.ac, fleet: +$("#nfleet").value || 1,
+    age: $("#acage").value || null,
     lease_observation: leaseObservationId() || null,
     util: $("#nutil").value || null, lease_eur: $("#nlease").value === "" ? null : Math.round(toEur($("#nlease").value)),
     maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
@@ -4285,6 +4374,7 @@ function netApply(st){
   NET.airports = st.airports || []; NET.base = st.base || NET.airports[0] || null;
   if (st.ac && ACS.some(t => t.icao === st.ac)) setAc(st.ac);
   setLeaseObservation(st.lease_observation || null);
+  setAircraftAge(st.age);
   $("#nfleet").value = st.fleet || 1; $("#nutil").value = st.util || "";
   $("#nlease").value = st.lease_eur == null ? "" : String(Math.round(M(st.lease_eur)));
   $("#nmfh").value = st.maint_fh_eur == null ? "" : String(Math.round(M(st.maint_fh_eur)));
@@ -4495,8 +4585,7 @@ document.addEventListener("click", e => {
   e.preventDefault();
   $("#hintpop").hidden = true;
   const s = (LAST.trace || []).find(x => x.node === a.dataset.step);
-  if (s) side({node: s.node, src: s.src || "", prov: s.prov || "", ref: s.ref || "", label: s.label,
-               formula: s.formula || "", subst: s.subst || ""});
+  if (s) side(s);
 });
 $("#acclose").onclick = galleryClose;
 $("#teclose").onclick = typeEditClose;

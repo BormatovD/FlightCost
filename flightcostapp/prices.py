@@ -85,7 +85,7 @@ def market_now(obs: list[dict], new_gen: bool, rates: dict | None = None,
 def load(path: Path | None = None) -> dict:
     path = PATH if path is None else path
     try:
-        mt = path.stat().st_mtime
+        mt = path.stat().st_mtime_ns
     except OSError:
         return {}
     hit = _CACHE.get(str(path))
@@ -168,6 +168,60 @@ def observation_id(o: dict) -> str:
     """Стабильный SHA-256 семантического наблюдения; примечания и checked в ID не входят."""
     payload = json.dumps(_identity(o), ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def lease_revision() -> str:
+    """Invalidate network results when an accepted lease or its source changes."""
+    rows = [o for o in load().get("observations", []) if o.get("kind") == "lease"]
+    return hashlib.sha256(json.dumps(rows, sort_keys=True, ensure_ascii=False, default=str).encode()).hexdigest()
+
+
+def latest_lease(icao: str, as_of, age: float | None = None) -> dict | None:
+    """Same accepted observations and age policy as aircraft cards; no interpolation."""
+    from .fleet import generation
+    month = str(as_of)[:7]
+    first_year = int(month[:4]) - 3
+    new_gen = generation(icao) == "new"
+    matches = []
+    for obs in of(icao):
+        period = str(obs.get("month") or "")
+        if (obs.get("kind") != "lease" or not re.fullmatch(r"\d{4}-\d{2}", period)
+                or not str(first_year) <= period <= month):
+            continue
+        years = 0 if obs.get("age") == "new" else obs.get("age")
+        if isinstance(years, bool) or not isinstance(years, (int, float)) or not math.isfinite(years):
+            continue
+        if age is not None:
+            if years != age:
+                continue
+        elif not (years == 0 if new_gen else 8 <= years <= 14):
+            continue
+        matches.append(obs)
+    if not matches:
+        return None
+    newest = max(o["month"] for o in matches)
+    latest = [o for o in matches if o["month"] == newest]
+    # Do not silently choose between incompatible appraisals in one month.
+    if len({(o.get("currency", "USD"), amount_bounds(o), o.get("age"),
+             o.get("variant"), o.get("valuation_basis")) for o in latest}) > 1:
+        return None
+    return min(latest, key=observation_id)
+
+
+def lease_selection(obs: dict, store, as_of) -> dict:
+    """Published bounds and calculation-date FX, shared by explicit and automatic paths."""
+    from . import fx
+    currency = str(obs.get("currency") or "USD").upper()
+    lo, hi = amount_bounds(obs)
+    mid = lo / 2 + hi / 2
+    rate = fx.quote(store, currency, as_of)
+    k = rate.get("rate")
+    eur = mid / k if isinstance(k, (int, float)) and math.isfinite(k) and k > 0 else None
+    return {"id": observation_id(obs), "icao": obs["icao"], "month": obs["month"],
+            "age": obs.get("age"), "currency": currency, "low": lo, "high": hi,
+            "midpoint": mid, "lease_eur_month": eur, "source": obs.get("source"),
+            "publisher": obs.get("publisher"), "quote": obs.get("quote"), "note": obs.get("note"),
+            "fx": {**rate, "as_of": str(as_of)}}
 
 
 def find_observation(id: str, doc: dict | None = None) -> dict | None:

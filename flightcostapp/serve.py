@@ -81,6 +81,55 @@ def _jsonable(x):
     return x
 
 
+_EUROPE_COUNTRIES = frozenset("AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK".split())
+
+
+def network_pair_hints(rating: dict, airport_rows: list[dict], airport_codes: list[str]) -> list[dict]:
+    """Look up unordered pairs in the published rating rows, retaining their bucket."""
+    aliases = {}
+    for item in airport_rows:
+        icao = str(item.get("icao", "")).upper()
+        if not icao:
+            continue
+        aliases[icao] = icao
+        key = str(item.get("key", "")).upper()
+        if key:
+            aliases[key] = icao
+    codes = list(dict.fromkeys(aliases.get(str(code).strip().upper(), str(code).strip().upper())
+                               for code in airport_codes if code))
+    eu = rating.get("europe", {})
+    india = rating.get("india", {})
+    eu_rows = eu.get("pairs", [])
+    eu_long = eu.get("long_haul", [])
+    in_rows = india.get("pairs", [])
+    eu_short_idx = {r.get("pair"): r for r in eu_rows}
+    eu_long_idx = {r.get("pair"): r for r in eu_long}
+    in_idx = {"-".join(sorted(x for x in (r.get("icao") or []) if x)): r
+              for r in in_rows if len([x for x in (r.get("icao") or []) if x]) == 2}
+    out = []
+    for i, first in enumerate(codes):
+        for second in codes[i + 1:]:
+            key = "-".join(sorted((first, second)))
+            candidates = []
+            if key in eu_short_idx:
+                candidates.append(("europe_short_haul", eu_short_idx[key], len(eu_rows), eu.get("last_month")))
+            if key in eu_long_idx:
+                candidates.append(("europe_long_haul", eu_long_idx[key], len(eu_long), eu.get("last_month")))
+            if key in in_idx:
+                candidates.append(("india", in_idx[key], len(in_rows), india.get("last_month")))
+            market, row, total, period = candidates[0] if candidates else (None, None, None, None)
+            out.append({
+                "key": key, "from": first, "to": second, "found": row is not None,
+                "market": market, "period": period,
+                "rank": row.get("rank") if row else None, "rank_of": total,
+                "pax": row.get("pax") if row else None,
+                "growth": row.get("growth") if row else None,
+                "load_factor": row.get("lf") if row and market in {"europe_short_haul", "europe_long_haul"} else None,
+                "slot3": [x for x in row.get("slot3", []) if x in {first, second}] if row else [],
+            })
+    return out
+
+
 def result_json(res) -> dict:
     """Единственный сериализатор `Result`. Им пользуются и CLI, и сервер.
 
@@ -130,7 +179,7 @@ def result_json(res) -> dict:
                    # Адрес факта: по нему открывается сама запись. `None`
                    # означает «шаг не стоит на факте» — это ответ, а не
                    # пробел (решение 67).
-                   "ref": s.ref} for s in res.trace],
+                   "ref": s.ref, **({"links": s.links} if s.links else {})} for s in res.trace],
         "charge_lines": res.charge_lines,
         # `None` и `{}` здесь значат разное, и сериализатор обязан это
         # сохранить: «не считалось» против «считалось, пропусков нет».
@@ -632,6 +681,8 @@ class _Handler(BaseHTTPRequestHandler):
                                     "text/html; charset=utf-8")
             if u.path == "/api/airports":
                 return self._json(ctx.airports())
+            if u.path == "/api/network-hints":
+                return self._json(ctx.network_hints(q))
             if u.path == "/api/fx":
                 return self._json(ctx.fx(q))
             if u.path == "/api/fleetbench":
@@ -1043,6 +1094,16 @@ class Context:
                                 key=lambda a: (a["tier"], a["icao"]))
         return self._apts
 
+    def network_hints(self, q: dict) -> dict:
+        """Comparison-only route-market hints for the airports in this network."""
+        path = Path(__file__).resolve().parents[1] / "research" / "routes-2026-11" / "out" / "rating.json"
+        try:
+            rating = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {"available": False, "pairs": []}
+        codes = [x for x in str(q.get("airports") or "").split(",") if x][:80]
+        return {"available": True, "pairs": network_pair_hints(rating, self.airports(), codes)}
+
     def resolve(self, code: str) -> str:
         """Код аэропорта -> ключ хранилища.
 
@@ -1082,7 +1143,7 @@ class Context:
             # компоновка перевозчика (`operator`), как и раньше.
             seats=int(float(q["seats"])) if q.get("seats") else None,
             # Возраст борта для ТОиР (план toir-calc); пусто — средняя за срок службы.
-            aircraft_age=min(max(float(q["age"]), 0.0), 40.0) if q.get("age") else None,
+            aircraft_age=min(max(float(q["age"]), 0.0), 40.0) if q.get("age") not in (None, "") else None,
         )
         sets = [x for x in q.get("set", "").split("~") if x]
         own = self._settings_overrides()
@@ -1096,36 +1157,24 @@ class Context:
 
     def _select_lease_observation(self, kw: dict, observation_id: str, *, manual_lease: bool = False) -> None:
         """Явный сценарий из принятой публикации; URL и суммы с клиента не читаются."""
-        import math
-        from . import prices, fx
+        from . import prices
         obs = prices.find_observation(observation_id)
         if obs is None:
             raise ValueError("выбранное наблюдение лизинга не найдено в принятом справочнике")
         icao = str(kw["aircraft"]).upper()
         if obs.get("kind") != "lease" or str(obs.get("icao", "")).upper() != icao:
             raise ValueError(f"выбранное наблюдение не является ставкой лизинга для {icao}")
-        lo, hi = prices.amount_bounds(obs)
-        midpoint = lo / 2 + hi / 2
-        cur = str(obs.get("currency") or "USD").upper()
         when = str(kw.get("as_of") or date.today())
         overrides = kw.setdefault("overrides", {})
         paths = {f"fleet_economics.{op}/{icao}/lease_eur_month"
                  for op in (kw.get("operator") or "*", "*")}
         manual = manual_lease or any(path in overrides for path in paths)
         with self.lock:
-            rate = fx.quote(self.store, cur, when)
-        k = rate.get("rate")
-        has_fx = isinstance(k, (int, float)) and math.isfinite(k) and k > 0
-        if not has_fx and not manual:
-            raise ValueError(f"для выбранного наблюдения лизинга нет курса {cur}/EUR на {when}")
-        eur = midpoint / k if has_fx else None
-        kw["lease_observation"] = {
-            "id": observation_id, "icao": icao, "month": obs.get("month"),
-            "age": obs.get("age"), "currency": cur, "low": lo, "high": hi,
-            "midpoint": midpoint, "lease_eur_month": eur,
-            "source": obs.get("source"), "quote": obs.get("quote"), "note": obs.get("note"),
-            "fx": {**rate, "as_of": when}, "applied": not manual,
-        }
+            selection = prices.lease_selection(obs, self.store, when)
+        eur = selection["lease_eur_month"]
+        if eur is None and not manual:
+            raise ValueError(f"для выбранного наблюдения лизинга нет курса {selection['currency']}/EUR на {when}")
+        kw["lease_observation"] = {**selection, "applied": not manual}
         if not manual:
             overrides[f"fleet_economics.*/{icao}/lease_eur_month"] = eur
 
@@ -1254,6 +1303,7 @@ class Context:
         """
         from copy import deepcopy
         from . import netutil
+        from . import prices
         from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
                     "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h")
@@ -1267,7 +1317,8 @@ class Context:
         as_of = str(kw.get("as_of") or date.today())
         form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
                     kw.get("month"), kw.get("operator"),
-                    tuple(sorted((k, str(v)) for k, v in ov.items())), as_of, kw.get("seats"))
+                    tuple(sorted((k, str(v)) for k, v in ov.items())), as_of, kw.get("seats"),
+                    kw.get("aircraft_age"), prices.lease_revision())
         cached = self._net_cache.get(form_key)
         if cached is None:
             job = self._net_jobs.get(form_key)
@@ -1298,7 +1349,7 @@ class Context:
         if fleet is None:
             out["error"] = "ни одной пары с правом летать — сети нет"
             return out
-        selection = kw.get("lease_observation")
+        selection = kw.get("lease_observation") or fleet.market_lease
         fleet_json = _jsonable(fleet)
         if selection:
             # Кэш хранит числа парка; источник относится к текущему выбору,
@@ -1683,7 +1734,8 @@ class Context:
                                          overrides=ov or None, operator=kw.get("operator", "*"),
                                          leg_cache=self._leg_cache.setdefault(scope, {}),
                                          detour_cache=self._detour_cache,
-                                         progress=progress, seats=kw.get("seats"))
+                                         progress=progress, seats=kw.get("seats"),
+                                         aircraft_age=kw.get("aircraft_age"))
                     ok = [p for p in pairs if p.status == "ok"]
                     fleet = None
                     if ok:
@@ -1691,7 +1743,7 @@ class Context:
                                                 aircraft=kw["aircraft"], as_of=kw.get("as_of"),
                                                 month=kw.get("month"), overrides=ov or None,
                                                 operator=kw.get("operator", "*"),
-                                                seats=kw.get("seats"))
+                                                seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"))
                 finally:
                     base_store.db.close()
                 if len(self._net_cache) >= self.NET_CACHE:

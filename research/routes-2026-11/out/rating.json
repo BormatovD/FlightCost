@@ -98,6 +98,7 @@
 "pax_per_flight": 186.96233411397347,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEPA"
 ],
 "km": 1251,
@@ -2354,7 +2355,9 @@
 "lf": 0.831800223754341,
 "pax_per_flight": 156.16696428571427,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1816,
 "names": [
 "Frankfurt Main Airport",
@@ -4668,6 +4671,7 @@
 "pax_per_flight": 145.86810358693904,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEMD"
 ],
 "km": 1420,
@@ -6975,7 +6979,9 @@
 "lf": 0.9008907812614636,
 "pax_per_flight": 178.85283776996485,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1652,
 "names": [
 "Frankfurt Main Airport",
@@ -7681,7 +7687,9 @@
 "lf": 0.8613346303501945,
 "pax_per_flight": 185.08612040133778,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1901,
 "names": [
 "Frankfurt Main Airport",
@@ -8001,7 +8009,9 @@
 "lf": 0.907731506849315,
 "pax_per_flight": 175.67444326617178,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 2298,
 "names": [
 "Frankfurt Main Airport",
@@ -9327,7 +9337,9 @@
 "lf": 0.8700927823775306,
 "pax_per_flight": 163.03007351303185,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1873,
 "names": [
 "Frankfurt Main Airport",
@@ -11125,6 +11137,7 @@
 "pax_per_flight": 186.27586206896552,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "GCLP"
 ],
 "km": 3184,
@@ -12083,6 +12096,7 @@
 "pax_per_flight": 186.96744791666666,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "GCTS"
 ],
 "km": 3238,
@@ -13768,7 +13782,9 @@
 "lf": 0.84788273772537,
 "pax_per_flight": 139.922893481717,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1398,
 "names": [
 "Frankfurt Main Airport",
@@ -16142,6 +16158,7 @@
 "pax_per_flight": 147.09250398724083,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "EIDW"
 ],
 "km": 1086,
@@ -16611,6 +16628,7 @@
 "pax_per_flight": 129.9785332596278,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "EGLL"
 ],
 "km": 654,
@@ -17078,7 +17096,9 @@
 "lf": 0.8240096457768737,
 "pax_per_flight": 133.3595744680851,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 407,
 "names": [
 "Frankfurt Main Airport",
@@ -17453,6 +17473,7 @@
 "pax_per_flight": 161.4522713628177,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEBL"
 ],
 "km": 1093,
@@ -18092,7 +18113,9 @@
 "lf": 0.8277151647385688,
 "pax_per_flight": 183.17412071211464,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1837,
 "names": [
 "Frankfurt Main Airport",
@@ -18474,6 +18497,7 @@
 "pax_per_flight": 112.05738575982997,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "EPWA"
 ],
 "km": 897,
@@ -18708,7 +18732,9 @@
 "lf": 0.8328329677812979,
 "pax_per_flight": 150.11152647975078,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 836,
 "names": [
 "Frankfurt Main Airport",
@@ -19140,7 +19166,9 @@
 "lf": 0.8324731071798775,
 "pax_per_flight": 132.02421555252388,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1451,
 "names": [
 "Frankfurt Main Airport",
@@ -19375,7 +19403,9 @@
 "lf": 0.907382240977835,
 "pax_per_flight": 188.92719249862108,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 3324,
 "names": [
 "Frankfurt Main Airport",
@@ -19834,7 +19864,9 @@
 "lf": 0.7213974775530168,
 "pax_per_flight": 125.72187043351194,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 621,
 "names": [
 "Frankfurt Main Airport",
@@ -20153,7 +20185,9 @@
 "lf": 0.7605664281753385,
 "pax_per_flight": 121.10696338837042,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 299,
 "names": [
 "Frankfurt Main Airport",
@@ -20272,7 +20306,9 @@
 "lf": 0.7988435521135299,
 "pax_per_flight": 130.8614399613433,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 413,
 "names": [
 "Frankfurt Main Airport",
@@ -20300,7 +20336,9 @@
 "lf": 0.8212437434009893,
 "pax_per_flight": 142.1200120012001,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1539,
 "names": [
 "Frankfurt Main Airport",
@@ -22165,7 +22203,9 @@
 "lf": 0.8230476780220302,
 "pax_per_flight": 157.79144385026737,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1470,
 "names": [
 "Frankfurt Main Airport",
@@ -22365,7 +22405,9 @@
 "lf": 0.7868058183319264,
 "pax_per_flight": 139.00935016362786,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 958,
 "names": [
 "Frankfurt Main Airport",
@@ -23645,7 +23687,9 @@
 "lf": 0.9009818064966054,
 "pax_per_flight": 166.80822784810127,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1648,
 "names": [
 "Frankfurt Main Airport",
@@ -23673,7 +23717,9 @@
 "lf": 0.7994877551732418,
 "pax_per_flight": 136.68912280701755,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 801,
 "names": [
 "Frankfurt Main Airport",
@@ -24514,7 +24560,9 @@
 "lf": 0.7861476987825365,
 "pax_per_flight": 126.59561774595943,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 431,
 "names": [
 "Berlin Brandenburg Airport",
@@ -24542,7 +24590,9 @@
 "lf": 0.8013127415785253,
 "pax_per_flight": 151.6684039087948,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1243,
 "names": [
 "Frankfurt Main Airport",
@@ -24658,7 +24708,9 @@
 "lf": 0.780302429718208,
 "pax_per_flight": 104.24461906388794,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 286,
 "names": [
 "Frankfurt Main Airport",
@@ -25553,7 +25605,9 @@
 "lf": 0.6524370789331435,
 "pax_per_flight": 88.33755801499464,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 512,
 "names": [
 "Frankfurt Main Airport",
@@ -25670,7 +25724,9 @@
 "lf": 0.7666829929654947,
 "pax_per_flight": 119.38983050847457,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1055,
 "names": [
 "Frankfurt Main Airport",
@@ -26214,6 +26270,7 @@
 "pax_per_flight": 181.06843267108167,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "GCFV"
 ],
 "km": 3055,
@@ -26591,7 +26648,9 @@
 "lf": 0.8026543117620685,
 "pax_per_flight": 104.08062015503876,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 409,
 "names": [
 "Frankfurt Main Airport",
@@ -26679,7 +26738,9 @@
 "lf": 0.7804969652835316,
 "pax_per_flight": 133.25256975036712,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1471,
 "names": [
 "Tunis Carthage International Airport",
@@ -26856,7 +26917,9 @@
 "lf": 0.8552692831811218,
 "pax_per_flight": 153.91850723533892,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1289,
 "names": [
 "Frankfurt Main Airport",
@@ -27229,7 +27292,9 @@
 "lf": 0.847227865400953,
 "pax_per_flight": 154.97972972972974,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1541,
 "names": [
 "Frankfurt Main Airport",
@@ -27257,7 +27322,9 @@
 "lf": 0.7944148447547309,
 "pax_per_flight": 149.44700460829492,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1224,
 "names": [
 "Frankfurt Main Airport",
@@ -28216,7 +28283,9 @@
 "lf": 0.7464617360767399,
 "pax_per_flight": 88.77820602662929,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 301,
 "names": [
 "Frankfurt Main Airport",
@@ -28272,7 +28341,9 @@
 "lf": 0.8404721822476853,
 "pax_per_flight": 149.71584038694076,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 2401,
 "names": [
 "Keflavik International Airport",
@@ -28358,7 +28429,9 @@
 "lf": 0.8079267312945209,
 "pax_per_flight": 128.62210095497954,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 577,
 "names": [
 "Frankfurt Main Airport",
@@ -28386,7 +28459,9 @@
 "lf": 0.7887437874892888,
 "pax_per_flight": 73.35543512910424,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 174,
 "names": [
 "Frankfurt Main Airport",
@@ -28903,6 +28978,7 @@
 "pax_per_flight": 150.84362606232295,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEBB"
 ],
 "km": 1149,
@@ -29197,7 +29273,9 @@
 "lf": 0.7683342038097303,
 "pax_per_flight": 121.35136186770428,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 544,
 "names": [
 "Frankfurt Main Airport",
@@ -29315,6 +29393,7 @@
 "pax_per_flight": 165.79025549613786,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEMG"
 ],
 "km": 1816,
@@ -29430,7 +29509,9 @@
 "lf": 0.7042294858954652,
 "pax_per_flight": 83.54860846359131,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 366,
 "names": [
 "Frankfurt Main Airport",
@@ -30153,6 +30234,7 @@
 "pax_per_flight": 163.04974160206717,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LEVC"
 ],
 "km": 1370,
@@ -30182,7 +30264,9 @@
 "lf": 0.8176743024631538,
 "pax_per_flight": 133.2674418604651,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1271,
 "names": [
 "Frankfurt Main Airport",
@@ -30322,7 +30406,9 @@
 "lf": 0.8289042992250268,
 "pax_per_flight": 147.45339470655927,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1033,
 "names": [
 "Frankfurt Main Airport",
@@ -32125,6 +32211,7 @@
 "pax_per_flight": 101.93865030674847,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LFPG"
 ],
 "km": 448,
@@ -32501,7 +32588,9 @@
 "lf": 0.7129261032742332,
 "pax_per_flight": 88.02780441035475,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 156,
 "names": [
 "Frankfurt Main Airport",
@@ -32787,7 +32876,9 @@
 "lf": 0.7215433987163338,
 "pax_per_flight": 81.27601351351352,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 190,
 "names": [
 "Frankfurt Main Airport",
@@ -32815,7 +32906,9 @@
 "lf": 0.825145766375608,
 "pax_per_flight": 155.723564143854,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1966,
 "names": [
 "Frankfurt Main Airport",
@@ -32871,7 +32964,9 @@
 "lf": 0.7652306625043358,
 "pax_per_flight": 140.5645109907614,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1142,
 "names": [
 "Frankfurt Main Airport",
@@ -33047,7 +33142,9 @@
 "lf": 0.7405324548771188,
 "pax_per_flight": 125.87630331753554,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 680,
 "names": [
 "Frankfurt Main Airport",
@@ -33591,7 +33688,9 @@
 "lf": 0.6859638100627785,
 "pax_per_flight": 89.3106462691227,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 189,
 "names": [
 "Frankfurt Main Airport",
@@ -34278,7 +34377,9 @@
 "lf": 0.7572791292130077,
 "pax_per_flight": 124.13388831078737,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 883,
 "names": [
 "Frankfurt Main Airport",
@@ -34307,6 +34408,7 @@
 "pax_per_flight": 136.4573238911666,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "EGCC"
 ],
 "km": 832,
@@ -34598,7 +34700,9 @@
 "lf": 0.6941485753973207,
 "pax_per_flight": 104.11353001017294,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 304,
 "names": [
 "Brussels Airport",
@@ -35030,7 +35134,9 @@
 "lf": 0.7748855343844999,
 "pax_per_flight": 86.96060352053647,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 720,
 "names": [
 "Frankfurt Main Airport",
@@ -35258,7 +35364,9 @@
 "lf": 0.7601265653071622,
 "pax_per_flight": 91.97728747566515,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 336,
 "names": [
 "Frankfurt Main Airport",
@@ -35344,7 +35452,9 @@
 "lf": 0.7252811005283939,
 "pax_per_flight": 76.85670057496682,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 459,
 "names": [
 "Frankfurt Main Airport",
@@ -36388,7 +36498,9 @@
 "lf": 0.7196070355654618,
 "pax_per_flight": 95.56788931788932,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 282,
 "names": [
 "Frankfurt Main Airport",
@@ -37049,7 +37161,9 @@
 "lf": 0.8179666339548577,
 "pax_per_flight": 142.23686006825938,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 1110,
 "names": [
 "Frankfurt Main Airport",
@@ -37423,7 +37537,9 @@
 "lf": 0.7632746179171461,
 "pax_per_flight": 154.36294800605754,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 2922,
 "names": [
 "Frankfurt Main Airport",
@@ -37647,7 +37763,9 @@
 "lf": 0.694206837859196,
 "pax_per_flight": 95.79388855602157,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 489,
 "names": [
 "Frankfurt Main Airport",
@@ -37731,7 +37849,9 @@
 "lf": 0.7298410844464681,
 "pax_per_flight": 87.67508917954815,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 735,
 "names": [
 "Frankfurt Main Airport",
@@ -37962,6 +38082,7 @@
 "pax_per_flight": 101.90985678180286,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "EGBB"
 ],
 "km": 766,
@@ -38047,7 +38168,9 @@
 "lf": 0.7470313586944966,
 "pax_per_flight": 110.37522441651706,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 644,
 "names": [
 "Frankfurt Main Airport",
@@ -38103,7 +38226,9 @@
 "lf": 0.7805746510680478,
 "pax_per_flight": 95.5,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 388,
 "names": [
 "Dresden Airport",
@@ -38189,7 +38314,9 @@
 "lf": 0.7669176164275889,
 "pax_per_flight": 99.23798172427493,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 637,
 "names": [
 "Frankfurt Main Airport",
@@ -38759,7 +38886,9 @@
 "lf": 0.7116008662335499,
 "pax_per_flight": 118.19977863862756,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 776,
 "names": [
 "Frankfurt Main Airport",
@@ -38874,6 +39003,7 @@
 "pax_per_flight": 108.57094736842106,
 "reporters": 2,
 "slot3": [
+"EDDF",
 "LFMN"
 ],
 "km": 715,
@@ -38990,6 +39120,7 @@
 "pax_per_flight": 70.0787824529991,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "EGLC"
 ],
 "km": 620,
@@ -39019,7 +39150,9 @@
 "lf": 0.7263855824660121,
 "pax_per_flight": 105.0853889943074,
 "reporters": 2,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 897,
 "names": [
 "Frankfurt Main Airport",
@@ -40133,7 +40266,9 @@
 "lf": 0.9052781062240315,
 "pax_per_flight": 317.3945147679325,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7763,
 "names": [
 "Frankfurt Main Airport",
@@ -40685,7 +40820,9 @@
 "lf": 0.8664221231964535,
 "pax_per_flight": 330.4326889279438,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 4845,
 "names": [
 "Frankfurt Main Airport",
@@ -40979,7 +41116,9 @@
 "lf": 0.7720596180207953,
 "pax_per_flight": 248.24738384261198,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8859,
 "names": [
 "Frankfurt Main Airport",
@@ -41037,7 +41176,9 @@
 "lf": 0.796646441405501,
 "pax_per_flight": 244.5201708590413,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7789,
 "names": [
 "Frankfurt Main Airport",
@@ -41095,7 +41236,9 @@
 "lf": 0.8889077469402482,
 "pax_per_flight": 282.0907721280603,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6344,
 "names": [
 "Toronto Pearson International Airport",
@@ -41179,7 +41322,9 @@
 "lf": 0.9054473705864885,
 "pax_per_flight": 350.5297783933518,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9796,
 "names": [
 "Frankfurt Main Airport",
@@ -41295,7 +41440,9 @@
 "lf": 0.8854150317271687,
 "pax_per_flight": 269.31713554987215,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 4862,
 "names": [
 "Frankfurt Main Airport",
@@ -41645,7 +41792,9 @@
 "lf": 0.8537805546533705,
 "pax_per_flight": 290.9326334208224,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9149,
 "names": [
 "Frankfurt Main Airport",
@@ -41701,7 +41850,9 @@
 "lf": 0.8970227471135439,
 "pax_per_flight": 244.37191249117853,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8089,
 "names": [
 "Frankfurt Main Airport",
@@ -41871,7 +42022,9 @@
 "lf": 0.9199846041996322,
 "pax_per_flight": 308.2929936305732,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9322,
 "names": [
 "Frankfurt Main Airport",
@@ -41899,7 +42052,9 @@
 "lf": 0.9161252257850792,
 "pax_per_flight": 293.69767441860466,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8063,
 "names": [
 "Vancouver International Airport",
@@ -41927,7 +42082,9 @@
 "lf": 0.9234675236244665,
 "pax_per_flight": 267.33052884615387,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9393,
 "names": [
 "Frankfurt Main Airport",
@@ -41985,7 +42142,9 @@
 "lf": 0.9096339378696481,
 "pax_per_flight": 272.5848871442591,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7512,
 "names": [
 "Frankfurt Main Airport",
@@ -42243,7 +42402,9 @@
 "lf": 0.9055776777608592,
 "pax_per_flight": 276.63903154805575,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9154,
 "names": [
 "Frankfurt Main Airport",
@@ -42671,7 +42832,9 @@
 "lf": 0.8100738038087477,
 "pax_per_flight": 230.70298553401045,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6189,
 "names": [
 "Frankfurt Main Airport",
@@ -42814,7 +42977,9 @@
 "lf": 0.8333267329346693,
 "pax_per_flight": 264.0292775665399,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6971,
 "names": [
 "Frankfurt Main Airport",
@@ -42842,7 +43007,9 @@
 "lf": 0.8684659536333648,
 "pax_per_flight": 252.90241718889882,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8198,
 "names": [
 "Frankfurt Main Airport",
@@ -42898,7 +43065,9 @@
 "lf": 0.8110168891292729,
 "pax_per_flight": 281.0276662204373,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 10280,
 "names": [
 "Frankfurt Main Airport",
@@ -43042,7 +43211,9 @@
 "lf": 0.880830058241394,
 "pax_per_flight": 264.6123755334282,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8402,
 "names": [
 "Frankfurt Main Airport",
@@ -43154,7 +43325,9 @@
 "lf": 0.9021295737785366,
 "pax_per_flight": 298.51150202977,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6211,
 "names": [
 "Frankfurt Main Airport",
@@ -43210,7 +43383,9 @@
 "lf": 0.9018570528860066,
 "pax_per_flight": 322.2822384428224,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8690,
 "names": [
 "Frankfurt Main Airport",
@@ -43380,7 +43555,9 @@
 "lf": 0.8427579546535363,
 "pax_per_flight": 290.69779179810723,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9000,
 "names": [
 "Frankfurt Main Airport",
@@ -43466,7 +43643,9 @@
 "lf": 0.8785372547565182,
 "pax_per_flight": 249.63934426229508,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7619,
 "names": [
 "Frankfurt Main Airport",
@@ -43753,6 +43932,7 @@
 "pax_per_flight": 229.75565964090555,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "VABB"
 ],
 "km": 6570,
@@ -43868,7 +44048,9 @@
 "lf": 0.9065900775071802,
 "pax_per_flight": 330.12607449856733,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 11501,
 "names": [
 "Frankfurt Main Airport",
@@ -43896,7 +44078,9 @@
 "lf": 0.8477770984601734,
 "pax_per_flight": 261.3698915763136,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6550,
 "names": [
 "Frankfurt Main Airport",
@@ -44152,7 +44336,9 @@
 "lf": 0.8486284954336165,
 "pax_per_flight": 223.17510450534138,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9363,
 "names": [
 "Frankfurt Main Airport",
@@ -44381,7 +44567,9 @@
 "lf": 0.8492548154105607,
 "pax_per_flight": 266.57045009784736,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8544,
 "names": [
 "Frankfurt Main Airport",
@@ -44785,7 +44973,9 @@
 "lf": 0.8954061645733759,
 "pax_per_flight": 268.9743062692703,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8605,
 "names": [
 "Frankfurt Main Airport",
@@ -44871,7 +45061,9 @@
 "lf": 0.9002851781485657,
 "pax_per_flight": 327.79971590909093,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 9551,
 "names": [
 "Frankfurt Main Airport",
@@ -45158,6 +45350,7 @@
 "pax_per_flight": 237.6414913957935,
 "reporters": 1,
 "slot3": [
+"EDDF",
 "VIDP"
 ],
 "km": 6122,
@@ -45331,7 +45524,9 @@
 "lf": 0.8270004249102159,
 "pax_per_flight": 272.5745803357314,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 4586,
 "names": [
 "Frankfurt Main Airport",
@@ -45419,7 +45614,9 @@
 "lf": 0.866204394213887,
 "pax_per_flight": 265.2964980544747,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 5855,
 "names": [
 "Montreal / Pierre Elliott Trudeau International Airport",
@@ -45447,7 +45644,9 @@
 "lf": 0.8188963267420456,
 "pax_per_flight": 233.58135444151276,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 5889,
 "names": [
 "Frankfurt Main Airport",
@@ -45985,7 +46184,9 @@
 "lf": 0.8272308642668613,
 "pax_per_flight": 226.62307692307692,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8258,
 "names": [
 "Frankfurt Main Airport",
@@ -46041,7 +46242,9 @@
 "lf": 0.8324881358874935,
 "pax_per_flight": 236.05435897435896,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 8110,
 "names": [
 "Frankfurt Main Airport",
@@ -46241,7 +46444,9 @@
 "lf": 0.8347967819756016,
 "pax_per_flight": 235.9836901121305,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7528,
 "names": [
 "Calgary International Airport",
@@ -46269,7 +46474,9 @@
 "lf": 0.8351875672080424,
 "pax_per_flight": 212.40089418777944,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7409,
 "names": [
 "Frankfurt Main Airport",
@@ -47175,7 +47382,9 @@
 "lf": 0.7701105772627711,
 "pax_per_flight": 199.8357524828113,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 6679,
 "names": [
 "Frankfurt Main Airport",
@@ -47231,7 +47440,9 @@
 "lf": 0.8246756398226939,
 "pax_per_flight": 302.08296296296294,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 7402,
 "names": [
 "Frankfurt Main Airport",
@@ -47259,7 +47470,9 @@
 "lf": 0.8061840539468464,
 "pax_per_flight": 278.4095890410959,
 "reporters": 1,
-"slot3": [],
+"slot3": [
+"EDDF"
+],
 "km": 5349,
 "names": [
 "Frankfurt Main Airport",

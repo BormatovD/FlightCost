@@ -970,10 +970,10 @@ def build() -> str:
     "the rating above; the calculator already shows the traffic on a pair.",
     "<b>Bei der Wahl eines Paares auf den Markt schauen, nicht nur auf die Kosten</b>: Größe, Wachstum und Auslastung "
     "stehen im Rating oben; das Aufkommen eines Paares zeigt der Rechner bereits.")}</li>
-<li>{mark('planned')}{T(
-    "<b>Рейтинг пар — в режиме «Сеть»</b>: подсказка «рынок большой и растёт» или «слоты» рядом с выбором пары.",
-    "<b>The pair rating in Network mode</b>: a hint 'large and growing market' or 'slots' next to the pair selection.",
-    "<b>Das Paar-Rating im Netzmodus</b>: ein Hinweis „großer, wachsender Markt“ oder „Slots“ neben der Paarauswahl.")}</li>
+<li>{mark('in_calc')}{T(
+    "<b>Рейтинг пар — в режиме «Сеть»</b>: возле выбранных аэропортов видны рынок, период, место, поток, загрузка при наличии и отметки уровня 3.",
+    "<b>Pair ratings in Network mode</b>: selected airports show the market, period, rank, traffic, load factor when available, and Level 3 flags.",
+    "<b>Paar-Ratings im Netzmodus</b>: bei den gewählten Flughäfen erscheinen Markt, Zeitraum, Rang, Verkehrsaufkommen, Auslastung falls verfügbar und Level-3-Hinweise.")}</li>
 <li>{mark('planned')}{T(
     "<b>Безубыточный тариф против рыночного</b> — как только появятся тарифы по паре (цены агрегатора уже есть для части "
     "рынков), четвёртая опора «запас по цене».",

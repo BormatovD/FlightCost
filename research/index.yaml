@@ -78,11 +78,11 @@ items:
   - slug: routes-2026-11
     date: 2026-11-01
     report: routes-2026-11/report.html
-    calc: planned
+    calc: in_calc
     calc_note:
-      ru: "Калькулятор показывает поток по паре; рейтинг пар и подсказки в режиме «Сеть» — в очереди."
-      en: "The calculator shows traffic on a pair; the pair rating and hints in Network mode are queued."
-      de: "Der Rechner zeigt das Aufkommen eines Paares; Rating und Hinweise im Netzmodus folgen."
+      ru: "В режиме «Сеть» видны рейтинг рынка по паре, период, место и отметки уровня 3; калькулятор также показывает поток пары."
+      en: "Network mode shows the pair's market rating, period, rank and Level 3 flags; the calculator also shows pair traffic."
+      de: "Im Netzmodus erscheinen Marktrating, Zeitraum, Rang und Level-3-Hinweise; der Rechner zeigt außerdem das Paaraufkommen."
     lang: ru
     title:
       ru: "Какие маршруты привлекательны для авиакомпании: Европа и Индия"

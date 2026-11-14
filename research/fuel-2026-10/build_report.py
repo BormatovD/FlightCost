@@ -430,18 +430,25 @@ def build() -> str:
         "Reuters nach der Formel des Steuergesetzbuchs, deren Eingang — Exportnotierungen — nicht öffentlich ist. Neue "
         "Monate trägt der Aktualisierungsagent nach.")}</li>
 <li>{mark('in_calc')}{T(
-        "<b>Индия, внутренние рейсы</b> (решение 236): цена IOCL для внутренних авиакомпаний по Дели (с акцизом 11 % и\n"
-        "VAT) пересчитывается на штат аэропорта вылета через его VAT — от 1 % (Уттар-Прадеш, Керала) до 25–29 %\n"
-        "(Западная Бенгалия, Тамилнад); сниженные ставки Дели и Махараштры (7 %) действуют до середины ноября 2026.\n"
-        "Международные рейсы — без VAT и акциза, по множителю региона.",
-        "<b>India, domestic flights</b> (decision 236): IOCL's price for domestic airlines in Delhi (with 11 % excise and "
-        "VAT) is converted to the state of the departure airport through its VAT — from 1 % (Uttar Pradesh, Kerala) to "
-        "25–29 % (West Bengal, Tamil Nadu); the reduced rates of Delhi and Maharashtra (7 %) run until mid-November 2026. "
-        "International flights — without VAT and excise, at the regional multiplier.",
-        "<b>Indien, Inlandsflüge</b> (Entscheidung 236): Der IOCL-Preis für inländische Airlines in Delhi (mit 11 % "
-        "Verbrauchsteuer und VAT) wird über die VAT des Bundesstaats des Abflughafens umgerechnet — von 1 % (Uttar "
-        "Pradesh, Kerala) bis 25–29 % (Westbengalen, Tamil Nadu); die gesenkten Sätze von Delhi und Maharashtra (7 %) "
-        "gelten bis Mitte November 2026. Internationale Flüge — ohne VAT und Verbrauchsteuer, mit dem Regionalfaktor.")}</li>
+        "<b>Индия, внутренние рейсы</b> (решение 236): цена IOCL для внутренних авиакомпаний по Дели (с центральным\n"
+        "акцизом 11 % и VAT Дели в цене) пересчитывается на штат аэропорта вылета через VAT. Ставка Дели 7 % действует\n"
+        "по 16 ноября 2026 включительно; в Махараштре 7 % продлена по 14 апреля 2027 включительно. В Тамилнаде\n"
+        "временные ставки для регулярных внутренних рейсов с декларацией покупателя действуют с 1 ноября 2026 по\n"
+        f"30 октября 2027 включительно: 16 % в Ченнаи и 1 % в других аэропортах штата. Снимок цены IOCL — {IN['month']};\n"
+        "статус VAT — на 14 ноября 2026. Международные рейсы — без VAT и акциза, по множителю региона.",
+        "<b>India, domestic flights</b> (decision 236): IOCL's Delhi price for domestic airlines (including 11 % central "
+        "excise and Delhi VAT) is adjusted by the departure state's VAT. Delhi's 7 % rate runs through 16 November 2026; "
+        "Maharashtra's 7 % rate is extended through 14 April 2027. In Tamil Nadu, temporary rates for scheduled domestic "
+        "flights with a purchaser declaration run from 1 November 2026 through 30 October 2027: 16 % in Chennai and 1 % "
+        f"at other state airports. The IOCL price snapshot is {IN['month']}; VAT status is as of 14 November 2026. International "
+        "flights have no VAT or excise adjustment and use the regional multiplier.",
+        "<b>Indien, Inlandsflüge</b> (Entscheidung 236): Der IOCL-Preis für inländische Airlines in Delhi (einschließlich "
+        "11 % zentraler Verbrauchsteuer und Delhi-VAT) wird mit der VAT des Bundesstaats des Abflughafens angepasst. "
+        "Delhis Satz von 7 % gilt bis einschließlich 16. November 2026; Maharashtras Satz von 7 % wurde bis einschließlich "
+        "14. April 2027 verlängert. In Tamil Nadu gelten für planmäßige Inlandsflüge mit Käufererklärung vom 1. November "
+        "2026 bis einschließlich 30. Oktober 2027 befristet 16 % in Chennai und 1 % an den anderen Flughäfen des Bundesstaats. "
+        f"Der IOCL-Preissnapshot stammt aus {IN['month']}; der VAT-Stand gilt für den 14. November 2026. Internationale Flüge "
+        "werden ohne VAT- und Verbrauchsteueranpassung mit dem Regionalfaktor berechnet.")}</li>
 <li>{mark('in_calc')}{T(
         "<b>Множитель сдвигается вместе с региональным спотом</b> (решение 236): множитель каждого региона привязан к\n"
         "дате своей точки, и при свежем соотношении спота региона к Северной Америке (оцифровка недельного графика IATA\n"
@@ -673,6 +680,21 @@ def write_damper() -> None:
 IN = json.loads((HERE / "out" / "india_atf.json").read_text(encoding="utf-8"))
 TN_OTHER = ["VOCB", "VOMD", "VOTR", "VOTK", "VOSM"]       # аэропорты Тамилнада кроме Ченнаи
 AP = ["VOVZ", "VOTP", "VORY", "VOBZ", "VOKU"]             # Андхра-Прадеш
+VAT_SOURCES = {
+    # Direct government documents or gazette copies; period-level sources are
+    # copied into the generated data so each exceptional rate is auditable.
+    "Delhi": [
+        "https://delhi.gov.in/sites/default/files/centralized-cos/notification_compressed.pdf",
+        "https://delhitradetax.delhi.gov.in/sites/default/files/dvat/public-notice/910650.pdf",
+    ],
+    "Maharashtra": [
+        "https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/",
+        "https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf",
+    ],
+    "Tamil Nadu": [
+        "https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf",
+    ],
+}
 
 
 def write_india() -> None:
@@ -682,14 +704,38 @@ def write_india() -> None:
     src = lambda st: [S.step[i][0] for i in v[st]["evidence"] if i in S.step][:2]  # noqa: E731
     vat = {}
     for icao in ("VIDP",):
-        vat[icao] = {"periods": [{"pct": 7, "from": "2026-05-16", "to": "2026-11-15"}, {"pct": 25}], "state": "Delhi"}
+        vat[icao] = {"periods": [
+            {"pct": 7, "from": "2026-05-17", "to": "2026-11-16", "source": VAT_SOURCES["Delhi"][0]},
+            {"pct": 25, "source": VAT_SOURCES["Delhi"][1]},
+        ], "state": "Delhi", "source": VAT_SOURCES["Delhi"]}
     for icao in ("VABB", "VAPO", "VANM"):
-        vat[icao] = {"periods": [{"pct": 7, "from": "2026-05-15", "to": "2026-11-14"}, {"pct": 18}], "state": "Maharashtra"}
-    vat["VOMM"] = {"periods": [{"pct": 29, "to": "2026-10-31"}, {"pct": 16, "from": "2026-11-01", "to": "2027-10-31"},
-                               {"pct": 29}], "state": "Tamil Nadu"}
+        vat[icao] = {"periods": [
+            {"pct": 7, "from": "2026-05-15", "to": "2027-04-14", "scope": "Aviation Turbine Fuel (Duty paid)",
+             "source": VAT_SOURCES["Maharashtra"][0]},
+            {"pct": 18, "source": VAT_SOURCES["Maharashtra"][1]},
+        ], "state": "Maharashtra", "source": list(VAT_SOURCES["Maharashtra"])}
+    # Tamil Nadu notifications apply to Scheduled Airlines' domestic flights
+    # with purchaser declarations. The under-40 t turbo-prop category is a
+    # separate statutory entry and is intentionally not used by this default.
+    vat["VOMM"] = {"periods": [
+        {"pct": 29, "to": "2026-10-31", "scope": "Scheduled Airlines; domestic flight; purchaser declaration",
+         "source": VAT_SOURCES["Tamil Nadu"][0]},
+        {"pct": 16, "from": "2026-11-01", "to": "2027-10-30",
+         "scope": "Scheduled Airlines fueling at Chennai; domestic flight; purchaser declaration",
+         "source": VAT_SOURCES["Tamil Nadu"][0]},
+        {"pct": 29, "scope": "Scheduled Airlines; domestic flight; purchaser declaration",
+         "source": VAT_SOURCES["Tamil Nadu"][0]},
+    ], "state": "Tamil Nadu", "source": list(VAT_SOURCES["Tamil Nadu"])}
     for icao in TN_OTHER:
-        vat[icao] = {"periods": [{"pct": 29, "to": "2026-10-31"}, {"pct": 1, "from": "2026-11-01", "to": "2027-10-31"},
-                                 {"pct": 29}], "state": "Tamil Nadu"}
+        vat[icao] = {"periods": [
+            {"pct": 29, "to": "2026-10-31", "scope": "Scheduled Airlines; domestic flight; purchaser declaration",
+             "source": VAT_SOURCES["Tamil Nadu"][0]},
+            {"pct": 1, "from": "2026-11-01", "to": "2027-10-30",
+             "scope": "Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration",
+             "source": VAT_SOURCES["Tamil Nadu"][0]},
+            {"pct": 29, "scope": "Scheduled Airlines; domestic flight; purchaser declaration",
+             "source": VAT_SOURCES["Tamil Nadu"][0]},
+        ], "state": "Tamil Nadu", "source": list(VAT_SOURCES["Tamil Nadu"])}
     simple = {"West Bengal": ["VECC"], "Karnataka": ["VOBL"], "Telangana": ["VOHS"], "Gujarat": ["VAAH"],
               "Kerala": ["VOCI", "VOTV", "VOCL"], "Goa": ["VOGO", "VOGA"], "Uttar Pradesh": ["VILK", "VIDX", "VEBN"],
               "Rajasthan": ["VIJP"], "Assam": ["VEGT"], "Andhra Pradesh": AP}
@@ -697,16 +743,30 @@ def write_india() -> None:
         for icao in icaos:
             vat[icao] = {"periods": [{"pct": v[st]["vat_pct"]}], "state": st}
     for x in vat.values():
-        x["source"] = src(x["state"])
+        x.setdefault("source", src(x["state"]))
     dl = next(x for x in IN["iocl"] if x["icao"] == "VIDP")
-    doc = {"method": ("Внутренние рейсы из Индии: цена IOCL для внутренних авиакомпаний в Дели (с акцизом 11 % и VAT "
-                      "Дели) ÷ (1 + VAT Дели) × (1 + VAT штата аэропорта вылета). Международные рейсы — без VAT и "
-                      "акциза, множитель региона. Решение 236."),
-           "built": str(date.today()), "month": dl["month"], "delhi_domestic_inr_kl": dl["domestic_rs_per_kl"],
-           "delhi_vat_pct_at_price": 7, "excise_pct": IN["excise"]["domestic_basic_excise_pct_ad_valorem"],
-           "source": [S.step[i][0] for i in dl["evidence"] if i in S.step][:2],
-           "default_vat_pct": 18, "vat": vat}
     dst = ROOT / "data" / "fuel" / "_india_atf.yaml"
+    prior = yaml.safe_load(dst.read_text(encoding="utf-8")) if dst.exists() else {}
+    # The monthly price agent owns the IOCL snapshot. VAT regeneration must not
+    # roll back a same-month or newer price/source update present in the file.
+    price_fields = ("month", "delhi_domestic_inr_kl", "delhi_vat_pct_at_price", "excise_pct", "source")
+    if str(prior.get("month", "")) >= str(dl.get("month", "")):
+        for key in price_fields:
+            if key in prior:
+                dl[key] = prior[key]
+    doc = {"method": ("Обычные внутренние рейсы индийских авиакомпаний: цена IOCL в Дели (с включёнными центральным "
+                      "акцизом 11 % и VAT Дели) ÷ (1 + VAT Дели) × (1 + VAT штата вылета на дату). Для Maharashtra "
+                      "льготы RCS/UDAN и турбовинтовых самолётов отдельные; в Tamil Nadu уведомление для ВС <40 т — "
+                      "другая самостоятельная категория; специальные категории этой моделью не применяются. Временные "
+                      "ставки Tamil Nadu относятся к Scheduled Airlines, domestic flight и декларации покупателя. "
+                      "Международные рейсы — "
+                      "без VAT и акциза, множитель региона. Решение 236."),
+           "built": str(date.today()), "month": dl["month"],
+           "delhi_domestic_inr_kl": dl.get("delhi_domestic_inr_kl", dl["domestic_rs_per_kl"]),
+           "delhi_vat_pct_at_price": dl.get("delhi_vat_pct_at_price", 7),
+           "excise_pct": dl.get("excise_pct", IN["excise"]["domestic_basic_excise_pct_ad_valorem"]),
+           "source": dl.get("source") or [S.step[i][0] for i in dl["evidence"] if i in S.step][:2],
+           "default_vat_pct": 18, "vat": vat}
     dst.write_text("# Сгенерировано research/fuel-2026-10/build_report.py; цену IOCL обновляет месячный агент.\n"
                    + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=110), encoding="utf-8")
 

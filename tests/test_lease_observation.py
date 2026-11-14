@@ -69,6 +69,110 @@ class LeaseObservation(unittest.TestCase):
         self.assertNotIn("lease_observation", kw)
         self.assertNotIn("overrides", kw)
 
+    def accepted(self, *, icao="CRJ9", age=12, month="2026-10", value=125, **extra):
+        obs = {"icao": icao, "kind": "lease", "value": value, "scale": "k",
+               "currency": "USD", "month": month, "age": age,
+               "source": "https://example.test/current-accepted.pdf",
+               "quote": "Published monthly aircraft lease rate.", **extra}
+        self.doc["observations"].append(obs)
+        return obs
+
+    def prepare_aircraft(self):
+        from flightcostapp.parsers.openap_aircraft import parse
+        self.store.commit_facts([f for f in parse(b"", {"source_id": "aircraft_openap", "today": "2026-11-01"})
+                                 if f.key.split("/")[0] in ("CRJ9", "A20N")])
+
+    def normal_route(self, **extra):
+        return self.ctx.route({"ac": "CRJ9", "as_of": DAY, "age": "12",
+                               "origin": "FRA", "destination": "BCN", **extra})
+
+    def test_auto_age_freshness_category_and_incomplete_age(self):
+        twelve = self.accepted(month="2023-01")
+        self.assertEqual(prices.latest_lease("CRJ9", DAY, 12), twelve)
+        self.accepted(age=None, month="2026-11")
+        self.accepted(age=12, month="2026-12")
+        self.accepted(age=11, month="2026-10")
+        self.assertEqual(prices.latest_lease("CRJ9", DAY, 12), twelve)
+        self.assertIsNone(prices.latest_lease("CRJ9", DAY, 12.5))
+        self.assertEqual(prices.latest_lease("CRJ9", DAY)["age"], 11)
+        new = self.accepted(icao="A20N", age="new")
+        self.accepted(icao="A20N", age=12, month="2026-11")
+        self.assertEqual(prices.latest_lease("A20N", DAY), new)
+        self.assertEqual(prices.latest_lease("A20N", DAY, 0), new)
+        self.assertIsNone(prices.latest_lease("CRJ9", "2030-01-01", 12))
+
+    def test_auto_conflicting_same_month_estimates_fail_closed(self):
+        self.accepted(value=100)
+        self.accepted(value=150, source="https://example.test/other.pdf")
+        self.assertIsNone(prices.latest_lease("CRJ9", DAY, 12))
+
+    def test_auto_default_current_window_and_incomplete_age(self):
+        for age, eligible in ((7, False), (8, True), (14, True), (15, False),
+                              (None, False), ({"from": 8, "to": 14}, False)):
+            with self.subTest(age=age):
+                self.doc["observations"] = []
+                row = self.accepted(age=age)
+                self.assertEqual(prices.latest_lease("CRJ9", DAY), row if eligible else None)
+
+    @unittest.skipUnless(importlib.util.find_spec("openap"), "openap не установлен")
+    def test_auto_route_range_source_change_age_type_and_fallback(self):
+        self.prepare_aircraft()
+        interval = {**OBS, "month": "2026-10", "age": 12}
+        self.doc["observations"].append(interval)
+        result = self.normal_route()
+        fl = result["inputs"]["fleet"]
+        self.assertEqual(fl["lease_eur_month"], 86000)
+        self.assertEqual(fl["lease_observation"]["id"], prices.observation_id(interval))
+        self.assertTrue(fl["lease_observation"]["automatic"])
+        self.assertEqual(fl["lease_observation"]["fx"]["date"], "2026-11-09")
+        own = next(x["eur"] for x in result["cost"] if x["item"] == "ownership")
+        self.assertAlmostEqual(own, 86000 * result["route"]["block_h"] / fl["monthly_hours"])
+        revised = self.accepted(month="2026-11", value=150, source="https://example.test/revised.pdf")
+        changed = self.normal_route()["inputs"]["fleet"]
+        self.assertEqual(changed["lease_eur_month"], 120000)
+        self.assertEqual(changed["lease_observation"]["id"], prices.observation_id(revised))
+        for changes in ({"age": "11"}, {"ac": "A20N", "age": "0"}):
+            self.assertNotIn("lease_observation", self.normal_route(**changes)["inputs"]["fleet"])
+        new = self.accepted(icao="A20N", age="new", value=500)
+        for zero in (0, "0"):
+            fl = self.normal_route(ac="A20N", age=zero)["inputs"]["fleet"]
+            self.assertEqual(fl["lease_eur_month"], 400000)
+            self.assertEqual(fl["lease_observation"]["id"], prices.observation_id(new))
+        self.doc["observations"] = [dict(OBS)]
+        fl = self.normal_route()["inputs"]["fleet"]
+        mtow = self.store.value("aircraft", "CRJ9/mtow_t", DAY)
+        self.assertEqual(fl["lease_eur_month"], fleet.parametric("CRJ9", mtow, 90).lease_eur_month)
+
+    @unittest.skipUnless(importlib.util.find_spec("openap"), "openap не установлен")
+    def test_auto_preserves_manual_workspace_card_and_operator_zero(self):
+        self.prepare_aircraft()
+        self.accepted()
+        for value in (0, 42000):
+            self.assertEqual(self.normal_route(set=f"fleet_economics.CRJ9.lease_eur_month={value}")
+                             ["inputs"]["fleet"]["lease_eur_month"], value)
+        with mock.patch.object(self.ctx, "_settings_overrides", return_value=[
+                "fleet_economics.CRJ9.lease_eur_month=0"]):
+            self.assertEqual(self.normal_route()["inputs"]["fleet"]["lease_eur_month"], 0)
+        for domain, key, op in (("aircraft", "CRJ9/fleet_lease_eur_month", "*"),
+                                ("fleet_economics", "LH/CRJ9/lease_eur_month", "LH"),
+                                ("fleet_economics", "*/CRJ9/lease_eur_month", "*")):
+            with self.subTest(key=key):
+                self.store.commit_facts([Fact(domain=domain, key=key, value=0, valid_from="2026-01-01",
+                                             source_id="test", extracted_by="test")])
+                self.assertEqual(self.normal_route(operator=op)["inputs"]["fleet"]["lease_eur_month"], 0)
+                self.store.db.execute("DELETE FROM facts WHERE domain=? AND key=?", (domain, key))
+
+    @unittest.skipUnless(importlib.util.find_spec("openap"), "openap не установлен")
+    def test_auto_without_fx_keeps_fallback_instead_of_guessing_conversion(self):
+        self.prepare_aircraft()
+        self.accepted()
+        self.store.db.execute("DELETE FROM facts WHERE domain='fx' AND key='USD'")
+        result = self.normal_route()
+        fl = result["inputs"]["fleet"]
+        self.assertNotIn("lease_observation", fl)
+        self.assertEqual(fl["prov"]["lease_eur_month"], "default")
+        self.assertTrue(any("ставки лизинга нет курса" in w for w in result["warnings"]))
+
     def test_manual_override_including_zero_and_workspace_wins(self):
         for value in (0, 42000):
             for key in ("fleet_economics.CRJ9.lease_eur_month", "fleet_economics.LH.CRJ9.lease_eur_month"):
@@ -154,19 +258,62 @@ class LeaseObservation(unittest.TestCase):
         changed = econ.route_economics(self.store, "FRA", "BCN", **kw)
         self.assertFalse(changed.inputs["fleet"]["lease_observation"]["applied"])
 
-    def network_result(self, **extra):
+    def network_result(self, *, automatic=False, **extra):
         def start(key, airports, base, kw, ov, as_of):
-            fe = fleet.load(Resolver(self.store, as_of, ov), kw["aircraft"], mtow_t=37.4, seats=90)
-            f = network.Fleet("CRJ9", fe.lease_eur_month, fe.prov("lease_eur_month"), 300, "default")
+            if automatic:
+                f = network.fleet_from_core(econ.route_economics, self.store, "FRA", "BCN",
+                    aircraft=kw["aircraft"], as_of=as_of, month=kw.get("month"), overrides=ov,
+                    operator=kw.get("operator", "*"), aircraft_age=kw.get("aircraft_age"))
+            else:
+                fe = fleet.load(Resolver(self.store, as_of, ov), kw["aircraft"], mtow_t=37.4, seats=90)
+                f = network.Fleet("CRJ9", fe.lease_eur_month, fe.prov("lease_eur_month"), 300, "default")
             legs = [network.Leg(a, b, 2, 90, 90, 3000, 5, 1000, 1, .8, fare_eur=150,
                                 market_fare_eur=150, market_fare_src="test")
                     for a, b in (("EDDF", "LEBL"), ("LEBL", "EDDF"))]
-            pairs = [network.Pair("FRA", "BCN", "EDDF", "LEBL", "DE", "ES", legs=legs)]
+            pairs = [network.Pair("FRA", "BCN", "EDDF", "LEBL", "DE", "ES", dist_km=1100, legs=legs)]
             self.ctx._net_cache[key] = (pairs, f, 1)
             return {"done": True}
         with mock.patch.object(self.ctx, "_start_net_job", side_effect=start):
-            return self.ctx.network(self.query(airports="FRA,BCN", base="FRA", fleet="2", util_h="300",
-                                               freqs="FRA-BCN:14", **extra))
+            q = self.query(airports="FRA,BCN", base="FRA", fleet="2", util_h="300",
+                           freqs="FRA-BCN:14", **extra)
+            if automatic:
+                q.pop("lease_observation", None)
+            return self.ctx.network(q)
+
+    @unittest.skipUnless(importlib.util.find_spec("openap"), "openap не установлен")
+    def test_auto_network_cache_age_source_zero_and_report(self):
+        self.prepare_aircraft()
+        obs = self.accepted()
+        selected = self.network_result(automatic=True, age="12")
+        self.assertIsNone(selected["error"])
+        self.assertEqual(selected["network"]["lease_eur_month"], 100000)
+        self.assertEqual(selected["network"]["lease_observation"]["id"], prices.observation_id(obs))
+        revised = self.accepted(month="2026-11", value=150, source="https://example.test/network-revised.pdf")
+        changed = self.network_result(automatic=True, age="12")
+        self.assertEqual(changed["network"]["lease_eur_month"], 120000)
+        self.assertEqual(changed["network"]["lease_observation"]["id"], prices.observation_id(revised))
+        self.doc["observations"].remove(revised)
+        same_amount = self.accepted(month="2026-11", value=150,
+                                    source="https://example.test/same-amount-new-source.pdf")
+        refreshed = self.network_result(automatic=True, age="12")
+        self.assertEqual(refreshed["network"]["lease_eur_month"], 120000)
+        self.assertEqual(refreshed["network"]["lease_observation"]["id"], prices.observation_id(same_amount))
+        fallback = self.network_result(automatic=True, age="11")
+        self.assertNotIn("lease_observation", fallback["network"])
+        zero = self.network_result(automatic=True, age="12", lease="0")
+        self.assertEqual(zero["network"]["lease_eur_month"], 0)
+        self.assertFalse(zero["network"]["lease_observation"]["applied"])
+        q = {"ac": "CRJ9", "types": "CRJ9", "airports": "FRA,BCN", "base": "FRA", "fleet": "2", "mode": "fleet"}
+        with mock.patch.object(self.ctx, "_net_by_type", return_value=({"CRJ9": changed}, {"types_left": 0}, [])), \
+                mock.patch.object(self.ctx, "aircraft", return_value=[{"icao": "CRJ9", "name": "CRJ900"}]):
+            report, _ = self.ctx.fleet_report(q)
+        self.assertEqual(report["types"][0]["lease_observation"]["id"], prices.observation_id(revised))
+        self.assertEqual(report["types"][0]["lease_eur_month"], 120000)
+        from flightcostapp.fleetreport_doc import render
+        html = render(report)
+        self.assertIn(revised["source"], html)
+        self.assertIn("2026-11", html)
+        self.assertIn("1 EUR = 1.25 USD", html)
 
     def test_network_midpoint_profit_manual_zero_and_cache_metadata(self):
         selected = self.network_result()
@@ -232,7 +379,8 @@ class LeaseSelectionFrontend(unittest.TestCase):
             start = html.index(f"function {name}(")
             return html[start:html.index("\n}", start) + 2]
         funcs = "\n".join(function(n) for n in ("leaseObservationId", "setLeaseObservation",
-            "leaseObservationNotice", "leaseOrigin", "setAc", "params", "netParams", "netState"))
+            "leaseObservationNotice", "leaseOrigin", "setAircraftAge", "setAc", "params", "netParams", "netState"))
+        self.assertIn('id="nage" type="number"', html)
         script = r'''
 const assert = require("node:assert/strict");
 const CHOSEN = {ac:"CRJ9", o:"FRA", d:"BCN", op:"*"};
@@ -243,8 +391,11 @@ const ctxVal = {}, CUR = {code:"EUR"};
 const location = {href:"https://flightcost.app/ru/calc?ac=CRJ9&o=EDDF&mode=net"};
 const history = {replaceState(a,b,url){location.href=String(url);}};
 const nodes = {};
-function $(key){ return nodes[key] ||= {value:"",placeholder:"",options:[1],innerHTML:"",button:{},querySelector(){return this.button;}}; }
-const _t=x=>x, esc=x=>String(x??""), f0=x=>String(x), m0=x=>String(x), toEur=Number;
+function $(key){
+  return nodes[key] ||= {value:"",placeholder:"",options:[1],open:false,content:{},button:{},
+    querySelector(selector){return selector === ".note" ? this.content : this.button;}};
+}
+const _t=x=>x, esc=x=>String(x??""), escA=esc, f0=x=>String(x), m0=x=>String(x), toEur=Number;
 const seatsParam=()=>"", acLabel=t=>t.icao, acTier=()=>"", markClear=()=>{}, drawLayouts=()=>{}, benchLoad=()=>{}, netChips=()=>{}, pairsQ=()=>"";
 let redraws=0; const draw=()=>{redraws++;}, netSoft=()=>{redraws++;};
 '''
@@ -261,10 +412,14 @@ assert.match(params().get("set"), /lease_eur_month=0/);
 assert.equal(netParams().get("lease"), "0");
 assert.equal(params().get("lease_observation"), id);
 leaseObservationNotice({id,icao:"CRJ9",month:"2022-07",age:null,low:100000,high:115000,midpoint:107500,currency:"USD",lease_eur_month:86000,applied:false,fx:{rate:1.25,date:"2026-11-09",source:"fx_rates"},source:"https://example.test/a.pdf",note:"stored aircraft"});
-assert.match($("#leaseobs").innerHTML, /2022-07/);
-assert.match($("#leaseobs").innerHTML, /возраст не указан/);
-assert.match($("#leaseobs").innerHTML, /Применяется ручная ставка/);
-assert.match($("#leaseobs").innerHTML, /2026-11-09/);
+assert.equal($("#leaseobs").open, false);
+$("#leaseobs").open = true;
+leaseObservationNotice();
+assert.equal($("#leaseobs").open, true);
+assert.match($("#leaseobs").content.innerHTML, /2022-07/);
+assert.match($("#leaseobs").content.innerHTML, /возраст не указан/);
+assert.match($("#leaseobs").content.innerHTML, /Применяется ручная ставка/);
+assert.match($("#leaseobs").content.innerHTML, /2026-11-09/);
 assert.equal(leaseOrigin({lease_prov:"override",lease_observation:{applied:true}}), "из публикации");
 assert.equal(leaseOrigin({lease_prov:"input",lease_observation:{applied:false}}), "задано");
 setAc("CRJ9"); assert.equal(leaseObservationId(), id);
@@ -277,8 +432,29 @@ assert.equal(new URL(location.href).searchParams.get("ac"), "A320");
 assert.equal(new URL(location.href).searchParams.get("o"), "EDDF");
 assert.equal(new URL(location.href).searchParams.get("mode"), "net");
 assert.equal($("#leaseobs").hidden, true);
+assert.equal($("#leaseobs").open, false);
 setAc("CRJ9"); setLeaseObservation(id); $("#leaseobs").button.onclick();
 assert.equal(leaseObservationId(), ""); assert.equal(redraws, 1);
+$("#lease").value="";
+leaseObservationNotice({id,icao:"CRJ9",automatic:true,applied:true,month:"2026-10",age:12,low:125000,high:125000,midpoint:125000,currency:"USD",lease_eur_month:100000,fx:{rate:1.25,date:"2026-11-09",source:"fx_rates"},source:"https://example.test/current.pdf",publisher:"Published Appraiser"});
+assert.equal($("#leaseobs").hidden, false);
+assert.match($("#leaseobs").content.innerHTML, /2026-10/);
+assert.match($("#leaseobs").content.innerHTML, /1 EUR = 1.25 USD/);
+assert.match($("#leaseobs").content.innerHTML, /current.pdf/);
+assert.match($("#leaseobs").content.innerHTML, />Published Appraiser<\/a>/);
+assert.doesNotMatch($("#leaseobs").content.innerHTML, /<button/);
+assert.equal(leaseObservationId(), "");
+assert.equal(params().has("lease_observation"), false);
+assert.equal(netParams().get("age"), "12");
+assert.equal(netState().age, "12");
+setAircraftAge(0);
+assert.equal($("#nage").value, "0"); assert.equal($("#acage").value, "0");
+assert.equal(params().get("age"), "0"); assert.equal(netParams().get("age"), "0");
+assert.equal(netState().age, "0");
+setAircraftAge(null);
+assert.equal($("#nage").value, ""); assert.equal($("#acage").value, "");
+assert.equal(netParams().get("age"), "");
+leaseObservationNotice(); assert.equal($("#leaseobs").hidden, true);
 '''
         result = subprocess.run([shutil.which("node"), "-e", script], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)

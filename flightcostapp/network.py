@@ -193,6 +193,7 @@ class Fleet:
     crew_fh: float | None = None
     crew_fc: float | None = None
     crew_prov: str = "default"
+    market_lease: dict | None = None
 
 
 # Статьи рейса, которые раскладываются на постоянную часть и добавку на
@@ -295,10 +296,12 @@ def observed_frequency(store, as_of) -> tuple[dict, int]:
 # ── формирование сети ───────────────────────────────────────────────────
 
 def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=None,
-         seats=None):
+         seats=None, aircraft_age=None):
     kw = dict(aircraft=aircraft, as_of=as_of, month=month, overrides=overrides,
               operator=operator, util_mode="marginal", _trade=False, via=via,
               _ctx_scope=False)
+    if aircraft_age is not None:
+        kw["aircraft_age"] = aircraft_age
     if seats:
         # Своя компоновка (кресел рейсом) — как положение «своя» на маршруте.
         kw["seats"] = int(seats)
@@ -342,12 +345,13 @@ def _leg(econ, store, o, d, *, aircraft, as_of, month, overrides, operator, via=
 
 
 def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
-                    operator, seats=None) -> Fleet:
+                    operator, seats=None, aircraft_age=None) -> Fleet:
     """Ставка лизинга и типовой налёт — из разбора ядра в режиме «типовой
     по флоту», с их происхождением. Сеть не заводит своих констант."""
     r = econ(store, o, d, aircraft=aircraft, as_of=as_of, month=month,
              overrides=overrides, operator=operator, load_factor=0.8,
              util_mode="fleet_average", _trade=False, _ctx_scope=False,
+             **({"aircraft_age": aircraft_age} if aircraft_age is not None else {}),
              **({"seats": int(seats)} if seats else {}))
     lease, util = _step(r, "d_fleet"), _step(r, "v_util")
     if lease is None or util is None:
@@ -360,7 +364,7 @@ def fleet_from_core(econ, store, o, d, *, aircraft, as_of, month, overrides,
                  fl.get("maint_eur_per_fh"), fl.get("maint_eur_per_fc"),
                  pv.get("maint_eur_per_fh", "default"),
                  fl.get("crew_eur_per_fh"), fl.get("crew_eur_per_fc"),
-                 pv.get("crew_eur_per_fh", "default"))
+                 pv.get("crew_eur_per_fh", "default"), fl.get("lease_observation"))
 
 
 def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
@@ -369,7 +373,7 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                  closures=None, econ=None, crossing_fn=None, airport_fn=None,
                  gc_nm=None, world_zones=None, detour_fn=None,
                  leg_cache: dict | None = None, detour_cache: dict | None = None,
-                 progress=None, seats=None) -> list[Pair]:
+                 progress=None, seats=None, aircraft_age=None) -> list[Pair]:
     """Все пары выбранных аэропортов с причиной, почему пара в сети или нет.
 
     `leg_cache` и `detour_cache` — словари вызывающего: плечо и обход
@@ -450,12 +454,12 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
         try:
             for o, d in ((x, y), (y, x)):
                 via = p.via if (o, d) == (x, y) else list(reversed(p.via))
-                lkey = (o, d, tuple(via), aircraft, as_of, month, operator, ov_key, seats)
+                lkey = (o, d, tuple(via), aircraft, as_of, month, operator, ov_key, seats, aircraft_age)
                 leg = leg_cache.get(lkey) if leg_cache is not None else None
                 if leg is None:
                     leg, _r = _leg(econ, store, o, d, aircraft=aircraft, as_of=as_of,
                                    month=month, overrides=overrides, operator=operator,
-                                   via=via or None, seats=seats)
+                                   via=via or None, seats=seats, aircraft_age=aircraft_age)
                     if leg_cache is not None:
                         leg_cache[lkey] = leg
                 leg = copy.deepcopy(leg)          # своё у каждой сети: цены накладываются

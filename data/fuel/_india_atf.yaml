@@ -1,8 +1,10 @@
 # Сгенерировано research/fuel-2026-10/build_report.py; цену IOCL обновляет месячный агент.
-method: 'Внутренние рейсы из Индии: цена IOCL для внутренних авиакомпаний в Дели (с акцизом 11 % и VAT Дели) ÷ (1
-  + VAT Дели) × (1 + VAT штата аэропорта вылета). Международные рейсы — без VAT и акциза, множитель региона. Решение
-  236.'
-built: '2026-10-30'
+method: 'Обычные внутренние рейсы индийских авиакомпаний: цена IOCL в Дели (с включёнными центральным акцизом 11
+  % и VAT Дели) ÷ (1 + VAT Дели) × (1 + VAT штата вылета на дату). Для Maharashtra льготы RCS/UDAN и турбовинтовых
+  самолётов отдельные; в Tamil Nadu уведомление для ВС <40 т — другая самостоятельная категория; специальные категории
+  этой моделью не применяются. Временные ставки Tamil Nadu относятся к Scheduled Airlines, domestic flight и декларации
+  покупателя. Международные рейсы — без VAT и акциза, множитель региона. Решение 236.'
+built: '2026-11-14'
 month: 2026-10
 delhi_domestic_inr_kl: 137000
 delhi_vat_pct_at_price: 7
@@ -15,115 +17,156 @@ vat:
   VIDP:
     periods:
     - pct: 7
-      from: '2026-05-16'
-      to: '2026-11-15'
+      from: '2026-05-17'
+      to: '2026-11-16'
+      source: https://delhi.gov.in/sites/default/files/centralized-cos/notification_compressed.pdf
     - pct: 25
+      source: https://delhitradetax.delhi.gov.in/sites/default/files/dvat/public-notice/910650.pdf
     state: Delhi
     source:
-    - https://www.businesstoday.in/india/story/delhi-slashes-atf-vat-from-25-to-7-amid-rising-aviation-costs-airfare-concerns-531846-2026-05-16
-    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+    - https://delhi.gov.in/sites/default/files/centralized-cos/notification_compressed.pdf
+    - https://delhitradetax.delhi.gov.in/sites/default/files/dvat/public-notice/910650.pdf
   VABB:
     periods:
     - pct: 7
       from: '2026-05-15'
-      to: '2026-11-14'
+      to: '2027-04-14'
+      scope: Aviation Turbine Fuel (Duty paid)
+      source: https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
     - pct: 18
+      source: https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
     state: Maharashtra
     source:
-    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
-    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+    - https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
+    - https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
   VAPO:
     periods:
     - pct: 7
       from: '2026-05-15'
-      to: '2026-11-14'
+      to: '2027-04-14'
+      scope: Aviation Turbine Fuel (Duty paid)
+      source: https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
     - pct: 18
+      source: https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
     state: Maharashtra
     source:
-    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
-    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+    - https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
+    - https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
   VANM:
     periods:
     - pct: 7
       from: '2026-05-15'
-      to: '2026-11-14'
+      to: '2027-04-14'
+      scope: Aviation Turbine Fuel (Duty paid)
+      source: https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
     - pct: 18
+      source: https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
     state: Maharashtra
     source:
-    - https://ianslive.in/maharashtra-cuts-vat-on-aviation-fuel-to-7-pc-from-18-pc-to-ease-pressure-on-airlines--20260515151810
-    - https://www.maheshwariandco.com/blog/atf-tax-india-aviation-crisis-gst-reform/
+    - https://egazette.servantsofknowledge.in/details/in.gazette.maharashtra.2026-11-12.Extra-Ordinary_CENTRAL-SECTION_Part-4-B/pdf/
+    - https://cdnbbsr.s3waas.gov.in/s36a4cbdaedcbda0fa8ddc7ea32073c475/uploads/2025/11/20251107799737358.pdf
   VOMM:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 16
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines fueling at Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VOCB:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 1
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VOMD:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 1
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VOTR:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 1
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VOTK:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 1
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VOSM:
     periods:
     - pct: 29
       to: '2026-10-31'
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 1
       from: '2026-11-01'
-      to: '2027-10-31'
+      to: '2027-10-30'
+      scope: Scheduled Airlines at Tamil Nadu airports other than Chennai; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     - pct: 29
+      scope: Scheduled Airlines; domestic flight; purchaser declaration
+      source: https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
     state: Tamil Nadu
     source:
-    - https://a2ztaxcorp.net/?p=40611
-    - https://www.freepressjournal.in/business/centre-in-talks-with-four-states-to-reduce-vat-on-atf-amid-rising-energy-costs
+    - https://www.stationeryprinting.tn.gov.in/extraordinary/2026/455_Ex_II_2_2026.pdf
   VECC:
     periods:
     - pct: 25

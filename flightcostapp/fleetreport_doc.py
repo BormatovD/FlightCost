@@ -733,10 +733,30 @@ def _specs_section(D: Doc, types: list) -> str:
     out, grp = [], None
     # Своё: из справочника проекта — то, с чем считал расчёт.
     g = lambda t, k: (t.get("geom") or {}).get(k)               # noqa: E731
+    def lease_display(t):
+        shown = D.money(t.get("lease_eur_month"))
+        obs = t.get("lease_observation") or {}
+        if obs.get("applied"):
+            label = e(obs.get("publisher") or T("источник"))
+            url = obs.get("source") or ""
+            if url.startswith(("https://", "http://")):
+                label = f'<a href="{e(url)}" target="_blank" rel="noopener">{label}</a>'
+            fx = obs.get("fx") or {}
+            detail = f'{label} · {e(obs.get("month"))}'
+            detail += f' · {D.n(obs.get("low"))}'
+            if obs.get("low") != obs.get("high"):
+                detail += f'–{D.n(obs.get("high"))}'
+            detail += f' {e(obs.get("currency"))}/{T("мес")}'
+            if obs.get("currency") != "EUR" and fx.get("rate"):
+                detail += f' · 1 EUR = {e(str(fx["rate"]))} {e(obs.get("currency"))}'
+                detail += f' · {e(fx.get("date") or "")} · {e(fx.get("source") or "")}'
+            shown += f'<br><span class="sm">{detail}</span>'
+        elif (t.get("prov") or {}).get("lease") == "default":
+            shown += f' <span class="sm">{T("заготовка")}</span>'
+        return shown
     own = [(T("Кресел в расчёте"), lambda t: t.get("seats")),
            (T("Взлётная масса в расчёте, т"), lambda t: D.n(g(t, "mtow"), 1) if g(t, "mtow") else None),
-           (T("Лизинг в расчёте, в месяц"), lambda t: D.money(t.get("lease_eur_month"))
-            + (f' <span class="sm">{T("заготовка")}</span>' if (t.get("prov") or {}).get("lease") == "default" else "")),
+           (T("Лизинг в расчёте, в месяц"), lease_display),
            (T("Налёт в расчёте, ч/мес"), lambda t: D.n(t.get("util_h_month"))),
            (T("ТОиР: за час / за цикл"), lambda t: f'{D.money((t.get("rates") or {}).get("maint_fh"))} / '
                                                     f'{D.money((t.get("rates") or {}).get("maint_fc"))}')]

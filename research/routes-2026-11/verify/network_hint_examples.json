@@ -1,0 +1,196 @@
+{
+  "schema": "fca.network-rating-hint-examples/1",
+  "purpose": "Примеры подсказки рейтинга пары сети; значения из out/rating.json, пассажиропоток показан только суммарно по паре.",
+  "rating_source": "research/routes-2026-11/out/rating.json",
+  "cases": [
+    {
+      "id": "europe_fra_bcn",
+      "market": "europe",
+      "market_label": "Европа, пары до 4 500 км",
+      "period": {
+        "key": "2024",
+        "label": "2024",
+        "source_last_month": "2024-12"
+      },
+      "normalized_pair": "EDDF-LEBL",
+      "expected_searches": [
+        {
+          "from": "FRA",
+          "to": "BCN",
+          "found": true
+        },
+        {
+          "from": "BCN",
+          "to": "FRA",
+          "found": true
+        },
+        {
+          "from": "EDDF",
+          "to": "LEBL",
+          "found": true
+        },
+        {
+          "from": "LEBL",
+          "to": "EDDF",
+          "found": true
+        }
+      ],
+      "result": {
+        "rank": 599,
+        "rank_of": 1357,
+        "market_pax": 806777,
+        "market_pax_unit": "passengers/year, both directions combined",
+        "growth_2024_vs_2023": -0.014470641552949304,
+        "load_factor": 0.8511616767983254,
+        "index": 53.1,
+        "percentiles": {
+          "size": 90.0,
+          "growth": 16.2,
+          "lf": 53.2
+        },
+        "slot3_endpoints": [
+          {
+            "city_or_airport": "FRA",
+            "icao": "EDDF",
+            "slot3_flag": true,
+            "slot_note": "Fluko primary Level 3 list confirms EDDF; allocated slots are required."
+          },
+          {
+            "city_or_airport": "BCN",
+            "icao": "LEBL",
+            "slot3_flag": true,
+            "slot_note": "Level 3 coordination requires allocated slots for arrival or departure."
+          }
+        ]
+      },
+      "hint_ru": "FRA–BCN заняла 599-е место из 1 357 европейских пар до 4 500 км в 2024 году. За год в обоих направлениях перевезли 806 777 пассажиров при загрузке 85,1%. Оба аэропорта — уровень 3: требуются слоты.",
+      "direction_note": "Eurostat row is for the pair, not directional passenger counts.",
+      "rating_json_slot3_endpoints": [
+        {
+          "city_or_airport": "FRA",
+          "icao": "EDDF",
+          "slot3_flag": true,
+          "slot_note": "Fluko primary Level 3 list confirms EDDF; allocated slots are required."
+        },
+        {
+          "city_or_airport": "BCN",
+          "icao": "LEBL",
+          "slot3_flag": true,
+          "slot_note": "Level 3 coordination requires allocated slots for arrival or departure."
+        }
+      ],
+      "slot3_external_confirmation": {
+        "source": "Fluko, Flughafenkoordination Deutschland GmbH, Level 3 Airports",
+        "url": "https://fluko.org/en/flughaefen/flughaefen-level-3/",
+        "confirmed": [
+          "EDDF",
+          "LEBL"
+        ],
+        "meaning": "Level 3 coordination requires allocated slots for arrival or departure."
+      },
+      "hint_slot3_endpoints": [
+        "EDDF",
+        "LEBL"
+      ]
+    },
+    {
+      "id": "india_del_bom",
+      "market": "india",
+      "market_label": "Индия, внутренние городские пары",
+      "period": {
+        "key": "latest_12_months",
+        "label": "последние 12 месяцев по 2026-07",
+        "source_last_month": "2026-07"
+      },
+      "normalized_pair": "VABB-VIDP",
+      "expected_searches": [
+        {
+          "from": "DEL",
+          "to": "BOM",
+          "found": true
+        },
+        {
+          "from": "BOM",
+          "to": "DEL",
+          "found": true
+        },
+        {
+          "from": "VIDP",
+          "to": "VABB",
+          "found": true
+        },
+        {
+          "from": "VABB",
+          "to": "VIDP",
+          "found": true
+        }
+      ],
+      "result": {
+        "rank": 71,
+        "rank_of": 204,
+        "market_pax": 6771039,
+        "market_pax_unit": "passengers per latest 12 months, both directions combined",
+        "growth_latest_12m_vs_previous_12m": 0.017679658653180663,
+        "growth_2025_vs_2024_matched_months": -0.04535779917123506,
+        "load_factor": null,
+        "index": 57.8,
+        "percentiles": {
+          "size": 100.0,
+          "growth": 49.3,
+          "growth25": 24.1
+        },
+        "load_factor_note": "not present in DGCA city-pair source; do not infer or show zero",
+        "slot3_endpoints": [
+          {
+            "city_or_airport": "Delhi / DEL",
+            "icao": "VIDP",
+            "slot3_flag": true,
+            "slot_note": "есть отметка координируемого аэропорта уровня 3"
+          },
+          {
+            "city_or_airport": "Mumbai / BOM",
+            "icao": "VABB",
+            "slot3_flag": true,
+            "slot_note": "есть отметка координируемого аэропорта уровня 3"
+          }
+        ]
+      },
+      "hint_ru": "Дели–Мумбаи заняла 71-е место из 204 внутренних пар Индии. За 12 месяцев по июль 2026 года в обоих направлениях перевезли 6 771 039 пассажиров, на 1,8% больше, чем за предыдущие 12 месяцев. Данных о загрузке нет. Слоты нужны в обоих аэропортах.",
+      "direction_note": "DGCA row is a city-pair total, not directional passenger counts.",
+      "source_pair": "Delhi-Mumbai"
+    },
+    {
+      "id": "unknown_pair",
+      "market": null,
+      "market_label": "Европа, пары до 4 500 км",
+      "period": {
+        "key": "2024",
+        "label": "2024",
+        "source_last_month": "2024-12"
+      },
+      "normalized_pair": "EDDF-VILH",
+      "expected_searches": [
+        {
+          "from": "FRA",
+          "to": "Leh",
+          "found": false
+        },
+        {
+          "from": "Leh",
+          "to": "FRA",
+          "found": false
+        }
+      ],
+      "result": null,
+      "hint_ru": "Для FRA–Leh пары нет в опубликованном рейтинге; сеть продолжает рассчитываться.",
+      "direction_note": "No matching row in either market rating; the pair remains available for network calculation."
+    }
+  ],
+  "notes": [
+    "Normalize IATA/ICAO to the same airport before lookup; compare unordered pairs.",
+    "India uses city-pair observations mapped to primary-airport ICAO endpoints for slot flags and distance.",
+    "Passenger totals are pair totals; no directional split is supplied.",
+    "Missing slot3 flag means no level-3 entry in the checked list, not proof of no slot constraints.",
+    "India has no load-factor observation; show unavailable, never zero."
+  ]
+}

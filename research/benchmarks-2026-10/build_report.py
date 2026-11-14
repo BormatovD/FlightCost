@@ -847,11 +847,15 @@ function(x){{x.classList.toggle('on',x===b)}})}}}})}})();</script>
       f"adjusted to the stage length the user is calculating.",
       f"Derzeit vergleicht der Rechner mit zwölf Airlines; geplant sind alle {len(allc)} Airlines der Stichprobe, "
       f"korrigiert auf die Streckenlänge, die der Nutzer berechnet.")}</li>
-<li>{mark('planned')}<b>{T("Налёт по умолчанию — по типу сети", "Default utilisation by network type",
-                            "Standardauslastung nach Netztyp")}</b> {T(
-      "из таблицы рейтинга и статьи о сети, вместо одной цифры 300 часов в месяц.",
-      "from the rating table and the network article, instead of a single figure of 300 hours a month.",
-      "aus der Rating-Tabelle und dem Netz-Artikel statt einer einzigen Zahl von 300 Stunden im Monat.")}</li>
+<li>{mark('in_calc')}<b>{T("Налёт по умолчанию в режиме «Сеть».", "Default utilisation in Network mode.",
+                           "Standard-Flugstunden im Netzmodus.")}</b> {T(
+      "Калькулятор оценивает средний месячный налёт на борт по длительности плеч, доступным часам работы базы "
+      "и годовому коэффициенту для выбранного типа сети. Можно ввести свои блок-часы в месяц.",
+      "The calculator estimates average monthly block hours per aircraft from leg times, the base operating window "
+      "and an annual utilisation factor for the selected network type. You can enter your own monthly block hours.",
+      "Der Rechner schätzt die durchschnittlichen monatlichen Blockstunden je Flugzeug aus den Flugzeiten der "
+      "einzelnen Strecken, dem Betriebszeitfenster der Basis und einem Jahresfaktor für den gewählten Netztyp. "
+      "Sie können eigene monatliche Blockstunden eingeben.")}</li>
 <li>{mark('planned')}<b>{T("Рейтинг обновляется раз в год", "The rating is updated once a year",
                             "Das Rating wird einmal im Jahr aktualisiert")}</b> {T(
       "— после выхода годовых отчётов; процедура и журнал те же, что в этом исследовании.",
