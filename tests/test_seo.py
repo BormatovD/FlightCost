@@ -354,8 +354,61 @@ class SeoHttp(unittest.TestCase):
 
         status, body, _ = self.get(f"/en/research/{planned[0]}")
         self.assertEqual(status, 200)
-        self.assertIn('lang="ru"', body)
-        self.assertIn("Статья запланирована к релизу", body)
+        self.assertIn('lang="en"', body)
+        self.assertIn("Article planned for release", body)
+        status, body, _ = self.get(f"/de/research/{planned[0]}")
+        self.assertEqual(status, 200)
+        self.assertIn('lang="de"', body)
+        self.assertIn("Artikel zur Veröffentlichung vorgesehen", body)
+
+    def test_demand_series_has_full_translations_and_local_navigation(self):
+        from html.parser import HTMLParser
+        from flightcostapp import research
+
+        class Reader(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.hidden = 0
+                self.text = []
+
+            def handle_starttag(self, tag, attrs):
+                if tag in ("style", "script"):
+                    self.hidden += 1
+                if not self.hidden:
+                    self.text.extend(value for key, value in attrs
+                                     if key in ("alt", "title", "aria-label") and value)
+
+            def handle_endtag(self, tag):
+                if tag in ("style", "script"):
+                    self.hidden -= 1
+
+            def handle_data(self, data):
+                if not self.hidden:
+                    self.text.append(data)
+
+        slugs = ("demand-series-intro-2026-11", "demand-series-01-2026-11")
+        for slug in slugs:
+            item = research.find(slug)
+            self.assertEqual(set(item["langs"]), {"ru", "en", "de"})
+            for lang in ("en", "de"):
+                with self.subTest(slug=slug, lang=lang):
+                    status, body, _ = self.get(f"/{lang}/research/{slug}")
+                    self.assertEqual(status, 200)
+                    self.assertIn(f'<html lang="{lang}"', body)
+                    self.assertIn(f'<title>{seo.esc(item["title"][lang])}</title>', body)
+                    self.assertIn(f'href="{seo.site()}/{lang}/research/{slug}"', body)
+                    parser = Reader()
+                    parser.feed(body)
+                    self.assertIsNone(CYR.search(" ".join(parser.text)))
+                    main = body.split("<main", 1)[1].split("</main>", 1)[0]
+                    self.assertNotIn('/ru/research/demand-series-', main)
+                    other = slugs[1] if slug == slugs[0] else slugs[0]
+                    self.assertIn(f'/{lang}/research/{other}', main)
+                    if slug == slugs[1]:
+                        self.assertIn('class="factors-report"', body)
+                    else:
+                        self.assertIn('data-backtest="all"', body)
+                        self.assertNotIn("Целевые годы", body)
 
     def test_research_assets_only_serve_listed_public_files(self):
         from flightcostapp import research

@@ -229,14 +229,14 @@ def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
 
 
 def _planned_page(lang: str, it: dict) -> str:
-    original = it.get("lang") or "ru"
-    title = _tr(it, "title", original)
+    content_lang = lang if lang in it.get("langs", []) else it.get("lang") or "ru"
+    title = _tr(it, "title", content_lang)
     tail = f"/research/{it['slug']}"
     intro_url = f"/{lang}/research/{SERIES_INTRO}"
-    body = it["path"].read_text(encoding="utf-8")
+    body = report_file(it, lang).read_text(encoding="utf-8")
     body = body.replace("{{title}}", esc(title)).replace("{{intro_url}}", esc(intro_url))
     head = f'<title>{esc(title)} — FlightCost</title><meta name="robots" content="noindex">' + seo.ICON_LINKS
-    return seo.shell(lang, tail, head, f'<div lang="{esc(original)}">{body}</div>', on="research")
+    return seo.shell(lang, tail, head, f'<div lang="{esc(content_lang)}">{body}</div>', on="research")
 
 
 def feed() -> str:

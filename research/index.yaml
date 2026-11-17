@@ -15,12 +15,23 @@ items:
     lang: ru
     title:
       ru: Что можно предсказать в авиации?
+      en: What can we forecast in aviation?
+      de: Was lässt sich in der Luftfahrt vorhersagen?
     lede:
       ru: 'Пассажиропоток, население, ВВП, потребление и вылеты: исторические данные 2010–2024 годов, факторы и формула прогноза.'
+      en: 'Passenger traffic, population, GDP, consumption and departures: historical data for 2010–2024, model inputs and the
+        forecast formula.'
+      de: 'Passagierverkehr, Bevölkerung, BIP, Konsum und Abflüge: historische Daten für 2010–2024, Modelleingaben und Prognoseformel.'
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     site_chrome: true
     og_image: /research/assets/demand-series-01-2026-11/cover.jpg
     assets:
@@ -34,12 +45,24 @@ items:
     lang: ru
     title:
       ru: Что нужно, чтобы открыть авиакомпанию?
+      en: What does it take to start an airline?
+      de: Was braucht man, um eine Fluggesellschaft zu gründen?
     lede:
       ru: Кто, откуда и куда захочет летать? Пролог серии FlightCost о пассажирах, маршрутах, кризисах и самолётах.
+      en: Who will want to fly, from where, and to where? The opening chapter of FlightCost’s series on passengers, routes, crises
+        and aircraft.
+      de: Wer wird von wo nach wo fliegen wollen? Der Auftakt der FlightCost-Reihe über Passagiere, Flugverbindungen, Krisen und
+        Flugzeuge.
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     site_chrome: true
     og_image: /research/assets/demand-series-intro-2026-11/cover.jpg
     assets:
@@ -55,12 +78,22 @@ items:
     lang: ru
     title:
       ru: №2 · От демографии к спросу
+      en: No. 2 · From demography to demand
+      de: Nr. 2 · Von der Demografie zur Nachfrage
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-03-2026-11
@@ -71,12 +104,22 @@ items:
     lang: ru
     title:
       ru: №3 · Исторические изменения
+      en: No. 3 · Historical changes
+      de: Nr. 3 · Historische Veränderungen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-04-2026-11
@@ -87,12 +130,22 @@ items:
     lang: ru
     title:
       ru: №4 · Покрытие по аэропортам вылета
+      en: No. 4 · Coverage by departure airport
+      de: Nr. 4 · Abdeckung nach Abflughafen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-05-2026-11
@@ -103,12 +156,22 @@ items:
     lang: ru
     title:
       ru: №5 · Региональная макромодель
+      en: No. 5 · Regional macro model
+      de: Nr. 5 · Regionales Makromodell
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-06-2026-11
@@ -119,12 +182,22 @@ items:
     lang: ru
     title:
       ru: №6 · Шоки и сравнение прогнозов
+      en: No. 6 · Shocks and forecast comparisons
+      de: Nr. 6 · Schocks und Prognosevergleiche
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-07-2026-11
@@ -135,12 +208,22 @@ items:
     lang: ru
     title:
       ru: №7 · Доступность авиапоездки
+      en: No. 7 · Air travel affordability
+      de: Nr. 7 · Erschwinglichkeit von Flugreisen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-08-2026-11
@@ -151,12 +234,22 @@ items:
     lang: ru
     title:
       ru: №8 · Цена билета в Бразилии
+      en: No. 8 · Airfares in Brazil
+      de: Nr. 8 · Flugpreise in Brasilien
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-09-2026-11
@@ -167,12 +260,22 @@ items:
     lang: ru
     title:
       ru: №9 · Проверка бразильских опросов
+      en: No. 9 · Validating Brazilian surveys
+      de: Nr. 9 · Validierung brasilianischer Erhebungen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-10-2026-11
@@ -183,12 +286,22 @@ items:
     lang: ru
     title:
       ru: №10 · Доход на горизонтах 3, 5 и 10 лет
+      en: No. 10 · Income over 3, 5 and 10 years
+      de: Nr. 10 · Einkommen über 3, 5 und 10 Jahre
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-11-2026-11
@@ -199,12 +312,22 @@ items:
     lang: ru
     title:
       ru: №11 · Доход и доступность рейсов
+      en: No. 11 · Income and flight availability
+      de: Nr. 11 · Einkommen und Flugverfügbarkeit
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-12-2026-11
@@ -215,12 +338,22 @@ items:
     lang: ru
     title:
       ru: №12 · Перенос модели между регионами
+      en: No. 12 · Transferring the model between regions
+      de: Nr. 12 · Übertragung des Modells zwischen Regionen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-13-2026-11
@@ -231,12 +364,22 @@ items:
     lang: ru
     title:
       ru: №13 · Спрос в штате вылета
+      en: No. 13 · Demand in the state of departure
+      de: Nr. 13 · Nachfrage im Abflugbundesstaat
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-14-2026-11
@@ -247,12 +390,22 @@ items:
     lang: ru
     title:
       ru: №14 · Появление прямого рейса
+      en: No. 14 · The launch of a direct flight
+      de: Nr. 14 · Aufnahme einer Direktverbindung
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-15-2026-11
@@ -263,12 +416,22 @@ items:
     lang: ru
     title:
       ru: №15 · Гравитационная модель маршрутов
+      en: No. 15 · Route gravity model
+      de: Nr. 15 · Gravitationsmodell für Flugverbindungen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-16-2026-11
@@ -279,12 +442,22 @@ items:
     lang: ru
     title:
       ru: №16 · История и появление продаж
+      en: No. 16 · History and the start of sales
+      de: Nr. 16 · Historie und Verkaufsbeginn
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-17-2026-11
@@ -295,12 +468,22 @@ items:
     lang: ru
     title:
       ru: №17 · Прямой рейс и концессии
+      en: No. 17 · Direct flights and concessions
+      de: Nr. 17 · Direktverbindungen und Konzessionen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-18-2026-11
@@ -311,12 +494,22 @@ items:
     lang: ru
     title:
       ru: №18 · Проверка инвестиций
+      en: No. 18 · Investment validation
+      de: Nr. 18 · Validierung von Investitionen
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: demand-series-results-2026-11
@@ -327,12 +520,22 @@ items:
     lang: ru
     title:
       ru: Итоговый прогноз пассажирского спроса
+      en: Final passenger demand forecast
+      de: Abschließende Prognose der Passagiernachfrage
     lede:
       ru: Статья запланирована к релизу.
+      en: Article planned for release
+      de: Artikel zur Veröffentlichung vorgesehen
     tags:
       ru:
       - пассажирский спрос
       - исследовательская серия
+      en:
+      - passenger demand
+      - research series
+      de:
+      - Passagiernachfrage
+      - Forschungsreihe
     planned_release: true
     hide_from_feed: true
   - slug: aircraft-prices-2026-11
