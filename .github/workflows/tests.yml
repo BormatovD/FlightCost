@@ -69,7 +69,10 @@ jobs:
           python3 -m unittest
           tests.test_agent tests.test_fuel_series tests.test_prices
           tests.test_carrier_reports tests.test_carrier_bands
-          tests.test_macro tests.test_bot tests.test_charges_todo -v
+          tests.test_macro tests.test_bot tests.test_charges_todo
+          tests.test_mass_charges tests.test_mass_econ tests.test_charges_skill_contract
+          tests.test_us_landing_charges tests.test_us_service_reference
+          tests.test_tariff_metadata tests.test_service_charges -v
 
   # Выкладка на сервер — только после зелёных тестов, только из main.
   #

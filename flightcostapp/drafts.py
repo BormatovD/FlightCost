@@ -127,6 +127,14 @@ def check(blob: bytes, store) -> dict:
                                    load_factor=CHECK_PAX / CHECK_SEATS, seats=CHECK_SEATS, month=CHECK_MONTH)
         lines = {k: v for k, v in (res.charge_lines or {}).items() if k.startswith(icao + "/")}
         out["turnaround_eur"] = round(sum(lines.values())) if lines else None
+        gaps = (getattr(res, "charge_gaps", None) or {}).get(icao, {})
+        out["charge_gaps"] = gaps
+        if gaps.get("missing_input"):
+            out["reasons"].append("не заданы условия расчёта: "
+                                  + ", ".join(gaps["missing_input"]))
+        if gaps.get("missing_data"):
+            out["reasons"].append("нет справочных данных: "
+                                  + ", ".join(gaps["missing_data"]))
     except Exception as e:                                         # noqa: BLE001
         out["reasons"].append(f"оборот не посчитан: {type(e).__name__}: {str(e)[:200]}")
         out["turnaround_eur"] = None

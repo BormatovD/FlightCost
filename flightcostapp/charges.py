@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 import math
 import re
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field, asdict, replace
 
 # ---------- базы начисления ----------
 # Русские подписи баз для разбора. Коды остаются английскими по решению 27.
@@ -26,11 +26,14 @@ from dataclasses import dataclass, field, asdict
 # разговоре чаще означает второе, поэтому здесь оно не используется.
 BASE_RU = {
     "per_turnaround":    "за обслуживание (прилёт + вылет)",
+    "per_gate_turn":     "за обслуживание у выхода (половина за активное прибытие/вылет)",
     "per_movement":      "за движение (отдельно посадка и взлёт)",
     "per_tonne_mtow":    "за тонну максимальной взлётной массы",
     "per_mass":          "по паспортной массе ВС (вид массы и единицы — в тарифе)",
     "per_tonne_above":   "за тонну массы сверх порога полосы",
     "per_departing_pax": "за вылетающего пассажира",
+    "per_arriving_pax":  "за прибывающего пассажира",
+    "per_quantity":      "за фактически использованные единицы услуги",
     "per_100kg":         "за 100 кг груза и почты",
     "per_hour":          "за час стоянки",
     "per_15min":         "за 15 минут стоянки",
@@ -79,6 +82,27 @@ CODE_RU = {
     "fuel_infra":     "инфраструктура заправки",
     "cargo":          "грузовой сбор",
     "transfer":       "трансферные пассажиры",
+    "holdroom":       "зал ожидания у выхода",
+    "ticket_counter": "общие стойки регистрации",
+    "bso":            "общая служба багажа",
+    "baggage_claim":  "выдача багажа",
+    "baggage_outbound": "отправление багажа",
+    "bmu":            "комплектация багажа",
+    "fis":            "обработка международных прибытий",
+    "custodial":      "уборка общих зон",
+    "pfc":            "пассажирский инфраструктурный сбор",
+    "gate_turn":      "использование выхода за обслуживание",
+    "cargo_apron":    "грузовой перрон",
+    "west_side":      "международный комплекс West Side",
+    "off_hours":      "обслуживание вне рабочих часов",
+    "joint_use":      "совместно используемые площади",
+    "customs_facility": "таможенный комплекс",
+    "unauthorized_gate": "использование выхода без разрешения",
+    "unauthorized_counter": "использование стоек без разрешения",
+    "unauthorized_parking": "стоянка без разрешения",
+    "ramp_notice":    "просрочка освобождения перрона",
+    "irregular_parking": "просрочка освобождения нестандартной стоянки",
+    "spill_cleanup":  "уборка разлива топлива",
 }
 
 EVENT_RU = {
@@ -136,8 +160,29 @@ def _per_mass(c, r):
     return units * c["n"]
 
 
+# Измеримые количества на одну операцию. Их нельзя выводить из числа
+# кресел, цены топлива или общего времени стоянки.
+QUANTITY_KEYS = {
+    "pfc_pax", "fuel_us_gal", "unauthorized_gate_uses",
+    "unauthorized_counter_positions", "unauthorized_parking_uses",
+    "ramp_notice_min", "irregular_notice_min", "spill_cleanup_min",
+}
+
+
+def _per_quantity(c, r):
+    units = max(0.0, c[r.quantity_key] - r.threshold) / r.quantity_unit
+    if r.round_quantity == "ceil_unit":
+        units = math.ceil(units - 1e-10)
+    elif r.round_quantity == "nearest_unit":
+        units = math.floor(units + .5 + 1e-10)
+    elif r.round_quantity == "floor_unit":
+        units = math.floor(units + 1e-10)
+    return units * c["n"]
+
+
 BASES = {
     "per_turnaround":    lambda c, r: 1.0,
+    "per_gate_turn":     lambda c, r: c["n"] / 2.0,
     "per_movement":      lambda c, r: c["n"],
     "per_tonne_mtow":    lambda c, r: c["mtow_t"] * c["n"],
     "per_mass":          _per_mass,
@@ -150,6 +195,8 @@ BASES = {
     # повторяет агент, и ошибка в знаке даёт правдоподобный результат.
     "per_tonne_above":   lambda c, r: max(0.0, c["mtow_t"] - r.threshold) * c["n"],
     "per_departing_pax": lambda c, r: c["pax"] * c["departures"],
+    "per_arriving_pax":  lambda c, r: c["pax"] * c["landings"],
+    "per_quantity":      _per_quantity,
     "per_100kg":         lambda c, r: math.ceil(c["cargo_kg"] / 100) * c["n"],
     "per_hour":          lambda c, r: math.ceil(c["park_h"]),
     "per_15min":         lambda c, r: math.ceil(c["park_h"] * 4),
@@ -218,6 +265,10 @@ CONDITION_KEYS = {
     "noise_cat",     # int; у аэропортов с раздельными шкалами — при посадке
     "noise_cat_dep", # int, категория шума при взлёте (Франкфурт §1.2.7)
     "cargo",         # bool
+    "carrier_type",  # passenger | cargo — вид перевозчика, не груз на борту
+    "landing_permit", # permitted | non_permitted — разрешение аэропорта
+    "terminal_apron", # bool, использует ли перевозчик терминальный перрон
+    "revenue_landing", # bool, платная посадка по определению документа
     "stand",         # apron | pier
     "stand_group",   # int, группа стоянки
     "ac_group",      # int, группа ВС у оператора
@@ -236,6 +287,39 @@ CONDITION_KEYS = {
     "seats",         # число кресел борта: Нарита берёт за багажную систему
                      # по полосам кресел, а не по массе
 }
+
+# Входы использования услуг. Словарь общий для валидатора, CLI и
+# построителя контекста: добавление услуги не создаёт третью схему.
+SERVICE_INPUT_DOMAINS = {
+    "fee_status": {"signatory", "non_signatory"},
+    "body_class": {"narrow", "wide"},
+    "terminal_agreement": {"arra_2023", "farra", "tariff"},
+    "terminal_facility": {"T1.5", "T5", "T6", "T6_68B", "TBIT", "MSC", "other"},
+    "common_use_holdroom": {True, False},
+    "common_use_counter": {True, False},
+    "common_use_bso": {True, False},
+    "common_use_baggage_claim": {True, False},
+    "common_use_baggage_outbound": {True, False},
+    "common_use_bmu": {True, False},
+    "fis_use": {True, False},
+    "arrival_type": {"domestic", "precleared", "international"},
+    "separate_bridge": {True, False},
+    "high_volume_gate": {True, False},
+    "gate_turn_billable": {True, False},
+    "ferry": {True, False},
+    "west_side_use": {True, False},
+    "off_hours_use": {True, False},
+    "souls_on_board": (0.0, 2000.0),
+    "parking_area": {"none", "remote", "contact", "tier1", "tier2"},
+    "parking_chargeable": {True, False},
+    "parking_credit": {True, False},
+    "cargo_apron_use": {True, False},
+    "joint_use": {True, False},
+    "customs_facility_use": {True, False},
+    "fuel_flowage_separate": {True, False},
+    **{k: (0.0, 1e9) for k in QUANTITY_KEYS},
+}
+CONDITION_KEYS |= set(SERVICE_INPUT_DOMAINS)
 
 # Кому адресован пропуск значения (решение 78).
 #
@@ -258,6 +342,8 @@ KEY_ORIGIN = {
 
     "stand": "input", "stand_group": "input", "park_h": "input",
     "operator": "input", "terminal": "input",
+    "carrier_type": "input", "landing_permit": "input",
+    "terminal_apron": "input", "revenue_landing": "input",
     "other": "derived", "seats": "derived",
     "park_h_over_free": "input", "month": "input", "night": "input",
     "pax_type": "input", "cargo": "input", "return_technical": "input",
@@ -265,6 +351,7 @@ KEY_ORIGIN = {
     "dest": "derived", "flight": "derived", "mtow_t": "derived",
     "pax_per_mtow": "derived",
 }
+KEY_ORIGIN.update({k: "input" for k in SERVICE_INPUT_DOMAINS})
 
 # Условие без адресата — тот же тихий отказ, что условие без источника:
 # оно попадёт в отчёт о полноте и не будет знать, кому адресовано.
@@ -338,7 +425,10 @@ def parse_context_value(key: str, raw):
     sample = next(iter(dom))
     kinds = {type(x) for x in dom}
     if isinstance(sample, bool):
-        v = str(raw).strip().lower() in ("1", "true", "да", "yes")
+        word = str(raw).strip().lower()
+        if word not in {"1", "true", "да", "yes", "0", "false", "нет", "no"}:
+            raise ValueError(f"{key}={raw!r}: ожидается true/false")
+        v = word in {"1", "true", "да", "yes"}
     elif kinds == {int}:
         v = int(raw)
     elif kinds == {int, str}:                        # смешанная область: 1–16 или A–F
@@ -421,6 +511,9 @@ class Rule:
     mass_basis: str | None = None
     rate_unit: str | None = None
     round_mass: str | None = None
+    quantity_key: str | None = None
+    quantity_unit: float | None = None
+    round_quantity: str | None = None
 
     def matches(self, ctx: dict) -> bool:
         for k, want in self.when.items():
@@ -457,7 +550,14 @@ class Rule:
         категория борта неизвестна» выглядят в сумме одинаково, а значат
         разное: первое верно, второе — потерянная статья.
         """
-        return sorted(k for k in self.when if ctx.get(k) is None)
+        unknown = sorted(k for k in self.when if ctx.get(k) is None)
+        if not unknown:
+            return []
+        # Известное несовпадение исключает правило целиком. Например,
+        # грузовому перевозчику не нужен terminal_apron пассажирской
+        # строки; иначе начисленная посадка ошибочно выглядит неполной.
+        known = {k: v for k, v in self.when.items() if k not in unknown}
+        return unknown if replace(self, when=known).matches(ctx) else []
 
     def to_json(self) -> str:
         d = asdict(self)
@@ -465,7 +565,8 @@ class Rule:
         d.pop("node")                 # узел — свойство факта, не правила
         # Не переписывать сериализацию существующих правил и их хеши:
         # новые поля есть только у универсальной базы `per_mass`.
-        for f in ("mass_basis", "rate_unit", "round_mass"):
+        for f in ("mass_basis", "rate_unit", "round_mass", "quantity_key",
+                  "quantity_unit", "round_quantity"):
             if d.get(f) is None:
                 d.pop(f, None)
         for f in ("key", "certainty", "error_cost", "confirm_by"):
@@ -546,6 +647,7 @@ def load_rules(store, icao: str, as_of, report: dict | None = None) -> list[Rule
     out = []
     broken: list[str] = []
     empty: list[str] = []
+    unpriced: list[dict] = []
     # Префиксы, которые относятся к этому аэропорту. Кроме собственного
     # тарифа это ОБЩЕГОСУДАРСТВЕННАЯ статья: муниципальная надбавка
     # Италии установлена законом, ключуется государством и действует на
@@ -566,6 +668,12 @@ def load_rules(store, icao: str, as_of, report: dict | None = None) -> list[Rule
         rows = store.current("airport_charge", as_of)
     for key, row in rows.items():
         if not any(key.startswith(p) for p in prefixes):
+            continue
+        if "/_unpriced/" in key:
+            try:
+                unpriced.append(json.loads(row["note"]))
+            except (TypeError, ValueError) as e:
+                broken.append(f"{key}: {type(e).__name__}: {e}")
             continue
         if "/_cat/" in key:
             # Раздел категорий типов — не строка тарифа: его читает
@@ -606,13 +714,14 @@ def load_rules(store, icao: str, as_of, report: dict | None = None) -> list[Rule
     for r in out:
         sig = (r.code, r.base, r.rate, r.events, r.currency,
                repr(sorted((r.when or {}).items())), r.minimum, r.threshold,
-               r.mass_basis, r.rate_unit, r.round_mass)
+               r.mass_basis, r.rate_unit, r.round_mass,
+               r.quantity_key, r.quantity_unit, r.round_quantity)
         if sig in seen:
             twins.append(f"{r.code} ({BASE_RU.get(r.base, r.base)}, "
                          f"ставка {r.rate})")
         seen[sig] = True
     if report is not None:
-        report.update(broken=broken, empty_text=empty, duplicates=twins)
+        report.update(broken=broken, empty_text=empty, duplicates=twins, unpriced=unpriced)
     return out
 
 
@@ -685,7 +794,7 @@ def charge_caveats(rules: list[Rule], ctx: dict) -> list[Caveat]:
 
 def evaluate(rules: list[Rule], ctx: dict, fx=None,
              report: dict | None = None,
-             expected_codes=None) -> dict[str, float]:
+             expected_codes=None, unpriced=None) -> dict[str, float]:
     """Сумма по каждой статье, в евро.
 
     fx(currency, ...) -> курс к евро; нужен, потому что тарифы вне зоны
@@ -708,20 +817,43 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
             return None
         return v / rate
 
-    active = [r for r in rules if r.matches(ctx)]
+    # Нет события — нет и требования указать количество для этого
+    # события (например, PFC при одном прибытии без вылета).
+    candidates = [r for r in rules if r.base != "per_quantity"
+                  or ctx[EVENT_COUNT_KEY[r.events]] != 0]
+    active = [r for r in candidates if r.matches(ctx)]
 
     # Правила, не сработавшие из-за неизвестного значения условия. Молча
     # их терять нельзя: статья исчезает из суммы, а сумма выглядит целой.
     unknown: dict[str, set] = {}
-    for r in rules:
+    for r in candidates:
         if r in active:
             continue
         for k in r.unknown_keys(ctx):
             unknown.setdefault(k, set()).add(r.code)
 
+    unresolved = []
+    for entry in unpriced or []:
+        probe = Rule(code=entry["code"], base="per_turnaround", rate=0,
+                     when=entry.get("when") or {})
+        missing = probe.unknown_keys(ctx)
+        if not probe.matches(ctx) and not missing:
+            continue
+        unresolved.append(entry)
+        for k in missing:
+            unknown.setdefault(k, set()).add(entry["code"])
+
     for r in active:
         if r.pct_of is not None:
             continue
+        if r.base == "per_quantity":
+            value = ctx.get(r.quantity_key)
+            if value is None:
+                unknown.setdefault(r.quantity_key, set()).add(r.code)
+                continue
+            if (isinstance(value, bool) or not isinstance(value, (int, float))
+                    or not math.isfinite(value) or value < 0):
+                raise ValueError(f"{r.code}: некорректное количество {r.quantity_key}={value!r}")
         if r.base == "per_mass" and not _mass_available(ctx, r):
             # Отсутствие MLW не означает MLW=0 или MLW=MTOW. Эта статья
             # должна попасть в явный отчёт о неполном начислении.
@@ -769,6 +901,8 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
         out[f"_нет значения {k}: пропущены {', '.join(sorted(codes))}"] = 0.0
     for k, codes in sorted(missing_basis.items()):
         out[f"_нет паспортной {k} для сборов: пропущены {', '.join(sorted(codes))}"] = 0.0
+    for entry in unresolved:
+        out[f"_не рассчитано {entry['code']}: {entry['reason']}"] = 0.0
 
     # Счёт пропущенного, а не строка о нём. В предупреждениях рейса эта
     # информация растворяется среди восьми других, а вопрос «насколько
@@ -781,13 +915,15 @@ def evaluate(rules: list[Rule], ctx: dict, fx=None,
         priced = {c for c, v in out.items()
                   if not c.startswith("_") and abs(v) > 1e-9}
         touched = {c for codes in (*unknown.values(), *missing_basis.values()) for c in codes}
+        touched.update(e["code"] for e in unresolved)
         by_origin: dict[str, list] = {}
         for k in sorted(unknown):
             by_origin.setdefault(KEY_ORIGIN[k], []).append(k)
         if missing_basis:
             by_origin.setdefault("data", []).extend(sorted(missing_basis))
         report.update(
-            total_codes=len({r.code for r in rules}),
+            total_codes=len({r.code for r in rules} | {e["code"] for e in unresolved}),
+            unpriced=unresolved,
             priced_codes=sorted(priced),
             lost_codes=sorted(touched - priced),
             partial_codes=sorted(touched & priced),
@@ -845,6 +981,10 @@ DOMAINS = {
                          "europe_non_eu", "intercontinental"},
     "stand":            {"apron", "pier"},
     "operator":         {"national", "foreign"},
+    "carrier_type":     {"passenger", "cargo"},
+    "landing_permit":   {"permitted", "non_permitted"},
+    "terminal_apron":   {True, False},
+    "revenue_landing":  {True, False},
     "terminal":         set("ABCDEFGHJKLMNPRSTUVWXYZ") | set("123456789"),
     # Открытая область: любой код ИКАО. Строка-метка, а не множество —
     # проверка достижимости сверяет форму значения, не принадлежность.
@@ -871,6 +1011,7 @@ DOMAINS = {
     # сезонном тарифе. Полноту года проверяет `season_check`.
     "month":            (0, 12),
 }
+DOMAINS.update(SERVICE_INPUT_DOMAINS)
 
 
 def coverage_check(rules: list[Rule], scales: dict | None = None) -> list[str]:
@@ -897,8 +1038,9 @@ def coverage_check(rules: list[Rule], scales: dict | None = None) -> list[str]:
     """
     scales = scales or {}
     ENUMS = {k: v for k, v in DOMAINS.items() if isinstance(v, set)
+             and k not in SERVICE_INPUT_DOMAINS
              and k not in ("night", "cargo", "park_h_over_free",
-                           "return_technical")}
+                           "return_technical", "terminal_apron", "revenue_landing")}
     used: dict[tuple, set] = {}
     for r in rules:
         for k, want in r.when.items():
@@ -1018,6 +1160,23 @@ def self_check(rules: list[Rule]) -> list[str]:
     """
     dead = []
     for r in rules:
+        if r.base == "per_quantity":
+            if r.quantity_key not in QUANTITY_KEYS:
+                dead.append(f"{r.code}: per_quantity требует quantity_key из {sorted(QUANTITY_KEYS)}")
+            if (isinstance(r.quantity_unit, bool) or not isinstance(r.quantity_unit, (int, float))
+                    or not math.isfinite(r.quantity_unit) or r.quantity_unit <= 0):
+                dead.append(f"{r.code}: per_quantity требует положительную quantity_unit")
+            if r.round_quantity not in MASS_ROUND:
+                dead.append(f"{r.code}: неизвестное округление round_quantity={r.round_quantity!r}")
+            if r.pct_of is not None or r.round_mtow is not None:
+                dead.append(f"{r.code}: per_quantity несовместимо с pct_of/round_mtow")
+            if (isinstance(r.threshold, bool) or not isinstance(r.threshold, (int, float))
+                    or not math.isfinite(r.threshold) or r.threshold < 0):
+                dead.append(f"{r.code}: per_quantity требует неотрицательный конечный threshold")
+        elif any(getattr(r, f) is not None for f in ("quantity_key", "quantity_unit", "round_quantity")):
+            dead.append(f"{r.code}: quantity_key/quantity_unit/round_quantity только для per_quantity")
+        if r.base == "per_gate_turn" and r.events != "movement":
+            dead.append(f"{r.code}: per_gate_turn требует events=movement")
         if r.base == "per_mass":
             if r.mass_basis not in MASS_BASIS:
                 dead.append(f"{r.code}: per_mass требует mass_basis=mtow|mlw")

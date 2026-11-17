@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 from datetime import date
+import json
 
 PAGE = 50
 
@@ -117,10 +118,19 @@ def rows(store, registry, domain: str, q: str = "", page: int = 0, as_of=None,
     out = []
     for r in store.db.execute(
             f"""SELECT key, value, unit, value_text, currency, valid_from, source_id,
-                       confidence, certainty {base} AND source_id IN ({mark})
+                       confidence, certainty, note {base} AND source_id IN ({mark})
                 ORDER BY key LIMIT ? OFFSET ?""",
             args + pub + [PAGE, page * PAGE]):
-        out.append({"key": r[0], "value": r[1], "unit": r[2], "text": (r[3] or "")[:400],
+        value, detail = r[1], (r[3] or "")[:400]
+        if r[2] == "unpriced_charge":
+            value = None
+            try:
+                entry = json.loads(r[9] or "{}")
+                detail = (f"{entry.get('code', '')}: {entry.get('reason', '')}"
+                          f" | {entry.get('source', '')} | {entry.get('source_url', '')}")
+            except (ValueError, TypeError):
+                detail = "статья без установленного расчёта"
+        out.append({"key": r[0], "value": value, "unit": r[2], "text": detail,
                     "currency": r[4], "from": r[5], "source": r[6],
                     "source_title": (pol.get(r[6]) or {}).get("title", r[6]),
                     "confidence": r[7], "certainty": r[8]})

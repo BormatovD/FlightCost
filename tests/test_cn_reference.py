@@ -20,7 +20,7 @@ from dataclasses import asdict
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from flightcostapp.charges import Rule, evaluate  # noqa: E402
+from flightcostapp.charges import Rule, SERVICE_INPUT_DOMAINS, evaluate  # noqa: E402
 from flightcostapp.parsers import airport_charges  # noqa: E402
 
 MTOW, PAX = 78.0, 148.0
@@ -37,13 +37,16 @@ def rules(icao):
 
 
 def total(icao, operator, flight, park_h, stand="pier"):
-    c = {"mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0, "movements": 2, "landings": 1,
+    c = {**{k: None for k in SERVICE_INPUT_DOMAINS},
+         "mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0, "movements": 2, "landings": 1,
          "turnarounds": 1, "departures": 1, "flight": flight, "pax_type": "local",
          "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None,
          "cargo": False, "stand": stand, "stand_group": None, "ac_group": None,
          "ac_class": None, "pax_per_mtow": PAX / MTOW, "park_h": park_h,
          "park_h_over_free": park_h > 0, "return_technical": False,
-         "operator": operator, "terminal": None, "other": "ZSPD", "seats": 170.0}
+         "operator": operator, "terminal": None, "other": "ZSPD", "seats": 170.0,
+         "carrier_type": None, "landing_permit": None, "terminal_apron": None,
+         "revenue_landing": None}
     return {k: round(v, 2) for k, v in evaluate(rules(icao), c, fx=lambda cur: 1.0).items()
             if not k.startswith("_")}
 
@@ -88,13 +91,16 @@ class Xiamen(unittest.TestCase):
         c = total("ZSAM", "national", "domestic", 2.0)
         # 230 т (A330) — полоса 201+: 5 200 + 33 × (230 − 200)
         rs = rules("ZSAM")
-        ctxd = {"mtow_t": 230.0, "pax": 0.0, "cargo_kg": 0.0, "movements": 2, "landings": 1,
+        ctxd = {**{k: None for k in SERVICE_INPUT_DOMAINS},
+                "mtow_t": 230.0, "pax": 0.0, "cargo_kg": 0.0, "movements": 2, "landings": 1,
                 "turnarounds": 1, "departures": 1, "flight": "domestic", "pax_type": "local",
                 "dest": "intercontinental", "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None,
                 "cargo": False, "stand": "apron", "stand_group": None, "ac_group": None,
                 "ac_class": None, "pax_per_mtow": 0.0, "park_h": 1.0, "park_h_over_free": True,
                 "return_technical": False, "operator": "national", "terminal": None,
-                "other": "ZSPD", "seats": 250.0}
+                "other": "ZSPD", "seats": 250.0,
+                "carrier_type": None, "landing_permit": None, "terminal_apron": None,
+                "revenue_landing": None}
         self.assertEqual(round(evaluate(rs, ctxd, fx=lambda cur: 1.0)["landing"], 2), 5200 + 33 * 30)
 
 
