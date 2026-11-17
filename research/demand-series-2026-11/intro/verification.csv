@@ -1,0 +1,5 @@
+metric,value,unit,scope,source_file,source_sha256
+subregions,22,count,UN M49; carrier registration,atlas/forecast/results.json,4970824d024ff637c1ad71715c59f3c1d2c895066978dea66cd2ee9bf460cd96
+routes_and_pairs,45365,count,Observed route sample; not global coverage,atlas/forecast/final/route-summary.json,2de91dac8b7e178e0b0641fc681f8b76a7f5e1698f8395eb3a0cc935a4801ea6
+additional_block_hours_share,17.1,percent,2036; 200-299 seats; >4000 km; load factor 90%; route sample,report.html,0c321d069b7463a480a79a85469c3576b68a983fd4eca1a36e4ee7816315e7ef
+additional_passenger_share,8.25,percent,"Same filters; passenger growth, not fleet share",report.html,0c321d069b7463a480a79a85469c3576b68a983fd4eca1a36e4ee7816315e7ef

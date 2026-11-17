@@ -4,6 +4,337 @@
 # calc — маркер связи с расчётом (обязателен): in_calc «уже в расчёте», on_input «учесть при вводе»,
 # planned «в очереди на расчёт»; calc_note — одна строка пояснения (research/STYLE.md).
 items:
+  - slug: demand-series-01-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/01/report.html
+    calc: planned
+    calc_note: &id001
+      ru: Сценарные выводы; не используются автоматически в калькуляторе.
+      en: Scenario findings; not applied automatically in the calculator.
+      de: Szenarioergebnisse; nicht automatisch im Rechner angewendet.
+    lang: ru
+    title:
+      ru: Что можно предсказать в авиации?
+    lede:
+      ru: 'Пассажиропоток, население, ВВП, потребление и вылеты: исторические данные 2010–2024 годов, факторы и формула прогноза.'
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    site_chrome: true
+    og_image: /research/assets/demand-series-01-2026-11/cover.jpg
+    assets:
+    - cover.jpg
+    - historical-2010-2024.csv
+  - slug: demand-series-intro-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/intro/report.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: Что нужно, чтобы открыть авиакомпанию?
+    lede:
+      ru: Кто, откуда и куда захочет летать? Пролог серии FlightCost о пассажирах, маршрутах, кризисах и самолётах.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    site_chrome: true
+    og_image: /research/assets/demand-series-intro-2026-11/cover.jpg
+    assets:
+    - cover.jpg
+    - macro-backtest.csv
+    - route-entry-by-history.csv
+    - verification.csv
+  - slug: demand-series-02-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №2 · От демографии к спросу
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-03-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №3 · Исторические изменения
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-04-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №4 · Покрытие по аэропортам вылета
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-05-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №5 · Региональная макромодель
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-06-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №6 · Шоки и сравнение прогнозов
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-07-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №7 · Доступность авиапоездки
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-08-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №8 · Цена билета в Бразилии
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-09-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №9 · Проверка бразильских опросов
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-10-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №10 · Доход на горизонтах 3, 5 и 10 лет
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-11-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №11 · Доход и доступность рейсов
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-12-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №12 · Перенос модели между регионами
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-13-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №13 · Спрос в штате вылета
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-14-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №14 · Появление прямого рейса
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-15-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №15 · Гравитационная модель маршрутов
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-16-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №16 · История и появление продаж
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-17-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №17 · Прямой рейс и концессии
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-18-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: №18 · Проверка инвестиций
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
+  - slug: demand-series-results-2026-11
+    date: '2026-11-17'
+    report: demand-series-2026-11/planned.html
+    calc: planned
+    calc_note: *id001
+    lang: ru
+    title:
+      ru: Итоговый прогноз пассажирского спроса
+    lede:
+      ru: Статья запланирована к релизу.
+    tags:
+      ru:
+      - пассажирский спрос
+      - исследовательская серия
+    planned_release: true
+    hide_from_feed: true
   - slug: aircraft-prices-2026-11
     date: 2026-11-11
     draft: false

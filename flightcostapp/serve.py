@@ -328,6 +328,16 @@ class _Handler(BaseHTTPRequestHandler):
             from .research import feed
             self._public(feed().encode("utf-8"), "application/atom+xml; charset=utf-8")
             return True
+        if u.path.startswith("/research/assets/"):
+            from .research import asset_file
+            slug, _, filename = u.path[len("/research/assets/"):].partition("/")
+            asset = asset_file(slug, filename)
+            if asset is None:
+                self._send(404, b"", "text/plain")
+            else:
+                path, content_type = asset
+                self._public(path.read_bytes(), content_type, revalidate=True)
+            return True
         if u.path in ("/about", "/types", "/calc", "/research", "/monitor"):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True

@@ -310,6 +310,80 @@ class SeoHttp(unittest.TestCase):
         card = body[body.index('href="/en/research/toir"'):].split("</a>")[0]
         self.assertNotIn("report in Russian", card)
 
+    def test_demand_series_publication(self):
+        """The published series has public pages, unique covers and unlisted placeholders."""
+        intro = "demand-series-intro-2026-11"
+        first = "demand-series-01-2026-11"
+        planned = [f"demand-series-{number:02d}-2026-11" for number in range(2, 19)]
+        planned.append("demand-series-results-2026-11")
+        for path in ("/ru/research", "/research/feed.xml", "/sitemap.xml"):
+            status, body, _ = self.get(path)
+            self.assertEqual(status, 200)
+            for slug in (intro, first):
+                self.assertIn(f"/ru/research/{slug}", body)
+            for slug in planned:
+                self.assertNotIn(f"/ru/research/{slug}", body)
+
+        for slug in (intro, first):
+            path = f"/ru/research/{slug}"
+            status, body, _ = self.get(path)
+            self.assertEqual(status, 200)
+            self.assertEqual(body.count('class="sh"'), 1)
+            self.assertLess(body.index('href="/ui.css"'), body.index(seo.STYLE))
+            self.assertEqual(body.count('rel="canonical"'), 1)
+            image = f"/research/assets/{slug}/cover.jpg"
+            self.assertIn(f'<meta property="og:image" content="{seo.site()}{image}">', body)
+            self.assertEqual(body.count('property="og:image"'), 1)
+            with contextlib.closing(http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)) as c:
+                c.request("GET", image)
+                response = c.getresponse()
+                self.assertEqual(response.status, 200)
+                self.assertEqual(response.getheader("Content-Type"), "image/jpeg")
+                self.assertTrue(response.read().startswith(b"\xff\xd8\xff"))
+
+        status, body, _ = self.get(f"/research/assets/{first}/historical-2010-2024.csv")
+        self.assertEqual(status, 200)
+        self.assertIn("icao_passengers_billion", body)
+        for slug in planned:
+            status, body, _ = self.get(f"/ru/research/{slug}")
+            self.assertEqual(status, 200)
+            self.assertIn('name="robots" content="noindex"', body)
+            self.assertIn("Статья запланирована к релизу", body)
+            self.assertNotIn("{{title}}", body)
+            self.assertIn(f'href="/ru/research/{intro}"', body)
+
+        status, body, _ = self.get(f"/en/research/{planned[0]}")
+        self.assertEqual(status, 200)
+        self.assertIn('lang="ru"', body)
+        self.assertIn("Статья запланирована к релизу", body)
+
+    def test_research_assets_only_serve_listed_public_files(self):
+        from flightcostapp import research
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp).resolve()
+            index = root / "index.yaml"
+            report = root / "report.html"
+            report.write_text("<html>test</html>", encoding="utf-8")
+            for name in ("listed.csv", "unlisted.csv", "private.py"):
+                (root / name).write_text("test", encoding="utf-8")
+            (root / "symlink.csv").symlink_to(root / "private.py")
+            index.write_text(json.dumps({"items": [
+                {"slug": "public", "report": report.name,
+                 "assets": ["listed.csv", "private.py", "symlink.csv"]},
+                {"slug": "draft", "report": report.name, "draft": True, "assets": ["listed.csv"]},
+                {"slug": "planned", "report": report.name, "planned_release": True,
+                 "assets": ["listed.csv"]},
+            ]}), encoding="utf-8")
+            with mock.patch.multiple(research, ROOT=root, INDEX=index):
+                self.assertEqual(self.get("/research/assets/public/listed.csv")[:2], (200, "test"))
+                for path in ("public/unlisted.csv", "public/private.py", "public/symlink.csv",
+                             "public/../listed.csv", "public/%2e%2e%2flisted.csv",
+                             "draft/listed.csv", "planned/listed.csv"):
+                    with self.subTest(path=path):
+                        self.assertEqual(self.get(f"/research/assets/{path}")[0], 404)
+                self.assertEqual(self.get("/ru/research/draft")[0], 404)
+
     def test_research_calc_marker(self):
         """У каждой публикации — маркер связи с расчётом (STYLE.md): в ленте и в самой статье."""
         import yaml

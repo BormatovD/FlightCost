@@ -12,6 +12,7 @@ from __future__ import annotations
 import pathlib
 import re
 from datetime import date
+from urllib.parse import urljoin
 
 import yaml
 
@@ -21,6 +22,16 @@ from .seo import LANGS, T, esc, site
 ROOT = pathlib.Path(__file__).resolve().parents[1] / "research"
 INDEX = ROOT / "index.yaml"
 SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{0,60}$")
+ASSET_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
+ASSET_TYPES = {
+    ".jpg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+    ".csv": "text/csv; charset=utf-8",
+    ".json": "application/json",
+}
+SERIES_INTRO = "demand-series-intro-2026-11"
 
 TXT = {
     "ru": {"h": "Исследования", "title": "Исследования — FlightCost",
@@ -68,8 +79,7 @@ MONTHS = {"ru": "января февраля марта апреля мая ию
           "de": "Januar Februar März April Mai Juni Juli August September Oktober November Dezember".split()}
 
 
-def items() -> list[dict]:
-    """Опубликованные исследования, новые сверху; без файла отчёта — не показываются."""
+def _load_items() -> list[dict]:
     if not INDEX.exists():
         return []
     doc = yaml.safe_load(INDEX.read_text(encoding="utf-8")) or {}
@@ -88,6 +98,11 @@ def items() -> list[dict]:
     return sorted(out, key=lambda x: x["date"], reverse=True)
 
 
+def items() -> list[dict]:
+    """Опубликованные исследования для списка, Atom и карты сайта."""
+    return [it for it in _load_items() if not it.get("planned_release") and not it.get("hide_from_feed")]
+
+
 def report_file(it: dict, lang: str):
     """Файл отчёта на языке страницы; перевода нет — оригинал (с пометкой языка)."""
     if lang != it.get("lang") and lang in it.get("langs", []):
@@ -96,7 +111,26 @@ def report_file(it: dict, lang: str):
 
 
 def find(slug: str) -> dict | None:
-    return next((x for x in items() if x["slug"] == slug), None)
+    return next((it for it in _load_items() if it["slug"] == slug), None)
+
+
+def asset_file(slug: str, filename: str) -> tuple[pathlib.Path, str] | None:
+    """Публичное вложение, перечисленное в карточке опубликованной статьи."""
+    if not SLUG.fullmatch(slug) or not ASSET_NAME.fullmatch(filename):
+        return None
+    content_type = ASSET_TYPES.get(pathlib.Path(filename).suffix.lower())
+    if content_type is None:
+        return None
+    it = find(slug)
+    if it is None or it.get("planned_release"):
+        return None
+    assets = it.get("assets")
+    if not isinstance(assets, list) or filename not in assets:
+        return None
+    path = it["path"].resolve().with_name(filename)
+    if path.is_symlink() or not path.is_file():
+        return None
+    return path, content_type
 
 
 def _tr(it: dict, key: str, lang: str):
@@ -156,6 +190,8 @@ def index_page(lang: str) -> str:
 
 def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
     """Отчёт как есть + шапка сайта, канонический адрес, описание, значок."""
+    if it.get("planned_release"):
+        return _planned_page(lang, it)
     page = report_file(it, lang).read_text(encoding="utf-8")
     if lease_markets:
         current = "".join(seo.current_lease_block(lang, name, market) for name, market in lease_markets)
@@ -163,14 +199,22 @@ def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
     title = _tr(it, "title", lang)
     desc = _tr(it, "lede", lang) or ""
     canon = f"{site()}/{lang}/research/{it['slug']}"
+    image = urljoin(site() + "/", it.get("og_image") or "/og.png")
     meta = (f'<link rel="canonical" href="{esc(canon)}">'
             f'<meta name="description" content="{esc(desc[:300])}">'
             + "".join(f'<link rel="alternate" hreflang="{h}" href="{esc(u)}">'
                       for h, u in seo.alternates(f"/research/{it['slug']}"))
             + f'<meta property="og:type" content="article"><meta property="og:title" content="{esc(title)}">'
             f'<meta property="og:description" content="{esc(desc[:300])}"><meta property="og:url" content="{esc(canon)}">'
-            f'<meta property="og:image" content="{site()}/og.png"><meta name="twitter:card" content="summary_large_image">'
+            f'<meta property="og:image" content="{esc(image)}"><meta name="twitter:card" content="summary_large_image">'
             + seo.ICON_LINKS)
+    if it.get("site_chrome"):
+        title_tag = f"<title>{esc(title)}</title>"
+        chrome = '<link rel="stylesheet" href="/ui.css">' + seo.STYLE
+        page = re.sub(r"(<head\b[^>]*>(?:\s*<meta\s+charset\s*=[^>]+>)?)",
+                      lambda m: m.group(1) + chrome, page, count=1, flags=re.IGNORECASE)
+        page = re.sub(r"<title\b[^>]*>.*?</title>", lambda _: title_tag,
+                      page, count=1, flags=re.IGNORECASE | re.DOTALL)
     page = page.replace("</head>", meta + "</head>", 1)
     # Шапка сайта — та же, что на остальных страницах (её стили — в ui.css,
     # который отчёт вшивает целиком); крошки — над заголовком отчёта.
@@ -182,6 +226,17 @@ def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
            + (f' · {esc(x["lang_note"])}' if lang not in it.get("langs", [it.get("lang")]) and x["lang_note"]
               else "") + "</div>")
     return re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + bar, page, count=1)
+
+
+def _planned_page(lang: str, it: dict) -> str:
+    original = it.get("lang") or "ru"
+    title = _tr(it, "title", original)
+    tail = f"/research/{it['slug']}"
+    intro_url = f"/{lang}/research/{SERIES_INTRO}"
+    body = it["path"].read_text(encoding="utf-8")
+    body = body.replace("{{title}}", esc(title)).replace("{{intro_url}}", esc(intro_url))
+    head = f'<title>{esc(title)} — FlightCost</title><meta name="robots" content="noindex">' + seo.ICON_LINKS
+    return seo.shell(lang, tail, head, f'<div lang="{esc(original)}">{body}</div>', on="research")
 
 
 def feed() -> str:
