@@ -889,8 +889,12 @@ def charge_context(ap: dict, other: dict, ac: Aircraft, *, pax: float,
                    ac_group: int | None = None, stand_group: int | None = None,
                    return_technical: bool = False,
                    operator: str | None = None,
+                   carrier_type: str | None = None,
+                   landing_permit: str | None = None,
+                   terminal_apron: bool | None = None,
+                   revenue_landing: bool | None = None,
                    terminal: str | None = None,
-                   seats: float | None = None) -> dict:
+                   seats: float | None = None, **service_inputs) -> dict:
     """Контекст начисления сборов ОДНОГО аэропорта.
 
     Был литералом внутри расчёта с зашитыми `flight="EEA"` и
@@ -910,8 +914,13 @@ def charge_context(ap: dict, other: dict, ac: Aircraft, *, pax: float,
     `evaluate` теперь называет статьи, потерянные из-за неизвестного
     значения, вместо того чтобы молча их ронять.
     """
+    from .charges import SERVICE_INPUT_DOMAINS
+    bad = set(service_inputs) - set(SERVICE_INPUT_DOMAINS)
+    if bad:
+        raise TypeError(f"неизвестные входы аэропортовых услуг: {sorted(bad)}")
     dest = dest_step(other["country"])
     return {
+        **{k: service_inputs.get(k) for k in SERVICE_INPUT_DOMAINS},
         # величины
         "mtow_t": ac.mtow_t, "mlw_t": getattr(ac, "mlw_t", None),
         "pax": pax, "cargo_kg": cargo_kg,
@@ -926,6 +935,12 @@ def charge_context(ap: dict, other: dict, ac: Aircraft, *, pax: float,
         "noise_cat": noise_cat,
         "noise_cat_dep": noise_cat_dep,
         "cargo": cargo_kg > 0,
+        # Договорный режим и вид перевозчика не следуют из массы груза,
+        # страны или типа ВС. Без явного ввода evaluate сообщает пропуск.
+        "carrier_type": carrier_type,
+        "landing_permit": landing_permit,
+        "terminal_apron": terminal_apron,
+        "revenue_landing": revenue_landing,
         "stand": stand,
         "stand_group": stand_group,
         "ac_group": ac_group,
@@ -1723,7 +1738,8 @@ def route_economics(store: Store, origin: str, destination: str, *,
                 node="i_charge_ctx")
         report: dict = {}
         lines = evaluate(rules_, ctx, report=report,
-                         fx=lambda cur: store.value("fx", cur, as_of))
+                         fx=lambda cur: store.value("fx", cur, as_of),
+                         unpriced=load_report.get("unpriced"))
         charge_gaps[ap["icao"]] = report
         # По сработавшим правилам и по тому же контексту, что и начисление:
         # оговорка о правиле, которое не применилось, — шум, растущий с

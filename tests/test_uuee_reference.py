@@ -31,7 +31,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from flightcostapp.charges import Rule, evaluate  # noqa: E402
+from flightcostapp.charges import Rule, SERVICE_INPUT_DOMAINS, evaluate  # noqa: E402
 from flightcostapp.parsers import airport_charges  # noqa: E402
 
 DOC = ROOT / "data" / "charges" / "UUEE-2025.json"
@@ -51,7 +51,8 @@ def rules():
 
 def ctx(operator, flight, terminal, park_h):
     # Один оборот: одна посадка, один вылет, два движения.
-    return {"mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0,
+    return {**{k: None for k in SERVICE_INPUT_DOMAINS},
+            "mtow_t": MTOW, "pax": PAX, "cargo_kg": 0.0,
             "movements": 2, "landings": 1, "turnarounds": 1, "departures": 1,
             "flight": flight, "pax_type": "local", "dest": "intercontinental",
             "month": 7, "night": False, "noise_cat": None, "noise_cat_dep": None, "cargo": False,
@@ -59,7 +60,9 @@ def ctx(operator, flight, terminal, park_h):
             "ac_class": None, "pax_per_mtow": PAX / MTOW, "park_h": park_h,
             "park_h_over_free": park_h > 0, "return_technical": False,
             "operator": operator, "terminal": terminal, "other": "UUDD",
-            "seats": 170.0}
+            "seats": 170.0,
+            "carrier_type": None, "landing_permit": None, "terminal_apron": None,
+            "revenue_landing": None}
 
 
 def total(operator, flight, terminal, park_h):

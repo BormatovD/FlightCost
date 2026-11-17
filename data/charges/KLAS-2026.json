@@ -1,0 +1,790 @@
+{
+  "icao": "KLAS",
+  "valid_from": "2026-07-01",
+  "source": "Harry Reid International Airport, Rentals, Fees, and Charges - Effective July 1, 2026; ALL TERMINALS, FY 2027",
+  "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+  "publisher": "Clark County Department of Aviation",
+  "checked_at": "2026-11-17",
+  "rules": [
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "rate": 1.78,
+      "currency": "USD",
+      "events": "landing",
+      "when": {},
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(f), стр. 2: за каждую 1 000 lb максимальной посадочной массы или её часть; тарифные единицы округляются вверх. Одна посадка. Ставка одинакова для всех операторов. Не MTOW и не фактическая посадочная масса.",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "ceil_unit"
+    },
+    {
+      "code": "gate_turn",
+      "base": "per_turnaround",
+      "rate": 492,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fee_status": "signatory",
+        "body_class": "wide",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание: прилёт + вылет у выхода, не арендованного данным оператором. body_class — подтверждённый тарифный класс аэропорта; порог MTOW/кресел не применяется. gate_turn_billable=True означает, что начисление этой операции подтверждено после учёта аренды и месячного лимита. Лимиты NB=134, WB=89 в МЕСЯЦ на авиакомпанию и каждый отдельный общий выход; механизм с семидневным средним описан Operating Directive 01-4A §I.1, стр. 40: https://assets.ctfassets.net/2pnrhs9eukyp/77SQM2MRVj6u3ZLyNGz2Am/7acd394ae1947e34d193ad9d2cdbe6cb/Subsection_4A_Use_of_Airport_Common_Use_Facilities.pdf. Забронированный, но не использованный выход может оплачиваться. Исключены ferry и West Side."
+    },
+    {
+      "code": "gate_turn",
+      "base": "per_turnaround",
+      "rate": 328,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fee_status": "signatory",
+        "body_class": "narrow",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание: прилёт + вылет у выхода, не арендованного данным оператором. body_class — подтверждённый тарифный класс аэропорта; порог MTOW/кресел не применяется. gate_turn_billable=True означает, что начисление этой операции подтверждено после учёта аренды и месячного лимита. Лимиты NB=134, WB=89 в МЕСЯЦ на авиакомпанию и каждый отдельный общий выход; механизм с семидневным средним описан Operating Directive 01-4A §I.1, стр. 40: https://assets.ctfassets.net/2pnrhs9eukyp/77SQM2MRVj6u3ZLyNGz2Am/7acd394ae1947e34d193ad9d2cdbe6cb/Subsection_4A_Use_of_Airport_Common_Use_Facilities.pdf. Забронированный, но не использованный выход может оплачиваться. Исключены ferry и West Side."
+    },
+    {
+      "code": "ticket_counter",
+      "base": "per_departing_pax",
+      "rate": 1.43,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {
+        "fee_status": "signatory",
+        "common_use_counter": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(h), стр. 2: за каждого вылетающего пассажира при использовании общих стоек; включает очереди, общую багажную систему и skycap. Не ставка BSO и не Joint Use."
+    },
+    {
+      "code": "bso",
+      "base": "per_departing_pax",
+      "rate": 0.11,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {
+        "fee_status": "signatory",
+        "common_use_bso": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(i), стр. 3: за каждого вылетающего пассажира при использовании общей службы багажа и её оборудования. Не аренда перрона."
+    },
+    {
+      "code": "fis",
+      "base": "per_arriving_pax",
+      "rate": 8.5,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "fee_status": "signatory",
+        "fis_use": true,
+        "arrival_type": "international",
+        "west_side_use": false
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(q), стр. 4: за прибывающего пассажира при требуемом использовании международного комплекса обработки пассажиров. Предварительно очищенное прибытие (precleared) и West Side не включены; международный маршрут сам по себе не доказывает использование FIS."
+    },
+    {
+      "code": "gate_turn",
+      "base": "per_turnaround",
+      "rate": 615,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fee_status": "non_signatory",
+        "body_class": "wide",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание: прилёт + вылет у выхода, не арендованного данным оператором. body_class — подтверждённый тарифный класс аэропорта; порог MTOW/кресел не применяется. gate_turn_billable=True означает, что начисление этой операции подтверждено после учёта аренды и месячного лимита. Лимиты NB=134, WB=89 в МЕСЯЦ на авиакомпанию и каждый отдельный общий выход; механизм с семидневным средним описан Operating Directive 01-4A §I.1, стр. 40: https://assets.ctfassets.net/2pnrhs9eukyp/77SQM2MRVj6u3ZLyNGz2Am/7acd394ae1947e34d193ad9d2cdbe6cb/Subsection_4A_Use_of_Airport_Common_Use_Facilities.pdf. Забронированный, но не использованный выход может оплачиваться. Исключены ferry и West Side."
+    },
+    {
+      "code": "gate_turn",
+      "base": "per_turnaround",
+      "rate": 410,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fee_status": "non_signatory",
+        "body_class": "narrow",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание: прилёт + вылет у выхода, не арендованного данным оператором. body_class — подтверждённый тарифный класс аэропорта; порог MTOW/кресел не применяется. gate_turn_billable=True означает, что начисление этой операции подтверждено после учёта аренды и месячного лимита. Лимиты NB=134, WB=89 в МЕСЯЦ на авиакомпанию и каждый отдельный общий выход; механизм с семидневным средним описан Operating Directive 01-4A §I.1, стр. 40: https://assets.ctfassets.net/2pnrhs9eukyp/77SQM2MRVj6u3ZLyNGz2Am/7acd394ae1947e34d193ad9d2cdbe6cb/Subsection_4A_Use_of_Airport_Common_Use_Facilities.pdf. Забронированный, но не использованный выход может оплачиваться. Исключены ferry и West Side."
+    },
+    {
+      "code": "ticket_counter",
+      "base": "per_departing_pax",
+      "rate": 1.79,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {
+        "fee_status": "non_signatory",
+        "common_use_counter": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(h), стр. 2: за каждого вылетающего пассажира при использовании общих стоек; включает очереди, общую багажную систему и skycap. Не ставка BSO и не Joint Use."
+    },
+    {
+      "code": "bso",
+      "base": "per_departing_pax",
+      "rate": 0.13,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {
+        "fee_status": "non_signatory",
+        "common_use_bso": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(i), стр. 3: за каждого вылетающего пассажира при использовании общей службы багажа и её оборудования. Не аренда перрона."
+    },
+    {
+      "code": "fis",
+      "base": "per_arriving_pax",
+      "rate": 10.63,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "fee_status": "non_signatory",
+        "fis_use": true,
+        "arrival_type": "international",
+        "west_side_use": false
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(q), стр. 4: за прибывающего пассажира при требуемом использовании международного комплекса обработки пассажиров. Предварительно очищенное прибытие (precleared) и West Side не включены; международный маршрут сам по себе не доказывает использование FIS."
+    },
+    {
+      "code": "cargo_apron",
+      "base": "per_mass",
+      "rate": 1.25,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "cargo_apron_use": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(g), стр. 2: дополнительный сбор за каждое использование выделенного грузового перрона, за каждую 1 000 lb максимальной посадочной массы или часть. cargo_apron_use — подтверждённое использование объекта; наличие belly cargo не заменяет это условие.",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "ceil_unit"
+    },
+    {
+      "code": "west_side",
+      "base": "per_turnaround",
+      "rate": 250,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "west_side_use": true,
+        "souls_on_board": [
+          0,
+          20
+        ]
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(r), стр. 4: за случай использования West Side International Aircraft Facility при не более 20 souls on board. SOB включает пассажиров И экипаж, не число кресел. Aircraft Per Turn Fee здесь не применяется (rate sheet, примечание [2])."
+    },
+    {
+      "code": "off_hours",
+      "base": "per_turnaround",
+      "rate": 800,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "west_side_use": true,
+        "souls_on_board": [
+          0,
+          20
+        ],
+        "off_hours_use": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(r)(1), стр. 4: вне опубликованных часов West Side, за случай, сверх West Side fee 250 USD. Не надбавка за ночь по умолчанию."
+    },
+    {
+      "code": "off_hours",
+      "base": "per_turnaround",
+      "rate": 1600,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fis_use": true,
+        "souls_on_board": [
+          20,
+          2000
+        ],
+        "off_hours_use": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(r)(2), стр. 4: при более 20 SOB, за запрос использования международного пассажирского комплекса вне опубликованных часов, сверх FIS fee и применимого Aircraft Per Turn Fee."
+    },
+    {
+      "code": "pfc",
+      "base": "per_quantity",
+      "rate": 4.5,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {},
+      "source": "Harry Reid International Airport, Rentals, Fees, and Charges - Effective July 1, 2026; ALL TERMINALS, FY 2027",
+      "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+      "source_note": "§20.10.010(j), стр. 3 и FY2027 rate sheet, стр. 1. Только явно введённое число пассажиров, подлежащих PFC (pfc_pax), не все пассажиры автоматически. Исключения и ограничения 14 CFR §158.9, §158.11; максимум два облагаемых отправления в каждом направлении, исключены non-revenue/frequent-flyer awards, соответствующие EAS и DoD charter. Ноль вводится явно, если облагаемых пассажиров нет.",
+      "quantity_key": "pfc_pax",
+      "quantity_unit": 1
+    },
+    {
+      "code": "fuel_infra",
+      "base": "per_quantity",
+      "rate": 0.12,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "fuel_flowage_separate": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(o), стр. 4: fuel flowage, 0.12 USD за gallon использованного топлива. Количество — явно введённые US gallons. fuel_flowage_separate=True только если плата не включена в цену топлива, чтобы не учитывать её дважды.",
+      "quantity_key": "fuel_us_gal",
+      "quantity_unit": 1
+    },
+    {
+      "code": "unauthorized_gate",
+      "base": "per_quantity",
+      "rate": 1000,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {},
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(m), стр. 3: За каждый случай использования выхода без разрешения. Предварительное согласование — не менее 48 часов. Количество задаётся явно; 0 означает отсутствие нарушений, None требует уточнения.",
+      "quantity_key": "unauthorized_gate_uses",
+      "quantity_unit": 1
+    },
+    {
+      "code": "unauthorized_counter",
+      "base": "per_quantity",
+      "rate": 500,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {},
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(n), стр. 4: За позицию стойки в каждом случае использования без разрешения; количество суммирует позиции по случаям. Предварительное согласование — не менее 48 часов. Количество задаётся явно; 0 означает отсутствие нарушений, None требует уточнения.",
+      "quantity_key": "unauthorized_counter_positions",
+      "quantity_unit": 1
+    },
+    {
+      "code": "unauthorized_parking",
+      "base": "per_quantity",
+      "rate": 2500,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {},
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "source_note": "§20.10.010(l), стр. 3: За каждый случай стоянки без разрешения, ДОПОЛНИТЕЛЬНО к обычной плате за стоянку. Предварительное согласование — не менее 48 часов. Количество задаётся явно; 0 означает отсутствие нарушений, None требует уточнения.",
+      "quantity_key": "unauthorized_parking_uses",
+      "quantity_unit": 1
+    }
+  ],
+  "doubts": [
+    "Ставки — FY2027, effective 2026-07-01; соседний столбец FY2026 не используется. Одностраничная таблица проверена визуально: Ticket Counter 1.43/1.79, BSO 0.11/0.13, FIS 8.50/10.63; Joint Use 90/10, не пассажирская ставка. Предыдущие смещённые соответствия строк исправлены.",
+    "fee_status — подтверждённый режим начисления, не национальность/название авиакомпании. Официальный Start-Up Handbook, стр. 11/14, различает прямой non-signatory permit (125%) и работу по county ordinance через разрешённого международного handler с signatory rates: https://assets.ctfassets.net/2pnrhs9eukyp/6jxyx6lbJWVEfT0jsTmVgP/a781f52a41d9cb8101aa31db22b2fb41/New_Air_Service_Start-Up_Requirements_Handbook.pdf",
+    "body_class требует подтверждённого аэропортового тарифного класса narrow/wide. Определение через MTOW, размах или число кресел в прочитанных документах не найдено; такое определение не выдумано. Неизвестный класс должен требовать уточнения.",
+    "CAP — месячный лимит на авиакомпанию и каждый отдельный общий выход, не годовой: NB134/WB89 для FY2027. Operating Directive 01-4A, effective 2023-09-01, §I.1, стр. 40: https://assets.ctfassets.net/2pnrhs9eukyp/77SQM2MRVj6u3ZLyNGz2Am/7acd394ae1947e34d193ad9d2cdbe6cb/Subsection_4A_Use_of_Airport_Common_Use_Facilities.pdf. Семидневное усреднение и смешанные NB/WB операции нельзя восстановить из одного рейса. gate_turn_billable вводится после разрешения этих условий; None не означает бесплатно.",
+    "Parking оставлен unpriced: подтверждены обе таблицы ставок, бесплатное распределение и полномочия аэропорта назначать позиции, но не подтверждены назначение Tier, однозначные точные границы 8h/24h и накопление при >24h. Отсутствие вычисленной суммы не означает бесплатную стоянку. Источники: §20.10.010(k) и rate sheet Note[1].",
+    "FIS оплачивается при фактической необходимости использования комплекса; precleared не равен обычному международному прибытию. West Side требует SOB (пассажиры + экипаж) <=20; больше20 — терминальный международный комплекс. Нельзя подставлять число кресел вместо SOB.",
+    "CBP bulletin LV26-001 от 2026-01-21 обновляет часы: commercial ежедневно 11:00–23:00, GA ежедневно 08:00–20:00; https://assets.ctfassets.net/2pnrhs9eukyp/4yg4ARV2aBaMvfm7lmvdFw/6c05bfc5c53ff281497dd92f3dd732c8/Public_Bulletin_LAS_Operational_Hours_January_2026.pdf. Это новее старых часов в Start-Up Handbook. off_hours_use — подтверждённая услуга вне опубликованных часов, не признак night.",
+    "PFC считается по явному pfc_pax, с учётом 14 CFR §158.9/§158.11 и утверждённых исключений. Список действующих специальных освобождённых классов KLAS не установлен; 4.50 USD не начисляется на все кресла/всех пассажиров автоматически. Официальный текст: https://www.govinfo.gov/content/pkg/CFR-2025-title14-vol3/pdf/CFR-2025-title14-vol3-sec158-9.pdf .",
+    "Топливо вводится в US gallons; fuel_flowage_separate подтверждает, что 0.12 USD/gal не включены в цену топлива. Количества PFC/топлива/нарушений должны быть заданы явно, включая явный ноль. Аренда, хранение, депозит и CPE документированы в inventory без произвольного распределения на рейс.",
+    "Первоисточник условий и округления — Bill5-19-26-7 / Ordinance5386: https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8. Board action summary, 2026-06-02, item40, стр.17 подтверждает adoption и effective7/1/2026: https://clark.legistar.com/View.ashx?GUID=D2FFD06A-4417-44D9-8E7D-69384740F118&ID=1409872&M=E1 . Полный текст PDF прочитан визуально; служебный OCR не использовался как самостоятельный источник."
+  ],
+  "evidence": [
+    {
+      "code": "landing",
+      "when": {},
+      "where": "§20.10.010(f), стр. 2",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1.78,
+      "unit": "per_mass",
+      "confidence": "high"
+    },
+    {
+      "code": "gate_turn",
+      "when": {
+        "fee_status": "signatory",
+        "body_class": "wide",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "where": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 492,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "gate_turn",
+      "when": {
+        "fee_status": "signatory",
+        "body_class": "narrow",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "where": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 328,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "ticket_counter",
+      "when": {
+        "fee_status": "signatory",
+        "common_use_counter": true
+      },
+      "where": "§20.10.010(h), стр. 2",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1.43,
+      "unit": "per_departing_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "bso",
+      "when": {
+        "fee_status": "signatory",
+        "common_use_bso": true
+      },
+      "where": "§20.10.010(i), стр. 3",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 0.11,
+      "unit": "per_departing_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "fis",
+      "when": {
+        "fee_status": "signatory",
+        "fis_use": true,
+        "arrival_type": "international",
+        "west_side_use": false
+      },
+      "where": "§20.10.010(q), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 8.5,
+      "unit": "per_arriving_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "gate_turn",
+      "when": {
+        "fee_status": "non_signatory",
+        "body_class": "wide",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "where": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 615,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "gate_turn",
+      "when": {
+        "fee_status": "non_signatory",
+        "body_class": "narrow",
+        "ferry": false,
+        "west_side_use": false,
+        "gate_turn_billable": true
+      },
+      "where": "§20.10.010(e), стр. 2; FY2027 rate sheet, стр. 1, примечания [2], [3], [6], [7]. За обслуживание",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 410,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "ticket_counter",
+      "when": {
+        "fee_status": "non_signatory",
+        "common_use_counter": true
+      },
+      "where": "§20.10.010(h), стр. 2",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1.79,
+      "unit": "per_departing_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "bso",
+      "when": {
+        "fee_status": "non_signatory",
+        "common_use_bso": true
+      },
+      "where": "§20.10.010(i), стр. 3",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 0.13,
+      "unit": "per_departing_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "fis",
+      "when": {
+        "fee_status": "non_signatory",
+        "fis_use": true,
+        "arrival_type": "international",
+        "west_side_use": false
+      },
+      "where": "§20.10.010(q), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 10.63,
+      "unit": "per_arriving_pax",
+      "confidence": "high"
+    },
+    {
+      "code": "cargo_apron",
+      "when": {
+        "cargo_apron_use": true
+      },
+      "where": "§20.10.010(g), стр. 2",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1.25,
+      "unit": "per_mass",
+      "confidence": "high"
+    },
+    {
+      "code": "west_side",
+      "when": {
+        "west_side_use": true,
+        "souls_on_board": [
+          0,
+          20
+        ]
+      },
+      "where": "§20.10.010(r), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 250,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "off_hours",
+      "when": {
+        "west_side_use": true,
+        "souls_on_board": [
+          0,
+          20
+        ],
+        "off_hours_use": true
+      },
+      "where": "§20.10.010(r)(1), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 800,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "off_hours",
+      "when": {
+        "fis_use": true,
+        "souls_on_board": [
+          20,
+          2000
+        ],
+        "off_hours_use": true
+      },
+      "where": "§20.10.010(r)(2), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1600,
+      "unit": "per_turnaround",
+      "confidence": "high"
+    },
+    {
+      "code": "pfc",
+      "when": {},
+      "where": "§20.10.010(j), стр. 3 и FY2027 rate sheet, стр. 1. Только явно введённое число пассажиров, подлежащих PFC (pfc_pax), не все пассажиры автоматически. Исключения и ограничения 14 CFR §158.9, §158.11; максимум два облагаемых отправления в каждом направлении, исключены non-revenue/frequent-flyer awards, соответствующие EAS и DoD charter. Ноль вводится явно, если облагаемых пассажиров нет.",
+      "source": "Harry Reid International Airport, Rentals, Fees, and Charges - Effective July 1, 2026; ALL TERMINALS, FY 2027",
+      "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+      "rate": 4.5,
+      "unit": "per_quantity",
+      "confidence": "high"
+    },
+    {
+      "code": "fuel_infra",
+      "when": {
+        "fuel_flowage_separate": true
+      },
+      "where": "§20.10.010(o), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 0.12,
+      "unit": "per_quantity",
+      "confidence": "high"
+    },
+    {
+      "code": "unauthorized_gate",
+      "when": {},
+      "where": "§20.10.010(m), стр. 3",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 1000,
+      "unit": "per_quantity",
+      "confidence": "high"
+    },
+    {
+      "code": "unauthorized_counter",
+      "when": {},
+      "where": "§20.10.010(n), стр. 4",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 500,
+      "unit": "per_quantity",
+      "confidence": "high"
+    },
+    {
+      "code": "unauthorized_parking",
+      "when": {},
+      "where": "§20.10.010(l), стр. 3",
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "rate": 2500,
+      "unit": "per_quantity",
+      "confidence": "high"
+    },
+    {
+      "code": "parking",
+      "where": "§20.10.010(k), стр. 3; FY2027 rate sheet, стр. 1, Note [1]",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "confidence": "medium",
+      "note": "Ставки подтверждены; формула >24h и точные границы не установлены."
+    },
+    {
+      "code": "joint_use",
+      "where": "§20.10.010(c), стр. 2; Use and Lease Agreement §1.01(A)(35), §6.02(B)",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "confidence": "high",
+      "note": "Формула пула подтверждена; исходные данные распределения отсутствуют."
+    },
+    {
+      "code": "landing",
+      "when": {},
+      "quote": "SIGNATORY $ 1.49 $ 1.78\nNON-SIGNATORY $ 1.49 $ 1.78",
+      "where": "RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf, страница 1, Landing Fee (All Airlines), Per 1,000 lbs., GCLW, столбец FY 2027 / Effective 7/1/26",
+      "source": "Harry Reid International Airport, Rentals, Fees, and Charges - Effective July 1, 2026; ALL TERMINALS, FY 2027",
+      "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+      "confidence": "high"
+    },
+    {
+      "code": "pfc",
+      "when": {},
+      "rate": 4.5,
+      "source": "FAA PFC Applications: Approved Collection Amounts, 2026-10-31",
+      "source_url": "https://www.faa.gov/sites/faa.gov/files/2026-11/arp-pfc-monthly-reports-airports-20261031.pdf",
+      "where": "PDF p.13, LAS row; collection begins 2008-10-01, expiration 2053-11-01",
+      "confidence": "high"
+    }
+  ],
+  "map_node": "src_airport_tariff",
+  "next_edition": "2027-07-01",
+  "unpriced": [
+    {
+      "code": "parking",
+      "when": {
+        "parking_area": "tier1",
+        "fee_status": "signatory",
+        "parking_chargeable": true,
+        "park_h": [
+          0,
+          240
+        ]
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "reason": "§20.10.010(k), стр. 3; FY2027 rate sheet, стр. 1: Tier 1, signatory: <8h 200, >8h и <24h 400, >24h 500 USD; примечание [1] упоминает последующие 24h или их часть. Нельзя надёжно установить, заменяет ли >24h ставка первый интервал или добавляется к нему; формула сверх 24h не выдумана. Точные границы 8h/24h в тексте не включены однозначно; расчётная конвенция (0,8], (8,24] пока НЕ применена. Tier выбирается по подтверждённой парковочной зоне, не по массе/типу ВС. parking_chargeable=True означает, что пользователь уже учёл бесплатные позиции: .4 позиции на арендованный выход с округлением до ближайшего целого и минимум 1 позиция каждому оператору терминала. Назначение Tier 1/2 и текущая доступность подтверждаются аэропортом."
+    },
+    {
+      "code": "parking",
+      "when": {
+        "parking_area": "tier1",
+        "fee_status": "non_signatory",
+        "parking_chargeable": true,
+        "park_h": [
+          0,
+          240
+        ]
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "reason": "§20.10.010(k), стр. 3; FY2027 rate sheet, стр. 1: Tier 1, non_signatory: <8h 250, >8h и <24h 500, >24h 625 USD; примечание [1] упоминает последующие 24h или их часть. Нельзя надёжно установить, заменяет ли >24h ставка первый интервал или добавляется к нему; формула сверх 24h не выдумана. Точные границы 8h/24h в тексте не включены однозначно; расчётная конвенция (0,8], (8,24] пока НЕ применена. Tier выбирается по подтверждённой парковочной зоне, не по массе/типу ВС. parking_chargeable=True означает, что пользователь уже учёл бесплатные позиции: .4 позиции на арендованный выход с округлением до ближайшего целого и минимум 1 позиция каждому оператору терминала. Назначение Tier 1/2 и текущая доступность подтверждаются аэропортом."
+    },
+    {
+      "code": "parking",
+      "when": {
+        "parking_area": "tier2",
+        "fee_status": "signatory",
+        "parking_chargeable": true,
+        "park_h": [
+          0,
+          240
+        ]
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "reason": "§20.10.010(k), стр. 3; FY2027 rate sheet, стр. 1: Tier 2, signatory: <8h 150, >8h и <24h 250, >24h 300 USD; примечание [1] упоминает последующие 24h или их часть. Нельзя надёжно установить, заменяет ли >24h ставка первый интервал или добавляется к нему; формула сверх 24h не выдумана. Точные границы 8h/24h в тексте не включены однозначно; расчётная конвенция (0,8], (8,24] пока НЕ применена. Tier выбирается по подтверждённой парковочной зоне, не по массе/типу ВС. parking_chargeable=True означает, что пользователь уже учёл бесплатные позиции: .4 позиции на арендованный выход с округлением до ближайшего целого и минимум 1 позиция каждому оператору терминала. Назначение Tier 1/2 и текущая доступность подтверждаются аэропортом."
+    },
+    {
+      "code": "parking",
+      "when": {
+        "parking_area": "tier2",
+        "fee_status": "non_signatory",
+        "parking_chargeable": true,
+        "park_h": [
+          0,
+          240
+        ]
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "reason": "§20.10.010(k), стр. 3; FY2027 rate sheet, стр. 1: Tier 2, non_signatory: <8h 187.5, >8h и <24h 312.5, >24h 375 USD; примечание [1] упоминает последующие 24h или их часть. Нельзя надёжно установить, заменяет ли >24h ставка первый интервал или добавляется к нему; формула сверх 24h не выдумана. Точные границы 8h/24h в тексте не включены однозначно; расчётная конвенция (0,8], (8,24] пока НЕ применена. Tier выбирается по подтверждённой парковочной зоне, не по массе/типу ВС. parking_chargeable=True означает, что пользователь уже учёл бесплатные позиции: .4 позиции на арендованный выход с округлением до ближайшего целого и минимум 1 позиция каждому оператору терминала. Назначение Tier 1/2 и текущая доступность подтверждаются аэропортом."
+    },
+    {
+      "code": "joint_use",
+      "when": {
+        "joint_use": true
+      },
+      "source": "Clark County Ordinance 5386 / Bill 5-19-26-7, §20.10.010, effective July 1, 2026",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "reason": "§20.10.010(c), стр. 2: распределение стоимости совместных площадей по формуле §20.10.005(e), не фиксированная ставка за пассажира. Пул = 145.56 USD/ft²/year × совместная площадь; ежемесячное распределение 90% по доле пассажиров, 10% по числу signatory + 1; non-signatory платит 125% доли. Исходный договор §1.01(A)(35), стр. 21 и §6.02(B), стр. 73: https://www.sec.gov/Archives/edgar/data/1362468/000143774912001771/ex10-20.htm. Нужны площадь/месячный пул, общий пассажиропоток, число участников и правила распределения; их нет в контексте одного рейса."
+    }
+  ],
+  "tariff_inventory": [
+    {
+      "code": "terminal_rent",
+      "rates_usd": {
+        "signatory": 145.56,
+        "non_signatory": 181.95
+      },
+      "unit": "ft2/year",
+      "scope": "Арендуемая площадь терминала; не обычный сбор с отдельного рейса.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(a), стр. 1"
+    },
+    {
+      "code": "preferential_gate_lease",
+      "rates_usd": {
+        "signatory": 187092,
+        "non_signatory": 233865
+      },
+      "unit": "gate/year",
+      "scope": "Арендованный preferential gate; не добавлять вместе с per-turn без договорного основания.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(d), стр. 2"
+    },
+    {
+      "code": "apron_storage_uncovered",
+      "rates_usd": {
+        "signatory": 15,
+        "non_signatory": 18.75
+      },
+      "unit": "ft2/year",
+      "scope": "Хранение на открытом перроне, исключая off-gate aircraft parking.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(b), стр. 1–2"
+    },
+    {
+      "code": "apron_storage_covered",
+      "rates_usd": {
+        "signatory": 30,
+        "non_signatory": 37.5
+      },
+      "unit": "ft2/year",
+      "scope": "Хранение на крытом перроне, исключая off-gate aircraft parking.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(b), стр. 1–2"
+    },
+    {
+      "code": "gse_building_rent",
+      "rate_usd": 16,
+      "unit": "ft2/year",
+      "scope": "Аренда здания наземного оборудования.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(s), стр. 4"
+    },
+    {
+      "code": "reservoir_storage",
+      "rate_usd": 2,
+      "unit": "ft2/year",
+      "scope": "Reservoir Storage; не переносится в суточную/рейсовую плату.",
+      "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+      "where": "FY2027 rate sheet, стр. 1"
+    },
+    {
+      "code": "off_airport_fuel_storage",
+      "rate_usd": 0.03,
+      "unit": "US gallon",
+      "scope": "Только топливо, хранившееся в аэропортовом fuel farm и вывезенное ЗА пределы аэропорта; сверх flowage fee. Не обычная заправка рейса.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(p), стр. 4"
+    },
+    {
+      "code": "security_deposit",
+      "unit": "three months estimated rentals, fees and charges",
+      "scope": "Обеспечительный депозит/аккредитив по договору; не расход отдельного рейса.",
+      "source_url": "https://clark.legistar.com/View.ashx?M=F&ID=15505829&GUID=F6015FE9-59D2-451C-8F74-33C997044AF8",
+      "where": "§20.10.010(t), стр. 4–5"
+    },
+    {
+      "code": "estimated_cpe",
+      "rate_usd": 9.13,
+      "unit": "indicator per enplanement",
+      "scope": "Оценочный Cost Per Enplanement — показатель, не дополнительная статья к рассчитанным сборам.",
+      "source_url": "https://assets.ctfassets.net/2pnrhs9eukyp/4nXNriK8IAhdbEWSLxJD6p/c532afc4ad91c6efc230a3ef091b2e1d/RATE_SHEET_FY27_Rates_and_Charges_-_Eff_7-1-26.pdf",
+      "where": "FY2027 rate sheet, стр. 1"
+    }
+  ]
+}

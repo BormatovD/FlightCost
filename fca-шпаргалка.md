@@ -324,10 +324,40 @@ fca heatmap --world
 | `pax_type` | `local`, `transfer`, `transit` | `local` |
 | `dest` | `schengen`, `eu_non_schengen`, `europe_non_eu`, `intercontinental` | выводится |
 | `operator` | `national`, `foreign` | по стране аэропорта вылета |
+| `carrier_type` | `passenger`, `cargo` | вход; вид перевозчика, не наличие груза |
+| `landing_permit` | `permitted`, `non_permitted` | вход; разрешение аэропорта |
+| `terminal_apron` | `true`, `false` | вход; используется ли терминальный перрон |
+| `revenue_landing` | `true`, `false` | вход; платная посадка по определению тарифа |
 | `terminal` | буква | самый дорогой из тарифа |
 
 Категории теперь выводятся из раздела `categories` файла тарифа; `--set`
 их перебивает, и разбор показывает исходное рядом с заданным.
+
+Для коммерческой пассажирской посадки KLAX с разрешением и терминальным
+перроном задайте четыре условия: `carrier_type=passenger`,
+`landing_permit=permitted`, `terminal_apron=true`, `revenue_landing=true`
+через `--set charge_context.KLAX.<условие>=<значение>`. Без них расчёт
+назовёт недостающие входы. Сборы KLAX и KLAS с 01.07.2026 также требуют
+явного указания использованных услуг. Режим договора не выводится из
+национальности или разрешения на полёты. Для KLAX: `terminal_agreement`
+(`arra_2023`, `farra`, `tariff`), `terminal_facility`, признаки
+`common_use_holdroom`, `common_use_counter`, `common_use_baggage_claim`,
+`common_use_baggage_outbound`, `common_use_bmu`, `fis_use`.
+Для KLAS: применимая сетка `fee_status=signatory|non_signatory`,
+`body_class=narrow|wide`, `gate_turn_billable`, `common_use_counter`,
+`common_use_bso`. `gate_turn_billable` требует учёта арендованных выходов
+и месячного лимита по перевозчику и выходу; это не годовой лимит.
+
+`pfc_pax` — число действительно облагаемых пассажиров, а не автоматически
+все пассажиры. `fuel_us_gal` — объём заправки, и сбор за прокачку включается
+только при `fuel_flowage_separate=true`. `arrival_type=precleared` исключает
+FIS и относит выдачу багажа к внутренней. `souls_on_board` включает экипаж.
+Неиспользованные услуги и отсутствующие специальные работы можно явно
+задать как `false`/`0`; пропуск значения не означает ноль.
+
+Статьи, которым не хватает подтверждённой ставки или данных месячного
+счёта, выводятся как неполнота. Подробности и первоисточники:
+[разбор KLAX/KLAS FY2027](docs/AIRPORT_CHARGES_US_2027.md).
 
 **Допущения пересчёта лизинга:** `--set lease_terms.months=120`,
 `annual_rate=0.09`, `balloon_share=0.25`, `in_advance=0`.

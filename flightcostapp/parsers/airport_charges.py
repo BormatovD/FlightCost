@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from urllib.parse import urlsplit
 
 from ..store import Fact
 
@@ -102,11 +103,75 @@ def _split(blob: bytes) -> list[dict]:
 
 
 # Поля записи, а не правила: в Rule они не идут.
-RECORD_FIELDS = ("variant", "certainty", "valid_from", "error_cost", "confirm_by")
+RECORD_FIELDS = ("variant", "certainty", "valid_from", "error_cost", "confirm_by",
+                 "source", "source_url")
 
 
 def _bare(raw: dict) -> dict:
     return {k: v for k, v in raw.items() if k not in RECORD_FIELDS}
+
+
+def _record_source(raw: dict, d: dict) -> tuple[str, str]:
+    """Источник отдельной статьи; старые документы сохраняют свой источник."""
+    if "source" in raw:
+        source = raw["source"]
+        if not isinstance(source, str) or not source.strip():
+            raise ValueError("source статьи должен быть непустой строкой")
+    if "source_url" in raw:
+        url = raw["source_url"]
+        if not isinstance(url, str) or not url.strip() or any(c.isspace() for c in url):
+            raise ValueError("source_url статьи должен быть непустым http(s) URL")
+        parsed = urlsplit(url)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc or not parsed.hostname:
+            raise ValueError("source_url статьи должен быть непустым http(s) URL")
+    return raw.get("source", d.get("source") or ""), raw.get("source_url", d["source_url"])
+
+
+def _unpriced_for(icao: str, d: dict, ctx: dict) -> list[Fact]:
+    """Документированные статьи без цены — служебные факты, не нулевые правила."""
+    from ..charges import Rule, self_check
+
+    entries = d.get("unpriced", [])
+    if not isinstance(entries, list):
+        raise ValueError("unpriced должен быть списком статей")
+    facts, keys = [], set()
+    for raw in entries:
+        if not isinstance(raw, dict):
+            raise ValueError("статья unpriced должна быть объектом")
+        bad = set(raw) - {"code", "when", "reason", "source", "source_url"}
+        if bad:
+            raise ValueError(f"неизвестные поля статьи unpriced: {sorted(bad)}")
+        for field in ("code", "reason"):
+            if not isinstance(raw.get(field), str) or not raw[field].strip():
+                raise ValueError(f"unpriced.{field} должен быть непустой строкой")
+        when = raw.get("when", {})
+        if not isinstance(when, dict):
+            raise ValueError("unpriced.when должен быть объектом условий")
+        # Один словарь и одна проверка достижимости для денежных правил
+        # и статей, которым пока не хватает исходных данных для расчёта.
+        dead = self_check([Rule(code=raw["code"], base="per_turnaround", rate=0.0,
+                                when=when)])
+        if dead:
+            raise ValueError("недостижимые условия unpriced:\n  " + "\n  ".join(dead))
+        source, source_url = _record_source(raw, d)
+        ident = {"code": raw["code"], "when": when}
+        hashed = json.dumps(ident, sort_keys=True, ensure_ascii=False)
+        key = f"{icao}/_unpriced/{hashlib.sha256(hashed.encode()).hexdigest()[:8]}"
+        if key in keys:
+            raise ValueError(f"повтор статьи unpriced: {raw['code']} при {when}")
+        keys.add(key)
+        description = {**ident, "reason": raw["reason"], "source": source,
+                       "source_url": source_url}
+        facts.append(Fact(
+            domain="airport_charge", key=key, valid_from=d["valid_from"],
+            value=0.0, value_text="", unit="unpriced_charge", currency=None,
+            source_id=ctx["source_id"], artifact_sha=ctx.get("sha"),
+            extracted_by=ctx.get("extracted_by", "parser:airport_charges@3"),
+            certainty=d.get("certainty", "exact"),
+            node=d.get("map_node") or ctx.get("node"), source_note=d.get("icao_note"),
+            error_cost=d.get("error_cost"), confirm_by=d.get("confirm_by"),
+            note=json.dumps(description, ensure_ascii=False, sort_keys=True)))
+    return facts
 
 
 def _rule_key(prefix: str, r, variant: str = "") -> str:
@@ -125,7 +190,8 @@ def _rule_key(prefix: str, r, variant: str = "") -> str:
             "variant": variant}
     # Не менять идентификаторы прежних документов: новые поля входят
     # в ключ только у нового типа правила `per_mass`.
-    for f in ("mass_basis", "rate_unit", "round_mass"):
+    for f in ("mass_basis", "rate_unit", "round_mass", "quantity_key",
+              "quantity_unit", "round_quantity"):
         if getattr(r, f) is not None:
             keys[f] = getattr(r, f)
     ident = json.dumps(keys, sort_keys=True, ensure_ascii=False)
@@ -142,6 +208,9 @@ def _facts_for(prefix: str, d: dict, ctx: dict, rules_raw: list) -> list["Fact"]
         # кодом, базой и условием и отличаются только ставкой. Без него
         # ключ по содержанию схлопывает их в одну строку.
         raw = dict(raw)
+        source, source_url = _record_source(raw, d)
+        raw.pop("source", None)
+        raw.pop("source_url", None)
         variant = str(raw.pop("variant", ""))
         # Достоверность и дата вступления — свойства ЗАПИСИ, а не правила.
         # Правило описывает механику начисления, поэтому в Rule они не идут.
@@ -183,8 +252,7 @@ def _facts_for(prefix: str, d: dict, ctx: dict, rules_raw: list) -> list["Fact"]
                     # ссылкой в блоке источника; при двух сегментах (старый
                     # разбор) документа не было видно, и правило выглядело
                     # взявшимся ниоткуда.
-                    note=f"{r.source_note or ''} | {d.get('source') or ''}"
-                         f" | {d['source_url']}")
+                    note=f"{r.source_note or ''} | {source} | {source_url}")
         # В числовом поле ВСЕГДА ставка: from_fact кладёт его обратно в
         # rate. Минимум, положенный сюда ради гейта, возвращался ставкой —
         # на Гатвике это давало +453 EUR из воздуха.
@@ -233,6 +301,7 @@ def _one(d: dict, ctx: dict) -> list["Fact"]:
     if d.get("next_edition"):
         ctx.setdefault("next_edition", {})[icao] = d["next_edition"]
     facts = _facts_for(icao, d, ctx, d["rules"])
+    facts += _unpriced_for(icao, d, ctx)
     # Статья, объявленная неприменимой. Разрешение кандидата корпусной
     # проверки живёт В ДОКУМЕНТЕ и едет фактом: иначе оно останется
     # договорённостью, кандидат всплывёт при следующем прогоне, и список
@@ -253,6 +322,7 @@ def _one(d: dict, ctx: dict) -> list["Fact"]:
     from ..categories import validate as _cat_validate
     from ..charges import DOMAINS as _DOM
     for cond, spec in (d.get("categories") or {}).items():
+        source, source_url = _record_source(spec, d)
         dom = _DOM.get(cond)
         _cat_validate(icao, cond, spec, dom if isinstance(dom, set) else None)
         n = len(spec.get("rules") or []) + len(spec.get("named") or {})
@@ -267,7 +337,7 @@ def _one(d: dict, ctx: dict) -> list["Fact"]:
             error_cost=spec.get("error_cost"), confirm_by=spec.get("confirm_by"),
             node=d.get("map_node") or ctx.get("node"),
             note=f"{spec.get('source_note') or 'категории типов'} | "
-                 f"{d.get('source') or ''} | {d['source_url']}"))
+                 f"{source} | {source_url}"))
     for code, why in (d.get("not_applicable") or {}).items():
         if not why:
             raise ValueError(

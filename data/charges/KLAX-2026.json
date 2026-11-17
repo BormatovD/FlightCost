@@ -1,0 +1,1602 @@
+{
+  "icao": "KLAX",
+  "valid_from": "2026-07-01",
+  "source": "Los Angeles World Airports, Resolution No. 28403, LAX Aircraft Landing Fee Rates and Other Charges, FY 2026-2027",
+  "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028403.pdf",
+  "publisher": "Los Angeles World Airports",
+  "checked_at": "2026-11-17",
+  "quote": "July 1, 2026 through June 30, 2027",
+  "where": "Resolution 28403.pdf, PDF p. 8",
+  "rules": [
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 6.28,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "cargo",
+        "landing_permit": "permitted",
+        "revenue_landing": true
+      },
+      "source_note": "Resolution 28403, §2(a)(i), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 6.28,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "permitted",
+        "revenue_landing": true,
+        "terminal_apron": false
+      },
+      "source_note": "Resolution 28403, §2(a)(i), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 8.65,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "permitted",
+        "revenue_landing": true,
+        "terminal_apron": true
+      },
+      "source_note": "Resolution 28403, §2(a)(ii), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 7.85,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "cargo",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true
+      },
+      "source_note": "Resolution 28403, §2(b)(i), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 7.85,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true,
+        "terminal_apron": false
+      },
+      "source_note": "Resolution 28403, §2(b)(i), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "landing",
+      "base": "per_mass",
+      "mass_basis": "mlw",
+      "rate_unit": "1000lb",
+      "round_mass": "nearest_unit",
+      "rate": 10.81,
+      "currency": "USD",
+      "events": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true,
+        "terminal_apron": true
+      },
+      "source_note": "Resolution 28403, §2(b)(ii), PDF pp. 2–3; §1(i),(j)–(o), pp. 1–2. За revenue landing коммерческого перевозчика; MGLW — паспортная MLW; округление до ближайших 1000 lb, 500 lb вверх. Cargo-ставка также применяется к пассажирскому перевозчику без терминального перрона. Правило относится только к посадке коммерческого перевозчика; применимые дополнительные статьи заданы отдельно."
+    },
+    {
+      "code": "fis",
+      "base": "per_arriving_pax",
+      "rate": 20.11,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "fis_use": true,
+        "arrival_type": "international"
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, FIS Fee per deplaned international passenger. Прилетающие пассажиры без экипажа; precleared исключены (Methodology §1, PDF pp. 4–5; ARRA Exhibit A PDF p. 23). Не таможенный сбор §6 Resolution 28403.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_claim",
+      "base": "per_arriving_pax",
+      "rate": 4.79,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_baggage_claim": true,
+        "arrival_type": [
+          "domestic",
+          "precleared"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Baggage Claim System Rate per deplaned domestic passenger. Только фактически используемая общая система; domestic включает международные прибытия с предварительным контролем в стране отправления; экипаж исключён. Tariff Revision 6 §2.3.2, PDF p. 3; Methodology §1.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_outbound",
+      "base": "per_departing_pax",
+      "rate": 14.1,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_baggage_outbound": true
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, baggage_outbound: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "bmu",
+      "base": "per_departing_pax",
+      "rate": 2.12,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_bmu": true
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, bmu: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "ticket_counter",
+      "base": "per_departing_pax",
+      "rate": 0.67,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_counter": true,
+        "terminal_facility": [
+          "T1.5",
+          "T6",
+          "T6_68B",
+          "TBIT"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, ticket_counter: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 4968.13,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 1
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 1: USD 4968.13 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 3161.54,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 2
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 2: USD 3161.54 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 2258.24,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 3
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 3: USD 2258.24 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 1806.79,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 4
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 4: USD 1806.79 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 1445.27,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 5
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 5: USD 1445.27 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 903.3,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "arra_2023",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 6
+      },
+      "source_note": "Resolution 28402, Attachment A, PDF p. 5, Common Use Holdroom class 6: USD 903.30 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "fis",
+      "base": "per_arriving_pax",
+      "rate": 20.28,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "fis_use": true,
+        "arrival_type": "international"
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, FIS Fee per deplaned international passenger. Прилетающие пассажиры без экипажа; precleared исключены (Methodology §1, PDF pp. 4–5; ARRA Exhibit A PDF p. 23). Не таможенный сбор §6 Resolution 28403.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_claim",
+      "base": "per_arriving_pax",
+      "rate": 4.82,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_baggage_claim": true,
+        "arrival_type": [
+          "domestic",
+          "precleared"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Baggage Claim System Rate per deplaned domestic passenger. Только фактически используемая общая система; domestic включает международные прибытия с предварительным контролем в стране отправления; экипаж исключён. Tariff Revision 6 §2.3.2, PDF p. 3; Methodology §1.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_outbound",
+      "base": "per_departing_pax",
+      "rate": 14.23,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_baggage_outbound": true
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, baggage_outbound: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "bmu",
+      "base": "per_departing_pax",
+      "rate": 2.12,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_bmu": true
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, bmu: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "ticket_counter",
+      "base": "per_departing_pax",
+      "rate": 0.68,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_counter": true,
+        "terminal_facility": [
+          "T1.5",
+          "T6",
+          "T6_68B",
+          "TBIT"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, ticket_counter: per enplaned passenger. Только фактическое использование соответствующей общей услуги; enplanements исключают экипаж и international in-transit, включают originating/connecting passengers (Methodology §1).",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 5025.54,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 1
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Holdroom class 1: USD 5025.54 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 3198.07,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 2
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Holdroom class 2: USD 3198.07 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 2284.34,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 3
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Holdroom class 3: USD 2284.34 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 1461.98,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 5
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Holdroom class 5: USD 1461.98 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "base": "per_gate_turn",
+      "rate": 913.73,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 6
+      },
+      "source_note": "Resolution 28402, Attachment D, PDF p. 8, Common Use Holdroom class 6: USD 913.73 per full turn. Опубликованная ставка за full turn; per_gate_turn считает половину за активное прибытие/вылет; empty positioning не является half turn. Methodology §1 Turn и §2.4.2, ARRA Exhibit A PDF pp. 24,27. Common-use loading bridge capital/O&M уже включены (§2.4.1); отдельно не добавлять. Для high-volume cap нужно месячное/годовое распределение.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "bmu",
+      "base": "per_departing_pax",
+      "rate": 2.31,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "common_use_bmu": true
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8: одинаковая ставка в обоих Passenger Tariff столбцах; только фактическая общая услуга и enplanements по Methodology §1.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "ticket_counter",
+      "base": "per_departing_pax",
+      "rate": 0.69,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "common_use_counter": true,
+        "terminal_facility": [
+          "T1.5",
+          "T6",
+          "T6_68B",
+          "TBIT"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8: одинаковая ставка в обоих Passenger Tariff столбцах; только фактическая общая услуга и enplanements по Methodology §1.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "custodial",
+      "base": "per_departing_pax",
+      "rate": 0.63,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "TBIT",
+          "MSC"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, A Custodial Rates, Common Use Holdrooms. Одинаково для всех опубликованных договорных режимов; только указанная общая зона/услуга. Пассажирская база — Methodology §1, §2.8.1; для TBIT baggage claim только domestic/precleared.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "custodial",
+      "base": "per_departing_pax",
+      "rate": 0.05,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "common_use_counter": true,
+        "terminal_facility": [
+          "T1.5",
+          "TBIT"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, A Custodial Rates, Common Use Ticket Counters. Одинаково для всех опубликованных договорных режимов; только указанная общая зона/услуга. Пассажирская база — Methodology §1, §2.8.1; для TBIT baggage claim только domestic/precleared.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "custodial",
+      "base": "per_arriving_pax",
+      "rate": 0.16,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": "passenger",
+        "common_use_baggage_claim": true,
+        "terminal_facility": [
+          "T1.5",
+          "T5",
+          "TBIT"
+        ],
+        "arrival_type": [
+          "domestic",
+          "precleared"
+        ]
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, A Custodial Rates, Common Use Baggage Claim Areas. Одинаково для всех опубликованных договорных режимов; только указанная общая зона/услуга. Пассажирская база — Methodology §1, §2.8.1; для TBIT baggage claim только domestic/precleared.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 280.08,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 1
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 1: USD 280.08 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 178.23,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 2
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 2: USD 178.23 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 127.31,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 3
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 3: USD 127.31 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 101.85,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 4
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 4: USD 101.85 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 81.48,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 5
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 5: USD 81.48 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 50.92,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 6
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — maintenance, class 6: USD 50.92 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "maintenance"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 181.23,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 1
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 1: USD 181.23 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 115.33,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 2
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 2: USD 115.33 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 82.38,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 3
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 3: USD 82.38 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 65.9,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 4
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 4: USD 65.90 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 52.72,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 5
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 5: USD 52.72 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "boarding_bridge",
+      "base": "per_gate_turn",
+      "rate": 32.95,
+      "currency": "USD",
+      "events": "movement",
+      "when": {
+        "carrier_type": "passenger",
+        "separate_bridge": true,
+        "common_use_holdroom": false,
+        "gate_turn_billable": true,
+        "ac_class": 6
+      },
+      "source_note": "Resolution 28402, Attachments A/D, PDF pp. 5,8, Loading Bridge Rate — capital, class 6: USD 32.95 per full turn. per_gate_turn считает половину ставки за активное прибытие/вылет, не empty positioning. Только отдельно тарифицируемый LAWA-owned bridge по Tariff Revision 6 §2.4.2, PDF p. 3; common-use bridge расходы включены в holdroom (Methodology §2.4.1), поэтому common_use_holdroom=false обязательно.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "variant": "capital"
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 250,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          0,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, remote: накопительная добавка USD 250 при превышении 0 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>0; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 500,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          6,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, remote: накопительная добавка USD 500 при превышении 6 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>6; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 1000,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          12,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, remote: накопительная добавка USD 1000 при превышении 12 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>12; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 2000,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          24,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, remote: накопительная добавка USD 2000 при превышении 24 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>24; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 3000,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          48,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, remote: накопительная добавка USD 3000 при превышении 48 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>48; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_day_above",
+      "rate": 5000,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "remote",
+        "parking_chargeable": true,
+        "park_h": [
+          72,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4: Fourth Daily Rate за каждые полные или неполные сутки после первых 72 h; добавляется к первым трём суткам.",
+      "threshold": 72
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 312.5,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          3,
+          1000000000.0
+        ],
+        "parking_credit": false
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, contact: накопительная добавка USD 312.5 при превышении 3 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>3; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 625,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          6,
+          1000000000.0
+        ],
+        "parking_credit": false
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, contact: накопительная добавка USD 625 при превышении 6 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>6; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 1250,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          12,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, contact: накопительная добавка USD 1250 при превышении 12 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>12; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 2500,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          24,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, contact: накопительная добавка USD 2500 при превышении 24 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>24; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_turnaround",
+      "rate": 3750,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          48,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4, contact: накопительная добавка USD 3750 при превышении 48 h. Все предыдущие полосы суммируются; 72 h remote=6750/contact=8437.50. Конвенция модели: следующий диапазон только при elapsed>48; источник не уточняет включённость общих границ 3/6/12/24 h. Для первых двух contact-полос отдельно проверяется отсутствие месячного кредита."
+    },
+    {
+      "code": "parking",
+      "base": "per_day_above",
+      "rate": 6250,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "park_h": [
+          72,
+          1000000000.0
+        ]
+      },
+      "source_note": "Resolution 28403 §5(a), PDF pp. 3–4: Fourth Daily Rate за каждые полные или неполные сутки после первых 72 h; добавляется к первым трём суткам.",
+      "threshold": 72
+    },
+    {
+      "code": "ramp_notice",
+      "base": "per_quantity",
+      "rate": 100,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ]
+      },
+      "source_note": "Resolution 28403 §4(a), PDF p. 3: USD100 за каждый начатый 15-минутный период после 15 минут. ramp_notice_min — фактическое время с уведомления об освобождении позиции / начала уборки разлива; явный 0 означает отсутствие события. Не выводится из park_h.",
+      "quantity_key": "ramp_notice_min",
+      "quantity_unit": 15,
+      "threshold": 15,
+      "round_quantity": "ceil_unit"
+    },
+    {
+      "code": "irregular_parking",
+      "base": "per_quantity",
+      "rate": 100,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ]
+      },
+      "source_note": "Resolution 28403 §4(b), PDF p. 3: USD100 за каждый начатый 10-минутный период после 5 минут. irregular_notice_min — фактическое время с уведомления об освобождении позиции / начала уборки разлива; явный 0 означает отсутствие события. Не выводится из park_h.",
+      "quantity_key": "irregular_notice_min",
+      "quantity_unit": 10,
+      "threshold": 5,
+      "round_quantity": "ceil_unit"
+    },
+    {
+      "code": "spill_cleanup",
+      "base": "per_quantity",
+      "rate": 100,
+      "currency": "USD",
+      "events": "turnaround",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ]
+      },
+      "source_note": "Resolution 28403 §4(c), PDF p. 3: USD100 за каждый начатый 15-минутный период после 30 минут. spill_cleanup_min — фактическое время с уведомления об освобождении позиции / начала уборки разлива; явный 0 означает отсутствие события. Не выводится из park_h.",
+      "quantity_key": "spill_cleanup_min",
+      "quantity_unit": 15,
+      "threshold": 30,
+      "round_quantity": "ceil_unit"
+    },
+    {
+      "code": "pfc",
+      "base": "per_quantity",
+      "quantity_key": "pfc_pax",
+      "quantity_unit": 1,
+      "rate": 4.5,
+      "currency": "USD",
+      "events": "takeoff",
+      "when": {
+        "carrier_type": "passenger"
+      },
+      "source": "Federal Aviation Administration, PFC Approved Locations, Collections, and Expiration Dates, as of October 31, 2026",
+      "source_url": "https://www.faa.gov/sites/faa.gov/files/2026-11/arp-pfc-monthly-reports-airports-20261031.pdf",
+      "source_note": "FAA October31,2026 PFC report, PDF p.2, Los Angeles International LAX row: levelUSD4.50, start2003-07-01, estimated expiration2055-07-01. Current rate independently confirmed by LAWA FY2025 LAX Annual Financial Report Note9, PDF p.109/printed91. pfc_pax is the explicit eligible PFC passenger count for this departure after itinerary/ticket and approved carrier-class exclusions, not seats, load factor or all enplaned passengers. 14CFR158.3,.9,.11,.45,.47 (eCFR current through2026-11-12): exclude nonrevenue/frequent-flyer-award passengers, qualifying subsidized EAS routes, DoD charter-funded passengers and any approved carrier classes; two boardings per one-way/each direction. Token-fare infants are nonrevenue. Tickets issued abroad have special collection rules. Source: https://www.ecfr.gov/current/title-14/chapter-I/subchapter-I/part-158. USD4.50 is passenger charge, not net carrier remittance; collection compensation is separate under158.53. Quantity0 explicitly means no eligible passengers; missing eligibility count remains unknown."
+    }
+  ],
+  "doubts": [
+    "Расширенный, но не полный тариф: коммерческие посадки, подтверждённые обычные терминальные статьи ARRA2023/FARRA, стоянка и три инцидентные статьи. Индивидуальная аренда, GA, месячные кредиты/таможенные затраты, caps и годовые сверки не превращены в безусловную стоимость рейса.",
+    "carrier_type/landing_permit/terminal_apron/revenue_landing задаются явно. ACOP не означает участие в ARRA/FARRA; национальность и наличие груза не заменяют договорный статус. Revenue landing исключения — Resolution28403 §1(o), ferry —§1(h).",
+    "Паспортная MGLW/MLW используется для посадки; при её отсутствии MTOW/фактическая масса не подставляются. §1(i) разрешает actual landing weight лишь при отсутствии сертифицированной величины; этот fallback не реализован.",
+    "Passenger Tariff столбцы Resolution28402 AttachmentsA/D и preamble расходятся; FIS AttachmentC дополнительно21.23 вместоA21.33/D21.40. Generic tariff для спорных статей отмечен unpriced. FARRA class4 full-turn1827.27 в preamble против1827.47 в таблице, поэтому тоже unpriced. Официальный staff report https://lawa.granicus.com/MetaViewer.php?clip_id=1252&meta_id=78757&view_id=4 повторяет различия; исправление не найдено.",
+    "Явные флаги фактического использования общих услуг обязательны. arrival_type=international означает отсутствие preclearance и дополнительно требуется fis_use; precleared относится к domestic deplanements. Пассажирская база не включает экипаж, enplanements также international in-transit. Общий pax модели предполагает одинаковое число прибывающих/вылетающих, если обе операции считаются вместе.",
+    "Half-turn: half опубликованной full-turn ставки за активное прибытие и вылет, в том числе remote gate; empty aircraft positioning не половина turn. gate_turn_billable должен исключать такие движения. Общий loading bridge включён в holdroom, отдельный bridge допустим только по явно подтверждённому separate_bridge при common_use_holdroom=false. При смешанных активных и empty движениях в одном контексте модель не знает отдельного billable count; их следует считать раздельно.",
+    "Схема категорий подтверждена Methodology §2.4.2. Новому/неназванному типу>100seats нельзя назначать класс по массе или аналогии; требуется LAWA determination §2.4.4. Названный тип приоритетнее остаточной категории<=100seats. Семейства expanded в ICAO, строки MD(DC) All не использованы для спорного DC10 без дополнительного подтверждения.",
+    "Стоянка — сумма начатых последовательных полос, не единая замещающая ставка. Принятая конвенция границ: следующая полоса при elapsed строго больше3/6/12/24/48/72h. Источник не раскрывает точную включённость общих часовых границ;72h примеры проверяемы. parking_chargeable подтверждает применимость: не надо начислять government/exclusive/непубличную стоянку как public/non-exclusive.",
+    "Месячный parking credit по §5(c) затрагивает только contact3–6/6–12h и не является автоматической скидкой на каждый рейс. Если credit=true, эти полосы unpriced, остальные продолжают считаться.",
+    "ramp_notice_min/irregular_notice_min/spill_cleanup_min — отдельные фактические длительности события,0если отсутствовало; неизвестное значение не заменяется нулём. При совместимости нескольких санкций нужны фактические обстоятельства; правила не выводят эти события из общей стоянки.",
+    "Период2026-07-01–2027-06-30. Документ предупреждает о возможной fall-модификации после открытияSkyLink и годовой сверке. Последующего опубликованного разрешающего документа в выполненном поиске не найдено; это не гарантия отсутствия индивидуального уведомления/договора.",
+    "PFC4.50USD подтверждён последним FAA monthly report на2026-10-31, PDF p.2 (start2003-07-01, estimated expiration2055-07-01). Расчёт требует отдельного pfc_pax после всех itinerary/ticket/approvedcarrierclass исключений14CFR158; отсутствующее число не равно общему pax и не подставляется автоматически. Количество относится к одному вылету. Это билетный пассажирский сбор; не является дополнительной доходной статьёй перевозчика, и сборная компенсация11центов158.53 здесь не вычитается. УказаннаяFAAдата2055 — оценка окончания authority, не гарантия неизменности ставки."
+  ],
+  "map_node": "src_airport_tariff",
+  "next_edition": "2027-07-01",
+  "evidence": [
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "cargo",
+        "landing_permit": "permitted",
+        "revenue_landing": true
+      },
+      "quote": "$6.28",
+      "where": "Resolution 28403.pdf, §2(a)(i), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "permitted",
+        "revenue_landing": true,
+        "terminal_apron": false
+      },
+      "quote": "$6.28",
+      "where": "Resolution 28403.pdf, §2(a)(i), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "permitted",
+        "revenue_landing": true,
+        "terminal_apron": true
+      },
+      "quote": "$8.65",
+      "where": "Resolution 28403.pdf, §2(a)(ii), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "cargo",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true
+      },
+      "quote": "$7.85",
+      "where": "Resolution 28403.pdf, §2(b)(i), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true,
+        "terminal_apron": false
+      },
+      "quote": "$7.85",
+      "where": "Resolution 28403.pdf, §2(b)(i), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "landing",
+      "when": {
+        "carrier_type": "passenger",
+        "landing_permit": "non_permitted",
+        "revenue_landing": true,
+        "terminal_apron": true
+      },
+      "quote": "$10.81",
+      "where": "Resolution 28403.pdf, §2(b)(ii), PDF pp. 2–3",
+      "confidence": "high"
+    },
+    {
+      "code": "terminal_rates",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "Attachment A PDF p.5; Attachment D PDF p.8",
+      "quote": "FIS Fee per deplaned international passenger",
+      "confidence": "high",
+      "note": "Numeric table text inspected; AttachmentD visually checked. Ambiguous columns/class4 retained unpriced."
+    },
+    {
+      "code": "ac_class",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/2023%20Amended%20and%20Restated%20Agreement.pdf",
+      "where": "Exhibit A §2.4.2 PDF p.27/printed7; §2.4.4 PDF p.28",
+      "quote": "All others having 100 seats or less",
+      "confidence": "high",
+      "note": "Aircraft class table visually inspected; named classes precede residual category."
+    },
+    {
+      "code": "turn_definition",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/2023%20Amended%20and%20Restated%20Agreement.pdf",
+      "where": "Exhibit A §1 PDF p.24/printed4",
+      "quote": "may be measured in halves",
+      "confidence": "high",
+      "note": "Active arrival/departure; empty positioning excluded."
+    },
+    {
+      "code": "parking",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028403.pdf",
+      "where": "§5 PDF pp.3–4",
+      "quote": "Parking charges are additive.",
+      "confidence": "high",
+      "note": "Explicit72h totals6750/8437.50; exact shared hour-boundary convention is not stated."
+    },
+    {
+      "code": "bridge_packaging",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/Amended%20LAX%20Terminal%20Rates%20and%20Charges%20Methodology.pdf",
+      "where": "Resolution27767 p.1 and Methodology §2.4.1",
+      "quote": "combining common-use loading bridge",
+      "confidence": "high",
+      "note": "Common-use bridge capital/O&M recovered by holdroom; separate bridge guard prevents duplicate charge."
+    },
+    {
+      "code": "passenger_definitions",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/2023%20Amended%20and%20Restated%20Agreement.pdf",
+      "where": "Exhibit A §1 PDF p.23; TariffRevision6 PDF p.4",
+      "quote": "not including the flight crew",
+      "confidence": "high",
+      "note": "Precleared arrivals domestic; enplaned excludes international in-transit."
+    },
+    {
+      "code": "pfc",
+      "source": "Federal Aviation Administration, PFC Approved Locations, Collections, and Expiration Dates, as of October 31, 2026",
+      "source_url": "https://www.faa.gov/sites/faa.gov/files/2026-11/arp-pfc-monthly-reports-airports-20261031.pdf",
+      "where": "PDF p.2, LAX level/start/expiration row; report as of2026-10-31",
+      "quote": "LAX L $4.50 7/1/2003 7/1/2055",
+      "confidence": "high",
+      "note": "FAA latest2026-10 monthly report publishedNovember2,2026. Eligibility source14CFR158.3,.9,.11,.45,.47 at https://www.ecfr.gov/current/title-14/chapter-I/subchapter-I/part-158; current through2026-11-12."
+    }
+  ],
+  "unpriced": [
+    {
+      "code": "fis",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "fis_use": true,
+        "arrival_type": "international"
+      },
+      "reason": "Resolution28402 PDF pp. 1,5,7,8: FIS: Attachment A21.33; Attachment C calculation21.23; preamble/Attachment D21.40 USD/deplanement. Общий применимый nonsignatory Passenger Tariff режим не разрешён в опубликованном тексте; кандидат молча не выбран. Оригинальный staff report June18 item22 воспроизводит расхождения.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_claim",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "common_use_baggage_claim": true,
+        "arrival_type": [
+          "domestic",
+          "precleared"
+        ]
+      },
+      "reason": "Resolution28402 PDF pp. 1,5,7,8: Domestic claim: Attachment A4.84 versus preamble/Attachment D4.87 USD/deplanement. Общий применимый nonsignatory Passenger Tariff режим не разрешён в опубликованном тексте; кандидат молча не выбран. Оригинальный staff report June18 item22 воспроизводит расхождения.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "baggage_outbound",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "common_use_baggage_outbound": true
+      },
+      "reason": "Resolution28402 PDF pp. 1,5,7,8: Outbound baggage: Attachment A14.32 versus preamble/Attachment D14.44 USD/enplanement. Общий применимый nonsignatory Passenger Tariff режим не разрешён в опубликованном тексте; кандидат молча не выбран. Оригинальный staff report June18 item22 воспроизводит расхождения.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "tariff",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true
+      },
+      "reason": "Resolution28402 PDF pp. 1,5,7,8: Holdroom classes1–6 full-turn: Attachment A5689.37/3620.51/2586.08/2068.86/1655.09/1034.43 versus Attachment D5746.24/3656.70/2611.93/2089.54/1671.63/1044.77 USD. Общий применимый nonsignatory Passenger Tariff режим не разрешён в опубликованном тексте; кандидат молча не выбран. Оригинальный staff report June18 item22 воспроизводит расхождения.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "when": {
+        "carrier_type": "passenger",
+        "terminal_agreement": "farra",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": false,
+        "gate_turn_billable": true,
+        "ac_class": 4
+      },
+      "reason": "Resolution28402 PDF p. 2 preamble:1827.27; Attachment D PDF p. 8 визуально:1827.47 USD/full turn. Оригинальный staff report повторяет разночтение; нет подтверждённой поправки.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "holdroom",
+      "when": {
+        "carrier_type": "passenger",
+        "common_use_holdroom": true,
+        "terminal_facility": [
+          "T5",
+          "T6_68B",
+          "TBIT",
+          "MSC"
+        ],
+        "high_volume_gate": true
+      },
+      "reason": "Resolution28402 Attachments A/D: high-volume class4 annual per-gate cap ARRA2211015.69/FARRA2233511.74 USD. Требуются утверждённые виртуальные выходы, месячное/годовое использование и распределение; нельзя списывать как каждый полный turn.",
+      "source": "Los Angeles World Airports, Resolution No. 28402, FY 2026-2027 Terminal Rates and Charges",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf"
+    },
+    {
+      "code": "parking",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "parking_area": "contact",
+        "parking_chargeable": true,
+        "parking_credit": true,
+        "park_h": [
+          3,
+          1000000000.0
+        ]
+      },
+      "reason": "Resolution28403 §5(c), PDF p. 4: ежемесячный кредит для участников New Cap =approved virtual gates×days in month; применяется только к contact3–6h и6–12h, не более меньшего12h/day или actual daily hours. Без месячного распределения эти две полосы не вычислены; последующие полосы считаются отдельно.",
+      "source": "Los Angeles World Airports, Resolution No. 28403, LAX Aircraft Landing Fee Rates and Other Charges, FY 2026-2027",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028403.pdf"
+    },
+    {
+      "code": "customs_facility",
+      "when": {
+        "carrier_type": [
+          "passenger",
+          "cargo"
+        ],
+        "customs_facility_use": true
+      },
+      "reason": "Resolution28403 §6, PDF p. 4: monthly rent+maintenance/operation costs+15% administration divided by total monthly CBP entries. Требуются фактические месячные затраты и entries. Это отдельная статья от passenger FIS, фиксированная ставка отсутствует.",
+      "source": "Los Angeles World Airports, Resolution No. 28403, LAX Aircraft Landing Fee Rates and Other Charges, FY 2026-2027",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028403.pdf"
+    }
+  ],
+  "categories": {
+    "ac_class": {
+      "source_note": "2023 ARRA Exhibit A §2.4.2, PDF p. 27 / printed p. 7; Amended Methodology §2.4.2 PDF p. 9. Family-to-ICAO expansion of the named aircraft table; named classes precede residual seats_max<=100. MD11 explicitly class3. Unlisted aircraft >100 seats require LAWA determination under §2.4.4; no default. Published current class6 rates used directly (0.5×class4), not obsolete methodology relativity0.8. Source: https://www.lawa.org/sites/lawa/files/documents/2023%20Amended%20and%20Restated%20Agreement.pdf",
+      "named": {
+        "A388": 1,
+        "B741": 2,
+        "B742": 2,
+        "B743": 2,
+        "B744": 2,
+        "B748": 2,
+        "B74R": 2,
+        "B74S": 2,
+        "A332": 3,
+        "A333": 3,
+        "A338": 3,
+        "A339": 3,
+        "A342": 3,
+        "A343": 3,
+        "A345": 3,
+        "A346": 3,
+        "B772": 3,
+        "B773": 3,
+        "B77L": 3,
+        "B77W": 3,
+        "B778": 3,
+        "B779": 3,
+        "A359": 3,
+        "A35K": 3,
+        "MD11": 3,
+        "IL96": 3,
+        "B753": 4,
+        "B762": 4,
+        "B763": 4,
+        "B764": 4,
+        "B788": 4,
+        "B789": 4,
+        "B78X": 4,
+        "B712": 5,
+        "BCS1": 5,
+        "BCS3": 5,
+        "A318": 5,
+        "A319": 5,
+        "A320": 5,
+        "A321": 5,
+        "A19N": 5,
+        "A20N": 5,
+        "A21N": 5,
+        "B731": 5,
+        "B732": 5,
+        "B733": 5,
+        "B734": 5,
+        "B735": 5,
+        "B736": 5,
+        "B737": 5,
+        "B738": 5,
+        "B739": 5,
+        "B37M": 5,
+        "B38M": 5,
+        "B39M": 5,
+        "B3XM": 5,
+        "B752": 5,
+        "MD80": 5,
+        "MD81": 5,
+        "MD82": 5,
+        "MD83": 5,
+        "MD87": 5,
+        "MD88": 5,
+        "MD90": 5,
+        "DC91": 5,
+        "DC92": 5,
+        "DC93": 5,
+        "DC94": 5,
+        "DC95": 5,
+        "DC9": 5
+      },
+      "rules": [
+        {
+          "when": {
+            "seats_max": {
+              "le": 100
+            }
+          },
+          "value": 6,
+          "note": "§2.4.2: all OTHER aircraft having100 seats or less; named aircraft take precedence, no seat-based override for a named family."
+        }
+      ],
+      "source": "LAWA 2023 Amended and Restated Rate Agreement, Exhibit A, §2.4.2–2.4.4",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/2023%20Amended%20and%20Restated%20Agreement.pdf"
+    }
+  },
+  "tariff_inventory": [
+    {
+      "article": "terminal_buildings",
+      "scope": "annual area rent, not a flight event",
+      "rates_usd_sqft_year": {
+        "arra_2023": 385.77,
+        "farra": 390.1,
+        "tariff_attachment_A": 393.43,
+        "tariff_attachment_D": 397.77
+      },
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "PDF pp.5,8; tariff columns unresolved"
+    },
+    {
+      "article": "bridge_under_lease",
+      "scope": "annual per leased bridge, allocation required",
+      "rate_usd_year": 55000,
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "Attachments A/D PDF pp.5,8"
+    },
+    {
+      "article": "custodial_area",
+      "scope": "area-based annual custodial rent; do not duplicate activity custodial charges",
+      "rate_usd_sqft_year": 26.07,
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "Attachments A/D PDF pp.5,8"
+    },
+    {
+      "article": "high_volume_holdroom",
+      "scope": "class4 annual per-gate cap; approved gates and annual/monthly allocation required",
+      "rates_usd_gate_year": {
+        "arra_2023": 2211015.69,
+        "farra": 2233511.74
+      },
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "Attachments A/D PDF pp.5,8"
+    },
+    {
+      "article": "non_flight_rents_utilities",
+      "scope": "UTC M&O46.02 and concessions storage99.44 USD/sqft/year; utilities electricity8/water1.22/gas.88 total10.10 USD/sqft/year, or .3049USD/kWh,17.4801USD/HCF,.8890USD/Therm; requires actual contract/area/metering",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "Attachment A PDF p.5"
+    },
+    {
+      "article": "terminal_airline_support_system",
+      "scope": "No separate activity charge; incorporated into terminal building requirement under Methodology2023; current table prints dashes",
+      "source_url": "https://www.lawa.org/sites/lawa/files/documents/Amended%20LAX%20Terminal%20Rates%20and%20Charges%20Methodology.pdf",
+      "where": "Resolution27767 p.1; Resolution28402 Attachments A/D"
+    },
+    {
+      "article": "reconciliation",
+      "scope": "Terminal budget rates subject to year-end actual settlement; landing fees subject to Resolution28403 §7, plane parking not reconciled. Individual credits/debits not ordinary flight fees.",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028402.pdf",
+      "where": "p.3; Methodology §2.10; Resolution28403 p.8"
+    },
+    {
+      "article": "general_aviation",
+      "scope": "Resolution28403 §3: non-permitted cargo7.85USD/1000lb landing rate without weight rounding/minimum; based aircraft, qualifying MRO maintenance landings, military/medical flights exempt. Current six commercial landing rules retained; GA not modeled by carrier_type cargo. Federal-government aircraft landing/parking free (§1(o) footnote1).",
+      "source_url": "https://www.lawa.org/sites/lawa/files/2026-09/Resolution%2028403.pdf",
+      "where": "PDF pp.2–3"
+    }
+  ],
+  "scales": {
+    "ac_class": 6
+  }
+}

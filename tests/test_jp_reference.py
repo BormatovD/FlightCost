@@ -20,7 +20,7 @@ from dataclasses import asdict
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from flightcostapp.charges import Rule, evaluate  # noqa: E402
+from flightcostapp.charges import Rule, SERVICE_INPUT_DOMAINS, evaluate  # noqa: E402
 from flightcostapp.parsers import airport_charges  # noqa: E402
 
 
@@ -35,14 +35,17 @@ def rules():
 
 
 def ctx(**kw):
-    c = {"mtow_t": 78.0, "pax": 148.0, "cargo_kg": 0.0, "movements": 2,
+    c = {**{k: None for k in SERVICE_INPUT_DOMAINS},
+         "mtow_t": 78.0, "pax": 148.0, "cargo_kg": 0.0, "movements": 2,
          "landings": 1, "turnarounds": 1, "departures": 1, "flight": "INTL",
          "pax_type": "local", "dest": "intercontinental", "month": 7,
          "night": False, "noise_cat": "B", "noise_cat_dep": None, "cargo": False, "stand": "pier",
          "stand_group": None, "ac_group": None, "ac_class": None,
          "pax_per_mtow": 148 / 78, "park_h": 2.0, "park_h_over_free": True,
          "return_technical": False, "operator": "national", "terminal": "2",
-         "other": "EDDF", "seats": 170.0}
+         "other": "EDDF", "seats": 170.0,
+         "carrier_type": None, "landing_permit": None, "terminal_apron": None,
+         "revenue_landing": None}
     c.update(kw)
     return c
 
