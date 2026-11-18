@@ -71,7 +71,8 @@ def _has_explanation(text: str, story_ids: dict[str, dict]) -> bool:
 
 
 def _apply_skips(reviewed: dict[str, dict], skip_text: str, issues: list[str]) -> None:
-    for story_id, (code, reason) in _skip_rows(skip_text, reviewed, issues).items():
+    rows = _skip_rows(skip_text, reviewed, issues)
+    for story_id, (code, reason) in sorted(rows.items(), key=lambda item: item[1][0] == "duplicate"):
         story = reviewed[story_id]
         if story["status"] != "unreviewed":
             continue
@@ -79,8 +80,9 @@ def _apply_skips(reviewed: dict[str, dict], skip_text: str, issues: list[str]) -
         if code == "duplicate":
             target_id, *description = re.split(r"[\s:;,]+", reason, maxsplit=1)
             target = reviewed.get(target_id)
-            if target_id == story_id or target is None or target["status"] not in {"opened", "failed"}:
-                issues.append(f"{story_id}: нет попытки открыть указанную группу-дубль")
+            if (target_id == story_id or target is None or target["status"] == "unreviewed"
+                    or target.get("skip_code") == "duplicate"):
+                issues.append(f"{story_id}: нет самостоятельного решения по группе-дублю")
                 continue
             explanation = description[0] if description else ""
         if not _has_explanation(explanation, reviewed):

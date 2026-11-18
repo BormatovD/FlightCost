@@ -77,6 +77,14 @@ class NewsReview(unittest.TestCase):
         self.assertEqual(empty["skipped"], 1)
         self.assertTrue(price_news_review.review({}, None)["complete"])
 
+    def test_duplicate_can_reference_a_story_already_excluded_with_its_own_reason(self):
+        stories = price_news_review.index_groups({"A359": [article("first"), article("copy")]})
+        review = price_news_review.review(stories, [],
+            "A359-02\tduplicate\tA359-01: Републикация того же заказа.\n"
+            "A359-01\taggregate_order\tЭмираты заказали восемь бортов, сумма за пакет.")
+        self.assertTrue(review["complete"])
+        self.assertEqual(review["skipped"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()

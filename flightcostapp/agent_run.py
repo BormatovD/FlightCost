@@ -412,8 +412,9 @@ scale — "", "k", "m" или "bn" («$129.5 million» → 129.5 и "m»). Ти�
 
 PRICES_REVIEW_TASK = """# Второй проход по новостям цен самолётов
 
-Прочитай `in/price_news_pending.json` целиком. `pending` содержит группы для проверки по ID,
-`attempted` — фактические результаты первого прохода. При обрезанном чтении дочитай файл.
+В этом задании разбери оставшиеся сюжеты только для типа {icao}.
+Прочитай `{manifest}` целиком. `pending` содержит группы для проверки по ID,
+`reviewed` — уже учтённые попытки и решения. При обрезанном чтении дочитай файл.
 Пройди все группы из pending по порядку. Для каждой самостоятельной релевантной истории открой
 адрес из группы инструментом web_fetch. Объявления о продаже, аренде, обратном лизинге, оценках
 или цене подходящего типа открывай и без цифры в заголовке. Если сайт недоступен, используй
@@ -421,18 +422,18 @@ PRICES_REVIEW_TASK = """# Второй проход по новостям цен
 Проверяй первоисточник и опубликованные условия по ссылкам из материалов, когда они есть.
 Из общей суммы пакета не выводи цену борта. Сохраняй возраст, модификацию, период и единицы.
 
-По каждой группе, которую решил пропустить, запиши отдельную строку в `out/price_news_skips.tsv`.
+По каждой группе, которую решил пропустить, запиши отдельную строку в `{output}/price_news_skips.tsv`.
 Поля разделяй настоящими символами табуляции. Формат: ID группы, код причины, краткое объяснение.
 Коды: wrong_type (другая модификация), off_topic (другая тема), aggregate_order (только сумма
 заказа за пакет), duplicate (тот же сюжет). При duplicate начни объяснение с ID другого сюжета,
-который действительно открыт или запрошен в одном из проходов, затем укажи, что именно совпало.
+который запрошен либо самостоятельно исключён с причиной. Укажи, что именно совпало.
 Не пиши заголовок столбцов. Каждая пропущенная группа получает одну запись. Уже сделанные веб-запросы
 программа сверит с журналом. Для недоступного запрошенного адреса строка о пропуске не требуется.
 Если подходящая статья открыта, но не раскрывает пригодную цифру, поясни это в примечаниях.
 
-Запиши только дополнительные наблюдения в `out/news-review/prices.json`. Используй схему
-наблюдений и правила чисел из `TASK.md`. При отсутствии чисел запиши {"observations": []}.
-Примечания пиши построчно в `out/news-review/price_doubts.txt`. Сохрани файлы первого прохода.
+Запиши только дополнительные наблюдения в `{output}/prices.json`. Используй схему
+наблюдений и правила чисел из `TASK.md`. При отсутствии чисел запиши {{"observations": []}}.
+Примечания пиши построчно в `{output}/price_doubts.txt`. Сохрани файлы других проходов.
 Перед завершением проверь, что каждой группе из pending соответствует открытие, ошибка запроса
 или строка с причиной пропуска.
 """
@@ -1216,45 +1217,69 @@ class Runner:
         }, ensure_ascii=False, indent=1), "utf-8")
 
     def review_price_news(self, ws: Path, groups: dict, first: dict,
-                          model: str | None) -> tuple[dict, list[dict] | None, dict | None]:
+                          model: str | None) -> tuple[dict, list[dict] | None, list[tuple[Path, dict]]]:
         stories = price_news_review.index_groups(groups)
-        fetches = first.get("article_fetches")
-        initial = price_news_review.review(stories, fetches)
-        first_attempted = initial["opened"] + initial["failed"] if fetches is not None else None
-        pending = {key: story for key, story in stories.items()
-                   if initial["stories"][key]["status"] == "unreviewed"
-                   or (initial["stories"][key]["status"] == "failed" and story.get("alternates"))}
-        followup = None
-        result = initial
+        first_fetches = first.get("article_fetches")
+        fetches = list(first_fetches) if first_fetches is not None else None
+        result = price_news_review.review(stories, fetches)
+        first_attempted = result["opened"] + result["failed"] if fetches is not None else None
+        followups = []
+        skip_lines = []
         second_status = "not_needed"
         if first.get("status") != "ok":
             second_status = "not_started"
-        elif pending:
-            second_status = "budget" if self.stop or not self.budget_ok("prices") else "error"
-            if second_status != "budget":
-                attempted = {key: item for key, item in initial["stories"].items()
-                             if item["status"] in ("opened", "failed")}
-                manifest = {"pending": pending, "attempted": attempted}
-                (ws / "in" / "price_news_pending.json").write_text(
-                    json.dumps(manifest, ensure_ascii=False, indent=1), "utf-8")
-                (ws / "out" / "news-review").mkdir()
+        elif stories and fetches is None:
+            second_status = "no_trace"
+        else:
+            # Отдельный контекст на тип. Повторное задание получает только сюжеты без решения.
+            batches = [(retry, code) for retry in (False, True) for code in groups]
+            for retry, code in batches:
+                pending = {key: story for key, story in stories.items() if story["icao"] == code
+                           and (result["stories"][key]["status"] == "unreviewed"
+                                or (not retry and result["stories"][key]["status"] == "failed"
+                                    and story.get("alternates")))}
+                if not pending:
+                    continue
+                if self.stop or not self.budget_ok("prices"):
+                    second_status = "budget"
+                    break
+                prefix = "news-retry" if retry else "news-review"
+                attempt = f"{prefix}-{code.lower()}"
+                manifest_path = f"in/{attempt}.json"
+                output = ws / "out" / attempt
+                output.mkdir()
+                reviewed = {key: item for key, item in result["stories"].items() if item["status"] != "unreviewed"}
+                (ws / manifest_path).write_text(json.dumps({"pending": pending, "reviewed": reviewed},
+                                                           ensure_ascii=False, indent=1), "utf-8")
+                task = PRICES_REVIEW_TASK.format(icao=code, manifest=manifest_path, output=f"out/{attempt}")
                 try:
-                    followup = self.exec("prices", ws, PRICES_REVIEW_TASK, model, attempt="news-review")
-                    second_status = followup.get("status", "error")
+                    followup = self.exec("prices", ws, task, model, attempt=attempt)
                 except Exception as exc:                         # noqa: BLE001
-                    result["issues"].append(f"Второй проход не запущен: {str(exc)[:200]}")
-                if followup is not None:
-                    second_fetches = followup.get("article_fetches")
-                    fetches = fetches + second_fetches if fetches is not None and second_fetches is not None else None
-                    try:
-                        skips = (ws / "out" / "price_news_skips.tsv").read_text("utf-8")
-                    except (OSError, UnicodeError):
-                        skips = ""
-                    result = price_news_review.review(stories, fetches, skips)
+                    second_status = "error"
+                    result["issues"].append(f"Второй проход ({code}) не запущен: {str(exc)[:200]}")
+                    break
+                followups.append((output, followup))
+                second_status = followup.get("status", "error")
+                more_fetches = followup.get("article_fetches")
+                if more_fetches is None:
+                    fetches = None
+                    result["issues"].append(f"Второй проход ({code}): журнал загрузок недоступен")
+                    second_status = "no_trace" if second_status == "ok" else second_status
+                    break
+                fetches.extend(more_fetches)
+                skip_lines = [line for line in skip_lines if line.partition("\t")[0].strip() not in pending]
+                try:
+                    skip_lines.extend((output / "price_news_skips.tsv").read_text("utf-8").splitlines())
+                except (OSError, UnicodeError):
+                    pass
+                result = price_news_review.review(stories, fetches, "\n".join(skip_lines))
+                if second_status != "ok":
+                    break
         result["second_pass"] = second_status
         result["first_pass_attempted"] = first_attempted
+        result["second_pass_calls"] = len(followups)
         result["complete"] = result["complete"] and second_status in ("not_needed", "ok")
-        return result, fetches, followup
+        return result, fetches, followups
 
     def prices(self, model: str | None = None, per_run: int | None = None,
                *, only: list[str] | None = None) -> int:
@@ -1288,7 +1313,7 @@ class Runner:
         except Exception as e:                                     # noqa: BLE001
             launch_error = str(e)
             res = {"status": "error"}
-        news_review, fetches, followup = self.review_price_news(ws, groups, res, model)
+        news_review, fetches, followups = self.review_price_news(ws, groups, res, model)
         coverage = price_news.coverage(feeds, fetches, groups)
         coverage["news_review"] = news_review
         diagnostics = f"runs/{ws.name}/news_coverage.json"
@@ -1308,14 +1333,17 @@ class Runner:
                      f"Очередь не продвинута.\n{coverage_text}\nПричины и пропуски в {diagnostics}.", "warn")
             return 0
         try:
-            d, recovered = PR.load_agent_draft(ws / "out")
-            extra, extra_recovered = PR.load_agent_draft(ws / "out" / "news-review") if followup is not None else (
-                {"observations": [], "doubts": []}, False)
-            if not all(isinstance(draft.get("observations"), list)
-                       and all(isinstance(row, dict) for row in draft["observations"]) for draft in (d, extra)):
-                raise ValueError("ожидается объект с observations (список объектов)")
-            d["observations"].extend(extra["observations"])
-            d["doubts"] = list(dict.fromkeys(d["doubts"] + extra["doubts"]))
+            observations, doubts = [], []
+            recovered = False
+            for output in (ws / "out", *(path for path, _ in followups)):
+                draft, notes_recovered = PR.load_agent_draft(output)
+                if (not isinstance(draft.get("observations"), list)
+                        or not all(isinstance(row, dict) for row in draft["observations"])):
+                    raise ValueError("ожидается объект с observations (список объектов)")
+                observations.extend(draft["observations"])
+                doubts.extend(draft["doubts"])
+                recovered = recovered or notes_recovered
+            d = {"observations": observations, "doubts": list(dict.fromkeys(doubts))}
             for row in d["observations"]:
                 codes = PR.normalize_searched([row.get("icao")])
                 if len(codes) != 1 or codes[0] not in want:
@@ -1362,7 +1390,7 @@ class Runner:
             state[code] = {"at": d["searched_at"], "run": ws.name,
                            "observations": sum(str(row.get("icao") or "").upper() == code for row in got)}
         self.save_prices_state(state)
-        costs = [res.get("costUsd")] + ([followup.get("costUsd")] if followup is not None else [])
+        costs = [res.get("costUsd")] + [response.get("costUsd") for _, response in followups]
         cost = sum(costs) if all(part is not None for part in costs) else None
         if got:
             def describe(p):
@@ -1394,7 +1422,7 @@ class Runner:
                  + (f"\nстоимость {cost:.4f} USD" if cost is not None else "")
                  + ("\nДома: fca master drafts — проверить строки и замечания; принять — --accept-prices."
                     if got else "\nЧерновик приложен для проверки причин; принимать цены нечего."),
-                 "info" if got and not rejected and not recovered and not extra_recovered else "warn", attach=str(dst))
+                 "info" if got and not rejected and not recovered else "warn", attach=str(dst))
         return len(got)
 
     def reports(self, model: str | None = None, only: str | None = None) -> int:

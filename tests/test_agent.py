@@ -418,40 +418,46 @@ class PricesRunner(unittest.TestCase):
         second_row = {**first_row, "month": "2022-11", "quote": "The contract rent is US$200,000 per month.",
                       "value": 200, "source": urls[1]}
 
-        for explain in (False, True):
-            with self.subTest(explain=explain):
-                runner = A.Runner(self.tmp / f"review-{explain}", spool=self.tmp / f"spool-{explain}")
+        for solution in (None, "news-review-crj9", "news-retry-crj9"):
+            with self.subTest(solution=solution):
+                runner = A.Runner(self.tmp / f"review-{solution}", spool=self.tmp / f"spool-{solution}")
 
                 def execute(job, ws, task, model, *, attempt=None):
                     if attempt is None:
                         (ws / "out" / "prices.json").write_text(json.dumps({"observations": [first_row]}))
                         return {"status": "ok", "costUsd": 0.01,
                                 "article_fetches": [{"url": urls[0], "final_url": urls[0]}]}
-                    self.assertEqual(attempt, "news-review")
-                    pending = json.loads((ws / "in" / "price_news_pending.json").read_text())
-                    self.assertEqual(list(pending["pending"]), ["AT76-02", "CRJ9-01"])
-                    self.assertEqual(list(pending["attempted"]), ["AT76-01"])
-                    review_out = ws / "out" / "news-review"
-                    (review_out / "prices.json").write_text(json.dumps({"observations": [second_row]}))
-                    if explain:
-                        (ws / "out" / "price_news_skips.tsv").write_text(
+                    manifest = json.loads((ws / "in" / f"{attempt}.json").read_text())
+                    review_out = ws / "out" / attempt
+                    if attempt == "news-review-at76":
+                        self.assertEqual(list(manifest["pending"]), ["AT76-02"])
+                        self.assertEqual(list(manifest["reviewed"]), ["AT76-01"])
+                        (review_out / "prices.json").write_text(json.dumps({"observations": [second_row]}))
+                        return {"status": "ok", "costUsd": 0.02,
+                                "article_fetches": [{"url": urls[1], "final_url": urls[1]}]}
+                    self.assertIn(attempt, ("news-review-crj9", "news-retry-crj9"))
+                    self.assertEqual(list(manifest["pending"]), ["CRJ9-01"])
+                    self.assertEqual(list(manifest["reviewed"]), ["AT76-01", "AT76-02"])
+                    (review_out / "prices.json").write_text('{"observations": []}')
+                    if attempt == solution:
+                        (review_out / "price_news_skips.tsv").write_text(
                             "CRJ9-01\toff_topic\tОбъявление о расписании.\n", "utf-8")
-                    return {"status": "ok", "costUsd": 0.02,
-                            "article_fetches": [{"url": urls[1], "final_url": urls[1]}]}
+                    return {"status": "ok", "costUsd": 0.02, "article_fetches": []}
 
                 with mock.patch.object(A.price_news, "load_feeds", return_value=feeds), \
                         mock.patch.object(runner, "exec", side_effect=execute) as execute_mock:
-                    self.assertEqual(runner.prices(), 2 if explain else 0)
-                self.assertEqual(execute_mock.call_count, 2)
+                    self.assertEqual(runner.prices(), 2 if solution else 0)
+                self.assertEqual(execute_mock.call_count, 3 if solution == "news-review-crj9" else 4)
                 report = json.loads(next((runner.home / "runs").glob("*/news_coverage.json")).read_text())
-                self.assertEqual(report["news_review"]["complete"], explain)
-                self.assertEqual(report["news_review"]["unreviewed"], 0 if explain else 1)
-                self.assertEqual((runner.home / "prices_state.json").exists(), explain)
-                if explain:
+                self.assertEqual(report["news_review"]["complete"], bool(solution))
+                self.assertEqual(report["news_review"]["unreviewed"], 0 if solution else 1)
+                self.assertEqual((runner.home / "prices_state.json").exists(), bool(solution))
+                if solution:
                     draft = json.loads(next(runner.out.glob("prices-*.json")).read_text())
                     self.assertEqual(draft["observations"], [first_row, second_row])
-                    message = json.loads(next((self.tmp / "spool-True").glob("*.json")).read_text())
-                    self.assertIn("стоимость 0.0300 USD", message["text"])
+                    message = json.loads(next((self.tmp / f"spool-{solution}").glob("*.json")).read_text())
+                    expected = "0.0500" if solution == "news-review-crj9" else "0.0700"
+                    self.assertIn(f"стоимость {expected} USD", message["text"])
                 else:
                     self.assertEqual(list(runner.out.glob("*.json")), [])
 
