@@ -14,14 +14,17 @@ import io
 import json
 import os
 import re
+import sqlite3
 import stat
 import subprocess
 import sys
 import tempfile
 import threading
 import unittest
+from contextlib import closing, nullcontext
 from pathlib import Path
 from unittest import mock
+from urllib.error import HTTPError
 
 from flightcostapp import agent_run as A
 from flightcostapp import prices as PR
@@ -309,6 +312,8 @@ class PricesRunner(unittest.TestCase):
         self.load = self.enterContext(mock.patch.object(PR, "load", return_value=self.doc))
         self.merge = self.enterContext(mock.patch.object(PR, "merge"))
         self.prepare = self.enterContext(mock.patch.object(A.Runner, "prepare_price_sources"))
+        self.fetch_rss = self.enterContext(mock.patch.object(A.price_news, "urlopen"))
+        self.fetch_rss.side_effect = lambda *args, **kwargs: nullcontext(io.BytesIO(b"<rss><channel/></rss>"))
         self.now = self.enterContext(mock.patch.object(A, "_now", return_value=
             A.datetime(2026, 11, 10, 21, 3, 2, tzinfo=A.timezone.utc)))
         self.enterContext(mock.patch.object(A, "_api_key", side_effect=AssertionError("API не нужен")))
@@ -320,8 +325,11 @@ class PricesRunner(unittest.TestCase):
         def execute(job, ws, task, model):
             self.assertEqual(job, "prices")
             self.assertIn("in/price_sources.json", task)
-            self.assertIn("https://www.bing.com/news/search?", task)
-            self.assertNotIn("https://news.google.com/rss/", task)
+            self.assertIn("in/price_news.json", task)
+            feeds = json.loads((ws / "in" / "price_news.json").read_text())
+            self.assertEqual(len(feeds), 16)
+            self.assertEqual(len({feed["url"] for feed in feeds}), 16)
+            self.assertTrue(all(feed["url"].startswith("https://www.bing.com/news/search?") for feed in feeds))
             if draft is not None:
                 (ws / "out" / "prices.json").write_text(
                     draft if isinstance(draft, str) else json.dumps(draft, ensure_ascii=False), "utf-8")
@@ -331,6 +339,106 @@ class PricesRunner(unittest.TestCase):
             result = runner.prices()
         execute_mock.assert_called_once()
         return result
+
+    def test_all_news_feeds_are_attempted_before_model_even_when_some_fail(self):
+        def fetch(url, *, timeout):
+            if "lease+rate" in url:
+                raise HTTPError(url, 429, "Too Many Requests", {}, None)
+            if "sale+leaseback" in url:
+                return nullcontext(io.BytesIO(b"<html>Blocked</html>"))
+            return nullcontext(io.BytesIO(b"""<rss><channel><item><title>Delivery</title><link>
+              https://www.bing.com/news/apiclick.aspx?url=https%3A%2F%2Fexample.org%2Fdelivery&amp;id=2
+              </link></item></channel></rss>"""))
+
+        self.fetch_rss.side_effect = fetch
+
+        def execute(job, ws, task, model):
+            feeds = json.loads((ws / "in" / "price_news.json").read_text())
+            self.assertEqual(self.fetch_rss.call_count, 16)
+            self.assertEqual(len(feeds), 16)
+            self.assertEqual({feed["icao"] for feed in feeds}, set(self.WANTED))
+            self.assertEqual(sum("HTTP Error 429" in feed.get("error", "") for feed in feeds), 4)
+            self.assertEqual(sum("HTML вместо RSS" in feed.get("error", "") for feed in feeds), 4)
+            self.assertEqual({feed["articles"][0]["url"] for feed in feeds if "articles" in feed},
+                             {"https://example.org/delivery"})
+            (ws / "out" / "prices.json").write_text('{"observations": []}', "utf-8")
+            return {"status": "ok", "costUsd": 0.01}
+
+        with mock.patch.object(self.runner, "exec", side_effect=execute) as execute_mock:
+            self.assertEqual(self.runner.prices(), 0)
+        execute_mock.assert_called_once()
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertIn("RSS загружено 8/16", message["text"])
+        self.assertIn("Статей из RSS открыто: нет данных журнала", message["text"])
+        coverage = json.loads(Path(message["attach"]).read_text())["news_coverage"]
+        self.assertEqual(coverage["articles_candidates"], 1)
+        self.assertEqual(len(coverage["feed_errors"]), 8)
+
+    def test_manual_prices_runs_only_requested_types(self):
+        selected = ["A320", "B738", "A359", "B789"]
+        def execute_prices(job, ws, task, model):
+            (ws / "out" / "prices.json").write_text('{"observations": []}', "utf-8")
+            return {"status": "ok"}
+
+        with mock.patch.object(A, "HOME", self.home), mock.patch.object(A, "Runner", return_value=self.runner), \
+                mock.patch.object(self.runner, "exec", side_effect=execute_prices) as execute:
+            self.assertEqual(A.main(["prices", "--only", "a320, B738,A359,B789"]), 0)
+            with self.assertRaises(SystemExit) as error:
+                A.main(["prices", "--only", "A320,unknown"])
+            self.assertEqual(error.exception.code, 2)
+        execute.assert_called_once()
+        self.assertEqual(self.prepare.call_args.args[1], selected)
+        workspace = execute.call_args.args[1]
+        feeds = json.loads((workspace / "in" / "price_news.json").read_text())
+        self.assertEqual([feed["icao"] for feed in feeds], [code for code in selected for _ in range(4)])
+        self.assertEqual(set(self.runner.prices_state()), set(selected))
+
+    def test_article_counts_and_errors_are_read_from_openclaw_trace(self):
+        urls = [f"https://example.org/{name}" for name in ("first", "copy", "blocked", "wrapper")]
+        rss = "<rss><channel>" + "".join(f"<item><link>{url}</link></item>" for url in urls) + "</channel></rss>"
+        self.fetch_rss.side_effect = lambda *args, **kwargs: nullcontext(io.BytesIO(rss.encode()))
+
+        def openclaw(cmd, *, cwd, **kwargs):
+            ws = Path(cwd)
+            state = Path(cmd[cmd.index("--state-dir") + 1])
+            self.assertFalse(state.is_relative_to(ws))
+            path = state / "agents/main/agent/openclaw-agent.sqlite"
+            path.parent.mkdir(parents=True)
+            events = [{"type": "session.started", "data": {}}]
+            for index, url in enumerate([*urls, "https://example.org/known-source"]):
+                data = {"name": "web_fetch", "toolCallId": str(index)}
+                events.append({"type": "tool.call", "data": {**data, "args": {"url": url}}})
+                details = {"finalUrl": urls[0], "status": 200, "rawLength": 1200, "contentType": "text/html"}
+                if index == 2:
+                    details = {"status": "error", "error": "Web fetch failed (403): page body"}
+                if index == 3:
+                    details["finalUrl"] = "https://news.google.com/read/123"
+                events.append({"type": "tool.result", "data": {**data, "success": index != 2,
+                                                                "result": {"details": details}}})
+            events.append({"type": "session.ended", "data": {}})
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("CREATE TABLE trajectory_runtime_events (session_id TEXT, seq INTEGER, event_json TEXT)")
+                db.executemany("INSERT INTO trajectory_runtime_events VALUES (?, ?, ?)",
+                               [("news-session", index, json.dumps(event)) for index, event in enumerate(events)])
+            (ws / "out" / "prices.json").write_text('{"observations": [], "news_coverage": "fake"}', "utf-8")
+            return subprocess.CompletedProcess(cmd, 0, json.dumps({"status": "ok", "sessionId": "news-session",
+                                                                    "costUsd": 0.01}), "")
+
+        with mock.patch.object(A, "_api_key", return_value="sk-test"), \
+                mock.patch.object(A.subprocess, "run", side_effect=openclaw):
+            self.assertEqual(self.runner.prices(), 0)
+
+        self.assertEqual(list((self.home / "runs").glob("price-trace-*")), [])
+        draft = json.loads(next(self.runner.out.glob("prices-*.json")).read_text())
+        coverage = draft["news_coverage"]
+        self.assertEqual(coverage["feeds_loaded"], 16)
+        self.assertEqual(coverage["articles_candidates"], 4)
+        self.assertEqual(coverage["articles_opened"], 1)
+        self.assertEqual(coverage["article_errors"], [
+            {"url": urls[2], "error": "HTTP 403"}, {"url": urls[3], "error": "страница агрегатора"}])
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertIn("Статей из RSS открыто: 1", message["text"])
+        self.assertIn(f"{urls[2]}: HTTP 403", message["text"])
 
     @staticmethod
     def production_range_draft():
@@ -741,6 +849,8 @@ class Cage(unittest.TestCase):
                     elif is_main and scenario == "pdf" and main_calls == 1:
                         tool, args = "pdf", {"pdf": str(ws / "in" / "check.pdf"), "pages": "1",
                                              "prompt": "Report the number in the document."}
+                    elif is_main and scenario == "news" and main_calls == 1:
+                        tool, args = "web_fetch", {"url": "not-a-url"}
                     elif is_main and main_calls == (2 if scenario == "pdf" else 1):
                         tool, args = "write", {
                             "path": "../escaped.json" if scenario == "escape" else "out/proposal.json",
@@ -773,13 +883,19 @@ class Cage(unittest.TestCase):
                 # Не наследуем ключи, прокси и профиль оператора. Единственный ключ — макет.
                 env = {"PATH": os.environ["PATH"], "HOME": str(tmp), "OPENAI_API_KEY": "sk-test",
                        "NO_PROXY": "127.0.0.1", "no_proxy": "127.0.0.1", "NO_COLOR": "1"}
-                proc = subprocess.run([
+                cmd = [
                     os.environ["FCA_TEST_OPENCLAW"], "agent", "exec", "--config", str(tmp / "cfg.json5"),
-                    "--cwd", str(ws), "--model", "openai/" + model, "--json", "--timeout", "60",
-                    "Проверь документ in/check.pdf и запиши out/proposal.json."],
+                    "--cwd", str(ws), "--model", "openai/" + model, "--json", "--timeout", "60"]
+                if scenario == "news":
+                    state = tmp / "state"
+                    state.mkdir()
+                    cmd.extend(["--state-dir", str(state)])
+                proc = subprocess.run(cmd + ["Проверь документ in/check.pdf и запиши out/proposal.json."],
                     env=env, capture_output=True, text=True, timeout=150)
                 self.assertEqual(proc.returncode, 0, (proc.stdout + proc.stderr)[-6000:])
                 result = json.loads(proc.stdout)
+                if scenario == "news":
+                    result["article_fetches"] = A.price_news.read_article_fetches(state, result.get("sessionId"))
                 output = ws / "out" / "proposal.json"
                 return result, seen, output.read_text() if output.exists() else None, (tmp / "escaped.json").exists()
             finally:
@@ -834,6 +950,11 @@ class Cage(unittest.TestCase):
         self.assertEqual(len(main), 4)
         self.assertEqual(len(seen), len(main), "PDF вне задания передан вспомогательной модели")
         self.assertNotIn("WORKSPACE_GUARD_SENTINEL", json.dumps(seen))
+
+    def test_prices_can_read_web_fetch_failures_from_real_openclaw(self):
+        result, _, _, _ = self._run("gpt-6-luna", "news")
+        self.assertEqual(result["article_fetches"], [
+            {"url": "not-a-url", "error": "ошибка загрузки или извлечения текста"}])
 
     def test_pdf_uses_openai_but_raw_envelope_omits_auxiliary_cost(self):
         result, seen, output, escaped = self._run("gpt-6.1-sol", "pdf")

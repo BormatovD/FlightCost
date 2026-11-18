@@ -37,12 +37,14 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.request
+from contextlib import nullcontext
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-from . import notify
+from . import notify, price_news
 
 ROOT = Path(__file__).resolve().parents[1]
 HOME = Path(os.environ.get("FCA_AGENT_HOME", "/srv/fca/agent"))
@@ -360,10 +362,10 @@ PRICES_TASK = """# Задание: цены и ставки лизинга са�
 относящихся к заданным типам. В source ставь URL оригинала, в note — страницу, дату оценки
 и условия. Дата в пути URL не обязательно совпадает с датой оценки: сверяй текст отчёта.
 
-Затем проверь свежие публикации. Поиска у тебя нет — только web_fetch; эти ленты отдают RSS:
-{feeds}
-Иди по ссылкам на сами статьи; число и цитату бери из статьи, а не из ленты. Если вместо статьи
-пришла пустая страница или обёртка Google News, это не прочитанный источник: попробуй другую
+Затем прочитай `in/price_news.json`. В файле записаны ссылки или ошибка по каждому запросу Bing RSS.
+Если инструмент чтения обрезал файл, дочитай его со следующей строки. Выбери релевантные публикации
+и открой уникальные адреса самих статей через `web_fetch`. Число и цитату бери из статьи, а не из ленты.
+Если вместо статьи пришла пустая страница или обёртка Google News, попробуй другую
 ссылку или сайт издателя, а недоступный адрес укажи в doubts. Годятся также
 пресс-релизы и отчёты лизингодателей (AerCap, Air Lease, Avolon, SMBC), отчёты по облигациям в SEC.
 Опубликованный диапазон сохраняй обеими границами: value_low и value_high вместо value.
@@ -759,22 +761,30 @@ class Runner:
         self._ledger_put(run, {"ts": _now().isoformat(timespec="seconds"), "job": job, "run": run,
                                    "model": selected_model, "status": "running",
                                    "cost_usd": self.run_usd, "estimated": True})
-        try:
-            r = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=str(ws),
-                               timeout=spec["timeout"] + 120)
-            stdout, stderr = r.stdout, r.stderr
-        except subprocess.TimeoutExpired as e:
-            stdout = ""
-            stderr = (e.stderr.decode("utf-8", "replace") if isinstance(e.stderr, bytes) else (e.stderr or ""))
-            stdout = '{"ok": false, "status": "timeout", "error": {"message": "прогон снят по времени"}}'
-        stdout, stderr = stdout.replace(key, "[REDACTED]"), stderr.replace(key, "[REDACTED]")
-        (ws / log_name).write_text(stderr[-200_000:], "utf-8")
-        try:
-            env_out = json.loads(stdout)
-        except ValueError:
-            env_out = {"ok": False, "status": "error", "error": {"message": stdout[-500:] or stderr[-500:]}}
-        if not isinstance(env_out, dict):
-            env_out = {"ok": False, "status": "error", "error": {"message": "ответ агента не объект"}}
+        # Журнал находится рядом с рабочей папкой, вне доступа файловых инструментов модели.
+        trace = tempfile.TemporaryDirectory(prefix="price-trace-", dir=ws.parent.resolve()) \
+            if job == "prices" else nullcontext()
+        with trace as state_dir:
+            if state_dir:
+                cmd.extend(["--state-dir", state_dir])
+            try:
+                r = subprocess.run(cmd, capture_output=True, text=True, env=env, cwd=str(ws),
+                                   timeout=spec["timeout"] + 120)
+                stdout, stderr = r.stdout, r.stderr
+            except subprocess.TimeoutExpired as e:
+                stderr = (e.stderr.decode("utf-8", "replace") if isinstance(e.stderr, bytes) else (e.stderr or ""))
+                stdout = '{"ok": false, "status": "timeout", "error": {"message": "прогон снят по времени"}}'
+            stdout, stderr = stdout.replace(key, "[REDACTED]"), stderr.replace(key, "[REDACTED]")
+            (ws / log_name).write_text(stderr[-200_000:], "utf-8")
+            try:
+                env_out = json.loads(stdout)
+            except ValueError:
+                env_out = {"ok": False, "status": "error", "error": {"message": stdout[-500:] or stderr[-500:]}}
+            if not isinstance(env_out, dict):
+                env_out = {"ok": False, "status": "error", "error": {"message": "ответ агента не объект"}}
+            if state_dir:
+                env_out["article_fetches"] = price_news.read_article_fetches(
+                    Path(state_dir), env_out.get("sessionId"))
         reported_cost = _reported_cost(env_out)
         # В OpenClaw 2026.10.5 PDF вызывает дополнительную модель, но её
         # usage не входит в costUsd и не возвращается в конверте. Не выдаём
@@ -1162,9 +1172,9 @@ class Runner:
             "reports": sources, "known_publications": known, "article_sources": references,
         }, ensure_ascii=False, indent=1), "utf-8")
 
-    def prices(self, model: str | None = None, per_run: int | None = None) -> int:
+    def prices(self, model: str | None = None, per_run: int | None = None,
+               *, only: list[str] | None = None) -> int:
         """Цены и ставки лизинга по нескольким типам за прогон (страница типа, ряд цен)."""
-        from urllib.parse import quote_plus
         from . import prices as PR
         if not self.budget_ok("prices"):
             return 0
@@ -1175,27 +1185,32 @@ class Runner:
             if code in PRICE_TYPES and isinstance(attempt, dict):
                 at = str(attempt.get("at") or "")
                 searched[code] = max(str(searched.get(code) or ""), at)
-        want = PR.due(PRICE_TYPES, {**doc, "searched": searched}, limit=per_run or PR.PER_RUN)
+        want = only if only is not None else PR.due(
+            PRICE_TYPES, {**doc, "searched": searched}, limit=per_run or PR.PER_RUN)
         if not want:
             return 0
-        feeds = []
-        for t in want:
-            n = PRICE_NAMES.get(t, t)
-            for q in (f'"{n}" price million', f'"{n}" lease rate', f'"{n}" sale leaseback',
-                      f'"{n}" aircraft market value'):
-                feeds.append(f"- https://www.bing.com/news/search?q={quote_plus(q)}&format=rss")
+        names = {code: PRICE_NAMES.get(code, code) for code in want}
         ws = self.workspace("prices", f"{_now():%Y%m%d}")
         self.prepare_price_sources(ws, want, doc)
+        feeds = price_news.load_feeds(names)
+        (ws / "in" / "price_news.json").write_text(json.dumps(feeds, ensure_ascii=False, indent=1), "utf-8")
+        launch_error = None
         try:
             res = self.exec("prices", ws, PRICES_TASK.format(
-                types=", ".join(f"{t} ({PRICE_NAMES.get(t, t)})" for t in want),
-                searched=json.dumps(want), feeds="\n".join(feeds)), model)
+                types=", ".join(f"{code} ({name})" for code, name in names.items()),
+                searched=json.dumps(want)), model)
         except Exception as e:                                     # noqa: BLE001
-            self.say(f"Агент «цены»: не запущен: {e}", "alert")
-            return 0
+            launch_error = str(e)
+            res = {"status": "error"}
+        coverage = price_news.coverage(feeds, res.get("article_fetches"))
+        diagnostics = f"runs/{ws.name}/news_coverage.json"
+        (ws / "news_coverage.json").write_text(json.dumps(coverage, ensure_ascii=False, indent=1), "utf-8")
+        coverage_text = price_news.describe_coverage(coverage, f"в {diagnostics}")
         if res.get("status") != "ok":
-            self.say(f"Агент «цены»: прогон завершился со статусом {res.get('status')}; "
-                     f"очередь не продвинута. Диагностика: runs/{ws.name}/result.json", "warn")
+            status = f"не запущен: {launch_error[:200]}" if launch_error is not None else (
+                f"прогон завершился со статусом {res.get('status')}")
+            self.say(f"Агент «цены»: {status}. Очередь не продвинута.\n{coverage_text}\n"
+                     f"Диагностика: {diagnostics}", "alert" if launch_error is not None else "warn")
             return 0
         try:
             d = json.loads((ws / "out" / "prices.json").read_text("utf-8"))
@@ -1227,10 +1242,11 @@ class Runner:
                 raise ValueError("наблюдение не прошло формальную проверку вида, числа, масштаба или месяца")
         except (OSError, ValueError, TypeError) as exc:
             self.say(f"Агент «цены»: нет корректного черновика ({str(exc)[:300]}); "
-                     f"очередь не продвинута. Прогон: {ws.name}", "warn")
+                     f"очередь не продвинута. Прогон: {ws.name}\n{coverage_text}", "warn")
             return 0
         d["run"] = ws.name
         d["searched_at"] = _now().isoformat(timespec="seconds")
+        d["news_coverage"] = coverage
         (ws / "out" / "prices.json").write_text(json.dumps(d, ensure_ascii=False, indent=1), "utf-8")
         # Сохраняем все исходные строки для ручного просмотра в master drafts.
         # Ошибочное наблюдение не отменяет соседнюю корректную точку, но не
@@ -1270,6 +1286,7 @@ class Runner:
             doubts += "\nПолный список замечаний — в приложенном черновике."
         self.say(f"Цены самолётов — черновик агента ({', '.join(want)}): "
                  f"допустимых наблюдений {len(got)}; отвергнуто {len(rejected)}; уже есть {skipped}.\n"
+                 + price_news.describe_coverage(coverage, "в приложенном черновике") + "\n"
                  + details + (f"\n{rejected_details}" if rejected_details else "")
                  + (f"\n{doubts}" if doubts else "")
                  + (f"\nстоимость {cost:.4f} USD" if cost is not None else "")
@@ -1679,10 +1696,15 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="python -m flightcostapp.agent_run")
     p.add_argument("job", nargs="?", choices=sorted(JOBS) + ["check"])
     p.add_argument("--model", help="модель OpenAI на один прогон, напр. openai/gpt-6-astra")
-    p.add_argument("--only", help="charges: ИКАО; reports: коды перевозчиков через запятую")
+    p.add_argument("--only", help="charges: ИКАО; reports и prices: коды через запятую")
     p.add_argument("--check", action="store_true")
     p.add_argument("--extract", help=argparse.SUPPRESS)       # служебное: текст файла в stdout
     a = p.parse_args(argv)
+    price_types = None
+    if a.job == "prices" and a.only is not None:
+        price_types = list(dict.fromkeys(code.strip().upper() for code in a.only.split(",")))
+        if any(code not in PRICE_TYPES for code in price_types):
+            p.error("prices --only принимает коды типов из списка PRICE_TYPES через запятую")
     if a.extract:
         sys.stdout.write(extract_text(Path(a.extract)) or "")
         return 0
@@ -1739,7 +1761,7 @@ def main(argv=None) -> int:
     elif a.job == "reports":
         print(f"отчётов для приёмки: {r.reports(a.model, a.only)}")
     elif a.job == "prices":
-        print(f"наблюдений: {r.prices(a.model)}")
+        print(f"наблюдений: {r.prices(a.model, only=price_types)}")
     else:
         r.charges(a.model, a.only)
     return 0
