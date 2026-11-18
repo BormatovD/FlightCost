@@ -394,17 +394,66 @@ class PricesRunner(unittest.TestCase):
             self.assertEqual({feed["articles"][0]["url"] for feed in feeds if "articles" in feed},
                              {"https://example.org/delivery"})
             (ws / "out" / "prices.json").write_text('{"observations": []}', "utf-8")
-            return {"status": "ok", "costUsd": 0.01}
+            return {"status": "ok", "costUsd": 0.01, "article_fetches": [
+                {"url": "https://example.org/delivery", "final_url": "https://example.org/delivery"}]}
 
         with mock.patch.object(self.runner, "exec", side_effect=execute) as execute_mock:
             self.assertEqual(self.runner.prices(), 0)
         execute_mock.assert_called_once()
         message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
         self.assertIn("RSS загружено 8/16", message["text"])
-        self.assertIn("Статей из RSS открыто: нет данных журнала", message["text"])
+        self.assertIn("Статей из RSS открыто: 1", message["text"])
         coverage = json.loads(Path(message["attach"]).read_text())["news_coverage"]
         self.assertEqual(coverage["articles_candidates"], 1)
         self.assertEqual(len(coverage["feed_errors"]), 8)
+
+    def test_second_news_pass_exports_only_after_all_stories_have_outcomes(self):
+        urls = [f"https://example.org/{name}" for name in ("lease-one", "lease-two", "routes")]
+        feeds = [
+            {"icao": "AT76", "articles": [{"title": "First lease", "url": urls[0], "published": ""},
+                                          {"title": "Second lease", "url": urls[1], "published": ""}]},
+            {"icao": "CRJ9", "articles": [{"title": "Airline opens new route", "url": urls[2], "published": ""}]},
+        ]
+        first_row = self.production_range_draft()["observations"][0]
+        second_row = {**first_row, "month": "2022-11", "quote": "The contract rent is US$200,000 per month.",
+                      "value": 200, "source": urls[1]}
+
+        for explain in (False, True):
+            with self.subTest(explain=explain):
+                runner = A.Runner(self.tmp / f"review-{explain}", spool=self.tmp / f"spool-{explain}")
+
+                def execute(job, ws, task, model, *, attempt=None):
+                    if attempt is None:
+                        (ws / "out" / "prices.json").write_text(json.dumps({"observations": [first_row]}))
+                        return {"status": "ok", "costUsd": 0.01,
+                                "article_fetches": [{"url": urls[0], "final_url": urls[0]}]}
+                    self.assertEqual(attempt, "news-review")
+                    pending = json.loads((ws / "in" / "price_news_pending.json").read_text())
+                    self.assertEqual(list(pending["pending"]), ["AT76-02", "CRJ9-01"])
+                    self.assertEqual(list(pending["attempted"]), ["AT76-01"])
+                    review_out = ws / "out" / "news-review"
+                    (review_out / "prices.json").write_text(json.dumps({"observations": [second_row]}))
+                    if explain:
+                        (ws / "out" / "price_news_skips.tsv").write_text(
+                            "CRJ9-01\toff_topic\tОбъявление о расписании.\n", "utf-8")
+                    return {"status": "ok", "costUsd": 0.02,
+                            "article_fetches": [{"url": urls[1], "final_url": urls[1]}]}
+
+                with mock.patch.object(A.price_news, "load_feeds", return_value=feeds), \
+                        mock.patch.object(runner, "exec", side_effect=execute) as execute_mock:
+                    self.assertEqual(runner.prices(), 2 if explain else 0)
+                self.assertEqual(execute_mock.call_count, 2)
+                report = json.loads(next((runner.home / "runs").glob("*/news_coverage.json")).read_text())
+                self.assertEqual(report["news_review"]["complete"], explain)
+                self.assertEqual(report["news_review"]["unreviewed"], 0 if explain else 1)
+                self.assertEqual((runner.home / "prices_state.json").exists(), explain)
+                if explain:
+                    draft = json.loads(next(runner.out.glob("prices-*.json")).read_text())
+                    self.assertEqual(draft["observations"], [first_row, second_row])
+                    message = json.loads(next((self.tmp / "spool-True").glob("*.json")).read_text())
+                    self.assertIn("стоимость 0.0300 USD", message["text"])
+                else:
+                    self.assertEqual(list(runner.out.glob("*.json")), [])
 
     def test_manual_prices_runs_only_requested_types(self):
         selected = ["A320", "B738", "A359", "B789"]

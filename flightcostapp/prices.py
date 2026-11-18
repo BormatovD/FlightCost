@@ -33,6 +33,8 @@ from pathlib import Path
 
 import yaml
 
+from . import prices_avac
+
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "data" / "prices" / "_observations.yaml"
 KINDS = ("list", "deal", "value", "lease")
@@ -179,6 +181,15 @@ def observation_id(o: dict) -> str:
     """Стабильный SHA-256 семантического наблюдения; примечания и checked в ID не входят."""
     payload = json.dumps(_identity(o), ensure_ascii=False, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _acceptance_identity(o: dict) -> tuple:
+    """Связать старые и новые формулировки проверенной ячейки, сохранив публичный ID."""
+    try:
+        cell = prices_avac.source_cell(o, amount_bounds(o))
+    except ValueError:
+        cell = None
+    return cell or _identity(o)
 
 
 def lease_types() -> list[str]:
@@ -496,7 +507,7 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
         d = json.loads(blob)
     except ValueError as e:
         return {"rows": [], "error": f"не JSON: {e}", "doubts": [], "searched": []}
-    have = {_identity(o) for o in doc.get("observations") or []}
+    have = {_acceptance_identity(o) for o in doc.get("observations") or []}
     rows = []
     for p in d.get("observations") or []:
         if not isinstance(p, dict):
@@ -531,25 +542,31 @@ def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> di
             r.update(verdict="reject", reasons=[f"масштаб {p.get('scale')!r} не из {sorted(SCALE)}"])
             continue
         quote, currency = str(p.get("quote") or ""), str(p.get("currency") or "USD")
-        if is_range(p) and not _range_in(quote, amount_bounds(p), currency):
+        amounts = amount_bounds(r)
+        try:
+            avac_cell = prices_avac.source_cell(r, amounts)
+        except ValueError as exc:
+            r.update(verdict="reject", rejection_code="avac_cell", reasons=[str(exc)])
+            continue
+        if is_range(p) and not _range_in(quote, amounts, currency):
             r.update(verdict="reject", rejection_code="range_evidence",
                      reasons=["обе границы с масштабом и валютой должны совпадать с денежным диапазоном в цитате"])
             continue
-        if not is_range(p) and _money_range_only(quote, amount_bounds(p)[0], currency):
+        if avac_cell is None and not is_range(p) and _money_range_only(quote, amounts[0], currency):
             r.update(verdict="reject", rejection_code="money_range",
                      reasons=["в цитате денежный диапазон, а не отдельная цена или ставка; "
                               "сохраните обе границы в value_low/value_high вместо скалярного value"])
             continue
         if not str(p.get("source") or "").startswith("http"):
             r["reasons"].append("нет адреса страницы")
-        if not is_range(p) and not _num_in(quote, raw_pair[0]):
+        if avac_cell is None and not is_range(p) and not _num_in(quote, raw_pair[0]):
             r["reasons"].append("числа нет в цитате")
         pair = usd_bounds(r, rates)
         lo, hi = BAND[p["kind"]]
         if pair is not None and not (lo <= pair[0] <= pair[1] <= hi):
             shown = f"{pair[0]:,.0f}–{pair[1]:,.0f}" if is_range(r) else f"{pair[0]:,.0f}"
             r["reasons"].append(f"{shown} USD вне полосы {lo:,.0f}–{hi:,.0f} для «{KIND_RU[p['kind']]}»")
-        identity = _identity(r)
+        identity = avac_cell or _identity(r)
         if identity in have:
             r.update(verdict="skip", reasons=["уже есть"])
             continue
@@ -572,10 +589,15 @@ def merge(rows: list[dict], searched: list[str], path: Path | None = None, today
     head = "".join(ln for ln in path.read_text("utf-8").splitlines(True) if ln.startswith("#")) \
         if path.exists() else ""
     obs = doc.setdefault("observations", [])
+    have = {_acceptance_identity(o) for o in obs}
     done = []
     for r in rows:
         o = {k: r.get(k) for k in FIELDS if r.get(k) not in (None, "")}
         o["quote"] = str(o.get("quote", ""))[:300]
+        identity = _acceptance_identity(o)
+        if identity in have:
+            continue
+        have.add(identity)
         o["checked"] = str(today or date.today())
         obs.append(o)
         lo, hi = bounds(o)

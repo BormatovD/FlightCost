@@ -67,7 +67,7 @@ jobs:
       - name: Агент OpenAI и совместимость черновиков (без сети и ключа)
         run: >-
           python3 -m unittest
-          tests.test_agent tests.test_fuel_series tests.test_prices
+          tests.test_agent tests.test_fuel_series tests.test_prices tests.test_price_news_review
           tests.test_carrier_reports tests.test_carrier_bands
           tests.test_macro tests.test_bot tests.test_charges_todo
           tests.test_mass_charges tests.test_mass_econ tests.test_charges_skill_contract

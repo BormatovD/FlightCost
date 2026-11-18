@@ -117,6 +117,110 @@ class Drafts(unittest.TestCase):
             self.assertEqual(after["observations"], OBS["observations"])
 
 
+class AvacTables(unittest.TestCase):
+
+    SOURCE_2019 = "https://aviationstrategy.aero/newsletter/Nov-2019/5/Jet-Values-and-Lease-Rates"
+    SOURCE_2020 = "https://aviationstrategy.aero/newsletter/Oct-2020/4/Jet-Values-and-Lease-Rates"
+
+    @classmethod
+    def audited(cls):
+        rows = [
+            ("2019-10", "A320", "A320-200 (HGW)", "A320-200 § 42.8 32.1 `21.4", 42.8,
+             "A320-200 § 312 255 200", 312),
+            ("2020-10", "A320", "A320-200 § (HGW)", "A320-200 § 32.5 25.0 17.5 7.9", 32.5,
+             "A320-200 § 208 177 144 114", 208),
+            ("2019-10", "B738", "737-800 § (HGW)", "737-800 § 44.9 34.2 27.8 9.5", 44.9,
+             "737-800 § 339 278 243 145", 339),
+            ("2020-10", "B738", "737-800", "737-800 33.1 26.0 14.8§ 8.3§", 33.1,
+             "737-800 215 183 131§ 115§", 215),
+            ("2019-10", "A359", "A350-900", "A350-900 150.0 98.4", 150,
+             "A350-900 1,172 887", 1172),
+            ("2020-10", "A359", "A350-900", "A350-900 110.5 80.2", 110.5,
+             "A350-900 789 620", 789),
+            ("2019-10", "B789", "787-9", "787-9 146.9 97.2", 146.9,
+             "787-9 1100 827", 1100),
+            ("2020-10", "B789", "787-9", "787-9 107.7 79.1", 107.7,
+             "787-9 724 598", 724),
+        ]
+        return [
+            dict(icao=icao, kind=kind, variant=variant, value=value, scale=scale, currency="USD",
+                 month=period, age="new", quote=quote, source=cls.SOURCE_2019 if period == "2019-10" else cls.SOURCE_2020)
+            for period, icao, variant, q_value, value_m, q_lease, lease_k in rows
+            for kind, scale, quote, value in (("value", "m", q_value, value_m), ("lease", "k", q_lease, lease_k))
+        ]
+
+    @staticmethod
+    def check(rows, doc=None):
+        return PR.check(json.dumps({"observations": rows}).encode(), doc=doc or {})["rows"]
+
+    def test_audited_new_aircraft_source_cells(self):
+        checked = self.check(self.audited())
+        self.assertEqual(len(checked), 16)
+        self.assertEqual([(row["verdict"], row["reasons"]) for row in checked], [("clean", [])] * 16)
+
+    def test_wrong_age_kind_source_units_and_variant_are_rejected(self):
+        row = self.audited()[0]
+        variations = [
+            dict(age=5), dict(age=None), dict(value=32.1), dict(scale="k"), dict(currency="EUR"),
+            dict(kind="lease"), dict(kind="deal"), dict(month="2019-11"), dict(month="2019-Q4"),
+            dict(published_on="2019-10-01"), dict(source=self.SOURCE_2020),
+            dict(source="https://example.net/other", source_family="AVAC"),
+            dict(source="https://aviationstrategy.aero/newsletter/Nov-2018/5/Jet-Values-and-Lease-Rates"),
+            dict(icao="A359"), dict(icao="A20N"),
+            dict(variant="A320-200 IGW"), dict(valuation_basis="base_value"),
+            dict(quote="A320-200 5 yrs: 42.8"), dict(quote="A320-200 32.1 42.8"),
+            dict(quote="A320-200 § 32.1 21.4"), dict(quote="737-800 § 42.8 32.1"),
+            dict(quote="Jet lease rates ($'000s/month): A320-200 § 42.8 32.1"),
+            dict(quote="Jet values (€m): A320-200 § 42.8 32.1"),
+            dict(quote="Jet values ($'000s/month): A320-200 § 42.8 32.1"),
+            dict(quote="October 2020: A320-200 § 42.8 32.1"), dict(quote="A320-200 ‡ 42.8 32.1"),
+        ]
+        for changes, checked in zip(variations, self.check([dict(row, **v) for v in variations])):
+            with self.subTest(changes=changes):
+                self.assertEqual((checked["verdict"], checked.get("rejection_code")), ("reject", "avac_cell"))
+
+    def test_age_column_and_cell_specific_hgw(self):
+        row = next(r for r in self.audited() if (r["icao"], r["month"], r["kind"]) == ("B738", "2020-10", "value"))
+        variants = [dict(row, age=5, value=26.0), dict(row, age=10, value=14.8, variant="737-800 HGW"),
+                    dict(row, age=0, scale="", value=33100000), dict(row, variant="737-800 HGW"),
+                    dict(row, age=10, value=14.8, quote="737-800 33.1 26.0 14.8‡ 8.3§"),
+                    dict(row, quote="737-800 33.1 § 26.0 14.8 § 8.3 §")]
+        self.assertEqual([r["verdict"] for r in self.check(variants)],
+                         ["clean", "clean", "clean", "reject", "reject", "reject"])
+
+    def test_generic_verification_preserved_for_independent_source(self):
+        row = dict(self.audited()[0], source="https://example.net/independent", variant="independent")
+        checked = self.check([row])[0]
+        self.assertEqual((checked["verdict"], checked["reasons"]), ("look", ["числа нет в цитате"]))
+
+    def test_existing_widebody_public_ids_and_merge_replay(self):
+        submitted = [r for r in self.audited() if r["icao"] in ("A359", "B789")]
+        existing = []
+        for row in submitted:
+            legacy = {k: value for k, value in row.items() if k != "variant"}
+            heading = "Jet values ($m)" if row["kind"] == "value" else "Jet lease rates ($'000s/month)"
+            legacy["quote"] = f"{heading}, as at end-October {row['month'][:4]}: {row['variant']}, New: {row['value']}"
+            existing.append(legacy)
+        self.assertEqual([r["verdict"] for r in self.check(submitted, {"observations": existing})], ["skip"] * 8)
+        ids = [PR.observation_id(o) for o in existing]
+        self.assertNotEqual(ids, [PR.observation_id(o) for o in submitted])
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "prices.yaml"
+            path.write_text(yaml.safe_dump({"observations": existing}), "utf-8")
+            # A checked draft can become stale between review and --accept-prices.
+            self.assertEqual(PR.merge(self.check(submitted), ["A359", "B789"], path), [])
+            saved = PR.load(path)
+            self.assertEqual(sorted(PR.observation_id(o) for o in saved["observations"]), sorted(ids))
+            self.assertEqual(PR.find_observation(ids[0], saved), existing[0])
+            other_cells = [dict(submitted[0], age=5, value=98.4),
+                           dict(submitted[0], source="https://example.net/other", quote="A350-900 valued at US$150m"),
+                           dict(submitted[0], source="https://example.net/other", quote="A350-900 valued at US$150m",
+                                valuation_basis="base_value")]
+            accepted = self.check(other_cells, saved)
+            self.assertEqual([r["verdict"] for r in accepted], ["clean"] * 3)
+            self.assertEqual(len(PR.merge(accepted, [], path)), 3)
+
+
 class MoneyRanges(unittest.TestCase):
 
     @staticmethod
