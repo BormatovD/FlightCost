@@ -319,26 +319,58 @@ class PricesRunner(unittest.TestCase):
         self.enterContext(mock.patch.object(A, "_api_key", side_effect=AssertionError("API не нужен")))
         self.runner = A.Runner(self.home, spool=self.tmp / "spool")
 
-    def run_prices(self, draft, *, status="ok", runner=None, cost=0.006035):
+    def run_prices(self, draft, *, notes=None, status="ok", runner=None, cost=0.006035):
         runner = runner or self.runner
 
         def execute(job, ws, task, model):
             self.assertEqual(job, "prices")
             self.assertIn("in/price_sources.json", task)
             self.assertIn("in/price_news.json", task)
+            self.assertLess(task.index("in/price_news_selection.json"), task.index("in/price_sources.json"))
             feeds = json.loads((ws / "in" / "price_news.json").read_text())
+            selected = json.loads((ws / "in" / "price_news_selection.json").read_text())
             self.assertEqual(len(feeds), 16)
+            self.assertEqual(list(selected), list(dict.fromkeys(feed["icao"] for feed in feeds)))
             self.assertEqual(len({feed["url"] for feed in feeds}), 16)
             self.assertTrue(all(feed["url"].startswith("https://www.bing.com/news/search?") for feed in feeds))
             if draft is not None:
                 (ws / "out" / "prices.json").write_text(
                     draft if isinstance(draft, str) else json.dumps(draft, ensure_ascii=False), "utf-8")
+            if notes is not None:
+                (ws / "out" / "price_doubts.txt").write_text(notes, "utf-8")
             return {"status": status, "costUsd": cost}
 
         with mock.patch.object(runner, "exec", side_effect=execute) as execute_mock:
             result = runner.prices()
         execute_mock.assert_called_once()
         return result
+
+    def test_news_groups_preserve_types_and_distinct_deals(self):
+        original = {"url": "https://issuer.example/press?deal=42", "published": "Fri, 23 Oct 2026 00:00:00 GMT",
+                    "title": "AerCap signs sale and leaseback for three new Boeing 787-9 with Example Air"}
+        tagged = {**original, "url": original["url"] + "&utm_medium=rss"}
+        mirror = {**original, "url": "https://news.example/story/12",
+                  "title": "AerCap signs sale-and-leaseback for THREE new Boeing 787-9 with Example Air"}
+        next_deal = {**mirror, "url": "https://issuer.example/press?deal=44",
+                     "title": "AerCap signs sale and leaseback for four new Boeing 787-9 with Example Air"}
+        later = {**original, "url": "https://news.example/story/42",
+                 "published": "Fri, 13 Nov 2026 00:00:00 GMT"}
+        feeds = [
+            {"icao": "A320", "articles": []},
+            {"icao": "B789", "articles": [original, original, tagged]},
+            {"icao": "B789", "articles": [mirror, next_deal, later]},
+        ]
+        selected = A.price_news.group_news(feeds)
+        self.assertEqual(list(selected), ["A320", "B789"])
+        self.assertEqual(selected["A320"], [])
+        self.assertEqual([group["url"] for group in selected["B789"]],
+                         [original["url"], next_deal["url"], later["url"]])
+        self.assertIn(mirror["url"], [item["url"] for item in selected["B789"][0]["alternates"]])
+        self.assertNotIn(original["url"], [item["url"] for item in selected["B789"][0]["alternates"]])
+        actual = A.price_news.coverage(feeds, [{"url": mirror["url"], "final_url": mirror["url"]}], selected)
+        self.assertEqual(actual["articles_by_type"]["B789"],
+                         {"candidates": 5, "groups": 3, "attempted": 1, "opened": 1, "errors": 0})
+        self.assertEqual(actual["source_errors"], [])
 
     def test_all_news_feeds_are_attempted_before_model_even_when_some_fail(self):
         def fetch(url, *, timeout):
@@ -394,7 +426,8 @@ class PricesRunner(unittest.TestCase):
         self.assertEqual(set(self.runner.prices_state()), set(selected))
 
     def test_article_counts_and_errors_are_read_from_openclaw_trace(self):
-        urls = [f"https://example.org/{name}" for name in ("first", "copy", "blocked", "wrapper")]
+        urls = [f"https://example.org/{name}" for name in
+                ("first", "copy", "blocked", "wrapper", "challenge", "article")]
         rss = "<rss><channel>" + "".join(f"<item><link>{url}</link></item>" for url in urls) + "</channel></rss>"
         self.fetch_rss.side_effect = lambda *args, **kwargs: nullcontext(io.BytesIO(rss.encode()))
 
@@ -413,7 +446,16 @@ class PricesRunner(unittest.TestCase):
                     details = {"status": "error", "error": "Web fetch failed (403): page body"}
                 if index == 3:
                     details["finalUrl"] = "https://news.google.com/read/123"
-                events.append({"type": "tool.result", "data": {**data, "success": index != 2,
+                if index == 4:
+                    details.update(finalUrl=url, text="<<<EXTERNAL_UNTRUSTED_CONTENT id=\"web\">>>\n"
+                                   "Source: Web Fetch\n---\n# Browser Check\nPlease wait.\n"
+                                   "<<<END_EXTERNAL_UNTRUSTED_CONTENT id=\"web\">>>")
+                if index == 5:
+                    details.update(finalUrl=url, title="Publisher adds browser check to its site",
+                                   text="A reader encountered a browser check yesterday.")
+                if index == 6:
+                    details = {"status": "error", "error": "Web fetch failed (404): page body"}
+                events.append({"type": "tool.result", "data": {**data, "success": index not in (2, 6),
                                                                 "result": {"details": details}}})
             events.append({"type": "session.ended", "data": {}})
             with closing(sqlite3.connect(path)) as db, db:
@@ -432,12 +474,16 @@ class PricesRunner(unittest.TestCase):
         draft = json.loads(next(self.runner.out.glob("prices-*.json")).read_text())
         coverage = draft["news_coverage"]
         self.assertEqual(coverage["feeds_loaded"], 16)
-        self.assertEqual(coverage["articles_candidates"], 4)
-        self.assertEqual(coverage["articles_opened"], 1)
+        self.assertEqual(coverage["articles_candidates"], 6)
+        self.assertEqual(coverage["articles_attempted"], 6)
+        self.assertEqual(coverage["articles_opened"], 2)
         self.assertEqual(coverage["article_errors"], [
-            {"url": urls[2], "error": "HTTP 403"}, {"url": urls[3], "error": "страница агрегатора"}])
+            {"url": urls[2], "error": "HTTP 403"}, {"url": urls[3], "error": "страница агрегатора"},
+            {"url": urls[4], "error": "проверка браузера"}])
+        self.assertEqual(coverage["source_errors"], [{"url": "https://example.org/known-source", "error": "HTTP 404"}])
         message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
-        self.assertIn("Статей из RSS открыто: 1", message["text"])
+        self.assertIn("Статей из RSS открыто: 2", message["text"])
+        self.assertIn("Запрошено: 6", message["text"])
         self.assertIn(f"{urls[2]}: HTTP 403", message["text"])
 
     @staticmethod
@@ -685,7 +731,8 @@ class PricesRunner(unittest.TestCase):
     def test_missing_invalid_or_wrong_shape_json_never_advances_or_exports(self):
         for i, draft in enumerate((None, "not JSON", "[]", "null", "{}",
                                    '{"observations":{}}', '{"observations":[1]}',
-                                   '{"observations":[],"doubts":"not a list"}')):
+                                   '{"observations":[],"doubts":[],"invalid":',
+                                   '{"observations":[{"value":"3\n"}],"doubts":["broken\n]}')):
             with self.subTest(draft=draft):
                 runner = A.Runner(self.tmp / f"invalid-{i}", spool=self.tmp / "spool")
                 self.assertEqual(self.run_prices(draft, runner=runner), 0)
@@ -694,6 +741,27 @@ class PricesRunner(unittest.TestCase):
                 self.assertEqual(list(runner.out.glob("*.json")), [])
         self.assertEqual(self.doc, self.original_doc)
         self.merge.assert_not_called()
+
+    def test_legacy_broken_doubts_do_not_discard_valid_observations(self):
+        observation = self.production_range_draft()["observations"][0]
+        raw = (json.dumps({"observations": [observation], "searched": self.WANTED})[:-1]
+               + ',\n"doubts": ["Адрес с ограничением.\n"Второе замечание."]}')
+        self.assertEqual(self.run_prices(raw), 1)
+        exported = json.loads(next(self.runner.out.glob("*.json")).read_text())
+        self.assertEqual(exported["observations"], [observation])
+        self.assertIn("Примечания в JSON повреждены", exported["doubts"][0])
+        self.assertEqual(next((self.home / "runs").glob("*/out/prices.json")).read_text(), raw)
+        message = json.loads(next((self.tmp / "spool").glob("*.json")).read_text())
+        self.assertEqual(message["level"], "warn")
+
+    def test_plain_text_doubts_are_exported_without_json_escaping(self):
+        observation = self.production_range_draft()["observations"][0]
+        notes = 'Адрес "открылся с проверкой браузера\n\nСтраница вернула HTTP 403.\n'
+        self.assertEqual(self.run_prices({"observations": [observation], "doubts": "Старая заметка."},
+                                         notes=notes), 1)
+        exported = json.loads(next(self.runner.out.glob("*.json")).read_text())
+        self.assertEqual(exported["doubts"], ["Старая заметка.", 'Адрес "открылся с проверкой браузера',
+                                             "Страница вернула HTTP 403."])
 
 
 class PriceSourcePreparation(unittest.TestCase):

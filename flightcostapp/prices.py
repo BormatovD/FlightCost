@@ -439,6 +439,57 @@ def _range_in(quote: str, pair: tuple[float, float], currency: str) -> bool:
     return False
 
 
+def _observations_before_broken_notes(raw: str) -> list | None:
+    """Старый формат: восстановить только строго прочитанный массив перед `doubts`."""
+    head = re.match(r'\s*\{\s*"observations"\s*:\s*', raw)
+    if head is None:
+        return None
+    decoder = json.JSONDecoder()
+    observations, end = decoder.raw_decode(raw, head.end())
+    searched = re.match(r'\s*,\s*"searched"\s*:\s*', raw[end:])
+    if searched is not None:
+        _, end = decoder.raw_decode(raw, end + searched.end())
+    notes = re.match(r'\s*,\s*"doubts"\s*:\s*', raw[end:])
+    if isinstance(observations, list) and notes is not None:
+        try:
+            decoder.raw_decode(raw, end + notes.end())
+        except json.JSONDecodeError:
+            return observations
+    return None
+
+
+def load_agent_draft(output: Path) -> tuple[dict, bool]:
+    """Прочитать ценовые строки и собрать примечания для экспортируемого черновика."""
+    raw = (output / "prices.json").read_text("utf-8")
+    recovered = False
+    try:
+        draft = json.loads(raw)
+    except json.JSONDecodeError:
+        observations = _observations_before_broken_notes(raw)
+        if observations is None:
+            raise
+        draft = {"observations": observations,
+                 "doubts": ["Примечания в JSON повреждены. Исходный файл сохранён в папке прогона."]}
+        recovered = True
+    if not isinstance(draft, dict):
+        raise ValueError("ожидается объект с observations")
+    notes = draft.get("doubts", [])
+    if isinstance(notes, str):
+        notes = [notes]
+    elif not isinstance(notes, list):
+        notes = ["Не удалось прочитать примечания в JSON."]
+    try:
+        notes_text = (output / "price_doubts.txt").read_text("utf-8", errors="replace")
+    except FileNotFoundError:
+        pass
+    except OSError:
+        notes.append("Не удалось прочитать файл примечаний price_doubts.txt.")
+    else:
+        notes.extend(line.strip() for line in notes_text.splitlines() if line.strip())
+    draft["doubts"] = list(dict.fromkeys(str(note) for note in notes))
+    return draft, recovered
+
+
 def check(blob: bytes, doc: dict | None = None, rates: dict | None = None) -> dict:
     doc = load() if doc is None else doc
     try:
