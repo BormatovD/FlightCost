@@ -480,6 +480,30 @@ class PricesRunner(unittest.TestCase):
         self.assertEqual([feed["icao"] for feed in feeds], [code for code in selected for _ in range(4)])
         self.assertEqual(set(self.runner.prices_state()), set(selected))
 
+    def test_finished_news_run_can_be_exported_without_model_and_ignores_other_types(self):
+        ws = self.runner.workspace("prices", "20261110")
+        out = ws / "out"
+        supplement = out / "news-review-at76"
+        supplement.mkdir()
+        row = self.production_range_draft()["observations"][0]
+        (out / "prices.json").write_text(json.dumps({"observations": [row]}), "utf-8")
+        (supplement / "prices.json").write_text(json.dumps({"observations": [{**row, "icao": "A20N"}]}), "utf-8")
+        (ws / "in" / "price_news_selection.json").write_text('{"AT76":[]}', "utf-8")
+        coverage = A.price_news.coverage([], [])
+        coverage["news_review"] = {**A.price_news_review.review({}, []), "second_pass_calls": 1}
+        (ws / "news_coverage.json").write_text(json.dumps(coverage), "utf-8")
+        ended_at = "2026-11-10T21:03:00+00:00"
+        for name in (ws.name, ws.name + "-news-review-at76"):
+            self.runner._ledger_put(name, {"run": name, "status": "ok", "ts": ended_at, "cost_usd": 0.01})
+        with mock.patch.object(self.runner, "exec", side_effect=AssertionError("API не нужен")):
+            self.assertEqual(self.runner.finish_price_run(ws.name), 1)
+            self.assertEqual(self.runner.finish_price_run(ws.name), 0)
+        draft = json.loads((self.runner.out / f"prices-{ws.name}.json").read_text())
+        self.assertEqual(draft["observations"], [row])
+        self.assertEqual(draft["excluded_types"], {"A20N": 1})
+        self.assertEqual(draft["searched_at"], ended_at)
+        self.assertEqual(set(self.runner.prices_state()), {"AT76"})
+
     def test_article_counts_and_errors_are_read_from_openclaw_trace(self):
         urls = [f"https://example.org/{name}" for name in
                 ("first", "copy", "blocked", "wrapper", "challenge", "article")]

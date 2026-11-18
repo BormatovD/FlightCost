@@ -570,6 +570,9 @@ systemctl list-timers 'fca-agent-*' --no-pager
 
 Для ручного прогона с заданными типами используйте
 `python -m flightcostapp.agent_run prices --only A320,B738,A359,B789` в окружении службы агента.
+Если проверка новостей завершилась, а выгрузка черновика прервалась, в том же окружении
+`python -m flightcostapp.agent_run prices --finish-run ИМЯ_ПРОГОНА` повторяет сборку по сохранённым
+файлам и журналу расходов без вызова модели. Наблюдения по типам вне задания исключаются из выгрузки.
 
 `fca master drafts` сверяет число с цитатой и полосы правдоподобия;
 `--accept-prices` пишет в `data/prices/_observations.yaml`, страница типа

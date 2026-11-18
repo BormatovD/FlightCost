@@ -40,6 +40,7 @@ import sys
 import tempfile
 import time
 import urllib.request
+from collections import Counter
 from contextlib import nullcontext
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -444,6 +445,7 @@ PRICE_NAMES = {"A20N": "A320neo", "A21N": "A321neo", "B38M": "737 MAX 8", "B39M"
                "B738": "737-800", "A359": "A350-900", "B789": "787-9", "B77W": "777-300ER", "A339": "A330-900",
                "BCS3": "A220-300", "E295": "E195-E2", "E75L": "E175", "AT76": "ATR 72-600", "A321": "A321ceo",
                "B788": "787-8", "A332": "A330-200", "B772": "777-200ER", "CRJ9": "CRJ900", "DH8D": "Dash 8-400"}
+PRICE_RUN_NAME = re.compile(r"\d{8}-\d{6}-prices-\d{8}(?:-\d+)?")
 
 # Проверенные открытые отчёты: обычный загрузчик готовит текст до вызова модели.
 # Это стартовые документы, а не заранее принятые наблюдения или текущие котировки.
@@ -1318,10 +1320,7 @@ class Runner:
         coverage["news_review"] = news_review
         diagnostics = f"runs/{ws.name}/news_coverage.json"
         (ws / "news_coverage.json").write_text(json.dumps(coverage, ensure_ascii=False, indent=1), "utf-8")
-        review_text = (f"Из {news_review['total']} сюжетов открыто {news_review['opened']}, "
-                       f"ошибок открытия {news_review['failed']}, пропущено с причинами {news_review['skipped']}, "
-                       f"без решения {news_review['unreviewed']}.")
-        coverage_text = price_news.describe_coverage(coverage, f"в {diagnostics}") + "\n" + review_text
+        coverage_text = price_news.describe_coverage(coverage, f"в {diagnostics}") + "\n" + self.price_review_text(coverage)
         if res.get("status") != "ok":
             status = f"не запущен: {launch_error[:200]}" if launch_error is not None else (
                 f"прогон завершился со статусом {res.get('status')}")
@@ -1332,10 +1331,52 @@ class Runner:
             self.say(f"Агент «цены»: проверка новостей не завершена ({news_review['second_pass']}). "
                      f"Очередь не продвинута.\n{coverage_text}\nПричины и пропуски в {diagnostics}.", "warn")
             return 0
+        costs = [res.get("costUsd")] + [response.get("costUsd") for _, response in followups]
+        return self.finish_prices(ws, want, coverage, [path for path, _ in followups], costs)
+
+    @staticmethod
+    def price_review_text(coverage: dict) -> str:
+        review = coverage["news_review"]
+        return (f"Из {review['total']} сюжетов открыто {review['opened']}, ошибок открытия {review['failed']}, "
+                f"пропущено с причинами {review['skipped']}, без решения {review['unreviewed']}.")
+
+    def finish_price_run(self, run: str) -> int:
+        """Собрать уже выполненный серверный прогон без повторных вызовов модели."""
+        if not PRICE_RUN_NAME.fullmatch(run):
+            raise ValueError("ожидается имя сохранённого прогона цен")
+        ws = self.home / "runs" / run
+        if not ws.is_dir() or ws.is_symlink():
+            raise ValueError("папка сохранённого прогона недоступна")
+        if (self.out / f"prices-{run}.json").exists():
+            print(f"Черновик {run} уже выгружен")
+            return 0
+        want = list(json.loads((ws / "in" / "price_news_selection.json").read_text("utf-8")))
+        if not want or any(code not in PRICE_TYPES for code in want):
+            raise ValueError("нет подтверждённого списка типов прогона")
+        coverage = json.loads((ws / "news_coverage.json").read_text("utf-8"))
+        review = coverage["news_review"]
+        if review["complete"] is not True or review["unreviewed"] != 0:
+            raise ValueError("второй проход по новостям ещё не завершён")
+        run_names = {run, *(f"{run}-news-{stage}-{code.lower()}" for stage in ("review", "retry") for code in want)}
+        entries = (json.loads(line) for line in self.ledger.read_text("utf-8").splitlines() if line)
+        stages = [entry for entry in entries if entry.get("run") in run_names]
+        if (not stages or len(stages) != review["second_pass_calls"] + 1 or stages[0]["run"] != run
+                or any(entry.get("status") != "ok" for entry in stages)):
+            raise ValueError("журнал не подтверждает успешное завершение всех вызовов прогона")
+        outputs = [ws / "out" / entry["run"].removeprefix(run + "-") for entry in stages[1:]]
+        costs = [None if entry.get("estimated") else entry.get("cost_usd") for entry in stages]
+        return self.finish_prices(ws, want, coverage, outputs, costs, searched_at=stages[-1]["ts"])
+
+    def finish_prices(self, ws: Path, want: list[str], coverage: dict, outputs: list[Path],
+                      costs: list[float | None], *, searched_at: str | None = None) -> int:
+        from . import prices as PR
+        review_text = self.price_review_text(coverage)
+        diagnostics = f"runs/{ws.name}/news_coverage.json"
+        coverage_text = price_news.describe_coverage(coverage, f"в {diagnostics}") + "\n" + review_text
         try:
             observations, doubts = [], []
             recovered = False
-            for output in (ws / "out", *(path for path, _ in followups)):
+            for output in (ws / "out", *outputs):
                 draft, notes_recovered = PR.load_agent_draft(output)
                 if (not isinstance(draft.get("observations"), list)
                         or not all(isinstance(row, dict) for row in draft["observations"])):
@@ -1343,12 +1384,16 @@ class Runner:
                 observations.extend(draft["observations"])
                 doubts.extend(draft["doubts"])
                 recovered = recovered or notes_recovered
-            d = {"observations": observations, "doubts": list(dict.fromkeys(doubts))}
-            for row in d["observations"]:
+            selected = []
+            excluded = Counter()
+            for row in observations:
                 codes = PR.normalize_searched([row.get("icao")])
-                if len(codes) != 1 or codes[0] not in want:
+                if len(codes) != 1:
                     raise ValueError("у наблюдения нет кода из назначенного списка типов")
                 row["icao"] = codes[0]
+                if codes[0] not in want:
+                    excluded[codes[0]] += 1
+                    continue
                 numbers = {"value", "value_low", "value_high"}.intersection(row)
                 if numbers not in ({"value"}, {"value_low", "value_high"}):
                     raise ValueError("нужно value либо пара value_low/value_high, без смешивания")
@@ -1360,9 +1405,16 @@ class Runner:
                 for field in ("source", "quote", "currency", "publisher", "note"):
                     if row.get(field) is not None and not isinstance(row[field], str):
                         raise ValueError(f"поле {field} должно быть текстом")
+                selected.append(row)
+            if excluded and not selected:
+                raise ValueError("все наблюдения относятся к типам вне задания")
+            if excluded:
+                dropped = ", ".join(f"{code} ({count})" for code, count in excluded.items())
+                doubts.insert(0, f"Исключены наблюдения по типам вне задания: {dropped}.")
+            d = {"observations": selected, "doubts": list(dict.fromkeys(doubts))}
             # Служебные коды назначенного задания известны исполнителю.
             d["searched"] = want
-            checked = PR.check(json.dumps(d).encode("utf-8"), doc)
+            checked = PR.check(json.dumps(d).encode("utf-8"), PR.load())
             if any(row["verdict"] == "reject" and row.get("rejection_code") not in ("money_range", "range_evidence", "avac_cell")
                    for row in checked["rows"]):
                 raise ValueError("наблюдение не прошло формальную проверку вида, числа, масштаба или месяца")
@@ -1371,10 +1423,12 @@ class Runner:
                      f"очередь не продвинута. Прогон: {ws.name}\n{coverage_text}", "warn")
             return 0
         d["run"] = ws.name
-        d["searched_at"] = _now().isoformat(timespec="seconds")
+        d["searched_at"] = searched_at or _now().isoformat(timespec="seconds")
+        if excluded:
+            d["excluded_types"] = dict(excluded)
         d["news_coverage"] = coverage
         draft_text = json.dumps(d, ensure_ascii=False, indent=1)
-        if not recovered:
+        if not recovered and not excluded:
             (ws / "out" / "prices.json").write_text(draft_text, "utf-8")
         # Сохраняем все исходные строки для ручного просмотра в master drafts.
         # Ошибочное наблюдение не отменяет соседнюю корректную точку, но не
@@ -1386,11 +1440,12 @@ class Runner:
         dst = self.out / f"prices-{ws.name}.json"
         dst.write_text(draft_text, "utf-8")
         os.chmod(dst, 0o640)
+        state = self.prices_state()
         for code in want:
-            state[code] = {"at": d["searched_at"], "run": ws.name,
-                           "observations": sum(str(row.get("icao") or "").upper() == code for row in got)}
+            if str((state.get(code) or {}).get("at") or "") <= d["searched_at"]:
+                state[code] = {"at": d["searched_at"], "run": ws.name,
+                               "observations": sum(str(row.get("icao") or "").upper() == code for row in got)}
         self.save_prices_state(state)
-        costs = [res.get("costUsd")] + [response.get("costUsd") for _, response in followups]
         cost = sum(costs) if all(part is not None for part in costs) else None
         if got:
             def describe(p):
@@ -1422,7 +1477,7 @@ class Runner:
                  + (f"\nстоимость {cost:.4f} USD" if cost is not None else "")
                  + ("\nДома: fca master drafts — проверить строки и замечания; принять — --accept-prices."
                     if got else "\nЧерновик приложен для проверки причин; принимать цены нечего."),
-                 "info" if got and not rejected and not recovered else "warn", attach=str(dst))
+                 "info" if got and not rejected and not recovered and not excluded else "warn", attach=str(dst))
         return len(got)
 
     def reports(self, model: str | None = None, only: str | None = None) -> int:
@@ -1827,9 +1882,13 @@ def main(argv=None) -> int:
     p.add_argument("job", nargs="?", choices=sorted(JOBS) + ["check"])
     p.add_argument("--model", help="модель OpenAI на один прогон, напр. openai/gpt-6-astra")
     p.add_argument("--only", help="charges: ИКАО; reports и prices: коды через запятую")
+    p.add_argument("--finish-run", help="prices: собрать сохранённый прогон без вызова модели")
     p.add_argument("--check", action="store_true")
     p.add_argument("--extract", help=argparse.SUPPRESS)       # служебное: текст файла в stdout
     a = p.parse_args(argv)
+    if a.finish_run is not None and (a.job != "prices" or a.only is not None or a.model is not None
+                                     or a.check or a.extract or not PRICE_RUN_NAME.fullmatch(a.finish_run)):
+        p.error("--finish-run принимает имя сохранённого прогона prices")
     price_types = None
     if a.job == "prices" and a.only is not None:
         price_types = list(dict.fromkeys(code.strip().upper() for code in a.only.split(",")))
@@ -1891,7 +1950,15 @@ def main(argv=None) -> int:
     elif a.job == "reports":
         print(f"отчётов для приёмки: {r.reports(a.model, a.only)}")
     elif a.job == "prices":
-        print(f"наблюдений: {r.prices(a.model, only=price_types)}")
+        if a.finish_run is not None:
+            try:
+                count = r.finish_price_run(a.finish_run)
+            except (OSError, KeyError, ValueError, TypeError) as exc:
+                print(f"не удалось собрать прогон: {exc}", file=sys.stderr)
+                return 2
+        else:
+            count = r.prices(a.model, only=price_types)
+        print(f"наблюдений: {count}")
     else:
         r.charges(a.model, a.only)
     return 0
