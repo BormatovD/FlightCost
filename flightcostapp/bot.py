@@ -38,10 +38,10 @@ import sys
 import threading
 import time
 from queue import Empty, Queue
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
-from .tg import Bot, TgError, load_token
+from .tg import Bot, TgError, TgNotSent, TgRejected, load_token
 
 HOME = Path(os.environ.get("FCA_BOT_DIR", "/srv/fca/bot"))
 SPOOL = Path(os.environ.get("FCA_SPOOL", "/srv/fca/spool"))
@@ -65,6 +65,8 @@ REPLY_KEEP_DAYS = 90        # дольше без ответа чат не де�
 DRAFT_TTL = 3600            # незаконченная анкета живёт час, в памяти
 SNAPSHOT_QUIET = 90         # снимок витрине — через столько секунд после последней приёмки
 TEXT_MAX = 1000
+SPOOL_RETRY_DELAYS = (30, 60, 120)
+SPOOL_NOTICE_DELAY = 60
 
 # idea — предложение в план работ: только текст, без вопросов про источник и
 # дату, агенту не уходит; подпись автора — для вкладки «План работ» на сайте.
@@ -218,6 +220,10 @@ class Db:
         self.db.execute("INSERT INTO kv VALUES (?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v", (k, str(v)))
         self.db.commit()
 
+    def delete(self, k):
+        self.db.execute("DELETE FROM kv WHERE k = ?", (k,))
+        self.db.commit()
+
     def add(self, d: "Draft", chat_id: int) -> int:
         cur = self.db.execute(
             "INSERT INTO submissions (created_at, lang, kind, what, origin, as_of, usage, author, "
@@ -304,6 +310,23 @@ def plan_entry(row) -> str:
                "впишите «участник сообщества»)"))
 
 
+@dataclass
+class SpoolDelivery:
+    part: str = "text"
+    in_flight: bool = False
+    retries: int = 0
+    next_attempt: float = 0
+    detail: str = ""
+
+    def failed(self, *, known: bool) -> SpoolDelivery:
+        if self.part == "notice":
+            return SpoolDelivery("done")  # Сбой служебного сообщения остаётся в журнале.
+        label = {"text": "текста", "attachment": "вложения"}[self.part]
+        detail = (f"Отправка {label} в Telegram завершилась ошибкой." if known else
+                  f"Telegram не подтвердил доставку {label}.")
+        return SpoolDelivery("notice", next_attempt=time.time() + SPOOL_NOTICE_DELAY, detail=detail)
+
+
 # ── бот ──────────────────────────────────────────────────────────────────
 class FcaBot:
     def __init__(self, bot: Bot, owner: int, *, home: Path = HOME, review_db: str | None = None,
@@ -369,9 +392,11 @@ class FcaBot:
         offset = int(self.db.get("offset", 0)) or None
         last_spool = last_clean = 0.0
         while True:
+            connected = True
             try:
                 ups = self.bot.updates(offset, wait=25)
             except TgError as e:
+                connected = False
                 print(f"getUpdates: {e}", file=sys.stderr)
                 time.sleep(10)
                 ups = []
@@ -384,7 +409,7 @@ class FcaBot:
                 self.db.put("offset", offset)
             now = time.time()
             if now - last_spool > 20:
-                self.drain_spool()
+                self.drain_spool(allow_notices=connected)
                 last_spool = now
             if now - last_clean > 6 * 3600:
                 self.db.forget_old_chats()
@@ -762,32 +787,87 @@ class FcaBot:
         self.jobs.put(job)
 
     # ── ящик сообщений от таймеров и агента ─────────────────────────────
-    def drain_spool(self, spool: Path = SPOOL):
+    def drain_spool(self, spool: Path = SPOOL, *, allow_notices: bool = True):
         if not spool.is_dir():
             return
-        for p in sorted(spool.glob("*.json"))[:20]:
+        attempts = 0
+        for p in sorted(spool.glob("*.json")):
             try:
                 msg = json.loads(p.read_text("utf-8"))
-                icon = {"warn": "🟡 ", "alert": "🔴 "}.get(msg.get("level"), "")
-                # Кнопок в ящике нет: кнопку приёмки, присланную в ящик
-                # процессом из группы fcaspool, одно нажатие превратило бы
-                # в приёмку. Ящик — только текст и вложение.
-                self.bot.send(self.owner, icon + str(msg.get("text", ""))[:3900])
-                att = msg.get("attach")
-                if att:
-                    data = read_attachment(Path(att))
-                    if data is not None:
-                        self.bot.send_file(self.owner, Path(att), data=data)
-                        stash_draft(Path(att).name, data)
-                    else:
-                        self.bot.send(self.owner, f"вложение не отправлено: вне разрешённых каталогов "
-                                                  f"или ссылка ({Path(att).name})")
-            except TgError as e:
-                print(f"ящик {p.name}: {e}", file=sys.stderr)
-                return                       # сеть: попробуем в следующий раз, файл оставляем
-            except Exception as e:                                   # noqa: BLE001
+                if not isinstance(msg, dict) or not isinstance(msg.get("attach"), (str, type(None))):
+                    raise ValueError("ожидается объект с текстовым путём вложения")
+            except (OSError, ValueError, RecursionError) as e:
                 print(f"ящик {p.name}: битое сообщение: {e}", file=sys.stderr)
-            p.unlink(missing_ok=True)
+                p.unlink(missing_ok=True)
+                continue
+
+            key = f"spool:{p.name}"
+            delivery = SpoolDelivery(**json.loads(self.db.get(key, "{}")))
+            attachment = None
+            while delivery.part != "done":
+                if delivery.in_flight:
+                    # Процесс прервался между запросом и сохранением ответа.
+                    print(f"ящик {p.name}: исход предыдущей отправки неизвестен", file=sys.stderr)
+                    delivery = delivery.failed(known=False)
+                    self.db.put(key, json.dumps(asdict(delivery)))
+                    continue
+                waiting = delivery.next_attempt > time.time()
+                if delivery.part == "notice" and (waiting or not allow_notices):
+                    break
+                if waiting or attempts >= 20:
+                    return
+
+                if msg.get("attach") and delivery.part != "notice" and attachment is None:
+                    path = Path(msg["attach"])
+                    try:
+                        data = read_attachment(path)
+                    except (OSError, ValueError) as exc:
+                        print(f"ящик {p.name}: ошибка чтения вложения: {exc}", file=sys.stderr)
+                        data = None
+                    if data is not None:
+                        stash_draft(path.name, data)
+                    attachment = path, data
+                attempt = replace(delivery, in_flight=True)
+                self.db.put(key, json.dumps(asdict(attempt)))
+                attempts += 1
+                try:
+                    self._send_spool_part(p, msg, delivery, attachment)
+                except TgError as e:
+                    print(f"ящик {p.name}: {e}", file=sys.stderr)
+                    known = isinstance(e, (TgRejected, TgNotSent))
+                    retryable = isinstance(e, TgNotSent) or (isinstance(e, TgRejected) and
+                                (e.status == 429 or 500 <= (e.status or 0) < 600))
+                    if retryable and delivery.retries < len(SPOOL_RETRY_DELAYS):
+                        delay = max(SPOOL_RETRY_DELAYS[delivery.retries], getattr(e, "retry_after", None) or 0)
+                        retry = replace(delivery, retries=delivery.retries + 1, next_attempt=time.time() + delay)
+                        self.db.put(key, json.dumps(asdict(retry)))
+                        return
+                    delivery = delivery.failed(known=known)
+                else:
+                    delivery = SpoolDelivery("attachment" if delivery.part == "text" and msg.get("attach") else "done")
+                self.db.put(key, json.dumps(asdict(delivery)))
+
+            if delivery.part == "done":
+                p.unlink(missing_ok=True)
+                self.db.delete(key)
+
+    def _send_spool_part(self, p: Path, msg: dict, delivery: SpoolDelivery,
+                         attachment: tuple[Path, bytes | None] | None) -> None:
+        if delivery.part == "notice":
+            at = time.strftime("%d.%m.%Y %H:%M UTC", time.gmtime(p.stat().st_mtime))
+            self.bot.send(self.owner, f"🟡 Сбой доставки уведомления от {at}.\n{delivery.detail}")
+            return
+        if delivery.part == "text":
+            icon = {"warn": "🟡 ", "alert": "🔴 "}.get(str(msg.get("level")), "")
+            # Кнопки из общего ящика не передаются: они дали бы доступ к приёмке.
+            self.bot.send(self.owner, icon + str(msg.get("text", ""))[:3900])
+            return
+        if attachment is not None:
+            path, data = attachment
+            if data is None:
+                self.bot.send(self.owner, f"вложение не отправлено: вне разрешённых каталогов или ссылка ({path.name})")
+            else:
+                self.bot.send_file(self.owner, path, data=data)
 
 
 DRAFTS = Path(os.environ.get("FCA_DRAFTS_DIR", "/srv/fca/master/export/drafts"))

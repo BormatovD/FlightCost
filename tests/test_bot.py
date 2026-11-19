@@ -13,11 +13,15 @@ import os
 import sqlite3
 import tempfile
 import unittest
+from io import BytesIO
 from pathlib import Path
 from unittest import mock
+from urllib.error import HTTPError, URLError
+from urllib.parse import parse_qs
 
 from flightcostapp import bot as B
 from flightcostapp import notify
+from flightcostapp.tg import TgNotSent
 
 OWNER = 1000
 USER = 2000
@@ -207,6 +211,132 @@ class Spool(unittest.TestCase):
         tg = FakeBot()
         B.FcaBot(tg, OWNER, home=tmp / "bot").drain_spool(sp)
         self.assertIsNone(tg.sent[-1][2], "кнопки из ящика не должны доходить до владельца")
+
+
+class SpoolDelivery(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        self.spool = self.tmp / "spool"
+        self.now = 1000
+        self.enterContext(mock.patch.object(B.time, "time", side_effect=lambda: self.now))
+        self.log = self.enterContext(mock.patch("sys.stderr"))
+
+    def client(self, *replies):
+        self.opener = mock.Mock(side_effect=replies)
+        self.telegram = B.Bot("test-token", opener=self.opener)
+        self.b = B.FcaBot(self.telegram, OWNER, home=self.tmp / "bot")
+        self.addCleanup(self.b.db.db.close)
+
+    def messages(self):
+        return [parse_qs(req.args[0].data.decode())["text"][0] for req in self.opener.call_args_list]
+
+    def drain(self):
+        self.b.drain_spool(self.spool)
+
+    @staticmethod
+    def accepted():
+        return BytesIO(b'{"ok":true,"result":{"message_id":1}}')
+
+    def test_read_timeout_stops_original_and_waits_to_report(self):
+        reply = mock.MagicMock()
+        reply.__enter__.return_value.read.side_effect = TimeoutError("read timed out")
+        self.client(reply, self.accepted())
+        notification = notify.post("Обновлён справочник", spool=self.spool)
+        self.drain()
+        self.assertEqual(self.messages(), ["Обновлён справочник"])
+        self.assertTrue(notification.exists())
+        for _ in range(10):
+            self.now += 25
+            self.b.drain_spool(self.spool, allow_notices=False)
+        self.assertEqual(self.messages(), ["Обновлён справочник"])
+        self.b = B.FcaBot(self.telegram, OWNER, home=self.tmp / "bot")
+        self.addCleanup(self.b.db.db.close)
+        self.drain()
+        self.drain()
+        self.assertEqual(len(self.messages()), 2)
+        self.assertIn("Сбой доставки уведомления", self.messages()[1])
+        self.assertNotIn("Обновлён справочник", self.messages()[1])
+        self.assertFalse(notification.exists())
+
+    def test_confirmed_rate_limit_retries_original_after_retry_after(self):
+        limit = HTTPError("test", 429, "Too Many Requests", {}, BytesIO(
+            b'{"ok":false,"error_code":429,"parameters":{"retry_after":75}}'))
+        self.client(limit, self.accepted())
+        notification = notify.post("Курсы обновлены", spool=self.spool)
+        self.drain()
+        self.now += 74
+        self.drain()
+        self.assertEqual(self.messages(), ["Курсы обновлены"])
+        self.now += 1
+        self.drain()
+        self.assertEqual(self.messages(), ["Курсы обновлены", "Курсы обновлены"])
+        self.assertFalse(notification.exists())
+
+    def test_connection_refusal_has_bounded_retries_and_notice(self):
+        refusal = URLError(ConnectionRefusedError("connection refused"))
+        self.client(*([refusal] * 4), self.accepted())
+        notification = notify.post("Курсы обновлены", spool=self.spool)
+        self.drain()
+        for delay in (30, 60, 120):
+            self.now += delay
+            self.drain()
+        self.assertEqual(self.messages(), ["Курсы обновлены"] * 4)
+        self.now += 60
+        self.drain()
+        self.assertIn("Отправка текста в Telegram завершилась ошибкой", self.messages()[-1])
+        self.assertEqual(len(self.messages()), 5)
+        self.assertFalse(notification.exists())
+
+    def test_timeout_reporting_a_failure_does_not_create_another_notice(self):
+        self.client(TimeoutError("read timed out"), TimeoutError("read timed out"))
+        notification = notify.post("Курсы обновлены", spool=self.spool)
+        self.drain()
+        self.now += 60
+        self.drain()
+        self.now += 600
+        self.drain()
+        self.assertEqual(len(self.messages()), 2)
+        self.assertFalse(notification.exists())
+
+    def test_restart_after_request_started_does_not_replay_original(self):
+        self.client(KeyboardInterrupt, self.accepted())
+        notification = notify.post("Курсы обновлены", spool=self.spool)
+        with self.assertRaises(KeyboardInterrupt):
+            self.drain()
+        self.b = B.FcaBot(self.telegram, OWNER, home=self.tmp / "bot")
+        self.addCleanup(self.b.db.db.close)
+        self.drain()
+        self.now += 60
+        self.drain()
+        self.assertEqual(len(self.messages()), 2)
+        self.assertIn("Сбой доставки уведомления", self.messages()[1])
+        self.assertFalse(notification.exists())
+
+    def test_spool_keeps_draft_when_text_times_out(self):
+        self.client(TimeoutError("read timed out"))
+        draft = self.tmp / "prices-test.json"
+        draft.write_text("{}")
+        notify.post("Черновик", spool=self.spool, attach=str(draft))
+        with mock.patch.multiple(B, ATTACH_ROOTS=(self.tmp,), DRAFTS=self.tmp / "drafts"):
+            self.drain()
+        self.assertEqual((self.tmp / "drafts" / draft.name).read_text(), "{}")
+        self.assertEqual(self.messages(), ["Черновик"])
+
+    def test_attachment_retry_only_retries_the_attachment(self):
+        draft = self.tmp / "draft.json"
+        draft.write_text("{}")
+        notify.post("Сообщение с вложением", spool=self.spool, attach=str(draft))
+        telegram = FakeBot()
+        b = B.FcaBot(telegram, OWNER, home=self.tmp / "bot")
+        self.addCleanup(b.db.db.close)
+        with (mock.patch.object(B, "ATTACH_ROOTS", (self.tmp,)),
+              mock.patch.object(telegram, "send_file", side_effect=[TgNotSent("connection refused"), None]) as send):
+            b.drain_spool(self.spool)
+            self.now += 30
+            b.drain_spool(self.spool)
+        self.assertEqual(send.call_count, 2)
+        self.assertEqual(telegram.to(OWNER), ["Сообщение с вложением"])
+        self.assertEqual(list(self.spool.glob("*.json")), [])
 
 
 class Queue(unittest.TestCase):

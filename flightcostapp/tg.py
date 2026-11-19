@@ -14,6 +14,7 @@ import http.client
 import json
 import mimetypes
 import os
+import socket
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -27,6 +28,27 @@ MAX_DOWNLOAD = 20 * 1024 * 1024
 
 class TgError(RuntimeError):
     pass
+
+
+class TgTransportError(TgError):
+    """Ошибка транспорта или разбора ответа Telegram."""
+
+
+class TgNotSent(TgTransportError):
+    """Не удалось установить соединение для отправки запроса."""
+
+
+class TgDeliveryUnknown(TgTransportError):
+    """Нет подтверждения, принял ли Telegram запрос."""
+
+
+class TgRejected(TgError):
+    """Telegram ответил, что запрос не выполнен."""
+
+    def __init__(self, message: str, *, status: int | None = None, retry_after: int | None = None):
+        super().__init__(message)
+        self.status = status
+        self.retry_after = retry_after
 
 
 def load_token(path: str | os.PathLike | None = None) -> str:
@@ -61,23 +83,35 @@ class Bot:
         return self._send(req, method, params.get("timeout", 0))
 
     def _send(self, req, method, long_poll=0):
+        http_status = None
         try:
-            with self._open(req, timeout=self.timeout + int(long_poll or 0)) as r:
-                out = json.loads(r.read())
+            response = self._open(req, timeout=self.timeout + int(long_poll or 0))
         except urllib.error.HTTPError as e:
-            try:
-                out = json.loads(e.read())
-            except Exception:                                  # noqa: BLE001
-                raise TgError(f"{method}: HTTP {e.code}") from None
-        except urllib.error.URLError as e:
-            raise TgError(self._redact(f"{method}: {e.reason}")) from None
+            # Telegram присылает JSON с причиной отказа и при HTTP 4xx/5xx.
+            response = e
+            http_status = e.code
         except (OSError, http.client.HTTPException, ValueError) as e:
-            # Обрыв соединения, таймаут чтения, битый ответ: это сеть, а не
-            # ошибка бота — цикл повторит запрос, процесс не падает.
-            raise TgError(self._redact(f"{method}: {type(e).__name__}: {e}")) from None
-        if not out.get("ok"):
-            raise TgError(f"{method}: {out.get('error_code')} {out.get('description', '')}")
-        return out["result"]
+            cause = e.reason if isinstance(e, urllib.error.URLError) else e
+            detail = str(cause) if isinstance(e, urllib.error.URLError) else f"{type(e).__name__}: {e}"
+            error = TgNotSent if isinstance(cause, (socket.gaierror, ConnectionRefusedError)) else TgDeliveryUnknown
+            raise error(self._redact(f"{method}: {detail}")) from None
+        try:
+            with response as stream:
+                out = json.loads(stream.read())
+        except (OSError, http.client.HTTPException, ValueError) as e:
+            detail = f"HTTP {http_status}" if http_status is not None else f"{type(e).__name__}: {e}"
+            raise TgDeliveryUnknown(self._redact(f"{method}: {detail}")) from None
+        if isinstance(out, dict):
+            if out.get("ok") is True and "result" in out:
+                return out["result"]
+            status = out.get("error_code")
+            if out.get("ok") is False and type(status) is int:
+                parameters = out.get("parameters")
+                delay = parameters.get("retry_after") if isinstance(parameters, dict) else None
+                raise TgRejected(self._redact(f"{method}: {status} {out.get('description', '')}"),
+                                 status=status, retry_after=delay if type(delay) is int and delay > 0 else None)
+        detail = f"HTTP {http_status}" if http_status is not None else "ответ Telegram не разобран"
+        raise TgDeliveryUnknown(f"{method}: {detail}")
 
     def upload(self, method: str, field: str, path: Path, data: bytes | None = None, **params):
         """multipart/form-data для sendDocument. `data` — уже прочитанное
