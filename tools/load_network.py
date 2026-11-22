@@ -36,7 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from flightcostapp.probe import probe_url  # noqa: E402
-from tools._http_probe import probe_opener  # noqa: E402
+from flightcostapp._http_probe import probe_opener  # noqa: E402
 
 POOL = ("FRA,MUC,BER,HAM,DUS,BCN,MAD,PMI,AGP,LIS,OPO,FCO,MXP,VCE,NAP,CDG,ORY,NCE,AMS,BRU,VIE,ZRH,GVA,"
         "CPH,ARN,OSL,HEL,WAW,KRK,PRG,BUD,OTP,SOF,ATH,IST,DUB,LHR,LGW,MAN,EDI").split(",")

@@ -3,7 +3,7 @@
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, build_opener
 
-from flightcostapp.probe import probe_url
+from .probe import probe_url
 
 BROWSER_FETCH_OPTIONS = {"patterns": [{"urlPattern": "http*://*"}]}
 

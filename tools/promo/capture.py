@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from tools._http_probe import (  # noqa: E402
+from flightcostapp._http_probe import (  # noqa: E402
     BROWSER_FETCH_OPTIONS, browser_continue_params, probe_for_origin,
 )
 

@@ -41,7 +41,7 @@ from urllib.parse import parse_qs, urlparse
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from flightcostapp.probe import probe_url  # noqa: E402
-from tools._http_probe import (  # noqa: E402
+from flightcostapp._http_probe import (  # noqa: E402
     BROWSER_FETCH_OPTIONS, browser_continue_params, probe_for_origin, probe_opener,
 )
 
