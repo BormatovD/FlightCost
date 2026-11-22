@@ -652,7 +652,7 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   .warn1.solo{color:var(--ink)}
   details.more{margin-top:8px}
   details.more>summary{cursor:pointer;color:var(--dim);font-size:12.5px;padding:6px 0}
-/* Ожидание сборки сети: самолётик в зоне ожидания и фразы эфира.
+/* Ожидание расчёта: самолётик в зоне ожидания и фразы эфира.
    Карточка поверх экрана, но клики проходят сквозь неё — читать ответ
    прежнего расчёта и менять поля можно, пока считается новый. */
 #loader{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;pointer-events:none;
@@ -1038,32 +1038,42 @@ for (const b of document.querySelectorAll("#langs button")) {
 
 const $ = s => document.querySelector(s);
 
-// ── ожидание сборки сети ────────────────────────────────────────────────
-// Фразы эфира меняются сами; строка ниже — настоящий ход расчёта или
-// место в очереди. Показывается, только пока ждём сервер.
+// ── ожидание расчёта ────────────────────────────────────────────────────
+// Фразы эфира меняются сами; строка ниже сообщает, что ждём от сервера.
 const LDR_PH = [_t("Запрашиваю запуск"), _t("Руление к исполнительному старту"), _t("Взлёт разрешён"),
   _t("Набираю эшелон"), _t("Обхожу закрытое небо"), _t("Сверяю сборы аэропортов"),
   _t("Считаю топливо до запасного"), _t("Выбираю запасной аэродром"), _t("Связываюсь с подходом"),
   _t("Вхожу в зону ожидания"), _t("Ухожу на второй круг"), _t("Запрашиваю разрешение на посадку"),
   _t("Выпускаю шасси"), _t("Полоса свободна, посадку разрешаю")];
-let LDR_T = null, LDR_I = 0;
-function loaderShow(pr) {
+let LDR_T = null, LDR_FADE = null, LDR_I = 0;
+function loaderShow(pr, mode = "net") {
+  if (NET.on !== (mode === "net")) return;
   const el = $("#loader");
+  const ph = $("#ldrph");
   if (el.hidden) {
     el.hidden = false; LDR_I = Math.floor(Math.random() * LDR_PH.length);
-    $("#ldrph").textContent = LDR_PH[LDR_I];
-    clearInterval(LDR_T);
+    ph.textContent = LDR_PH[LDR_I];
+    ph.style.opacity = 1;
     LDR_T = setInterval(() => {
-      const ph = $("#ldrph"); ph.style.opacity = 0;
-      setTimeout(() => { LDR_I = (LDR_I + 1) % LDR_PH.length; ph.textContent = LDR_PH[LDR_I]; ph.style.opacity = 1; }, 350);
+      ph.style.opacity = 0;
+      LDR_FADE = setTimeout(() => {
+        LDR_I = (LDR_I + 1) % LDR_PH.length;
+        ph.textContent = LDR_PH[LDR_I];
+        ph.style.opacity = 1;
+      }, 350);
     }, 2600);
   }
-  let sub = _t("ядро считает каждое плечо сети");
+  let sub = mode === "route" ? _t("Считаю маршрут…") : _t("ядро считает каждое плечо сети");
   if (pr && pr.total) sub = `${pr.done} / ${pr.total} ${_t("пар посчитано")}${pr.types_left ? ` · ${_t("типов осталось:")} ${pr.types_left}` : ""}`;
   else if (pr && pr.queue) sub = `${_t("в очереди на взлёт:")} ${pr.queue}`;
   $("#ldrsub").textContent = sub;
 }
-function loaderHide() { $("#loader").hidden = true; clearInterval(LDR_T); LDR_T = null; }
+function loaderHide(mode = "net") {
+  if (NET.on !== (mode === "net")) return;
+  $("#loader").hidden = true;
+  clearInterval(LDR_T);
+  clearTimeout(LDR_FADE);
+}
 
 // ── пояснения ⓘ ─────────────────────────────────────────────────────────
 // Одна форма вместо десятка сносок разного вида: обведённое «i» у
@@ -2168,23 +2178,44 @@ $("#maplink").addEventListener("click", ev => {
   if (CHOSEN.o && CHOSEN.d) ev.currentTarget.href = "/map?" + params();
 });
 
-let timer = null, seq = 0;
+let timer = null, seq = 0, routePending = false;
 function draw(){
+  const my = ++seq;
   clearTimeout(timer);
   timer = setTimeout(async () => {
-    const my = ++seq;
     $("#lfv").textContent = $("#lf").value + "%";
     psum();
     // Пройденная часть дорожки — от минимума, не от нуля.
     const lf = $("#lf");
     lf.style.setProperty("--p", (lf.value - lf.min) / (lf.max - lf.min) * 100);
     const t0 = performance.now();
-    const r = await (await fetch("/api/route?" + params())).json();
-    if (my !== seq) return;                 // ответ обогнал более свежий
+    routePending = true;
+    // На быстрых ответах карточка не должна мигать.
+    const show = setTimeout(() => {
+      if (my === seq) loaderShow(null, "route");
+    }, 300);
+    let r;
+    try {
+      r = await (await fetch("/api/route?" + params())).json();
+    } catch (e) {
+      r = {error: _t("Сервер не ответил")};
+    } finally {
+      clearTimeout(show);
+      if (my === seq) {
+        routePending = false;
+        loaderHide("route");
+      }
+    }
+    if (my !== seq) return;                 // поля изменились после запроса
     $("#stat").textContent = `${Math.round(performance.now()-t0)} ${_t("мс")}`;
     drawGlobe();
-    if (r.error) { leaseObservationNotice(null, false, r.error); $("#main").innerHTML =
-      `<div class="note"><b>${_t("Отказ расчёта.")}</b> ${esc(r.error)}</div>`; return; }
+    if (r.error) {
+      if (!NET.on) {
+        leaseObservationNotice(null, false, r.error);
+        $("#main").innerHTML = `<div class="note"><b>${_t("Отказ расчёта.")}</b> ${esc(r.error)}</div>`;
+      }
+      return;
+    }
     render(r);
   }, 120);
 }
@@ -3648,6 +3679,7 @@ const netApt = key => APTS.find(x => x.key === key);
 function setMode(mode){
   const net = mode === "net";
   if (net === NET.on) return;
+  loaderHide(net ? "route" : "net");
   NET.on = net;
   document.body.classList.toggle("net", net);
   $("#gfit").textContent = net ? _t("по сети") : _t("по маршруту");
@@ -3663,11 +3695,14 @@ function setMode(mode){
     $("#tabs").innerHTML = NET_TABS.map(([k, t], i) =>
       `<button data-tab="${k}" aria-selected="${i === 0}">${t}</button>`).join("");
     bindTabs(); netChips(); netRender(); netZonesApply(); netLoadList();
+    const progress = NET.progress || NET.cmp.progress;
+    if (progress) loaderShow(progress);
   } else {
     $("#tabs").innerHTML = ROUTE_TABS_HTML; bindTabs();
     $("#globe").classList.remove("closedonly");
     $("#gzones").textContent = _t("зоны");
     if (LAST) render(LAST); else draw();
+    if (routePending) loaderShow(null, "route");
     drawGlobe();
   }
 }
