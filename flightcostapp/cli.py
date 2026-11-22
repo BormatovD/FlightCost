@@ -1781,7 +1781,7 @@ def _publish(store, a) -> int:
     remote = (f"set -e; {swap}"
               f"sudo /usr/bin/systemctl restart fca; "
               f"for i in $(seq 1 20); do sleep 1; "
-              f"curl -fsS http://127.0.0.1:8000/healthz && exit 0; done; "
+              f"curl -fsS 'http://127.0.0.1:8000/healthz?probe=dev' && exit 0; done; "
               f"echo 'витрина не ответила'; exit 1")
     if run(["ssh", host, remote]):
         print("подмена прошла, но витрина не ответила: ssh на сервер и journalctl -u fca -n 50")

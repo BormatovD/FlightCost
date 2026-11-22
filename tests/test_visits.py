@@ -2,8 +2,22 @@
 import pathlib, sqlite3, sys, tempfile, unittest
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from flightcostapp.visits import Visits, ALL   # noqa: E402
+from flightcostapp.probe import is_probe, probe_url  # noqa: E402
 
 UA = "Mozilla/5.0 (Macintosh) Safari/605.1"
+
+
+class ProbeTest(unittest.TestCase):
+    def test_marker_preserves_original_query_and_fragment(self):
+        url = "/ru/calc?origin=A%2FB&fare=&probe=old#network=x"
+        marked = "/ru/calc?origin=A%2FB&fare=&probe=dev#network=x"
+        self.assertEqual(probe_url(url), marked)
+        self.assertEqual(probe_url(marked), marked)
+        self.assertEqual(probe_url("/api/network"), "/api/network?probe=dev")
+
+    def test_only_dev_is_a_test_marker(self):
+        self.assertTrue(is_probe("x=1&probe=other&probe=dev"))
+        self.assertFalse(is_probe("probe=other&name=probe%3Ddev"))
 
 
 class VisitsTest(unittest.TestCase):

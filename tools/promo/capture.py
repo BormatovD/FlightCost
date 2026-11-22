@@ -13,8 +13,14 @@
 движение плавное, сколько бы ни длился снимок (полное разрешение ≈14 кадров/с).
 Ожидания (расчёт, отклик) снимаются в реальном времени.
 """
-import argparse, asyncio, base64, json, os, time
-from playwright.async_api import async_playwright
+import argparse, asyncio, base64, json, os, sys, time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from tools._http_probe import (  # noqa: E402
+    BROWSER_FETCH_OPTIONS, browser_continue_params, probe_for_origin,
+)
 
 VW, VH, DPR = 390, 693, 3
 FPS = 30
@@ -25,6 +31,8 @@ def ease(x):
 
 
 async def run(a):
+    from playwright.async_api import async_playwright
+
     sc = json.load(open(a.scenario, encoding="utf-8"))
     # высота кадра — под безопасную зону Shorts: чем ниже кадр, тем крупнее
     # экран в ролике (montage.layout), ширина остаётся телефонной
@@ -68,6 +76,13 @@ async def run(a):
             locale=sc.get("locale", "en-US"), **dev)
         pg = await ctx.new_page()
         cdp = await ctx.new_cdp_session(pg)
+        tag = probe_for_origin(a.base)
+
+        async def continue_probe_request(event):
+            await cdp.send("Fetch.continueRequest", browser_continue_params(tag, event))
+
+        cdp.on("Fetch.requestPaused", continue_probe_request)
+        await cdp.send("Fetch.enable", BROWSER_FETCH_OPTIONS)
         await cdp.send("Emulation.setDeviceMetricsOverride",
                        {"width": VW, "height": VH, "deviceScaleFactor": DPR, "mobile": not desktop})
 
@@ -125,7 +140,7 @@ async def run(a):
                 await shot(1 / FPS)
 
         url = a.base.rstrip("/") + sc.get("path", "/")
-        await pg.goto(url, wait_until="networkidle", timeout=90000)
+        await pg.goto(tag(url), wait_until="networkidle", timeout=90000)
         await pg.wait_for_timeout(sc.get("settle_ms", 2500))
         log("start", url=url)
 

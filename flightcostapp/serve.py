@@ -47,6 +47,8 @@ from datetime import date
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+from .probe import PROBE_PARAM, PROBE_VALUE
+
 WEB = Path(__file__).resolve().parent / "web"
 # Геометрия — ДАННЫЕ, а не ресурс пакета: лежит рядом с базой,
 # собирается рецептом, в репозиторий не идёт (решение 1). Путь объявлен
@@ -673,8 +675,10 @@ class _Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):                                     # noqa: N802
         u = urllib.parse.urlparse(self.path)
-        q = {k: v[0] for k, v in urllib.parse.parse_qs(u.query).items()}
-        if self.command == "GET":
+        fields = urllib.parse.parse_qs(u.query)
+        is_test = PROBE_VALUE in fields.pop(PROBE_PARAM, ())
+        q = {k: v[0] for k, v in fields.items()}
+        if self.command == "GET" and not is_test:
             self._count(u.path)
         try:
             if u.path == "/w" or u.path.startswith("/w/") or u.path.startswith("/api/ws"):

@@ -14,6 +14,7 @@ from unittest.mock import patch
 from flightcostapp import aircraft_designer as A
 from flightcostapp import serve as S
 from flightcostapp.guest import GuestDB
+from flightcostapp.probe import probe_url
 from flightcostapp.store import Fact, Store
 
 
@@ -140,7 +141,8 @@ class ApiHttp(unittest.TestCase):
         headers = {"Content-Type": ctype}
         if cookie: headers["Cookie"] = "fca_ws=" + cookie
         if origin is not None: headers["Origin"] = origin
-        conn.request(method, path, body=json.dumps(body).encode() if body is not None else None, headers=headers)
+        conn.request(method, probe_url(path), body=json.dumps(body).encode() if body is not None else None,
+                     headers=headers)
         r = conn.getresponse(); raw = r.read(); code = r.status
         try: out = json.loads(raw)
         except (ValueError, TypeError): out = raw.decode(errors="replace")

@@ -27,6 +27,7 @@ sys.path.insert(0, str(ROOT))
 
 from flightcostapp import seo                             # noqa: E402
 from flightcostapp import serve as S                      # noqa: E402
+from flightcostapp.probe import probe_url                 # noqa: E402
 from flightcostapp.store import Fact, Store               # noqa: E402
 
 CYR = re.compile(r"[А-Яа-яЁё]")
@@ -65,9 +66,9 @@ class SeoHttp(unittest.TestCase):
         cls.httpd.shutdown(); cls.httpd.server_close()
         cls.store.db.close(); cls.tmp.cleanup()
 
-    def get(self, path, lang=None):
+    def get(self, path, lang=None, *, probe=True):
         c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
-        c.request("GET", path, headers={"Accept-Language": lang} if lang else {})
+        c.request("GET", probe_url(path) if probe else path, headers={"Accept-Language": lang} if lang else {})
         r = c.getresponse()
         body = r.read().decode("utf-8", "replace")
         loc = r.getheader("Location")
@@ -174,9 +175,10 @@ class SeoHttp(unittest.TestCase):
             ld = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', h).group(1))
             self.assertEqual((ld["@type"], ld["offers"]["price"]), ("WebApplication", "0"))
             self.assertIn('<h1 class="vh">', body)
-        st, _, loc = self.get("/en")
+        # Проверяем точные заголовки Location для обычных запросов к локальной витрине.
+        st, _, loc = self.get("/en", probe=False)
         self.assertEqual((st, loc), (301, "/en/"))
-        self.assertEqual(self.get("/calc?ac=A320", "de")[2], "/de/calc?ac=A320")
+        self.assertEqual(self.get("/calc?ac=A320", "de", probe=False)[2], "/de/calc?ac=A320")
 
     def test_landing(self):
         for lg in seo.LANGS:
@@ -188,13 +190,13 @@ class SeoHttp(unittest.TestCase):
             self.assertIn(f'href="/{lg}/calc?mode=net"', body)
             self.assertNotIn("I18N", body, "главная — не витрина")
         # старая ссылка с параметрами на языковой главной — в калькулятор
-        self.assertEqual(self.get("/en/?ac=A320&o=EDDF")[2], "/en/calc?ac=A320&o=EDDF")
+        self.assertEqual(self.get("/en/?ac=A320&o=EDDF", probe=False)[2], "/en/calc?ac=A320&o=EDDF")
 
     def test_head(self):
         """Роботы превью спрашивают HEAD: тот же код и заголовки, без тела."""
         for path in ("/", "/en/", "/en/type/A320", "/og.png"):
             c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)
-            c.request("HEAD", path)
+            c.request("HEAD", probe_url(path))
             r = c.getresponse()
             self.assertEqual(r.status, 200, path)
             self.assertGreater(int(r.getheader("Content-Length")), 0)
@@ -218,8 +220,8 @@ class SeoHttp(unittest.TestCase):
         self.assertIn("const I18N", body)
 
     def test_about_redirect_by_language(self):
-        self.assertEqual(self.get("/about", "de-DE,de;q=0.9")[2], "/de/about")
-        self.assertEqual(self.get("/types", "fr-FR")[2], "/en/types")
+        self.assertEqual(self.get("/about", "de-DE,de;q=0.9", probe=False)[2], "/de/about")
+        self.assertEqual(self.get("/types", "fr-FR", probe=False)[2], "/en/types")
         st, body, _ = self.get("/ru/about")
         self.assertEqual(st, 200)
         faq = [json.loads(m) for m in re.findall(r'<script type="application/ld\+json">(.*?)</script>', body)]

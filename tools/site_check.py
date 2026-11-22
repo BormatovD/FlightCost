@@ -34,9 +34,16 @@ import json
 import re
 import sys
 import time
-import urllib.request
 import xml.etree.ElementTree as ET
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from flightcostapp.probe import probe_url  # noqa: E402
+from tools._http_probe import (  # noqa: E402
+    BROWSER_FETCH_OPTIONS, browser_continue_params, probe_for_origin, probe_opener,
+)
 
 LANGS = ("ru", "en", "de")
 QUICK = ["/{l}/", "/{l}/about", "/{l}/types", "/{l}/type/A320", "/{l}/research/", "/{l}/monitor",
@@ -56,7 +63,7 @@ REF = {"origin": "FRA", "destination": "BCN", "ac": "A320", "lf": "0.82", "fare"
 
 
 def sitemap_paths(base: str) -> list[str]:
-    with urllib.request.urlopen(f"{base}/sitemap.xml", timeout=30) as r:
+    with probe_opener(base).open(probe_url(f"{base}/sitemap.xml"), timeout=30) as r:
         root = ET.fromstring(r.read())
     ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     out = []
@@ -80,7 +87,7 @@ def check_page(page, base: str, path: str, width: int, shots: str | None) -> lis
     page.on("pageerror", lambda e: errors.append(f"ошибка скрипта: {e}"))
     page.on("console", lambda m: errors.append(f"консоль: {m.text}") if m.type == "error" else None)
     try:
-        resp = page.goto(base + path, wait_until="networkidle", timeout=60_000)
+        resp = page.goto(probe_url(base + path), wait_until="networkidle", timeout=60_000)
     except Exception as e:                                         # noqa: BLE001
         return [f"не открылась: {type(e).__name__}: {str(e)[:120]}"]
     if resp is None or resp.status != 200:
@@ -140,8 +147,7 @@ def check_page(page, base: str, path: str, width: int, shots: str | None) -> lis
             if same:
                 found.append(f"валюта: {same} сумм не пересчитались")
     if shots:
-        import pathlib
-        p = pathlib.Path(shots)
+        p = Path(shots)
         p.mkdir(parents=True, exist_ok=True)
         name = re.sub(r"[^A-Za-z0-9]+", "_", path).strip("_") or "root"
         page.screenshot(path=str(p / f"{name}-{width}.png"), full_page=False)
@@ -150,8 +156,9 @@ def check_page(page, base: str, path: str, width: int, shots: str | None) -> lis
 
 def reference(base: str, expect: dict) -> list[str]:
     q = "&".join(f"{k}={v}" for k, v in REF.items())
+    opener = probe_opener(base)
     t0 = time.monotonic()
-    with urllib.request.urlopen(f"{base}/api/route?{q}", timeout=120) as r:
+    with opener.open(probe_url(f"{base}/api/route?{q}"), timeout=120) as r:
         res = json.loads(r.read())
     dt = time.monotonic() - t0
     a = res.get("answer") or {}
@@ -189,6 +196,7 @@ def main() -> int:
         paths = [p.format(l=l) for p in QUICK for l in LANGS] + QUICK_PLAIN
     print(f"{a.base}: страниц {len(paths)} × 2 ширины")
     problems: dict[str, list[str]] = {}
+    tag = probe_for_origin(a.base)
     with sync_playwright() as pw:
         br = pw.chromium.launch()
         for path in paths:
@@ -197,6 +205,10 @@ def main() -> int:
             for w in (1280, 390):
                 ctx = br.new_context(locale="ru-RU", user_agent="Mozilla/5.0 fca-site-check")
                 page = ctx.new_page()
+                cdp = ctx.new_cdp_session(page)
+                cdp.on("Fetch.requestPaused", lambda event, session=cdp: session.send(
+                    "Fetch.continueRequest", browser_continue_params(tag, event)))
+                cdp.send("Fetch.enable", BROWSER_FETCH_OPTIONS)
                 f = check_page(page, a.base, path, w, a.shots)
                 ctx.close()
                 if f:

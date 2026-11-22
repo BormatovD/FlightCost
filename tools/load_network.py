@@ -26,20 +26,28 @@ import json
 import random
 import statistics
 import subprocess
+import sys
 import threading
 import time
 import urllib.parse
 import urllib.request
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from flightcostapp.probe import probe_url  # noqa: E402
+from tools._http_probe import probe_opener  # noqa: E402
 
 POOL = ("FRA,MUC,BER,HAM,DUS,BCN,MAD,PMI,AGP,LIS,OPO,FCO,MXP,VCE,NAP,CDG,ORY,NCE,AMS,BRU,VIE,ZRH,GVA,"
         "CPH,ARN,OSL,HEL,WAW,KRK,PRG,BUD,OTP,SOF,ATH,IST,DUB,LHR,LGW,MAN,EDI").split(",")
 
 
 def get(base, path, q, ip, timeout=60):
-    url = f"{base}{path}?{urllib.parse.urlencode(q)}"
+    url = probe_url(f"{base}{path}?{urllib.parse.urlencode(q)}")
     req = urllib.request.Request(url, headers={"X-Forwarded-For": ip, "User-Agent": "fca-load"})
+    opener = probe_opener(base)
     t0 = time.monotonic()
-    with urllib.request.urlopen(req, timeout=timeout) as r:
+    with opener.open(req, timeout=timeout) as r:
         body = r.read()
     return time.monotonic() - t0, json.loads(body) if body[:1] in (b"{", b"[") else {}
 

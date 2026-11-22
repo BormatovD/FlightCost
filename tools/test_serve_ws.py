@@ -20,6 +20,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from flightcostapp import serve as S                      # noqa: E402
 from flightcostapp.guest import GuestDB                   # noqa: E402
+from flightcostapp.probe import probe_url                 # noqa: E402
 from flightcostapp.store import Fact, Store               # noqa: E402
 
 DOC = {"icao": "user:a21n-my", "name": "A321neo моя", "valid_from": "2026-10-01",
@@ -56,7 +57,7 @@ class WsHttp(unittest.TestCase):
         hdr = {"Content-Type": "application/json"}
         if cookie:
             hdr["Cookie"] = f"fca_ws={cookie}"
-        c.request(method, path, body=json.dumps(body).encode() if body is not None else None,
+        c.request(method, probe_url(path), body=json.dumps(body).encode() if body is not None else None,
                   headers=hdr)
         r = c.getresponse()
         raw = r.read()

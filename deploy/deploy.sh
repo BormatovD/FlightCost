@@ -31,7 +31,7 @@ sudo -n /usr/bin/systemctl restart fca-bot 2>/dev/null || true
 # Выкладка удалась, только если витрина ответила и назвала новую версию.
 for _ in $(seq 1 30); do
 	sleep 1
-	if out=$(curl -fsS http://127.0.0.1:8000/healthz 2>/dev/null); then
+	if out=$(curl -fsS 'http://127.0.0.1:8000/healthz?probe=dev' 2>/dev/null); then
 		case "$out" in
 			*"\"version\": \"$after\""*)
 				echo "витрина отвечает, версия $after"

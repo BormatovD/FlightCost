@@ -1038,6 +1038,16 @@ for (const b of document.querySelectorAll("#langs button")) {
 
 const $ = s => document.querySelector(s);
 
+const DEV_PROBE = new URLSearchParams(location.search).getAll("probe").includes("dev");
+function probeUrl(path) {
+  if (!DEV_PROBE) return path;
+  const url = new URL(path, location.href);
+  if (url.origin !== location.origin) return path;
+  url.searchParams.set("probe", "dev");
+  return url.href;
+}
+function pageFetch(path, options) { return fetch(probeUrl(path), options); }
+
 // ── ожидание расчёта ────────────────────────────────────────────────────
 // Фразы эфира меняются сами; строка ниже сообщает, что ждём от сервера.
 const LDR_PH = [_t("Запрашиваю запуск"), _t("Руление к исполнительному старту"), _t("Взлёт разрешён"),
@@ -1649,7 +1659,7 @@ let FBENCH = null;
 async function benchLoad(){
   FBENCH = null; benchDraw();
   try {
-    const r = await (await fetch(`/api/fleetbench?ac=${encodeURIComponent(CHOSEN.ac)}`)).json();
+    const r = await (await pageFetch(`/api/fleetbench?ac=${encodeURIComponent(CHOSEN.ac)}`)).json();
     if (r.icao === CHOSEN.ac) { FBENCH = r; benchDraw(); }
   } catch (e) {}
 }
@@ -1772,7 +1782,7 @@ function seatsParam() {
 let GEO = null, G = null, PROJ = null;
 
 async function bootGlobe(){
-  GEO = await (await fetch("/api/geo")).json();
+  GEO = await (await pageFetch("/api/geo")).json();
   PROJ = orthographic({cx: 310, cy: 310, radius: 284, lat: 45, lon: 10});
   G = createGlobe({svg: $("#globe"), proj: PROJ, data: {
     zones: GEO.zones, land: GEO.land,
@@ -2050,8 +2060,8 @@ function drawGlobe(){
 
 async function boot(){
   [APTS, ACS] = await Promise.all([
-    fetch("/api/airports").then(r => r.json()),
-    fetch("/api/aircraft").then(r => r.json())]);
+    pageFetch("/api/airports").then(r => r.json()),
+    pageFetch("/api/aircraft").then(r => r.json())]);
   bindPick("o", "oh"); bindPick("d", "dh"); bindAcPick();
   addClears();
   // Маршрут и тип можно передать адресом: ?o=EDDF&d=LEBL&ac=A320 — так
@@ -2175,7 +2185,7 @@ function params(){
 
 // Карта данных открывается на текущем маршруте: те же параметры, что у расчёта.
 $("#maplink").addEventListener("click", ev => {
-  if (CHOSEN.o && CHOSEN.d) ev.currentTarget.href = "/map?" + params();
+  if (CHOSEN.o && CHOSEN.d) ev.currentTarget.href = probeUrl("/map?" + params());
 });
 
 let timer = null, seq = 0, routePending = false;
@@ -2196,7 +2206,7 @@ function draw(){
     }, 300);
     let r;
     try {
-      r = await (await fetch("/api/route?" + params())).json();
+      r = await (await pageFetch("/api/route?" + params())).json();
     } catch (e) {
       r = {error: _t("Сервер не ответил")};
     } finally {
@@ -2420,7 +2430,7 @@ async function loadSolve(my){
   const key = params().toString();
   if (SOLVE && SOLVE_KEY === key) return SOLVE;
   const t0 = performance.now();
-  SOLVE_BUSY = fetch("/api/solve?" + key).then(x => x.json());
+  SOLVE_BUSY = pageFetch("/api/solve?" + key).then(x => x.json());
   try {
     const s = await SOLVE_BUSY;
     s.ms = Math.round(performance.now() - t0);
@@ -2527,7 +2537,7 @@ async function loadTypes(my){
   const key = p.toString();
   if (TYPES && TYPES_KEY === key) return TYPES;
   const t0 = performance.now();
-  TYPES_BUSY = fetch("/api/compare?" + key).then(x => x.json());
+  TYPES_BUSY = pageFetch("/api/compare?" + key).then(x => x.json());
   try {
     const s = await TYPES_BUSY;
     s.ms = Math.round(performance.now() - t0);
@@ -2686,7 +2696,7 @@ async function cmpLoad(){
   if (CMP.data && CMP.key === key) return CMP.data;
   const my = ++CMP.seq;
   $("#cmptab").innerHTML = `<p class="lede">${_t("считаю типы…")}</p>`;
-  const d = await (await fetch("/api/compare?" + key)).json();
+  const d = await (await pageFetch("/api/compare?" + key)).json();
   if (my !== CMP.seq) return null;
   CMP.data = d; CMP.key = key;
   return d;
@@ -2809,7 +2819,7 @@ async function drawType(r){
   const box = $("#typebox");
   if (!box) return;
   const base = TYPE_NEW ? TYPE_NEW.base : CHOSEN.ac;
-  const t = await (await fetch("/api/aircraft/type?icao=" + encodeURIComponent(base))).json();
+  const t = await (await pageFetch("/api/aircraft/type?icao=" + encodeURIComponent(base))).json();
   if (!$("#typebox")) return;
   if (t.error && !TYPE_NEW) { box.innerHTML = `<div class="note"><b>${_t("Нет.")}</b> ${esc(t.error)}</div>`; return; }
   const by = {}; for (const f of (t.fields || [])) by[f.field] = f;
@@ -2938,12 +2948,12 @@ async function drawType(r){
         anchor_mass_t: same || $("#b_mass").value === "" ? null : +$("#b_mass").value,
         anchor_source: same ? "" : $("#b_src").value, note: $("#b_note").value } : null,
     };
-    const res = await (await fetch("/api/aircraft/save", {method: "POST",
+    const res = await (await pageFetch("/api/aircraft/save", {method: "POST",
       headers: {"Content-Type": "application/json"}, body: JSON.stringify(doc)})).json();
     if (res.need_workspace) { msg(res.error, true); wsOpen(); return; }
     if (res.error) { msg(res.error, true); return; }
     // Список типов пересобирается: новый тип должен появиться в шапке.
-    ACS = await (await fetch("/api/aircraft")).json();
+    ACS = await (await pageFetch("/api/aircraft")).json();
     if (TYPE_HOOK) { const hook = TYPE_HOOK; typeEditClose(); wsRefresh(); hook(res.icao); return; }
     TYPE_NEW = null;
     setAc(res.icao);
@@ -2956,10 +2966,10 @@ async function drawType(r){
   if ($("#tdel")) $("#tdel").onclick = async () => {
     if (!confirm(`${_t("Снять")} ${key} ${_t("с учёта? Факты закроются сегодняшним днём, файл каталога будет удалён.")}`)) return;
     // (у гостя файла нет — закрывается запись в его месте)
-    const res = await (await fetch("/api/aircraft/delete", {method: "POST",
+    const res = await (await pageFetch("/api/aircraft/delete", {method: "POST",
       headers: {"Content-Type": "application/json"}, body: JSON.stringify({icao: key})})).json();
     if (res.error) { msg(res.error, true); return; }
-    ACS = await (await fetch("/api/aircraft")).json();
+    ACS = await (await pageFetch("/api/aircraft")).json();
     setAc("A320"); draw();
   };
 }
@@ -2996,7 +3006,7 @@ let BENCH = null, BENCH_KEY = "";
 async function loadBench(){
   const key = CHOSEN.o + "|" + CHOSEN.d;
   if (BENCH && BENCH_KEY === key) return BENCH;
-  const b = await (await fetch(`/api/bench?origin=${
+  const b = await (await pageFetch(`/api/bench?origin=${
     encodeURIComponent(CHOSEN.o)}&destination=${
     encodeURIComponent(CHOSEN.d)}`)).json();
   BENCH = b; BENCH_KEY = key;
@@ -3091,7 +3101,7 @@ let CARRIER_EMBLEMS_READY = null;
 let CARRIER_PICK_CLEANUP = null;
 function loadCarrierEmblems(){
   if (!CARRIER_EMBLEMS_READY) {
-    CARRIER_EMBLEMS_READY = fetch('/airline-emblems/manifest.json?v=2', {cache: 'no-cache'})
+    CARRIER_EMBLEMS_READY = pageFetch('/airline-emblems/manifest.json?v=2', {cache: 'no-cache'})
       .then(response => response.ok ? response.json() : {})
       .then(manifest => { CARRIER_EMBLEMS = manifest.carriers || {}; })
       .catch(() => { CARRIER_EMBLEMS = {}; });
@@ -3480,7 +3490,7 @@ async function side(d){
       ).join("") : '<div id="nodebox"></div>');
     $("#side").innerHTML = h;
     if (d.node && !links.length) {
-      const nd = await (await fetch(`/api/node?id=${encodeURIComponent(d.node)}`)).json();
+      const nd = await (await pageFetch(`/api/node?id=${encodeURIComponent(d.node)}`)).json();
       const nodebox = $("#nodebox");
       if (!nodebox) return;
       nodebox.innerHTML = nd.found
@@ -3514,7 +3524,7 @@ async function side(d){
     }
     return;
   }
-  const r = await (await fetch(`/api/fact?domain=${encodeURIComponent(domain)
+  const r = await (await pageFetch(`/api/fact?domain=${encodeURIComponent(domain)
     }&key=${encodeURIComponent(key)}`)).json();
   if (!r.found) { h += `<div class="note"><b>${_t("Ключа нет.")}</b> ${esc(r.why)}</div>`;
     $("#side").innerHTML = h; return; }
@@ -3645,7 +3655,7 @@ function setCur(code, convertInputs = true){
   return true;
 }
 async function loadFx(){
-  try { FXQ = await (await fetch("/api/fx")).json(); } catch (e) { FXQ = null; }
+  try { FXQ = await (await pageFetch("/api/fx")).json(); } catch (e) { FXQ = null; }
   let saved = null;
   try { saved = localStorage.getItem("fca.cur"); } catch (e) {}
   const q = new URLSearchParams(location.search).get("cur");
@@ -3752,7 +3762,7 @@ async function netLoadMarketHints(){
   content.textContent = _t("загружаю подсказки…");
   try {
     const q = new URLSearchParams({airports: codes.join(",")});
-    const response = await fetch("/api/network-hints?" + q.toString());
+    const response = await pageFetch("/api/network-hints?" + q.toString());
     const data = await response.json();
     if (seq !== NET_HINT_SEQ) return;
     if (!response.ok || !data.available || !data.pairs?.length) { box.hidden = true; return; }
@@ -3883,7 +3893,7 @@ async function netRun(){
   // обогнать (my !== NET_SEQ), просто бросается.
   for (;;) {
     try {
-      const resp = await fetch("/api/network?" + netParams());
+      const resp = await pageFetch("/api/network?" + netParams());
       r = await resp.json();
       if (resp.status === 429) r = {error: r.error};
     } catch (e) { r = {error: _t("Сервер не ответил")}; }
@@ -4087,7 +4097,7 @@ async function netCmpRun() {
   let r;
   for (;;) {
     try {
-      const resp = await fetch("/api/netcompare?" + p);
+      const resp = await pageFetch("/api/netcompare?" + p);
       r = await resp.json();
     } catch (e) { r = {error: _t("Сервер не ответил")}; }
     if (my !== NETCMP_SEQ) return;
@@ -4133,7 +4143,9 @@ function tabNetTypes() {
   // отчёта — документ: объём на входе, борты и деньги на выходе; доля
   // потока и цена меняются на ней. PDF и Excel — тот же расчёт.
   if (!stale && ok.length) {
-    const qs = escA(netCmpParams(true).toString());
+    const parameters = netCmpParams(true);
+    if (DEV_PROBE) parameters.set("probe", "dev");
+    const qs = escA(parameters.toString());
     h += `<div class="rv" style="margin:0 0 4px">${_t("Отчёт:")} <b>${NET.mode === "share" ? _t("парк под долю рынка") : _t("мой парк — борты и частоты как на экране")}</b> · <a href="#" data-open="assume">${_t("изменить")}</a></div>
       <div style="display:flex;gap:6px;margin:0 0 10px"><a class="btn" style="flex:1;text-align:center;text-decoration:none;display:block" target="_blank" rel="noopener" href="/report?${qs}">${_t("Отчёт по парку")} ↗</a>
       <a class="btn" style="width:auto;flex:none;text-decoration:none;display:block" href="/api/fleetreport.pdf?${qs}" title="${_t("Отчёт документом для пересылки")}">PDF</a>
@@ -4685,7 +4697,7 @@ async function wsEnter() {
   } catch (e) { WS.msg = _t("Сервер не ответил"); }
 }
 async function wsApi(path, body) {
-  const r = await fetch(path, body === undefined ? {} : {method: "POST",
+  const r = await pageFetch(path, body === undefined ? {} : {method: "POST",
     headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
   return r.json();
 }
@@ -4722,7 +4734,7 @@ function wsDraw() {
       const r = await wsApi("/api/ws/new", {});
       if (r.error) { alert(r.error); return; }
       await wsRefresh(); wsDraw();
-      ACS = await (await fetch("/api/aircraft")).json();
+      ACS = await (await pageFetch("/api/aircraft")).json();
     };
     $("#wsimp0").onclick = () => $("#wsfile0").click();
     $("#wsfile0").onchange = async (e) => {
@@ -4733,7 +4745,7 @@ function wsDraw() {
       r = await wsApi("/api/ws/import", {data, merge: true});
       if (r.error) alert(r.error);
       await wsRefresh(); wsDraw();
-      ACS = await (await fetch("/api/aircraft")).json();
+      ACS = await (await pageFetch("/api/aircraft")).json();
     };
     return;
   }
@@ -4752,7 +4764,7 @@ function wsDraw() {
       <div class="link" id="wslink">${esc(wsLink())}</div>
       <p>${_t("Это единственный вход. Сохраните ссылку: сервер её не хранит и восстановить не сможет.")}</p>
       <div class="btns"><button class="pri" id="wscopy">${_t("Скопировать ссылку")}</button>
-        <a href="/api/ws/export" download>${_t("Экспорт в файл")}</a>
+        <a href="${escA(probeUrl("/api/ws/export"))}" download>${_t("Экспорт в файл")}</a>
         <button id="wsimp">${_t("Импорт из файла")}</button><input id="wsfile" type="file" accept=".json" hidden>
         <button id="wsrot">${_t("Новая ссылка")}</button>
         <button id="wsforget">${_t("Выйти на этом устройстве")}</button>
@@ -4779,7 +4791,7 @@ function wsDraw() {
     const r = await wsApi("/api/ws/import", {data: JSON.parse(await f.text()), merge: true});
     if (r.error) { alert(r.error); return; }
     await wsRefresh(); await wsLoadSettings(); wsDraw();
-    ACS = await (await fetch("/api/aircraft")).json();
+    ACS = await (await pageFetch("/api/aircraft")).json();
   };
   $("#wsrot").onclick = async () => {
     if (!confirm(_t("Выпустить новую ссылку? Старая перестанет открывать место."))) return;
@@ -4789,12 +4801,12 @@ function wsDraw() {
   };
   $("#wsforget").onclick = async () => {
     await wsApi("/api/ws/forget", {}); await wsRefresh(); wsDraw();
-    ACS = await (await fetch("/api/aircraft")).json();
+    ACS = await (await pageFetch("/api/aircraft")).json();
   };
   $("#wsdel").onclick = async () => {
     if (!confirm(_t("Удалить место со всеми данными? Это нельзя отменить."))) return;
     await wsApi("/api/ws/delete", {}); await wsRefresh(); wsDraw();
-    ACS = await (await fetch("/api/aircraft")).json();
+    ACS = await (await pageFetch("/api/aircraft")).json();
   };
   $("#wsrates").onclick = async () => {
     const o = {};

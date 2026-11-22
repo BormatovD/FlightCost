@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 
 from flightcostapp import monitor as M                     # noqa: E402
 from flightcostapp import serve as S                       # noqa: E402
+from flightcostapp.probe import probe_url                   # noqa: E402
 from flightcostapp.store import Fact, Store                # noqa: E402
 
 CYR = re.compile(r"[А-Яа-яЁё]{3,}")
@@ -186,7 +187,7 @@ class Http(unittest.TestCase):
 
     def get(self, path):
         c = http.client.HTTPConnection("127.0.0.1", self.port, timeout=30)
-        c.request("GET", path)
+        c.request("GET", probe_url(path))
         r = c.getresponse()
         return r.status, r.read().decode("utf-8")
 

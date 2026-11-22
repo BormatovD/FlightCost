@@ -24,6 +24,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from flightcostapp import fx as FX                        # noqa: E402
 from flightcostapp import serve as S                      # noqa: E402
 from flightcostapp.parsers import cbr_fx                  # noqa: E402
+from flightcostapp.probe import probe_url                  # noqa: E402
 from flightcostapp.store import Fact, Store               # noqa: E402
 
 WEB = pathlib.Path(__file__).resolve().parents[1] / "flightcostapp" / "web"
@@ -132,7 +133,7 @@ class Priority(unittest.TestCase):
         threading.Thread(target=httpd.serve_forever, daemon=True).start()
         try:
             c = http.client.HTTPConnection("127.0.0.1", httpd.server_address[1], timeout=5)
-            c.request("GET", "/api/fx?as_of=2026-10-12")
+            c.request("GET", probe_url("/api/fx?as_of=2026-10-12"))
             d = json.loads(c.getresponse().read())
         finally:
             httpd.shutdown(); httpd.server_close()

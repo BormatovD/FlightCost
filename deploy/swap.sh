@@ -38,7 +38,7 @@ as_dep mv -fT -- "$TMP" "$SITE"
 systemctl restart fca
 for _ in $(seq 1 30); do
 	sleep 1
-	curl -fsS http://127.0.0.1:8000/healthz >/dev/null 2>&1 && { echo "витрина на новом снимке"; exit 0; }
+	curl -fsS 'http://127.0.0.1:8000/healthz?probe=dev' >/dev/null 2>&1 && { echo "витрина на новом снимке"; exit 0; }
 done
 echo "витрина не ответила после подмены — journalctl -u fca -n 50" >&2
 exit 1
