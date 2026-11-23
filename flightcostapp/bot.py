@@ -417,6 +417,9 @@ class FcaBot:
                 last_clean = now
 
     def handle(self, u: dict):
+        from .editorial_review import handle_update
+        if handle_update(self.bot, self.owner, u):
+            return
         if "callback_query" in u:
             return self.on_button(u["callback_query"])
         m = u.get("message")

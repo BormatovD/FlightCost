@@ -95,7 +95,8 @@ def _load_items() -> list[dict]:
         langs = [str(it.get("lang") or "ru")] + [lg for lg in LANGS if lg != it.get("lang")
                                                   and rep.with_name(f"{rep.stem}.{lg}.html").is_file()]
         out.append({**it, "slug": slug, "path": rep, "date": str(it.get("date") or ""), "langs": langs})
-    return sorted(out, key=lambda x: x["date"], reverse=True)
+    from .editorial_article import public_items
+    return sorted(public_items(out), key=lambda x: x["date"], reverse=True)
 
 
 def items() -> list[dict]:

@@ -22,6 +22,8 @@ jobs:
           set -e
           for t in \
               tests/test_invariants.py \
+              tests/test_editorial_review.py \
+              tests/test_forecast_site.py \
               tests/test_easa_noise.py \
               tests/test_i18n.py \
               tests/test_legal.py \
