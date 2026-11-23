@@ -253,7 +253,7 @@ class GuestDB:
                              f"лишние сети и сценарии или сделайте экспорт")
 
     # ── документы ──────────────────────────────────────────────────────
-    def put_doc(self, ws: str, kind: str, name: str, body: Any) -> None:
+    def put_doc(self, ws: str, kind: str, name: str, body: Any, *, create_only: bool = False) -> None:
         if kind not in DOC_KINDS:
             raise ValueError(f"неизвестный вид документа {kind!r}")
         name = (name or "").strip()[:80]
@@ -267,10 +267,13 @@ class GuestDB:
             if not exists and n >= MAX_DOCS:
                 raise ValueError(f"в месте уже {n} документов — предел {MAX_DOCS}")
             self._check_room(ws, len(text))
-            self.db.execute("INSERT INTO gdocs VALUES (?,?,?,?,?) ON CONFLICT(ws, kind, name) "
-                            "DO UPDATE SET body=excluded.body, updated_at=excluded.updated_at",
-                            (ws, kind, name, text, _now()))
+            conflict = ("DO NOTHING" if create_only else
+                        "DO UPDATE SET body=excluded.body, updated_at=excluded.updated_at")
+            saved = self.db.execute("INSERT INTO gdocs VALUES (?,?,?,?,?) ON CONFLICT(ws, kind, name) " + conflict,
+                                    (ws, kind, name, text, _now()))
             self.db.commit()
+            if saved.rowcount == 0:
+                raise FileExistsError("Документ с таким именем уже существует. Выберите другое имя.")
 
     def get_doc(self, ws: str, kind: str, name: str) -> Any:
         with self.lock:

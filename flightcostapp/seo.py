@@ -30,6 +30,8 @@ import re
 from pathlib import Path
 from urllib.parse import quote, urlencode
 
+from . import forecast_site
+
 LANGS = ("ru", "en", "de")
 REPO = "https://github.com/BormatovD/FlightCost"
 OPENAP = "https://github.com/TUDelft-CNS-ATM/openap"
@@ -100,7 +102,8 @@ T = {
         "dev_burn": "Расход топлива — оценка разработчика FlightCost: {src}",
         "dev_field": "оценка разработчика",
         "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_research": "Исследования", "nav_about": "О сервисе", "nav_data": "Данные",
-        "nav_map": "Карта данных", "nav_monitor": "План",
+        "nav_map": "Карта данных", "nav_database": "База данных", "nav_monitor": "План",
+        "nav_series": "Показатели", "nav_forecast": "Прогноз",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
         "about_desc": ("Что считает FlightCost, откуда берутся данные и насколько им можно верить. Открытый бесплатный "
                        "инструмент для расчёта себестоимости рейса и сети маршрутов."),
@@ -253,7 +256,8 @@ T = {
         "dev_burn": "Fuel burn is a FlightCost developer estimate: {src}",
         "dev_field": "developer estimate",
         "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_research": "Research", "nav_about": "About", "nav_data": "Data",
-        "nav_map": "Data map", "nav_monitor": "Plan",
+        "nav_map": "Data map", "nav_database": "Database", "nav_monitor": "Plan",
+        "nav_series": "Indicators", "nav_forecast": "Forecast",
         "about_title": "About: free airline flight cost calculator | FlightCost",
         "about_desc": ("What FlightCost calculates, where the data comes from and how far you can trust it. A free, "
                        "open-source tool for the cost of a flight and of a route network."),
@@ -407,7 +411,8 @@ T = {
         "dev_burn": "Treibstoffverbrauch ist eine Schätzung der FlightCost-Entwickler: {src}",
         "dev_field": "Schätzung der Entwickler",
         "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_research": "Recherchen", "nav_about": "Über", "nav_data": "Daten",
-        "nav_map": "Datenkarte", "nav_monitor": "Plan",
+        "nav_map": "Datenkarte", "nav_database": "Datenbank", "nav_monitor": "Plan",
+        "nav_series": "Kennzahlen", "nav_forecast": "Prognose",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
         "about_desc": ("Was FlightCost berechnet, woher die Daten stammen und wie weit man ihnen trauen kann. "
                        "Ein kostenloses Open-Source-Werkzeug für Flug- und Netzkosten."),
@@ -703,9 +708,12 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 
 
 NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("research", "/research", "nav_research"),
-       ("data", "/data", "nav_data"),
-       ("map", "/map", "nav_map"), ("monitor", "/monitor", "nav_monitor"), ("about", "/about", "nav_about"))
-LANG_LOCAL = ("data", "map")          # страницы с одним адресом на все языки
+       ("forecast", "/forecast", "nav_forecast"), ("data", "/map", "nav_data"), ("about", "/about", "nav_about"))
+SECTION_TABS = {
+    "data": (("map", "/map", "nav_map"), ("data", "/data", "nav_database")),
+    "about": (("monitor", "/monitor", "nav_monitor"), ("series", "/monitor?tab=series", "nav_series"),
+              ("about", "/about", "nav_about")),
+}
 
 
 def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
@@ -716,16 +724,28 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
     on_attr = ' class="on"'
     L = lang or "ru"
 
-    def href(k, p):
-        # Карта и данные — один адрес на все языки: язык передаём явно, иначе
-        # страница выбирает его по браузеру и с русской статьи открывалась
-        # по-английски (чекап 02.11.2026).
-        if k in LANG_LOCAL:
-            return f"{p}?lang={lang}" if lang else p
-        return f"/{L}{p}"
-    labels = lambda key: esc(json.dumps({x: T[x][key] for x in LANGS}, ensure_ascii=False))  # noqa: E731
-    nav = "".join(f'<a href="{href(k, p)}" data-p="{p}" data-l="{labels(key)}"{on_attr if k == on else ""}>'
-                  f'{esc(T[L][key])}</a>' for k, p, key in NAV)
+    def labels(key):
+        return esc(json.dumps({x: T[x][key] for x in LANGS}, ensure_ascii=False))
+
+    def link(item, active, current):
+        key, path, title = item
+        if path in ("/map", "/data"):
+            href = f"{path}?lang={lang}" if lang else path
+        else:
+            href = f"/{L}{path}"
+        attr = f' class="on" aria-current="{current}"' if key == active else ""
+        return (f'<a href="{href}" data-p="{path}" data-l="{labels(title)}"{attr}>'
+                f'{esc(T[L][title])}</a>')
+
+    section = next((name for name, tabs in SECTION_TABS.items() if any(k == on for k, _, _ in tabs)), None)
+    nav = "".join(link(item, section or on, "location" if section else "page") for item in NAV
+                  if item[0] != "forecast" or forecast_site.forecast_available())
+    subnav = ""
+    if section:
+        title = f"nav_{section}"
+        tabs = "".join(link(item, on, "page") for item in SECTION_TABS[section])
+        subnav = (f'<nav class="section-tabs" aria-label="{esc(T[L][title])}"'
+                  f' data-aria="{labels(title)}">{tabs}</nav>')
     if lang:
         lg = "".join(f'<a href="/{x}{path_tail}" hreflang="{x}"{on_attr if x == lang else ""}>{x.upper()}</a>'
                      for x in LANGS)
@@ -733,7 +753,7 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
         lg = "".join(f'<a href="?lang={x}" data-x="{x}">{x.upper()}</a>' for x in LANGS)
     out = (f'<header class="sh"><a class="brand" href="/{L}/" data-p="/">FlightCost'
            f'<span data-l="{labels("brand_tag")}">{esc(T[L]["brand_tag"])}</span></a>'
-           f'<nav>{nav}</nav><span class="lg">{lg}</span></header>')
+           f'<nav class="site-nav" aria-label="FlightCost">{nav}</nav><span class="lg">{lg}</span>{subnav}</header>')
     if lang:
         # Выбор языка запоминается так же, как в витрине: страницы без языка
         # в адресе (карта, данные, Impressum) откроются на нём.
@@ -745,9 +765,11 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
                 "var p=String(n[i]).slice(0,2).toLowerCase();if(L.indexOf(p)>=0)g=p}}g=g||'en';"
                 "var h=document.currentScript.previousElementSibling;"
                 "h.querySelectorAll('[data-l]').forEach(function(a){a.textContent=JSON.parse(a.dataset.l)[g]});"
+                "h.querySelectorAll('[data-aria]').forEach(function(a){a.setAttribute('aria-label',JSON.parse(a.dataset.aria)[g])});"
                 "h.querySelectorAll('a[data-p]').forEach(function(a){var p=a.dataset.p;"
-                "if(p!=='/data'&&p!=='/map')a.href='/'+g+p});"
-                "h.querySelectorAll('.lg a').forEach(function(a){if(a.dataset.x===g)a.className='on'})})();</script>")
+                "a.href=p==='/data'||p==='/map'?p+'?lang='+g:'/'+g+p});"
+                "h.querySelectorAll('.lg a').forEach(function(a){var u=new URL(location.href);"
+                "u.searchParams.set('lang',a.dataset.x);a.href=u.href;if(a.dataset.x===g)a.className='on'})})();</script>")
     return out
 
 
@@ -790,8 +812,10 @@ def calc_page(lang: str | None, page: str) -> str:
     page = page.replace('href="ui.css"', 'href="/ui.css"').replace('from "./geo.js"', 'from "/geo.js"')
     page = page.replace('from "./globe.js"', 'from "/globe.js"')
     if lang:
-        page = page.replace('href="/about"', f'href="/{lang}/about"').replace(
-            'href="/types"', f'href="/{lang}/types"').replace('href="/" id="homelink"', f'href="/{lang}/" id="homelink"')
+        for path in ("/about", "/types", "/research", "/forecast"):
+            page = page.replace(f'href="{path}"', f'href="/{lang}{path}"')
+        page = page.replace('href="/" id="homelink"', f'href="/{lang}/" id="homelink"')
+        page = page.replace('href="/map" id="maplink"', f'href="/map?lang={lang}" id="maplink"')
     # Заголовок первого уровня и текст без скриптов: у витрины их нет,
     # а поисковик и читалка экрана начинают с них.
     links = (f'<a href="/{lg}/about">{esc(t["nav_about"])}</a> · '
@@ -1022,7 +1046,7 @@ def about_page(lang: str) -> str:
     body.append(f"<h2>{esc(a['faq_h'])}</h2>" + "".join(
         f"<details open><summary>{esc(q)}</summary><p>{esc(ans)}</p></details>" for q, ans in a["faq"]))
     body.append(f'<p class="dim"><a href="/{lang}/types">{esc(t["nav_types"])}</a> · '
-                f'<a href="/data?lang={lang}">{esc(t["nav_data"])}</a> · <a href="/map?lang={lang}">{esc(t["nav_map"])}</a> · '
+                f'<a href="/data?lang={lang}">{esc(t["nav_database"])}</a> · <a href="/map?lang={lang}">{esc(t["nav_map"])}</a> · '
                 f'<a href="{REPO}">GitHub</a></p>')
     faq = {"@context": "https://schema.org", "@type": "FAQPage",
            "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": ans}}

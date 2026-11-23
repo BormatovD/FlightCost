@@ -2,9 +2,11 @@
 import copy
 import json
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
 
-from flightcostapp.serve import network_pair_hints
+from flightcostapp.serve import Context, network_pair_hints
+from flightcostapp.store import Fact, Store
 
 ROOT = Path(__file__).resolve().parents[1]
 RATING = json.loads((ROOT / "research/routes-2026-11/out/rating.json").read_text(encoding="utf-8"))
@@ -16,6 +18,27 @@ AIRPORTS = [
 
 
 class NetworkHints(unittest.TestCase):
+    def test_forecast_can_find_an_airport_outside_map_selection(self):
+        with TemporaryDirectory() as tmp:
+            store = Store(Path(tmp) / "test.db")
+            try:
+                store.commit_facts([Fact(domain="airport", key="ASE", valid_from="2020-01-01",
+                                         value_text="39.2,-106.9|KASE|US|Aspen",
+                                         source_id="test", extracted_by="test")])
+                context = Context(store, {})
+                self.assertEqual(context.airports(), [])
+                rows = context.airports_by_code(["KASE", "ASE", "ZZZZ"])
+                self.assertEqual([(row["key"], row["icao"], row["tier"]) for row in rows],
+                                 [("ASE", "KASE", 3)])
+                self.assertEqual(context.airports(), [])
+            finally:
+                store.db.close()
+
+    def test_hub_hints_keep_only_base_pairs(self):
+        rows = network_pair_hints(RATING, AIRPORTS, ["LEBL", "VIDP", "FRA", "VABB"], base="EDDF")
+        self.assertEqual([row["from"] for row in rows], ["EDDF"] * 3)
+        self.assertEqual([row["to"] for row in rows], ["LEBL", "VIDP", "VABB"])
+
     def test_fra_barcelona_iata_and_icao_are_symmetric_and_use_fluko_flags(self):
         iata = network_pair_hints(RATING, AIRPORTS, ["FRA", "BCN"])[0]
         icao = network_pair_hints(RATING, AIRPORTS, ["LEBL", "EDDF"])[0]

@@ -21,7 +21,8 @@ header{border-bottom:1px solid var(--line);padding:8px 20px;display:flex;
 header::after{content:"";flex-basis:100%;height:0;order:1}
 header #cur{order:0;margin-left:auto}
 header #langs,header button.ws{order:0}
-header #hdr,header .sp,header a.legal{order:2;margin-top:6px}
+header #hdr,header .sp,header .calclinks,header>a.legal{order:2;margin-top:6px}
+header .calclinks{display:flex;flex-wrap:wrap;gap:0 12px}
 header b{font:600 16px/1 var(--sans);margin-right:6px}
 header b a{color:inherit;text-decoration:none}
 header .hp{position:relative}
@@ -582,6 +583,8 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   .kpi.net>div:nth-child(5){grid-column:1/-1;border-right:0}
   .nrow{grid-template-columns:64px 56px 1fr}
   header .sp,header a.legal{display:none}
+  header .calclinks{grid-row:8;grid-column:1/-1;gap:0 14px;margin:0}
+  header .calclinks a.legal{display:inline-flex;align-items:center;min-height:36px;margin:0;font:13px var(--sans);color:var(--dim)}
   header .hp input,header select,header .hp input:focus,header #seatsv{width:100%;font-size:16px}
   header .hp input#ac{width:100% !important}
   .hits,.hp .hits,#achits,.kpi .cpick .hits{min-width:0;width:min(100vw - 24px,420px);max-height:45vh}
@@ -704,8 +707,10 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <span id="langs" role="group" aria-label="язык"><button data-lang="ru">RU</button><button
     data-lang="en">EN</button><button data-lang="de">DE</button></span>
   <button id="wsbtn" class="ws" hidden><i class="dot"></i><span>рабочее место</span></button>
-  <a class="legal" href="/types" id="typeslink">Типы ВС</a><a class="legal" href="/research" id="researchlink">Исследования</a><a class="legal" href="/data">Данные</a>
-  <a class="legal" href="/map" id="maplink">Карта данных</a><a class="legal" href="/about" id="aboutlink">О сервисе</a>
+  <nav class="calclinks" aria-label="FlightCost"><a class="legal" href="/types" id="typeslink">Типы ВС</a>
+    <a class="legal" href="/research" id="researchlink">Исследования</a>
+    <!--if-forecast--><a class="legal" href="/forecast" id="forecastlink">Прогноз</a><!--/if-forecast-->
+    <a class="legal" href="/map" id="maplink" title="Карта данных">Данные</a><a class="legal" href="/about" id="aboutlink">О сервисе</a></nav>
   <a class="legal" href="/impressum">Impressum</a><a class="legal" href="/datenschutz">Datenschutz</a>
   <a class="legal" href="https://play.flightcost.app/" title="Игра-симулятор авиакомпании на тех же данных; её доход поддерживает открытый FlightCost">SkyBoss ↗</a></header>
 <div id="acpanel" hidden><div class="wsbox" role="dialog" aria-labelledby="ach">
@@ -728,12 +733,18 @@ tr.sel td,tr:hover td.v{background:var(--select)}
   <aside class="pane left" id="left">
     <button class="mtoggle" id="ptoggle" aria-expanded="false">Параметры расчёта<span id="psum"></span><i>▾</i></button>
     <div class="grp2">Рейс</div>
+    <div id="routeforecast" hidden>
+      <p class="lede" id="routeforecastnote"></p>
+      <div class="field"><label for="routefreq">Обороты в неделю</label>
+        <input id="routefreq" type="number" min="1" max="999" step="1">
+        <output for="routefreq lf seatsv" id="routeschedule" class="src"></output></div>
+    </div>
     <div class="field"><label for="lf">Загрузка</label>
       <input id="lf" type="range" min="40" max="100" value="82">
       <div class="rv"><span id="lfv">82%</span><span id="paxv"></span></div></div>
     <div class="field pair">
       <div><label for="fare">Чек, EUR</label>
-        <input id="fare" type="number" value="95"></div>
+        <input id="fare" type="number" step="0.01" value="95"></div>
       <div><label for="month">Месяц</label>
         <select id="month"><option value="">не задан</option></select></div>
     </div>
@@ -840,6 +851,13 @@ tr.sel td,tr:hover td.v{background:var(--select)}
       <button class="chipb" id="dclose">закрыть</button>
     </div>
     <div class="dbody">
+      <div id="dforecast" hidden>
+        <div class="field">
+          <label for="dfleet">Группа парка из прогноза</label>
+          <select id="dfleet"></select>
+        </div>
+        <p class="lede" id="dforecastnote"></p>
+      </div>
       <section data-p="lines" id="dlines"></section>
       <section data-p="types" id="dtypes"></section>
       <section data-p="assume" id="dassume"><div class="dcols"><div>
@@ -1020,8 +1038,8 @@ function translateStatic(root) {
   }
 }
 translateStatic(document.body);
-// «О сервисе» и «Типы ВС» — страницы на языке витрины (seo.py).
-for (const id of ["homelink", "aboutlink", "typeslink", "researchlink"]) {
+// Страницы сайта открываются на языке калькулятора.
+for (const id of ["homelink", "aboutlink", "typeslink", "researchlink", "forecastlink"]) {
   const a = document.getElementById(id);
   if (a) a.setAttribute("href", `/${LANG}${a.getAttribute("href").replace(/^\/(ru|en|de)/, "")}`);
 }
@@ -2069,9 +2087,12 @@ async function boot(){
   // как будто его не было.
   const QP = new URLSearchParams(location.search);
   const qa = (k, ok, dflt) => { const v = (QP.get(k) || "").toUpperCase(); return v && ok(v) ? v : dflt; };
-  setPick("o", qa("o", v => APTS.some(x => x.icao === v), "EDDF"));
-  setPick("d", qa("d", v => APTS.some(x => x.icao === v), "LEBL"));
-  setAc(qa("ac", v => ACS.some(x => x.icao === v && x.usable), "A320"));
+  const forecastRoute = location.hash.startsWith("#route=");
+  if (!forecastRoute) {
+    setPick("o", qa("o", v => APTS.some(x => x.icao === v), "EDDF"));
+    setPick("d", qa("d", v => APTS.some(x => x.icao === v), "LEBL"));
+    setAc(qa("ac", v => ACS.some(x => x.icao === v && x.usable), "A320"));
+  }
   const loadPercent = Number(QP.get("load"));
   if (Number.isInteger(loadPercent) && loadPercent >= 40 && loadPercent <= 100) $("#lf").value = loadPercent;
   if (QP.get("lease_observation")) setLeaseObservation(QP.get("lease_observation"));
@@ -2090,7 +2111,12 @@ async function boot(){
   });
   drawCtx();
   await bootGlobe();
+  if (forecastRoute) {
+    await importForecastRoute();
+    return;
+  }
   fitRoute();
+  if (await importForecastNetwork()) return;
   // Первая отрисовка глобуса идёт ДО расчёта, и подпись дуги тогда не
   // знает ни пассажиров, ни выполнимости. Расчёт её обновит сам —
   // `draw` зовёт `drawGlobe` по приходе ответа.
@@ -2103,6 +2129,83 @@ async function boot(){
     if (cmp.length) { NET.cmp.types = [CHOSEN.ac, ...cmp.filter(x => x !== CHOSEN.ac)].slice(0, 5); drawerOpen("types"); }
   }
 }
+
+// Preserve the base amount while showing rounded local currency or percentages.
+// Typing into a field makes its displayed value the new calculation input.
+const exactRouteInputs = new Map();
+function routeInput(id, fallback) {
+  const saved = exactRouteInputs.get(id);
+  return saved && saved.display === $("#" + id).value ? saved.value : fallback;
+}
+function setRouteInput(id, value, display) {
+  const el = $("#" + id);
+  el.value = display;
+  exactRouteInputs.set(id, {value, display: el.value});
+  markClear(el);
+}
+for (const id of ["lf", "fare", "lease"]) {
+  $("#" + id).addEventListener("input", () => exactRouteInputs.delete(id));
+}
+
+async function importForecastRoute() {
+  const within = (value, min, max) => Number.isFinite(value) && value >= min && value <= max;
+  const whole = (value, min, max) => Number.isInteger(value) && within(value, min, max);
+  const fragment = location.hash.slice("#route=".length);
+  let plan;
+  try {
+    if (fragment.length > 3000) throw new Error();
+    plan = JSON.parse(decodeURIComponent(fragment));
+    if (plan?.v !== 1 || !whole(plan.year, 2000, 2100) || !whole(plan.freq, 1, 999) ||
+        !whole(plan.seats, 1, 999) || !within(plan.lf, 0, 1) || !within(plan.fare_eur, .01, 1e6) ||
+        !within(plan.lease_eur, 0, 1e8) || !within(plan.util, 1, 31 * 24) ||
+        ![plan.o, plan.d].every(c => typeof c === "string" && /^[A-Z0-9]{4}$/.test(c)) ||
+        plan.o === plan.d || typeof plan.ac !== "string" || !/^[A-Z0-9]{2,6}$/.test(plan.ac)) throw new Error();
+  } catch (_) {
+    $("#main").textContent = _t("Не удалось прочитать параметры маршрута из прогноза.");
+    return;
+  }
+  await loadNetworkAirports([plan.o, plan.d]);
+  const missing = [plan.o, plan.d].filter(c => !APTS.some(a => a.icao === c));
+  if (!ACS.some(t => t.icao === plan.ac && t.usable)) missing.push(plan.ac);
+  if (missing.length) {
+    $("#main").textContent = _t("В расчётном справочнике отсутствуют") + " · " + missing.join(", ");
+    return;
+  }
+  setPick("o", plan.o);
+  setPick("d", plan.d);
+  setAc(plan.ac);
+  CHOSEN.op = "own";
+  $("#layout").value = "own";
+  $("#seatsv").style.display = "";
+  $("#seatsv").value = plan.seats;
+  markClear($("#seatsv"));
+  $("#lf").min = "0";
+  $("#lf").step = "0.01";
+  setRouteInput("lf", plan.lf, +(plan.lf * 100).toFixed(2));
+  setRouteInput("fare", plan.fare_eur, +M(plan.fare_eur).toFixed(2));
+  setRouteInput("lease", plan.lease_eur, +M(plan.lease_eur).toFixed(2));
+  $("#hours").value = plan.util;
+  markClear($("#hours"));
+  $("#routefreq").value = plan.freq;
+  markClear($("#routefreq"));
+  $("#routeforecastnote").textContent = _t("Маршрут прогноза") + " · " + plan.year + ". " +
+    _t("Тариф и затраты на борт перенесены в ценах 2026 года. В поле лизинга включены постоянные расходы борта. Калькулятор оценивает один вылет по действующим ставкам. В прогнозе учтены рейсы в обе стороны за год.");
+  $("#routeforecast").hidden = false;
+  drawCtx(); fitRoute(); draw();
+}
+
+function routeSchedule(r) {
+  const field = $("#routefreq");
+  if ($("#routeforecast").hidden) return;
+  const freq = field.valueAsNumber;
+  const schedule = [];
+  if (Number.isInteger(freq) && field.validity.valid) {
+    schedule.push(`${CHOSEN.o} → ${CHOSEN.d} · ≈ ${f0(Math.round(freq * 365.25 / 7))} ${_t("вылетов в год")}`);
+    if (r?.answer.feasible) schedule.push(`${f0(freq * r.route.pax)} ${_t("пасс. в неделю при заданной загрузке")}`);
+  }
+  $("#routeschedule").textContent = schedule.join(" · ");
+}
+$("#routefreq").addEventListener("input", () => routeSchedule(LAST));
 
 // Условия начисления — порядковые номера ВНУТРИ аэропорта: тройка у
 // Франкфурта значит категорию 3, у Дублина QC 0,5, у Гатвика Chapter 14.
@@ -2163,15 +2266,15 @@ function params(){
   const carrier = !["*", "max", "own"].includes(CHOSEN.op);
   const p = {origin:CHOSEN.o, destination:CHOSEN.d,
     ac:CHOSEN.ac, operator:carrier ? CHOSEN.op : "*", seats:seatsParam(),
-    lf:(+$("#lf").value/100).toFixed(2),
-    fare:$("#fare").value === "" ? "" : (toEur($("#fare").value)).toFixed(2), month:$("#month").value,
+    lf:routeInput("lf", +$("#lf").value / 100),
+    fare:routeInput("fare", toEur($("#fare").value)), month:$("#month").value,
     alt:$("#alt").value||"", age:$("#acage").value||""};
   // Прямые значения вместо режима отнесения. Три режима были ответом на
   // вопрос «как распределить лизинг», а спрашивать надо две величины, из
   // которых распределение и получается. «Борт уже оплачен» выражается
   // нулевым лизингом, «выделенный борт» — своим числом часов.
   if ($("#lease").value !== "") sets.push(
-    `fleet_economics.${CHOSEN.ac}.lease_eur_month=${Math.round(toEur($("#lease").value))}`);
+    `fleet_economics.${CHOSEN.ac}.lease_eur_month=${routeInput("lease", toEur($("#lease").value))}`);
   if ($("#hours").value !== "") sets.push(
     `fleet_economics.${CHOSEN.ac}.monthly_hours=${$("#hours").value}`);
   if ($("#mfh").value !== "") sets.push(
@@ -2184,8 +2287,11 @@ function params(){
 }
 
 // Карта данных открывается на текущем маршруте: те же параметры, что у расчёта.
+$("#maplink").href = probeUrl("/map?lang=" + LANG);
 $("#maplink").addEventListener("click", ev => {
-  if (CHOSEN.o && CHOSEN.d) ev.currentTarget.href = probeUrl("/map?" + params());
+  const q = CHOSEN.o && CHOSEN.d ? params() : new URLSearchParams();
+  q.set("lang", LANG);
+  ev.currentTarget.href = probeUrl("/map?" + q);
 });
 
 let timer = null, seq = 0, routePending = false;
@@ -2220,6 +2326,7 @@ function draw(){
     $("#stat").textContent = `${Math.round(performance.now()-t0)} ${_t("мс")}`;
     drawGlobe();
     if (r.error) {
+      routeSchedule(null);
       if (!NET.on) {
         leaseObservationNotice(null, false, r.error);
         $("#main").innerHTML = `<div class="note"><b>${_t("Отказ расчёта.")}</b> ${esc(r.error)}</div>`;
@@ -2243,6 +2350,7 @@ function whyNot(a){
 function render(r){
   LAST = r;
   if (NET.on) { netRender(); return; }          // режим «Сеть» рисует своё
+  routeSchedule(r);
   // Коды и тип уже стоят в полях слева от этой подписи — не повторяем.
   $("#hdr").textContent = `${f0(r.route.distance_nm)} ${_t("nm · блок")} ${
     f2(r.route.block_h)} ${_t("ч")} · ${r.route.pax} ${_t("из")} ${r.route.seats} ${_t("кресел")}${curLine()}`;
@@ -2336,8 +2444,8 @@ function flowBlock(r){
       f0(tf.market.pax_per_flight)} ${_t("пасс. на рейс")}${tf.market.seats_per_flight ? ` ${_t("из")} ${f0(tf.market.seats_per_flight)} ${_t("кресел")}` : ""}${
       tf.market.lf ? ` · ${_t("загрузка")} <b>${Math.round(tf.market.lf * 100)}%</b>` : ""}</div>` : ""}
     ${near.length ? `<div class="near">${_t("В этом городе есть ещё аэропорт")}: ${near.join("; ")}</div>` : ""}
-    <div>${_t("Ежедневный рейс туда-обратно с")} ${f0(pax)} ${_t("пасс. — это")} ${f0(daily)} ${_t("пасс./мес, или")} <b>${
-      Math.round(daily / tf.pax_month * 1000) / 10}%</b> ${_t("потока.")}</div></div>`;
+    ${$("#routeforecast").hidden ? `<div>${_t("Ежедневный рейс туда-обратно с")} ${f0(pax)} ${_t("пасс. — это")} ${f0(daily)} ${_t("пасс./мес, или")} <b>${
+      Math.round(daily / tf.pax_month * 1000) / 10}%</b> ${_t("потока.")}</div>` : ""}</div>`;
   return h;
 }
 function tabRoute(r){
@@ -2350,7 +2458,7 @@ function tabRoute(r){
     <div><div class="cap">${_t("Безубыточный чек")}</div>
       <div class="big num">${dead
         ? `<span style="font-size:26px;color:var(--warn)">${_t("нельзя")}</span>`
-        : m0(a.breakeven_fare_eur) + `<small>${CUR.code}</small>`}</div></div>
+        : r.route.pax ? m0(a.breakeven_fare_eur) + `<small>${CUR.code}</small>` : "—"}</div></div>
     <div><div class="cap">${_t("Задан")}</div><div class="big num" style="color:var(--dim)">${
       f0(fare)}<small>${CUR.code}</small></div></div>
     <div><span class="verdict${dead||gap>0.5?" bad":""}">${
@@ -2358,6 +2466,7 @@ function tabRoute(r){
       // она рвалась по строкам. Короткое слово остаётся, объяснение — в
       // оранжевом ⓘ (решение 184: оранжевое не прячется целиком).
       dead ? _t("рейс невыполним") + hint(esc(whyNot(a)), "o")
+           : !r.route.pax ? _t("нет пассажиров")
            : gap>0.5 ? `${_t("не хватает")} ${f0(gap)} ${_t("с пассажира")}`
                      : `${_t("запас")} ${f0(-gap)} ${_t("с пассажира")}`}</span></div>
   </div>`;
@@ -3038,12 +3147,13 @@ function drawKpi(r){
   cells.push(kpiCell(_t("Стоимость рейса"),
     a.feasible ? m0(a.cost_total) + `<small>${CUR.code}</small>` : _t("нельзя"),
     !a.feasible ? why
-      : seatsOk ? `${m0(a.cost_total / Math.max(1, r.route.pax))} ${cu(_t("EUR на пассажира"))}`
+      : !r.route.pax ? _t("нет пассажиров")
+      : seatsOk ? `${m0(a.cost_total / r.route.pax)} ${cu(_t("EUR на пассажира"))}`
       : _t("в ответе нет кресел — перезапусти fca serve"),
     !a.feasible || !seatsOk));
   cells.push(kpiCell(_t("Безубыточный чек"),
-    a.feasible ? f0(be) + `<small>${CUR.code}</small>` : "—",
-    !a.feasible ? "" : !fare ? _t("чек не задан")
+    a.feasible && r.route.pax ? f0(be) + `<small>${CUR.code}</small>` : "—",
+    !a.feasible ? "" : !r.route.pax ? _t("нет пассажиров") : !fare ? _t("чек не задан")
       // Заданный чек виден в поле слева — здесь только разница с ним.
       : be <= fare ? `${_t("запас")} ${f0(fare - be)} ${cu(_t("EUR с пассажира"))}`
       : `${_t("не хватает")} ${f0(be - fare)} ${cu(_t("EUR с пассажира"))}`,
@@ -3635,8 +3745,16 @@ function setCur(code, convertInputs = true){
   if (convertInputs && k !== 1) {
     for (const id of ["fare", "lease", "mfh", "mfc", "nlease", "nmfh", "nmfc"]) {
       const el = $("#" + id);
-      if (el.value !== "" && isFinite(+el.value)) { el.value = String(Math.round(+el.value * k)); markClear(el); }
+      if (el.value === "" || !isFinite(+el.value)) continue;
+      if (id === "fare" || id === "lease") {
+        const eur = routeInput(id, toEur(el.value));
+        setRouteInput(id, eur, +(eur * q.rate).toFixed(2));
+      } else {
+        el.value = String(Math.round(+el.value * k)); markClear(el);
+      }
     }
+    NET.fares = Object.fromEntries(Object.entries(NET.fares).map(([pair, fare]) =>
+      [pair, fare === "" ? "" : String(+(fare * k).toFixed(2))]));
   }
   CUR.code = code; CUR.rate = q.rate; CUR.q = q; CUR.cents = code === "EUR" || code === "USD";
   try { localStorage.setItem("fca.cur", code); } catch (e) {}
@@ -3676,7 +3794,7 @@ $("#cur").addEventListener("change", e => { if (!setCur(e.target.value)) curOpti
 // оставшиеся часы парка поровну; переключателя «поровну / свои» больше
 // нет. `tset` — свои борты, кресла и ставки сравниваемых типов (панель
 // «Типы и парк»); у типа в шапке они — в полях слева.
-const NET = {on: false, airports: [], base: null, freqs: {}, fares: {},
+const NET = {on: false, airports: [], base: null, hubOnly: false, freqs: {}, fares: {},
              market: {}, res: null, sel: null, zones: "all", showRights: false,
              busy: false, dirty: true, msg: "", tset: {}, mode: "fleet", rep: {},
              lsort: {k: "contrib", d: -1}, panel: null};
@@ -3742,11 +3860,11 @@ function netChips(){
     NET.dirty = true; netChips(); netRender();
   });
   netLoadMarketHints();
-  const n = NET.airports.length, pairs = n * (n - 1) / 2;
+  const n = NET.airports.length, pairs = NET.hubOnly ? Math.max(0, n - 1) : n * (n - 1) / 2;
   const r = NET.res;
   $("#nstat").textContent = r && !NET.dirty
     ? `${pairs} ${_t("пар · в сети")} ${(r.network ? r.network.pairs.length : 0)} · ${_t("отсечено")} ${pairs - (r.network ? r.network.pairs.length : 0)}`
-    : `${pairs} ${_t("пар")} · ${_t("щелчок по чипу — сделать базой, × — убрать")}`;
+    : `${pairs} ${NET.hubOnly ? _t("пар от базы") : _t("пар")} · ${_t("щелчок по чипу — сделать базой, × — убрать")}`;
   $("#ngo").classList.toggle("hot", NET.dirty);
   $("#ngo").textContent = NET.dirty ? _t("Считать сеть") : _t("Пересчитать");
   drawGlobe();
@@ -3761,7 +3879,8 @@ async function netLoadMarketHints(){
   box.hidden = false;
   content.textContent = _t("загружаю подсказки…");
   try {
-    const q = new URLSearchParams({airports: codes.join(",")});
+    const q = new URLSearchParams({airports: codes.slice(0, 80).join(",")});
+    if (NET.hubOnly && NET.base) q.set("base", netIcao(NET.base));
     const response = await pageFetch("/api/network-hints?" + q.toString());
     const data = await response.json();
     if (seq !== NET_HINT_SEQ) return;
@@ -3829,13 +3948,16 @@ async function netLoadMarketHints(){
 // ── запрос ──────────────────────────────────────────────────────────────
 const pairsQ = o => Object.entries(o).filter(([, v]) => v !== "" && v != null && isFinite(+v))
   .map(([k, v]) => `${k}:${v}`).join(",");
+function netLoadFactor(){ return +$("#nlf").value / 100; }
+const netLoadText = lf => `${(lf * 100).toLocaleString(LOCALE, {maximumFractionDigits: 2})}%`;
 function netParams(){
   const p = new URLSearchParams({
     airports: NET.airports.join(","), base: NET.base || "", ac: CHOSEN.ac,
     operator: ["*", "max", "own"].includes(CHOSEN.op) ? "*" : CHOSEN.op,
-    fleet: $("#nfleet").value || "1", lf: (+$("#nlf").value / 100).toFixed(2),
+    fleet: $("#nfleet").value || "1", lf: netLoadFactor(),
     fare_mult: (+$("#nmult").value / 100).toFixed(2), fare_conv: $("#nconv").value || "",
     month: $("#month").value, age: $("#acage").value || ""});
+  if (NET.hubOnly) p.set("hub_only", "1");
   // Компоновка шапки — и в сети: «по сертификату» и «своя» уходят числом
   // кресел. Прежде сеть их не получала и считала по типовой.
   const seats = seatsParam(); if (seats) p.set("seats", String(seats));
@@ -3856,6 +3978,11 @@ function netParams(){
   if (sets.length) p.set("set", sets.join("~"));
   if (leaseObservationId()) p.set("lease_observation", leaseObservationId());
   return p;
+}
+function fetchNetwork(path, parameters){
+  if (!parameters.has("hub_only")) return pageFetch(path + "?" + parameters);
+  return pageFetch(path, {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(Object.fromEntries(parameters))});
 }
 // Сравнение и отчёт — те же вводы плюс свои у каждого типа и режим
 // отчёта. Один адрес на экран, отчёт, PDF и Excel: что видно в панели,
@@ -3883,8 +4010,11 @@ function netCmpParams(report){
 }
 let NET_SEQ = 0, NET_TIMER = null;
 async function netRun(){
-  if (NET.airports.length < 2 || !NET.base) { NET.msg = _t("нужны хотя бы два аэропорта и база"); netRender(); return; }
   const my = ++NET_SEQ;
+  if (NET.airports.length < 2 || !NET.base) {
+    NET.busy = false; NET.progress = null; loaderHide();
+    NET.msg = _t("нужны хотя бы два аэропорта и база"); netRender(); return;
+  }
   NET.busy = true; NET.msg = ""; NET.progress = null; netRender();
   const t0 = performance.now();
   let r;
@@ -3893,7 +4023,7 @@ async function netRun(){
   // обогнать (my !== NET_SEQ), просто бросается.
   for (;;) {
     try {
-      const resp = await pageFetch("/api/network?" + netParams());
+      const resp = await fetchNetwork("/api/network", netParams());
       r = await resp.json();
       if (resp.status === 429) r = {error: r.error};
     } catch (e) { r = {error: _t("Сервер не ответил")}; }
@@ -3901,17 +4031,36 @@ async function netRun(){
     if (!(r && r.pending)) break;
     NET.progress = r.progress; netRender(); loaderShow(r.progress);
     await new Promise(res => setTimeout(res, 1500));
-    if (my !== NET_SEQ) { loaderHide(); return; }
+    if (my !== NET_SEQ) return;
   }
   loaderHide();
   NET.busy = false; NET.progress = null;
-  if (r && r.pairs) { NET.res = r; NET.dirty = false; }
+  if (r && r.pairs) {
+    // Состав кэшируется для набора аэропортов. Порядок концов пары
+    // может отличаться от порядка ввода в этой вкладке.
+    for (const {a, b} of r.pairs) {
+      const key = `${a}-${b}`, reverse = `${b}-${a}`;
+      for (const inputs of [NET.freqs, NET.market]) {
+        if (Object.hasOwn(inputs, reverse)) {
+          if (!Object.hasOwn(inputs, key)) inputs[key] = inputs[reverse];
+          delete inputs[reverse];
+        }
+      }
+    }
+    NET.res = r; NET.dirty = false;
+  }
   NET.msg = r && r.error ? r.error : "";
   NET.ms = Math.round(performance.now() - t0);
   netChips(); netRender(); netFit();
 }
 // Парк, цена, частоты, загрузка — на лету, пока состав не менялся.
 function netSoft(){
+  if (NET.busy && NET.hubOnly) {
+    // Ввели правку, пока считались исходные плечи из прогноза.
+    ++NET_SEQ;
+    clearTimeout(NET_TIMER); NET_TIMER = setTimeout(netRun, 250);
+    return;
+  }
   if (NET.dirty || !NET.res) { netRender(); return; }
   clearTimeout(NET_TIMER); NET_TIMER = setTimeout(netRun, 250);
 }
@@ -3937,7 +4086,7 @@ function netFareLine() {
   $("#nfarev").innerHTML = `${_t("в расчёте: минимум")} × ${f2(conv)}${auto ? " (" + _t("по потоку пары") + ")" : ""} × ${f2(mult)} = <b>× ${f2(k)}</b>${
     l ? ` · ${esc(l.origin)}–${esc(l.destination)}: ${m0(l.fare_eur)} → <b>${m0(l.fare_eur * k)}</b> ${CUR.code}` : ""}`;
 }
-$("#nlf").addEventListener("input", () => { $("#nlfv").textContent = $("#nlf").value + "%"; netSoft(); });
+$("#nlf").addEventListener("input", () => { $("#nlfv").textContent = netLoadText(netLoadFactor()); netSoft(); });
 // Режим отчёта (решение 221): «Мой парк» — борты и частоты как на экране,
 // «Доля рынка» — парк подбирается под долю потока. Сеть не пересчитывает.
 document.querySelectorAll("#rmode button").forEach(b => b.onclick = () => {
@@ -3977,14 +4126,14 @@ function netRender(){
                : (NET.msg || (NET.dirty ? _t("нажмите «Считать сеть»") : "")), !!NET.msg)
       + kpiCell(_t("Парк"), `${$("#nfleet").value} × ${esc(CHOSEN.ac)}`, "", false)
       + kpiCell(_t("Цена"), `× ${f2(+$("#nmult").value / 100)}`, _t("наша цена к рынку"), false)
-      + kpiCell(_t("Загрузка"), $("#nlf").value + "%", _t("расчётная"), false)
+      + kpiCell(_t("Загрузка"), netLoadText(netLoadFactor()), _t("расчётная"), false)
       + kpiCell(_t("Пары"), r ? String(r.pairs.length) : "—", r ? `${r.pairs.filter(p => p.status === "ok").length} ${_t("с правом летать")}` : "", false);
   } else {
     const lf = n.lf_ref;
     k.innerHTML =
       kpiCell(_t("Безубыточная загрузка"), n.breakeven_lf == null ? _t("нет") : `${(n.breakeven_lf * 100).toLocaleString(LOCALE, {maximumFractionDigits: 1})}<small>%</small>`,
         n.breakeven_lf == null ? _t("не окупается даже полными бортами") : _t("сеть в нуле"), n.breakeven_lf == null || n.breakeven_lf > 0.95)
-      + kpiCell(`${_t("При")} ${Math.round(lf * 100)}%`, `<span class="${n.profit_at_ref < 0 ? "neg" : ""}">${kNum(n.profit_at_ref)}</span><small>${kUnit(n.profit_at_ref)} ${CUR.code}/${_t("мес")}</small>`,
+      + kpiCell(`${_t("При")} ${netLoadText(lf)}`, `<span class="${n.profit_at_ref < 0 ? "neg" : ""}">${kNum(n.profit_at_ref)}</span><small>${kUnit(n.profit_at_ref)} ${CUR.code}/${_t("мес")}</small>`,
         `${_t("лизинг парка")} ${kMoney(n.fleet * n.lease_eur_month)}`, n.profit_at_ref < 0)
       + kpiCell(_t("Цена в ноль"), n.fare_mult_breakeven == null ? "—" : `× ${f2(n.fare_mult_breakeven)}`,
         `${_t("наша цена к рынку")} × ${f2(n.fare_mult)}`, n.fare_mult_breakeven != null && n.fare_mult_breakeven > n.fare_mult)
@@ -4097,7 +4246,7 @@ async function netCmpRun() {
   let r;
   for (;;) {
     try {
-      const resp = await pageFetch("/api/netcompare?" + p);
+      const resp = await fetchNetwork("/api/netcompare", p);
       r = await resp.json();
     } catch (e) { r = {error: _t("Сервер не ответил")}; }
     if (my !== NETCMP_SEQ) return;
@@ -4151,14 +4300,14 @@ function tabNetTypes() {
       <a class="btn" style="width:auto;flex:none;text-decoration:none;display:block" href="/api/fleetreport.pdf?${qs}" title="${_t("Отчёт документом для пересылки")}">PDF</a>
       <a class="btn" style="width:auto;flex:none;text-decoration:none;display:block" href="/api/fleetreport.xlsx?${qs}" title="${_t("Расчёт с живыми формулами: объём, рейсы, борты")}">Excel</a></div>`;
   }
-  if (bestP) h += `<div class="note quiet"><b>${_t("Больше всего при")} ${Math.round(r.lf_ref * 100)}%:</b> ${esc(acShort(bestP.icao))}, ${
+  if (bestP) h += `<div class="note quiet"><b>${_t("Больше всего при")} ${netLoadText(r.lf_ref)}:</b> ${esc(acShort(bestP.icao))}, ${
       kMoney(bestP.profit_at_ref)} ${CUR.code}/${_t("мес")}${bestL ? ` · <b>${_t("раньше всех в ноль:")}</b> ${esc(acShort(bestL.icao))}, ${_t("при загрузке")} ${pct(bestL.breakeven_lf)}` : ""}.</div>`;
   const cols = "1.25fr .6fr .8fr .7fr .9fr .7fr .7fr";
   // Одна единица на колонку: миллионы, если хоть одно число их требует.
   const big = ok.some(x => kBig(x.profit_at_ref));
   const kv = eur => f0(M(eur) / (big ? 1e6 : 1e3));
   h += `<div class="mhead" style="grid-template-columns:${cols}"><span>${_t("тип")}</span><span>${_t("рейс/нед")}</span>
-    <span>${_t("кресел/мес")}</span><span>${_t("загрузка в 0")}</span><span>${_t("при")} ${Math.round(r.lf_ref * 100)}%, ${big ? _t("млн") : _t("тыс.")}/${_t("мес")}</span>
+    <span>${_t("кресел/мес")}</span><span>${_t("загрузка в 0")}</span><span>${_t("при")} ${netLoadText(r.lf_ref)}, ${big ? _t("млн") : _t("тыс.")}/${_t("мес")}</span>
     <span>${_t("цена в 0")}</span><span>${_t("нужно")}</span></div>`;
   for (const x of r.rows) {
     const g = geo(x.icao), cur = x.icao === CHOSEN.ac;
@@ -4248,9 +4397,14 @@ const LCOLS = [["key", _t("пара")], ["dist", _t("км")], ["freq", _t("ре�
   ["need", _t("нужно")], ["fs", _t("частоты")], ["ss", "S"]];
 function linesRows(){
   const r = NET.res, n = r && r.network;
-  if (!r) return [];
   const res = Object.fromEntries(((n && n.pairs) || []).map(x => [x.key, x]));
-  return r.pairs.filter(p => p.status === "ok").map(p => {
+  let pairs = (r?.pairs || []).filter(p => p.status === "ok");
+  if (NET.hubOnly) {
+    const destinations = new Map((r?.pairs || []).map(p => [p.b, p]));
+    pairs = NET.airports.filter(code => code !== NET.base).map(code =>
+      destinations.get(code) || {a: NET.base, b: code, legs: [], reasons: [], status: "draft"});
+  }
+  return pairs.map(p => {
     const key = `${p.a}-${p.b}`, x = res[key];
     return {key, p, x, dist: p.dist_km, freq: x ? x.freq_week : 0, market: p.market_pax_month,
             seats: x ? x.seats_month : 0, lfown: x ? x.lf_own : null, contrib: x ? x.contribution_month : null,
@@ -4260,7 +4414,9 @@ function linesRows(){
 }
 function linesHtml(){
   const r = NET.res, n = r && r.network;
-  if (!r) return `<p class="lede">${_t("Сначала посчитайте сеть: линии появятся здесь.")}</p>`;
+  if (!r && !NET.hubOnly) return NET.msg
+    ? `<div class="note"><b>${_t("Не посчитать.")}</b> ${esc(NET.msg)}</div>`
+    : `<p class="lede">${_t("Сначала посчитайте сеть: линии появятся здесь.")}</p>`;
   const rows = linesRows(), s = NET.lsort;
   rows.sort((a, b) => {
     const va = a[s.k], vb = b[s.k];
@@ -4279,15 +4435,20 @@ function linesHtml(){
   for (const w of rows) {
     const {p, x, key} = w;
     const fset = NET.freqs[key] != null && NET.freqs[key] !== "";
-    const fare = p.legs.map(l => {
+    const legs = NET.hubOnly ? [[p.a,p.b], [p.b,p.a]].map(([origin, destination]) =>
+      p.legs.find(leg => leg.origin === origin) || {origin, destination}) : p.legs;
+    const fare = legs.map(l => {
       const k = `${l.origin}-${l.destination}`, set = NET.fares[k] != null && NET.fares[k] !== "";
       return `<input data-f="fare" data-k="${esc(k)}" class="${set ? "set" : ""}${parFare(l) ? " par" : ""}" type="number" min="0" step="1"
         value="${set ? escA(NET.fares[k]) : ""}" placeholder="${l.fare_eur != null ? m0(l.fare_eur) : "—"}" title="${escA(k + " · " + (l.fare_src || l.market_fare_src || ""))}">`;
     }).join("");
     const mset = NET.market[key] != null && NET.market[key] !== "";
     tf += w.freq; ts += w.seats; tc += w.contrib || 0;
+    const reason = p.status === "draft" ? _t("нет расчёта") : p.status !== "ok"
+      ? p.reasons.map(reason => reason.text).join(". ") : fset && +NET.freqs[key] === 0
+      ? _t("выключена") : !p.legs.every(l => l.fare_eur) ? _t("нет цены") : _t("не летается");
     h += `<tr data-pair="${esc(key)}" class="${NET.sel === key ? "sel" : ""}${x ? "" : " off"}">
-      <td>${esc(key)}${x ? "" : `<small>${fset && +NET.freqs[key] === 0 ? _t("выключена") : !p.legs.every(l => l.fare_eur) ? _t("нет цены") : _t("не летается")}</small>`}</td>
+      <td>${esc(key)}${x ? "" : `<small>${esc(reason)}</small>`}</td>
       <td>${f0(w.dist)}</td>
       <td><input data-f="freq" data-k="${esc(key)}" class="${fset ? "set" : ""}" type="number" min="0" step="1"
         value="${fset ? escA(NET.freqs[key]) : ""}" placeholder="${x ? x.freq_week : "—"}" title="${escA(fset ? _t("задано — закреплено") : _t("авто: остаток часов парка поровну"))}"></td>
@@ -4305,7 +4466,7 @@ function linesHtml(){
     h += `<tr class="tot"><td>${_t("итого")}</td><td></td><td>${tf}</td><td></td><td></td><td>${f0(ts)}</td><td></td>
       <td class="${tc < 0 ? "neg" : ""}">${tc >= 0 ? "+" : ""}${m0(tc / 1000)}</td><td></td><td></td><td></td></tr>
       <tr><td colspan="11" style="text-align:left;font-family:var(--sans);color:var(--dim);white-space:normal">${_t("лизинг парка")} ${n.fleet} × ${m0(n.lease_eur_month)} = ${kMoney(lease)} → ${_t("результат")}
-      <b class="${tc - lease < 0 ? "neg" : ""}">${tc - lease >= 0 ? "+" : ""}${kMoney(tc - lease)}</b> ${CUR.code}/${_t("мес")} ${_t("при загрузке")} ${pct(n.lf_ref)} ·
+      <b class="${tc - lease < 0 ? "neg" : ""}">${tc - lease >= 0 ? "+" : ""}${kMoney(tc - lease)}</b> ${CUR.code}/${_t("мес")} ${_t("при загрузке")} ${netLoadText(n.lf_ref)} ·
       ${_t("налёт")} ${f0(n.hours_used / n.fleet)} ${_t("ч/мес из")} ${f0(n.util_h_month)}</td></tr>`;
   }
   h += `</tbody></table><p class="lede" style="margin-top:8px">${_t("рейсы в 0 — загрузка, при которой пара окупает свои рейсы, без парка · вклад — в лизинг парка при расчётной загрузке · нужно — доля нынешнего потока при безубыточной загрузке сети · частоты — наша доля рейсов на паре · S — по S-кривой (допущение). Цены — в")} ${CUR.code}, ${_t("щелчок по строке — дуга на глобусе, по заголовку — сортировка.")}</p>`;
@@ -4420,7 +4581,7 @@ function bindTypes(){
 // Строка под кнопками слева: что сейчас в расчёте, одной строкой.
 function netSumLine(){
   const nf = Object.keys(NET.freqs).length, conv = $("#nconv").value;
-  $("#nsumline").textContent = `${_t("цена")} × ${f2(+$("#nmult").value / 100)} · ${_t("чек")} ${conv ? "× " + conv : _t("авто")} · ${_t("загрузка")} ${$("#nlf").value}% · ${
+  $("#nsumline").textContent = `${_t("цена")} × ${f2(+$("#nmult").value / 100)} · ${_t("чек")} ${conv ? "× " + conv : _t("авто")} · ${_t("загрузка")} ${netLoadText(netLoadFactor())} · ${
     nf ? `${_t("частоты заданы на")} ${nf}` : _t("частоты поровну")}`;
   const r = NET.res;
   $("#nlinesn").textContent = r ? String(r.pairs.filter(p => p.status === "ok").length) : "";
@@ -4606,18 +4767,22 @@ function netZonesApply(){
 // ── рабочее место: сети документами ─────────────────────────────────────
 function netState(){
   return {airports: NET.airports, base: NET.base, ac: CHOSEN.ac, fleet: +$("#nfleet").value || 1,
+    hub_only: NET.hubOnly,
     age: $("#acage").value || null,
     lease_observation: leaseObservationId() || null,
     util: $("#nutil").value || null, lease_eur: $("#nlease").value === "" ? null : Math.round(toEur($("#nlease").value)),
     maint_fh_eur: $("#nmfh").value === "" ? null : Math.round(toEur($("#nmfh").value)),
     maint_fc_eur: $("#nmfc").value === "" ? null : Math.round(toEur($("#nmfc").value)),
-    fare_mult: +$("#nmult").value / 100, fare_conv: $("#nconv").value === "" ? null : +$("#nconv").value, lf: +$("#nlf").value / 100,
+    fare_mult: +$("#nmult").value / 100, fare_conv: $("#nconv").value === "" ? null : +$("#nconv").value, lf: netLoadFactor(),
     freqs: NET.freqs, tset: NET.tset, types: NET.cmp.types, mode: NET.mode, rep: NET.rep,
     alpha: $("#nalpha").value || null, net_kind: $("#nkind").value || null, window_h: $("#nwin").value || null, layout: CHOSEN.op, seats: $("#seatsv").value || null, fares_eur: Object.fromEntries(Object.entries(NET.fares).filter(([, v]) => v !== "").map(([k, v]) => [k, +toEur(v)])),
     market: NET.market, month: $("#month").value || null, saved_at: new Date().toISOString().slice(0, 16)};
 }
 function netApply(st){
+  clearTimeout(NET_TIMER);
+  loaderHide();
   NET.airports = st.airports || []; NET.base = st.base || NET.airports[0] || null;
+  NET.hubOnly = st.hub_only === true;
   if (st.ac && ACS.some(t => t.icao === st.ac)) setAc(st.ac);
   setLeaseObservation(st.lease_observation || null);
   setAircraftAge(st.age);
@@ -4626,7 +4791,12 @@ function netApply(st){
   $("#nmfh").value = st.maint_fh_eur == null ? "" : String(Math.round(M(st.maint_fh_eur)));
   $("#nmfc").value = st.maint_fc_eur == null ? "" : String(Math.round(M(st.maint_fc_eur)));
   $("#nmult").value = Math.round((st.fare_mult || 1) * 100); $("#nmultv").textContent = `× ${f2(st.fare_mult || 1)}`;
-  $("#nconv").value = st.fare_conv == null ? "" : st.fare_conv; $("#nlf").value = Math.round((st.lf || 0.8) * 100); $("#nlfv").textContent = $("#nlf").value + "%";
+  $("#nconv").value = st.fare_conv == null ? "" : st.fare_conv;
+  const load = $("#nlf");
+  load.min = NET.hubOnly ? "0" : "40";
+  load.step = NET.hubOnly ? "any" : "1";
+  load.value = (st.lf ?? 0.8) * 100;
+  $("#nlfv").textContent = netLoadText(netLoadFactor());
   // Сети, сохранённые до решения 221: «поровну» означало, что вписанные
   // частоты не действуют — так и читаем.
   NET.freqs = st.freq_mode === "auto" ? {} : (st.freqs || {}); NET.market = st.market || {};
@@ -4637,9 +4807,151 @@ function netApply(st){
   [["rshare", "share"], ["relast", "elasticity"], ["rminf", "min_freq"], ["rres", "reserve"]].forEach(([id, k]) => $("#" + id).value = NET.rep[k] || "");
   if (st.layout) { $("#layout").value = st.layout; if ($("#layout").value === st.layout) { $("#seatsv").value = st.seats || ""; $("#layout").dispatchEvent(new Event("change")); } }
   rmodeApply();
-  NET.fares = Object.fromEntries(Object.entries(st.fares_eur || {}).map(([k, v]) => [k, String(Math.round(M(v)))]));
+  NET.fares = Object.fromEntries(Object.entries(st.fares_eur || {}).map(([k, v]) => [k, String(+Number(M(v)).toFixed(2))]));
   if (st.month != null) $("#month").value = st.month;
   NET.dirty = true; NET.res = null; netChips(); netRender(); netRun();
+}
+
+// План прогноза передаётся фрагментом ссылки, а каждый тип редактируется
+// штатными полями однотипной сети. Эти черновики живут в текущей вкладке.
+const FORECAST_NET = {groups: [], active: null, year: null, savedName: ""};
+const isAirportCode = value => typeof value === "string" && /^[A-Z0-9]{3,4}$/.test(value);
+
+async function loadNetworkAirports(codes){
+  const known = new Set(APTS.flatMap(a => [a.key, a.icao]));
+  const missing = [...new Set(codes.filter(code => isAirportCode(code) && !known.has(code)))];
+  for (let i = 0; i < missing.length; i += 100) {
+    const params = new URLSearchParams({include: missing.slice(i, i + 100).join(",")});
+    try {
+      const response = await pageFetch("/api/airports?" + params);
+      if (!response.ok) continue;
+      const rows = await response.json();
+      for (const a of rows) {
+        if (known.has(a.icao)) continue;
+        APTS.push(a); known.add(a.icao); known.add(a.key);
+        GEO.airports[a.icao] ??= {...a, name: a.tr?.ru || a.name, iata: a.key};
+      }
+    } catch (_) {}
+  }
+}
+
+function forecastNetworkGroups(plan){
+  const numberIn = (value, min, max) => Number.isFinite(value) && value >= min && value <= max;
+  const integerIn = (value, min, max) => Number.isInteger(value) && numberIn(value, min, max);
+  if (plan?.v !== 1 || !Array.isArray(plan.fleet) || !Array.isArray(plan.routes) ||
+      !isAirportCode(plan.hub) || !plan.fleet.length || plan.fleet.length > plan.routes.length ||
+      plan.routes.length > 1000) throw new Error();
+  const catalog = new Map(APTS.flatMap(a => [[a.icao, a], [a.key, a]]));
+  const airport = (code, iata) => catalog.get(code) || (typeof iata === "string" && /^[A-Z0-9]{3}$/.test(iata) && catalog.get(iata));
+  const hub = airport(plan.hub, plan.hub_iata);
+  const types = new Set();
+  const groups = plan.fleet.map(spec => {
+    if (!spec || typeof spec.ac !== "string" || !/^[A-Z0-9]{2,6}$/.test(spec.ac) ||
+        types.has(spec.ac) || !integerIn(spec.count, 1, 999) ||
+        (spec.seats != null && !integerIn(spec.seats, 1, 999)) ||
+        (spec.age != null && !numberIn(spec.age, 0, 40)) ||
+        (spec.lf != null && !numberIn(spec.lf, 0, 1)) ||
+        (spec.lease_eur != null && !numberIn(spec.lease_eur, 0, 1e8)) ||
+        (spec.util != null && !numberIn(spec.util, 1, 31 * 24))) throw new Error();
+    types.add(spec.ac);
+    const routes = plan.routes.filter(r => r?.ac === spec.ac);
+    const destinations = new Set();
+    const base = hub?.key || plan.hub;
+    const state = {
+      base, airports: [base], ac: spec.ac, fleet: spec.count, age: spec.age,
+      seats: spec.seats, layout: spec.seats == null ? "*" : "own",
+      lease_eur: spec.lease_eur, util: spec.util, lf: spec.lf, fare_conv: 1,
+      net_kind: "shuttle", hub_only: true, types: [spec.ac], freqs: {}, fares_eur: {}, market: {},
+    };
+    if (!routes.length) throw new Error();
+    for (const route of routes) {
+      if (!isAirportCode(route.to) || !integerIn(route.freq, 1, 999) ||
+          (route.market != null && !numberIn(route.market, 0, 1e9)) ||
+          (route.fare != null && !numberIn(route.fare, 0.01, 1e6))) throw new Error();
+      const dest = airport(route.to, route.iata)?.key || route.to;
+      if (dest === base || destinations.has(dest)) throw new Error();
+      destinations.add(dest);
+      state.airports.push(dest);
+      const key = `${base}-${dest}`;
+      state.freqs[key] = route.freq;
+      if (route.market != null) state.market[key] = +(route.market / 12).toFixed(2);
+      if (route.fare != null) {
+        state.fares_eur[key] = route.fare;
+        state.fares_eur[`${dest}-${base}`] = route.fare;
+      }
+    }
+    return state;
+  });
+  if (plan.routes.some(route => !types.has(route?.ac))) throw new Error();
+  return groups;
+}
+
+function forecastNetworkSelect(index){
+  const group = FORECAST_NET.groups[index];
+  if (!group || group.error) return;
+  if (FORECAST_NET.active != null) {
+    const previous = netState();
+    FORECAST_NET.groups[FORECAST_NET.active].state = previous;
+    $("#dfleet").options[FORECAST_NET.active].text = `${previous.ac} × ${previous.fleet}`;
+  }
+  FORECAST_NET.active = index;
+  NET.sel = null;
+  NET.cmp.res = null;
+  netApply(group.state);
+}
+$("#dfleet").onchange = e => forecastNetworkSelect(Number(e.target.value));
+
+function openForecastGroups(states, year, savedName, preferred, error = ""){
+  const known = new Set(APTS.map(a => a.key));
+  const groups = states.map(state => {
+    const unknown = state.airports.filter(code => !known.has(code));
+    const unavailable = !ACS.some(t => t.icao === state.ac && t.usable);
+    const error = [
+      unavailable && `${_t("Тип отсутствует в расчётном справочнике")} · ${state.ac}`,
+      unknown.length && `${_t("Аэропорты отсутствуют в расчётном справочнике")} · ${unknown.join(", ")}`,
+    ].filter(Boolean).join(". ");
+    return {state, error};
+  });
+  Object.assign(FORECAST_NET, {groups, active: null, year, savedName});
+  const select = $("#dfleet");
+  select.replaceChildren();
+  select.closest(".field").hidden = groups.length < 2;
+  groups.forEach(({state, error}, i) => {
+    select.add(new Option(`${state.ac} × ${state.fleet}`, i));
+    select.options[i].disabled = Boolean(error);
+  });
+  const active = groups[preferred] && !groups[preferred].error ? preferred : groups.findIndex(group => !group.error);
+  const note = active < 0 ? [] : [_t("Сеть из прогноза. Калькулятор пересчитывает экономику по своим данным. Выручка от пересадок остаётся в расчёте прогноза.")];
+  if (groups.length > 1) {
+    note.push(_t("Выберите тип ВС для расчёта его плеч. Кнопка «Сохранить сеть» сохраняет все группы с вашими правками."));
+  }
+  $("#dforecastnote").textContent = [...note, error, ...groups.map(g => g.error)].filter(Boolean).join(" ");
+  $("#dforecast").hidden = false;
+  if (active >= 0) {
+    select.value = active;
+    forecastNetworkSelect(active);
+  } else {
+    netApply({airports: [], hub_only: true});
+  }
+  drawerOpen("lines");
+}
+
+async function importForecastNetwork(){
+  const prefix = "#network=";
+  if (!location.hash.startsWith(prefix)) return false;
+  const hash = location.hash.slice(prefix.length);
+  setMode("net");
+  try {
+    if (hash.length > 250000) throw new Error();
+    const plan = JSON.parse(decodeURIComponent(hash));
+    if (Array.isArray(plan?.routes) && plan.routes.length <= 1000) {
+      await loadNetworkAirports([plan.hub, plan.hub_iata, ...plan.routes.flatMap(route => [route?.to, route?.iata])]);
+    }
+    openForecastGroups(forecastNetworkGroups(plan), Number.isInteger(plan.year) ? plan.year : null, "", 0);
+  } catch (_) {
+    openForecastGroups([], null, "", 0, _t("Не удалось прочитать сеть из прогноза."));
+  }
+  return true;
 }
 async function netLoadList(){
   const sel = $("#nload");
@@ -4650,16 +4962,35 @@ async function netLoadList(){
 }
 $("#nsave").onclick = async () => {
   if (!(WS.enabled && WS.info && WS.info.exists && wsKey())) { $("#wsbtn").onclick(); return; }
-  const name = prompt(_t("Название сети"), `${NET.base || ""} ${CHOSEN.ac} × ${$("#nfleet").value}`.trim());
+  const {groups, active, savedName, year} = FORECAST_NET;
+  const suggestion = groups.length ? [groups[0].state.base, _t("Прогноз"), year].filter(Boolean).join(" · ")
+    : `${NET.base || ""} ${CHOSEN.ac} × ${$("#nfleet").value}`.trim();
+  const name = prompt(_t("Название сети"), savedName || suggestion)?.trim().slice(0, 80);
   if (!name) return;
-  const r = await wsApi("/api/ws/doc", {kind: "network", name, body: netState()});
-  if (r.error) { alert(r.error); return; }
+  const body = groups.length ? {forecast_version: 1, year, active,
+    groups: groups.map((group, i) => i === active ? netState() : group.state)} : netState();
+  const r = await wsApi("/api/ws/doc", {kind: "network", name, body, create_only: groups.length > 0 && name !== savedName});
+  if (r.error) {
+    alert(r.code === "name_exists" ? _t("Документ с таким именем уже существует. Выберите другое имя.") : r.error);
+    return;
+  }
+  if (groups.length) FORECAST_NET.savedName = name;
   await netLoadList(); $("#nload").value = name;
 };
 $("#nload").addEventListener("change", async () => {
   const name = $("#nload").value; if (!name) return;
   const r = await wsApi(`/api/ws/doc?kind=network&name=${encodeURIComponent(name)}`);
-  if (r.body) netApply(r.body);
+  if (r.body) {
+    if (r.body.forecast_version === 1 && Array.isArray(r.body.groups)) {
+      await loadNetworkAirports(r.body.groups.flatMap(group => group.airports));
+      openForecastGroups(r.body.groups, r.body.year, name, r.body.active);
+      return;
+    }
+    if (r.body.hub_only && Array.isArray(r.body.airports)) await loadNetworkAirports(r.body.airports);
+    $("#dforecast").hidden = true;
+    Object.assign(FORECAST_NET, {groups: [], active: null, year: null, savedName: ""});
+    netApply(r.body);
+  }
 });
 
 // ── телефон: параметры шторкой ──────────────────────────────────────────

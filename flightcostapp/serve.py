@@ -34,10 +34,12 @@
 from __future__ import annotations
 
 import json
+import mimetypes
 import sys
 import os
 from html import escape as html_escape
 import re
+import shutil
 import threading
 import time
 import traceback
@@ -49,7 +51,139 @@ from pathlib import Path
 
 from .probe import PROBE_PARAM, PROBE_VALUE
 
+from . import forecast_site
+
 WEB = Path(__file__).resolve().parent / "web"
+FORECAST_OUTPUTS = forecast_site.OUTPUTS
+FORECAST_INDEX = forecast_site.INDEX
+# Files linked from the local forecast and its review report.
+FORECAST_ASSETS = frozenset({
+    FORECAST_INDEX,
+    *forecast_site.SOURCE_ASSETS.values(),
+    "forecast-aircraft-market/200-300/manufacturer-market-grid.csv.gz",
+    "forecast-aircraft-market/200-300/requirements.json",
+    "forecast-aircraft-market/designer-replay.zip",
+    "forecast-aircraft-market/designer_deep.json",
+    "forecast-aircraft-market/deep_market.json",
+    "forecast-aircraft-market/global_route_priority.csv",
+    "forecast-aircraft-market/global_route_reconciliation.csv.gz",
+    "forecast-aircraft-market/deep-replay.zip",
+    "forecast-market-position/bts-2025.csv",
+    "forecast-aircraft-market/designer_method.ru.md",
+    "forecast-aircraft-market/route-cash-replay.zip",
+    "forecast-direct-world/прямые-маршруты-рейтинг.csv",
+    "forecast-direct-world/прямые-маршруты-покрытие.csv",
+    "forecast-direct-world/direct-route-replay.zip",
+    "forecast-direct-world/preview-cn/прямые-маршруты-рейтинг.csv",
+    "forecast-direct-world/preview-cn/прямые-маршруты-покрытие.csv",
+    "forecast-final/direct-route-country-diagnostics.csv",
+    "forecast-world-networks/countries.csv",
+    "forecast-world-networks/hubs.json.gz",
+    "forecast-world-networks/market-references.csv.gz",
+    "forecast-world-networks/reproduce.ru.txt",
+    "forecast-world-networks/Экономика сетей.xlsx",
+    # Supporting studies linked by the network map, including the four published pilot scenarios.
+    *(f"forecast-network-entry/recalculation/networks/{scenario}/{hub}-{year}.json"
+      for scenario in ("movement", "full_seats", "fare_demand", "operable_fare_demand")
+      for hub in ("DGAA", "EDDF", "EIDW", "FAOR") for year in (2029, 2031, 2036)),
+    *(f"forecast-network-entry/recalculation/{scenario}/schedules/{hub}-2036.json.gz"
+      for scenario in ("movement", "full_seats", "fare_demand", "operable_fare_demand")
+      for hub in ("DGAA", "EDDF")),
+    "forecast-local-fares/quote-public-supplement.json",
+    "forecast-network-entry/dub.json",
+    "forecast-network-entry/europe-fixed-pnl.json",
+    "forecast-network-entry/flight-capacity-check.json",
+    "forecast-network-entry/price-and-demand.html",
+    "forecast-network-entry/price-sensitivity.json",
+    "forecast-network-entry/recalculation/operable_fare_demand/results/DGAA-2036.json",
+    "forecast-network-entry/ryanair-pnl.json",
+    "forecast-network-entry/Цена и продажи.xlsx",
+    "forecast-ticket-premium/international-sales.json",
+    "forecast-ticket-premium/local-sources.ru.md",
+    "forecast-ticket-premium/panel-results.json",
+    "forecast-ticket-premium/previous-boundary.json",
+    "forecast-ticket-premium/report-verification.json",
+    "forecast-ticket-premium/report.html",
+    "forecast-ticket-premium/reproduce.ru.md",
+    "forecast-ticket-premium/same-carrier-actuals.json",
+    "forecast-ticket-premium/search/flight-capacity-check.json",
+    "forecast-ticket-premium/share-changes.png",
+    "forecast-ticket-premium/Оплаченные тарифы.xlsx",
+    "forecast-regional-shocks/FlightCost-shocks-study.zip",
+    "forecast-local-fares/report.html",
+    "forecast-local-fares/reproduce.ru.txt",
+    "forecast-local-fares/fare-audit.json",
+    "forecast-local-fares/fare-audit-replicated.json",
+    "forecast-local-fares/fare-audit-indicative.json",
+    "forecast-local-fares/search/replicated/flight-capacity-check.json",
+    "forecast-local-fares/search/indicative/flight-capacity-check.json",
+    "forecast-local-fares/Местные тарифы.xlsx",
+    "forecast-final/index.html",
+    "forecast-leased-network/report.html",
+    "forecast-leased-network/lease-study.zip",
+    "forecast-leased-network/Проверка экономики сети.xlsx",
+    "forecast-leased-network/Региональные результаты.csv",
+    "forecast-leased-network/Экономика страновых сетей.xlsx",
+    "forecast-leased-network/Сети по странам.csv",
+    "forecast-leased-network/Сети по странам.zip",
+    "forecast-final/Сценарий потока и парка.zip",
+    "forecast-final/traffic.html",
+    "forecast-final/industry.html",
+    "forecast-final/route-economics-replay.zip",
+    "forecast-final/model-network-replay.zip",
+    "forecast-final/network-connection-replay.zip",
+    "forecast-final/network-connections-world.zip",
+    "forecast-final/model-network-world.zip",
+    "forecast-final/regional-fares.ru.md",
+    "forecast-final/Подбор расписания.xlsx",
+    "forecast-final/Пассажиропоток.xlsx",
+    "forecast-final/Экономика маршрута.xlsx",
+    "forecast-final/pilot/japan-linear.json",
+    "forecast-network-audit/map.ru.html",
+    "forecast-network-audit/README.ru.md",
+    "forecast-network-audit/airspace/README.ru.md",
+    "forecast-network-audit/coverage/README.ru.md",
+    "forecast-network-audit/coverage/recovered-economics/README.ru.md",
+    "forecast-one-hub-v02/inputs/README.ru.md",
+    "forecast-one-hub-v03/README.ru.md",
+    "forecast-one-hub-v03/FlightCost-hub-transfers.zip",
+    "forecast-one-hub-v03/book/Частота и стыковки.xlsx",
+    "forecast-one-hub-v03/check-frequency/README.ru.md",
+    "forecast-one-hub-v03/frequency/README.ru.md",
+    "forecast-all-regions/FlightCost-regions.ru.xlsx",
+    "forecast-all-regions/route-atl-method.ru.txt",
+    "forecast-hub-correction/method.ru.txt",
+    "forecast-gravity-layer/README.ru.md",
+    "forecast-gravity-pilot/README.ru.md",
+    "forecast-releases/FlightCost-forecast-v0.1.zip",
+    "forecast-releases/FlightCost-forecast-v0.1.zip.sha256",
+    "forecast-releases/FlightCost-forecast-v0.2.ru.md",
+    "forecast-releases/FlightCost-forecast-v0.2.zip",
+    "forecast-releases/FlightCost-map-v0.2-2026-11-21.zip",
+    "forecast-route-map/regions.json",
+    "forecast-route-ranking/method.ru.txt",
+    "forecast-v02-trial/book/Проверка прогноза.xlsx",
+    "forecast-v02-trial/common-scale-diagnostic.csv",
+    "forecast-v02-trial/decision.csv",
+    "forecast-v02-trial/europe/README.md",
+    "forecast-v02-trial/lines/forward/README.ru.md",
+    "forecast-v02-trial/lines/history_regions/README.ru.md",
+    "forecast-v02-trial/lines/history_world/README.ru.md",
+    "forecast-v02-trial/oem/README.ru.md",
+    "forecast-v02-trial/pooled/README.ru.md",
+    "forecast-v02-trial/pooled/summary.csv",
+    "forecast-v02-trial/regions/README.ru.md",
+    "forecast-v02-trial/regions/largest-five.csv",
+    "forecast-v02-trial/regions/regular-service.ru.md",
+    "forecast-v02-trial/report.ru.html",
+    "forecast-v02-trial/routes/README.ru.md",
+    "forecast-v02-trial/routes/cases.csv.gz",
+    "forecast-v02-trial/routes/full-observed-market.csv",
+    "forecast-v02-trial/routes/subregions.csv",
+    "forecast-v02-trial/world/inputs.csv",
+    "forecast-v02-trial/world/protocol.ru.txt",
+    "world-airline-study/unserved-method.md",
+})
 # Геометрия — ДАННЫЕ, а не ресурс пакета: лежит рядом с базой,
 # собирается рецептом, в репозиторий не идёт (решение 1). Путь объявлен
 # в `inventory.py`, потому что витрина данных должна показывать состояние
@@ -86,7 +220,8 @@ def _jsonable(x):
 _EUROPE_COUNTRIES = frozenset("AD AL AT BA BE BG BY CH CY CZ DE DK EE ES FI FR GB GR HR HU IE IS IT LI LT LU LV MC MD ME MK MT NL NO PL PT RO RS RU SE SI SK SM TR UA VA XK".split())
 
 
-def network_pair_hints(rating: dict, airport_rows: list[dict], airport_codes: list[str]) -> list[dict]:
+def network_pair_hints(rating: dict, airport_rows: list[dict], airport_codes: list[str],
+                       base: str | None = None) -> list[dict]:
     """Look up unordered pairs in the published rating rows, retaining their bucket."""
     aliases = {}
     for item in airport_rows:
@@ -99,6 +234,9 @@ def network_pair_hints(rating: dict, airport_rows: list[dict], airport_codes: li
             aliases[key] = icao
     codes = list(dict.fromkeys(aliases.get(str(code).strip().upper(), str(code).strip().upper())
                                for code in airport_codes if code))
+    if base:
+        base = aliases.get(base.strip().upper(), base.strip().upper())
+        codes = [base, *(code for code in codes if code != base)]
     eu = rating.get("europe", {})
     india = rating.get("india", {})
     eu_rows = eu.get("pairs", [])
@@ -109,7 +247,7 @@ def network_pair_hints(rating: dict, airport_rows: list[dict], airport_codes: li
     in_idx = {"-".join(sorted(x for x in (r.get("icao") or []) if x)): r
               for r in in_rows if len([x for x in (r.get("icao") or []) if x]) == 2}
     out = []
-    for i, first in enumerate(codes):
+    for i, first in enumerate(codes[:1] if base else codes):
         for second in codes[i + 1:]:
             key = "-".join(sorted((first, second)))
             candidates = []
@@ -274,9 +412,57 @@ class _Handler(BaseHTTPRequestHandler):
         q = urllib.parse.parse_qs(query or "")
         return any(k in q for k in ("o", "d", "ac", "mode", "origin", "destination"))
 
+    def _forecast_asset(self, relative: str, *, site_lang: str | None = None) -> None:
+        root = FORECAST_OUTPUTS.resolve()
+        asset = root / relative
+        map_chunk = re.fullmatch(r"forecast-world-networks/map-data/(?:2029|2031|2036)-[A-Z]{2}\.[0-9a-f]{12}\.js", relative)
+        if not (relative in FORECAST_ASSETS or map_chunk) or asset.resolve() != asset or not asset.is_file():
+            self._send(404, b"Preview asset not found", "text/plain; charset=utf-8")
+            return
+        if asset.suffix == ".html":
+            body = asset.read_bytes()
+            if site_lang:
+                body = forecast_site.site_page(body, site_lang)
+            if b'name="robots"' not in body:
+                body = body.replace(b"</head>", b'<meta name="robots" content="noindex,nofollow"></head>', 1)
+            self._send(200, body, "text/html; charset=utf-8")
+            return
+        elif asset.suffix in {".md", ".txt", ".sha256"}:
+            ctype = "text/plain; charset=utf-8"
+        elif asset.name.endswith((".csv.gz", ".json.gz")):
+            ctype = "application/gzip"
+        else:
+            ctype = mimetypes.guess_type(asset.name)[0] or "application/octet-stream"
+        if asset.stat().st_size < 1024 * 1024:
+            self._send(200, asset.read_bytes(), ctype)
+            return
+        # The downloadable research archives can be hundreds of megabytes.
+        with asset.open("rb") as source:
+            self.send_response(200)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(os.fstat(source.fileno()).st_size))
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            if self.command != "HEAD":
+                shutil.copyfileobj(source, self.wfile, length=256 * 1024)
+
     def _seo(self, u) -> bool:
         """Языковые адреса и служебные файлы. True — ответ отправлен."""
         ctx = self.server.ctx
+        local_preview = (not ctx.public
+                         and self.server.server_address[0] in ("127.0.0.1", "::1")
+                         and self.client_address[0] in ("127.0.0.1", "::1")
+                         and not any(self.headers.get(k) for k in ("Forwarded", "X-Forwarded-For", "X-Forwarded-Host"))
+                         and urllib.parse.urlsplit("//" + self.headers.get("Host", "")).hostname in ("127.0.0.1", "localhost", "::1"))
+        forecast_site.local_review.set(local_preview)
+        # These three public source tables/notes are packaged with the release.
+        source_asset = forecast_site.SOURCE_ASSETS.get(u.path)
+        if source_asset and (local_preview or forecast_site.forecast_available()):
+            self._forecast_asset(source_asset)
+            return True
+        if u.path.startswith("/outputs/") and (local_preview or forecast_site.forecast_available()):
+            self._forecast_asset(urllib.parse.unquote(u.path.removeprefix("/outputs/")))
+            return True
         if u.path == "/robots.txt":
             self._public(seo.robots().encode(), "text/plain; charset=utf-8")
             return True
@@ -340,7 +526,7 @@ class _Handler(BaseHTTPRequestHandler):
                 path, content_type = asset
                 self._public(path.read_bytes(), content_type, revalidate=True)
             return True
-        if u.path in ("/about", "/types", "/calc", "/research", "/monitor"):
+        if u.path in ("/about", "/types", "/calc", "/research", "/monitor", "/forecast"):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True
         m = seo.LANG_PATH.match(u.path)
@@ -356,6 +542,12 @@ class _Handler(BaseHTTPRequestHandler):
                 self._redirect(f"/{lang}/calc?{u.query}")
                 return True
             self._public(seo.landing(lang, ctx.seo_sample()).encode("utf-8"), html_t)
+            return True
+        if tail in ("/forecast", "/forecast/"):
+            if forecast_site.forecast_available():
+                self._forecast_asset(FORECAST_INDEX, site_lang=lang)
+            else:
+                self._send(404, b"Forecast edition is not installed", "text/plain; charset=utf-8")
             return True
         if tail in ("/calc", "/calc/"):
             self._send(200, seo.calc_page(lang, _page().decode("utf-8")).encode("utf-8"), html_t)
@@ -516,6 +708,13 @@ class _Handler(BaseHTTPRequestHandler):
                 return self._json({"error": "тело запроса больше 1 МБ"}, 413)
             body = json.loads(self.rfile.read(n) or b"{}")
             ctx = self._ctx()
+            if u.path in ("/api/network", "/api/netcompare"):
+                if self.headers.get_content_type() != "application/json":
+                    return self._json({"error": "JSON required"}, 415)
+                if not isinstance(body, dict) or any(not isinstance(v, str) for v in body.values()):
+                    return self._json({"error": "Parameters must be strings"}, 400)
+                calculate = ctx.network if u.path == "/api/network" else ctx.net_compare
+                return self._json(calculate(body, ip=self._client_ip()))
             if u.path == "/api/aircraft/designer-save":
                 # Feature-flagged; never alter the legacy save endpoint.
                 if os.environ.get("FCA_AIRCRAFT_DESIGNER", "0") != "1":
@@ -581,7 +780,11 @@ class _Handler(BaseHTTPRequestHandler):
                              merge=bool(body.get("merge", True)))
             return self._json({"ok": True, **st, **gdb.info(ctx.ws)})
         if path == "/api/ws/doc":
-            gdb.put_doc(ctx.ws, body.get("kind", ""), body.get("name", ""), body.get("body"))
+            try:
+                gdb.put_doc(ctx.ws, body.get("kind", ""), body.get("name", ""), body.get("body"),
+                            create_only=body.get("create_only") is True)
+            except FileExistsError as exc:
+                return self._json({"error": str(exc), "code": "name_exists"}, 409)
             return self._json({"ok": True, "docs": gdb.list_docs(ctx.ws)})
         if path == "/api/ws/doc/delete":
             ok = gdb.delete_doc(ctx.ws, body.get("kind", ""), body.get("name", ""))
@@ -631,7 +834,7 @@ class _Handler(BaseHTTPRequestHandler):
             # строка «/en/type», чтобы перебор адресов не раздувал таблицу.
             tail = (m.group(2) or "/").rstrip("/")
             kind = {"": "/", "/calc": "/calc", "/about": "/about", "/types": "/types",
-                    "/research": "/research", "/monitor": "/monitor"}.get(tail)
+                    "/research": "/research", "/monitor": "/monitor", "/forecast": "/forecast"}.get(tail)
             if kind is None and tail.startswith("/type/"):
                 kind = "/type"
             if kind is None and tail.startswith("/research/"):
@@ -711,6 +914,8 @@ class _Handler(BaseHTTPRequestHandler):
                                                 self.server.ctx.seo_sample()).encode("utf-8"),
                                     "text/html; charset=utf-8")
             if u.path == "/api/airports":
+                if q.get("include"):
+                    return self._json(ctx.airports_by_code(q["include"].split(",")))
                 return self._json(ctx.airports())
             if u.path == "/api/network-hints":
                 return self._json(ctx.network_hints(q))
@@ -1030,6 +1235,46 @@ class Context:
                 "year": b["year"], "carriers": len(b["carriers"]), "bands": out,
                 "usd_per_eur": rate}
 
+    @staticmethod
+    def _airport_entry(key, txt, names):
+        parts = (txt or "").split("|", 3)
+        if len(parts) < 4 or not parts[1]:
+            return None
+        tr = names.get(parts[1], {})
+        try:
+            lat, lon = (float(x) for x in parts[0].split(",", 1))
+        except (ValueError, IndexError):
+            lat = lon = None
+        return {"key": key, "icao": parts[1], "iso": parts[2], "lat": lat, "lon": lon,
+                "name": tr.get("en") or parts[3], "tr": tr,
+                "find": " ".join([key, parts[1], parts[3], *tr.values()]).lower()}
+
+    def airports_by_code(self, requested: list[str]) -> list[dict]:
+        """Resolve named forecast airports outside the default map selection."""
+        sh = getattr(self, "_base", None)
+        if sh is not None:
+            return sh.airports_by_code(requested)
+        codes = list(dict.fromkeys(c.strip().upper() for c in requested if re.fullmatch(r"[A-Za-z0-9]{3,4}", c.strip())))[:100]
+        if not codes:
+            return []
+        known = {code: airport for airport in self.airports() for code in (airport["key"], airport["icao"])}
+        missing = [code for code in codes if code not in known]
+        if missing:
+            marks = ",".join("?" for _ in missing)
+            with self.lock:
+                matches = self.store.db.execute(
+                    "SELECT key, value_text FROM facts WHERE domain='airport' AND valid_to IS NULL "
+                    f"AND (key IN ({marks}) OR substr(value_text, instr(value_text, '|') + 1, 4) IN ({marks}))",
+                    missing * 2,
+                ).fetchall()
+            for key, txt in matches:
+                row = self._airport_entry(key, txt, {})
+                if row is not None:
+                    row.update(tier=3, seen=False, watch=False, flights=0)
+                    for code in (row["key"], row["icao"]):
+                        known.setdefault(code, row)
+        return list({known[code]["key"]: known[code] for code in codes if code in known}.values())
+
     def airports(self) -> list[dict]:
         sh = getattr(self, "_base", None)
         if sh is not None:
@@ -1049,27 +1294,7 @@ class Context:
                     icao, _, loc = (key or "").partition("/")
                     if icao and nm:
                         names.setdefault(icao, {})[loc] = nm
-            out = []
-            for key, txt in rows:
-                if not txt:
-                    continue
-                p = txt.split("|", 3)
-                if len(p) < 4 or not p[1]:
-                    continue
-                tr = names.get(p[1], {})
-                try:
-                    lat, lon = (float(x) for x in p[0].split(",", 1))
-                except (ValueError, IndexError):
-                    lat = lon = None
-                out.append({"key": key, "icao": p[1], "iso": p[2],
-                            "lat": lat, "lon": lon,
-                            "name": tr.get("en") or p[3],
-                            # Строка поиска собирается ОДИН раз здесь, а не
-                            # на каждое нажатие в браузере: две тысячи
-                            # аэропортов на пять локалей — это работа,
-                            # которую незачем делать заново по букве.
-                            "find": " ".join([key, p[1], p[3]] + list(tr.values())).lower(),
-                            "tr": tr})
+            out = [entry for key, txt in rows if (entry := self._airport_entry(key, txt, names))]
             # Сорок восемь тысяч в браузер не отдать. Правило отбора
             # ЯВНОЕ: аэропорты, по которым есть разобранный тариф, плюс
             # те, что наблюдались. Не «первые N по алфавиту» — такой
@@ -1135,7 +1360,7 @@ class Context:
         except (OSError, json.JSONDecodeError):
             return {"available": False, "pairs": []}
         codes = [x for x in str(q.get("airports") or "").split(",") if x][:80]
-        return {"available": True, "pairs": network_pair_hints(rating, self.airports(), codes)}
+        return {"available": True, "pairs": network_pair_hints(rating, self.airports(), codes, base=q.get("base"))}
 
     def resolve(self, code: str) -> str:
         """Код аэропорта -> ключ хранилища.
@@ -1339,19 +1564,23 @@ class Context:
         from . import prices
         from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
-                    "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h")
+                    "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h", "hub_only")
         kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY},
                           manual_lease=q.get("lease") not in (None, ""))
+        kw["hub_only"] = q.get("hub_only") == "1"
         airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
         base = self.resolve(q.get("base") or (airports[0] if airports else "FRA"))
-        if len(set(airports) | {base}) < 2:
+        airport_count = len(set(airports) | {base})
+        if airport_count < 2:
             return {"error": "нужны хотя бы два аэропорта"}
+        if kw["hub_only"] and airport_count > 1001:
+            return {"error": "максимум 1000 направлений от базы"}
         ov = kw.get("overrides") or {}
         as_of = str(kw.get("as_of") or date.today())
         form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
                     kw.get("month"), kw.get("operator"),
                     tuple(sorted((k, str(v)) for k, v in ov.items())), as_of, kw.get("seats"),
-                    kw.get("aircraft_age"), prices.lease_revision())
+                    kw.get("aircraft_age"), kw["hub_only"], prices.lease_revision())
         cached = self._net_cache.get(form_key)
         if cached is None:
             job = self._net_jobs.get(form_key)
@@ -1768,7 +1997,7 @@ class Context:
                                          leg_cache=self._leg_cache.setdefault(scope, {}),
                                          detour_cache=self._detour_cache,
                                          progress=progress, seats=kw.get("seats"),
-                                         aircraft_age=kw.get("aircraft_age"))
+                                         aircraft_age=kw.get("aircraft_age"), hub_only=kw["hub_only"])
                     ok = [p for p in pairs if p.status == "ok"]
                     fleet = None
                     if ok:
@@ -3091,7 +3320,12 @@ def _page(name: str = "serve.html") -> bytes:
     одним самодостаточным файлом, и подписи готовы до первой отрисовки —
     без мелькания русского текста перед английским.
     """
-    return _i18n((WEB / name).read_text(encoding="utf-8")).encode("utf-8")
+    page = (WEB / name).read_text(encoding="utf-8")
+    if name == "serve.html":
+        from .forecast_site import forecast_available
+        if not forecast_available():
+            page = re.sub(r"<!--if-forecast-->.*?<!--/if-forecast-->", "", page, flags=re.S)
+    return _i18n(page).encode("utf-8")
 
 
 def _i18n(html: str) -> str:

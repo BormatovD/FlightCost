@@ -66,7 +66,6 @@ T = {
                 "Предложить работу в план можно через Телеграм-бота проекта; принятые предложения появляются "
                 "здесь с подписью автора, если он её оставил.",
         "nav": "План",
-        "tab_plan": "План работ", "tab_series": "Показатели",
         "st_now": "В работе", "st_next": "Дальше", "st_later": "Когда-нибудь", "st_done": "Сделано",
         "a_calc": "расчёт", "a_data": "данные", "a_research": "исследование", "a_site": "сайт",
         "a_community": "сообщество",
@@ -125,7 +124,6 @@ T = {
                 "calculation change. Suggest work through the project's Telegram bot; accepted suggestions "
                 "appear here credited to their author, if they chose to be credited.",
         "nav": "Plan",
-        "tab_plan": "Work plan", "tab_series": "Indicators",
         "st_now": "In progress", "st_next": "Next", "st_later": "Later", "st_done": "Done",
         "a_calc": "calculation", "a_data": "data", "a_research": "research", "a_site": "site",
         "a_community": "community",
@@ -183,7 +181,6 @@ T = {
                 "Berechnung verändern. Vorschläge nimmt der Telegram-Bot des Projekts entgegen; angenommene "
                 "Vorschläge erscheinen hier mit dem Namen der Person, wenn sie genannt werden möchte.",
         "nav": "Plan",
-        "tab_plan": "Arbeitsplan", "tab_series": "Kennzahlen",
         "st_now": "In Arbeit", "st_next": "Als Nächstes", "st_later": "Später", "st_done": "Erledigt",
         "a_calc": "Berechnung", "a_data": "Daten", "a_research": "Recherche", "a_site": "Website",
         "a_community": "Community",
@@ -991,9 +988,6 @@ def series_html(lang: str, d: dict) -> str:
 
 
 STYLE = """<style>
-.tabs{display:flex;gap:6px;margin:14px 0 4px;border-bottom:1px solid var(--line)}
-.tabs a{padding:8px 14px;text-decoration:none;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px}
-.tabs a.on{color:var(--ink2);border-bottom-color:var(--accent)}
 ul.plan{list-style:none;padding:0;margin:0}
 ul.tl{position:relative;padding-left:26px;margin-left:6px}
 ul.tl::before{content:"";position:absolute;left:6px;top:0;bottom:-26px;width:2px;background:var(--line)}
@@ -1063,19 +1057,17 @@ TOGGLE_JS = """<script>
 def page(lang: str, plan: list[dict], data: dict | None, tab: str = "plan", bot_url: str = "") -> str:
     from . import seo
     t = T[lang]
-    tabs = (f'<nav class="tabs"><a href="/{lang}/monitor"{" class=on" if tab == "plan" else ""}>{esc(t["tab_plan"])}</a>'
-            f'<a href="/{lang}/monitor?tab=series"{" class=on" if tab == "series" else ""}>{esc(t["tab_series"])}</a></nav>')
     body = [f'<div class="crumbs"><a href="/{lang}/">FlightCost</a> › {esc(t["h1"])}</div>',
             f'<h1>{esc(t["h1"])}</h1>', f'<p class="lead">{esc(t["lead"])}</p>']
     if bot_url:
         body.append(f'<a class="cta botl" href="{esc(bot_url)}">{esc(t["bot"])} →</a>')
-    body.append(tabs)
     body.append(series_html(lang, data or {}) + TOGGLE_JS if tab == "series" else plan_html(lang, plan))
     canon = f"{seo.site()}/{lang}/monitor" + ("?tab=series" if tab == "series" else "")
     alts = [(lg, f"{seo.site()}/{lg}/monitor" + ("?tab=series" if tab == "series" else "")) for lg in seo.LANGS]
     alts.append(("x-default", f"{seo.site()}/en/monitor" + ("?tab=series" if tab == "series" else "")))
     h = seo.head(lang, t["title"], t["desc"], canon, alts) + STYLE
-    return seo.shell(lang, "/monitor" + ("?tab=series" if tab == "series" else ""), h, "\n".join(body), on="monitor")
+    return seo.shell(lang, "/monitor" + ("?tab=series" if tab == "series" else ""), h, "\n".join(body),
+                     on="series" if tab == "series" else "monitor")
 
 
 def dump(data: dict) -> str:

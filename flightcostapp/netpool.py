@@ -96,7 +96,8 @@ def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
                              as_of=kw.get("as_of"), month=kw.get("month"),
                              overrides=ov or None, operator=kw.get("operator", "*"),
                              leg_cache=legs, detour_cache=_state["detours"],
-                             progress=progress, seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"))
+                             progress=progress, seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"),
+                             hub_only=kw.get("hub_only", False))
         ok = [p for p in pairs if p.status == "ok"]
         fleet = None
         if ok:

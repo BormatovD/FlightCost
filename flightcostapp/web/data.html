@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FlightCost — данные</title>
+<title>FlightCost — база данных</title>
 <link rel="stylesheet" href="/ui.css">
 <style>
 /* Просмотр хранилища (решение 219): домены слева, строки справа. Видно
@@ -69,6 +69,7 @@ function _t(s) {
   return v == null ? s : v;
 }
 document.documentElement.lang = LANG;
+document.title = _t(document.title);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 const num = (v, d = 0) => v == null ? "—" : Number(v).toLocaleString(LOCALE, {maximumFractionDigits: d});

@@ -373,9 +373,10 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                  closures=None, econ=None, crossing_fn=None, airport_fn=None,
                  gc_nm=None, world_zones=None, detour_fn=None,
                  leg_cache: dict | None = None, detour_cache: dict | None = None,
-                 progress=None, seats=None, aircraft_age=None) -> list[Pair]:
-    """Все пары выбранных аэропортов с причиной, почему пара в сети или нет.
+                 progress=None, seats=None, aircraft_age=None, hub_only=False) -> list[Pair]:
+    """Пары выбранных аэропортов с причиной, почему пара в сети или нет.
 
+    При `hub_only` формируются только пары, в которых есть база.
     `leg_cache` и `detour_cache` — словари вызывающего: плечо и обход
     зависят только от концов, типа, даты, месяца и переопределений, и
     добавленный к сети седьмой аэропорт не должен пересчитывать шесть
@@ -406,7 +407,7 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
     comp, _window = observed_frequency(store, as_of)
 
     pairs = []
-    todo = list(combinations(codes, 2))
+    todo = [(base, code) for code in codes if code != base] if hub_only else list(combinations(codes, 2))
     ov_key = tuple(sorted((k, str(v)) for k, v in (overrides or {}).items()))
     for n_done, (x, y) in enumerate(todo, 1):
         if progress and n_done > 1:

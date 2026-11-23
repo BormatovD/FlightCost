@@ -75,6 +75,15 @@ class Keys(Base):
             self.gdb.create("203.0.113.77")          # та же сеть /24 — предел общий
         self.gdb.create("203.0.114.2")               # другая сеть — можно
 
+    def test_forecast_draft_leaves_existing_network_until_explicitly_saved_as_its_own_document(self):
+        self.gdb.put_doc(self.ws, "network", "FRA", {"base": "FRA"})
+        with self.assertRaisesRegex(FileExistsError, "уже существует"):
+            self.gdb.put_doc(self.ws, "network", "FRA", {"base": "ACC"}, create_only=True)
+        self.assertEqual(self.gdb.get_doc(self.ws, "network", "FRA"), {"base": "FRA"})
+        self.gdb.put_doc(self.ws, "network", "Прогноз", {"base": "ACC"}, create_only=True)
+        self.gdb.put_doc(self.ws, "network", "Прогноз", {"base": "ACC", "fleet": 2})
+        self.assertEqual(self.gdb.get_doc(self.ws, "network", "Прогноз")["fleet"], 2)
+
     def test_full_address_never_on_disk(self):
         """Политика: полный IP-адрес на диск не пишется. Здесь — маска
         журнала Caddy и короткая жизнь суточных счётчиков."""

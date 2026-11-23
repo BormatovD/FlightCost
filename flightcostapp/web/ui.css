@@ -225,10 +225,16 @@ input[type=range]:focus::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--select)
 .sh nav{display:flex;flex-wrap:wrap;gap:4px 14px}
 .sh nav a{color:var(--dim);text-decoration:none;font-size:13.5px}
 .sh nav a.on,.sh nav a:hover{color:var(--ink2)}
+.sh .section-tabs{flex-basis:100%;gap:2px 6px;border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
+.sh .section-tabs a{padding:7px 12px;border-bottom:2px solid transparent}
+.sh .section-tabs a.on{border-bottom-color:var(--accent)}
 .sh .lg{margin-left:auto;font-size:12.5px;white-space:nowrap}
 .sh .lg a{color:var(--dim);text-decoration:none;margin-left:8px}
 .sh .lg a.on{color:var(--ink2);font-weight:600}
-@media(max-width:640px){.sh{padding:12px 16px}.sh .brand span{display:none}}
+@media(max-width:640px){.sh{padding:12px 16px}.sh .brand span{display:none}
+  .sh .site-nav{order:1;flex-basis:100%;gap:0 14px}
+  .sh .site-nav a,.sh .section-tabs a{display:inline-flex;align-items:center;min-height:36px}
+  .sh .section-tabs{order:2;margin-top:0}.sh .section-tabs a{padding:0 8px}}
 
 /* Aircraft Designer on the type card */
 .fc3d { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:20px; align-items:center }

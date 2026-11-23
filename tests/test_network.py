@@ -166,6 +166,13 @@ class Rights(unittest.TestCase):
 
 
 class Formation(unittest.TestCase):
+    def test_hub_topology_forms_one_pair_per_spoke(self):
+        airports = ("BCN", "FRA", "DME", "OVB", "FRA")
+        pairs = form(airports=airports, base="FRA", hub_only=True)
+        self.assertEqual([(p.a, p.b) for p in pairs],
+                         [("FRA", "BCN"), ("FRA", "DME"), ("FRA", "OVB")])
+        self.assertEqual(len(form(airports=airports, base="FRA")), 6)
+
 
     def test_training_set_from_almaty(self):
         st = {p.key: p.status for p in form(FakeStore(all_fares()))}

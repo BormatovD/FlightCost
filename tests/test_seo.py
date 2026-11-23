@@ -337,7 +337,7 @@ class SeoHttp(unittest.TestCase):
             self.assertIn(f'<meta property="og:image" content="{seo.site()}{image}">', body)
             self.assertEqual(body.count('property="og:image"'), 1)
             with contextlib.closing(http.client.HTTPConnection("127.0.0.1", self.port, timeout=10)) as c:
-                c.request("GET", image)
+                c.request("GET", probe_url(image))
                 response = c.getresponse()
                 self.assertEqual(response.status, 200)
                 self.assertEqual(response.getheader("Content-Type"), "image/jpeg")
@@ -478,6 +478,34 @@ class SeoHttp(unittest.TestCase):
         self.assertEqual(self.get(f"/{seo.INDEXNOW_KEY}.txt")[1], seo.INDEXNOW_KEY)
         self.assertEqual(self.get("/og.png")[0], 200)
         self.assertEqual(self.get("/favicon.svg")[0], 200)
+
+
+class SiteNavigation(unittest.TestCase):
+
+    def test_grouped_links_keep_the_original_deep_links(self):
+        data_tabs = (("map", "/map?lang=ru"), ("data", "/data?lang=ru"))
+        about_tabs = (("monitor", "/ru/monitor"), ("series", "/ru/monitor?tab=series"), ("about", "/ru/about"))
+        for tabs, parent in ((data_tabs, "/map?lang=ru"), (about_tabs, "/ru/about")):
+            for key, target in tabs:
+                with self.subTest(key=key):
+                    html = seo.site_header("ru", key).split("</header>", 1)[0] + "</header>"
+                    header = ET.fromstring(html)
+                    main = header.find("nav[@class='site-nav']")
+                    self.assertEqual(main.find("a[@aria-current='location']").get("href"), parent)
+                    self.assertIsNone(main.find("a[@href='/ru/monitor']"))
+                    self.assertIsNone(main.find("a[@href='/data?lang=ru']"))
+                    sub = header.find("nav[@class='section-tabs']")
+                    self.assertEqual([a.get("href") for a in sub], [p for _, p in tabs])
+                    self.assertEqual(sub.find("a[@aria-current='page']").get("href"), target)
+
+    def test_forecast_requires_an_available_report_in_both_headers(self):
+        for available in (True, False):
+            with self.subTest(available=available), mock.patch.object(
+                    seo.forecast_site, "forecast_available", return_value=available):
+                header = seo.site_header("de")
+                calc = seo.calc_page("de", S._page().decode("utf-8"))
+                for page in (header, calc):
+                    self.assertEqual('href="/de/forecast"' in page, available)
 
 
 class CatalogNames(unittest.TestCase):
