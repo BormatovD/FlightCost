@@ -12,10 +12,10 @@ import sqlite3
 import stat
 import tempfile
 import time
-from datetime import date
 from pathlib import Path
 
 from . import editorial_article as article
+from . import editorial_queue as queue
 from .tg import Bot, TgError, load_token
 
 
@@ -42,7 +42,7 @@ class Review:
         self.private.mkdir(mode=0o700, parents=True, exist_ok=True)
         self.inbox = self.root/"work/inbox"
         self.outbox = self.root/"work/outbox"
-        self.published = Path(os.environ.get("FCA_EDITORIAL_PUBLISHED", self.root/"published"))
+        self.publication_queue = self.root/"publication_queue"
         self.db = sqlite3.connect(self.private/"review.sqlite", timeout=10)
         self.db.row_factory = sqlite3.Row
         self.db.executescript("""
@@ -118,7 +118,7 @@ class Review:
 
     @staticmethod
     def keys(row, phase):
-        action,title = ("publish","Опубликовать") if phase == "approved" else ("approve","Согласовать")
+        action,title = ("queue","В очередь подготовки") if phase == "approved" else ("approve","Согласовать")
         return {"inline_keyboard":[[{"text":title,"callback_data":f"art:{action}:{row['token']}"}]]}
 
     def deliver(self, bot, owner):
@@ -130,7 +130,7 @@ class Review:
             caption = (f"Статья №{row['article']}, версия {row['revision']} · {payload['title']}\n\n"
                        f"{payload['lede'][:470]}\n\n"
                        "Откройте HTML. Для правок ответьте текстом на этот документ. "
-                       "После согласования появится кнопка публикации.")
+                       "После согласования оригинал можно поставить в очередь подготовки. Сайт не изменится.")
             response = bot.upload("sendDocument","document",Path(self.filename(row)),row["document"],
                                   chat_id=owner,caption=caption[:1024],reply_markup=self.keys(row,"pending"))
             with self.db:
@@ -155,34 +155,21 @@ class Review:
             if errors:
                 raise ValueError("; ".join(errors))
 
-    def publish(self, row):
-        from . import research
-        n = row["article"]
-        target = self.published/f"{n:02d}"
-        if target.is_dir():
-            meta = json.loads((target/"article.json").read_bytes())
-            if (meta["sha"] != row["sha"] or meta["revision"] != row["revision"] or
-                    hashlib.sha256((target/"report.html").read_bytes()).hexdigest() != row["sha"]):
-                raise ValueError("По этому адресу уже опубликована другая версия.")
-            return
-        existing = research.find(article.article_slug(n))
-        if existing and not existing.get("planned_release"):
-            raise ValueError("По этому адресу уже опубликована другая статья.")
+    def enqueue(self, row):
+        """Only a bound, approved snapshot can enter the private queue."""
+        if row["state"] != "approved":
+            raise ValueError("Сначала согласуйте оригинал.")
         payload = json.loads(row["payload"])
-        meta = {key:payload[key] for key in ("article","revision","title","lede")}
-        meta.update(date=date.today().isoformat(),sha=row["sha"])
-        with tempfile.TemporaryDirectory(dir=self.published,prefix=".review-") as temp:
-            stage = Path(temp)/"release"
-            stage.mkdir(mode=0o755)
-            stage.chmod(0o755)
-            write_atomic(stage/"report.html",row["document"],0o644)
-            write_atomic(stage/"article.json",json_bytes(meta),0o644)
-            stage.rename(target)
+        document = row["document"]
+        if hashlib.sha256(document).hexdigest() != row["sha"]:
+            raise ValueError("Контрольная сумма согласованной версии не совпадает.")
+        meta = queue.make_manifest(row["article"], row["revision"], payload["title"], payload["lede"], document)
+        queue.store_bundle(self.publication_queue, meta["id"], queue.encode_manifest(meta), document, server=True)
 
     def event(self, bot, owner, update):
         cb = update.get("callback_query",{})
         m = cb.get("message",{}) if cb else update.get("message",{})
-        key = re.fullmatch(r"art:(approve|publish):([0-9a-f]{20})",str(cb.get("data",""))) if cb else None
+        key = re.fullmatch(r"art:(approve|publish|queue):([0-9a-f]{20})",str(cb.get("data",""))) if cb else None
         reference = m if cb else m.get("reply_to_message") or {}
         docname = str((reference.get("document") or {}).get("file_name",""))
         reply_tag = re.fullmatch(r"FlightCost-(\d\d)-r(\d{3})-([0-9a-f]{20})\.html",docname)
@@ -205,24 +192,29 @@ class Review:
                      (row["delivered"] == reference["message_id"] or known_doc))
             active = bound and self.latest(row["article"])["token"] == token
             updated = None
+            refresh_legacy = False
             if not active:
                 result = "Эта версия устарела. Откройте последний документ."
-            elif row["state"] == "approved" and (self.published/f"{row['article']:02d}").is_dir():
-                # Recover a process exit between the atomic public rename and
-                # the database commit, without accepting edits to a live article.
+            elif cb and key[1] == "publish":
+                # Old Telegram messages cannot publish or enqueue anything.
+                result = "Прямая публикация отключена. Используйте очередь подготовки."
+                refresh_legacy = row["state"] == "approved"
+            elif row["state"] == "approved" and (
+                    self.publication_queue / queue.bundle_id(row["article"], row["revision"])).exists():
+                # Recover a successful atomic queue write before the DB commit.
                 try:
-                    self.publish(row)
-                    updated,result = "published","Эта версия уже опубликована."
+                    self.enqueue(row)
+                    updated,result = "queued","Оригинал уже в очереди. Требуются EN и DE."
                 except (ValueError, OSError) as exc:
-                    result = f"Проверьте опубликованную версию: {exc}"
+                    result = f"Проверьте комплект очереди: {exc}"
             elif cb and key[1] == "approve" and row["state"] in ("pending","approved"):
-                updated,result = "approved","Версия согласована. Теперь её можно опубликовать."
-            elif cb and key[1] == "publish" and row["state"] == "approved":
+                updated,result = "approved","Оригинал согласован. Можно поставить в очередь подготовки."
+            elif cb and key[1] == "queue" and row["state"] == "approved":
                 try:
-                    self.publish(row)
-                    updated,result = "published","Статья опубликована."
+                    self.enqueue(row)
+                    updated,result = "queued","Оригинал в очереди. Требуются EN и DE; на сайте изменений нет."
                 except (ValueError, OSError) as exc:
-                    result = f"Не удалось опубликовать: {exc}"
+                    result = f"Не удалось добавить в очередь: {exc}"
             elif not cb and row["state"] in ("pending","approved","changes_requested"):
                 body = (m.get("text") or m.get("caption") or "").strip()
                 if not body:
@@ -231,6 +223,8 @@ class Review:
                     self.db.execute("INSERT OR IGNORE INTO comments VALUES (?,?,?,?)",
                                     (row["article"],row["revision"],m["message_id"],body[:10000]))
                     updated,result = "changes_requested","Комментарий сохранён для следующей версии."
+            elif row["state"] == "queued":
+                result = "Оригинал уже в очереди подготовки; выпуск только с компьютера."
             elif row["state"] == "published":
                 result = "Эта версия уже опубликована."
             elif row["state"] == "changes_requested":
@@ -244,15 +238,16 @@ class Review:
             self.sync_job(row["article"])
         if cb:
             bot.answer(cb["id"],result)
-            if updated == "approved" or (row and (updated or row["state"]) == "published" and active):
-                markup = self.keys(row,"approved") if updated == "approved" else {"inline_keyboard":[]}
+            if active and (updated == "approved" or refresh_legacy or (updated or row["state"]) in ("queued", "published")):
+                markup = self.keys(row,"approved") if updated == "approved" or refresh_legacy else {"inline_keyboard":[]}
                 try:
                     bot.call("editMessageReplyMarkup",chat_id=owner,message_id=reference["message_id"],reply_markup=markup)
                 except TgError as exc:
                     if "not modified" not in str(exc):
                         raise
-            if updated == "published":
-                bot.send(owner,f"{result} https://flightcost.app/ru/research/{article.article_slug(row['article'])}")
+            if updated == "queued":
+                identifier = queue.bundle_id(row["article"], row["revision"])
+                bot.send(owner, f"{result} ID: {identifier}")
         else:
             bot.send(owner,result)
         return True
