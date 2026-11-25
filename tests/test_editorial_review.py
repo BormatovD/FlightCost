@@ -1,4 +1,4 @@
-"""Owner-bound publication and per-version mailboxes."""
+"""Owner-bound private queue and per-version mailboxes."""
 import json
 import os
 import tempfile
@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from flightcostapp import editorial_article as article
+from flightcostapp import editorial_queue as queue
 from flightcostapp.editorial_review import Review, json_bytes
 from flightcostapp.tg import TgDeliveryUnknown
 
@@ -37,7 +38,7 @@ class EditorialTests(unittest.TestCase):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         self.root = Path(tmp.name)
-        for folder in ("work/inbox","work/outbox","published"):
+        for folder in ("work/inbox","work/outbox","published","publication_queue"):
             (self.root/folder).mkdir(parents=True)
         env = patch.dict(os.environ, {"FCA_EDITORIAL_PUBLISHED":str(self.root/"published")})
         env.start()
@@ -71,28 +72,37 @@ class EditorialTests(unittest.TestCase):
         return self.r.event(self.b,21,{"message":dict(text=text,chat={"id":21,"type":"private"},
                                                       reply_to_message=self.ref(i), message_id=mid,**{"from":{"id":21}})})
 
-    def test_owner_and_version_binding_and_immutable_publication(self):
+    def test_owner_and_version_binding_and_immutable_queue(self):
         self.r.poll(self.b,21)
         self.r.poll(self.b,21)
         self.assertEqual(len(self.b.sent),1)
         self.assertIn(b"&lt;script&gt;",self.b.sent[0][1])
         self.assertEqual(len(list(self.r.inbox.glob("*-r001.json"))),17)
+        self.click("queue")
         self.click("publish")
         self.click("approve",123)
         self.assertEqual(self.r.latest(5)["state"],"pending")
+        self.assertFalse(list(self.r.publication_queue.iterdir()))
         self.click("approve")
         self.assertEqual(self.r.latest(5)["state"],"approved")
-        self.click("publish")
-        path = self.r.published/"05/report.html"
-        self.assertEqual(path.read_bytes(),self.b.sent[0][1])
-        item = article.public_items([dict(slug=article.article_slug(5),planned_release=True)])[0]
-        self.assertFalse(item["planned_release"])
-        self.assertEqual(item["path"],path)
+        self.click("publish")  # Legacy button must neither publish nor enqueue.
+        self.assertEqual(self.r.latest(5)["state"],"approved")
+        self.assertFalse(list(self.r.publication_queue.iterdir()))
+        self.click("queue",123)
+        self.assertFalse(list(self.r.publication_queue.iterdir()))
+        self.click("queue")
+        manifest, document = queue.read_bundle(self.r.publication_queue,"05-r001")
+        self.assertEqual(document,self.b.sent[0][1])
+        self.assertEqual(json.loads(manifest)["status"],"approved_original_needs_translation")
+        self.assertEqual(json.loads(manifest)["available_languages"],["ru"])
+        self.assertFalse(list((self.root/"published").iterdir()))
+        placeholder = dict(slug=article.article_slug(5),planned_release=True)
+        self.assertEqual(article.public_items([placeholder]),[placeholder])
+        self.click("queue")
         self.click("publish")
         self.comment()
-        self.assertEqual(self.r.latest(5)["state"],"published")
-        existing_article = dict(slug=article.article_slug(5),title="Редакция сайта")
-        self.assertEqual(article.public_items([existing_article]),[existing_article])
+        self.assertEqual(self.r.latest(5)["state"],"queued")
+        self.assertEqual(queue.read_bundle(self.r.publication_queue,"05-r001"),(manifest,document))
 
     def test_feedback_replies_and_concurrent_revisions(self):
         self.r.poll(self.b,21)
@@ -102,8 +112,8 @@ class EditorialTests(unittest.TestCase):
         job_path = self.r.inbox/"05-r002.json"
         first = json.loads(job_path.read_bytes())
         self.assertEqual(first["comments"],["перепроверить"])
-        self.click("publish")
-        self.assertFalse((self.r.published/"05").exists())
+        self.click("queue")
+        self.assertFalse((self.r.publication_queue/"05-r001").exists())
         self.comment("добавить источники",120)
         second = json.loads(job_path.read_bytes())
         old = {**self.source,"revision":2,"feedback_token":first["feedback_token"]}
@@ -114,10 +124,80 @@ class EditorialTests(unittest.TestCase):
         self.r.poll(self.b,21)
         self.assertEqual(len(self.b.sent),2)
         self.click("approve",i=0)
+        self.click("queue",i=0)
         self.assertEqual(self.r.latest(5)["state"],"pending")
         self.click("approve")
+        self.click("queue")
+        self.assertEqual((self.r.publication_queue/"05-r002/report.html").read_bytes(),self.b.sent[1][1])
+        self.assertFalse(list((self.root/"published").iterdir()))
+
+    def test_missing_queue_and_retry(self):
+        self.r.poll(self.b,21)
+        self.click("approve")
+        self.r.publication_queue.rmdir()
+        self.click("queue")
+        self.assertEqual(self.r.latest(5)["state"],"approved")
+        self.r.publication_queue.mkdir()
+        self.click("queue")
+        self.assertEqual(self.r.latest(5)["state"],"queued")
+
+    def test_queue_recovers_after_atomic_write_before_db_commit(self):
+        self.r.poll(self.b,21)
+        self.click("approve")
+        row = self.r.db.execute("SELECT * FROM reviews WHERE article=5").fetchone()
+        self.r.enqueue(row)  # Simulate crash before updating SQLite state.
+        self.assertEqual(self.r.latest(5)["state"],"approved")
+        self.click("queue")
+        self.assertEqual(self.r.latest(5)["state"],"queued")
+        self.assertEqual(len(list(self.r.publication_queue.iterdir())),1)
+
+    def test_existing_published_history_is_untouched(self):
+        self.r.poll(self.b,21)
+        old = self.root/"published"/"05"
+        old.mkdir()
+        (old/"report.html").write_bytes(b"old original")
+        with self.r.db:
+            self.r.db.execute("UPDATE reviews SET state='published' WHERE article=5")
         self.click("publish")
-        self.assertEqual((self.r.published/"05/report.html").read_bytes(),self.b.sent[1][1])
+        self.click("queue")
+        self.comment()
+        self.assertEqual(self.r.latest(5)["state"],"published")
+        self.assertEqual((old/"report.html").read_bytes(),b"old original")
+        self.assertFalse(list(self.r.publication_queue.iterdir()))
+
+    def test_local_bundle_integrity_and_no_overwrite(self):
+        content = b"<html>approved original</html>"
+        meta = queue.make_manifest(5,1,"Title","Description",content)
+        manifest = queue.encode_manifest(meta)
+        root = self.root/"local"
+        root.mkdir()
+        self.assertTrue(queue.store_bundle(root,"05-r001",manifest,content))
+        self.assertFalse(queue.store_bundle(root,"05-r001",manifest,content))
+        other = b"<html>different</html>"
+        with self.assertRaises(ValueError):
+            queue.store_bundle(root,"05-r001",queue.encode_manifest(queue.make_manifest(5,1,"Title","Description",other)),other)
+        self.assertEqual(queue.read_bundle(root,"05-r001"),(manifest,content))
+        (root/"05-r001/report.html").write_bytes(other)
+        with self.assertRaises(ValueError):
+            queue.read_bundle(root,"05-r001")
+        with self.assertRaises(ValueError):
+            queue.check_id("../../research")
+
+    def test_local_bundle_rejects_extra_files_and_symlinks(self):
+        root = self.root/"local"
+        root.mkdir()
+        content = b"<html>draft</html>"
+        manifest = queue.encode_manifest(queue.make_manifest(5,1,"Title","Description",content))
+        queue.store_bundle(root,"05-r001",manifest,content)
+        folder = root/"05-r001"
+        (folder/"extra.py").write_text("bad")
+        with self.assertRaises(ValueError):
+            queue.read_bundle(root,"05-r001")
+        (folder/"extra.py").unlink()
+        (folder/"report.html").unlink()
+        (folder/"report.html").symlink_to(folder/"manifest.json")
+        with self.assertRaises(ValueError):
+            queue.read_bundle(root,"05-r001")
 
     def test_lost_telegram_receipt_recovers_from_original_document(self):
         self.b.unknown = True
