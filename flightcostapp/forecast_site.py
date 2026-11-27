@@ -95,14 +95,14 @@ def site_page(body: bytes, lang: str) -> bytes:
     head, marker, data = body.partition(b'<script id="core"')
     if not marker:
         raise ValueError("Forecast edition is missing its embedded model")
-    attrs = f'<html lang="ru" data-site-lang="{lang}" data-report-base="/outputs/forecast-final/">'
+    attrs = f'<html lang="{lang}" data-site-lang="{lang}" data-report-base="/outputs/forecast-final/">'
     head = head.replace(b'<html lang="ru">', attrs.encode(), 1)
     head = head.replace(b'<style>', b'<link rel="stylesheet" href="/ui.css"><style>', 1)
+    if lang in ("en", "de"):
+        from .forecast_language import localize_intro
+        head = localize_intro(head, lang)
     header = f'<div lang="{lang}">{site_header(lang, "forecast", "/forecast")}</div>'
     head = head.replace(b"<body>", b"<body>" + header.encode(), 1)
-    if lang != "ru":
-        notice = {"en": "This forecast is available in Russian.", "de": "Dieser Prognosebericht ist auf Russisch verfügbar."}[lang]
-        head = head.replace(b"</h1>", f'</h1><p class="credit" lang="{lang}">{notice}</p>'.encode(), 1)
     head = head.replace(b'data-assets-root="../../"', b'data-assets-root="/"')
     # Static workbooks, including the noscript fallback, live beside the offline report.
     head = re.sub(rb'href="([^/:?#"]+\.(?:xlsx|zip))"', rb'href="/outputs/forecast-final/\1"', head)

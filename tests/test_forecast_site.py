@@ -2,6 +2,8 @@
 import hashlib
 import json
 import os
+import re
+import tarfile
 import unittest
 from io import BytesIO
 from pathlib import Path
@@ -36,19 +38,54 @@ class ForecastSite(unittest.TestCase):
 
     def test_report_mount_preserves_fragment_links_and_embedded_data(self):
         model = b'<script id="core" type="application/json">{"text":"<body>"}</script>'
-        body = (b'<html lang="ru"><head><style></style></head><body><main><h1>Title</h1>'
-                b'<a href="#operations">Map</a><a href="demand.xlsx">Workbook</a>'
-                b'<section data-assets-root="../../"></section></main>' + model)
-        with patch.object(forecast_site, "forecast_available", return_value=True):
-            result = forecast_site.site_page(body, "de")
-        self.assertIn(b'data-site-lang="de"', result)
-        self.assertIn(b'href="/de/forecast"', result)
-        self.assertIn(b'lang="de">Dieser', result)
-        self.assertIn(b'href="#operations"', result)
-        self.assertIn(b'href="/outputs/forecast-final/demand.xlsx"', result)
-        self.assertIn(b'data-assets-root="/"', result)
-        self.assertNotIn(b"<base ", result)
-        self.assertTrue(result.endswith(model))
+        ru_title = "Где вырастут перевозки и сколько самолётов потребуется"
+        ru_fallback = "Скачать расчёт пассажиропотока в Excel"
+        body = (f'<html lang="ru"><head><title>{ru_title} · FlightCost</title><style></style></head>'
+                f'<body><main><h1>{ru_title}</h1><a href="#operations">Map</a>'
+                f'<noscript><a href="Пассажиропоток.xlsx">{ru_fallback}</a></noscript>'
+                '<section data-assets-root="../../"></section></main>').encode() + model
+        local = {
+            "ru": (ru_title, ru_fallback, ""),
+            "en": ("Where will passenger traffic grow, and how many aircraft will it take?",
+                   "Download the passenger traffic calculation in Excel", "seats"),
+            "de": ("Wo wächst der Luftverkehr und wie viele Flugzeuge werden gebraucht?",
+                   "Berechnung zum Passagierverkehr als Excel-Datei herunterladen", "Sitze"),
+        }
+        for lang, (title, fallback, seat_label) in local.items():
+            with self.subTest(lang=lang), patch.object(forecast_site, "forecast_available", return_value=True):
+                result = forecast_site.site_page(body, lang).decode()
+                self.assertIn(f'<html lang="{lang}" data-site-lang="{lang}"', result)
+                self.assertIn(f'href="/{lang}/forecast"', result)
+                self.assertIn(f'<title>{title} · FlightCost</title>', result)
+                self.assertIn(f'<h1>{title}</h1>', result)
+                self.assertIn(f'<noscript><a href="/outputs/forecast-final/Пассажиропоток.xlsx">'
+                              f'{fallback}</a></noscript>', result)
+                self.assertIn('href="#operations"', result)
+                self.assertIn('data-assets-root="/"', result)
+                self.assertNotIn("<base ", result)
+                self.assertTrue(result.endswith(model.decode()))
+                if lang != "ru":
+                    payload = re.search(r'<script id="forecast-messages" type="application/json">(.+?)</script>',
+                                        result, re.S)
+                    self.assertIsNotNone(payload)
+                    label = json.loads(payload[1])["text"]["−10 т и +20 мест · МВМ 116 т"]
+                    self.assertIn(seat_label, label)
+                    self.assertIn("116", label)
+                    self.assertNotRegex(label, "[А-Яа-яЁё]")
+
+    def test_regular_entry_defaults_to_current_modernization_in_both_published_reports(self):
+        archive = Path(__file__).resolve().parents[1] / "deploy/forecast/edition.tar.gz"
+        with tarfile.open(archive, "r:gz") as bundle:
+            for report in (forecast_site.WEB_INDEX, forecast_site.INDEX):
+                with self.subTest(report=report):
+                    page = bundle.extractfile(report).read()
+                    self.assertIn(b"UnifiedForecast.mount(", page)
+                    # The offline edition also carries an earlier renderer. Test the mounted one.
+                    module = page.split(b"window.UnifiedForecast =", 1)[1].split(b"return {mount};", 1)[0]
+                    selector = re.search(rb"let\s+study\s*=([^;]+);", module)
+                    self.assertIsNotNone(selector)
+                    self.assertRegex(selector[1], rb"Object\.hasOwn\(studies,\s*params\.get\('mr_study'\)\)"
+                                                   rb"\s*\?\s*params\.get\('mr_study'\)\s*:\s*'ten_116'")
 
     def test_web_overlay_requires_matching_manifest_and_revalidates(self):
         def request(root, path, *, lang=None, query="", validator=""):
@@ -88,12 +125,25 @@ class ForecastSite(unittest.TestCase):
             (root / forecast_site.WEB_MANIFEST).write_text(json.dumps({"base": base, "assets": assets}))
             (root / "SHA256SUMS").write_text(base_manifest)
 
-            code, headers, body = request(root, forecast_site.INDEX, lang="de")
-            self.assertEqual(code, 200)
-            self.assertIn(b"<h1>Web</h1>", body)
-            self.assertEqual(headers["Cache-Control"], "public, no-cache")
-            status, headers_304, body = request(root, forecast_site.INDEX, lang="de", validator=headers["ETag"])
-            self.assertEqual((status, headers_304["ETag"], body), (304, headers["ETag"], b""))
+            validators = set()
+            served = set()
+            for lang in ("ru", "en", "de"):
+                with self.subTest(lang=lang):
+                    code, headers, page = request(root, forecast_site.INDEX, lang=lang)
+                    self.assertEqual(code, 200)
+                    self.assertIn(b"<h1>Web</h1>", page)
+                    self.assertEqual(headers["Cache-Control"], "public, no-cache")
+                    etag = headers["ETag"]
+                    for previous in validators:
+                        status, current, other_page = request(root, forecast_site.INDEX, lang=lang,
+                                                              validator=previous)
+                        self.assertEqual((status, current["ETag"], other_page), (200, etag, page))
+                    status, cached, empty = request(root, forecast_site.INDEX, lang=lang, validator=etag)
+                    self.assertEqual((status, cached["ETag"], empty), (304, etag, b""))
+                    validators.add(etag)
+                    served.add(page)
+            self.assertEqual(len(validators), 3)
+            self.assertEqual(len(served), 3)
             self.assertIn(b"<h1>Offline</h1>", request(root, forecast_site.INDEX)[2])
             self.assertIn(b"<h1>Web</h1>", request(root, forecast_site.NETWORK)[2])
             self.assertIn(b"<h1>Offline</h1>", request(root, forecast_site.NETWORK, query="&download=1")[2])
