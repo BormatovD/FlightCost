@@ -9,6 +9,7 @@ after=$(git rev-parse --short HEAD)
 "$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e ".[pdf]"
 designer_revision=$("$ROOT/venv/bin/python" -c 'from flightcostapp.designer_route import DESIGNER_REVISION; print(DESIGNER_REVISION)')
 bash "$ROOT/app/deploy/install-designer.sh" "$designer_revision"
+"$ROOT/venv/bin/python" "$ROOT/app/deploy/forecast_edition.py"
 echo "$after" > "$ROOT/VERSION"
 
 sudo /usr/bin/systemctl restart fca
@@ -23,6 +24,7 @@ for _ in $(seq 1 30); do
 	if out=$(curl -fsS 'http://127.0.0.1:8000/healthz?probe=dev' 2>/dev/null); then
 		case "$out" in
 			*"\"version\": \"$after\""*)
+                "$ROOT/venv/bin/python" "$ROOT/app/deploy/forecast_edition.py" --live
 				echo "витрина отвечает, версия $after"
 				# Bing и Яндекс узнают о страницах сразу (IndexNow), а не при
 				# следующем обходе. Только при новом коде; сбой выкладку не валит.

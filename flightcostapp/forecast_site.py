@@ -9,7 +9,9 @@ from contextvars import ContextVar
 from functools import lru_cache
 from pathlib import Path
 
-OUTPUTS = Path(os.environ.get("FCA_FORECAST_OUTPUTS") or Path(__file__).resolve().parents[1] / "outputs")
+from .forecast_release import published_outputs
+
+OUTPUTS = published_outputs(Path(os.environ.get("FCA_FORECAST_OUTPUTS") or Path(__file__).resolve().parents[1] / "outputs"))
 local_review = ContextVar("forecast_local_review", default=False)
 INDEX = "forecast-final/report.html"
 NETWORK = "forecast-leased-network/report.html"
