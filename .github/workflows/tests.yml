@@ -17,6 +17,10 @@ jobs:
           cache: pip
       - name: Установка
         run: pip install -e .
+      - name: Проверка выпуска прогноза
+        run: |
+          python deploy/forecast_edition.py --check
+          python -m unittest discover -s tests -p test_forecast_edition.py -v
       - name: Тесты без базы
         run: |
           set -e
