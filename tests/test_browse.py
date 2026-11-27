@@ -13,6 +13,8 @@ import pathlib
 import sys
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
+from unittest.mock import patch
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
@@ -74,6 +76,35 @@ class Browse(unittest.TestCase):
     def test_local_sees_everything(self):
         r = B.rows(self.store, REG, "market_fare", as_of="2026-03-01", open_all=True)
         self.assertEqual(len(r["rows"]), 2)
+
+    def test_catalog_uses_one_scan_and_keeps_date_and_policy(self):
+        ctx = S.Context(self.store, REG, public=True)
+        with patch.object(B, "catalog_counts", wraps=B.catalog_counts) as counts:
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                results = list(executor.map(lambda _: ctx.browse({}), range(4)))
+            self.assertTrue(all(r == results[0] for r in results))
+            self.assertEqual(counts.call_count, 1)
+            # Отдельно проверить политику, которую накладывают на общие числа.
+            updated_registry = {"sources": {**REG["sources"], "market_fare": {"public": "full"}}}
+            ctx.registry = updated_registry
+            self.assertEqual(ctx.browse({"domain": "market_fare"})["total"], 2)
+            self.assertEqual(ctx.browse({"domain": "market_fare", "q": "MAD"})["total"], 1)
+            self.assertEqual(counts.call_count, 1)
+        self.assertNotEqual(ctx._browse_catalog_counts("2025-12-31"),
+                            ctx._browse_catalog_counts("2026-03-01"))
+
+    def test_catalog_invalidates_external_writes(self):
+        ctx = S.Context(self.store, REG, public=True)
+        before = ctx.browse({})
+        writer = Store(self.store.path)
+        try:
+            writer.commit_facts([Fact(domain="airport", key="MAD", valid_from=DAY,
+                                      source_id="ourairports", extracted_by="t")])
+        finally:
+            writer.db.close()
+        after = ctx.browse({})
+        self.assertNotEqual(before, after)
+        self.assertEqual(ctx.browse({"domain": "airport"})["total"], 3)
 
     def test_public_context_filters_data_and_fact(self):
         ctx = S.Context(self.store, REG, public=True)

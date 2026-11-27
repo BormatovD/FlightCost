@@ -277,7 +277,20 @@ def observed_frequency(store, as_of) -> tuple[dict, int]:
     рейса на паре не имеют ключа, и делить на число ключей пары значило
     бы считать частоту только по дням, когда летали.
     """
-    rows = store.current("observed", as_of) if hasattr(store, "current") else {}
+    from .store import Store
+
+    # Хранилище процесса сети переживает запросы. Места гостей и другие
+    # реализации Store сохраняют свой обычный путь чтения.
+    cache_key = None
+    if isinstance(store, Store):
+        as_of = str(as_of or date.today())
+        cache_key = (as_of, store._version())
+        cached = getattr(store, "_observed_frequency", None)
+        if cached is not None and cached[0] == cache_key:
+            return cached[1]
+        rows = store.current("observed", as_of, prefixes=("frequency/",))
+    else:
+        rows = store.current("observed", as_of) if hasattr(store, "current") else {}
     counts: dict[str, float] = {}
     dates = set()
     for key, row in rows.items():
@@ -286,11 +299,14 @@ def observed_frequency(store, as_of) -> tuple[dict, int]:
         _, pair, day = key.split("/", 2)
         counts[pair] = counts.get(pair, 0.0) + float(row["value"] or 0)
         dates.add(day[:10])
-    if not dates:
-        return {}, 0
-    d0, d1 = date.fromisoformat(min(dates)), date.fromisoformat(max(dates))
-    window = (d1 - d0).days + 1
-    return {k: v / window * 7 for k, v in counts.items()}, window
+    result = ({}, 0)
+    if dates:
+        d0, d1 = date.fromisoformat(min(dates)), date.fromisoformat(max(dates))
+        window = (d1 - d0).days + 1
+        result = ({k: v / window * 7 for k, v in counts.items()}, window)
+    if cache_key is not None:
+        store._observed_frequency = (cache_key, result)
+    return result
 
 
 # ── формирование сети ───────────────────────────────────────────────────
@@ -434,7 +450,8 @@ def form_network(store, airports, *, base: str, aircraft: str, as_of=None,
                                      "fca refresh --only fir_world"}]
                 pairs.append(p)
                 continue
-            dkey = (carrier, ax["icao"], ay["icao"], as_of)
+            dkey = (carrier, ax["icao"], ay["icao"], as_of,
+                    ax["lat"], ax["lon"], ay["lat"], ay["lon"], tuple(shut_zone["text"] for shut_zone in shut))
             dt = detour_cache.get(dkey) if detour_cache is not None else None
             if dt is None:
                 dt = detour_fn((ax["lat"], ax["lon"]), (ay["lat"], ay["lon"]),

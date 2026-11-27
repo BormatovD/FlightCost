@@ -79,7 +79,7 @@ def _pair_index(store, as_of: str) -> dict:
     до первой записи в базу."""
     db = _db(store)
     ver = (db.execute("PRAGMA data_version").fetchone()[0], db.total_changes)
-    ck = (id(db), as_of)
+    ck = (db, as_of)
     hit = _PAIR_IDX.get(ck)
     if hit and hit[0] == ver:
         return hit[1]
@@ -281,28 +281,39 @@ def pair_flow(store, a_icao: str, b_icao: str, as_of=None, month: int | None = N
 NEARBY_KM = 80        # «тот же город»: второй аэропорт Мумбаи — 35 км, Москвы — до 50
 
 
-_COORDS: dict = {}
+_NEARBY_INDEX: dict = {}
 
 
-def _coords(store) -> dict:
-    """ИКАО -> (lat, lon, ключ справочника) по домену `airport`, один раз на базу."""
-    db = _db(store)
-    key = id(db)
-    if key not in _COORDS:
-        out = {}
-        for k, txt in db.execute(
-                "SELECT key, value_text FROM facts WHERE domain='airport' AND valid_to IS NULL"):
-            p = (txt or "").split("|", 3)
-            if len(p) < 2 or not p[1]:
-                continue
-            try:
-                lat, lon = (float(x) for x in p[0].split(",", 1))
-            except ValueError:
-                continue
-            out[p[1]] = (lat, lon, k)
-        _COORDS.clear()
-        _COORDS[key] = out
-    return _COORDS[key]
+def _nearby_index(db):
+    """Аэропорты и партнёры по действующим ключам общего справочника."""
+    version = (db.execute("PRAGMA data_version").fetchone()[0], db.total_changes)
+    cached = _NEARBY_INDEX.get(db)
+    if cached is not None and cached[0] == version:
+        return cached[1:]
+    coords = {}
+    for key, value in db.execute(
+            "SELECT key, value_text FROM facts WHERE domain='airport' AND valid_to IS NULL"):
+        parts = (value or "").split("|", 3)
+        if len(parts) < 2 or not parts[1]:
+            continue
+        try:
+            lat, lon = (float(x) for x in parts[0].split(",", 1))
+        except ValueError:
+            continue
+        coords[parts[1]] = (lat, lon, key)
+    partners = {}
+    for (key,) in db.execute(
+            "SELECT DISTINCT key FROM facts WHERE domain='traffic' AND valid_to IS NULL"):
+        parts = key.split("/", 2)
+        if len(parts) == 3:
+            a, sep, b = parts[1].partition("-")
+            if sep:
+                partners.setdefault(a, set()).add(b)
+                partners.setdefault(b, set()).add(a)
+    if len(_NEARBY_INDEX) >= 4:
+        _NEARBY_INDEX.clear()
+    _NEARBY_INDEX[db] = (version, coords, partners)
+    return coords, partners
 
 
 def nearby(store, a_icao: str, b_icao: str, as_of=None, month: int | None = None) -> list[dict]:
@@ -312,21 +323,15 @@ def nearby(store, a_icao: str, b_icao: str, as_of=None, month: int | None = None
     Кандидаты — только партнёры другого конца по домену `traffic`, а не
     все аэропорты в радиусе: их десятки, поток есть у единиц."""
     import math
-    co = _coords(store)
-    db = _db(store)
+    co, partners = _nearby_index(_db(store))
     out = []
     for here, other in ((a_icao, b_icao), (b_icao, a_icao)):
         if here not in co:
             continue
-        partners = set()
-        for (k,) in db.execute(
-                "SELECT DISTINCT key FROM facts WHERE domain='traffic' AND valid_to IS NULL "
-                "AND (key LIKE ? OR key LIKE ?)", (f"%/{other}-%", f"%-{other}/%")):
-            pair = k.split("/")[1] if k.count("/") >= 2 else ""
-            x, _, y = pair.partition("-")
-            partners.add(y if x == other else x)
         la, lo, _ = co[here]
-        for p in sorted(partners - {here, other}):
+        for p in sorted(partners.get(other, ())):
+            if p == here or p == other:
+                continue
             if p not in co:
                 continue
             pl, po, pkey = co[p]

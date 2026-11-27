@@ -22,13 +22,67 @@
 
 from __future__ import annotations
 
+import json
 import os
 import time
+from contextlib import contextmanager
+from dataclasses import dataclass
+from hashlib import sha256
 from pathlib import Path
 
 LEG_CACHE_MAX = 4000
 
 _state: dict = {}            # внутри процесса пула: база, кэши, очередь хода
+
+
+@dataclass(frozen=True)
+class GuestSnapshot:
+    ws: str
+    created_at: str
+    facts: tuple
+    docs: tuple
+
+    @classmethod
+    def read(cls, gdb, ws):
+        """Снимок одного места. Вызывающий держит gdb.lock."""
+        workspace = gdb.db.execute(
+            "SELECT created_at FROM workspaces WHERE ws=?", (ws,)).fetchone()
+        if workspace is None:
+            return None
+        facts = gdb.db.execute("SELECT * FROM gfacts WHERE ws=? ORDER BY id", (ws,))
+        docs = gdb.db.execute(
+            """SELECT * FROM gdocs WHERE ws=?
+               AND (kind='aircraft' OR (kind='settings' AND name='default'))
+               ORDER BY kind, name""", (ws,))
+        return cls(ws, workspace[0], tuple(map(tuple, facts)), tuple(map(tuple, docs)))
+
+    def revision(self):
+        return sha256(repr((self.created_at, self.facts, self.docs)).encode()).hexdigest()
+
+    def settings(self):
+        return next((json.loads(doc[3]) for doc in self.docs if doc[1] == "settings"), None) or {}
+
+
+@contextmanager
+def network_store(base, snapshot: GuestSnapshot | None):
+    """В фон передаётся копия одного места, без доступа к живой БД гостей."""
+    if snapshot is None:
+        yield base
+        return
+    from .guest import FACT_COLS, GuestDB, GuestStore
+
+    gdb = GuestDB(":memory:")
+    try:
+        gdb.db.execute("INSERT INTO workspaces VALUES (?, ?, ?, '', NULL)",
+                       (snapshot.ws, snapshot.created_at, snapshot.created_at))
+        fact_columns = ("id", "ws", *FACT_COLS, "created_at")
+        placeholders = ", ".join("?" for _ in fact_columns)
+        gdb.db.executemany(f"INSERT INTO gfacts ({', '.join(fact_columns)}) VALUES ({placeholders})",
+                           snapshot.facts)
+        gdb.db.executemany("INSERT INTO gdocs VALUES (?, ?, ?, ?, ?)", snapshot.docs)
+        yield GuestStore(base, gdb, snapshot.ws)
+    finally:
+        gdb.db.close()
 
 
 def default_procs() -> int:
@@ -63,7 +117,7 @@ def _store(path: str):
     return _state["store"]
 
 
-def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
+def build(job_id: str, store_path: str, guest: GuestSnapshot | None, scope: tuple,
           airports: list, base: str, kw: dict, ov: dict,
           seed_legs: dict | None = None, seed_detours: dict | None = None) -> tuple:
     """Задание процесса пула: сложить сеть и ставку флота. Возвращает
@@ -72,12 +126,6 @@ def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
     from .network import fleet_from_core, form_network
     t0 = time.monotonic()
     base_store = _store(store_path)
-    store = base_store
-    gdb = None
-    if guest:
-        from .guest import GuestDB, GuestStore
-        gdb = GuestDB(guest[0])
-        store = GuestStore(base_store, gdb, guest[1])
     q = _state.get("q")
 
     def progress(done, total, key):
@@ -87,11 +135,13 @@ def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
             except Exception:                                  # noqa: BLE001
                 pass
 
-    legs = _state["legs"].setdefault(scope, {})
+    # Плечи гостя кэширует сервер после сверки снимка. Процесс не знает,
+    # изменилось ли место с момента постановки задания.
+    legs = {} if guest is not None else _state["legs"].setdefault(scope, {})
     legs.update(seed_legs or {})
     _state["detours"].update(seed_detours or {})
     legs_before, det_before = set(legs), set(_state["detours"])
-    try:
+    with network_store(base_store, guest) as store:
         pairs = form_network(store, airports, base=base, aircraft=kw["aircraft"],
                              as_of=kw.get("as_of"), month=kw.get("month"),
                              overrides=ov or None, operator=kw.get("operator", "*"),
@@ -106,12 +156,6 @@ def build(job_id: str, store_path: str, guest: tuple | None, scope: str,
                                     month=kw.get("month"), overrides=ov or None,
                                     operator=kw.get("operator", "*"), seats=kw.get("seats"),
                                     aircraft_age=kw.get("aircraft_age"))
-    finally:
-        if gdb is not None:
-            try:
-                gdb.db.close()
-            except Exception:                                  # noqa: BLE001
-                pass
     new_legs = {k: v for k, v in legs.items() if k not in legs_before}
     new_det = {k: v for k, v in _state["detours"].items() if k not in det_before}
     if sum(len(v) for v in _state["legs"].values()) > LEG_CACHE_MAX:

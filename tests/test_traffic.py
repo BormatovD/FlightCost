@@ -254,6 +254,12 @@ class Nearby(unittest.TestCase):
         near = traffic.nearby(st, "VIDP", "VANM", "2026-10-15")
         self.assertEqual([(n["with"], round(n["pax_month"])) for n in near], [("VABB", 550000)])
         self.assertLess(near[0]["km"], 80)                 # Пуна (~110 км) — не тот же город
+        self.assertEqual(near, traffic.nearby(st, "VIDP", "VANM", "2026-10-15", month=3))
+        st.commit_facts([
+            Fact(domain="airport", key="BOM", valid_from="2026-10-16",
+                 value_text="17.0,70.0|VABB|IN|Mumbai", source_id="t", confidence="exact")
+        ])
+        self.assertEqual(traffic.nearby(st, "VIDP", "VANM", "2026-10-17"), [])
 
 
 class PublishedObservations(unittest.TestCase):

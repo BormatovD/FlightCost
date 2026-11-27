@@ -2110,17 +2110,17 @@ async function boot(){
     draw();
   });
   drawCtx();
-  await bootGlobe();
+  const forecastNetwork = location.hash.startsWith("#network=");
+  if (!forecastRoute && !forecastNetwork) draw();
+  await bootGlobe().catch(() => {
+    $("#gnote").textContent = _t("Сервер не ответил");
+  });
   if (forecastRoute) {
     await importForecastRoute();
     return;
   }
   fitRoute();
-  if (await importForecastNetwork()) return;
-  // Первая отрисовка глобуса идёт ДО расчёта, и подпись дуги тогда не
-  // знает ни пассажиров, ни выполнимости. Расчёт её обновит сам —
-  // `draw` зовёт `drawGlobe` по приходе ответа.
-  draw();
+  if (forecastNetwork && await importForecastNetwork()) return;
   // Со страницы типа: «сравнить в сети» — режим сети и свой вариант в
   // сравнении рядом с исходным типом (решение 231).
   if (QP.get("mode") === "net" || QP.get("net") === "1") {
@@ -2311,8 +2311,13 @@ function draw(){
       if (my === seq) loaderShow(null, "route");
     }, 300);
     let r;
+    const query = params();
+    const workspace = wsKey();
+    let benchRevision = "";
     try {
-      r = await (await pageFetch("/api/route?" + params())).json();
+      const response = await pageFetch("/api/route?" + query);
+      r = await response.json();
+      benchRevision = response.headers.get("X-FlightCost-Bench-Revision") || "";
     } catch (e) {
       r = {error: _t("Сервер не ответил")};
     } finally {
@@ -2324,7 +2329,6 @@ function draw(){
     }
     if (my !== seq) return;                 // поля изменились после запроса
     $("#stat").textContent = `${Math.round(performance.now()-t0)} ${_t("мс")}`;
-    drawGlobe();
     if (r.error) {
       routeSchedule(null);
       if (!NET.on) {
@@ -2333,7 +2337,10 @@ function draw(){
       }
       return;
     }
+    BENCH_ROUTE.set(r, {seq: my, workspace, revision: benchRevision,
+      origin: query.get("origin"), destination: query.get("destination")});
     render(r);
+    drawGlobe();
   }, 120);
 }
 
@@ -3111,15 +3118,35 @@ function cask(r){
 
 // Полоса перевозчиков грузится один раз на пару аэропортов и служит и
 // показателям над глобусом, и вкладке «Маршрут».
-let BENCH = null, BENCH_KEY = "";
-async function loadBench(){
-  const key = CHOSEN.o + "|" + CHOSEN.d;
-  if (BENCH && BENCH_KEY === key) return BENCH;
-  const b = await (await pageFetch(`/api/bench?origin=${
-    encodeURIComponent(CHOSEN.o)}&destination=${
-    encodeURIComponent(CHOSEN.d)}`)).json();
-  BENCH = b; BENCH_KEY = key;
-  return b;
+const BENCH_ROUTE = new WeakMap();
+const BENCH_IN_FLIGHT = new Map(), BENCH_CACHE = new Map();
+let BENCH_REVISION = "";
+function currentBench(r){
+  const route = BENCH_ROUTE.get(r);
+  return LAST === r && route && route.seq === seq && route.workspace === wsKey() && !NET.on
+    ? route : null;
+}
+function loadBench(route){
+  const {origin, destination, workspace, revision, seq: requestSeq} = route;
+  if (revision && BENCH_REVISION !== revision) {
+    BENCH_CACHE.clear();
+    BENCH_REVISION = revision;
+  }
+  const pair = new URLSearchParams({origin, destination});
+  const key = JSON.stringify([workspace, revision || requestSeq, pair.toString()]);
+  if (BENCH_CACHE.has(key)) return Promise.resolve(BENCH_CACHE.get(key));
+  if (BENCH_IN_FLIGHT.has(key)) return BENCH_IN_FLIGHT.get(key);
+  const pending = pageFetch("/api/bench?" + pair).then(async response => {
+    const b = await response.json();
+    if (!response.ok || b.error) return null;
+    if (revision && !workspace && BENCH_REVISION === revision) {
+      if (BENCH_CACHE.size >= 24) BENCH_CACHE.delete(BENCH_CACHE.keys().next().value);
+      BENCH_CACHE.set(key, b);
+    }
+    return b;
+  }).catch(() => null).finally(() => BENCH_IN_FLIGHT.delete(key));
+  BENCH_IN_FLIGHT.set(key, pending);
+  return pending;
 }
 
 // Перевозчик, с которым сравниваем. Один, а не множество: сравнение —
@@ -3167,7 +3194,13 @@ function drawKpi(r){
   $("#kpi").innerHTML = cells.join("") + `<div><div class="k">${_t("Сравнить с")}</div>
     <div id="kpichips"><span class="s">${_t("считаю…")}</span></div>
     <div class="s" id="kpisub"></div></div>`;
-  Promise.all([loadBench(), loadCarrierEmblems()]).then(([b]) => { if (LAST === r) drawChips(b); });
+  const route = currentBench(r);
+  if (!route) return;
+  Promise.all([loadBench(route), loadCarrierEmblems()]).then(([b]) => {
+    if (!currentBench(r)) return;
+    if (b) drawChips(b);
+    else $("#kpichips").textContent = _t("Сервер не ответил");
+  });
 }
 
 function comparisonCost(b){
@@ -3505,8 +3538,14 @@ function carrierCard(c){
 }
 
 async function drawBench(r){
-  const b = await loadBench();
-  if (LAST !== r || !$("#benchbox")) return;      // ответ обогнал более свежий
+  const route = currentBench(r);
+  if (!route) return;
+  const b = await loadBench(route);
+  if (!currentBench(r) || !$("#benchbox")) return;
+  if (!b) {
+    $("#benchbox").textContent = _t("Сервер не ответил");
+    return;
+  }
   const box = [];
 
   if ((b.carriers || []).length) {
@@ -4030,7 +4069,9 @@ async function netRun(){
     if (my !== NET_SEQ) return;
     if (!(r && r.pending)) break;
     NET.progress = r.progress; netRender(); loaderShow(r.progress);
-    await new Promise(res => setTimeout(res, 1500));
+    const progress = r.progress || {};
+    const nearFinish = progress.total && progress.total - progress.done <= 3;
+    await new Promise(res => setTimeout(res, !progress.queue && nearFinish ? 500 : 1500));
     if (my !== NET_SEQ) return;
   }
   loaderHide();

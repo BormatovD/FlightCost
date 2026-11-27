@@ -92,47 +92,95 @@ const DT = {
   observed: [_t("Наблюдённые рейсы"), _t("ADS-B OpenSky: сводки по парам и типам")]
 };
 const dtitle = (d, f) => (DT[d] || [f])[0], dnote = (d, f) => (DT[d] || [, f])[1];
-const S = {dom: null, q: "", page: 0, cat: null};
+const S = {dom: null, q: "", page: 0, cat: null, seq: 0, detailSeq: 0, searchTimer: null};
+const probe = new URLSearchParams(location.search).getAll("probe").includes("dev");
+async function api(path){
+  const url = new URL(path, location.href);
+  if (probe) url.searchParams.set("probe", "dev");
+  const response = await fetch(url);
+  const result = await response.json();
+  if (!response.ok || result.error) throw new Error(result.error || response.status);
+  return result;
+}
+const status = (message, role = "status") => `<div class="lead" role="${role}">${esc(message)}</div>`;
 
 $("#intro").innerHTML = `<h2>${_t("Что лежит в базе")}</h2><p>${_t("Всё, из чего складывается расчёт: типы самолётов, аэропорты, сборы, поток по парам, курсы. Слева — разделы, в каждом — откуда данные и насколько свежие. Построчно показано то, что разрешает лицензия источника; остальное — только числом записей.")}</p>`;
 
 async function loadCat(){
-  S.cat = await (await fetch("/api/browse")).json();
-  $("#doms").innerHTML = S.cat.domains.map(d => `<div class="dom" data-d="${esc(d.domain)}"><b>${esc(dtitle(d.domain, d.title))}</b>
+  $("#doms").innerHTML = status(_t("считаю…"));
+  try {
+    S.cat = await api("/api/browse");
+  } catch (error) {
+    S.cat = false;
+    $("#doms").innerHTML = status(_t("Сервер не ответил"), "alert");
+    if ($("#sources")) $("#sources").innerHTML = sourceRows(S.dom);
+    return;
+  }
+  $("#doms").innerHTML = S.cat.domains.map(d => `<div class="dom${d.domain === S.dom ? " on" : ""}" data-d="${esc(d.domain)}"><b>${esc(dtitle(d.domain, d.title))}</b>
     <span>${num(d.open)} ${_t("записей")}${d.closed ? ` · ${num(d.closed)} ${_t("закрыто лицензией")}` : ""}</span></div>`).join("");
   document.querySelectorAll(".dom").forEach(el => el.onclick = () => pick(el.dataset.d));
-  // Со страницы карты приходит адрес записи: раздел и ключ.
-  const P = new URLSearchParams(location.search), want = P.get("domain"), key = P.get("key");
-  if (want) pick(want, key || "").then(() => { if (key) detail(key); });
+  if ($("#sources")) $("#sources").innerHTML = sourceRows(S.dom);
+  const meta = S.cat.domains.find(x => x.domain === S.dom);
+  if ($("#domain-note")) $("#domain-note").textContent = dnote(S.dom, meta?.note || "");
 }
 
 function pick(d, q = ""){
+  clearTimeout(S.searchTimer);
   S.dom = d; S.page = 0; S.q = q;
   document.querySelectorAll(".dom").forEach(el => el.classList.toggle("on", el.dataset.d === d));
   const u = new URL(location.href); u.searchParams.set("domain", d);
   if (!q) u.searchParams.delete("key");
   history.replaceState(null, "", u);
+  $("#body").innerHTML = `<h2>${esc(dtitle(d, d))}</h2>${status(_t("считаю…"))}`;
   return load();
 }
 
-async function load(){
-  const r = await (await fetch(`/api/browse?domain=${encodeURIComponent(S.dom)}&q=${encodeURIComponent(S.q)}&page=${S.page}`)).json();
-  const meta = S.cat.domains.find(x => x.domain === S.dom) || {sources: {}};
-  const srcs = Object.entries(meta.sources || {}).map(([k, s]) => `<div>${s.public ? "" : `<span class="lock">${_t("закрыто")}:</span> `}<b>${esc(s.title)}</b> — ${num(s.n)} ${_t("записей")}${s.license ? ` · ${_t("лицензия")}: ${esc(s.license)}` : ""}${
+function sourceRows(domain){
+  if (S.cat === false) return status(_t("Сервер не ответил"), "alert");
+  if (!S.cat) return status(_t("считаю…"));
+  const meta = S.cat.domains.find(x => x.domain === domain);
+  return Object.values(meta?.sources || {}).map(s => `<div>${s.public ? "" : `<span class="lock">${_t("закрыто")}:</span> `}<b>${esc(s.title)}</b> — ${num(s.n)} ${_t("записей")}${s.license ? ` · ${_t("лицензия")}: ${esc(s.license)}` : ""}${
     /^https?:\/\//.test(s.url || "") ? ` · <a href="${esc(s.url)}" target="_blank" rel="noopener">${_t("источник")}</a>` : ""}</div>`).join("");
-  $("#body").innerHTML = `<h2>${esc(dtitle(S.dom, r.title))}</h2><div class="lead">${esc(dnote(S.dom, meta.note || ""))}</div>
-    <div class="srcs">${srcs}</div>
+}
+
+async function load(){
+  const seq = ++S.seq, domain = S.dom;
+  const query = new URLSearchParams({domain, q: S.q, page: S.page});
+  let r;
+  try {
+    r = await api("/api/browse?" + query);
+  } catch (error) {
+    if (seq === S.seq) $("#body").innerHTML = `<h2>${esc(dtitle(domain, domain))}</h2>${status(_t("Сервер не ответил"), "alert")}`;
+    return false;
+  }
+  if (seq !== S.seq) return false;
+  const meta = S.cat?.domains?.find(x => x.domain === domain);
+  $("#body").innerHTML = `<h2>${esc(dtitle(S.dom, r.title))}</h2><div class="lead" id="domain-note">${esc(dnote(domain, meta?.note || ""))}</div>
+    <div class="srcs" id="sources">${sourceRows(domain)}</div>
     <div class="bar"><input id="q" placeholder="${_t("поиск: код, название, пара")}" value="${esc(S.q)}">
       <span class="cnt">${num(r.total)} ${_t("строк")}${r.pages > 1 ? ` · ${_t("стр.")} ${r.page + 1} / ${r.pages}` : ""}</span>
       <span class="pager"><button id="prev" ${r.page <= 0 ? "disabled" : ""}>←</button> <button id="next" ${r.page + 1 >= r.pages ? "disabled" : ""}>→</button></span></div>
     <div class="tw">${table(r)}</div>
     ${r.closed ? `<div class="closed">${num(r.closed)} ${_t("записей этого раздела не показываются построчно: лицензия источника не разрешает их публиковать. В расчётах на сайте они участвуют.")}</div>` : ""}
     <div id="detail"></div>`;
-  const qi = $("#q"); let tm;
-  qi.oninput = () => { clearTimeout(tm); tm = setTimeout(() => { S.q = qi.value; S.page = 0; load().then(() => { const n = $("#q"); n.focus(); n.setSelectionRange(n.value.length, n.value.length); }); }, 300); };
-  $("#prev").onclick = () => { S.page--; load(); };
-  $("#next").onclick = () => { S.page++; load(); };
+  const qi = $("#q");
+  qi.oninput = () => {
+    S.seq++;
+    clearTimeout(S.searchTimer);
+    S.searchTimer = setTimeout(async () => {
+      if ($("#q") !== qi) return;
+      S.q = qi.value; S.page = 0;
+      if (await load()) {
+        const input = $("#q");
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+      }
+    }, 300);
+  };
+  $("#prev").onclick = () => { clearTimeout(S.searchTimer); S.page--; load(); };
+  $("#next").onclick = () => { clearTimeout(S.searchTimer); S.page++; load(); };
   document.querySelectorAll("tr.row").forEach(tr => tr.onclick = () => detail(tr.dataset.k));
+  return true;
 }
 
 // Строки — по-своему у главных разделов, остальное — общей таблицей.
@@ -162,30 +210,41 @@ function rowsTable(r, heads, cells, right = []){
 }
 
 async function detail(key){
-  if (S.dom === "aircraft") {
-    key = key.split("/")[0];          // адрес свойства `A320/mtow_t` → тип
-    const r = await (await fetch(`/api/browse?domain=aircraft&q=${encodeURIComponent(key)}`)).json();
-    const x = r.rows.find(y => y.key === key);
-    if (!x) return;
-    $("#detail").innerHTML = `<div class="card"><h3 style="margin:0 0 8px">${esc(key)}</h3><table>${
-      Object.entries(x.props).map(([k, v]) => `<tr><td class="m">${esc(k)}</td><td class="r">${v.value != null ? num(v.value, 4) : esc(v.text)}</td><td class="m">${esc(v.unit || "")}</td></tr>`).join("")}</table></div>`;
+  const seq = S.seq, detailSeq = ++S.detailSeq, domain = S.dom;
+  const current = () => seq === S.seq && detailSeq === S.detailSeq && $("#detail");
+  try {
+    if (domain === "aircraft") {
+      key = key.split("/")[0];          // адрес свойства `A320/mtow_t` → тип
+      const r = await api(`/api/browse?domain=aircraft&q=${encodeURIComponent(key)}`);
+      if (!current()) return;
+      const x = r.rows.find(y => y.key === key);
+      if (!x) return;
+      $("#detail").innerHTML = `<div class="card"><h3 style="margin:0 0 8px">${esc(key)}</h3><table>${
+        Object.entries(x.props).map(([k, v]) => `<tr><td class="m">${esc(k)}</td><td class="r">${v.value != null ? num(v.value, 4) : esc(v.text)}</td><td class="m">${esc(v.unit || "")}</td></tr>`).join("")}</table></div>`;
+      $("#detail").scrollIntoView({behavior: "smooth", block: "nearest"});
+      return;
+    }
+    const r = await api(`/api/fact?domain=${encodeURIComponent(domain)}&key=${encodeURIComponent(key)}`);
+    if (!current()) return;
+    // Ключ без записи раскрывается в правила под префиксом (сборы по статьям).
+    const recs = r.kind === "prefix" ? r.rules : [r.current, ...(r.history || [])].filter(Boolean);
+    const src = r.source || {};
+    const line = x => `<tr><td class="m">${esc(x.key || key)}</td><td class="r">${x.value != null ? num(x.value, 4) : esc((x.value_text || "").slice(0, 120))}</td>
+      <td class="m">${esc(x.unit || "")}${x.currency && x.currency !== x.unit ? " " + esc(x.currency) : ""}</td>
+      <td class="m">${esc(x.valid_from || "")}${x.valid_to ? " → " + esc(x.valid_to) : ""}</td><td class="m">${esc(x.confidence || "")}</td></tr>`;
+    $("#detail").innerHTML = `<div class="card"><h3 style="margin:0 0 6px">${esc(key)}</h3>
+      <div class="lead">${_t("Запись и её история: значение, с какой даты действует, откуда и насколько надёжно.")}</div>
+      ${r.restricted ? `<div class="lead lock">${_t("Источник не разрешает публиковать записи построчно — показано только действующее значение.")}</div>` : ""}
+      <div class="srcs">${_t("Источник")}: <b>${esc(src.title || src.id || "")}</b>${src.license ? ` · ${_t("лицензия")}: ${esc(src.license)}` : ""}${src.url ? ` · <a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a>` : ""}</div>
+      <div class="tw"><table><thead><tr><th>${_t("Ключ")}</th><th style="text-align:right">${_t("Значение")}</th><th>${_t("Ед.")}</th><th>${_t("Действует")}</th><th>${_t("Происхождение")}</th></tr></thead>
+      <tbody>${recs.map(line).join("")}</tbody></table></div></div>`;
     $("#detail").scrollIntoView({behavior: "smooth", block: "nearest"});
-    return;
+  } catch (error) {
+    if (current()) $("#detail").innerHTML = status(_t("Сервер не ответил"), "alert");
   }
-  const r = await (await fetch(`/api/fact?domain=${encodeURIComponent(S.dom)}&key=${encodeURIComponent(key)}`)).json();
-  // Ключ без записи раскрывается в правила под префиксом (сборы по статьям).
-  const recs = r.kind === "prefix" ? r.rules : [r.current, ...(r.history || [])].filter(Boolean);
-  const src = r.source || {};
-  const line = x => `<tr><td class="m">${esc(x.key || key)}</td><td class="r">${x.value != null ? num(x.value, 4) : esc((x.value_text || "").slice(0, 120))}</td>
-    <td class="m">${esc(x.unit || "")}${x.currency && x.currency !== x.unit ? " " + esc(x.currency) : ""}</td>
-    <td class="m">${esc(x.valid_from || "")}${x.valid_to ? " → " + esc(x.valid_to) : ""}</td><td class="m">${esc(x.confidence || "")}</td></tr>`;
-  $("#detail").innerHTML = `<div class="card"><h3 style="margin:0 0 6px">${esc(key)}</h3>
-    <div class="lead">${_t("Запись и её история: значение, с какой даты действует, откуда и насколько надёжно.")}</div>
-    ${r.restricted ? `<div class="lead lock">${_t("Источник не разрешает публиковать записи построчно — показано только действующее значение.")}</div>` : ""}
-    <div class="srcs">${_t("Источник")}: <b>${esc(src.title || src.id || "")}</b>${src.license ? ` · ${_t("лицензия")}: ${esc(src.license)}` : ""}${src.url ? ` · <a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a>` : ""}</div>
-    <div class="tw"><table><thead><tr><th>${_t("Ключ")}</th><th style="text-align:right">${_t("Значение")}</th><th>${_t("Ед.")}</th><th>${_t("Действует")}</th><th>${_t("Происхождение")}</th></tr></thead>
-    <tbody>${recs.map(line).join("")}</tbody></table></div></div>`;
-  $("#detail").scrollIntoView({behavior: "smooth", block: "nearest"});
 }
+// Со страницы карты приходит адрес записи: раздел и ключ.
+const P = new URLSearchParams(location.search), want = P.get("domain"), key = P.get("key");
+if (want) pick(want, key || "").then(loaded => { if (loaded && key) detail(key); });
 loadCat();
 </script></body></html>

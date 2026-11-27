@@ -11,9 +11,13 @@ from __future__ import annotations
 
 import math
 import re
+import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
+from threading import Barrier
+from unittest.mock import patch
 
 from flightcostapp import network as N
 from flightcostapp.rights import load_closures, pair_rights
@@ -430,3 +434,180 @@ class CoreCaches(unittest.TestCase):
         econ._TCZ_CACHE.clear()
         a = econ._tcz_map()
         self.assertIs(econ._tcz_map(), a)
+
+    def test_frequency_cache_changes_with_snapshot_and_date(self):
+        from flightcostapp.store import Fact, Store
+
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Store(Path(tmp) / "observed.db")
+            self.addCleanup(store.db.close)
+            def observation(day, value):
+                return Fact(domain="observed", key=f"frequency/EDDF-LEBL/{day}",
+                            valid_from=day, value=value, source_id="fixture", extracted_by="test")
+
+            store.commit_facts([observation("2026-10-01", 1)])
+            self.assertEqual(N.observed_frequency(store, "2026-09-30"), ({}, 0))
+            with patch.object(store, "current", wraps=store.current) as current:
+                self.assertEqual(N.observed_frequency(store, "2026-10-03"), ({"EDDF-LEBL": 7}, 1))
+                self.assertEqual(N.observed_frequency(store, "2026-10-03"), ({"EDDF-LEBL": 7}, 1))
+                self.assertEqual(current.call_count, 1)
+                store.commit_facts([observation("2026-10-02", 3)])
+                self.assertEqual(N.observed_frequency(store, "2026-10-03"), ({"EDDF-LEBL": 14}, 2))
+                self.assertEqual(current.call_count, 2)
+
+    def test_network_starts_same_formation_once_and_scopes_guest_facts(self):
+        from flightcostapp.guest import GuestDB
+        from flightcostapp.serve import Context
+        from flightcostapp.store import Fact, Store
+
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Store(Path(tmp) / "base.db", shared=True)
+            guests = GuestDB(Path(tmp) / "users.db")
+            self.addCleanup(store.db.close)
+            self.addCleanup(guests.db.close)
+            ctx = Context(store, {}, gdb=guests)
+            ready = Barrier(4)
+
+            def start(form_key, airports, base, kw, ov, scope, snapshot):
+                job = {"progress": {}}
+                ctx._net_jobs[form_key] = job
+                return job
+
+            def call(_):
+                ready.wait(timeout=2)
+                return ctx.network({"airports": "FRA,BCN"})
+
+            with (patch.object(Context, "_start_net_job", side_effect=start) as jobs,
+                  patch.object(Context, "resolve", side_effect=lambda code: code)):
+                with ThreadPoolExecutor(max_workers=4) as executor:
+                    self.assertTrue(all(result["pending"] for result in executor.map(call, range(4))))
+                self.assertEqual(jobs.call_count, 1)
+                guest = ctx.for_request(guests.create())
+                self.assertTrue(guest.network({"airports": "FRA,BCN"})["pending"])
+                guests.replace_facts(guest.ws, "aircraft", "A320/", [
+                    Fact(domain="aircraft", key="A320/seats", value=171,
+                         valid_from="2026-01-01", source_id="fixture", extracted_by="test")
+                ])
+                self.assertTrue(guest.network({"airports": "FRA,BCN"})["pending"])
+                self.assertEqual(jobs.call_count, 3)
+                public, guest_before, guest_after = (x.args[-2] for x in jobs.call_args_list)
+                self.assertNotEqual(public, guest_before)
+                self.assertNotEqual(guest_before, guest_after)
+
+    def test_network_freezes_guest_inputs_and_drops_stale_publication(self):
+        from concurrent.futures import Future
+        from pickle import dumps, loads
+        from threading import Event, Semaphore
+        from time import monotonic, sleep
+
+        from flightcostapp import netpool
+        from flightcostapp.guest import GuestDB
+        from flightcostapp.serve import Context
+        from flightcostapp.store import Fact, Store
+
+        class WorkerPool:
+            def submit(self, job_id, job, path, guest, *args):
+                future = Future()
+                try:
+                    snapshot = loads(dumps(guest))
+                    future.set_result(netpool.build(job_id, path, snapshot, *args))
+                except Exception as exc:
+                    future.set_exception(exc)
+                return future
+
+            def forget(self, job_id):
+                pass
+
+        class ContextForTest(Context):
+            @classmethod
+            def _net_setup(cls, public=False):
+                pass
+
+        q = {"airports": "FRA,BCN", "as_of": "2026-11-25"}
+        for use_pool in (False, True):
+            for action in ("edit", "delete"):
+                with self.subTest(pool=use_pool, action=action), tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    store = Store(root / "base.db", shared=True)
+                    guests = GuestDB(root / "users.db")
+                    self.addCleanup(store.db.close)
+                    self.addCleanup(guests.db.close)
+                    ContextForTest._net_sem = Semaphore(0)
+                    ContextForTest._net_pool = WorkerPool() if use_pool else None
+                    ContextForTest._net_queue = []
+                    pool_state = {"legs": {}, "detours": {}}
+                    ready, release = Event(), Event()
+                    seen, public_seeds = [], []
+
+                    def read_type(st):
+                        row = st.get("aircraft", "A320/seats", q["as_of"])
+                        return row["value"] if row else None
+
+                    def form(st, *args, leg_cache, **kwargs):
+                        if getattr(st, "ws", None):
+                            seen.append(read_type(st))
+                            ready.set()
+                            if not release.wait(timeout=3):
+                                raise TimeoutError("guest mutation did not reach the test barrier")
+                            seen.append(read_type(st))
+                        else:
+                            public_seeds.append(dict(leg_cache))
+                        leg_cache[("FRA", "BCN")] = read_type(st)
+                        return []
+
+                    def write(value):
+                        guests.replace_facts(guest_ctx.ws, "aircraft", "A320/", [
+                            Fact(domain="aircraft", key="A320/seats", value=value,
+                                 valid_from="2026-11-01", source_id="fixture", extracted_by="test")
+                        ], as_of=q["as_of"])
+
+                    def wait_finished():
+                        end = monotonic() + 3
+                        while monotonic() < end:
+                            with ctx._net_lock:
+                                if not ctx._net_jobs:
+                                    return
+                                self.assertFalse([job["error"] for job in ctx._net_jobs.values()
+                                                  if job["error"]])
+                            sleep(0.01)
+                        self.fail("network job did not finish")
+
+                    ctx = ContextForTest(store, {}, gdb=guests)
+                    guest_ctx = ctx.for_request(guests.create())
+                    if action == "delete":
+                        write(777)
+                    with (patch.object(ContextForTest, "resolve", side_effect=lambda code: code),
+                          patch.object(N, "form_network", side_effect=form),
+                          patch.object(netpool, "_state", pool_state),
+                          patch.object(netpool, "_store", return_value=store)):
+                        self.assertTrue(guest_ctx.network(q)["pending"])
+                        if action == "edit":
+                            write(777)  # Факт добавлен после постановки, до старта.
+                        ContextForTest._net_sem.release()
+                        self.assertTrue(ready.wait(timeout=3))
+                        if action == "edit":
+                            write(888)  # Повторная правка до публикации.
+                        else:
+                            guests.delete(guest_ctx.ws)
+                        release.set()
+                        wait_finished()
+                        self.assertEqual(seen, [None, None] if action == "edit" else [777, 777])
+                        self.assertFalse(ctx._net_cache)
+                        self.assertFalse(ctx._leg_cache)
+                        self.assertFalse(pool_state["legs"])
+
+                        self.assertTrue(ctx.network(q)["pending"])
+                        ContextForTest._net_sem.release()
+                        wait_finished()
+                        self.assertEqual(public_seeds, [{}])
+                        self.assertEqual(len(ctx._net_cache), 1)
+                        self.assertEqual(next(iter(ctx._leg_cache))[-1], "shared")
+                        if action == "edit":
+                            self.assertTrue(guest_ctx.network(q)["pending"])
+                            ContextForTest._net_sem.release()
+                            wait_finished()
+                            self.assertEqual(seen[-2:], [888, 888])
+                            self.assertEqual(len(ctx._net_cache), 2)
+                            shared, private = ctx._leg_cache.values()
+                            self.assertEqual(shared, {("FRA", "BCN"): None})
+                            self.assertEqual(private, {("FRA", "BCN"): 888})

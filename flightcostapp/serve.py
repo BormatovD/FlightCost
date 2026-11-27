@@ -346,12 +346,14 @@ class _Handler(BaseHTTPRequestHandler):
             body = body.replace(b"</head>", seo.ICON_LINKS.encode() + b"</head>", 1)
         return body
 
-    def _send(self, code: int, body: bytes, ctype: str) -> None:
+    def _send(self, code: int, body: bytes, ctype: str, *, headers=()) -> None:
         body = self._icons(body, ctype)
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        for name, value in headers:
+            self.send_header(name, value)
         self.end_headers()
         self.wfile.write(body)
 
@@ -362,10 +364,10 @@ class _Handler(BaseHTTPRequestHandler):
         fwd = (self.headers.get("X-Forwarded-For") or "").split(",")[0].strip()
         return fwd or self.client_address[0]
 
-    def _json(self, obj, code: int = 200) -> None:
+    def _json(self, obj, code: int = 200, *, headers=()) -> None:
         self._send(code, json.dumps(obj, ensure_ascii=False,
                                     default=str).encode("utf-8"),
-                   "application/json; charset=utf-8")
+                   "application/json; charset=utf-8", headers=headers)
 
     def _public(self, body: bytes, ctype: str, code: int = 200, revalidate: bool = False) -> None:
         """Страница для поисковика: кэш на час вместо no-store.
@@ -414,10 +416,48 @@ class _Handler(BaseHTTPRequestHandler):
 
     def _forecast_asset(self, relative: str, *, site_lang: str | None = None) -> None:
         root = FORECAST_OUTPUTS.resolve()
-        asset = root / relative
-        map_chunk = re.fullmatch(r"forecast-world-networks/map-data/(?:2029|2031|2036)-[A-Z]{2}\.[0-9a-f]{12}\.js", relative)
-        if not (relative in FORECAST_ASSETS or map_chunk) or asset.resolve() != asset or not asset.is_file():
+        query = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query)
+        original = root / relative
+        web_name = (forecast_site.WEB_INDEX if site_lang and relative == forecast_site.INDEX else
+                    forecast_site.WEB_NETWORK if relative == forecast_site.NETWORK and
+                    query.get("download") != ["1"] else None)
+        chunk_name = forecast_site.WEB_CHUNK.fullmatch(relative)
+        overlay = forecast_site.overlay_assets(root) if web_name or chunk_name else frozenset()
+        candidate = root / web_name if web_name in overlay else None
+        web_page = candidate is not None and candidate.resolve() == candidate and candidate.is_file()
+        asset = candidate if web_page else original
+        web_chunk = bool(chunk_name) and relative in overlay
+        map_chunk = forecast_site.MAP_CHUNK.fullmatch(relative)
+        allowed = relative in FORECAST_ASSETS or web_chunk or map_chunk
+        if not allowed or asset.resolve() != asset or not asset.is_file():
             self._send(404, b"Preview asset not found", "text/plain; charset=utf-8")
+            return
+        if web_page or web_chunk or map_chunk:
+            stat = asset.stat()
+            if web_page:
+                version = stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns
+                body, etag = forecast_site.web_page(asset, site_lang, version)
+                ctype = "text/html; charset=utf-8"
+                caching = "public, no-cache"
+            else:
+                body = None
+                etag = '"' + (asset.name.split(".")[0] if web_chunk else asset.name.split(".")[-2]) + '"'
+                ctype = "application/gzip" if web_chunk else "application/javascript; charset=utf-8"
+                caching = "public, max-age=31536000, immutable"
+            matched = forecast_site.matches_etag(self.headers.get("If-None-Match", ""), etag)
+            self.send_response(304 if matched else 200)
+            self.send_header("ETag", etag)
+            self.send_header("Cache-Control", caching)
+            if not matched:
+                self.send_header("Content-Type", ctype)
+                self.send_header("Content-Length", str(len(body) if body is not None else stat.st_size))
+            self.end_headers()
+            if not matched and self.command != "HEAD":
+                if body is not None:
+                    self.wfile.write(body)
+                else:
+                    with asset.open("rb") as source:
+                        shutil.copyfileobj(source, self.wfile, length=256 * 1024)
             return
         if asset.suffix == ".html":
             body = asset.read_bytes()
@@ -427,7 +467,7 @@ class _Handler(BaseHTTPRequestHandler):
                 body = body.replace(b"</head>", b'<meta name="robots" content="noindex,nofollow"></head>', 1)
             self._send(200, body, "text/html; charset=utf-8")
             return
-        elif asset.suffix in {".md", ".txt", ".sha256"}:
+        if asset.suffix in {".md", ".txt", ".sha256"}:
             ctype = "text/plain; charset=utf-8"
         elif asset.name.endswith((".csv.gz", ".json.gz")):
             ctype = "application/gzip"
@@ -969,7 +1009,10 @@ class _Handler(BaseHTTPRequestHandler):
                 self.wfile.write(body)
                 return
             if u.path == "/api/route":
-                return self._json(ctx.route(q))
+                result = ctx.route(q)
+                revision = ctx.bench_revision()
+                return self._json(result, headers=(
+                    ("X-FlightCost-Bench-Revision", revision),) if revision else ())
             if u.path == "/api/fact":
                 return self._json(ctx.fact(q))
             if u.path == "/ui.css" or u.path.startswith("/fonts/"):
@@ -1137,8 +1180,20 @@ class Context:
         self._rl, self._rl_lock, self._rl_swept = {}, threading.Lock(), 0.0
         self._pruned = 0.0
         self._facts_n = None
+        self._catalog_lock = threading.Lock()
+        self._catalog_counts = None
+        self._catalog_file = None
+        self._bench_iata_index = None
+        self._snapshot_id = os.urandom(12).hex()
+        if public:
+            try:
+                current = self.store.path.stat()
+                self._catalog_file = (current.st_dev, current.st_ino)
+            except OSError:
+                pass
         self._net_cache: dict = {}
         self._net_jobs: dict = {}
+        self._net_lock = threading.Lock()
         # Плечи и обходы — по концам и типу, переживают смену состава.
         self._leg_cache: dict = {}
         self._detour_cache: dict = {}
@@ -1184,13 +1239,14 @@ class Context:
         c._base = self
         return c
 
-    def _settings_overrides(self) -> list[str]:
+    def _settings_overrides(self, doc=None) -> list[str]:
         """Ставки флота и прочие переопределения из документа `settings`
         места — строками вида `fleet_economics.A321.lease_eur_month=380000`,
         тем же слоем сценария, что `--set` (решение 10)."""
         if not self.ws:
             return []
-        doc = self.gdb.get_doc(self.ws, "settings", "default") or {}
+        if doc is None:
+            doc = self.gdb.get_doc(self.ws, "settings", "default") or {}
         ov = doc.get("overrides") or {}
         return [f"{k}={v}" for k, v in ov.items() if v not in ("", None)]
 
@@ -1378,7 +1434,7 @@ class Context:
                 return a["key"]
         return c
 
-    def _kwargs(self, q: dict, *, manual_lease: bool = False) -> dict:
+    def _kwargs(self, q: dict, *, manual_lease: bool = False, settings=None) -> dict:
         """Параметры запроса -> аргументы `route_economics`.
 
         ОДИН разбор на маршрут и порог. Пока `solve` собирал аргументы
@@ -1404,7 +1460,7 @@ class Context:
             aircraft_age=min(max(float(q["age"]), 0.0), 40.0) if q.get("age") not in (None, "") else None,
         )
         sets = [x for x in q.get("set", "").split("~") if x]
-        own = self._settings_overrides()
+        own = self._settings_overrides() if settings is None else self._settings_overrides(settings)
         if sets or own:
             # Своё из места — под явным `set`: заданное в запросе главнее
             # сохранённого, как флаг главнее файла настроек.
@@ -1562,11 +1618,19 @@ class Context:
         from copy import deepcopy
         from . import netutil
         from . import prices
+        from .netpool import GuestSnapshot
         from .network import ALPHA, apply_inputs, load_closures, simulate
         NET_ONLY = ("fares", "freqs", "market", "util_h", "lf", "fleet", "lease", "maint_fh", "maint_fc",
                     "fare_mult", "fare_conv", "alpha", "airports", "base", "net_kind", "window_h", "hub_only")
+        guest = None
+        if self.ws:
+            with self.gdb.lock:
+                guest = GuestSnapshot.read(self.gdb, self.ws)
+            if guest is None:
+                return {"error": "рабочее место недоступно"}
         kw = self._kwargs({k: v for k, v in q.items() if k not in NET_ONLY},
-                          manual_lease=q.get("lease") not in (None, ""))
+                          manual_lease=q.get("lease") not in (None, ""),
+                          settings=guest.settings() if guest is not None else None)
         kw["hub_only"] = q.get("hub_only") == "1"
         airports = [self.resolve(c) for c in (q.get("airports") or "").split(",") if c.strip()]
         base = self.resolve(q.get("base") or (airports[0] if airports else "FRA"))
@@ -1577,27 +1641,29 @@ class Context:
             return {"error": "максимум 1000 направлений от базы"}
         ov = kw.get("overrides") or {}
         as_of = str(kw.get("as_of") or date.today())
-        form_key = (self.ws, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
+        kw["as_of"] = as_of
+        with self.lock:
+            version = self.store._version()
+        lease_revision = prices.lease_revision()
+        scope = ((version, lease_revision, guest.ws, guest.revision())
+                 if guest is not None else (version, lease_revision, "shared"))
+        form_key = (self.ws, scope, tuple(sorted(set(airports) | {base})), base, kw["aircraft"],
                     kw.get("month"), kw.get("operator"),
                     tuple(sorted((k, str(v)) for k, v in ov.items())), as_of, kw.get("seats"),
-                    kw.get("aircraft_age"), kw["hub_only"], prices.lease_revision())
-        cached = self._net_cache.get(form_key)
-        if cached is None:
-            job = self._net_jobs.get(form_key)
-            if job is None:
-                if ip and not self.allow(ip):
-                    return {"error": f"слишком часто: расчёт состава сети — не чаще "
-                                     f"{self.HEAVY_PER_MIN} в минуту с адреса"}
-                job = self._start_net_job(form_key, airports, base, kw, ov, as_of)
-            if job.get("error"):
-                self._net_jobs.pop(form_key, None)
-                return {"error": job["error"], "pairs": [], "network": None}
-            if not job.get("done"):
-                return {"pending": True, "progress": dict(job["progress"])}
+                    kw.get("aircraft_age"), kw["hub_only"])
+        with self._net_lock:
             cached = self._net_cache.get(form_key)
-            self._net_jobs.pop(form_key, None)
             if cached is None:
-                return {"error": "расчёт состава не оставил результата", "pairs": [], "network": None}
+                job = self._net_jobs.get(form_key)
+                if job is None:
+                    if ip and not self.allow(ip):
+                        return {"error": f"слишком часто: расчёт состава сети — не чаще "
+                                        f"{self.HEAVY_PER_MIN} в минуту с адреса"}
+                    job = self._start_net_job(form_key, airports, base, kw, ov, scope, guest)
+                if job.get("error"):
+                    self._net_jobs.pop(form_key, None)
+                    return {"error": job["error"], "pairs": [], "network": None}
+                return {"pending": True, "progress": dict(job["progress"])}
         pairs, fleet, formed_ms = deepcopy(cached[0]), deepcopy(cached[1]), cached[2]
 
         apply_inputs(pairs, self._pairs_q(q.get("fares", "")), self._pairs_q(q.get("market", "")))
@@ -1906,19 +1972,20 @@ class Context:
             warnings=len(n.get("warnings") or []) + len(n.get("core_warnings") or []))
         return row
 
-    def _start_net_job(self, form_key, airports, base, kw, ov, as_of) -> dict:
+    def _start_net_job(self, form_key, airports, base, kw, ov, scope, guest) -> dict:
         """Поток формирования сети на отдельном соединении с базой."""
+        from contextlib import nullcontext
         from .econ import route_economics
+        from .netpool import GuestSnapshot, network_store
         from .network import fleet_from_core, form_network
         from .store import Store
-        job = {"done": False, "error": None, "progress": {"done": 0, "total": 0, "last": "",
-                                                          "queue": 0}}
+        job = {"error": None, "progress": {"done": 0, "total": 0, "last": "", "queue": 0}}
         cls = type(self)
         cls._net_setup(public=bool(getattr(self, "public", False)))
         with cls._net_queue_lock:
             if sum(1 for j in cls._net_queue if not j.get("started")) >= cls.NET_QUEUE_MAX:
-                job.update(done=True, error=f"сейчас сеть собирают {len(cls._net_queue)} человек — "
-                                            "очередь полна, попробуйте через минуту")
+                job["error"] = (f"сейчас сеть собирают {len(cls._net_queue)} человек — "
+                                "очередь полна, попробуйте через минуту")
                 return job
             cls._net_queue.append(job)
         self._net_jobs[form_key] = job
@@ -1932,19 +1999,22 @@ class Context:
                 for i, j in enumerate(waiting):
                     j["progress"]["queue"] = i + 1
 
-        # Плечи — общие для всех, у кого нет своих данных: витрина без
-        # своих ставок и типов считает одно и то же, и после видео десять
-        # человек, открывших одну сеть, должны ждать один расчёт, а не
-        # десять. Переопределения в ключе плеча, поэтому чужие не смешаются.
-        scope = self.ws
-        if self.ws and self.gdb is not None:
-            try:
-                if not self.gdb.facts(self.ws):
-                    scope = "shared"
-            except Exception:                                  # noqa: BLE001
-                pass
-        elif not self.ws:
-            scope = "shared"
+        def store_result(pairs, fleet, ms, legs, detours):
+            with (self.gdb.lock if guest is not None else nullcontext()):
+                current = guest is None or GuestSnapshot.read(self.gdb, guest.ws) == guest
+                with self._net_lock:
+                    self._net_jobs.pop(form_key, None)
+                    if not current:
+                        return
+                    self._leg_cache.setdefault(scope, {}).update(legs)
+                    self._detour_cache.update(detours)
+                    if sum(len(v) for v in self._leg_cache.values()) > 4000:
+                        self._leg_cache.clear()
+                    if len(self._detour_cache) > 2000:
+                        self._detour_cache.clear()
+                    if len(self._net_cache) >= self.NET_CACHE:
+                        self._net_cache.pop(next(iter(self._net_cache)))
+                    self._net_cache[form_key] = (pairs, fleet, ms)
 
         def run():
             queue_pos()
@@ -1953,32 +2023,23 @@ class Context:
             job["progress"]["queue"] = 0
             queue_pos()
             t0 = time.monotonic()
+            codes = {str(c).upper() for c in airports} | {base}
+            with self._net_lock:
+                previous = self._leg_cache.get(scope, {})
+                seed = {k: v for k, v in previous.items() if k[0] in codes and k[1] in codes}
+                detours = dict(self._detour_cache)
             if cls._net_pool is not None:
                 jid = f"{id(job)}-{t0}"
                 try:
-                    guest = ((str(self.gdb.path), self.ws)
-                             if isinstance(self.store, GuestStore) else None)
-                    path = str(self.store.base.path if isinstance(self.store, GuestStore)
-                               else self.store.path)
-                    codes = {str(c).upper() for c in list(airports) + [base]}
-                    mine = self._leg_cache.setdefault(scope, {})
-                    seed = {k: v for k, v in list(mine.items()) if k[0] in codes and k[1] in codes}
-                    det = dict(list(self._detour_cache.items())[:2000])
+                    path = str(self.store.path)
                     fut = cls._net_pool.submit(jid, job, path, guest, scope, list(airports), base,
-                                               dict(kw), dict(ov or {}), seed, det)
+                                               dict(kw), dict(ov or {}), seed, detours)
                     pairs, fleet, ms, new_legs, new_det = fut.result()
-                    mine.update(new_legs)
-                    self._detour_cache.update(new_det)
-                    if sum(len(v) for v in self._leg_cache.values()) > 4000:
-                        self._leg_cache.clear()
-                    if len(self._net_cache) >= self.NET_CACHE:
-                        self._net_cache.pop(next(iter(self._net_cache)))
-                    self._net_cache[form_key] = (pairs, fleet, ms)
+                    store_result(pairs, fleet, ms, new_legs, new_det)
                 except Exception as exc:                       # noqa: BLE001
                     job["error"] = f"{type(exc).__name__}: {exc}"
                 finally:
                     cls._net_pool.forget(jid)
-                    job["done"] = True
                     cls._net_sem.release()
                     with cls._net_queue_lock:
                         if job in cls._net_queue:
@@ -1986,37 +2047,29 @@ class Context:
                     queue_pos()
                 return
             try:
-                base_store = Store(self.store.path if not isinstance(self.store, GuestStore)
-                                   else self.store.base.path, shared=True)
-                store = (GuestStore(base_store, self.gdb, self.ws)
-                         if isinstance(self.store, GuestStore) else base_store)
+                base_store = Store(self.store.path, shared=True)
                 try:
-                    pairs = form_network(store, airports, base=base, aircraft=kw["aircraft"],
-                                         as_of=kw.get("as_of"), month=kw.get("month"),
-                                         overrides=ov or None, operator=kw.get("operator", "*"),
-                                         leg_cache=self._leg_cache.setdefault(scope, {}),
-                                         detour_cache=self._detour_cache,
-                                         progress=progress, seats=kw.get("seats"),
-                                         aircraft_age=kw.get("aircraft_age"), hub_only=kw["hub_only"])
-                    ok = [p for p in pairs if p.status == "ok"]
-                    fleet = None
-                    if ok:
-                        fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
-                                                aircraft=kw["aircraft"], as_of=kw.get("as_of"),
-                                                month=kw.get("month"), overrides=ov or None,
-                                                operator=kw.get("operator", "*"),
-                                                seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"))
+                    with network_store(base_store, guest) as store:
+                        pairs = form_network(store, airports, base=base, aircraft=kw["aircraft"],
+                                             as_of=kw.get("as_of"), month=kw.get("month"),
+                                             overrides=ov or None, operator=kw.get("operator", "*"),
+                                             leg_cache=seed, detour_cache=detours,
+                                             progress=progress, seats=kw.get("seats"),
+                                             aircraft_age=kw.get("aircraft_age"), hub_only=kw["hub_only"])
+                        ok = [p for p in pairs if p.status == "ok"]
+                        fleet = None
+                        if ok:
+                            fleet = fleet_from_core(route_economics, store, ok[0].a, ok[0].b,
+                                                    aircraft=kw["aircraft"], as_of=kw.get("as_of"),
+                                                    month=kw.get("month"), overrides=ov or None,
+                                                    operator=kw.get("operator", "*"),
+                                                    seats=kw.get("seats"), aircraft_age=kw.get("aircraft_age"))
                 finally:
                     base_store.db.close()
-                if len(self._net_cache) >= self.NET_CACHE:
-                    self._net_cache.pop(next(iter(self._net_cache)))
-                if sum(len(v) for v in self._leg_cache.values()) > 4000:
-                    self._leg_cache.clear()
-                self._net_cache[form_key] = (pairs, fleet, round((time.monotonic() - t0) * 1000))
+                store_result(pairs, fleet, round((time.monotonic() - t0) * 1000), seed, detours)
             except Exception as exc:                           # noqa: BLE001
                 job["error"] = f"{type(exc).__name__}: {exc}"
             finally:
-                job["done"] = True
                 cls._net_sem.release()
                 with cls._net_queue_lock:
                     if job in cls._net_queue:
@@ -2879,8 +2932,14 @@ class Context:
         # (решение 103), а витрина присылает ключ хранилища, то есть ИАТА.
         # Совпадать они перестали ровно тогда, когда перевод появился, и
         # это лучше, чем совпадать случайно.
+        base = getattr(self, "_base", self)
         with self.lock:
-            to_icao = self.store.icao_of_iata()
+            as_of = date.today().isoformat()
+            key = (as_of, base.store._version())
+            cached = base._bench_iata_index
+            if cached is None or cached[0] != key:
+                cached = base._bench_iata_index = (key, base.store.icao_of_iata(as_of))
+            to_icao = cached[1]
         def _icao(code: str) -> str:
             c = (code or "").strip().upper()
             return to_icao.get(c, c)
@@ -3123,6 +3182,14 @@ class Context:
         # «нет», а «есть вот это, но не то, что нужно».
         return out
 
+    def bench_revision(self) -> str | None:
+        """Кэш браузера только для общего опубликованного снимка."""
+        if not self.public or self.ws is not None:
+            return None
+        with self.lock:
+            revision, changes = self.store._version()
+        return f"{self._snapshot_id}-{date.today()}-{revision}-{changes}"
+
     def node(self, q: dict) -> dict:
         """Узел карты и то, откуда он берёт входы.
 
@@ -3226,15 +3293,60 @@ class Context:
     def browse(self, q: dict) -> dict:
         """Просмотр хранилища (/data): каталог разделов или страница строк."""
         from . import browse
+        if not q.get("domain"):
+            # Прямые SELECT каталога всегда читают общий справочник, в том
+            # числе у GuestStore. Политика применяется заново к сырым числам.
+            base = getattr(self, "_base", self)
+            as_of = date.today().isoformat()
+            counts = base._browse_catalog_counts(as_of)
+            return browse.catalog(base.store, self.registry, as_of=as_of,
+                                  open_all=not self.public, counts=counts)
         with self.lock:
-            if not q.get("domain"):
-                return browse.catalog(self.store, self.registry, open_all=not self.public)
             try:
                 page = int(q.get("page") or 0)
             except ValueError:
                 page = 0
-            return browse.rows(self.store, self.registry, q["domain"], q.get("q", ""),
-                               page, open_all=not self.public)
+            as_of = date.today().isoformat()
+            search = q.get("q", "")
+            cached = getattr(self, "_base", self)._catalog_counts
+            counts = (cached[2] if (not search or not search.strip()) and cached is not None
+                      and cached[:2] == (as_of, self.store._version()) else None)
+            return browse.rows(self.store, self.registry, q["domain"], search,
+                               page, as_of=as_of, open_all=not self.public, counts=counts)
+
+    def _browse_catalog_counts(self, as_of: str):
+        from contextlib import closing
+        from sqlite3 import Error, connect
+        from .browse import catalog_counts
+
+        with self._catalog_lock:
+            with self.lock:
+                version = self.store._version()
+                cached = self._catalog_counts
+                if cached is not None and cached[:2] == (as_of, version):
+                    return cached[2]
+            if self._catalog_file is not None:
+                try:
+                    path = self.store.path.resolve()
+                    current = path.stat()
+                    if (current.st_dev, current.st_ino) == self._catalog_file:
+                        with closing(connect(path.as_uri() + "?mode=ro", uri=True)) as db:
+                            counts = catalog_counts(db, as_of)
+                        current = path.stat()
+                        with self.lock:
+                            if ((current.st_dev, current.st_ino) == self._catalog_file
+                                    and self.store._version() == version):
+                                self._catalog_counts = (as_of, version, counts)
+                                return counts
+                except (OSError, Error):
+                    pass
+            # Непубличное/временное хранилище и замена файла без рестарта:
+            # считаем на том же соединении, из которого выдаются строки.
+            with self.lock:
+                version = self.store._version()
+                counts = catalog_counts(self.store.db, as_of)
+                self._catalog_counts = (as_of, version, counts)
+                return counts
 
     def map_page(self) -> bytes:
         """Карта данных на сайте: та же, что `fca map`, плюс форма маршрута."""
@@ -3365,6 +3477,13 @@ def serve(store, registry, *, host: str = "127.0.0.1", port: int = 8000,
             ctx.route({"origin": "FRA", "destination": "BCN"})
         except Exception as exc:                          # noqa: BLE001
             log(f"  прогрев не удался: {type(exc).__name__}: {exc}")
+        if public:
+            def warm_catalog():
+                try:
+                    ctx._browse_catalog_counts(date.today().isoformat())
+                except Exception as exc:                  # noqa: BLE001
+                    log(f"  прогрев каталога не удался: {type(exc).__name__}: {exc}")
+            threading.Thread(target=warm_catalog, name="browse-catalog", daemon=True).start()
     ctx.start_seo_econ(log)
     httpd = ThreadingHTTPServer((host, port), _Handler)
     httpd.ctx = ctx
