@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Apply the revision fetched by deploy.sh using scripts from that same revision.
+set -euo pipefail
+ROOT=/srv/fca
+cd "$ROOT/app"
+before=${1:?previous revision}
+after=$(git rev-parse --short HEAD)
+
+"$ROOT/venv/bin/pip" install --quiet --disable-pip-version-check -e ".[pdf]"
+designer_revision=$("$ROOT/venv/bin/python" -c 'from flightcostapp.designer_route import DESIGNER_REVISION; print(DESIGNER_REVISION)')
+bash "$ROOT/app/deploy/install-designer.sh" "$designer_revision"
+echo "$after" > "$ROOT/VERSION"
+
+sudo /usr/bin/systemctl restart fca
+# Данные в репозитории (data/charges, каталог типов…) — в главную базу на
+# сервере сразу, а не к ночному прогону. Без главной базы юнит пропустится.
+sudo -n /usr/bin/systemctl start --no-block fca-master-refresh.service || true
+sudo -n /usr/bin/systemctl restart fca-bot 2>/dev/null || true
+
+# Выкладка удалась, только если витрина ответила и назвала новую версию.
+for _ in $(seq 1 30); do
+	sleep 1
+	if out=$(curl -fsS 'http://127.0.0.1:8000/healthz?probe=dev' 2>/dev/null); then
+		case "$out" in
+			*"\"version\": \"$after\""*)
+				echo "витрина отвечает, версия $after"
+				# Bing и Яндекс узнают о страницах сразу (IndexNow), а не при
+				# следующем обходе. Только при новом коде; сбой выкладку не валит.
+				if [ "$before" != "$after" ]; then
+					"$ROOT/venv/bin/python" -m flightcostapp.seo indexnow || true
+				fi
+				exit 0 ;;
+		esac
+	fi
+done
+
+echo "витрина не ответила с версией $after за 30 секунд. Последние строки журнала:" >&2
+journalctl -u fca -n 40 --no-pager >&2 || true
+exit 1
