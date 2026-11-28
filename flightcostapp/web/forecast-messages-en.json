@@ -874,7 +874,13 @@
     "— исходный самолёт,": "— baseline aircraft,",
     "— модернизированный.": "— modernized aircraft.",
     "−10 т и +20 мест · МВМ 116 т": "−10 t and +20 seats · 116 t MTOW",
-    "−10 т и +20 мест · исходная МВМ": "−10 t and +20 seats · original MTOW"
+    "−10 т и +20 мест · исходная МВМ": "−10 t and +20 seats · original MTOW",
+    "Базовый сценарий использует обновлённый прогноз FlightCost. Два других сценария показывают, как изменится поток при сдвиге годового роста реального ВВП на ±1 п. п. по коэффициентам прежней макромодели.": "The baseline uses the updated FlightCost forecast. The other two scenarios use coefficients from the earlier macroeconomic model to show how traffic changes if annual real GDP growth shifts by one percentage point in either direction.",
+    "Архив v0.2 · Excel": "v0.2 archive · Excel",
+    "Скачать архив v0.2 в Excel": "Download the v0.2 archive in Excel",
+    "Архив пассажиропотока v0.2": "Passenger traffic archive v0.2",
+    "Единая модель FlightCost от факта ИКАО за 2025 год с обновлением IATA за девять месяцев 2026 года.": "FlightCost unified model anchored to the 2025 ICAO figure and updated with nine months of IATA data for 2026.",
+    "Географические доли по месту регистрации перевозчика для сопоставления с парком.": "Geographical shares by airline registration, aligned with the fleet data."
   },
   "patterns": [
     [
@@ -1360,6 +1366,10 @@
     [
       "^до$",
       "to"
+    ],
+    [
+      "В оценке исходного атласа на 2026 год было (.+?) сегментов\\. База текущего прогноза для этой географии составляет (.+?)\\. Исходный парк сохранён, объём перевозок и выработка на самолёт пересчитаны пропорционально новой базе\\. Сохраняются доли компонентов внутри субрегиона и веса стран при распределении заводского выпуска\\.",
+      "The original atlas estimated $1 segments in 2026. The baseline for the same area is $2. The initial fleet is retained. Traffic and output per aircraft are rescaled to the new baseline. Component shares within the subregion and country weights in the allocation of production are retained."
     ]
   ]
 }

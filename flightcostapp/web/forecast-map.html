@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="robots" content="noindex,nofollow">
+<title>Как это рассчитано · Мировой прогноз · FlightCost</title>
+<link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/ui.css">
+<link rel="stylesheet" href="/forecast-map.css">
+</head><body>
+<!--SITE_HEADER:forecast-map-->
+<main class="fm-page" lang="ru">
+  <header class="fm-heading">
+    <div><h1>Как это рассчитано</h1>
+      <p>Выберите узел, чтобы увидеть его расчёт и проследить связи до первоисточника.</p>
+    </div>
+    <div class="fm-scenario">
+      <label class="fm-year"><span>Год прогноза</span><select id="fm-year"></select></label>
+      <a id="fm-report" class="fm-report" href="../forecast"><span id="fm-case">К прогнозу</span><span aria-hidden="true"> ↗</span></a>
+    </div>
+  </header>
+  <div class="fm-work">
+    <div id="fm-math-slot">
+      <section id="fm-math" aria-labelledby="fm-math-title" hidden>
+        <div class="fm-math-head">
+          <h2 id="fm-math-title"></h2>
+          <div id="fm-math-modes" role="group" aria-label="Вид формулы" hidden>
+            <button type="button" data-mode="symbols" aria-pressed="true" aria-controls="fm-math-substitution fm-math-legend">Буквы</button>
+            <button type="button" data-mode="values" aria-pressed="false" aria-controls="fm-math-substitution fm-math-legend">Значения</button>
+          </div>
+          <span id="fm-math-source"></span>
+        </div>
+        <p id="fm-math-expression"></p>
+        <p id="fm-math-substitution" role="math" aria-describedby="fm-math-note"></p>
+        <dl id="fm-math-legend" aria-label="Обозначения в формуле" hidden></dl>
+        <details id="fm-math-reading" hidden><summary>Как читать степень</summary></details>
+        <p id="fm-math-note" hidden></p>
+      </section>
+    </div>
+    <section class="fm-map" aria-label="Пространственная карта расчёта">
+      <header class="fm-map-head">
+        <nav id="fm-trail" aria-label="Путь по карте"></nav>
+        <button id="fm-open" type="button" class="fm-mobile-only">Расчёт узла</button>
+      </header>
+      <div id="fm-scene" tabindex="0" role="group" aria-label="Карта связей в трёх измерениях" aria-describedby="fm-help">
+        <canvas id="fm-lines" aria-hidden="true"></canvas>
+        <div id="fm-nodes" role="group" aria-label="Узлы карты"></div>
+        <div id="fm-loading" role="status">Загружается карта расчёта…</div>
+        <div class="fm-tools" role="group" aria-label="Масштаб и положение карты">
+          <button type="button" id="fm-out" aria-label="Уменьшить" title="Уменьшить">−</button>
+          <button type="button" id="fm-in" aria-label="Увеличить" title="Увеличить">+</button>
+          <button type="button" id="fm-reset" aria-label="Исходный ракурс и масштаб" title="Исходный ракурс и масштаб">⟲</button>
+        </div>
+      </div>
+      <div class="fm-map-foot">
+        <div class="fm-legend" aria-label="Виды связей">
+          <span><i class="fm-line-input"></i>В расчёте</span><span><i class="fm-line-breakdown"></i>Разбивка</span><span><i class="fm-line-context"></i>Контекст</span>
+        </div>
+        <div id="fm-pager" hidden></div>
+      </div>
+      <p id="fm-help">Потяните фон или нажмите клавиши со стрелками, чтобы повернуть карту.</p>
+    </section>
+    <div id="fm-scrim" hidden></div>
+    <aside id="fm-inspector" aria-labelledby="fm-selected-title">
+      <div class="fm-panel-head"><span class="fm-kind" id="fm-kind"></span>
+        <button id="fm-close" type="button" class="fm-mobile-only" aria-label="Закрыть карточку">×</button></div>
+      <div id="fm-panel-body"></div>
+    </aside>
+  </div>
+  <noscript>Для интерактивной карты требуется JavaScript. <a href="../forecast#scenario-methods">Открыть методику прогноза</a>.</noscript>
+</main>
+<!--FORECAST_MAP_DATA-->
+<script src="/forecast-map-numbers.js"></script>
+<script src="/forecast-map-evidence.js"></script>
+<script src="/forecast-map-model.js"></script>
+<script src="/forecast-map-scene.js"></script>
+<script src="/forecast-map.js"></script>
+</body></html>
