@@ -102,7 +102,7 @@ T = {
         "dev_burn": "Расход топлива — оценка разработчика FlightCost: {src}",
         "dev_field": "оценка разработчика",
         "nav_calc": "Расчёт", "nav_types": "Типы ВС", "nav_research": "Исследования", "nav_about": "О сервисе", "nav_data": "Данные",
-        "nav_map": "Карта данных", "nav_database": "База данных", "nav_monitor": "План",
+        "nav_map": "Карта данных", "nav_database": "База данных", "nav_forecast_map": "Мировой прогноз", "nav_monitor": "План",
         "nav_series": "Показатели", "nav_forecast": "Прогноз",
         "about_title": "О сервисе: бесплатный калькулятор экономики авиарейса | FlightCost",
         "about_desc": ("Что считает FlightCost, откуда берутся данные и насколько им можно верить. Открытый бесплатный "
@@ -256,7 +256,7 @@ T = {
         "dev_burn": "Fuel burn is a FlightCost developer estimate: {src}",
         "dev_field": "developer estimate",
         "nav_calc": "Calculator", "nav_types": "Aircraft types", "nav_research": "Research", "nav_about": "About", "nav_data": "Data",
-        "nav_map": "Data map", "nav_database": "Database", "nav_monitor": "Plan",
+        "nav_map": "Data map", "nav_database": "Database", "nav_forecast_map": "World forecast", "nav_monitor": "Plan",
         "nav_series": "Indicators", "nav_forecast": "Forecast",
         "about_title": "About: free airline flight cost calculator | FlightCost",
         "about_desc": ("What FlightCost calculates, where the data comes from and how far you can trust it. A free, "
@@ -411,7 +411,7 @@ T = {
         "dev_burn": "Treibstoffverbrauch ist eine Schätzung der FlightCost-Entwickler: {src}",
         "dev_field": "Schätzung der Entwickler",
         "nav_calc": "Rechner", "nav_types": "Flugzeugtypen", "nav_research": "Recherchen", "nav_about": "Über", "nav_data": "Daten",
-        "nav_map": "Datenkarte", "nav_database": "Datenbank", "nav_monitor": "Plan",
+        "nav_map": "Datenkarte", "nav_database": "Datenbank", "nav_forecast_map": "Weltprognose", "nav_monitor": "Plan",
         "nav_series": "Kennzahlen", "nav_forecast": "Prognose",
         "about_title": "Über FlightCost: kostenloser Flugkostenrechner",
         "about_desc": ("Was FlightCost berechnet, woher die Daten stammen und wie weit man ihnen trauen kann. "
@@ -710,7 +710,8 @@ tr.me td{background:var(--select)}tr.me td:first-child{box-shadow:inset 3px 0 0 
 NAV = (("calc", "/calc", "nav_calc"), ("types", "/types", "nav_types"), ("research", "/research", "nav_research"),
        ("forecast", "/forecast", "nav_forecast"), ("data", "/map", "nav_data"), ("about", "/about", "nav_about"))
 SECTION_TABS = {
-    "data": (("map", "/map", "nav_map"), ("data", "/data", "nav_database")),
+    "data": (("map", "/map", "nav_map"), ("data", "/data", "nav_database"),
+             ("forecast_map", forecast_site.MAP_PATH, "nav_forecast_map")),
     "about": (("monitor", "/monitor", "nav_monitor"), ("series", "/monitor?tab=series", "nav_series"),
               ("about", "/about", "nav_about")),
 }
@@ -743,7 +744,8 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
     subnav = ""
     if section:
         title = f"nav_{section}"
-        tabs = "".join(link(item, on, "page") for item in SECTION_TABS[section])
+        tabs = "".join(link(item, on, "page") for item in SECTION_TABS[section]
+                       if item[0] != "forecast_map" or forecast_site.forecast_map_available())
         subnav = (f'<nav class="section-tabs" aria-label="{esc(T[L][title])}"'
                   f' data-aria="{labels(title)}">{tabs}</nav>')
     if lang:
@@ -767,7 +769,8 @@ def site_header(lang: str | None, on: str = "", path_tail: str = "/") -> str:
                 "h.querySelectorAll('[data-l]').forEach(function(a){a.textContent=JSON.parse(a.dataset.l)[g]});"
                 "h.querySelectorAll('[data-aria]').forEach(function(a){a.setAttribute('aria-label',JSON.parse(a.dataset.aria)[g])});"
                 "h.querySelectorAll('a[data-p]').forEach(function(a){var p=a.dataset.p;"
-                "a.href=p==='/data'||p==='/map'?p+'?lang='+g:'/'+g+p});"
+                "a.href=p==='/data'||p==='/map'?p+'?lang='+g:'/'+g+p;"
+                "if(p==='/forecast/map'&&new URLSearchParams(location.search).getAll('probe').includes('dev'))a.href+='?probe=dev'});"
                 "h.querySelectorAll('.lg a').forEach(function(a){var u=new URL(location.href);"
                 "u.searchParams.set('lang',a.dataset.x);a.href=u.href;if(a.dataset.x===g)a.className='on'})})();</script>")
     return out

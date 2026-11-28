@@ -114,6 +114,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.55 var(--sans)
 a{color:var(--doc)}
 code,kbd,.mono{font-family:var(--mono)}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.fc-kpi-number{font:600 20px/1.2 var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
+.fc-value-unit{font:400 12px var(--sans);color:var(--dim)}
+@media(max-width:900px){.fc-kpi-number{font-size:18px}}
 ::selection{background:var(--sky-f)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 

@@ -518,6 +518,13 @@ class _Handler(BaseHTTPRequestHandler):
             self._public((WEB / u.path[1:]).read_bytes(),
                          "application/javascript; charset=utf-8")
             return True
+        if u.path in forecast_site.MAP_ASSETS:
+            asset = WEB / u.path[1:]
+            if forecast_site.forecast_map_available() and asset.is_file() and asset.resolve() == asset:
+                self._public(asset.read_bytes(), forecast_site.MAP_ASSETS[u.path], revalidate=True)
+            else:
+                self._send(404, b"", "text/plain; charset=utf-8")
+            return True
         if re.fullmatch(r"/airline-emblems/(?:[a-z0-9-]+\.svg|manifest\.json)", u.path):
             emblem = WEB / u.path.lstrip("/")
             if emblem.is_file():
@@ -566,7 +573,7 @@ class _Handler(BaseHTTPRequestHandler):
                 path, content_type = asset
                 self._public(path.read_bytes(), content_type, revalidate=True)
             return True
-        if u.path in ("/about", "/types", "/calc", "/research", "/monitor", "/forecast"):
+        if u.path in ("/about", "/types", "/calc", "/research", "/monitor", "/forecast", forecast_site.MAP_PATH):
             self._redirect(f"/{self._pref_lang()}{u.path}" + (f"?{u.query}" if u.query else ""), 302)
             return True
         m = seo.LANG_PATH.match(u.path)
@@ -588,6 +595,18 @@ class _Handler(BaseHTTPRequestHandler):
                 self._forecast_asset(FORECAST_INDEX, site_lang=lang)
             else:
                 self._send(404, b"Forecast edition is not installed", "text/plain; charset=utf-8")
+            return True
+        if tail in (forecast_site.MAP_PATH, forecast_site.MAP_PATH + "/"):
+            if not forecast_site.forecast_map_available():
+                self._send(404, b"Forecast map is not available", "text/plain; charset=utf-8")
+                return True
+            probe = PROBE_VALUE in urllib.parse.parse_qs(u.query).get(PROBE_PARAM, ())
+            try:
+                page = forecast_site.forecast_map_page(lang, probe=probe)
+            except (OSError, ValueError, KeyError, EOFError):
+                self._send(503, b"Forecast model could not be loaded", "text/plain; charset=utf-8")
+            else:
+                self._public(page, html_t, revalidate=True)
             return True
         if tail in ("/calc", "/calc/"):
             self._send(200, seo.calc_page(lang, _page().decode("utf-8")).encode("utf-8"), html_t)

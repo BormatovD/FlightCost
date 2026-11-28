@@ -874,7 +874,13 @@
     "— исходный самолёт,": "— Ausgangsflugzeug,",
     "— модернизированный.": "— modernisiertes Flugzeug.",
     "−10 т и +20 мест · МВМ 116 т": "−10 t und +20 Sitze · 116 t MTOW",
-    "−10 т и +20 мест · исходная МВМ": "−10 t und +20 Sitze · ursprüngliche MTOW"
+    "−10 т и +20 мест · исходная МВМ": "−10 t und +20 Sitze · ursprüngliche MTOW",
+    "Базовый сценарий использует обновлённый прогноз FlightCost. Два других сценария показывают, как изменится поток при сдвиге годового роста реального ВВП на ±1 п. п. по коэффициентам прежней макромодели.": "Das Basisszenario verwendet die aktualisierte FlightCost-Prognose. Die beiden Alternativen zeigen anhand der Koeffizienten des früheren Makromodells, wie sich der Verkehr verändert, wenn das jährliche reale BIP-Wachstum um einen Prozentpunkt höher oder niedriger ausfällt.",
+    "Архив v0.2 · Excel": "Archiv v0.2 · Excel",
+    "Скачать архив v0.2 в Excel": "Archiv v0.2 als Excel-Datei herunterladen",
+    "Архив пассажиропотока v0.2": "Archiv zum Passagieraufkommen v0.2",
+    "Единая модель FlightCost от факта ИКАО за 2025 год с обновлением IATA за девять месяцев 2026 года.": "Einheitliches FlightCost-Modell auf Basis des ICAO-Werts von 2025 und der IATA-Daten für neun Monate 2026.",
+    "Географические доли по месту регистрации перевозчика для сопоставления с парком.": "Anteile nach Sitzland der Fluggesellschaft, passend zu den Flottendaten."
   },
   "patterns": [
     [
@@ -1360,6 +1366,10 @@
     [
       "^до$",
       "auf"
+    ],
+    [
+      "В оценке исходного атласа на 2026 год было (.+?) сегментов\\. База текущего прогноза для этой географии составляет (.+?)\\. Исходный парк сохранён, объём перевозок и выработка на самолёт пересчитаны пропорционально новой базе\\. Сохраняются доли компонентов внутри субрегиона и веса стран при распределении заводского выпуска\\.",
+      "Der ursprüngliche Atlas schätzte für 2026 $1 Segmente. Der Ausgangswert für dasselbe Gebiet beträgt $2. Die Ausgangsflotte bleibt erhalten. Verkehr und Leistung je Flugzeug werden proportional zum neuen Ausgangswert skaliert. Die Anteile der Komponenten innerhalb der Teilregion und die Ländergewichte für die Produktionsverteilung bleiben erhalten."
     ]
   ]
 }

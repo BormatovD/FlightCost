@@ -1,4 +1,5 @@
 """Integration boundaries between an offline release, the site and private editorial files."""
+import gzip
 import hashlib
 import json
 import os
@@ -10,7 +11,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from flightcostapp import forecast_site, serve
+from flightcostapp import forecast_provenance, forecast_site, seo, serve
 
 
 class ForecastSite(unittest.TestCase):
@@ -86,6 +87,68 @@ class ForecastSite(unittest.TestCase):
                     self.assertIsNotNone(selector)
                     self.assertRegex(selector[1], rb"Object\.hasOwn\(studies,\s*params\.get\('mr_study'\)\)"
                                                    rb"\s*\?\s*params\.get\('mr_study'\)\s*:\s*'ten_116'")
+
+    def test_map_uses_the_reports_verified_core(self):
+        archive = Path(__file__).resolve().parents[1] / "deploy/forecast/edition.tar.gz"
+        with TemporaryDirectory() as directory, tarfile.open(archive, "r:gz") as bundle:
+            root = Path(directory).resolve()
+            web = bundle.extractfile(forecast_site.WEB_INDEX).read()
+            chunk = re.search(rb'const forecastAssets\s*=\s*\{\s*"core"\s*:\s*"/outputs/([^"]+)"', web)[1].decode()
+            offline = bundle.extractfile(forecast_site.INDEX).read()
+            overlay = json.loads(bundle.extractfile(forecast_site.WEB_MANIFEST).read())
+            if chunk in bundle.getnames():
+                compressed = bundle.extractfile(chunk).read()
+            else:
+                # Older deltas inherit the core from the immutable server base.
+                contents = re.search(rb'<script id="core"[^>]*>(.*?)</script>', offline, re.S)[1]
+                compressed = gzip.compress(contents, mtime=0)
+                digest = hashlib.sha256(compressed).hexdigest()
+                replacement = f"forecast-web/{digest}.json.gz"
+                web = web.replace(chunk.encode(), replacement.encode(), 1)
+                chunk = replacement
+                overlay["assets"][chunk] = digest
+                overlay["assets"][forecast_site.WEB_INDEX] = hashlib.sha256(web).hexdigest()
+            for name, contents in {
+                forecast_site.INDEX: offline,
+                forecast_site.WEB_INDEX: web,
+                forecast_site.WEB_MANIFEST: json.dumps(overlay).encode(),
+                chunk: compressed,
+                "SHA256SUMS": bundle.extractfile("SHA256SUMS").read(),
+            }.items():
+                path = root / name
+                path.parent.mkdir(exist_ok=True)
+                path.write_bytes(contents)
+            report_core = json.loads(gzip.decompress(compressed))
+
+            network = root / forecast_site.NETWORK
+            network.parent.mkdir()
+            network.touch()
+            with patch.object(forecast_site, "OUTPUTS", root), patch.dict(os.environ, FCA_FORECAST_OUTPUTS=directory):
+                page = forecast_site.forecast_map_page("de", probe=True)
+                data = json.loads(re.search(rb'window.ForecastMapPageData = (.*?);</script>', page)[1])
+                self.assertEqual(data["core"]["series"], report_core["series"])
+                self.assertEqual(data["core"]["jointForecast"], report_core.get("jointForecast"))
+                self.assertEqual(data["forecastUrl"], "/de/forecast")
+                self.assertIn(b'window.BriefScenario = {create};', page)
+                self.assertIn(b'src="/forecast-map-model.js?probe=dev"', page)
+                self.assertIn(b'href="/de/forecast?probe=dev#scenario-methods"', page)
+                report = forecast_site.site_page(web, "de")
+                self.assertIn(b'id="forecast-map-link" href="/de/forecast/map"', report)
+                if b'id="forecast-verification"' in web:
+                    self.assertEqual(report.count(b'id="forecast-accuracy"'), 1)
+                    self.assertIn(b'href="#forecast-accuracy"', report)
+                for lang in ("ru", "en", "de"):
+                    self.assertIn(f'href="/{lang}/forecast/map"', seo.site_header(lang, "data"))
+                if report_core.get("jointForecast"):
+                    report_core["jointForecast"]["horizons"]["2029"]["route_adjustment"] += 1
+                    with self.assertRaises(ValueError):
+                        forecast_provenance.joint_provenance(report_core)
+
+                (root / forecast_site.WEB_MANIFEST).unlink()
+                # A missing or stale manifest selects the same standalone report the site serves.
+                fallback = forecast_site.forecast_map_page("ru")
+                data = json.loads(re.search(rb'window.ForecastMapPageData = (.*?);</script>', fallback)[1])
+                self.assertEqual(data["core"]["series"], report_core["series"])
 
     def test_web_overlay_requires_matching_manifest_and_revalidates(self):
         def request(root, path, *, lang=None, query="", validator=""):
