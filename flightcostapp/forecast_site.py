@@ -39,8 +39,10 @@ MAP_ASSETS = {
     "/forecast-map-scene.js": "application/javascript; charset=utf-8",
 }
 _VERIFICATION = re.compile(rb'<script id="forecast-verification" type="application/json">([^<]*)</script>')
+_REGIONAL_FORECAST = re.compile(rb'<section id="regional-map"[^>]*></section>')
 _SCRIPT = re.compile(rb"<script\b([^>]*)>(.*?)</script>", re.S | re.I)
 _REPORT_API = b"  const api = BriefModel.create(core, initial);"
+_REPORT_WORLD_MOUNT = b"  BriefWorld.mount(world, core, api, document.getElementById('scenario-methods'));"
 _MAP_LINK_TEXT = {
     "ru": "Как это рассчитано",
     "en": "How this is calculated",
@@ -257,18 +259,21 @@ def site_page(body: bytes, lang: str) -> bytes:
         from .forecast_language import localize_intro
         head = localize_intro(head, lang)
     verification = _VERIFICATION.search(head)
-    if verification is not None:
+    regional_forecast = _REGIONAL_FORECAST.search(head)
+    if verification is not None and regional_forecast is not None:
         from .forecast_accuracy import ACCURACY_LABEL, render_accuracy
 
-        placeholder = b'<section id="scenario-methods"'
-        if placeholder in head:
-            section = render_accuracy(json.loads(verification[1]), lang)
-            if section:
-                head = head.replace(placeholder, section + placeholder, 1)
-                before, nav, after = head.partition(b'<nav class="brief-nav"')
+        section = render_accuracy(json.loads(verification[1]), lang)
+        if section:
+            position = regional_forecast.end()
+            head = head[:position] + section + head[position:]
+            data = data.replace(_REPORT_WORLD_MOUNT, _REPORT_WORLD_MOUNT + b"\n  mountForecastComparison(world, api);", 1)
+            before, nav, after = head.partition(b'<nav class="brief-nav"')
+            if nav:
                 link = f'<a href="#forecast-accuracy">{ACCURACY_LABEL[lang]}</a>'.encode()
-                if nav:
-                    head = before + nav + after.replace(b"</nav>", link + b"</nav>", 1)
+                next_link = b'<a href="#local-scenario">'
+                target = next_link if next_link in after else b"</nav>"
+                head = before + nav + after.replace(target, link + target, 1)
     header = f'<div lang="{lang}">{site_header(lang, "forecast", "/forecast")}</div>'
     head = head.replace(b"<body>", b"<body>" + header.encode(), 1)
     if is_map_link:

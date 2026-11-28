@@ -132,11 +132,17 @@ class ForecastSite(unittest.TestCase):
                 self.assertIn(b'window.BriefScenario = {create};', page)
                 self.assertIn(b'src="/forecast-map-model.js?probe=dev"', page)
                 self.assertIn(b'href="/de/forecast?probe=dev#scenario-methods"', page)
-                report = forecast_site.site_page(web, "de")
-                self.assertIn(b'id="forecast-map-link" href="/de/forecast/map"', report)
-                if b'id="forecast-verification"' in web:
-                    self.assertEqual(report.count(b'id="forecast-accuracy"'), 1)
-                    self.assertIn(b'href="#forecast-accuracy"', report)
+                for name, source in ((forecast_site.WEB_INDEX, web), (forecast_site.INDEX, offline)):
+                    with self.subTest(report=name):
+                        report = forecast_site.site_page(source, "de")
+                        self.assertIn(b'id="forecast-map-link" href="/de/forecast/map"', report)
+                        if b'id="forecast-verification"' in source:
+                            self.assertEqual(report.count(b'id="forecast-accuracy"'), 1)
+                            self.assertIn(b'<details id="forecast-accuracy" lang="de" translate="no">', report)
+                            self.assertIn(b'<details class="fa-quarterly"><summary>', report)
+                            self.assertIn(b'href="#forecast-accuracy"', report)
+                            self.assertIn(b'mountForecastComparison(world, api);', report)
+                            self.assertLess(report.index(b'id="forecast-accuracy"'), report.index(b'<section id="flow-fleet"'))
                 for lang in ("ru", "en", "de"):
                     self.assertIn(f'href="/{lang}/forecast/map"', seo.site_header(lang, "data"))
                 if report_core.get("jointForecast"):

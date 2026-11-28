@@ -1,6 +1,15 @@
-(() => {
+const mountForecastComparison = (() => {
   const section = document.getElementById("forecast-accuracy");
   if (!section) return;
+
+  function openLinkedComparison() {
+    if (location.hash === "#forecast-accuracy") section.open = true;
+  }
+  document.querySelector('.brief-nav a[href="#forecast-accuracy"]')?.addEventListener("click", () => {
+    section.open = true;
+  });
+  window.addEventListener("hashchange", openLinkedComparison);
+  openLinkedComparison();
 
   const color = (styles, value) => styles.getPropertyValue(value.slice(4, -1)).trim();
   const stepFor = (spread, divisions) => {
@@ -10,20 +19,21 @@
     return power * multiplier;
   };
 
+  let refreshForecast;
   for (const figure of section.querySelectorAll("[data-fa-chart]")) {
     const canvas = figure.querySelector("canvas");
     const context = canvas.getContext("2d");
-    if (!context) continue;
     const {lang, quarterly, observedKey, rows, series} = JSON.parse(figure.querySelector("script").textContent);
     const lastObservation = rows.findLastIndex(row => Number.isFinite(row[observedKey]));
     const format = new Intl.NumberFormat(lang, {maximumFractionDigits: 1});
-    const values = series.flatMap(({key}) => rows.map(row => row[key]).filter(Number.isFinite));
-    const minimum = Math.min(...values);
-    const maximum = Math.max(...values);
 
     function draw() {
       const {width, height} = canvas.getBoundingClientRect();
       if (width < 90 || height < 100) return;
+      const values = series.flatMap(({key}) => rows.map(row => row[key]).filter(Number.isFinite));
+      if (!values.length) return;
+      const minimum = Math.min(...values);
+      const maximum = Math.max(...values);
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
@@ -108,10 +118,37 @@
       }
     }
 
-    figure.hidden = false;
-    draw();
-    if (typeof ResizeObserver === "function") new ResizeObserver(draw).observe(canvas);
-    else window.addEventListener("resize", draw);
-    if (document.fonts) document.fonts.ready.then(draw);
+    if (context) {
+      figure.hidden = false;
+      draw();
+      section.addEventListener("toggle", draw);
+      figure.closest(".fa-quarterly")?.addEventListener("toggle", draw);
+      if (typeof ResizeObserver === "function") new ResizeObserver(draw).observe(canvas);
+      else window.addEventListener("resize", draw);
+      if (document.fonts) document.fonts.ready.then(draw);
+    }
+
+    if (!quarterly) {
+      const forecastRows = rows.filter(row => Number.isFinite(row.updated));
+      const forecastCells = new Map(Array.from(section.querySelectorAll("[data-fa-year]"),
+        cell => [cell.dataset.faYear, cell]));
+      refreshForecast = api => {
+        for (const row of forecastRows) {
+          const value = api.forecast("world", Number(row.label));
+          row.updated = Number.isFinite(value) ? value / 1e6 : null;
+          const cell = forecastCells.get(row.label);
+          if (cell) cell.textContent = row.updated === null ? "—" : format.format(row.updated);
+        }
+        if (context) draw();
+      };
+    }
   }
+
+  return (root, api) => {
+    root.querySelector(".bw-demand-note")?.after(section);
+    if (!refreshForecast) return;
+    const update = () => refreshForecast(api);
+    api.onChange(update);
+    update();
+  };
 })();

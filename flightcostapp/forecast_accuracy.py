@@ -9,8 +9,8 @@ from pathlib import Path
 
 
 ACCURACY_LABEL = {
-    "ru": "Проверка прогноза",
-    "en": "Forecast tracking",
+    "ru": "Сравнение прогнозов",
+    "en": "Forecast comparison",
     "de": "Prognosevergleich",
 }
 
@@ -18,7 +18,7 @@ TEXT = {
     "ru": {
         "annual": "Мировой пассажиропоток",
         "annual_unit": "Млн пассажирских сегментов",
-        "annual_note": "Белая линия объединяет годовые отчёты ИКАО до 2020 года включительно и Safety Report с 2021 года. Охват источников различается. Ориентиры Airbus и Boeing переведены в сегменты по принятой в расчёте средней дальности. Покрытие парком — расчётный объём перевозок, доступный при заданных поставках.",
+        "annual_note": "Белая линия объединяет годовые отчёты ИКАО за 2016–2020 годы и Safety Report с 2021 года. Охват источников различается. Ориентиры Airbus и Boeing переведены в сегменты по принятой в расчёте средней дальности. Покрытие парком — расчётный объём перевозок, доступный при заданных поставках.",
         "quarterly": "Мировой пассажирооборот по кварталам",
         "quarterly_unit": "Млрд платных пассажиро-километров (RPK)",
         "quarterly_note": "Пустые кружки обозначают предварительные оценки. Ошибка = 100% × (прогноз − факт) / факт. Считаем её после публикации квартального итога IATA по оценкам, зафиксированным до выхода первой статистики за этот квартал.",
@@ -36,13 +36,14 @@ TEXT = {
         "iata": "IATA · факт",
         "prior": "FlightCost · прежний",
         "updated": "FlightCost · обновлённый",
+        "scenario": "FlightCost · выбранный сценарий",
         "fleet": "Покрытие парком",
         "trend": "Десятилетний тренд",
     },
     "en": {
         "annual": "Global passenger traffic",
         "annual_unit": "Millions of passenger segments",
-        "annual_note": "The white line combines ICAO Annual Reports through 2020 and the Safety Report from 2021. Their coverage differs. The Airbus and Boeing reference forecasts are converted to segments using the model’s assumed average segment distance. Fleet coverage is the volume the fleet could carry under the delivery assumptions.",
+        "annual_note": "The white line combines ICAO Annual Reports for 2016–2020 and the Safety Report from 2021. Their coverage differs. The Airbus and Boeing reference forecasts are converted to segments using the model’s assumed average segment distance. Fleet coverage is the volume the fleet could carry under the delivery assumptions.",
         "quarterly": "Global passenger traffic by quarter",
         "quarterly_unit": "Billions of revenue passenger-kilometres (RPK)",
         "quarterly_note": "Open circles mark preliminary forecasts. Error = 100% × (forecast − observed) / observed. We score forecasts locked before the first data for the quarter once IATA publishes the quarterly total.",
@@ -60,13 +61,14 @@ TEXT = {
         "iata": "IATA · observed",
         "prior": "FlightCost · previous",
         "updated": "FlightCost · updated",
+        "scenario": "FlightCost · selected scenario",
         "fleet": "Fleet coverage",
         "trend": "Ten-year trend",
     },
     "de": {
         "annual": "Weltweites Passagieraufkommen",
         "annual_unit": "Millionen Passagiersegmente",
-        "annual_note": "Die weiße Linie verbindet die ICAO-Jahresberichte bis einschließlich 2020 mit dem Safety Report ab 2021. Der Erfassungsumfang unterscheidet sich. Für die Umrechnung der Referenzprognosen von Airbus und Boeing in Segmente verwenden wir die im Modell angenommene mittlere Segmentdistanz. Die Flottenabdeckung gibt an, welches Aufkommen die Flotte bei den angenommenen Auslieferungen bewältigen könnte.",
+        "annual_note": "Die weiße Linie verbindet die ICAO-Jahresberichte für 2016–2020 mit dem Safety Report ab 2021. Der Erfassungsumfang unterscheidet sich. Für die Umrechnung der Referenzprognosen von Airbus und Boeing in Segmente verwenden wir die im Modell angenommene mittlere Segmentdistanz. Die Flottenabdeckung gibt an, welches Aufkommen die Flotte bei den angenommenen Auslieferungen bewältigen könnte.",
         "quarterly": "Weltweite Verkehrsleistung je Quartal",
         "quarterly_unit": "Milliarden verkaufte Passagierkilometer (RPK)",
         "quarterly_note": "Offene Kreise markieren vorläufige Prognosen. Fehler = 100 % × (Prognose − Istwert) / Istwert. Sobald IATA den Quartalswert veröffentlicht, prüfen wir die Prognosen, die vor den ersten Daten für das Quartal festgeschrieben wurden.",
@@ -84,6 +86,7 @@ TEXT = {
         "iata": "IATA · Istwert",
         "prior": "FlightCost · bisher",
         "updated": "FlightCost · aktualisiert",
+        "scenario": "FlightCost · gewähltes Szenario",
         "fleet": "Flottenabdeckung",
         "trend": "Zehnjahrestrend",
     },
@@ -91,9 +94,11 @@ TEXT = {
 
 STYLE = """
 <style>
-#forecast-accuracy { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 22px; scroll-margin-top: 12px; }
-#forecast-accuracy :is(h2,h3) { margin: 0; }
-#forecast-accuracy .fa-panel { margin-top: 18px; padding: clamp(12px, 2vw, 22px); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+#forecast-accuracy { margin: 12px 0; scroll-margin-top: 12px; }
+#forecast-accuracy > summary, #forecast-accuracy .fa-quarterly > summary { padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+#forecast-accuracy > summary { font-size: 1rem; }
+#forecast-accuracy h3 { margin: 0; }
+#forecast-accuracy .fa-panel { margin-top: 12px; padding: clamp(12px, 2vw, 22px); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
 #forecast-accuracy .fa-note { color: var(--dim); font-size: .875rem; margin: 6px 0 0; }
 #forecast-accuracy .fa-figure { margin: 14px 0; }
 #forecast-accuracy canvas { display: block; width: 100%; height: clamp(200px, 32vw, 320px); }
@@ -107,7 +112,7 @@ STYLE = """
 #forecast-accuracy :is(td,th[scope=row]) { white-space: nowrap; }
 #forecast-accuracy .fa-error { display: block; color: var(--dim); font-size: .76rem; }
 #forecast-accuracy details { margin-top: 10px; }
-#forecast-accuracy details > summary { width: fit-content; }
+#forecast-accuracy .fa-panel details > summary { width: fit-content; }
 </style>
 """
 
@@ -193,7 +198,10 @@ def _table(text, unit, rows, series, lang, *, statuses=False):
             if error is not None and row.get(key) is not None:
                 gap = "\u00a0" if lang == "de" else ""
                 cell += f'<span class="fa-error">{_fmt(error, lang, signed=True)}{gap}%</span>'
-            cells.append(f"<td>{cell}</td>")
+            attrs = ""
+            if not statuses and key == "updated" and row.get(key) is not None:
+                attrs = f' data-fa-year="{escape(row["label"])}"'
+            cells.append(f"<td{attrs}>{cell}</td>")
         if statuses:
             status = text.get(row.get("status"), "—")
             locked = _date(row.get("locked"), lang)
@@ -212,7 +220,7 @@ def _yearly(edition, text, lang):
     series = _series(text, (
         ("icao", "icao", "var(--ink)", []),
         ("prior", "prior", "var(--calc)", [6, 5]),
-        ("updated", "updated", "var(--calc)", []),
+        ("updated", "scenario", "var(--calc)", []),
         ("airbus", "Airbus", "var(--doc)", [7, 4]),
         ("boeing", "Boeing", "var(--doc)", [2, 3]),
         ("fleet", "fleet", "var(--dim)", [6, 3, 2, 3]),
@@ -220,7 +228,7 @@ def _yearly(edition, text, lang):
     rows = []
     for item in edition.get("annual") or ():
         year = item.get("year")
-        if not isinstance(year, int) or isinstance(year, bool):
+        if not isinstance(year, int) or year < 2016:
             continue
         rows.append({
             "label": str(year),
@@ -263,10 +271,10 @@ def _quarterly(edition, text, lang):
     rows.sort(key=lambda row: row["label"])
     title, unit = text["quarterly"], text["quarterly_unit"]
     return (
-        f'<div class="fa-panel"><h3>{title}</h3><p class="fa-note">{unit}</p>'
+        f'<details class="fa-quarterly"><summary>{title}</summary><div class="fa-panel"><p class="fa-note">{unit}</p>'
         f'{_figure(title, unit, rows, series, lang, quarterly=True)}'
         f'{_table(text, unit, rows, series, lang, statuses=True)}'
-        f'<p class="fa-note">{text["quarterly_note"]}</p></div>'
+        f'<p class="fa-note">{text["quarterly_note"]}</p></div></details>'
     ) if rows else ""
 
 
@@ -282,6 +290,6 @@ def render_accuracy(edition: dict, lang: str) -> bytes:
     credit = f'<p class="fa-note">{text["issued"]} {issued}</p>' if issued else ""
     script = Path(__file__).with_name("web").joinpath("forecast-accuracy.js").read_text(encoding="utf-8")
     return (
-        f'{STYLE}<section id="forecast-accuracy" class="brief-world" aria-labelledby="fa-heading" lang="{lang}">'
-        f'<h2 id="fa-heading">{ACCURACY_LABEL[lang]}</h2>{credit}{annual}{quarterly}</section><script>{script}</script>'
+        f'{STYLE}<details id="forecast-accuracy" lang="{lang}" translate="no"><summary>{ACCURACY_LABEL[lang]}</summary>'
+        f'{credit}{annual}{quarterly}</details><script>{script}</script>'
     ).encode()
