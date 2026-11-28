@@ -432,10 +432,10 @@ class SeoHttp(unittest.TestCase):
         passages = {"ru": "Изменения пассажирского спроса", "en": "Changes in passenger demand",
                     "de": "Veränderungen der Passagiernachfrage"}
 
-        def write_report(path, lang, robots=""):
+        def write_report(path, lang, head_tags=""):
             path.write_text(
                 f'<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
-                f'<title>{passages[lang]}</title>{robots}</head>'
+                f'<title>{passages[lang]}</title>{head_tags}</head>'
                 f'<body><main>{passages[lang]}</main></body></html>', encoding="utf-8")
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -452,7 +452,9 @@ class SeoHttp(unittest.TestCase):
                     "title": passages, "lede": passages,
                 })
                 write_report(report, "ru")
-                write_report(folder / "report.en.html", "en")
+                # Published reports can embed fonts larger than several HTMLParser chunks.
+                font_style = "<style>/*" + "a" * (5 * research.HEAD_CHUNK) + "*/</style>" if number == 2 else ""
+                write_report(folder / "report.en.html", "en", font_style)
             index.write_text(json.dumps({"items": items}), encoding="utf-8")
             german = [(root / item["report"]).with_name("report.de.html") for item in items]
             # №2 has no German file, №3 has Russian content under the German filename,

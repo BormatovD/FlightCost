@@ -133,6 +133,9 @@ class _ReportHead(HTMLParser):
             if self.end is not None:
                 break
             consumed += len(chunk)
+        else:
+            # HTMLParser может удерживать последние блоки, например после длинного <style>.
+            self.close()
 
     def _offset(self):
         line, column = self.getpos()
