@@ -1,0 +1,31 @@
+[Unit]
+Description=FlightCost private staging collection (%i)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=fca-fo-%i
+Group=fca-fo-%i
+UMask=0077
+StateDirectory=fca-fo-%i
+StateDirectoryMode=0700
+ExecStartPre=/usr/bin/python3 -B /opt/fca-fare-observer/boundary_check.py %i
+ExecStart=/usr/bin/python3 -B /opt/fca-fare-observer/observe.py %i --state /var/lib/fca-fo-%i
+ReadWritePaths=/var/spool/fca-fare-observer/%i
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+InaccessiblePaths=-/srv/fca -/etc/fca -/etc/caddy/fca.caddy -/etc/systemd/system/fca.service -/etc/systemd/system/fca-bot.service
+ProtectProc=invisible
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 169.254.0.0/16 ::1/128 fc00::/7 fe80::/10
+IPAddressAllow=127.0.0.53/32 127.0.0.54/32
+TimeoutStartSec=8min
+MemoryMax=256M

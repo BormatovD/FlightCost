@@ -151,7 +151,7 @@ def region_of(icao: str, regions: dict) -> str | None:
     return best
 
 
-def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
+def pick_charges(doc: dict, have: set, state: dict, want: list | None = None, *, excluded=()):
     """Следующий аэропорт для агента «тарифы»: (ИКАО, запись, регион) или None.
 
     Явный список (FCA_AGENT_CHARGES_ONLY) — по нему, как раньше. Иначе — по
@@ -166,7 +166,8 @@ def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
     def usable(icao):
         st = state.get(icao) or {}
         a = airports.get(icao) or {}
-        return (icao not in have and icao not in blocked and st.get("status") not in ("draft", "not_found")
+        return (icao not in excluded and icao not in have and icao not in blocked
+                and st.get("status") not in ("draft", "not_found")
                 and not str(a.get("status", "")).startswith("заведён"))
 
     if want:
@@ -178,7 +179,7 @@ def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
     # раньше новых аэропортов: устаревший тариф хуже отсутствующего, он
     # молча считает по прошлогодним ставкам.
     for icao, st in state.items():
-        if (st or {}).get("status") == "refresh" and st.get("url"):
+        if icao not in excluded and (st or {}).get("status") == "refresh" and st.get("url"):
             return icao, {**(airports.get(icao) or {}), "url": st["url"], "city": st.get("city", "")}, \
                 region_of(icao, regions)
     # Черновик закрывает место в регионе на время приёмки — DRAFT_DAYS. Не
@@ -201,6 +202,30 @@ def pick_charges(doc: dict, have: set, state: dict, want: list | None = None):
         if usable(icao) and a.get("url"):
             return icao, a, region_of(icao, regions)
     return None
+
+
+
+def manual_charge_candidate(doc, have, state, row):
+    """Resolve an owner request and any tariff refresh information it needs."""
+    from .airport_queue import request_identity
+
+    code = row["icao"]
+    previous = state.get(code) or {}
+    same_request = previous.get("admin_request") == request_identity(row)
+    refresh_url = previous.get("url") if previous.get("status") == "refresh" else (
+        previous.get("admin_refresh_url") if same_request else None)
+    if ((code in have and not refresh_url) or previous.get("status") == "draft"
+            or (same_request and previous.get("status") == "not_found")):
+        return None, None
+    regions = doc.get("regions") or {}
+    entry = next((dict(candidate) for region in regions.values()
+                  for candidate in region.get("candidates") or [] if candidate["icao"] == code), {})
+    entry.update((doc.get("airports") or {}).get(code, {}))
+    if refresh_url:
+        entry.update(url=refresh_url, city=previous.get("city") or entry.get("city", ""))
+    if row["city"]:
+        entry["city"] = row["city"]
+    return (code, entry, region_of(code, regions)), refresh_url
 
 
 REPORTS_TASK = """# Задание: годовая отчётность авиаперевозчиков
@@ -1700,11 +1725,34 @@ class Runner:
     def charges_one(self, model: str | None = None, only: str | None = None) -> int | None:
         """Один аэропорт. None — дальше в этом прогоне не идти."""
         import yaml
+        from .airport_queue import consume_airport, queue_airports, request_identity
+
         doc = yaml.safe_load((ROOT / "data" / "charges" / "_todo.yaml").read_text("utf-8"))
         have = {p.name.split("-")[0] for p in (ROOT / "data" / "charges").glob("*-*.json")}
         want = [s.strip().upper() for s in (only or os.environ.get("FCA_AGENT_CHARGES_ONLY", "")).split(",") if s.strip()]
         state = self.charges_state()
-        pick = pick_charges(doc, have, state, want)
+        manual_request = None
+        refresh_url = None
+        pick = None
+        manual_queue = self.home / "queue" / "airport-admin"
+        manual, deferred = queue_airports(manual_queue)
+        for row in manual if not want else ():
+            pick, refresh_url = manual_charge_candidate(doc, have, state, row)
+            if pick is None:
+                consume_airport(manual_queue, row)
+                continue
+            code = row["icao"]
+            identity = request_identity(row)
+            if (state.get(code) or {}).get("admin_request") != identity:
+                state[code] = {"admin_request": identity}
+                if refresh_url:
+                    state[code]["admin_refresh_url"] = refresh_url
+            manual_request = row
+            break
+        if pick is None:
+            # An explicitly targeted CLI repair remains available regardless of the scheduled queue.
+            excluded = () if only and want else set(deferred)
+            pick = pick_charges(doc, have, state, want, excluded=excluded)
         if pick is None:
             self.say("Агент «тарифы»: во всех регионах _todo.yaml хватает тарифов, а кандидаты с адресом кончились.")
             return None
@@ -1757,6 +1805,8 @@ class Runner:
             if gave_up:
                 rec["status"] = "not_found"
             self.save_charges_state(state)
+            if gave_up and manual_request:
+                consume_airport(manual_queue, manual_request)
             self.say(f"Агент «тарифы» {icao} ({rname}): файла нет — {res.get('status')}: "
                      f"{(res.get('final') or (res.get('error') or {}).get('message', ''))[:400]}"
                      + ("\nПопыток " + str(rec["tries"]) + " — помечен «не найден», следующий прогон возьмёт "
@@ -1811,6 +1861,10 @@ class Runner:
                            "tries": tries, "at": _now().date().isoformat(), "region": rid,
                            "error": verdict}
             verdict = "парсер отверг: " + verdict
+            if manual_request:
+                state[icao]["admin_request"] = request_identity(manual_request)
+                if refresh_url:
+                    state[icao]["admin_refresh_url"] = refresh_url
         self.save_charges_state(state)
         self.out.mkdir(parents=True, exist_ok=True)
         dst = self.out / f"charges-{draft.name}"
@@ -1832,6 +1886,8 @@ class Runner:
                  + "\nДома: fca master drafts — скачает, проверит парсером и оборотом A320; "
                    "чистые — fca master drafts --accept-clean.",
                  "info" if valid else "warn", attach=str(dst))
+        if manual_request and state[icao]["status"] in ("draft", "not_found"):
+            consume_airport(manual_queue, manual_request)
         return int(valid)
 
 

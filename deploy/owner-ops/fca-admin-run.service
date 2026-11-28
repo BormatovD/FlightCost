@@ -1,0 +1,17 @@
+[Unit]
+Description=Dispatch an owner-requested FlightCost tariff run
+ConditionPathExists=/srv/fca/agent/queue/airport-admin/.run
+StartLimitIntervalSec=1min
+StartLimitBurst=3
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rm -f /srv/fca/agent/queue/airport-admin/.run
+ExecStart=/usr/bin/systemctl start --no-block fca-agent@charges.service
+TimeoutStartSec=10s
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/srv/fca/agent/queue/airport-admin

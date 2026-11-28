@@ -1,0 +1,12 @@
+[Unit]
+Description=Schedule FlightCost fare observer ingest
+
+[Timer]
+OnCalendar=*-*-* *:04/5:00
+Unit=fca-fo-ingest.service
+RandomizedDelaySec=20s
+AccuracySec=1s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

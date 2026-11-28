@@ -1,0 +1,26 @@
+[Unit]
+Description=FlightCost admin dashboard status snapshot
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/fca/admin-status.env
+ExecStart=/srv/fca/venv/bin/python -m flightcostapp.admin_status
+TimeoutStartSec=35s
+CPUQuota=15%
+MemoryMax=125M
+TasksMax=12
+Nice=10
+IOSchedulingClass=idle
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/var/lib/fca-admin-snapshot /var/lib/fca-fo-tickets /var/lib/fca-fo-ingest
+ReadOnlyPaths=/var/lib/fca-fo-tickets/queue.sqlite3 /var/lib/fca-fo-ingest/staging.sqlite3
+InaccessiblePaths=-/etc/fca/agent.env -/etc/fca/bot.token -/etc/fca-fare-observer

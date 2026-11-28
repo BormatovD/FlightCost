@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <title>FlightCost · Обновление данных</title>
+  <link rel="stylesheet" href="/ui.css">
+  <link rel="stylesheet" href="/bot-admin/admin.css">
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+  <script src="/bot-admin/admin.js" defer></script>
+</head>
+<body>
+  <main class="admin">
+    <header class="header">
+      <div>
+        <p class="brand">FlightCost</p>
+        <h1>Обновление данных</h1>
+        <p id="as-of" class="dim" hidden></p>
+      </div>
+      <button id="refresh" type="button" hidden>Обновить</button>
+    </header>
+
+    <p id="load-state" class="notice" role="status">Проверяем доступ…</p>
+    <noscript><p class="notice is-error">Для панели нужен JavaScript. Откройте её в Telegram.</p></noscript>
+
+    <div id="dashboard" hidden>
+      <table class="overview" aria-label="Сводка обновления данных">
+        <thead>
+          <tr>
+            <th scope="col">Направление</th>
+            <th scope="col">Всего в базе</th>
+            <th scope="col">Последняя загрузка</th>
+            <th scope="col">Следующее в очереди</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="overview-row" data-work="airports">
+            <th scope="row"><button type="button" class="overview-toggle" aria-expanded="false"
+                aria-controls="airports-detail">Аэропортовые сборы</button></th>
+            <td data-field="total"></td><td data-field="last"></td><td data-field="next"></td>
+          </tr>
+          <tr class="detail-row" id="airports-detail" hidden>
+            <td colspan="4"><div class="detail">
+              <dl id="airport-metric" class="metrics"></dl>
+              <details class="list-section">
+                <summary>Последние изменения</summary>
+                <ul id="airport-updates" class="rows"></ul>
+              </details>
+              <dl id="agent" class="facts"></dl>
+              <form id="airport-form">
+                <fieldset id="airport-controls" disabled>
+                  <legend>Добавить аэропорт в очередь</legend>
+                  <div class="form-fields">
+                    <label>Код ИКАО
+                      <input name="icao" class="mono" required maxlength="4" pattern="[A-Za-z]{4}"
+                        title="Четыре латинские буквы" autocapitalize="characters" autocomplete="off"
+                        spellcheck="false" placeholder="UUEE">
+                    </label>
+                    <label>Название / город <span class="dim">(необязательно)</span>
+                      <input name="city" maxlength="120" autocomplete="off">
+                    </label>
+                  </div>
+                  <div class="actions">
+                    <button class="primary" type="submit">Добавить в очередь</button>
+                    <button id="run" type="button">Запустить сейчас</button>
+                  </div>
+                </fieldset>
+                <p id="action-state" class="notice action-state" role="status" hidden></p>
+              </form>
+
+              <details class="list-section" open>
+                <summary id="queue-heading">Очередь аэропортов</summary>
+                <ul id="airport-queue" class="rows"></ul>
+              </details>
+              <details class="list-section" id="extra-airport-priority" hidden>
+                <summary id="extra-airport-priority-heading">Другие ручные приоритеты</summary>
+                <ul id="extra-priority-airports" class="rows"></ul>
+              </details>
+              <details class="list-section" id="deferred-section" hidden>
+                <summary id="deferred-heading">Исключённые аэропорты</summary>
+                <ul id="airport-deferred" class="rows"></ul>
+              </details>
+              <details class="list-section">
+                <summary id="drafts-heading">Черновики на проверку</summary>
+                <ul id="airport-drafts" class="rows"></ul>
+              </details>
+            </div></td>
+          </tr>
+          <tr class="overview-row" data-work="enroute">
+            <th scope="row"><button type="button" class="overview-toggle" aria-expanded="false"
+                aria-controls="enroute-detail">Маршрутные сборы</button></th>
+            <td data-field="total"></td><td data-field="last"></td><td data-field="next"></td>
+          </tr>
+          <tr class="detail-row" id="enroute-detail" hidden>
+            <td colspan="4"><div class="detail">
+              <dl id="enroute-metric" class="metrics"></dl>
+              <p id="enroute-schedule" class="dim"></p>
+              <h3>Последние изменения</h3>
+              <ul id="enroute-updates" class="rows"></ul>
+            </div></td>
+          </tr>
+          <tr class="overview-row" data-work="terminal">
+            <th scope="row"><button type="button" class="overview-toggle" aria-expanded="false"
+                aria-controls="terminal-detail">Терминальные сборы</button></th>
+            <td data-field="total"></td><td data-field="last"></td><td data-field="next"></td>
+          </tr>
+          <tr class="detail-row" id="terminal-detail" hidden>
+            <td colspan="4"><div class="detail">
+              <dl id="terminal-metric" class="metrics"></dl>
+              <p id="terminal-schedule" class="dim"></p>
+              <h3>Последние изменения</h3>
+              <ul id="terminal-updates" class="rows"></ul>
+            </div></td>
+          </tr>
+          <tr class="overview-row" data-work="tickets">
+            <th scope="row"><button type="button" class="overview-toggle" aria-expanded="false"
+                aria-controls="tickets-detail">Цены билетов</button></th>
+            <td data-field="total"></td><td data-field="last"></td><td data-field="next"></td>
+          </tr>
+          <tr class="detail-row" id="tickets-detail" hidden>
+            <td colspan="4"><div class="detail">
+              <dl id="ticket-metrics" class="metrics ticket-metrics"></dl>
+              <p id="ticket-action-state" class="notice action-state" role="status" hidden></p>
+              <div class="charge-groups routes">
+                <div>
+                  <h3>Недавно проверенные маршруты</h3>
+                  <ul id="recent-routes" class="rows"></ul>
+                </div>
+                <div>
+                  <h3>Запланированные маршруты</h3>
+                  <ul id="planned-routes" class="rows"></ul>
+                </div>
+              </div>
+              <details class="list-section" id="extra-ticket-priority" hidden>
+                <summary id="extra-ticket-priority-heading">Другие приоритетные маршруты</summary>
+                <ul id="extra-priority-routes" class="rows"></ul>
+              </details>
+              <details class="list-section" id="deferred-tickets-section" hidden>
+                <summary id="deferred-tickets-heading">Отложенные маршруты</summary>
+                <ul id="deferred-routes" class="rows"></ul>
+              </details>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+      <section id="journalist-panel" hidden>
+        <h2>Журналист прогноза</h2>
+        <p id="journalist-status" class="dim"></p>
+        <button id="journalist-toggle" type="button"></button>
+        <p id="journalist-notice" class="notice action-state" role="status" hidden></p>
+      </section>
+      <details class="list-section" id="common-updates" hidden>
+        <summary>Прочие изменения</summary>
+        <ul id="recent-updates" class="rows"></ul>
+      </details>
+    </div>
+  </main>
+</body>
+</html>
