@@ -14,7 +14,8 @@
     const canvas = figure.querySelector("canvas");
     const context = canvas.getContext("2d");
     if (!context) continue;
-    const {lang, quarterly, rows, series} = JSON.parse(figure.querySelector("script").textContent);
+    const {lang, quarterly, observedKey, rows, series} = JSON.parse(figure.querySelector("script").textContent);
+    const lastObservation = rows.findLastIndex(row => Number.isFinite(row[observedKey]));
     const format = new Intl.NumberFormat(lang, {maximumFractionDigits: 1});
     const values = series.flatMap(({key}) => rows.map(row => row[key]).filter(Number.isFinite));
     const minimum = Math.min(...values);
@@ -69,6 +70,16 @@
       for (const {key, color: token, dash} of series) {
         context.strokeStyle = context.fillStyle = color(styles, token);
         context.lineWidth = 2;
+        const firstForecast = key !== observedKey && lastObservation >= 0
+          ? rows.findIndex((row, i) => i > lastObservation && Number.isFinite(row[key]))
+          : -1;
+        if (firstForecast >= 0) {
+          context.setLineDash([3, 4]);
+          context.beginPath();
+          context.moveTo(x(lastObservation), y(rows[lastObservation][observedKey]));
+          context.lineTo(x(firstForecast), y(rows[firstForecast][key]));
+          context.stroke();
+        }
         context.setLineDash(dash);
         context.beginPath();
         let contiguous = false;
@@ -78,7 +89,7 @@
             contiguous = false;
             return;
           }
-          if (contiguous) context.lineTo(x(i), y(value));
+          if (contiguous && i !== firstForecast) context.lineTo(x(i), y(value));
           else context.moveTo(x(i), y(value));
           contiguous = true;
         });

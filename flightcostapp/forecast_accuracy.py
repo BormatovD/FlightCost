@@ -18,7 +18,7 @@ TEXT = {
     "ru": {
         "annual": "Мировой пассажиропоток",
         "annual_unit": "Млн пассажирских сегментов",
-        "annual_note": "У исторических рядов ИКАО разный охват. Ориентиры Airbus и Boeing переведены в сегменты по принятой в расчёте средней дальности. Покрытие парком — расчётный объём перевозок, доступный при заданных поставках.",
+        "annual_note": "Белая линия объединяет годовые отчёты ИКАО до 2020 года включительно и Safety Report с 2021 года. Охват источников различается. Ориентиры Airbus и Boeing переведены в сегменты по принятой в расчёте средней дальности. Покрытие парком — расчётный объём перевозок, доступный при заданных поставках.",
         "quarterly": "Мировой пассажирооборот по кварталам",
         "quarterly_unit": "Млрд платных пассажиро-километров (RPK)",
         "quarterly_note": "Пустые кружки обозначают предварительные оценки. Ошибка = 100% × (прогноз − факт) / факт. Считаем её после публикации квартального итога IATA по оценкам, зафиксированным до выхода первой статистики за этот квартал.",
@@ -32,8 +32,6 @@ TEXT = {
         "preview": "Предварительная оценка",
         "no_frozen_forecast": "Факт IATA",
         "awaiting_data": "Ожидаем данные",
-        "icao_arc": "ИКАО · Annual Report",
-        "icao_safety": "ИКАО · Safety Report",
         "icao": "ИКАО · факт",
         "iata": "IATA · факт",
         "prior": "FlightCost · прежний",
@@ -44,7 +42,7 @@ TEXT = {
     "en": {
         "annual": "Global passenger traffic",
         "annual_unit": "Millions of passenger segments",
-        "annual_note": "The ICAO historical series have different coverage. The Airbus and Boeing reference forecasts are converted to segments using the model’s assumed average segment distance. Fleet coverage is the volume the fleet could carry under the delivery assumptions.",
+        "annual_note": "The white line combines ICAO Annual Reports through 2020 and the Safety Report from 2021. Their coverage differs. The Airbus and Boeing reference forecasts are converted to segments using the model’s assumed average segment distance. Fleet coverage is the volume the fleet could carry under the delivery assumptions.",
         "quarterly": "Global passenger traffic by quarter",
         "quarterly_unit": "Billions of revenue passenger-kilometres (RPK)",
         "quarterly_note": "Open circles mark preliminary forecasts. Error = 100% × (forecast − observed) / observed. We score forecasts locked before the first data for the quarter once IATA publishes the quarterly total.",
@@ -58,8 +56,6 @@ TEXT = {
         "preview": "Preliminary outlook",
         "no_frozen_forecast": "IATA observation",
         "awaiting_data": "Awaiting data",
-        "icao_arc": "ICAO · Annual Report",
-        "icao_safety": "ICAO · Safety Report",
         "icao": "ICAO · observed",
         "iata": "IATA · observed",
         "prior": "FlightCost · previous",
@@ -70,7 +66,7 @@ TEXT = {
     "de": {
         "annual": "Weltweites Passagieraufkommen",
         "annual_unit": "Millionen Passagiersegmente",
-        "annual_note": "Die historischen ICAO-Reihen haben einen unterschiedlichen Erfassungsumfang. Für die Umrechnung der Referenzprognosen von Airbus und Boeing in Segmente verwenden wir die im Modell angenommene mittlere Segmentdistanz. Die Flottenabdeckung gibt an, welches Aufkommen die Flotte bei den angenommenen Auslieferungen bewältigen könnte.",
+        "annual_note": "Die weiße Linie verbindet die ICAO-Jahresberichte bis einschließlich 2020 mit dem Safety Report ab 2021. Der Erfassungsumfang unterscheidet sich. Für die Umrechnung der Referenzprognosen von Airbus und Boeing in Segmente verwenden wir die im Modell angenommene mittlere Segmentdistanz. Die Flottenabdeckung gibt an, welches Aufkommen die Flotte bei den angenommenen Auslieferungen bewältigen könnte.",
         "quarterly": "Weltweite Verkehrsleistung je Quartal",
         "quarterly_unit": "Milliarden verkaufte Passagierkilometer (RPK)",
         "quarterly_note": "Offene Kreise markieren vorläufige Prognosen. Fehler = 100 % × (Prognose − Istwert) / Istwert. Sobald IATA den Quartalswert veröffentlicht, prüfen wir die Prognosen, die vor den ersten Daten für das Quartal festgeschrieben wurden.",
@@ -84,8 +80,6 @@ TEXT = {
         "preview": "Vorläufige Prognose",
         "no_frozen_forecast": "IATA-Istwert",
         "awaiting_data": "Daten ausstehend",
-        "icao_arc": "ICAO · Annual Report",
-        "icao_safety": "ICAO · Safety Report",
         "icao": "ICAO · Istwert",
         "iata": "IATA · Istwert",
         "prior": "FlightCost · bisher",
@@ -170,7 +164,9 @@ def _figure(title, unit, rows, series, lang, *, quarterly=False):
             f'<li><span class="fa-swatch" aria-hidden="true" style="--fa-color:'
             f'{item["color"]};--fa-pattern:{style}"></span>{escape(item["label"])}</li>'
         )
-    payload = json.dumps({"lang": lang, "quarterly": quarterly, "rows": rows, "series": visible},
+    observed_key = "actual" if quarterly else "icao"
+    payload = json.dumps({"lang": lang, "quarterly": quarterly, "observedKey": observed_key,
+                          "rows": rows, "series": visible},
                          ensure_ascii=False, allow_nan=False).replace("<", "\\u003c")
     return (
         f'<figure class="fa-figure" data-fa-chart hidden>'
@@ -215,8 +211,6 @@ def _table(text, unit, rows, series, lang, *, statuses=False):
 def _yearly(edition, text, lang):
     series = _series(text, (
         ("icao", "icao", "var(--ink)", []),
-        ("arc", "icao_arc", "var(--ink)", []),
-        ("safety", "icao_safety", "var(--ink)", [2, 3]),
         ("prior", "prior", "var(--calc)", [6, 5]),
         ("updated", "updated", "var(--calc)", []),
         ("airbus", "Airbus", "var(--doc)", [7, 4]),
@@ -228,11 +222,9 @@ def _yearly(edition, text, lang):
         year = item.get("year")
         if not isinstance(year, int) or isinstance(year, bool):
             continue
-        fact = _num(item.get("icao_observed_segments"), 1_000_000)
-        fact_key = {"icao_arc": "arc", "icao_safety": "safety"}.get(item.get("icao_series"), "icao")
         rows.append({
             "label": str(year),
-            fact_key: fact,
+            "icao": _num(item.get("icao_observed_segments"), 1_000_000),
             "prior": _num(item.get("joint_segments"), 1_000_000),
             "updated": _num(item.get("updated_joint_segments"), 1_000_000),
             "airbus": _num(item.get("airbus_equivalent_segments"), 1_000_000),
@@ -240,13 +232,11 @@ def _yearly(edition, text, lang):
             "fleet": _num(item.get("updated_fleet_covered_segments"), 1_000_000),
         })
     rows.sort(key=lambda row: row["label"])
-    table_series = [series[0], *series[3:]]
-    table_rows = [{**row, "icao": row.get("arc", row.get("safety", row.get("icao")))} for row in rows]
     title, unit = text["annual"], text["annual_unit"]
     return (
         f'<div class="fa-panel"><h3>{title}</h3><p class="fa-note">{unit}</p>'
         f'{_figure(title, unit, rows, series, lang)}<p class="fa-note">{text["annual_note"]}</p>'
-        f'<details><summary>{text["details"]}</summary>{_table(text, unit, table_rows, table_series, lang)}</details></div>'
+        f'<details><summary>{text["details"]}</summary>{_table(text, unit, rows, series, lang)}</details></div>'
     ) if rows else ""
 
 
