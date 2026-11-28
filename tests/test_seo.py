@@ -11,6 +11,7 @@ import contextlib
 import http.client
 import io
 import json
+import os
 import pathlib
 import re
 import sys
@@ -19,8 +20,11 @@ import threading
 import unittest
 import xml.etree.ElementTree as ET
 from datetime import date
+from html.parser import HTMLParser
 from http.server import ThreadingHTTPServer
 from unittest import mock
+
+import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -31,6 +35,8 @@ from flightcostapp.probe import probe_url                 # noqa: E402
 from flightcostapp.store import Fact, Store               # noqa: E402
 
 CYR = re.compile(r"[А-Яа-яЁё]")
+SITEMAP_NS = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9", "xhtml": "http://www.w3.org/1999/xhtml"}
+WITHDRAWN_DEMAND_RELEASES = tuple(f"demand-series-{number:02d}-2026-11" for number in range(2, 5))
 
 
 def fact(key, value=None, text=None, src="aircraft_openap", note=None, source_note=None):
@@ -77,6 +83,21 @@ class SeoHttp(unittest.TestCase):
 
     def head_of(self, body):
         return body.split("</head>", 1)[0]
+
+    def sitemap_entries(self):
+        status, body, _ = self.get("/sitemap.xml")
+        self.assertEqual(status, 200)
+        return ET.fromstring(body).findall("sm:url", SITEMAP_NS)
+
+    def assert_sitemap_has_release(self, entries, slug, *, ready):
+        urls = {lang: f"{seo.site()}/{lang}/research/{slug}" for lang in ("ru", "en", "de")}
+        matching = [(url, entry) for entry in entries
+                    if (url := entry.findtext("sm:loc", namespaces=SITEMAP_NS)) in urls.values()]
+        self.assertCountEqual([url for url, _ in matching], list(urls.values()) if ready else [])
+        expected = [*urls.items(), ("x-default", urls["en"])]
+        for _, entry in matching:
+            links = entry.findall("xhtml:link[@rel='alternate']", SITEMAP_NS)
+            self.assertCountEqual([(link.get("hreflang"), link.get("href")) for link in links], expected)
 
     def test_accepting_price_drafts_updates_type_and_route_without_inserting_article_sections(self):
         from flightcostapp import master, prices
@@ -316,7 +337,7 @@ class SeoHttp(unittest.TestCase):
         """The published series has public pages, unique covers and unlisted placeholders."""
         intro = "demand-series-intro-2026-11"
         first = "demand-series-01-2026-11"
-        planned = [f"demand-series-{number:02d}-2026-11" for number in range(2, 19)]
+        planned = [f"demand-series-{number:02d}-2026-11" for number in range(5, 19)]
         planned.append("demand-series-results-2026-11")
         for path in ("/ru/research", "/research/feed.xml", "/sitemap.xml"):
             status, body, _ = self.get(path)
@@ -363,8 +384,144 @@ class SeoHttp(unittest.TestCase):
         self.assertIn('lang="de"', body)
         self.assertIn("Artikel zur Veröffentlichung vorgesehen", body)
 
+    def test_withdrawn_demand_releases_stay_unavailable_with_legacy_overlay(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            overlay = pathlib.Path(tmp)
+            # Include the next registered placeholder to exercise the same overlay.
+            for number in range(2, 6):
+                folder = overlay / f"{number:02d}"
+                folder.mkdir()
+                (folder / "article.json").write_text(json.dumps({
+                    "article": number, "date": "2026-11-18", "title": f"Статья №{number}",
+                    "lede": "Ретроспектива пассажиропотока",
+                }), encoding="utf-8")
+                (folder / "report.html").write_text(
+                    '<!doctype html><html lang="ru"><head><meta charset="utf-8">'
+                    '<meta name="robots" content="noindex"><title>Пассажиропоток</title></head>'
+                    f'<body><main>Архивная редакция №{number}</main></body></html>', encoding="utf-8")
+                (folder / "cover.jpg").write_bytes(b"\xff\xd8\xff")
+
+            for location in ("", str(overlay)):
+                with mock.patch.dict(os.environ, {"FCA_EDITORIAL_PUBLISHED": location}):
+                    entries = self.sitemap_entries()
+                    self.assert_sitemap_has_release(entries, "demand-series-01-2026-11", ready=True)
+                    for slug in WITHDRAWN_DEMAND_RELEASES:
+                        with self.subTest(slug=slug, legacy_overlay=bool(location)):
+                            self.assert_sitemap_has_release(entries, slug, ready=False)
+                            self.assertEqual(self.get(f"/research/assets/{slug}/cover.jpg")[0], 404)
+                        for lang in seo.LANGS:
+                            with self.subTest(slug=slug, lang=lang, legacy_overlay=bool(location)):
+                                self.assertEqual(self.get(f"/{lang}/research/{slug}")[0], 404)
+
+                    for path in ("/research/feed.xml", *(f"/{lang}/research" for lang in seo.LANGS)):
+                        with self.subTest(path=path, legacy_overlay=bool(location)):
+                            status, body, _ = self.get(path)
+                            self.assertEqual(status, 200)
+                            for slug in WITHDRAWN_DEMAND_RELEASES:
+                                self.assertNotIn(slug, body)
+
+                    if location:
+                        status, body, _ = self.get("/ru/research/demand-series-05-2026-11")
+                        self.assertEqual(status, 200)
+                        self.assertIn("Архивная редакция №5", body)
+
+    def test_sitemap_requires_an_indexable_trilingual_research_release(self):
+        from flightcostapp import research
+
+        slugs = ("sample-research-missing-german", "sample-research-wrong-language", "sample-research-noindex")
+        passages = {"ru": "Изменения пассажирского спроса", "en": "Changes in passenger demand",
+                    "de": "Veränderungen der Passagiernachfrage"}
+
+        def write_report(path, lang, head_tags=""):
+            path.write_text(
+                f'<!doctype html><html lang="{lang}"><head><meta charset="utf-8">'
+                f'<title>{passages[lang]}</title>{head_tags}</head>'
+                f'<body><main>{passages[lang]}</main></body></html>', encoding="utf-8")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp).resolve()
+            index = root / "index.yaml"
+            items = []
+            for slug in slugs:
+                folder = root / slug
+                folder.mkdir()
+                report = folder / "report.html"
+                items.append({
+                    "slug": slug, "date": "2026-11-18", "lang": "ru",
+                    "report": str(report.relative_to(root)), "site_chrome": True,
+                    "title": passages, "lede": passages,
+                })
+                write_report(report, "ru")
+                # Published reports can embed fonts larger than several HTMLParser chunks.
+                font_style = "<style>/*" + "a" * (5 * research.HEAD_CHUNK) + "*/</style>" if slug == slugs[0] else ""
+                write_report(folder / "report.en.html", "en", font_style)
+            index.write_text(json.dumps({"items": items}), encoding="utf-8")
+            german = [(root / item["report"]).with_name("report.de.html") for item in items]
+            write_report(german[1], "ru")
+            robots = '<meta content="nofollow, NOINDEX" name="robots">'
+            write_report(german[2], "de", robots)
+
+            with mock.patch.multiple(research, ROOT=root, INDEX=index):
+                entries = self.sitemap_entries()
+                for slug, fallback in zip(slugs, ("ru", "ru", "de")):
+                    with self.subTest(slug=slug):
+                        self.assert_sitemap_has_release(entries, slug, ready=False)
+                    for lang, content_lang in (("ru", "ru"), ("en", "en"), ("de", fallback)):
+                        with self.subTest(slug=slug, lang=lang):
+                            status, body, _ = self.get(f"/{lang}/research/{slug}")
+                            self.assertEqual(status, 200)
+                            self.assertIn(f"<main>{passages[content_lang]}</main>", body)
+                            if slug == slugs[2] and lang == "de":
+                                self.assertIn(robots, self.head_of(body))
+
+                for report in german:
+                    write_report(report, "de")
+                entries = self.sitemap_entries()
+                for slug in slugs:
+                    with self.subTest(slug=slug, ready=True):
+                        self.assert_sitemap_has_release(entries, slug, ready=True)
+                    for lang, passage in passages.items():
+                        with self.subTest(slug=slug, lang=lang, ready=True):
+                            status, body, _ = self.get(f"/{lang}/research/{slug}")
+                            self.assertEqual(status, 200)
+                            self.assertIn(f'<html lang="{lang}">', body)
+                            self.assertNotIn(robots, self.head_of(body))
+                            self.assertIn(f"<main>{passage}</main>", body)
+
+    def test_aircraft_prices_research_head_has_one_canonical_and_keeps_structured_data(self):
+        class CanonicalLinks(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.hrefs = []
+
+            def handle_starttag(self, tag, attrs):
+                attrs = dict(attrs)
+                if tag == "link" and "canonical" in (attrs.get("rel") or "").lower().split():
+                    self.hrefs.append(attrs.get("href"))
+
+        slug = "aircraft-prices-2026-11"
+        with mock.patch.dict(os.environ, {"FCA_SITE_URL": "https://flightcost.app"}):
+            for lang in ("ru", "en", "de"):
+                with self.subTest(lang=lang):
+                    path = f"/{lang}/research/{slug}"
+                    status, body, _ = self.get(path)
+                    self.assertEqual(status, 200)
+                    head = self.head_of(body)
+                    canonical = CanonicalLinks()
+                    canonical.feed(head)
+                    url = f"https://flightcost.app{path}"
+                    self.assertEqual(canonical.hrefs, [url])
+                    schema = [json.loads(raw) for raw in re.findall(
+                        r'<script type="application/ld\+json">(.*?)</script>', head, re.S)]
+                    articles = [node for node in schema if node.get("@type") == "Article"]
+                    self.assertEqual(len(articles), 1)
+                    self.assertEqual(articles[0]["inLanguage"], lang)
+                    self.assertEqual(articles[0]["mainEntityOfPage"]["@id"], url)
+                    breadcrumbs = [node for node in schema if node.get("@type") == "BreadcrumbList"]
+                    self.assertEqual(len(breadcrumbs), 1)
+                    self.assertEqual(breadcrumbs[0]["itemListElement"][-1]["item"], url)
+
     def test_demand_series_has_full_translations_and_local_navigation(self):
-        from html.parser import HTMLParser
         from flightcostapp import research
 
         class Reader(HTMLParser):
@@ -392,25 +549,30 @@ class SeoHttp(unittest.TestCase):
         for slug in slugs:
             item = research.find(slug)
             self.assertEqual(set(item["langs"]), {"ru", "en", "de"})
-            for lang in ("en", "de"):
+            for lang in seo.LANGS:
                 with self.subTest(slug=slug, lang=lang):
                     status, body, _ = self.get(f"/{lang}/research/{slug}")
                     self.assertEqual(status, 200)
                     self.assertIn(f'<html lang="{lang}"', body)
                     self.assertIn(f'<title>{seo.esc(item["title"][lang])}</title>', body)
                     self.assertIn(f'href="{seo.site()}/{lang}/research/{slug}"', body)
-                    parser = Reader()
-                    parser.feed(body)
-                    self.assertIsNone(CYR.search(" ".join(parser.text)))
                     main = body.split("<main", 1)[1].split("</main>", 1)[0]
-                    self.assertNotIn('/ru/research/demand-series-', main)
+                    if lang != "ru":
+                        parser = Reader()
+                        parser.feed(body)
+                        self.assertIsNone(CYR.search(" ".join(parser.text)))
+                        self.assertNotIn('/ru/research/demand-series-', main)
+                    for withdrawn in WITHDRAWN_DEMAND_RELEASES:
+                        self.assertNotIn(f"/research/{withdrawn}", main)
                     other = slugs[1] if slug == slugs[0] else slugs[0]
                     self.assertIn(f'/{lang}/research/{other}', main)
                     if slug == slugs[1]:
                         self.assertIn('class="factors-report"', body)
                     else:
                         self.assertIn('data-backtest="all"', body)
-                        self.assertNotIn("Целевые годы", body)
+                        self.assertIn(f"/{lang}/research/demand-series-05-2026-11", main)
+                        if lang != "ru":
+                            self.assertNotIn("Целевые годы", body)
 
     def test_research_assets_only_serve_listed_public_files(self):
         from flightcostapp import research
@@ -441,7 +603,6 @@ class SeoHttp(unittest.TestCase):
 
     def test_research_calc_marker(self):
         """У каждой публикации — маркер связи с расчётом (STYLE.md): в ленте и в самой статье."""
-        import yaml
         from flightcostapp import research
         doc = yaml.safe_load(research.INDEX.read_text(encoding="utf-8"))
         for it in doc["items"]:
@@ -465,9 +626,7 @@ class SeoHttp(unittest.TestCase):
         st, body, _ = self.get("/robots.txt")
         self.assertIn(f"Sitemap: {seo.site()}/sitemap.xml", body)
         self.assertIn("Disallow: /api/", body)
-        st, body, _ = self.get("/sitemap.xml")
-        root = ET.fromstring(body)
-        locs = [e.text for e in root.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
+        locs = [entry.findtext("sm:loc", namespaces=SITEMAP_NS) for entry in self.sitemap_entries()]
         for lg in seo.LANGS:
             self.assertIn(f"{seo.site()}/{lg}/type/A320", locs)
             self.assertIn(f"{seo.site()}/{lg}/about", locs)

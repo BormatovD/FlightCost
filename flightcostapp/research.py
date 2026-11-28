@@ -12,6 +12,8 @@ from __future__ import annotations
 import pathlib
 import re
 from datetime import date
+from functools import lru_cache
+from html.parser import HTMLParser
 from urllib.parse import urljoin
 
 import yaml
@@ -23,6 +25,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1] / "research"
 INDEX = ROOT / "index.yaml"
 SLUG = re.compile(r"^[a-z0-9][a-z0-9-]{0,60}$")
 ASSET_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
+HEAD_CHUNK = 64 * 1024
 ASSET_TYPES = {
     ".jpg": "image/jpeg",
     ".png": "image/png",
@@ -92,15 +95,16 @@ def _load_items() -> list[dict]:
         if it.get("draft"):           # не прошло моделирование владельцем (PROCESS.md)
             continue
         # Переводы лежат рядом: report.en.html, report.de.html (research/_report.py).
-        langs = [str(it.get("lang") or "ru")] + [lg for lg in LANGS if lg != it.get("lang")
-                                                  and rep.with_name(f"{rep.stem}.{lg}.html").is_file()]
-        out.append({**it, "slug": slug, "path": rep, "date": str(it.get("date") or ""), "langs": langs})
+        lang = str(it.get("lang") or "ru")
+        langs = [lang] + [lg for lg in LANGS
+                          if lg != lang and rep.with_name(f"{rep.stem}.{lg}.html").is_file()]
+        out.append({**it, "slug": slug, "path": rep, "date": str(it.get("date") or ""), "lang": lang, "langs": langs})
     from .editorial_article import public_items
     return sorted(public_items(out), key=lambda x: x["date"], reverse=True)
 
 
 def items() -> list[dict]:
-    """Опубликованные исследования для списка, Atom и карты сайта."""
+    """Опубликованные исследования для списка и Atom."""
     return [it for it in _load_items() if not it.get("planned_release") and not it.get("hide_from_feed")]
 
 
@@ -109,6 +113,78 @@ def report_file(it: dict, lang: str):
     if lang != it.get("lang") and lang in it.get("langs", []):
         return it["path"].with_name(f"{it['path'].stem}.{lang}.html")
     return it["path"]
+
+
+class _ReportHead(HTMLParser):
+    """Проверяем реальные HTML-теги, сохраняя исходную разметку отчёта."""
+
+    def __init__(self, chunks):
+        super().__init__()
+        self.language = ""
+        self.noindex = False
+        self.end = None
+        self.canonicals = []
+        # HTMLParser даёт строку и столбец. Смещения нужны для удаления только самого тега.
+        self.line_starts = [0]
+        consumed = 0
+        for chunk in chunks:
+            self.line_starts.extend(consumed + newline.end() for newline in re.finditer("\n", chunk))
+            self.feed(chunk)
+            if self.end is not None:
+                break
+            consumed += len(chunk)
+        else:
+            # HTMLParser может удерживать последние блоки, например после длинного <style>.
+            self.close()
+
+    def _offset(self):
+        line, column = self.getpos()
+        return self.line_starts[line - 1] + column
+
+    def handle_starttag(self, tag, attrs):
+        if self.end is not None:
+            return
+        if tag == "body":
+            self.end = self._offset()
+        elif tag == "html":
+            self.language = (dict(attrs).get("lang") or "").strip().lower().split("-", 1)[0]
+        elif tag == "link" and "canonical" in (dict(attrs).get("rel") or "").lower().split():
+            start = self._offset()
+            self.canonicals.append((start, start + len(self.get_starttag_text())))
+        elif tag == "meta":
+            attr = dict(attrs)
+            if (attr.get("name") or "").strip().lower() in {"robots", "googlebot", "bingbot"}:
+                directives = re.split(r"[\s,]+", (attr.get("content") or "").lower())
+                if "noindex" in directives or "none" in directives:
+                    self.noindex = True
+
+    def handle_endtag(self, tag):
+        if tag == "head" and self.end is None:
+            self.end = self._offset()
+
+
+@lru_cache(maxsize=256)
+def _indexable_language(path: pathlib.Path, version: tuple[int, int, int, int]) -> str:
+    """Ключ включает версию файла, чтобы замена перевода сразу меняла карту сайта."""
+    with path.open(encoding="utf-8") as stream:
+        head = _ReportHead(iter(lambda: stream.read(HEAD_CHUNK), ""))
+    return head.language if head.end is not None and not head.noindex else ""
+
+
+def sitemap_ready(it: dict) -> bool:
+    """В sitemap попадает вся языковая группа, только если готовы три настоящих отчёта."""
+    if not all(lang in it["langs"] for lang in LANGS):
+        return False
+    try:
+        for lang in LANGS:
+            path = report_file(it, lang)
+            stat = path.stat()
+            version = (stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns)
+            if _indexable_language(path, version) != lang:
+                return False
+    except (OSError, UnicodeError):
+        return False
+    return True
 
 
 def find(slug: str) -> dict | None:
@@ -216,7 +292,12 @@ def report_page(lang: str, it: dict, *, lease_markets=()) -> str:
                       lambda m: m.group(1) + chrome, page, count=1, flags=re.IGNORECASE)
         page = re.sub(r"<title\b[^>]*>.*?</title>", lambda _: title_tag,
                       page, count=1, flags=re.IGNORECASE | re.DOTALL)
-    page = page.replace("</head>", meta + "</head>", 1)
+    head = _ReportHead(page[i:i + HEAD_CHUNK] for i in range(0, len(page), HEAD_CHUNK))
+    if head.end is not None:
+        original = page[:head.end]
+        for start, end in reversed(head.canonicals):
+            original = original[:start] + original[end:]
+        page = original + meta + page[head.end:]
     # Шапка сайта — та же, что на остальных страницах (её стили — в ui.css,
     # который отчёт вшивает целиком); крошки — над заголовком отчёта.
     x = TXT[lang]
