@@ -6,6 +6,13 @@
 
 ДОМЕН {
 	encode zstd gzip
+	redir /bot-admin /bot-admin/ 308
+	reverse_proxy /bot-admin/* 127.0.0.1:8014 {
+		transport http {
+			dial_timeout 1s
+			response_header_timeout 5s
+		}
+	}
 	# Перезапуск витрины (deploy.sh, bootstrap.sh) — 2–6 секунд, пока процесс не
 	# откроет порт. Раньше Caddy в это окно сразу отдавал 502 (09.11.2026: шесть
 	# выкладок — шесть окон 502, в них попали поисковый робот и владелец). Теперь

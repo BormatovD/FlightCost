@@ -31,9 +31,11 @@ USER_FROM = {"id": USER, "first_name": "Ivan", "username": "ivan_secret_nick", "
 class FakeBot:
     def __init__(self):
         self.sent, self.files, self.edits = [], [], []
+        self.markups = []
 
     def send(self, chat_id, text, buttons=None, **kw):
         self.sent.append((chat_id, text, buttons))
+        self.markups.append(kw.get("reply_markup"))
         return {"message_id": len(self.sent)}
 
     def edit(self, chat_id, mid, text, buttons=None):
@@ -67,7 +69,7 @@ def btn(data, chat=USER):
                                                 "message": {"chat": {"id": chat}, "message_id": 5, "text": "x"}}}
 
 
-class BotFlow(unittest.TestCase):
+class BotFlowFixture:
 
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
@@ -96,6 +98,9 @@ class BotFlow(unittest.TestCase):
         h(btn("a:skip"))
         h(btn("n:send"))
         return self.b.db.db.execute("SELECT * FROM submissions ORDER BY id DESC").fetchone()
+
+
+class BotFlow(BotFlowFixture, unittest.TestCase):
 
     def test_full_path_and_chat_forgotten_after_answer(self):
         row = self.submit()
@@ -175,6 +180,99 @@ class BotFlow(unittest.TestCase):
     def test_groups_ignored(self):
         self.b.handle({"update_id": 3, "message": {"chat": {"id": -5, "type": "group"}, "text": "/start"}})
         self.assertEqual(self.tg.sent, [])
+
+
+class OwnerAdmin(BotFlowFixture, unittest.TestCase):
+    url = "https://flightcost.app/bot-admin/"
+
+    def setUp(self):
+        super().setUp()
+        self.b.admin_url = self.url
+
+    def owner_message(self, text, chat_type="private", sender=OWNER):
+        self.b.handle(msg(text, chat={"id": OWNER, "type": chat_type}, **{"from": {"id": sender}}))
+
+    def test_private_owner_keyboard_and_inline_launch(self):
+        self.owner_message("/start")
+        self.assertEqual(self.tg.markups[-1], {
+            "keyboard": [[{"text": "Статус"}, {"text": "Приёмка"}], [{"text": "Панель"}, {"text": "Отправки"}]],
+            "is_persistent": True,
+            "resize_keyboard": True,
+        })
+        self.owner_message("Панель")
+        self.assertEqual(self.tg.sent[-1][2],
+                         [[{"text": "Открыть панель", "web_app": {"url": self.url}}]])
+        self.owner_message("Приёмка")
+        self.assertIn("Приёмка справочника", self.tg.to(OWNER)[-1])
+        self.owner_message("Отправки")
+        self.assertEqual(self.tg.to(OWNER)[-1], "отправок без ответа нет")
+
+    def test_guest_group_and_non_owner_sender_have_no_admin_controls(self):
+        self.b.handle(msg("/start"))
+        self.b.handle(msg("Панель"))
+        self.owner_message("Панель", chat_type="group")
+        self.owner_message("Панель", sender=USER)
+        self.assertTrue(all(markup is None for markup in self.tg.markups))
+        self.assertTrue(all("web_app" not in button for _, _, rows in self.tg.sent
+                            for row in rows or [] for button in row))
+
+    def test_summary_and_fallback(self):
+        snapshot = self.tmp / "status.json"
+        with mock.patch.object(B, "ADMIN_STATUS", snapshot):
+            self.owner_message("Статус")
+            self.assertIn("доступен в панели", self.tg.to(OWNER)[-1])
+            snapshot.write_text(json.dumps({
+                "as_of": "2026-11-23T07:00:00Z",
+                "agent": {"active": True},
+                "updates": {"airport_rules": 828, "enroute_rates": 93},
+                "airports": {"waiting_review": 2},
+                "tickets": {"checked": 17},
+            }), "utf-8")
+            self.owner_message("Статус")
+        text = self.tg.to(OWNER)[-1]
+        for value in ("2026-11-23", "работает", "828", "93", "17"):
+            self.assertIn(value, text)
+        self.assertEqual(self.tg.sent[-1][2][0][0]["web_app"]["url"], self.url)
+
+    def test_buttons_preserve_pending_rejection(self):
+        row = self.submit()
+        self.b.handle(btn(f"r:own:{row['id']}", chat=OWNER))
+        self.owner_message("Панель")
+        self.assertIn("Сначала напишите причину", self.tg.to(OWNER)[-1])
+        self.assertEqual(self.b.db.sub(row["id"])["status"], "new")
+        self.owner_message("Нужен действующий тариф.")
+        row = self.b.db.sub(row["id"])
+        self.assertEqual((row["status"], row["verdict"]), ("rejected", "Нужен действующий тариф."))
+        self.owner_message("Панель")
+        self.assertEqual(self.tg.sent[-1][2][0][0]["web_app"]["url"], self.url)
+
+    def test_disabled_panel_and_menu_setup_failure(self):
+        self.tg.set_menu_web_app = mock.Mock(side_effect=B.TgError("menu unavailable"))
+        with mock.patch("sys.stderr") as stderr:
+            self.b._configure_admin_menu()
+        self.tg.set_menu_web_app.assert_called_once_with(OWNER, "Панель", self.url)
+        stderr.write.assert_any_call("кнопка панели Telegram: menu unavailable")
+        self.tg.set_menu_web_app.reset_mock()
+        self.b.admin_url = None
+        self.b._configure_admin_menu()
+        self.tg.set_menu_web_app.assert_not_called()
+        self.owner_message("/help")
+        self.assertIsNone(self.tg.markups[-1])
+
+    def test_telegram_request_fields_and_menu_cleanup(self):
+        result = b'{"ok":true,"result":true}'
+        opener = mock.Mock(side_effect=[BytesIO(result) for _ in range(3)])
+        self.b.bot = B.Bot("test-token", opener=opener)
+        self.b._configure_admin_menu()
+        self.owner_message("/start")
+        self.b.admin_url = None
+        self.b._configure_admin_menu()
+        menu, reply, reset = [parse_qs(call.args[0].data.decode()) for call in opener.call_args_list]
+        self.assertEqual(menu["chat_id"], [str(OWNER)])
+        self.assertEqual(json.loads(menu["menu_button"][0]),
+                         {"type": "web_app", "text": "Панель", "web_app": {"url": self.url}})
+        self.assertTrue(json.loads(reply["reply_markup"][0])["is_persistent"])
+        self.assertEqual(json.loads(reset["menu_button"][0]), {"type": "default"})
 
 
 class Spool(unittest.TestCase):

@@ -1,0 +1,28 @@
+[Unit]
+Description=Validate FlightCost observer handoffs and import to private staging
+
+[Service]
+Type=oneshot
+User=fca-fo-ingest
+Group=fca-fo-ingest
+SupplementaryGroups=fca-fo-handoff
+UMask=0077
+StateDirectory=fca-fo-ingest
+StateDirectoryMode=0700
+ExecStartPre=/usr/bin/python3 -B /opt/fca-fare-observer/boundary_check.py ingest
+ExecStart=/usr/bin/python3 -B /opt/fca-fare-observer/observe.py ingest --state /var/lib/fca-fo-ingest
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectProc=invisible
+InaccessiblePaths=-/srv/fca -/etc/fca -/etc/caddy/fca.caddy -/etc/systemd/system/fca.service -/etc/systemd/system/fca-bot.service
+PrivateTmp=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX
+TimeoutStartSec=4min
+MemoryMax=256M

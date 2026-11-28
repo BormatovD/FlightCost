@@ -1,0 +1,12 @@
+[Unit]
+Description=Schedule FlightCost fare observer tickets
+
+[Timer]
+OnCalendar=*-*-* *:02/3:00
+Unit=fca-fo@tickets.service
+RandomizedDelaySec=45s
+AccuracySec=1s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

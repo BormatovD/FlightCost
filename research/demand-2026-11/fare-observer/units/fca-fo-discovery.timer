@@ -1,0 +1,12 @@
+[Unit]
+Description=Schedule FlightCost fare observer discovery
+
+[Timer]
+OnCalendar=*-*-* 03:17:00
+Unit=fca-fo@discovery.service
+RandomizedDelaySec=5min
+AccuracySec=1s
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -137,11 +137,15 @@ class Bot:
         return self.call("getUpdates", offset=offset, timeout=wait,
                          allowed_updates=["message", "callback_query"])
 
-    def send(self, chat_id, text: str, buttons=None, **kw):
-        markup = {"inline_keyboard": buttons} if buttons else None
+    def send(self, chat_id, text: str, buttons=None, *, reply_markup=None, **kw):
+        markup = {"inline_keyboard": buttons} if buttons else reply_markup
         # Телеграм режет сообщение на 4096 символах — длинное режем сами.
         return self.call("sendMessage", chat_id=chat_id, text=text[:4000],
                          reply_markup=markup, disable_web_page_preview=True, **kw)
+
+    def set_menu_web_app(self, chat_id: int, text: str, url: str | None):
+        button = {"type": "web_app", "text": text, "web_app": {"url": url}} if url else {"type": "default"}
+        return self.call("setChatMenuButton", chat_id=chat_id, menu_button=button)
 
     def edit(self, chat_id, message_id, text: str, buttons=None):
         markup = {"inline_keyboard": buttons} if buttons else {"inline_keyboard": []}

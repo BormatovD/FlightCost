@@ -40,13 +40,16 @@ import time
 from queue import Empty, Queue
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
+from urllib.parse import urlsplit
 
-from .tg import Bot, TgError, TgNotSent, TgRejected, load_token
+from .tg import Bot, TgError, TgNotSent, TgRejected, TgTransportError, load_token
 
 HOME = Path(os.environ.get("FCA_BOT_DIR", "/srv/fca/bot"))
 SPOOL = Path(os.environ.get("FCA_SPOOL", "/srv/fca/spool"))
 AGENT_QUEUE = Path(os.environ.get("FCA_AGENT_QUEUE", "/srv/fca/agent/queue"))
 AGENT_OUT = Path(os.environ.get("FCA_AGENT_OUT", "/srv/fca/agent/out"))
+ADMIN_STATUS = Path("/var/lib/fca-admin-snapshot/status.json")
+ADMIN_BUTTONS = (("Статус", "Приёмка"), ("Панель", "Отправки"))
 # Откуда бот вправе прикладывать файлы к сообщениям из ящика. Иначе
 # строка «attach» в чужом JSON превратилась бы в чтение любого файла,
 # доступного пользователю бота.
@@ -330,11 +333,12 @@ class SpoolDelivery:
 # ── бот ──────────────────────────────────────────────────────────────────
 class FcaBot:
     def __init__(self, bot: Bot, owner: int, *, home: Path = HOME, review_db: str | None = None,
-                 after_accept: str | None = None):
+                 after_accept: str | None = None, admin_url: str | None = None):
         self.bot, self.owner, self.home = bot, int(owner), home
         self.db = Db(home / "bot.db")
         self.review_db = review_db
         self.after_accept = after_accept
+        self.admin_url = admin_url
         self.drafts: dict[int, Draft] = {}
         self.owner_wait: dict | None = None        # ждём текст причины отказа
         self._salt_day, self._salt, self._count = "", b"", {}
@@ -388,6 +392,7 @@ class FcaBot:
                                            else "публикация не прошла") + f"\n{(r.stdout + r.stderr)[-1500:]}")
 
     def run_forever(self):
+        self._configure_admin_menu()
         threading.Thread(target=self._worker, daemon=True).start()
         offset = int(self.db.get("offset", 0)) or None
         last_spool = last_clean = 0.0
@@ -426,7 +431,7 @@ class FcaBot:
         if not m or m.get("chat", {}).get("type") != "private":
             return                                  # группы и каналы не обслуживаем
         chat = m["chat"]["id"]
-        if chat == self.owner and self.on_owner_message(m):
+        if chat == self.owner and (m.get("from") or {}).get("id") == self.owner and self.on_owner_message(m):
             return
         self.on_user_message(chat, m)
 
@@ -636,28 +641,86 @@ class FcaBot:
                  {"text": "❌ Отклонить", "callback_data": f"s:rej:{sid}"}],
                 [{"text": "📎 Файлы и разбор", "callback_data": f"s:det:{sid}"}]]
 
+    def _configure_admin_menu(self):
+        if self.owner <= 0:
+            return
+        key = f"admin_menu:{self.owner}"
+        if not self.admin_url and not self.db.get(key):
+            return
+        try:
+            self.bot.set_menu_web_app(self.owner, "Панель", self.admin_url)
+        except TgError as e:
+            print(f"кнопка панели Telegram: {e}", file=sys.stderr)
+            return
+        if self.admin_url:
+            self.db.put(key, self.admin_url)
+        else:
+            self.db.delete(key)
+
+    def _send_admin_panel(self, text: str):
+        self.bot.send(self.owner, text, [[{"text": "Открыть панель", "web_app": {"url": self.admin_url}}]])
+
+    def _admin_status(self):
+        try:
+            snapshot = json.loads(ADMIN_STATUS.read_text("utf-8"))
+        except (OSError, ValueError):
+            snapshot = None
+        if not isinstance(snapshot, dict) or not isinstance(snapshot.get("as_of"), str):
+            return self._send_admin_panel("Статус обновлений доступен в панели.")
+
+        lines = [f"Данные на {snapshot['as_of'].replace('T', ' ')}"]
+        agent = snapshot.get("agent")
+        active = agent.get("active") if isinstance(agent, dict) else None
+        if isinstance(active, bool):
+            lines.append("Агент по сборам работает." if active else "Агент по сборам ожидает запуска.")
+        for section, field, label in (
+            ("updates", "airport_rules", "Правила аэропортовых сборов"),
+            ("updates", "enroute_rates", "Маршрутные ставки"),
+            ("airports", "waiting_review", "Черновики на проверку"),
+            ("tickets", "checked", "Маршруты с проверенными ценами"),
+        ):
+            group = snapshot.get(section)
+            value = group.get(field) if isinstance(group, dict) else None
+            if type(value) is int:
+                lines.append(f"{label}: {value}")
+        self._send_admin_panel("\n".join(lines))
+
     def on_owner_message(self, m: dict) -> bool:
         text = _clean(m.get("text"))
+        action = self.admin_url and any(text in row for row in ADMIN_BUTTONS)
         if self.owner_wait and text and not text.startswith("/"):
+            if action:
+                self.bot.send(self.owner, "Сначала напишите причину отклонения одним сообщением.")
+                return True
             w, self.owner_wait = self.owner_wait, None
             self._reject(w["sid"], text)
             return True
         if text in ("/help", "/start"):
+            markup = None
+            if self.admin_url:
+                markup = {"keyboard": [[{"text": label} for label in row] for row in ADMIN_BUTTONS],
+                          "is_persistent": True, "resize_keyboard": True}
             self.bot.send(self.owner, "Служебная сторона:\n/subs — отправки без ответа\n"
                                       "/queue — очередь приёмки справочника\n/new — анкета, как у всех\n"
-                                      "/ping — бот жив?")
+                                      "/ping — бот жив?", reply_markup=markup)
+            return True
+        if action and text == "Панель":
+            self._send_admin_panel("Обновления сборов и сбор цен билетов.")
+            return True
+        if action and text == "Статус":
+            self._admin_status()
             return True
         if text == "/ping":
             self.bot.send(self.owner, "на месте")
             return True
-        if text == "/subs":
+        if text == "/subs" or (action and text == "Отправки"):
             rows = self.db.db.execute("SELECT * FROM submissions WHERE status = 'new' ORDER BY id").fetchall()
             if not rows:
                 self.bot.send(self.owner, "отправок без ответа нет")
             for r in rows[:10]:
                 self.bot.send(self.owner, card(r, "ru", r["id"]), self._kb_sub(r["id"]))
             return True
-        if text == "/queue":
+        if text == "/queue" or (action and text == "Приёмка"):
             self._queue()
             return True
         if text == "/new":
@@ -938,8 +1001,22 @@ def main() -> int:
     review = os.environ.get("FCA_REVIEW_DB") or None
     if review and not Path(review).exists():
         review = None
+    admin_url = (os.environ.get("FCA_ADMIN_URL") or "").strip() or None
+    if admin_url:
+        try:
+            parsed = urlsplit(admin_url)
+            valid_url = (
+                parsed.scheme == "https" and parsed.hostname and not parsed.username
+                and not parsed.password and not parsed.query and not parsed.fragment
+                and not any(c.isspace() for c in admin_url)
+            )
+        except ValueError:
+            valid_url = False
+        if not valid_url:
+            print("FCA_ADMIN_URL должен быть HTTPS-адресом панели.", file=sys.stderr)
+            admin_url = None
     FcaBot(bot, int(owner), review_db=review,
-           after_accept=os.environ.get("FCA_AFTER_ACCEPT") or None).run_forever()
+           after_accept=os.environ.get("FCA_AFTER_ACCEPT") or None, admin_url=admin_url).run_forever()
     return 0
 
 

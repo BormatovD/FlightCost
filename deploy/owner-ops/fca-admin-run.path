@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch for an owner-requested FlightCost tariff run
+
+[Path]
+PathExists=/srv/fca/agent/queue/airport-admin/.run
+
+[Install]
+WantedBy=multi-user.target

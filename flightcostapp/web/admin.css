@@ -1,0 +1,153 @@
+.admin {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+    max(30px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+}
+
+.admin [hidden] { display: none !important; }
+.admin h1, .admin h3 { color: var(--ink2); font-weight: 600; }
+.admin h1 { margin: 0; font-size: 24px; line-height: 1.15; }
+.admin h3 { margin: 12px 0 4px; font-size: 15px; }
+.admin p { margin: 0; }
+.admin .dim { color: var(--dim); }
+.admin .header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.admin .brand { margin-bottom: 3px; color: var(--doc); font-weight: 600; }
+.admin #as-of { margin-top: 4px; font-size: 13px; }
+.admin .charge-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; }
+.admin .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr)); gap: 6px; margin: 0; }
+.admin .stat { padding: 7px 10px; border-radius: 6px; background: var(--raise); }
+.admin .stat dt { color: var(--dim); font-size: 13px; }
+.admin .stat dd { margin: 0; color: var(--ink2); font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.admin .facts { display: flex; flex-wrap: wrap; gap: 5px 20px; margin: 0 0 12px; }
+.admin .fact { display: flex; flex-wrap: wrap; gap: 0 6px; }
+.admin .fact dt { color: var(--dim); }
+.admin .fact dd { margin: 0; overflow-wrap: anywhere; }
+.admin .is-active { color: var(--calc); }
+.admin .notice { margin-bottom: 12px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--raise); }
+.admin .notice.is-error { border-color: var(--warn); }
+.admin .action-state { margin: 8px 0 0; }
+.admin .rows { margin: 0; padding: 0; list-style: none; }
+.admin .row { padding: 7px 0; overflow-wrap: anywhere; }
+.admin .row + .row { border-top: 1px solid var(--line); }
+.admin .row-main { color: var(--ink); font-weight: 600; }
+.admin .row-meta { color: var(--dim); font-size: 13px; }
+.admin .row-detail { margin-top: 2px; white-space: pre-line; }
+
+.admin fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.admin legend { margin-bottom: 4px; padding: 0; color: var(--ink2); font-weight: 600; }
+.admin .form-fields { display: grid; grid-template-columns: minmax(108px, 1fr) minmax(0, 3fr); gap: 8px; }
+.admin .form-fields label { min-width: 0; font-size: 13px; }
+.admin input, .admin button { min-height: 44px; border: 1px solid var(--line); border-radius: 5px; background: var(--raise); color: var(--ink); }
+.admin input { width: 100%; margin-top: 3px; padding: 7px 9px; font: 16px/1.25 var(--sans); }
+.admin input.mono { font-family: var(--mono); text-transform: uppercase; }
+.admin button { padding: 6px 11px; font: 600 14px/1.2 var(--sans); cursor: pointer; }
+.admin button.primary { border-color: var(--accent); background: var(--blue-f); color: var(--ink2); }
+.admin button:disabled, .admin fieldset:disabled { opacity: .65; cursor: default; }
+.admin .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+.admin .list-section { margin-top: 10px; border-top: 1px solid var(--line); }
+.admin summary { min-height: 44px; padding: 10px 0 7px; font-weight: 600; cursor: pointer; }
+.admin summary:focus-visible { border-radius: 4px; }
+
+@media (max-width: 560px) {
+  .admin .charge-groups { grid-template-columns: minmax(0, 1fr); }
+  .admin .routes { gap: 2px; }
+  .admin .ticket-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 340px) {
+  .admin .header { flex-wrap: wrap; }
+  .admin .form-fields { grid-template-columns: minmax(0, 1fr); }
+}
+
+.admin .overview {
+  width: 100%;
+  table-layout: fixed;
+  border: 1px solid var(--line);
+  border-spacing: 0;
+  border-radius: 8px;
+  background: var(--panel);
+}
+.admin .overview th, .admin .overview td {
+  padding: 9px 12px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.admin .overview thead th {
+  color: var(--dim);
+  font-weight: 600;
+  font-size: 13px;
+}
+.admin .overview thead th:first-child { width: 30%; }
+.admin .overview thead th:nth-child(2) { width: 16%; }
+.admin .overview-row > *, .admin .detail-row > td { border-top: 1px solid var(--line); }
+.admin .overview-row { cursor: pointer; }
+.admin .overview-row:hover, .admin .overview-row:focus-within { background: var(--raise); }
+.admin .overview .overview-row > th { padding: 0; vertical-align: middle; }
+.admin .overview-toggle {
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 0;
+  display: grid;
+  grid-template-columns: .65em minmax(0, 1fr);
+  gap: .48em;
+  align-items: center;
+  background: transparent;
+  text-align: left;
+}
+.admin .overview-toggle::before { content: "▸"; color: var(--dim); }
+.admin .overview-toggle[aria-expanded="true"]::before { content: "▾"; }
+.admin .overview .detail-row > td { padding: 0; }
+.admin .detail { padding: 12px; background: var(--raise); }
+.admin .detail .metrics + .dim { margin-top: 8px; }
+.admin #agent { margin: 12px 0; }
+.admin .overview-primary { color: var(--ink2); font-weight: 600; }
+.admin .overview-total { font-variant-numeric: tabular-nums; }
+.admin .overview-secondary { color: var(--dim); font-size: 12px; }
+.admin .queue-entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+.admin .queue-entry .actions { margin-top: 0; }
+
+@media (max-width: 560px) {
+  .admin .overview, .admin .overview tbody, .admin .overview .detail-row,
+  .admin .overview .detail-row > td { display: block; }
+  .admin .overview thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .admin .overview-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    padding: 0 3px 10px;
+  }
+  .admin .overview-row:first-child { border-top: 0; }
+  .admin .overview .overview-row > th { grid-column: 1 / -1; }
+  .admin .overview .overview-row > * { border: 0; }
+  .admin .overview .overview-row > td { padding: 0 8px; font-size: 13px; overflow-wrap: normal; }
+  .admin .overview-toggle { padding: 7px 8px; }
+  .admin .overview .overview-row > td::before {
+    display: block;
+    margin-bottom: 3px;
+    min-height: 2.5em;
+    color: var(--dim);
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .admin .overview [data-field="total"]::before { content: "Всего в базе"; }
+  .admin .overview [data-field="last"]::before { content: "Последняя загрузка"; }
+  .admin .overview [data-field="next"]::before { content: "Далее в очереди"; }
+  .admin .overview-secondary { font-size: 12px; }
+}
