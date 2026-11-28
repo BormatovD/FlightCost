@@ -192,8 +192,9 @@ def public_items(items):
     by_slug = {item["slug"]: item for item in items}
     for number in range(2, 19):
         slug = article_slug(number)
-        old = by_slug.get(slug, {})
-        if old and not old.get("planned_release"):
+        # Only a planned entry in the public registry can expose an archived issue.
+        old = by_slug.get(slug)
+        if old is None or not old.get("planned_release"):
             continue
         folder = Path(location)/f"{number:02d}"
         try:
