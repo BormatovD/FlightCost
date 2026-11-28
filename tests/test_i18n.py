@@ -7,16 +7,19 @@
   * русский текст добавлен в скрипт или разметку БЕЗ t() — то же самое,
     но ещё и мимо каталога.
 
-Шаги разбора и предупреждения порождает ядро на Python — они пока
-по-русски намеренно и здесь не проверяются.
+Подписи разбора приходят из расчётного ядра и переводятся при отрисовке.
+Формулы, комментарии и предупреждения ядра остаются исходным текстом.
 """
 
 from __future__ import annotations
 
+import ast
 import json
 import pathlib
 import re
 import unittest
+
+import yaml
 
 WEB = pathlib.Path(__file__).resolve().parents[1] / "flightcostapp" / "web"
 CYR = re.compile(r"[А-Яа-яЁё]")
@@ -25,6 +28,34 @@ T_CALL = re.compile(r'(?<![\w$.])_t\("((?:[^"\\]|\\.)*)"\)')
 
 def norm(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip()
+
+
+def route_catalogue_keys() -> set[str]:
+    """Подписи шагов, единицы и составные части, приходящие из API."""
+    core = ast.parse((WEB.parent / "econ.py").read_text(encoding="utf-8"))
+    charges = ast.parse((WEB.parent / "charges.py").read_text(encoding="utf-8"))
+    route = next(node for node in core.body if isinstance(node, ast.FunctionDef) and node.name == "route_economics")
+    keys = set()
+    for tree, name in ((core, "COST_RU"), (charges, "CODE_RU"), (route, "RU_MODE")):
+        assignment = next(node for node in ast.walk(tree) if isinstance(node, ast.Assign)
+                          and any(isinstance(target, ast.Name) and target.id == name for target in node.targets))
+        keys.update(ast.literal_eval(assignment.value).values())
+    for node in ast.walk(route):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "rec":
+            keys.update(arg.value for arg in (node.args[0], node.args[1], node.args[5]) if isinstance(arg, ast.Constant))
+        if isinstance(node, ast.Assign) and any(
+                isinstance(target, ast.Tuple) and [t.id for t in target.elts if isinstance(t, ast.Name)] == [
+                    "G1", "G2", "G3", "G4", "G5", "G6"]
+                for target in node.targets):
+            keys.update(ast.literal_eval(node.value))
+    fuel = ast.parse((WEB.parent / "fuel.py").read_text(encoding="utf-8"))
+    for node in ast.walk(fuel):
+        if isinstance(node, ast.keyword) and node.arg == "phases" and isinstance(node.value, ast.Dict):
+            keys.update(key.value for key in node.value.keys if isinstance(key, ast.Constant))
+    registry = yaml.safe_load((WEB.parent / "registry.yaml").read_text(encoding="utf-8"))
+    source = registry["sources"]["airport_charges_tier1"]
+    keys.update((source["title"], source["license"]))
+    return {norm(key) for key in keys if isinstance(key, str) and CYR.search(key)}
 
 
 class I18n(unittest.TestCase):
@@ -55,6 +86,7 @@ class I18n(unittest.TestCase):
         # Шапка карты переводится по атрибуту data-t (текст элемента — ключ).
         cls.map_keys |= {norm(m) for m in re.findall(r"data-t>([^<]+)<", map_src)}
         cls.doc_keys = {norm(k) for k in cls.DOC_T.findall(cls.DOC.read_text(encoding="utf-8"))}
+        cls.route_keys = route_catalogue_keys()
 
     def test_report_phrases_are_translated(self):
         for lang in ("en", "de"):
@@ -66,6 +98,14 @@ class I18n(unittest.TestCase):
         for lang in ("en", "de"):
             missing = sorted(k for k in keys if k not in self.cat[lang])
             self.assertEqual(missing, [], f"нет перевода на {lang}: {missing[:10]}")
+
+    def test_calculator_breakdown_has_dynamic_translations(self):
+        for lang in ("en", "de"):
+            self.assertEqual(sorted(self.route_keys - self.cat[lang].keys()), [], f"разбор без перевода на {lang}")
+            for key in T_CALL.findall(self.script):
+                params = re.findall(r"\{[12]\}", key)
+                if params:
+                    self.assertCountEqual(re.findall(r"\{[12]\}", self.cat[lang][key]), params, f"{lang}: {key}")
 
     def test_static_markup_is_translated(self):
         texts = set()
@@ -115,7 +155,7 @@ class I18n(unittest.TestCase):
             t = re.search(r"<title>([^<]+)</title>", markup)
             if t:
                 keys.add(norm(t.group(1)))
-        keys |= self.doc_keys | self.map_keys
+        keys |= self.doc_keys | self.map_keys | self.route_keys
         orphans = sorted(set(self.cat["en"]) - keys)
         self.assertEqual(orphans, [], f"в каталоге фразы, которых нет на странице: {orphans[:10]}")
 

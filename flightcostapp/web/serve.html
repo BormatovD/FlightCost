@@ -979,8 +979,8 @@ import { createGlobe } from "./globe.js";
 // языка перезагружает страницу: подписи, собранные при загрузке модуля
 // (словари статусов, ярусов, статей), строятся заново на новом языке.
 //
-// Шаги разбора и предупреждения порождает ядро на Python — они пока
-// по-русски; во вкладке «Разбор» об этом сказано.
+// Подписи разбора переводятся при отрисовке. Формулы, подстановки,
+// пояснения ядра и исходные документы сохраняют свой текст.
 //
 // Имя `_t`, а не `t`: в витрине `t` — частое имя локальной переменной
 // (тип самолёта, строка таблицы), и внутри таких функций вызов перевода
@@ -1005,12 +1005,12 @@ const LANG = (() => {
 })();
 const LOCALE = {ru: "ru-RU", en: "en-GB", de: "de-DE"}[LANG];
 const I18N_MISS = new Set();
-function _t(s) {
+function _t(s, reportMissing = true) {
   if (LANG === "ru") return s;
   const key = String(s).replace(/\s+/g, " ").trim();
   const v = (I18N[LANG] || {})[key];
-  if (v == null) {
-    if (!I18N_MISS.has(key)) { I18N_MISS.add(key); console.debug("i18n: нет перевода", LANG, key); }
+  if (typeof v !== "string") {
+    if (reportMissing && !I18N_MISS.has(key)) { I18N_MISS.add(key); console.debug("i18n: нет перевода", LANG, key); }
     return s;
   }
   return v;
@@ -2482,7 +2482,7 @@ function tabRoute(r){
     <div class="stack">` + r.cost.map(c =>
       `<i style="width:${c.eur/tot*100}%;background:${PROV[c.prov]||"var(--param)"}"
         class="${["default","fleet","estimated"].includes(c.prov)?"hatch":""}"
-        title="${esc(c.label||c.item)}: ${m0(c.eur)}"></i>`).join("") + `</div>
+        title="${esc(_t(c.label || c.item, false))}: ${m0(c.eur)}"></i>`).join("") + `</div>
     <div class="legend">
       <span><i class="sw" style="background:var(--doc)"></i>${_t("из документа")}</span>
       <span><i class="sw" style="background:var(--calc)"></i>${_t("вычислено моделью")}</span>
@@ -2491,7 +2491,7 @@ function tabRoute(r){
     </div>
     <table style="margin-top:10px"><tbody>` + r.cost.map(c =>
       `<tr><td><i class="dot" style="background:${PROV[c.prov]||"var(--param)"}"></i>${
-        esc(c.label || c.item)}</td><td class="v">${m0(c.eur)}</td>
+        esc(_t(c.label || c.item, false))}</td><td class="v">${m0(c.eur)}</td>
        <td class="v" style="color:var(--dim)">${(c.eur/tot*100).toFixed(1)}%</td></tr>`)
       .join("") + `<tr><td><b>${_t("Итого")}, ${CUR.code}</b></td><td class="v"><b>${m0(tot)}</b></td>
         <td class="v" style="color:var(--dim)">${
@@ -2502,6 +2502,30 @@ function tabRoute(r){
   return h;
 }
 
+// Шаблоны относятся только к подписям шагов из econ.py.
+// Рядом идут исходные node и ref, по которым открывается источник.
+const ROUTE_STEP_LABELS = [
+  [/^Топливо: (.+)$/, _t("Топливо: {1}")],
+  [/^Зона (.+)$/, _t("Зона {1}")],
+  [/^Полоса (.+)$/, _t("Полоса {1}")],
+  [/^Условие ([^:]+): (.+)$/, _t("Условие {1}: {2}")],
+  [/^Курс (\S+) для (.+)$/, _t("Курс {1} для {2}")],
+  [/^Полнота начисления (.+)$/, _t("Полнота начисления {1}")],
+  [/^Сбор ([^:]+): (.+)$/, _t("Сбор {1}: {2}")],
+  [/^Терминальные единицы (.+)$/, _t("Терминальные единицы {1}")],
+  [/^Терминальная ставка \((.+)\)$/, _t("Терминальная ставка ({1})")],
+  [/^Налёт \((.+)\)$/, _t("Налёт ({1})")],
+];
+
+function routeStepLabel(label) {
+  if (LANG === "ru" || !label) return label;
+  for (const [pattern, translation] of ROUTE_STEP_LABELS) {
+    const match = pattern.exec(label);
+    if (match) return translation.replace(/\{([12])\}/g, (_, i) => _t(match[i], false));
+  }
+  return _t(label, false);
+}
+
 function tabTrace(r){
   // Пояснения из строк УБРАНЫ: они дублировали шторку и растягивали
   // каждую строку на три. Строка теперь одна, а «почему» открывается
@@ -2510,16 +2534,16 @@ function tabTrace(r){
   if (CUR.code !== "EUR")
     h += `<div class="note quiet">${_t("Разбор — в валюте расчёта, EUR: формулы и подстановки ядра пересчёту по частям не подлежат.")}</div>`;
   if (LANG !== "ru")
-    h += `<div class="note quiet">${_t("Шаги разбора и предупреждения пока на русском: их порождает расчётное ядро, перевод — следующий этап.")}</div>`;
+    h += `<div class="note quiet">${_t("Формулы, пояснения и предупреждения ядра показаны в оригинале.")}</div>`;
   let grp = "";
   for (const s of r.trace) {
-    if (s.group !== grp) { grp = s.group; h += `<div class="grp">${esc(grp)}</div>`; }
+    if (s.group !== grp) { grp = s.group; h += `<div class="grp">${esc(_t(grp, false))}</div>`; }
     h += `<div class="step" data-node="${escA(s.node)}" data-src="${escA(s.src)}" data-prov="${escA(s.prov || "")}"
         data-ref="${escA(s.ref || "")}" data-links="${escA(JSON.stringify(s.links || []))}" data-label="${escA(s.label)}"
         data-formula="${escA(s.formula||"")}" data-subst="${escA(s.subst||"")}">
-      <span class="n">${s.n}</span><div>${esc(s.label)}</div>
+      <span class="n">${s.n}</span><div>${esc(routeStepLabel(s.label))}</div>
       <span class="val">${s.value==null?"—":f0(s.value)} <span
-        style="color:var(--faint);font-size:11px">${esc(s.unit)}</span></span>
+        style="color:var(--faint);font-size:11px">${esc(_t(s.unit, false))}</span></span>
     </div>`;
   }
   return h;
@@ -3612,7 +3636,7 @@ async function side(d){
   const ref = (d.ref || "").trim();
   const cut = ref.indexOf("/");
   const [domain, key] = cut > 0 ? [ref.slice(0, cut), ref.slice(cut + 1)] : ["", ""];
-  let h = `<span class="close" onclick="closeSheet()">×</span><h3 style="margin-top:0">${esc(d.label)}</h3>`;
+  let h = `<span class="close" onclick="closeSheet()">×</span><h3 style="margin-top:0">${esc(routeStepLabel(d.label))}</h3>`;
   if (!domain || !key) {
     const links = (typeof d.links === "string" ? JSON.parse(d.links || "[]") : d.links || [])
       .filter(link => /^https?:\/\//i.test(link.url || ""));
@@ -3706,10 +3730,10 @@ async function side(d){
     </dl>
     <h3>${_t("Источник в реестре")}</h3><dl class="kv">
       <dt>${_t("реестр")}</dt><dd>${esc(r.source.id)}</dd>
-      <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
+      <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(_t(r.source.title || "—", false))}</dd>
       ${r.source.url?`<dt>${_t("адрес")}</dt><dd><a href="${esc(r.source.url)}"
         target="_blank" rel="noopener">${esc(String(r.source.url).slice(0,60))}…</a></dd>`:""}
-      <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
+      <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(_t(r.source.license || "—", false))}</dd>
     </dl>`;
     $("#side").innerHTML = h; return;
   }
@@ -3717,7 +3741,7 @@ async function side(d){
   h += `<dl class="kv">
     <dt>${_t("домен")}</dt><dd>${esc(r.domain)}</dd>
     <dt>${_t("ключ")}</dt><dd>${esc(r.key)}</dd>
-    <dt>${_t("значение")}</dt><dd>${c.value ?? "—"} ${esc(c.unit||"")} ${esc(c.currency||"")}</dd>
+    <dt>${_t("значение")}</dt><dd>${c.value ?? "—"} ${esc(_t(c.unit || "", false))} ${esc(c.currency||"")}</dd>
     <dt>${_t("действует с")}</dt><dd>${esc(c.valid_from)}${c.valid_to?` ${_t("по")} ${esc(c.valid_to)}`:""}</dd>
     <dt>${_t("происхождение")}</dt><dd>${esc(c.confidence)}</dd>
     <dt>${_t("прочтение")}</dt><dd>${esc(c.certainty)}</dd>
@@ -3727,10 +3751,10 @@ async function side(d){
   if (c.source_note) h += `<div class="note quiet">${esc(c.source_note)}</div>`;
   h += `<h3>${_t("Источник")}</h3><dl class="kv">
     <dt>${_t("реестр")}</dt><dd>${esc(r.source.id)}</dd>
-    <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(r.source.title||"—")}</dd>
+    <dt>${_t("название")}</dt><dd style="font-family:inherit">${esc(_t(r.source.title || "—", false))}</dd>
     ${r.source.url?`<dt>${_t("адрес")}</dt><dd><a href="${esc(r.source.url)}"
       target="_blank" rel="noopener">${esc(String(r.source.url).slice(0,60))}…</a></dd>`:""}
-    <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(r.source.license||"—")}</dd>
+    <dt>${_t("лицензия")}</dt><dd style="font-family:inherit">${esc(_t(r.source.license || "—", false))}</dd>
     <dt>${_t("ритм")}</dt><dd>${_t("каждые")} ${r.source.cadence_days} ${_t("дн., SLA")} ${r.source.sla_days}</dd>
   </dl>`;
   if (r.history.length) {
