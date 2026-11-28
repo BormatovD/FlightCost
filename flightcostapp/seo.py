@@ -2064,8 +2064,8 @@ def robots() -> str:
 
 
 def _research_tails() -> list[str]:
-    from .research import items
-    return [f"/research/{x['slug']}" for x in items()]
+    from .research import items, sitemap_ready
+    return [f"/research/{it['slug']}" for it in items() if sitemap_ready(it)]
 
 
 def sitemap(types: list[dict]) -> str:
